@@ -69,7 +69,7 @@ var teamList = {
                     title: "프로젝트 명",
                     template: function(e){
                         var pjtNm = e.PJT_NM;
-                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="camPrj.fn_projectPopView('+e.PJT_SN+', \'' + e.BUSN_CLASS + '\')">' + pjtNm + '</div>';
+                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="teamList.fn_projectPopView('+e.PJT_SN+', \'' + e.BUSN_CLASS + '\')">' + pjtNm + '</div>';
                     }
                 }, {
                     field: "TEAM_REG_DATE",
@@ -160,7 +160,7 @@ var teamList = {
                         if(row.PJT_NM == "0"){
                             return row.REAL_PJT_AMT;
                         }else{
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="teamEngn.teamPrintPop('+row.TEAM_VERSION_SN+', '+row.TM_SN+')">협업보고서</button></td>';
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="teamList.teamPrintPop('+row.PJT_SN+', '+row.TEAM_VERSION_SN+', '+row.TM_SN+')">협업보고서</button></td>';
                         }
                     }
                 }
@@ -168,20 +168,80 @@ var teamList = {
         });
     },
 
-    fn_popDelvProject: function (key, version){
-        let url = "/intra/cam_project/setTeamProject.do";
-
-        if(key != null && key != "" && key != undefined){
-            url += "?pjtSn=" + key + "&teamVersionSn=" + version;
-        }else{
-            alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
-        }
-        const name = "setTeamProject";
-        const option = "width = 1400, height = 750, top = 100, left = 200, location = no";
+    teamPrintPop: function(pjtSn, versionSn, tmSn){
+        let url = "/project/pop/teamPrintPop.do?pjtSn="+pjtSn+"&teamVersionSn="+versionSn+"&tmSn="+tmSn;
+        const name = "teamPrintPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);
-    }
-}
+    },
 
-function gridReload(){
-    teamList.gridReload();
+
+    // project 상세페이지
+    fn_projectPopView : function (key, cs){
+        var uid = $("#regEmpSeq").val()
+        var rs = customKendo.fn_customAjax("/project/getProjectData", { pjtSn: key });
+        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
+        console.log(rs);
+        console.log(mem);
+
+
+        var pral = mem.list.partRateAdminList;
+        var prml = mem.list.partRateMemberList;
+        var pml = mem.list.psMemberList;
+        var aml = mem.list.aceMemberList;
+        var trl = mem.list.teamReaderList;
+        var flag = false;
+
+        if(rs.data.PM_EMP_SEQ == uid || rs.data.REG_EMP_SEQ == uid || rs.data.EMP_SEQ == uid){
+            flag = true;
+        }
+
+        for(var i = 0; i < prml.length; i++){
+            if(prml[i].PART_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0; i < pral.length; i++){
+            if(pral[i].EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < pml.length ; i++){
+            if(pml[i].PS_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < aml.length ; i++){
+            if(aml[i].EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < trl.length ; i++){
+            if(trl[i].EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        if(flag){
+            var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+
+            if(cs == "R"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+            } else if (cs == "S"){
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+            }
+            var name = "_blank";
+            var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
+
+            var popup = window.open(url, name, option);
+        } else {
+            alert("참여중인 프로젝트가 아닙니다.");
+            return;
+        }
+
+    }
 }

@@ -34,6 +34,7 @@
     <select id="getTeamDetailList" parameterType="map" resultType="map">
         /* getTeamDetailList */
         SELECT
+            PJT_SN,
             PJT_NM,
             TM_SN,
             TEAM_VERSION_SN,
@@ -49,6 +50,7 @@
             SELECT
                 PT.TM_SN,
                 PT.TEAM_VERSION_SN,
+                P.PJT_SN,
                 P.PJT_NM,
                 <![CDATA[
                 CASE
