@@ -27,7 +27,6 @@ var busnCostPreCon = {
         customKendo.fn_textBox(["searchValue"]);
 
         busnCostPreCon.mainGrid();
-
     },
 
 
@@ -146,7 +145,11 @@ var busnCostPreCon = {
 
                         var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
 
-                        return '<div style="text-align: right">'+comma(totPay)+'</div>';
+                        if(e.ibranchAmt != totPay){
+                            return '<div style="text-align: right" class="diffPay">'+comma(totPay)+'</div>';
+                        } else {
+                            return '<div style="text-align: right">'+comma(totPay)+'</div>';
+                        }
                     }
                 }, {
                     title: "수입예산",
@@ -187,6 +190,9 @@ var busnCostPreCon = {
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
+            },
+            dataBound: function(){
+                $(".diffPay").closest("tr").css("border", "2px solid red");
             }
         }).data("kendoGrid");
     },

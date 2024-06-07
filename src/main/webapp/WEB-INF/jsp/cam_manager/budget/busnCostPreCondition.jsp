@@ -17,6 +17,8 @@
     #my-spinner div { width: 100%; height: 100%; display: table; }
     #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
     #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+
+    .k-grid table { border-collapse: collapse; }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
