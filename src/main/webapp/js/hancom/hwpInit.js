@@ -140,6 +140,7 @@ var hwpInit = {
         const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         const rs = result.map;
         const ls = result.list;
+        const ls2 = result.list2;
         console.log("result");
         console.log(result);
 
@@ -162,8 +163,8 @@ var hwpInit = {
         let totCost2 = "금 "+fn_koreanNumber(rs.TOT_COST)+"정";
         hwpDocCtrl.putFieldText('TOT_COST', totCost1+""+totCost2);
         hwpDocCtrl.putFieldText('APP_TITLE', rs.EXNP_BRIEFS);
-        if(ls.length > 1){
-            hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM + " 외 " + Number(ls.length - 1) + "건");
+        if(ls2.length > 1){
+            hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM + " 외 " + Number(ls2.length - 1) + "건");
         } else {
             hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM);
         }

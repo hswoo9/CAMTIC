@@ -768,6 +768,17 @@
             EXNP_SN = #{exnpSn}
     </select>
 
+    <select id="getExnpDetailDataDupl" parameterType="map" resultType="map">
+        /*getExnpDetailDataDupl*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_EXNP_DET A
+        WHERE
+            EXNP_SN = #{exnpSn}
+        GROUP BY TR_CD, CRM_NM
+    </select>
+
     <select id="getExnpG20List" parameterType="map" resultType="map">
         /*getExnpG20List*/
         SELECT

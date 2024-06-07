@@ -591,6 +591,7 @@ public class PayAppController {
     public String getExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         Map<String, Object> map = payAppService.getExnpData(params);
         List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
+        List<Map<String, Object>> list2 = payAppService.getExnpDetailDataDupl(params);
 
         String[] fileNoAr = new String[list.size()];
         for(int i = 0; i < list.size(); i++){
@@ -607,6 +608,7 @@ public class PayAppController {
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+        model.addAttribute("list2", list2);
         model.addAttribute("fileList", fileList);
 
         return "jsonView";
