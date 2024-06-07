@@ -344,10 +344,11 @@ var bustList = {
                     template : function (e){
                         var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
+                        var reStat = e.EXNP_RE_STAT;
 
-                        if(payExnpDe != undefined && docStatus != 100){
+                        if(payExnpDe != undefined && reStat != "Y"){
                             return '입금예정';
-                        }else if(docStatus == 100){
+                        }else if(payExnpDe != undefined && reStat == "Y"){
                             return '입금완료';
                         }else{
                             return '-';
