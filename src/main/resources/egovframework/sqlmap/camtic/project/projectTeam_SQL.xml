@@ -31,6 +31,52 @@
         </if>
     </select>
 
+    <select id="getTeamDetailList" parameterType="map" resultType="map">
+        /* getTeamDetailList */
+        SELECT
+            PJT_NM,
+            TM_SN,
+            TEAM_VERSION_SN,
+            PJT_NM,
+            REAL_PJT_AMT,
+            TM_TYPE,
+            TEAM_NAME,
+            REG_DATE,
+            IF(TM_TYPE = '0', (RE.REAL_PJT_AMT - (SELECT SUM(SPT.TM_AMT) FROM CAM_PJT_MNG.DJ_PJT_TEAM SPT WHERE	SPT.PJT_SN = 490 AND SPT.TEAM_VERSION_SN = 21 AND SPT.ACTIVE = 'Y' AND SPT.TM_TYPE != '0')), RE.TM_AMT) AS TM_AMT,
+            TM_INV_AMT,
+            STATUS
+        FROM (
+            SELECT
+                PT.TM_SN,
+                PT.TEAM_VERSION_SN,
+                P.PJT_NM,
+                <![CDATA[
+                CASE
+                    WHEN P.BUSN_CLASS IN ('D', 'V') AND P.PJT_STEP < 'E3' THEN PD.DELV_AMT
+                    WHEN P.BUSN_CLASS IN ('D', 'V') AND P.PJT_STEP >= 'E3' THEN P.PJT_AMT
+                    WHEN P.BUSN_CLASS IN ('R', 'S') THEN P.PJT_AMT
+                    ELSE PE.EXP_AMT
+                END AS REAL_PJT_AMT,
+                ]]>
+                (SELECT SDI.DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO SDI WHERE PT.TM_TEAM_SEQ = SDI.DEPT_SEQ) AS TEAM_NAME,
+                DATE_FORMAT(PT.REG_DT, '%Y-%m-%d') AS REG_DATE,
+                PT.TM_AMT,
+                PT.TM_INV_AMT,
+                PT.TM_TYPE,
+                PTV.STATUS
+            FROM
+                CAM_PJT_MNG.DJ_PJT_TEAM PT
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON P.PJT_SN = PT.PJT_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV PD ON PD.PJT_SN = P.PJT_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN PE ON PE.PJT_SN = P.PJT_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV ON PT.TEAM_VERSION_SN = PTV.TEAM_VERSION_SN
+            WHERE
+                PT.PJT_SN = #{pjtSn}
+            AND PT.TEAM_VERSION_SN = #{teamVersionSn}
+            AND PT.ACTIVE = 'Y'
+        ) RE
+    </select>
+
     <select id="getTeamMngList" parameterType="map" resultType="map">
         /* getTeamMngList */
         SELECT
