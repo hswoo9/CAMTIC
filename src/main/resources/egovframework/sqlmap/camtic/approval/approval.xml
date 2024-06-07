@@ -591,68 +591,73 @@
     <select id="getDocAttachmentList" parameterType="map" resultType="map">
         /* getDocAttachmentList */
         SELECT
-            ROW_NUMBER() OVER (PARTITION BY FILE_ORG_NAME, FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num,
-            IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
-            FI.FILE_NO,
-            CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
-            FI.FILE_EXT,
-            FI.FILE_SIZE,
-            FI.FILE_UUID AS fileUUID,
-            FI.FILE_PATH AS FILE_DOWN_PATH
-            -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
+        SUB.*
         FROM
-            CAM_COMMON.dj_FILE_INFO FI
+        (
+        SELECT
+        ROW_NUMBER() OVER (PARTITION BY CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num,
+        IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
+        FI.FILE_NO,
+        CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
+        FI.FILE_EXT,
+        FI.FILE_SIZE,
+        FI.FILE_UUID AS fileUUID,
+        FI.FILE_PATH AS FILE_DOWN_PATH
+        -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
+        FROM
+        CAM_COMMON.dj_FILE_INFO FI
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI
+        DJ_CAMTIC.A_DOC_INFO DI
         ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
         WHERE
-            DI.DOC_ID = #{docId}
-        <if test='"purc".equals(type)'>
-            OR (CONTENT_ID = CONCAT('purcReq_', #{purcSn}))
-        </if>
-        <if test='type == "claim" or "claim".equals(type)'>
-            OR (CONTENT_ID = #{contentId} AND FILE_CD = #{fileCd})
-            OR (FI.DOC_ID  = (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}) AND FI.FILE_CD = 'purc')
-        </if>
-        <if test='type == "payApp" or "payApp".equals(type)'>
-            OR (CONTENT_ID = #{payAppSn} AND file_cd = #{type} AND FI.file_org_name NOT LIKE '법인카드 지출증빙%')
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
-        </if>
-
-        <if test='type == "bustrip" or "bustrip".equals(type)'>
-            OR (FI.CONTENT_ID = #{bustripSn} AND file_cd in ('bustripReq'))
-        </if>
-
-        <if test='type == "bustripRes" or "bustripRes".equals(type)'>
-            OR (FI.CONTENT_ID = (SELECT HR_BIZ_REQ_ID FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = #{bustripResSn}) AND file_cd in ('bustripReq'))
-            OR (CONTENT_ID = #{bustripResSn} AND file_cd in ('bustripRes', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll'))
-        </if>
-        <if test='type == "payIncp" or "payIncp".equals(type)'>
-            OR (CONTENT_ID = #{payIncpSn} AND file_cd = #{type})
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_INCP_FILE WHERE PAY_INCP_SN = #{payIncpSn}))
-        </if>
-        <if test='type == "exnp" or "exnp".equals(type)'>
-            OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
-            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
-        </if>
-        <if test='type == "exnpDetail" or "exnpDetail".equals(exnp)'>
-            OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
-        </if>
-        <if test='type == "campus" or "campus".equals(type)'>
-            <if test='linkType == "camticEducation" or "camticEducation".equals(linkType)'>
-                OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduReq')
+        DI.DOC_ID = #{docId}
+            <if test='"purc".equals(type)'>OR (CONTENT_ID = CONCAT('purcReq_', #{purcSn}))
+            </if><if test='
+        type == "claim" or "claim".equals(type)'>OR (CONTENT_ID = #{contentId} AND FILE_CD = #{fileCd})
+                OR (FI.DOC_ID  = (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}) AND FI.FILE_CD = 'purc')
             </if>
-            <if test='linkType == "camticEducationRes" or "camticEducationRes".equals(linkType)'>
-                OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduRes')
+            <if test='type == "payApp" or "payApp".equals(type)'>
+                OR (CONTENT_ID = #{payAppSn} AND file_cd = #{type} AND FI.file_org_name NOT LIKE '법인카드 지출증빙%')
+                OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
+                OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
             </if>
-        </if>
 
-        <if test='type == "inCome" or "inCome".equals(type)'>
-            OR (FI.CONTENT_ID = #{documentSn} AND file_cd in ('inCome'))
-        </if>
+            <if test='type == "bustrip" or "bustrip".equals(type)'>
+                OR (FI.CONTENT_ID = #{bustripSn} AND file_cd in ('bustripReq'))
+            </if>
+
+            <if test='type == "bustripRes" or "bustripRes".equals(type)'>
+                OR (FI.CONTENT_ID = (SELECT HR_BIZ_REQ_ID FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = #{bustripResSn}) AND file_cd in ('bustripReq'))
+                OR (CONTENT_ID = #{bustripResSn} AND file_cd in ('bustripRes', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll'))
+            </if>
+            <if test='type == "payIncp" or "payIncp".equals(type)'>
+                OR (CONTENT_ID = #{payIncpSn} AND file_cd = #{type})
+                OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_INCP_FILE WHERE PAY_INCP_SN = #{payIncpSn}))
+            </if>
+            <if test='type == "exnp" or "exnp".equals(type)'>
+                OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
+                OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
+                OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
+                OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
+            </if>
+            <if test='type == "exnpDetail" or "exnpDetail".equals(exnp)'>
+                OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
+            </if>
+            <if test='type == "campus" or "campus".equals(type)'>
+                <if test='linkType == "camticEducation" or "camticEducation".equals(linkType)'>
+                    OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduReq')
+                </if>
+                <if test='linkType == "camticEducationRes" or "camticEducationRes".equals(linkType)'>
+                    OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduRes')
+                </if>
+            </if>
+
+            <if test='type == "inCome" or "inCome".equals(type)'>
+                OR (FI.CONTENT_ID = #{documentSn} AND file_cd in ('inCome'))
+            </if>
+        ) SUB
+        WHERE SUB.row_num = 1
+        GROUP BY fileUUID, FILE_DOWN_PATH
     </select>
 
     <select id="getOnnaraDocAttachmentList" parameterType="map" resultType="map">
