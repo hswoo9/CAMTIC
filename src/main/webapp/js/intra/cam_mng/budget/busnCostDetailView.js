@@ -377,8 +377,14 @@ var bcd = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                $("#carryoverCash").val(comma(rs.data.CARRYOVER_CASH || 0));
-                $("#carryoverPoint").val(comma(rs.data.CARRYOVER_POINT || 0));
+
+                if(rs.data != null){
+                    $("#carryoverCash").val(comma(rs.data.CARRYOVER_CASH || 0));
+                    $("#carryoverPoint").val(comma(rs.data.CARRYOVER_POINT || 0));
+                } else {
+                    $("#carryoverCash").val(comma(0));
+                    $("#carryoverPoint").val(comma(0));
+                }
 
                 bcd.fn_getIncpExnpAmt();
             }
@@ -493,7 +499,7 @@ var bcd = {
         $("#sumC").text(comma(Number(rs.incpC) + Number(rs.exnpC) || 0));
 
 
-        var overPay = Number(uncommaN($("#carryoverCash").val())) - Number(uncommaN($("#carryoverPoint").val()));
+        var overPay = Number(uncommaN($("#carryoverCash").val())) + Number(uncommaN($("#carryoverPoint").val()));
 
         var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
         $("#currentAmt").text(comma(totPay));
