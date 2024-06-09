@@ -4,6 +4,9 @@ let acctAm1Sum = 0;
 let acctAm3Sum = 0;
 let subAmSum = 0;
 
+let aSum = 0;
+let bSum = 0;
+
 var bld = {
 
     fn_defaultScript: function (){
@@ -268,9 +271,13 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm3Sum += Number(e.ACCT_AM_2);
+                            acctAm3Sum += Number(e.ACCT_AM_3);
+                            aSum += Number(e.aSum);
+                            bSum += Number(e.bSum);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        console.log("aSum = ", aSum);
+                        console.log("bSum = ", bSum);
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";

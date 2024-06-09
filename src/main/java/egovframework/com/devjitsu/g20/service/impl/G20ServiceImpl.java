@@ -75,6 +75,9 @@ public class G20ServiceImpl implements G20Service {
 
         List<Map<String, Object>> result = new ArrayList<>();
 
+        int aSum = 0;
+        int bSum = 0;
+        int cSum = 0;
         if(params.containsKey("stat")){
             for(Map<String, Object> map : budgetList){
                 map.put("ACCT_AM_3", 0);
@@ -235,6 +238,7 @@ public class G20ServiceImpl implements G20Service {
                                 }
 
                                 compPaySum += payAmount;
+
                             }
 
                             if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("JANG_SN").toString())){
@@ -298,6 +302,8 @@ public class G20ServiceImpl implements G20Service {
                         map.put("WAIT_CK", paySum);
                         map.put("ACCT_AM_3", compPaySum);
                         map.put("ACCT_AM_2", approvePaySum);
+                        map.put("aSum", aSum);
+                        map.put("bSum", bSum);
                         result.add(map);
                     }
                 }

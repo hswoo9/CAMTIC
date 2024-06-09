@@ -4,6 +4,9 @@ let acctAm1Sum = 0;
 let acctAm3Sum = 0;
 let subAmSum = 0;
 
+let aSum = 0;
+let bSum = 0;
+
 var rndBg = {
     global : {
         saveAjaxData : "",

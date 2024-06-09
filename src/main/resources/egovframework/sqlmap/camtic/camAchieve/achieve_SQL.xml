@@ -377,4 +377,117 @@
           ON A.DEPT_SEQ = B.DEPT_SEQ
         WHERE BASE_YEAR = #{year}
     </select>
+
+    <select id="getExnpCompAmt" parameterType="map" resultType="map">
+        /*getExnpCompAmt*/
+        SELECT
+            A.PAY_APP_TYPE,
+            SUM(TOT_COST) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.PJT_CD = #{pjtCd}
+        AND
+            DOC_STATUS IN (100, 101)
+        AND B.BUDGET_SN IS NOT NULL
+        GROUP BY PAY_APP_TYPE
+    </select>
+
+    <select id="geincpCompAmt" parameterType="map" resultType="map">
+        /*geincpCompAmt*/
+        SELECT
+            A.PAY_APP_TYPE,
+            SUM(TOT_COST) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        LEFT JOIN
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG C
+        ON
+            A.PJT_CD = C.PJT_CD AND B.BUDGET_SN = C.BGT_CD
+        WHERE
+            A.PJT_CD = #{pjtCd}
+        AND
+            DOC_STATUS IN (100, 101)
+        AND B.BUDGET_SN IS NOT NULL AND C.BGT_CD IS NOT NULL AND C.BGT_AT = 1
+        GROUP BY PAY_APP_TYPE
+    </select>
+
+    <select id="getResultProject" parameterType="map" resultType="map">
+        /*getResultProject*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RESULT B ON A.PJT_SN = B.PJT_SN
+        WHERE
+            A.PJT_SN = #{pjtSn} AND B.STATUS IN (100, 101)
+    </select>
+
+    <select id="getPjtDevSn" parameterType="map" resultType="map">
+        /*getPjtDevSn*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            STATUS IN (100, 101)
+        ORDER BY DEV_SN DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insProjectPaySet" parameterType="map">
+        /*insProjectPaySet*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PAY_SET
+        (
+            PJT_SN,
+            BEF_EXP_SALE_AMT,
+            BEF_EXP_PROFIT_AMT,
+            AFT_SALE_AMT,
+            AFT_PROFIT_AMT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{befExpSaleAmt},
+            #{befExpProfitAmt},
+            #{aftSaleAmt},
+            #{aftProfitAmt},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="updProjectPaySet" parameterType="map">
+        /*updProjectPaySet*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
+        SET
+            BEF_EXP_SALE_AMT = #{befExpSaleAmt},
+            BEF_EXP_PROFIT_AMT = #{befExpProfitAmt},
+            AFT_SALE_AMT = #{aftSaleAmt},
+            AFT_PROFIT_AMT = #{aftProfitAmt},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getProjectPaySet" parameterType="map" resultType="map">
+        /*getProjectPaySet*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>

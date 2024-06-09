@@ -16,4 +16,16 @@ public interface AchieveService {
     List<Map<String, Object>> getDeptObjList(Map<String, Object> params);
 
     void insDeptObjSetting(Map<String, Object> params);
+
+    List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params);
+
+    List<Map<String, Object>> geincpCompAmt(Map<String, Object> params);
+
+    Map<String, Object> getResultProject(Map<String, Object> params);
+
+    Map<String, Object> getPjtDevSn(Map<String, Object> params);
+
+    void setProjectPaySet(Map<String, Object> params);
+
+    Map<String, Object> getProjectPaySet(Map<String, Object> params);
 }
