@@ -148,6 +148,7 @@ var snackReq = {
                     let html = '';
                     html += '<tr class="cardData">';
                     html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+                    html += '    <input type="hidden" class="fileNo" value="'+cardMap.fileNo+'" />';
                     html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
                     html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
                     html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
