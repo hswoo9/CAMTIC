@@ -180,7 +180,7 @@ public class InsideCodeServiceImpl implements InsideCodeService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             insideCodeRepository.updateCarApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             insideCodeRepository.updateCarApprStat(params);

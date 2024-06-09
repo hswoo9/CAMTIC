@@ -342,7 +342,7 @@ public class BustripServiceImpl implements BustripService {
         reqFileMap.put("docId", params.get("docId").toString());
         reqFileMap.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             bustripRepository.updateResApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             bustripRepository.updateResApprStat(params);
