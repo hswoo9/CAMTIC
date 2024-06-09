@@ -1,15 +1,16 @@
 var personAttend = {
     global: {
         now: new Date(),
-        searchAjaxData: {}
+        searchAjaxData: {},
+        gridData: new Array()
     },
 
-    fn_defaultScript: function(){
+    fn_defaultScript(){
         personAttend.pageSet();
         personAttend.gridReload();
     },
 
-    pageSet: function(){
+    pageSet(){
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
@@ -49,46 +50,119 @@ var personAttend = {
         });
     },
 
-    dataSet: function(){
-        let url = "/inside/getPersonStatus";
-        const data = {
-            startDt: $("#startDt").val(),
-            endDt: $("#endDt").val(),
-            empSeq: $("#regEmpSeq").val()
-        };
-        let holidayData = customKendo.fn_customAjax(url, data).holidayData;
-        let hrData = customKendo.fn_customAjax(url, data).hrData;
+    dataSet(list){
+        /** 정상출근 */
+        let count01 = 0;
+        /** 지각 */
+        let count02 = 0;
+        /** 연가 */
+        let count03 = 0;
+        /** 오전반차 */
+        let count04 = 0;
+        /** 오후반차 */
+        let count05 = 0;
+        /** 병가 */
+        let count06 = 0;
+        /** 공가 */
+        let count07 = 0;
+        /** 경조휴가 */
+        let count08 = 0;
+        /** 출산휴가 */
+        let count09 = 0;
+        /** 출장 */
+        let count10 = 0;
+        /** 대체휴가 */
+        let count11 = 0;
+        /** 근속포상휴가 */
+        let count12 = 0;
+        /** 휴일근로 */
+        let count13 = 0;
 
-        $("#normal").text("0일");
-        $("#late").text("0일");
+        console.log("list", list);
+        
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
 
-        $("#annual").text(holidayData.ANNUAL+"일");
-        $("#morning").text(holidayData.MORNING+"일");
-        $("#afternoon").text(holidayData.AFTERNOON+"일");
-        $("#sick").text(holidayData.SICK+"일");
-        $("#publicholi").text(holidayData.PUBLICHOLI+"일");
-        $("#condolences").text(holidayData.CONDOLENCES+"일");
-        $("#maternity").text(holidayData.MATERNITY+"일");
+            /** 정상출근 구하기 */
+            if(map.WEEK != "토" && map.WEEK != "일"){
+                if(!(map.ATTEND_ADJUSTMENT_START != "" && map.ATTEND_ADJUSTMENT_START >= "09:00:00" && map.ATTEND_ADJUSTMENT_START < "15:00:00")){
+                    count01 ++;
+                }
+            }
 
-        $("#hr").text(hrData.HR+"일");
+            if(map.ATTEND_ADJUSTMENT_START != "" && map.ATTEND_ADJUSTMENT_START >= "09:00:00" && map.ATTEND_ADJUSTMENT_START < "15:00:00"){
+                count02 ++;
+            }
 
-        $("#alternative").text(holidayData.ALTERNATIVE+"일");
-        $("#longaward").text(holidayData.LONGAWARD+"일");
-        $("#holidaywork").text(holidayData.HOLIDAYWORK+"일");
+            if(map.HOLIDAY != null){
+                switch(map.HOLIDAY) {
+                    case '연가':
+                        count03++;
+                        break;
+                    case '오전반차':
+                        count04++;
+                        break;
+                    case '오후반차':
+                        count05++;
+                        break;
+                    case '병가':
+                        count06++;
+                        break;
+                    case '공가':
+                        count07++;
+                        break;
+                    case '경조휴가':
+                        count08++;
+                        break;
+                    case '출산휴가':
+                        count09++;
+                        break;
+                    case '대체휴가':
+                        count11++;
+                        break;
+                    case '근속포상휴가':
+                        count12++;
+                        break;
+                }
+            }
+
+            if(map.BUSTRIP != null){
+                count10++;
+            }
+        }
+
+        $("#normal").text(count01+"일");
+        $("#late").text(count02+"일");
+
+        $("#annual").text(count03+"일");
+        $("#morning").text(count04+"일");
+        $("#afternoon").text(count05+"일");
+        $("#sick").text(count06+"일");
+        $("#publicholi").text(count07+"일");
+        $("#condolences").text(count08+"일");
+        $("#maternity").text(count09+"일");
+        $("#alternative").text(count11+"일");
+        $("#longaward").text(count12+"일");
+
+        $("#hr").text(count10+"일");
+
+        $("#holidaywork").text("0일");
+
+        $.LoadingOverlay("hide", {});
     },
 
-    gridReload: function(){
+    gridReload(){
+        personAttend.loading();
+
         personAttend.global.searchAjaxData = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
             empSeq: $("#regEmpSeq").val()
         }
         personAttend.mainGrid("/inside/getPersonAttendList", personAttend.global.searchAjaxData);
-
-        personAttend.dataSet();
     },
 
-    mainGrid: function(url, params){
+    mainGrid(url, params){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -106,6 +180,7 @@ var personAttend = {
             },
             schema: {
                 data: function (data){
+                    personAttend.dataSet(data.list);
                     return data.list;
                 },
                 total: function (data){
@@ -153,6 +228,16 @@ var personAttend = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    loading(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
     }
 }
 
