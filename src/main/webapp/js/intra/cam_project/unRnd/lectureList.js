@@ -1,9 +1,6 @@
-var unRndLectList = {
+var lectList = {
     fn_defaultScript: function (){
-        unRndLectList.buttonGrid();
-        unRndLectList.mainGrid();
-        unRndLectList.unitMainGrid();
-        unRndLectList.consultingGrid();
+        lectList.buttonGrid();
     },
 
     buttonGrid: function (){
@@ -21,32 +18,40 @@ var unRndLectList = {
                 var idx = this.value();
 
                 if(idx == 1){
-                    $("#unitMainGrid").css("display", "");
-                    $("#lecsaveBtn").css("display", "");
-                    $("#lectureMainGrid").css("display", "none");
-                    $("#eduSaveBtn").css("display", "none");
-                    $("#consultingMainGrid").css("display", "none");
-                    $("#conSaveBtn").css("display", "none");
+                    $("#unitMainGrid").html("");
+                    $("#unitMainGrid").show();
+                    $("#lecSaveBtn").show();
+                    $("#lectureMainGrid").hide();
+                    $("#eduSaveBtn").hide();
+                    $("#consultingMainGrid").hide();
+                    $("#conSaveBtn").hide();
                     $("#lecTitleWrap").text("◎ 단위사업 리스트");
+                    lectList.unitMainGrid();
                 } else if (idx == 2){
-                    $("#unitMainGrid").css("display", "none");
-                    $("#lecsaveBtn").css("display", "none");
-                    $("#lectureMainGrid").css("display", "");
-                    $("#eduSaveBtn").css("display", "");
-                    $("#consultingMainGrid").css("display", "none");
-                    $("#conSaveBtn").css("display", "none");
+                    $("#lectureMainGrid").html("");
+                    $("#unitMainGrid").hide();
+                    $("#lecSaveBtn").hide();
+                    $("#lectureMainGrid").show();
+                    $("#eduSaveBtn").show();
+                    $("#consultingMainGrid").hide();
+                    $("#conSaveBtn").hide();
                     $("#lecTitleWrap").text("◎ 교육단위사업 리스트");
+                    lectList.mainGrid();
                 } else if (idx == 3){
-                    $("#unitMainGrid").css("display", "none");
-                    $("#lecsaveBtn").css("display", "none");
-                    $("#lectureMainGrid").css("display", "none");
-                    $("#eduSaveBtn").css("display", "none");
-                    $("#consultingMainGrid").css("display", "");
-                    $("#conSaveBtn").css("display", "");
+                    $("#consultingMainGrid").html("");
+                    $("#unitMainGrid").hide();
+                    $("#lecSaveBtn").hide();
+                    $("#lectureMainGrid").hide();
+                    $("#eduSaveBtn").hide();
+                    $("#consultingMainGrid").show();
+                    $("#conSaveBtn").show();
                     $("#lecTitleWrap").text("◎ 컨설팅단위사업 리스트");
+                    lectList.consultingGrid();
                 }
             }
         });
+
+        $("#radioSelectLecType").data("kendoRadioGroup").trigger("change");
     },
 
     gridReload: function(){
@@ -101,7 +106,7 @@ var unRndLectList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -178,10 +183,10 @@ var unRndLectList = {
                     title: "복사",
                     width: "10%",
                     template : function (e){
-                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndLectList.fn_copy('+ e.LEC_SN +')">' +
+                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="lectList.fn_copy('+ e.LEC_SN +')">' +
                             '	<span class="k-button-text">복사</span>' +
                             '</button>' +
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_delete('+ e.LEC_SN +')">' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="lectList.fn_delete('+ e.LEC_SN +')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -207,7 +212,7 @@ var unRndLectList = {
             dataType : "json",
             async : false,
             success : function(){
-                unRndLectList.gridReload();
+                lectList.gridReload();
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
@@ -231,7 +236,7 @@ var unRndLectList = {
             dataType : "json",
             async : false,
             success : function(){
-                unRndLectList.gridReload();
+                lectList.gridReload();
             },
             error : function() {
                 alert("데이터  중 에러가 발생했습니다.");
@@ -257,7 +262,7 @@ var unRndLectList = {
             dataType : "json",
             async : false,
             success : function(){
-                unRndLectList.consultingGridReload();
+                lectList.consultingGridReload();
             },
             error : function() {
                 alert("데이터  중 에러가 발생했습니다.");
@@ -320,7 +325,7 @@ var unRndLectList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.unitGridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.unitGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -361,14 +366,14 @@ var unRndLectList = {
                     title: "업체정보",
                     width: "5%",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.lectureTeamListPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">보기</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.lectureTeamListPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">보기</button>';
                     }
                 }, {
                     title : "기타",
                     width : "5%",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-primary" onclick="unRndLectList.lectureTeamPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">수정</button>' +
-                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_delUnitBusn('+e.PJT_UNIT_SN+')">삭제</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-primary" onclick="lectList.lectureTeamPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">수정</button>' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="lectList.fn_delUnitBusn('+e.PJT_UNIT_SN+')">삭제</button>';
                     }
                 }
             ],
@@ -418,7 +423,7 @@ var unRndLectList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.consultingGridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.consultingGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -459,7 +464,7 @@ var unRndLectList = {
                     title: "",
                     width: "5%",
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_conDelete('+ e.CON_SN +')">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="lectList.fn_conDelete('+ e.CON_SN +')">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -498,7 +503,7 @@ var unRndLectList = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("해당 단위사업이 삭제되었습니다.");
-                    unRndLectList.unitMainGrid();
+                    lectList.unitMainGrid();
                 }
             }
         });

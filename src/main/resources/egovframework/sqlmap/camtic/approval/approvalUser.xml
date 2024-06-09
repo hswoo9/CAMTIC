@@ -421,6 +421,19 @@
         </foreach>
     </update>
 
+    <update id="setDocDel" parameterType="map">
+        /* setDocDel */
+        UPDATE
+            DJ_CAMTIC.A_DOC_INFO
+        SET
+            DEL_FLAG = 'Y',
+            DEL_EMP_SEQ = #{empSeq},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = now()
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
     <select id="getUserFavApproveRouteList" parameterType="map" resultType="map">
         /* getUserFavApproveRouteList */
         SELECT

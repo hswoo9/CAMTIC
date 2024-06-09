@@ -731,7 +731,7 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectRepository.updateDelvApprStat(params);
         }else if("20".equals(docSts)) { // 중간결재
             projectRepository.updateDelvApprStat(params);
@@ -858,7 +858,7 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectRepository.updateResApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateResApprStat(params);
@@ -983,7 +983,7 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectRepository.updateCostApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateCostApprStat(params);

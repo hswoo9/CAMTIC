@@ -212,7 +212,7 @@
                 <td colspan="3">
                     <input id="carList" style="width: 180px;">
                     <span id="inputWrap" style="display: none;"><input type="text" id="carRmk" style="width: 200px;"></span>
-                    <span id="constText" style="margin-left: 5px">(10km당 기준유가 1,650원 반영)</span>
+                    <span id="costText" style="margin-left: 5px">(10km당 기준유가 1,650원 반영)</span>
                 </td>
             </tr>
             <tr>

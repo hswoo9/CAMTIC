@@ -23,6 +23,7 @@ import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private PurcService purcService;
+
+    @Autowired
+    private ApprovalUserRepository approvalUserRepository;
 
     @Override
     public void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
@@ -389,7 +393,16 @@ public class PayAppServiceImpl implements PayAppService {
         Map<String, Object> payAppInfo = payAppRepository.getPayAppInfo(params);
         List<Map<String, Object>> payAppItemList = payAppRepository.getPayAppItemList(params);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            Map<String, Object> map = payAppRepository.getPayAppReqData(params);
+
+            /** 지급신청서는 민간, 정부사업 양식이 달라 재상신시 기존 문서 삭제처리 후 업데이트 */
+            if(map.containsKey("DOC_ID")){
+                Map<String, Object> params2 = new HashMap<>();
+                params2.put("docId", map.get("DOC_ID"));
+                params2.put("empSeq", params.get("empSeq"));
+                approvalUserRepository.setDocDel(params2);
+            }
             payAppRepository.updatePayAppApprStat(params);
 
             /*for(Map<String, Object> map : payAppItemList){
@@ -453,7 +466,7 @@ public class PayAppServiceImpl implements PayAppService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             payAppRepository.updateExnpApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updateExnpApprStat(params);
@@ -488,7 +501,7 @@ public class PayAppServiceImpl implements PayAppService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             payAppRepository.updateIncpApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updateIncpApprStat(params);
