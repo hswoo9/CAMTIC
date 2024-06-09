@@ -67,7 +67,7 @@ var mailHistList = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="mailHistList.fn_mailReqPopup()">' +
-                            '	<span class="k-button-text">메일발송</span>' +
+                            '	<span class="k-button-text">메일이력</span>' +
                             '</button>';
                     }
                 }, {

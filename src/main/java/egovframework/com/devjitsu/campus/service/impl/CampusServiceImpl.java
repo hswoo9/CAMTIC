@@ -1723,7 +1723,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updateEduInfoApprStat(params);
         }else if("30".equals(docSts)) { //반려
@@ -1759,7 +1759,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updateEduResultApprStat(params);
         }else if("30".equals(docSts)) { // 반려
@@ -1922,7 +1922,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updateStudyApprStat(params);
         }else if("30".equals(docSts)) { // 반려
@@ -1958,7 +1958,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updateStudyResApprStat(params);
         }else if("30".equals(docSts)) { // 반려
@@ -1998,7 +1998,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updatePropagResApprStat(params);
         }else if("30".equals(docSts)) { // 반려
@@ -2035,7 +2035,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             params.put("status", "10");
             campusRepository.updatePropagResApprStat(params);
         }else if("30".equals(docSts)) { // 반려

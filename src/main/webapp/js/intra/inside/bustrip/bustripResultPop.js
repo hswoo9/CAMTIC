@@ -24,8 +24,13 @@ var bustripResultPop = {
         }
         if($("#carList").data("kendoDropDownList").text() == "기타"){
             $("#inputWrap").show();
+            $("#costText").hide();
         } else {
             $("#inputWrap").hide();
+        }
+
+        if($("#tripCode").data("kendoRadioGroup").value() == 1){
+            $("#costText").hide();
         }
     },
 
@@ -59,16 +64,23 @@ var bustripResultPop = {
         });
 
         $("#date2").on("change", function(){
-            let endDt = $(this).val();
+            const endDt = $("#date2").val();
+            const pjtSn = $("#pjtSn").val();
 
             /** 종료일 시점 유가정보 조회 */
-            let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
-                endDt: endDt,
-                projectCd: '0'
-            }).data;
+            const params = {
+                endDt: endDt
+            }
+            if(pjtSn != "undefined" && pjtSn != "" && pjtSn != null){
+                params.projectCd = busInfo.PJT_SN;
+            }else{
+                params.projectCd = "0";
+            }
+
+            const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", params).data;
 
             if(costInfo != null){
-                $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
+                $("#costText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
             }
         });
     },
@@ -273,14 +285,23 @@ var bustripResultPop = {
             $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         }
 
+        const endDt = busInfo.TRIP_DAY_TO;
+        const pjtSn = busInfo.PJT_SN;
+
         /** 종료일 시점 유가정보 조회 */
-        let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
-            endDt: busInfo.TRIP_DAY_TO,
-            projectCd: '0'
-        }).data;
+        const params = {
+            endDt: endDt
+        }
+        if(pjtSn != null && pjtSn != ""){
+            params.projectCd = pjtSn;
+        }else{
+            params.projectCd = "0";
+        }
+
+        const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", params).data;
 
         if(costInfo != null){
-            $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
+            $("#costText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
         }
     },
 
@@ -561,14 +582,23 @@ var bustripResultPop = {
             $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         }
 
+        const endDt = resInfo.TRIP_DAY_TO;
+        const pjtSn = resInfo.PJT_SN;
+
         /** 종료일 시점 유가정보 조회 */
-        let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
-            endDt: resInfo.TRIP_DAY_TO,
-            projectCd: '0'
-        }).data;
+        const params = {
+            endDt: endDt
+        }
+        if(pjtSn != null && pjtSn != ""){
+            params.projectCd = pjtSn;
+        }else{
+            params.projectCd = "0";
+        }
+
+        const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", params).data;
 
         if(costInfo != null){
-            $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
+            $("#costText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
         }
 
     },

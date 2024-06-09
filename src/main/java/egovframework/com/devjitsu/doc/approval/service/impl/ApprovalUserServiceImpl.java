@@ -83,6 +83,11 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
     }
 
     @Override
+    public void setDocDel(Map<String, Object> params) {
+        approvalUserRepository.setDocDel(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getApproveDocBoxList(Map<String, Object> params) {
         StringBuilder absentUserQuery = new StringBuilder();
         absentUserQuery = getAbsentUserQuery(params);

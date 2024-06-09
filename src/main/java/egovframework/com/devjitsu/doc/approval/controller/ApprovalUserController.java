@@ -298,6 +298,11 @@ public class ApprovalUserController {
         approvalUserService.setCheckedDocDel(params);
         return "jsonView";
     }
+    @RequestMapping("/approvalUser/setDocDel.do")
+    public String setDocDel(@RequestParam Map<String, Object> params, Model model){
+        approvalUserService.setDocDel(params);
+        return "jsonView";
+    }
 
     /**
      * 결재함 리스트

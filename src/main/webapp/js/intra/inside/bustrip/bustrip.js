@@ -48,6 +48,12 @@ var bustrip = {
                 $("#visitCrm").data("kendoTextBox").enable(false);
                 $("#crmBtn").attr('disabled', false);
             }
+
+            if($("#tripCode").data("kendoRadioGroup").value() == 1 || $("#carList").data("kendoDropDownList").text() == "기타"){
+                $("#costText").hide();
+            }else{
+                $("#costText").show();
+            }
         })
     },
 
@@ -71,6 +77,12 @@ var bustrip = {
                 $("#inputWrap").show();
             } else {
                 $("#inputWrap").hide();
+            }
+
+            if($("#tripCode").data("kendoRadioGroup").value() == 1 || $("#carList").data("kendoDropDownList").text() == "기타"){
+                $("#costText").hide();
+            }else{
+                $("#costText").show();
             }
         })
 

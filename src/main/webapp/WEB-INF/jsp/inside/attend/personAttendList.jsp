@@ -3,7 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/attend/personAttendList.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/attend/personAttendList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

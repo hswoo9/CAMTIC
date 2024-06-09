@@ -4,7 +4,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndBudget.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/budgetInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 <style>
     .k-footer-template td:nth-child(4) {

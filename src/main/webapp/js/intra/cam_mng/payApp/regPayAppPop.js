@@ -296,12 +296,11 @@ var regPay = {
                 }else if(cem.EVID_TYPE == 3){
                     var ls = claimExnpData.result.list;
 
-                    if(idx > 0){
-                        regPayDet.addRow();
-                    }
-
-
                     for(let i = 0; i < ls.length; i++) {
+                        if(idx > 0){
+                            regPayDet.addRow();
+                        }
+
                         $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
                         $("#crmNm" + idx).val(ls[i].CRM_NM || ls[i].MER_NM);
                         $("#crmSn" + idx).val(ls[i].CRM_SN || "");
@@ -344,16 +343,15 @@ var regPay = {
                         //     $("#vatCost" + i).val(0);
                         // }
                         idx++;
-
                     }
                 } else if (cem.EVID_TYPE == 1){
                     var ls = claimExnpData.result.rsList;
 
-                    if(idx > 0){
-                        regPayDet.addRow();
-                    }
-
                     for(let i = 0; i <ls.length; i++) {
+                        if(idx > 0){
+                            regPayDet.addRow();
+                        }
+
                         $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
                         $("#crmNm" + idx).val(ls[i].TR_NM || ls[i].TR_NMK);
                         $("#crmSn" + idx).val(ls[i].CRM_SN || "");
@@ -400,26 +398,27 @@ var regPay = {
                             $("#vatCost" + i).val(0);
                         }*/
                         idx++;
-
-
                     }
                 } else {
+                    var ls = rs.itemList;
 
                     if(idx > 0){
                         regPayDet.addRow();
                     }
-                    $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
-                    $("#crmNm" + idx).val(cem.CRM_NM);
-                    $("#crmSn" + idx).val(cem.CRM_SN);
-                    $("#regNo" + idx).val(cem.CRM_NO_TMP);
-                    $("#crmBnkNm" + idx).val(cem.CRM_BN);
-                    $("#crmAccNo" + idx).val(cem.CRM_BN_NUM);
-                    $("#crmAccHolder" + idx).val(cem.BN_DEPO);
+
+                    $("#eviType" + idx).data("kendoDropDownList").value(6);
+                    $("#crmNm" + idx).val(ls[idx].CRM_NM);
+                    $("#crmSn" + idx).val(ls[idx].CRM_SN);
+                    $("#regNo" + idx).val(ls[idx].CRM_NO_TMP);
+                    $("#crmBnkNm" + idx).val(ls[idx].CRM_BN == "undefined" ? "" : ls[idx].CRM_BN);
+                    $("#crmAccNo" + idx).val(ls[idx].CRM_BN_NUM == "undefined" ? "" : ls[idx].CRM_BN_NUM);
+                    $("#crmAccHolder" + idx).val(ls[idx].BN_DEPO == "undefined" ? "" : ls[idx].BN_DEPO);
                     // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
                     // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                     $("#budgetNm" + idx).val(cem.BUDGET_NM);
                     $("#budgetSn" + idx).val(cem.BUDGET_SN);
                     $("#budgetAmt" + idx).val(9999999999);
+                    $("#trCd" + idx).val(ls[idx].TR_CD);
 
                     var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
                     // if (rs.VAT == "N") {
@@ -474,9 +473,9 @@ var regPay = {
                 claimSn : $("#claimSn").val()
             }
 
-            if($("#purcSn").val() != 'undefined'){
-                data.purcSn = $("#purcSn").val();
-            }
+            // if($("#purcSn").val() != 'undefined'){
+            //     data.purcSn = $("#purcSn").val();
+            // }
 
             var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
 
@@ -511,7 +510,11 @@ var regPay = {
             if(cem.EVID_TYPE == 3){
                 var ls = claimExnpData.result.list;
 
-                for(let i = 0; i < 1; i++) {
+                for(let i = 0; i < ls.length; i++) {
+                    if(i > 0){
+                        regPayDet.addRow();
+                    }
+
                     $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
                     $("#crmNm" + i).val(ls[i].CRM_NM || ls[i].MER_NM);
                     $("#crmSn" + i).val(ls[i].CRM_SN || "");
@@ -557,7 +560,11 @@ var regPay = {
             } else if (cem.EVID_TYPE == 1){
                 var ls = claimExnpData.result.rsList;
 
-                for(let i = 0; i < 1; i++) {
+                for(let i = 0; i < ls.length; i++) {
+                    if(i > 0){
+                        regPayDet.addRow();
+                    }
+
                     $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
                     $("#crmNm" + i).val(ls[i].TR_NM || ls[i].TR_NMK);
                     $("#crmSn" + i).val(ls[i].CRM_SN || "");
@@ -608,7 +615,7 @@ var regPay = {
                 var ls = rs.itemList;
 
                 for(let i = 0; i < 1; i++) {
-                    $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
+                    $("#eviType" + i).data("kendoDropDownList").value(6);
                     $("#crmNm" + i).val(ls[i].CRM_NM);
                     $("#crmSn" + i).val(ls[i].CRM_SN);
                     $("#regNo" + i).val(ls[i].CRM_NO_TMP);
@@ -620,6 +627,7 @@ var regPay = {
                     $("#budgetNm" + i).val(cem.BUDGET_NM);
                     $("#budgetSn" + i).val(cem.BUDGET_SN);
                     $("#budgetAmt" + i).val(9999999999);
+                    $("#trCd" + i).val(ls[i].TR_CD);
 
                     var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
                     console.log(rs.VAT)
@@ -1733,8 +1741,7 @@ var regPay = {
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticPayApp_'+data.PAY_APP_SN+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regPay.fn_popDateSetting(\'reDraft\');">재상신</button>';
-                $("#apprBtnBox").html('<button type="button" id="reReqBtn" style="float: right; margin-top:8px; font-size: 12px;" class="k-button k-button-solid-error" onclick="regPay.payAppReDrafting(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>');
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regPay.fn_popDateSetting();">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
                 if($("#auth").val() != 'user'){
                     buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
@@ -1832,55 +1839,6 @@ var regPay = {
                         this.method = 'POST';
                         this.target = '_self';
                     }).trigger("submit");
-                }
-            }
-        });
-    },
-
-    payAppReDrafting: function(docId, menuCd, approKey, linkageType, type){
-        regPay.fn_save("", "drafting");
-
-        var budgetFlag = false;
-        if($("#pjtCd").val().substring(0,1) == "M"){
-            var tmpBudgetSnAr = [];
-            $(".budgetSn").each(function(){
-                tmpBudgetSnAr.push($(this).val());
-            });
-
-            const setCollection = new Set(tmpBudgetSnAr);
-            budgetFlag = setCollection.size !== 1;
-        } else {
-
-        }
-
-        if(budgetFlag){
-            alert("예산비목이 다릅니다. 예산비목을 확인해주세요.");
-            return;
-        }
-
-        var data = {
-            payAppSn : $("#payAppSn").val(),
-            pjtCd : $("#pjtCd").val()
-        }
-
-        $.ajax({
-            url : "/payApp/getCheckBudget",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                var list = rs.list;
-                var flag = true;
-                for(var i = 0 ; i  < list.length ; i++){
-                    if(list[i].TOT_COST > list[i].BUDGET_AMT) {
-                        alert("예산잔액을 초과했습니다.");
-                        flag = false;
-                        return;
-                    }
-                }
-
-                if(flag){
-                    tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type);
                 }
             }
         });
@@ -2169,7 +2127,7 @@ var regPay = {
         regPay.fn_g20ClientCheck();
     },
 
-    fn_popDateSetting : function(type){
+    fn_popDateSetting : function(){
         var eviFlag = true;
         for (var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
             if($("#eviType" + i).val() == ""){

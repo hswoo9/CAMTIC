@@ -30,6 +30,7 @@ public interface ApprovalUserService {
      * @param params
      */
     void setCheckedDocDel (Map<String, Object> params);
+    void setDocDel (Map<String, Object> params);
 
     /** 결재함 */
 

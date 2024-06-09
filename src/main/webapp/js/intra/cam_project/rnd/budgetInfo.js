@@ -97,27 +97,29 @@ var rndBg = {
                     $("#budgetMainGrid3").css("display", "none");
                     $("#budgetMainGrid4").css("display", "none");
                     $("#titleWrap").text("◎ 예산현황");
+                    rndBg.budgetMainGrid(pjtCd);     // 수입예산 리스트
+                    rndBg.budgetMainGrid2(pjtCd);    // 지출예산 리스트
                 }
                 else if(idx == 2){
+                    $("#budgetMainGrid3").html("");
                     $("#budgetGrid1Wrap").css("display", "none");
                     $("#budgetMainGrid3").css("display", "");
                     $("#budgetMainGrid4").css("display", "none");
                     $("#titleWrap").text("◎ 지급 신청 리스트");
+                    rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
                 } else if (idx == 3){
+                    $("#budgetMainGrid4").html("");
                     $("#budgetGrid1Wrap").css("display", "none");
                     $("#budgetMainGrid3").css("display", "none");
                     $("#budgetMainGrid4").css("display", "");
                     $("#titleWrap").text("◎ 지출 리스트");
+                    rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
                 }
             }
         });
-        rndBg.budgetMainGrid(pjtCd);     // 수입예산 리스트
-        rndBg.budgetMainGrid2(pjtCd);    // 지출예산 리스트
-        rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
-        rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
+
+        $("#selectType").data("kendoRadioGroup").trigger("change");
     },
-
-
 
     budgetMainGrid : function(mgtCd){
         let mgtSeq = $("#mgtCd").val();

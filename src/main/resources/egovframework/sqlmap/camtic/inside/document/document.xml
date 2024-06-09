@@ -1121,14 +1121,14 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTENT_ID = #{snackInfoSn} AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
+            CONTENT_ID = CONCAT('snack_', #{snackInfoSn}) AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
             <if test='fileNo != null and !"".equals("fileNo")'>
                 OR FILE_NO IN (${fileNo})
             </if>
             <if test='snackInfoSnArr != null and !"".equals("snackInfoArr")'>
                 OR ((FILE_CD = 'useCard' or FILE_CD = 'snack') AND CONTENT_ID IN
                 <foreach collection="snackInfoSnArr" item="item" open="(" close=")" separator=",">
-                    #{item}
+                    CONCAT('snack_', #{item})
                 </foreach>
                 )
             </if>

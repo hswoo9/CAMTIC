@@ -37,6 +37,13 @@
         SELECT
             A.*,
 
+            CASE
+                WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NOT NULL THEN CONCAT(HOLIDAY, ', ', BUSTRIP)
+                WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NULL THEN HOLIDAY
+                WHEN HOLIDAY IS NULL AND BUSTRIP IS NOT NULL THEN BUSTRIP
+                ELSE ''
+            END AS ATTEND_TEXT,
+
             IFNULL(IFNULL((
                 SELECT
                     CONCAT(WORK_TIME, ':00')
@@ -520,7 +527,7 @@
             END_TIME,
             AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME))) AS AVG_OFFICE_HOUR_2,
                 <![CDATA[
-            SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+            SUM(IF(START_TIME >= '09:00:00' AND START_TIME < '15:00:00', 1, 0)) AS LATE,
             SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
                 ]]>
             FROM
@@ -605,7 +612,7 @@
                 END_TIME,
                 AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME))) AS AVG_OFFICE_HOUR_2,
                 <![CDATA[
-                SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+                SUM(IF(START_TIME >= '09:00:00' AND START_TIME < '15:00:00', 1, 0)) AS LATE,
                 SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
                 ]]>
             FROM
@@ -676,7 +683,7 @@
             IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME)))), '%H:%i:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
             (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND SVUH.REG_EMP_SEQ = R.EMP_SEQ) AS HOLIDAY_COUNT,
             <![CDATA[
-            SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+            SUM(IF(START_TIME >= '09:00:00' AND START_TIME < '15:00:00', 1, 0)) AS LATE,
             SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
             ]]>
         FROM

@@ -98,6 +98,11 @@ const mailReqReq = {
                 if(result.code == "200"){
                     alert("저장되었습니다.");
                     location.href = "/system/pop/mailReqPop.do?mailHistSn=" + result.mailHistSn;
+
+                    let url = "/system/pop/mailDetPop.do?mailHistSn="+result.mailHistSn;
+                    const name = "_self";
+                    const option = "width = 1080, height = 588, top = 100, left = 300, location = no";
+                    window.open(url, name, option);
                 }else{
                     alert("저장중 오류가 발생하였습니다.");
                 }

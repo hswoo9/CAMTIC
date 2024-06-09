@@ -4,6 +4,7 @@ const appUserPaySetting = {
         attFiles : [],
         itemIndex : 1,
         createHtmlStr : "",
+        reqAmt : 0,
         reqAmtTotal : 0,
     },
 
@@ -163,7 +164,11 @@ const appUserPaySetting = {
         var flag = true;
         var payFlag = true;
         var itemFlag = true;
+        var itemFlag2 = true;
+        var chk = false;
         var itemArr = new Array();
+        appUserPaySetting.global.reqAmt = 0;
+
         $('input[name="reqAmt"]').each(function(){
             if(this.value == 0 || this.value == ""){
                 flag = false;
@@ -180,6 +185,7 @@ const appUserPaySetting = {
 
                 itemArr.push(itemParameters);
             }
+            appUserPaySetting.global.reqAmt += Number(appUserPaySetting.uncomma(this.value));
         });
 
         if(!flag) {
@@ -202,11 +208,16 @@ const appUserPaySetting = {
 
         // 증빙유형
         var payItemArr = new Array();
+        var reqPayAmt = 0;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
             if($("#eviType" + index).val() != "" && uncommaN($("#totCost" + index).val()) == ""){
                 itemFlag = false;
+            }
+
+            if($("#eviType" + index).val() != ""){
+                chk = true;
             }
 
             var data = {
@@ -233,11 +244,34 @@ const appUserPaySetting = {
                 fileNo : $("#fileNo" + index).val(),
             }
 
+            reqPayAmt += uncommaN($("#totCost" + index).val());
+
             payItemArr.push(data);
         });
 
+        var tempArr = [];
+        for(var i = 0; i < payItemArr.length; i++){
+            if(tempArr.indexOf(payItemArr[i].evidType) == -1) {
+                tempArr.push(payItemArr[i].evidType);
+            }
+        }
+
+        if(tempArr.length > 1){
+            itemFlag2 = false;
+        }
+
         if(!itemFlag) {
             alert("증빙서류가 선택되지 않았습니다.");
+            return;
+        }
+
+        if(!itemFlag2) {
+            alert("선택된 증빙유형이 다르므로 지출요청이 불가합니다.\n다시 확인해주세요.");
+            return;
+        }
+
+        if(chk && reqPayAmt != appUserPaySetting.global.reqAmt) {
+            alert("지출금액 합계와 증빙서류 금액의 합계가 다릅니다.");
             return;
         }
 

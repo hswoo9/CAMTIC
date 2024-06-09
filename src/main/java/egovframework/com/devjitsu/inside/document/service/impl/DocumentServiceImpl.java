@@ -272,7 +272,7 @@ public class DocumentServiceImpl implements DocumentService {
             List<Map<String, Object>> cardArr = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
             for(Map<String, Object> map : cardArr){
-                map.put("snackInfoSn", params.get("snackInfoSn"));
+                map.put("snackInfoSn", "snack_" + params.get("snackInfoSn"));
 
                 commonRepository.updFileOwnerCustom(map);
             }
@@ -553,7 +553,7 @@ public class DocumentServiceImpl implements DocumentService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             documentRepository.updateInComeApprStat(params);
         }else if("20".equals(docSts)) { // 중간결재
             documentRepository.updateInComeApprStat(params);
