@@ -314,6 +314,7 @@ public class PurcServiceImpl implements PurcService {
                 }
 
                 purcRepository.insPayAppPurcReq(purcReqMap);
+                purcRepository.insClaimExnpGroupIdx(purcReqMap);
                 purcRepository.updClaimPurcOrder(purcReqMap);
                 purcRepository.updPurcInspect(paramMap);
                 purcRepository.updPurcInspectStat(paramMap);
@@ -353,6 +354,7 @@ public class PurcServiceImpl implements PurcService {
                 }
 
                 purcRepository.insPayAppPurcReq(purcReqMap);
+                purcRepository.insClaimExnpGroupIdx(purcReqMap);
                 purcRepository.updClaimPurcOrder(purcReqMap);
 
 //                purcRepository.updPurcInspect(paramMap);
@@ -819,7 +821,20 @@ public class PurcServiceImpl implements PurcService {
             result.put("itemList", itemList);
         } else {
             result = purcRepository.getClaimData(params);
-            itemList =  purcRepository.getPurcClaimItemList(params);
+            List<Map<String, Object>> tempList =  purcRepository.getPurcClaimItemList(params);
+
+            for(Map<String, Object> map : tempList){
+                map.put("REG_NO", map.get("CRM_NO_TMP"));
+                Map<String, Object> tempMap = g20Repository.getClientInfoOne(map);
+
+                if(tempMap != null){
+                    map.put("TR_CD", tempMap.get("TR_CD"));
+                } else {
+                    map.put("TR_CD", "");
+                }
+
+                itemList.add(map);
+            }
             result.put("itemList", itemList);
         }
 
@@ -992,6 +1007,9 @@ public class PurcServiceImpl implements PurcService {
             map.put("evidType", payItemArr.get(0).get("evidType"));
             purcRepository.insPayAppPurcReq(map);
         }
+
+        params.put("ceGwIdx", maxIdx);
+        purcRepository.insClaimExnpGroupIdx(params);
 
         MainLib mainLib = new MainLib();
         if(fileList.length > 0){

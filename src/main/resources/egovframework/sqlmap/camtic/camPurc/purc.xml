@@ -1555,6 +1555,20 @@
             )
     </insert>
 
+    <insert id="insClaimExnpGroupIdx" parameterType="map">
+        /*insClaimExnpGroupIdx*/
+        INSERT INTO CAM_MNG.DJ_CLAIM_EXNP_IDX_HIST
+        (
+            CE_GW_IDX,
+            REG_DT
+        )
+        VALUES
+        (
+            #{ceGwIdx},
+            NOW()
+        )
+    </insert>
+
     <select id="getUserPurcAppList" parameterType="map" resultType="map">
         /*getUserPurcAppList*/
         SELECT
@@ -1664,7 +1678,7 @@
         SELECT
             IF(CE_GW_IDX IS NULL, 1, MAX(CE_GW_IDX) + 1) AS MAX_IDX
         FROM
-            CAM_MNG.DJ_CLAIM_EXNP
+            CAM_MNG.DJ_CLAIM_EXNP_IDX_HIST
     </select>
 
     <select id="getBasicSetting" parameterType="map" resultType="map">
@@ -1902,7 +1916,7 @@
         SELECT
             MAX(CE_GW_IDX)
         FROM
-            CAM_MNG.DJ_CLAIM_EXNP
+            CAM_MNG.DJ_CLAIM_EXNP_IDX_HIST
     </select>
 
     <select id="getClaimListByPurcSn" parameterType="map" resultType="map">
@@ -2229,7 +2243,7 @@
 
     <delete id="delClaimExnpData" parameterType="map">
         /*delClaimExnpData*/
-        DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}
+        DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
     </delete>
 
     <delete id="delClaimExnpUseCardInfo" parameterType="map">
