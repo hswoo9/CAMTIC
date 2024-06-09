@@ -90,4 +90,39 @@ public class AchieveRepository extends AbstractDAO {
 
         update("achieve.updDeptObjSetting", params);
     }
+
+    public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
+
+        return selectList("achieve.getExnpCompAmt", params);
+    }
+
+    public List<Map<String, Object>> geincpCompAmt(Map<String, Object> params) {
+
+        return selectList("achieve.geincpCompAmt", params);
+    }
+
+    public Map<String, Object> getResultProject(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getResultProject", params);
+    }
+
+    public Map<String, Object> getPjtDevSn(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getPjtDevSn", params);
+    }
+
+    public void insProjectPaySet(Map<String, Object> params) {
+
+        insert("achieve.insProjectPaySet", params);
+    }
+
+    public void updProjectPaySet(Map<String, Object> params) {
+
+        update("achieve.updProjectPaySet", params);
+    }
+
+    public Map<String, Object> getProjectPaySet(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getProjectPaySet", params);
+    }
 }

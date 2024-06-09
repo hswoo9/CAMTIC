@@ -7,10 +7,7 @@ import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AchieveServiceImpl implements AchieveService {
@@ -197,5 +194,42 @@ public class AchieveServiceImpl implements AchieveService {
             }
         }
 
+    }
+
+    @Override
+    public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
+        return achieveRepository.getExnpCompAmt(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> geincpCompAmt(Map<String, Object> params) {
+        return achieveRepository.geincpCompAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getResultProject(Map<String, Object> params) {
+        return achieveRepository.getResultProject(params);
+    }
+
+    @Override
+    public Map<String, Object> getPjtDevSn(Map<String, Object> params) {
+        return achieveRepository.getPjtDevSn(params);
+    }
+
+    @Override
+    public void setProjectPaySet(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = achieveRepository.getProjectPaySet(params);
+        if(map != null){
+            achieveRepository.updProjectPaySet(params);
+        } else {
+            achieveRepository.insProjectPaySet(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getProjectPaySet(Map<String, Object> params) {
+        return achieveRepository.getProjectPaySet(params);
     }
 }
