@@ -3,7 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/attend/personAttendStat.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/attend/personAttendStat.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <style>
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
@@ -115,23 +116,7 @@
                                 <th>휴일근로</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td style="text-align: center;">합계</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                                <td style="text-align: center;">0</td>
-                            </tr>
+                            <tbody class="addRow">
                             </tbody>
                         </table>
                     </div><!-- table-responsive -->

@@ -1,11 +1,16 @@
 var personAttendStat = {
     global : {
         now: new Date(),
-        searchAjaxData : ""
+        searchAjaxData : "",
+        gridData: new Array()
     },
 
-    fn_defaultScript: function () {
-        /* customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1))); */
+    fn_defaultScript(){
+        personAttendStat.pageSet();
+        personAttendStat.gridReload();
+    },
+
+    pageSet(){
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttendStat.global.now.setMonth(personAttendStat.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
@@ -17,7 +22,7 @@ var personAttendStat = {
             dataType : "json",
             success : function(result){
                 var ds = result.list;
-                ds.unshift({deptName: '선택하세요', deptSeq: ''});
+                ds.unshift({deptName: '전체', deptSeq: ''});
 
                 $("#dept").kendoDropDownList({
                     dataTextField: "deptName",
@@ -37,7 +42,7 @@ var personAttendStat = {
                             dataType : "json",
                             success : function(result){
                                 var ds = result.list;
-                                ds.unshift({text: '선택하세요', value: ''});
+                                ds.unshift({text: '전체', value: ''});
 
                                 $("#team").kendoDropDownList({
                                     dataTextField: "text",
@@ -56,7 +61,7 @@ var personAttendStat = {
             dataTextField: "TEXT",
             dataValueField: "VALUE",
             dataSource: [
-                {TEXT: '선택하세요', VALUE: ''}
+                {TEXT: '전체', VALUE: ''}
             ],
             index: 0,
         });
@@ -102,11 +107,209 @@ var personAttendStat = {
                 {text: "시설/환경", expanded: true, value : "4&3|"}
             ]
         });
-
-        personAttendStat.gridReload();
     },
 
-    mainGrid: function (url, params) {
+    dataSet(list){
+        $(".addRow").html("");
+
+        /** 정상출근 합계 */
+        let sum01 = 0;
+        /** 지각 합계 */
+        let sum02 = 0;
+        /** 연가 합계 */
+        let sum03 = 0;
+        /** 오전반차 합계 */
+        let sum04 = 0;
+        /** 오후반차 합계 */
+        let sum05 = 0;
+        /** 병가 합계 */
+        let sum06 = 0;
+        /** 공가 합계 */
+        let sum07 = 0;
+        /** 경조휴가 합계 */
+        let sum08 = 0;
+        /** 출산휴가 합계 */
+        let sum09 = 0;
+        /** 출장 합계 */
+        let sum10 = 0;
+        /** 대체휴가 합계 */
+        let sum11 = 0;
+        /** 근속포상휴가 합계 */
+        let sum12 = 0;
+        /** 휴일근로 합계 */
+        let sum13 = 0;
+
+        console.log("list", list);
+
+        const list2 = list.filter(
+            (map, idx) => {
+                return (
+                    list.findIndex((map2) => {
+                        return map.REG_DEPT_NAME === map2.REG_DEPT_NAME
+                    }) === idx
+                )
+            }
+        )
+
+        console.log("list2", list2);
+
+
+        for(let i=0; i<list2.length; i++){
+            /** 정상출근 */
+            let count01 = 0;
+            /** 지각 */
+            let count02 = 0;
+            /** 연가 */
+            let count03 = 0;
+            /** 오전반차 */
+            let count04 = 0;
+            /** 오후반차 */
+            let count05 = 0;
+            /** 병가 */
+            let count06 = 0;
+            /** 공가 */
+            let count07 = 0;
+            /** 경조휴가 */
+            let count08 = 0;
+            /** 출산휴가 */
+            let count09 = 0;
+            /** 출장 */
+            let count10 = 0;
+            /** 대체휴가 */
+            let count11 = 0;
+            /** 근속포상휴가 */
+            let count12 = 0;
+            /** 휴일근로 */
+            let count13 = 0;
+
+            const map = list2[i];
+            const deptName = map.REG_DEPT_NAME;
+
+            for(let j=0; j<list.length; j++){
+                const jMap = list[j];
+                const jDeptName = jMap.REG_DEPT_NAME;
+
+                if(deptName == jDeptName){
+                    /** 정상출근 구하기 */
+                    if(jMap.WEEK != "토" && jMap.WEEK != "일"){
+                        if(!(jMap.ATTEND_ADJUSTMENT_START != "" && jMap.ATTEND_ADJUSTMENT_START >= "09:00:00" && jMap.ATTEND_ADJUSTMENT_START < "15:00:00")){
+                            count01 ++;
+                            sum01 ++;
+                        }
+                    }
+
+                    if(jMap.ATTEND_ADJUSTMENT_START != "" && jMap.ATTEND_ADJUSTMENT_START >= "09:00:00" && jMap.ATTEND_ADJUSTMENT_START < "15:00:00"){
+                        count02 ++;
+                        sum02 ++;
+                    }
+
+                    if(jMap.HOLIDAY != null){
+                        switch(jMap.HOLIDAY) {
+                            case '연가':
+                                count03++;
+                                sum03++;
+                                break;
+                            case '오전반차':
+                                count04++;
+                                sum04++;
+                                break;
+                            case '오후반차':
+                                count05++;
+                                sum05++;
+                                break;
+                            case '병가':
+                                count06++;
+                                sum06++;
+                                break;
+                            case '공가':
+                                count07++;
+                                sum07++;
+                                break;
+                            case '경조휴가':
+                                count08++;
+                                sum08++;
+                                break;
+                            case '출산휴가':
+                                count09++;
+                                sum09++;
+                                break;
+                            case '대체휴가':
+                                count11++;
+                                sum11++;
+                                break;
+                            case '근속포상휴가':
+                                count12++;
+                                sum12++;
+                                break;
+                        }
+                    }
+
+                    if(jMap.BUSTRIP != null){
+                        count10++;
+                        sum10++;
+                    }
+                }
+            }
+            let rowHtml = '';
+            rowHtml += '<tr>';
+            rowHtml += '    <td style="text-align: center;">'+deptName+'</td>';
+            rowHtml += '    <td style="text-align: center;">'+count01+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count02+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count03+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count04+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count05+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count06+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count07+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count08+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count09+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count10+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count11+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count12+'일</td>';
+            rowHtml += '    <td style="text-align: center;">'+count13+'일</td>';
+            rowHtml += '</tr>';
+            $(".addRow").append(rowHtml);
+        }
+
+        if(list2.length > 1){
+            let sumHtml = '';
+            sumHtml += '<tr>';
+            sumHtml += '    <th style="text-align: center;">합계</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum01+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum02+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum03+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum04+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum05+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum06+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum07+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum08+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum09+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum10+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum11+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum12+'일</th>';
+            sumHtml += '    <th style="text-align: center;">'+sum13+'일</th>';
+            sumHtml += '</tr>';
+            $(".addRow").append(sumHtml);
+        }
+        $.LoadingOverlay("hide", {});
+    },
+
+    gridReload(){
+        personAttendStat.loading();
+
+        personAttendStat.global.searchAjaxData = {
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
+            dept : $("#dept").val(),
+            team : $("#team").val(),
+            name : $("#name").val(),
+            attendanceItems : $("#attendanceItems").val(),
+            staffDivision : $("#staffDivision").data("kendoDropDownTree").value().join().replaceAll(",", "")
+        }
+
+        personAttendStat.mainGrid("/inside/getPersonAttendStat", personAttendStat.global.searchAjaxData);
+    },
+
+    mainGrid(url, params){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -124,6 +327,7 @@ var personAttendStat = {
             },
             schema: {
                 data: function (data){
+                    personAttendStat.dataSet(data.list);
                     return data.list;
                 },
                 total: function (data){
@@ -222,21 +426,7 @@ var personAttendStat = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
-        personAttendStat.global.searchAjaxData = {
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            dept : $("#dept").val(),
-            team : $("#team").val(),
-            name : $("#name").val(),
-            attendanceItems : $("#attendanceItems").val(),
-            staffDivision : $("#staffDivision").data("kendoDropDownTree").value().join().replaceAll(",", "")
-        }
-
-        personAttendStat.mainGrid("/inside/getPersonAttendStat", personAttendStat.global.searchAjaxData);
-    },
-
-    personAttendStatPopup : function(){
+    personAttendStatPopup(){
         if($("input[name='empSeq']:checked").length == 0){
             alert("근태조정할 인원을 선택해주세요.");
             return;
@@ -253,6 +443,16 @@ var personAttendStat = {
         var name = "popup test";
         var option = "width = 550, height = 360, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    loading(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
     }
 }
 
