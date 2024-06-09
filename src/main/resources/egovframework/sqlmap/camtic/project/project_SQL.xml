@@ -366,6 +366,15 @@
         SELECT PJT_SN, PARENT_PJT_SN, BS_TITLE, PJT_NM FROM CAM_PJT_MNG.DJ_PROJECT WHERE PARENT_PJT_SN = #{multiParentPjtSn}
     </select>
 
+    <select id="getTeamPjtList" parameterType="map" resultType="map">
+        /*getTeamPjtList*/
+        SELECT PJT_SN, CASE WHEN TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN, DEPT_NAME FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn} AND PJT_STOP = 'N'
+
+        UNION ALL
+
+        SELECT PJT_SN, CASE WHEN TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN, DEPT_NAME FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn} AND PJT_STOP = 'N'
+    </select>
+
     <insert id="insProject" parameterType="map">
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT

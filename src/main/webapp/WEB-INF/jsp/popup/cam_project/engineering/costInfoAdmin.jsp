@@ -4,6 +4,8 @@
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdmin.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdminGrid.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdminPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/purcInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
@@ -31,9 +33,10 @@
 <input type="hidden" id="searchValue" />
 
 <div style="padding: 10px">
-    <div id="costBtnDiv">
-        <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>--%>
+    <div id="costInfoDiv" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="costPjtClass"></span>
     </div>
+
     <div class="table-responsive">
         <span style="font-size: 12px;">◎ 사업정보</span>
         <table class="popTable table table-bordered mb-0">
@@ -99,7 +102,7 @@
                 <th style="text-align: center">예상 운영수익</th>
             </tr>
             <tr>
-                <td style="text-align: center">수주</td>
+                <td id="PJT_TYPE" style="text-align: center"></td>
                 <td id="PJT_CD2" style="text-align: center"></td>
                 <td id="PM_DEPT" style="text-align: center"></td>
                 <td id="PM_TEAM" style="text-align: center"></td>
@@ -112,8 +115,8 @@
             </thead>
         </table>
 
-        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 전차년도 마감 현황</span>
-        <table class="popTable table table-bordered mb-0">
+        <div class="multiUi" style="display: none; margin-top:10px;"></div><span class="multiUi" style="display: none; font-size: 12px">◎ 전차년도 마감 현황</span>
+        <table class="multiUi popTable table table-bordered mb-0" style="display: none">
             <colgroup>
                 <col width="25%">
                 <col width="10%">
@@ -140,30 +143,7 @@
         </table>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 총 합계</span>
-        <table class="popTable table table-bordered mb-0">
-            <colgroup>
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-                <col width="12.5%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th style="text-align: center">구매</th>
-                <td id="purcSum" style="text-align: right"></td>
-                <th style="text-align: center">출장</th>
-                <td id="bustSum" style="text-align: right"></td>
-                <th style="text-align: center">비용</th>
-                <td id="costSum" style="text-align: right"></td>
-                <th style="text-align: center">총 합계</th>
-                <td id="invSum" style="text-align: right"></td>
-            </tr>
-            </thead>
-        </table>
+        <table id="sumTable" class="popTable table table-bordered mb-0"></table>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역</span>
         <div id="grid2"></div>
@@ -171,16 +151,13 @@
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 출장내역</span>
         <div id="grid3"></div>
 
-        <c:if test="${hashMap.BUSN_CLASS == 'R' || hashMap.BUSN_CLASS == 'S'}">
-            <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
-            <div id="grid4"></div>
-        </c:if>
+        <div clsss="grid4" style="display: none; margin-top:10px;"></div><span clsss="grid4" style="display: none; font-size: 12px;">◎ 지출내역</span>
+        <div clsss="grid4" id="grid4" style="display: none;"></div>
     </div>
 </div>
 
 <script>
     costInfo.fn_defaultScript();
-
 </script>
 </body>
 </html>

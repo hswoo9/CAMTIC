@@ -366,7 +366,7 @@ public class ProjectController {
         return "popup/cam_project/engineering/costInfo";
     }
 
-    @RequestMapping("/intra/cam_project/costPriceInfoAdmin.do")
+    @RequestMapping("/intra/cam_project/costInfoAdmin.do")
     public String costInfoAdmin(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
@@ -464,6 +464,13 @@ public class ProjectController {
     @RequestMapping("/project/getMultiPjtList")
     public String getMultiPjtList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         List<Map<String, Object>> list = projectService.getMultiPjtList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getTeamPjtList")
+    public String getTeamPjtList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectService.getTeamPjtList(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

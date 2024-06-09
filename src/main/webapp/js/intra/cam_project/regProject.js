@@ -47,7 +47,7 @@ var regPrj = {
         var tab10Url = "/intra/cam_project/bustInfo.do"; // 10출장
         var tab11Url = "/intra/cam_project/purcInfo.do"; // 11구매
         var tab12Url ="/intra/cam_project/depositInfo.do"; // 12입금관리
-        var tab13Url = "/intra/cam_project/costPriceInfoAdmin.do"; // 13정산서
+        var tab13Url = "/intra/cam_project/costInfoAdmin.do"; // 13정산서
         var tab14Url = "/intra/cam_project/equipInfo.do";  // 14장비
 
         if (setParameters != null && setParameters.PJT_SN != null) {
@@ -96,6 +96,7 @@ var regPrj = {
 
                 {name: "출장", url: tab10Url},
                 {name: "구매", url: tab11Url},
+                {name: "정산서", url: tab13Url},
                 {name: "장비", url: tab14Url}
             ]
         } else {

@@ -179,6 +179,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamPjtList(Map<String, Object> params) {
+        return projectRepository.getTeamPjtList(params);
+    }
+
+    @Override
     public void delProject(Map<String, Object> params) {
         projectRepository.delProject(params);
     }

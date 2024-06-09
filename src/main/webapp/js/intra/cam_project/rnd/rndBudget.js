@@ -20,7 +20,7 @@ var rndBg = {
         var year = date.getFullYear().toString().substring(2,4);
 
         let params = {
-            pjtSn: $("#pjtSn").val()
+
         }
         const result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", params);
         const list = result.list;
