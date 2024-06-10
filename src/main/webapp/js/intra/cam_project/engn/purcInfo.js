@@ -419,6 +419,8 @@ var purcInfo = {
                                     if (e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0) {
                                         stat = "지출완료";
                                     } else if (e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0) {
+                                        console.log("e.EXNP_DOC_STATUS", e.EXNP_DOC_STATUS);
+                                        console.log("e.EXNP_STATUS", e.EXNP_STATUS);
                                         stat = "부분지출";
                                     } else if (e.EXNP_STATUS != 0) {
                                         stat = "지출대기";

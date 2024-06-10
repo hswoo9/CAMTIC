@@ -1980,8 +1980,11 @@
         ON
             B.DOC_ID = DI.DOC_ID
         LEFT JOIN
+            CAM_MNG.DJ_CLAIM_EXNP CE
+            ON CE.CLAIM_SN = A.CLAIM_SN
+        LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-        ON PA.LINK_KEY = B.PURC_SN
+            ON PA.PAY_APP_SN = CE.PAY_APP_SN
         WHERE
             A.PJT_SN =  #{pjtSn}
         UNION ALL
@@ -2020,7 +2023,7 @@
             B.DOC_ID = DI.DOC_ID
         LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-        ON PA.LINK_KEY = B.PURC_SN
+        ON PA.LINK_KEY = B.PURC_SN AND PA.LINK_KEY_TYPE = '구매'
         WHERE
             B.PJT_SN = #{pjtSn}
         AND
