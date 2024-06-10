@@ -478,6 +478,7 @@
                     GROUP_CONCAT(CRM_NM) AS CRM_NM,
                     COUNT(*) AS ITEM_COUNT
                 FROM CAM_MNG.DJ_PAY_APP_DET
+                WHERE TOT_COST != 0
                 GROUP BY PAY_APP_SN) C
             ON
                 A.PAY_APP_SN = C.PAY_APP_SN
