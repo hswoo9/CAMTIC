@@ -1743,6 +1743,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public Map<String, Object> getProjectSettingInfoByPjtSn(Map<String, Object> params) {
+        return payAppRepository.getProjectSettingInfoByPjtSn(params);
+    }
+
+    @Override
     public void setProjectBudgetInfo(Map<String, Object> params) {
         if(!params.containsKey("depoSetSn")){
             payAppRepository.insProjectBudgetInfo(params);

@@ -397,6 +397,10 @@ public class PayAppRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("payApp.getProjectSettingInfo", params);
     }
 
+    public Map<String, Object> getProjectSettingInfoByPjtSn(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getProjectSettingInfoByPjtSn", params);
+    }
+
     public void insProjectBudgetInfo(Map<String, Object> params) {
         insert("payApp.insProjectBudgetInfo", params);
     }

@@ -2846,6 +2846,18 @@
             DEPO_SET_SN = #{depoSetSn}
     </select>
 
+    <select id="getProjectSettingInfoByPjtSn" parameterType="map" resultType="map">
+        /*getProjectSettingInfoByPjtSn*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.REG_EMP_SEQ = EMP_SEQ) AS REG_EMP_NAME,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.MOD_EMP_SEQ = EMP_SEQ) AS MOD_EMP_NAME
+        FROM
+            CAM_MNG.DJ_DEPO_SETTING A
+        WHERE
+            FR_PJT_SN = #{pjtSn}
+    </select>
+
     <insert id="insProjectBudgetInfo" parameterType="map">
         /*insProjectBudgetInfo*/
         INSERT INTO CAM_MNG.DJ_DEPO_SETTING

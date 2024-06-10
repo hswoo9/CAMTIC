@@ -549,6 +549,7 @@ var regExnp = {
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#pjtCd").val(rs.PJT_CD);
+
         $("#exnpBriefs").val(rs.APP_TITLE);
         $("#addExnpBriefs").val(rs.APP_CONT);
 
@@ -557,11 +558,8 @@ var regExnp = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
-        if(rs.DIV_CD != ""){
-            $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
-        }else{
-            $("#busnCd").data("kendoDropDownList").value("1000");
-        }
+        const divCd = fn_busnCdSet(rs.PJT_SN, rs.PJT_CD);
+        $("#busnCd").data("kendoDropDownList").value(divCd);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
@@ -613,19 +611,10 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
-                    '   </td>';
-                    if(rs.DIV_CD != ""){
-                        regExnpDet.global.createHtmlStr += "" +
-                        '   <td>' +
-                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+rs.DIV_CD+'" class="busnCd">' +
-                        '   </td>';
-                    }else{
-                        regExnpDet.global.createHtmlStr += "" +
-                            '   <td>' +
-                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="1000" class="busnCd">' +
-                            '   </td>';
-                    }
-                regExnpDet.global.createHtmlStr += "" +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+divCd+'" class="busnCd">' +
+                    '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +

@@ -97,6 +97,8 @@ public interface PayAppService {
 
     Map<String, Object> getProjectSettingInfo(Map<String, Object> params);
 
+    Map<String, Object> getProjectSettingInfoByPjtSn(Map<String, Object> params);
+
     void setProjectBudgetInfo(Map<String, Object> params);
 
     void payAppRevert(Map<String, Object> params);

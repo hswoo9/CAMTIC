@@ -513,3 +513,42 @@ function reDraftOnlyOne(docId, loginEmpSeq, buttonId){
         $("#"+buttonId).hide();
     }
 }
+
+/** 사업장 세팅 */
+function fn_busnCdSet(pjtSn, pjtCd){
+    let realPjtSn;
+    if(pjtSn != null && pjtSn != "" && pjtSn != undefined && pjtSn != "undefined"){
+        realPjtSn = pjtSn
+    }else if(pjtCd != null && pjtCd != "" && pjtCd != undefined && pjtCd != "undefined"){
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd2", { pjtCd: pjtCd });
+        const pjtMap = pjtResult.map;
+        if(pjtMap != null && pjtMap.PJT_SN != null){
+            realPjtSn = pjtMap.PJT_SN
+        }else{
+            return "1000";
+        }
+    }else{
+        return "1000";
+    }
+
+    const depoResult = customKendo.fn_customAjax("/pay/getProjectSettingInfoByPjtSn", {pjtSn: realPjtSn});
+    const depoMap = depoResult.data;
+
+    if(depoMap != null && depoMap.CODE_VAL != null){
+        let busnCd = "1000";
+        switch(depoMap.CODE_VAL){
+            case '1':
+                busnCd = depoMap.PROFIT_CODE;
+                break;
+            case '2':
+                busnCd = depoMap.PURP_CODE;
+                break;
+            case '3':
+                busnCd = depoMap.COMM_CODE;
+                break;
+        }
+        return busnCd;
+    }else{
+        return "1000";
+    }
+}

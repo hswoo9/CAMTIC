@@ -177,6 +177,16 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/getProjectSettingInfoByPjtSn")
+    public String getProjectSettingInfoByPjtSn(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = payAppService.getProjectSettingInfoByPjtSn(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+
     @RequestMapping("/pay/setProjectTaxInfo")
     public String setProjectTaxInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
