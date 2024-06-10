@@ -341,7 +341,7 @@ var bustList = {
                 }, {
                     title: "입금상태",
                     width: 60,
-                    template : function (e){
+                    template : function (e){/** DT_3 */
                         var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
                         var reStat = e.EXNP_RE_STAT;
@@ -359,15 +359,13 @@ var bustList = {
                     width: 60,
                     template : function (e){
                         var payExnpDe = e.PAY_EXNP_DE;
-                        var docStatus = e.EXNP_DOC_STATUS;
-                        var approvalDate = e.APPROVAL_DATE;
+                        var reStat = e.EXNP_RE_STAT;
+                        var dt3 = e.DT3;
 
-                        if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
-                            return '-';
-                        }else if(docStatus != 100){
-                            return payExnpDe;
+                        if(payExnpDe != undefined && reStat == "Y" && dt3 != null){
+                            return dt3;
                         }else{
-                            return approvalDate;
+                            return '-';
                         }
                     }
                 }, {
