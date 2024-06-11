@@ -166,7 +166,11 @@
                 html += "     <td style='padding: 0px;'>";
                 html += "         <button type='button' onclick='evalComModify("+ list[i].EVAL_SN +")'  style='width:90%;font-size: 11px;'>역량평가설정</button>";
                 html += "     </td>";
-                html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
+                if(list[i].EVAL_STR_DT != null){
+                    html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
+                }else{
+                    html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>-</td>";
+                }
                 html += "     <td></td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
