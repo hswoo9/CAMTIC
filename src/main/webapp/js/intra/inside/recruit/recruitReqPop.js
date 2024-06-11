@@ -73,13 +73,13 @@ var recruitReq = {
             html += '</tr>';
             html += '<tr>';
             html += '   <td colspan="3"><div style="display:flex; justify-content: space-between; align-items: center">';
-            html += '       자격요건 <textarea id="qualification'+i+'" class="qualification" style="width: 80%"></textarea>';
+            html += '       자격요건 <textarea id="qualification'+i+'" class="qualification" style="width: 80%; height: 100px;"></textarea>';
             html += '   </div></td>';
             html += '</tr>';
             html += '</table>';
             $("#areaTd").append(html);
 
-            $("#qualification" + i).kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
+            $("#qualification" + i).kendoTextArea({ rows: 5, maxLength: 2000, placeholder: "" });
             let data = {}
             data.deptLevel = 1;
             const ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
@@ -94,7 +94,7 @@ var recruitReq = {
             });
             customKendo.fn_dropDownList("team"+i, [], "dept_name", "dept_seq", 2);
 
-            customKendo.fn_textBox(["job"+i, "recruitment"+i, "career"+i, "qualification"+i, "duty"+i, "workType"+i]);
+            customKendo.fn_textBox(["job"+i, "recruitment"+i, "career"+i, "duty"+i, "workType"+i]);
         }
     },
 

@@ -66,9 +66,6 @@ var purcInfo = {
                 buttonCount: 5
             },
             resizable : true,
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
             dataBound: purcInfo.onDataBound,
             toolbar: [
                 {
@@ -79,13 +76,25 @@ var purcInfo = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
             columns: [
                 {
                     title: "번호",
@@ -100,15 +109,15 @@ var purcInfo = {
                     title: "요청일",
                     width: 100,
                 }, {
-                    title: "요청자",
                     field: "EMP_NAME_KR",
+                    title: "요청자",
                     width: 80,
                     footerTemplate: function(){
                         return "<div style='text-align: right'>투자금액</div>";
                     }
                 }, {
-                    title: "목적",
                     field: "PURC_REQ_PURPOSE",
+                    title: "목적",
                     template : function(e){
                         return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE
                     },
@@ -138,8 +147,8 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(invSum))+"</div>";
                     }
                 }, {
-                    title: "구매요청서",
                     field: "STATUS",
+                    title: "구매요청서",
                     width: 100,
                     template : function(e){
                         var status = "";
@@ -164,6 +173,7 @@ var purcInfo = {
                         return "<div style='text-align: right'>잔여금액</div>";
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "구매청구서",
                     width: 100,
                     template: function(e){
@@ -237,12 +247,12 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
                     }
                 }, {
-                    title: "업체명",
                     field: "CRM_NM",
+                    title: "업체명",
                     width: 70
                 }, {
-                    title: "검수",
                     field: "STATUS",
+                    title: "검수",
                     width: 70,
                     template: function (e) {
                         /** 구매청구서 작성시 검수 버튼 생성*/
@@ -290,6 +300,7 @@ var purcInfo = {
                         return html;
                     }
                 }, {
+                    field: "PURC_ITEM_AMT_SUM",
                     title: "금액",
                     width: 100,
                     template: function(e){
@@ -319,6 +330,7 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
                     }
                 }, {
+                    field: "APPROVE_STAT_CODE",
                     title: "결재상태",
                     width: 80,
                     template : function(e){
@@ -343,6 +355,7 @@ var purcInfo = {
                         }
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "상태",
                     width: 120,
                     template : function(e){
@@ -407,6 +420,7 @@ var purcInfo = {
                         return status
                     }
                 }, {
+                    field: "EXNP_STATUS",
                     title: "지출상태",
                     width: 80,
                     template: function (e) {
@@ -489,13 +503,22 @@ var purcInfo = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.mainGrid2Reload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매 지급 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
@@ -508,10 +531,11 @@ var purcInfo = {
                     width: 40,
                     template: "#= --record #"
                 }, {
-                    title: "요청부서",
                     field: "DEPT_NAME",
+                    title: "요청부서",
                     width: 120,
                 }, {
+                    field: "PURC_TYPE",
                     title: "구매구분",
                     width: 50,
                     template: function(e){
@@ -532,16 +556,16 @@ var purcInfo = {
                         return result
                     }
                 }, {
-                    title: "담당자",
                     field: "F_EMP_NAME",
+                    title: "담당자",
                     width: 60
                 }, {
-                    title: "제목",
                     field: "CLAIM_TITLE",
+                    title: "제목",
                     width: 100
                 }, {
-                    title: "목적",
                     field: "PURC_PURPOSE",
+                    title: "목적",
                     width: 200,
                     template : function(e){
                         return '<a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
@@ -554,75 +578,24 @@ var purcInfo = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 100
-                }
-                // , {
-                //     field: "ORDER_DT",
-                //     title: "발주일",
-                //     width: 100
-                // }, {
-                //     field: "EXNP_DE",
-                //     title: "지출예정일",
-                //     width: 100
-                // }
-                // , {
-                //     title: "금액",
-                //     width: 100,
-                //     template: function(e){
-                //         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
-                //     }
-                // }
-                , {
+                }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
                     }
-                },
-                // , {
-                //     title: "지출액",
-                //     width: 100,
-                //     template: function(e){
-                //         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
-                //     }
-                // }, {
-                //     title: "미지급액",
-                //     width: 100,
-                //     template: function(e){
-                //         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
-                //     }
-                // },
-                // , {
-                //     title: "상태",
-                //     width: 100,
-                //     template : function(e){
-                //         return "";
-                //     }
-                // },
-                {
+                }, {
+                    field: "CLAIM_SN",
                     title: "상태",
                     width: 50,
                     template : function(e) {
-                        // return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
-
                         return "미지급";
                     }
                 }, {
+                    field: "F_PAY_APP_SN",
                     title : "지급신청",
                     width : 70,
                     template: function(e){
-                        // if(e.PURC_TYPE == 'R' || e.PURC_TYPE == 'S'){
-                        //     if($("#loginEmpSeq").val() == e.REG_EMP_SEQ){
-                        //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
-                        //     } else {
-                        //         return '';
-                        //     }
-                        // } else {
-                        //     if($("#loginEmpSeq").val() == e.F_EMP_SEQ){
-                        //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
-                        //     } else {
-                        //         return '';
-                        //     }
-                        // }
                         let buttonClass = "k-button k-button-solid-base";
                         if(e.F_PAY_APP_SN != null){
                             buttonClass = "k-button k-button-solid-info";
@@ -654,6 +627,9 @@ var purcInfo = {
             dataBound: purcInfo.onDataBound,
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.gridReload()">' +
@@ -662,42 +638,47 @@ var purcInfo = {
                     }
                 }
             ],
+            excel : {
+                fileName : "구매내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "품명",
                     field: "ITEM_NM",
+                    title: "품명",
                 }, {
-                    title: "규격",
                     field: "ITEM_STD",
+                    title: "규격",
                 }, {
-                    title: "수량",
                     field: "ITEM_EA",
+                    title: "수량",
                 }, {
-                    title: "단위",
                     field: "ITEM_UNIT",
+                    title: "단위",
                 }, {
-                    title: "단가",
                     field: "ITEM_UNIT_AMT",
+                    title: "단가",
                     template: function(row){
                         return fn_numberWithCommas(row.ITEM_UNIT_AMT);
                     }
                 }, {
-                    title: "업체",
                     field: "CRM_NM",
+                    title: "업체",
                 }, {
-                    title: "비고",
                     field: "RMK",
+                    title: "비고",
                 }, {
-                    title: "문서번호",
                     field: "DOC_NO",
+                    title: "문서번호",
                     width: 180,
                 }, {
-                    title: "상태",
                     field: "STATUS",
+                    title: "상태",
                     width: 120,
                     template : function(e){
                         var status = "구매청구완료";
