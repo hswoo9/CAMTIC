@@ -341,7 +341,7 @@ var bustList = {
                 }, {
                     title: "입금상태",
                     width: 60,
-                    template : function (e){/** DT_3 */
+                    template : function (e){
                         var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
                         var reStat = e.EXNP_RE_STAT;

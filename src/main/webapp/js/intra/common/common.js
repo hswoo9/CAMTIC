@@ -575,13 +575,27 @@ function exportGrid(e){
     }
 
     for (let i=1; i<sheet.rows.length; i++){
+        let footCk = false;
         const row = sheet.rows[i];
         const dataItem = data[i - 1];
         for (let j=0; j<columnTemplates.length; j++){
+
             const columnTemplate = columnTemplates[j];
-            elem.innerHTML = columnTemplate.template(dataItem);
-            if (row.cells[columnTemplate.cellIndex] != undefined){
-                row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            if(row == null || row.type == null){
+                continue;
+            }if(row.type == "footer"){
+                footCk = true;
+            }else{
+                elem.innerHTML = columnTemplate.template(dataItem);
+                if (row.cells[columnTemplate.cellIndex] != undefined){
+                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+                }
+            }
+        }
+        if(footCk){
+            for (let i=0; i<visibleColumns.length; i++){
+                console.log("row.cells[i]", row.cells[i]);
+                row.cells[i].value = "";
             }
         }
     }

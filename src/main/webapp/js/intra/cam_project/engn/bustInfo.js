@@ -94,26 +94,36 @@ var bustInfo = {
             },
             toolbar : [
                 {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustInfo.fn_checkedReqRegPopup();">' +
                             '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
+            excel : {
+                fileName : "출장 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
             dataBound : function(e){
                 const grid = this;
                 grid.tbody.find("tr").click(function (e) {
                     const dataItem = grid.dataItem($(this));
-                    console.log(dataItem);
 
                     $("#contEtc").val(dataItem.RESULT);
 
@@ -125,9 +135,6 @@ var bustInfo = {
                 });
 
                 bustSum = 0;
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
@@ -141,27 +148,26 @@ var bustInfo = {
                     },
                     width: 30
                 }, {
+                    field: "TRIP_CODE",
                     title: "출장구분",
                     width: 50,
                     template: function(row){
-                        return bustInfo.fn_getTripCodeText(row);
-                    }
-                }, /*{
-                    title: "사업명",
-                    width: 150,
-                    template: function(row){
-                        var busnName = "";
-                        var project = "";
-                        if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
-                            busnName = row.BUSN_NAME;
+                        const tripCode = row.TRIP_CODE;
+                        let tripCodeText = "";
+                        if(tripCode == 1){
+                            tripCodeText = "도내(시내)";
+                        }else if(tripCode == 2){
+                            tripCodeText = "도내(시외)";
+                        }else if(tripCode == 3){
+                            tripCodeText = "도외";
+                        }else if(tripCode == 4){
+                            tripCodeText = "해외";
+                        }else{
+                            tripCodeText = "";
                         }
-
-                        if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
-                            project = "(" + row.PROJECT + ") ";
-                        }
-                        return  $("#pjtNm").val();
+                        return tripCodeText;
                     }
-                },*/ {
+                }, {
                     field: "EMP_NAME",
                     title: "출장자",
                     width: 80,
@@ -189,6 +195,7 @@ var bustInfo = {
                         }
                     }
                 }, {
+                    field: "VISIT_CRM",
                     title: "출장지 (경유지)",
                     template: function(row){
                         if(row.VISIT_LOC_SUB != ""){
@@ -199,12 +206,14 @@ var bustInfo = {
                     },
                     width: 160
                 }, {
+                    field: "TRIP_DAY_FR",
                     title: "출발일시",
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
                     width: 100
                 }, {
+                    field: "TRIP_DAY_TO",
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
@@ -215,7 +224,6 @@ var bustInfo = {
                     title: "차량",
                     width: 80,
                     template : function (e){
-                        console.log(e);
                         if(e.USE_TRSPT == 1){
                             return "카니발";
                         } else if(e.USE_TRSPT == 5){
@@ -239,10 +247,10 @@ var bustInfo = {
                         }
                     }
                 }, {
-                    title : "출장신청",
+                    field: "STATUS",
+                    title: "출장신청",
                     width: 60,
                     template : function (e){
-                        console.log("출장 결재 상태값 ::"+e.STATUS);
                         if(e.ORG_YN == 'N'){
                             /** 국내출장 해외출장 분기 */
                             if(e.TRIP_CODE != "4"){
@@ -275,11 +283,10 @@ var bustInfo = {
                         }
                     }
                 }, {
-                    title : "결과보고",
+                    field: "RS_STATUS",
+                    title: "결과보고",
                     width: 70,
                     template : function (e){
-                        console.log("결과보고 컬럼 console.log");
-                        console.log(e);
                         if(e.ORG_YN == 'N'){
                             /** 국내출장 해외출장 분기 */
                             if(e.TRIP_CODE != "4"){
@@ -345,7 +352,8 @@ var bustInfo = {
                         }
                     }
                 }, {
-                    title : "지급신청",
+                    field: "DOC_STATUS",
+                    title: "지급신청",
                     width: 90,
                     template : function (e){
                         if(e.ORG_YN == 'N'){
@@ -392,47 +400,41 @@ var bustInfo = {
                         }
                     }
                 }, {
+                    field: "EXNP_DOC_STATUS",
                     title: "입금상태",
                     width: 60,
                     template : function (e){
                         var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
+                        var reStat = e.EXNP_RE_STAT;
 
-                        if(e.ORG_YN == 'N'){
-                            if(payExnpDe != undefined && docStatus != 100){
-                                return '입금예정';
-                            }else if(docStatus == 100){
-                                return '입금완료';
-                            }else{
-                                return '-';
-                            }
-                        } else {
+                        if(payExnpDe != undefined && reStat != "Y"){
+                            return '입금예정';
+                        }else if(payExnpDe != undefined && reStat == "Y"){
+                            return '입금완료';
+                        }else{
                             return '-';
                         }
                     },
                     footerTemplate: "출장완료 여비합계"
                 }, {
+                    field: "EXNP_DOC_STATUS",
                     title: "지출일자",
                     width: 60,
                     template : function (e){
                         var payExnpDe = e.PAY_EXNP_DE;
-                        var docStatus = e.EXNP_DOC_STATUS;
-                        var approvalDate = e.APPROVAL_DATE;
+                        var reStat = e.EXNP_RE_STAT;
+                        var dt3 = e.DT3;
 
-                        if(e.ORG_YN == 'N'){
-                            if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
-                                return '-';
-                            }else if(docStatus != 100){
-                                return payExnpDe;
-                            }else{
-                                return approvalDate;
-                            }
-                        } else {
+                        if(payExnpDe != undefined && reStat == "Y" && dt3 != null){
+                            return dt3;
+                        }else{
                             return '-';
                         }
                     }
                 }, {
-                    title : "여비금액",
+                    field: "RES_EXNP_SUM",
+                    title: "여비금액",
                     width: 50,
                     template : function (e){
                         if(e.RS_STATUS == "100"){
@@ -536,9 +538,6 @@ var bustInfo = {
                 }
             }
         });
-
-
-        console.log("출장 정보");
     },
 
     bustripReqPop: function(e, type, d){

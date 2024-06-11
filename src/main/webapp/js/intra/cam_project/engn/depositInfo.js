@@ -44,19 +44,29 @@ var depoInfo = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="depoInfo.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "입금처리 요청서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "GUBUN",
                     title: "구분",
                     width: 180,
                     template: function(e){
@@ -69,6 +79,7 @@ var depoInfo = {
                         return gubun;
                     }
                 }, {
+                    field: "DEPO_STAT",
                     title: "입금여부",
                     width: 120,
                     template: function(e){
@@ -81,10 +92,11 @@ var depoInfo = {
                         return depoStat;
                     }
                 }, {
-                    title: "작성일자",
                     field: "APP_DE",
+                    title: "작성일자",
                     width: 100
                 }, {
+                    field: "DEPO_AMT",
                     title: "공급가액",
                     template : function(e){
                         if(e.TAX_CH_GUBUN == "1"){
@@ -94,6 +106,7 @@ var depoInfo = {
                         }
                     }
                 }, {
+                    field: "DEPO_AMT",
                     title: "세액",
                     template : function(e){
                         if(e.TAX_CH_GUBUN == "1"){
@@ -103,16 +116,19 @@ var depoInfo = {
                         }
                     }
                 }, {
+                    field: "DEPO_AMT",
                     title: "합계",
                     template : function(e){
                         return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
                     }
                 }, {
+                    field: "PAY_INCP_DE",
                     title: "입금예정일",
                     template : function(e){
                         return e.PAY_INCP_DE;
                     }
                 }, {
+                    field: "RE_APP_DE",
                     title: "입금일자",
                     template : function(e){
                         if(e.RE_APP_DE != null && e.RE_APP_DE != "" && e.RE_APP_DE != undefined){
@@ -122,6 +138,7 @@ var depoInfo = {
                         }
                     }
                 }, {
+                    field: "TOT_DET_AMT",
                     title: "입금액",
                     template : function(e){
                         var totAmt = 0;
@@ -140,6 +157,7 @@ var depoInfo = {
                         return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
                     }
                 }, {
+                    field: "RE_TOT_COST",
                     title: "잔액",
                     template : function(e){
                         var totAmt = 0;
@@ -158,6 +176,7 @@ var depoInfo = {
                         return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "상태",
                     width: 100,
                     template: function(e){
