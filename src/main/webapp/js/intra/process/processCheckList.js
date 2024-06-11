@@ -80,6 +80,9 @@ var pcList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="pcList.gridReload()">' +
@@ -88,6 +91,11 @@ var pcList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "승인함 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
@@ -104,9 +112,10 @@ var pcList = {
                     field: "SND_EMP_NAME",
                     title: "요청자",
                 }, {
-                    title: "요청일시",
-                    field: "REG_DT_F"
+                    field: "REG_DT_F",
+                    title: "요청일시"
                 }, {
+                    field: "PS_STAT",
                     title: "승인",
                     width: 100,
                     template: function(e){

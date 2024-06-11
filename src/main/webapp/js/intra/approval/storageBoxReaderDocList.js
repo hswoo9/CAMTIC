@@ -52,17 +52,20 @@ var storageBoxReader = {
             },
             toolbar : [
                 {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxReader.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxReader.setBatchReading()">' +
                             '	<span class="k-button-text">일괄열람</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxReader.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
@@ -71,6 +74,7 @@ var storageBoxReader = {
                 fileName : "열람문서 목록.xlsx",
                 filterable : true
             },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -130,6 +134,7 @@ var storageBoxReader = {
                     },
                     width : 200
                 }, {
+                    field : "DOC_TITLE",
                     title : "문서제목",
                     template : function (e){
                         var securityIcon = '';
@@ -195,7 +200,8 @@ var storageBoxReader = {
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
-                }]
+                }
+            ]
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
