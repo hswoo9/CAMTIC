@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="docView">
+
+    <select id="getCardLossList" parameterType="map" resultType="map">
+        /*getCardLossList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_CARD_LOSS A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getCardManager" parameterType="map" resultType="map">
+        /*getCardManager*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_MANAGER
+        WHERE
+            REPLACE(CARD_BA_NB, '-', '') = #{cardBaNb}
+    </select>
+
+    <insert id="insertCardLoss" parameterType="map">
+        /*insertCardLoss*/
+        INSERT INTO CAM_INSIDE.DJ_TP_CARD_LOSS
+        (
+            EMP_NM,
+            EMP_SEQ,
+            DEPT_SEQ,
+            DEPT_NAME,
+            CARD_NO,
+            CARD_MST,
+            CL_DE,
+            CL_LOC,
+            CL_ISS
+        )
+        VALUES
+        (
+            #{empName},
+            #{empSeq},
+            #{deptSeq},
+            #{deptName},
+            #{cardNo},
+            #{cardMst},
+            #{clDe},
+            #{clLoc},
+            #{clIss}
+        )
+
+        <selectKey keyProperty="tpClSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_CARD_LOSS'
+        </selectKey>
+    </insert>
+
+    <update id="updateCardLoss" parameterType="map">
+        /*updateCardLoss*/
+        UPDATE CAM_INSIDE.DJ_TP_CARD_LOSS
+        SET
+            EMP_NM = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            CARD_NO = #{cardNo},
+            CARD_MST = #{cardMst},
+            CL_DE = #{clDe},
+            CL_LOC = #{clLoc},
+            CL_ISS = #{clIss}
+        WHERE
+            TP_CL_SN = #{tpClSn}
+    </update>
+
+    <select id="getCardLossData" parameterType="map" resultType="map">
+        /*getCardLossData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_CARD_LOSS
+        WHERE
+            TP_CL_SN = #{tpClSn}
+    </select>
+
+    <delete id="delCardLossData" parameterType="map">
+        /*delCardLossData*/
+        DELETE FROM CAM_INSIDE.DJ_TP_CARD_LOSS
+        WHERE
+            TP_CL_SN = #{tpClSn}
+    </delete>
+
+    <select id="getAccCertList" parameterType="map" resultType="map">
+        /*getAccCertList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_ACC_CERT A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <insert id="insertAccCert" parameterType="map">
+        /*insertAccCert*/
+        INSERT INTO CAM_INSIDE.DJ_TP_ACC_CERT
+        (
+            EMP_NAME,
+            EMP_SEQ,
+            DEPT_SEQ,
+            DEPT_NAME,
+            ACC_CERT_TYPE,
+            ACC_CERT_USE,
+            STR_DE,
+            END_DE
+        )
+        VALUES
+        (
+            #{empName},
+            #{empSeq},
+            #{deptSeq},
+            #{deptName},
+            #{accCertType},
+            #{accCertUse},
+            #{strDe},
+            #{endDe}
+        )
+
+        <selectKey keyProperty="accCertSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_ACC_CERT'
+        </selectKey>
+    </insert>
+
+    <update id="updateAccCert" parameterType="map">
+        /*updateAccCert*/
+        UPDATE CAM_INSIDE.DJ_TP_ACC_CERT
+        SET
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            ACC_CERT_TYPE = #{accCertType},
+            ACC_CERT_USE = #{accCertUse},
+            STR_DE = #{strDe},
+            END_DE = #{endDe}
+        WHERE
+            ACC_CERT_SN = #{accCertSn}
+    </update>
+
+    <select id="getAccCertData" parameterType="map" resultType="map">
+        /*getAccCertData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_ACC_CERT
+        WHERE
+            ACC_CERT_SN = #{accCertSn}
+    </select>
+
+    <delete id="delAccCertData" parameterType="map">
+        /*delAccCertData*/
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_TP_ACC_CERT
+        WHERE
+            ACC_CERT_SN = #{accCertSn}
+    </delete>
+</mapper>
