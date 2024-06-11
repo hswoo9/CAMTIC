@@ -164,19 +164,51 @@
                     title: "1차 평가자",
                     width: 100,
                     field: "T1",
-                    template: function (row){
-                        return '<a href="javascript:void(0);" onclick="userSearch(\''+row.EMP_SEQ+'\', 1);" >' +
-                            '<span id="t1_'+row.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + row.T1 + '</span>' +
-                            '</a>';
+                    template: function(e){
+                        var t1NameValue = '';
+
+                        var checkEmpSeq = window.opener.empSeqArr.find(function(item) {
+                            return parseInt(item.empSeq, 10) === parseInt(e.EMP_SEQ, 10);
+                        });
+
+                        if (checkEmpSeq) {
+                            t1NameValue = checkEmpSeq.t1Name;
+                        }
+
+                        if(checkEmpSeq) {
+                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 1);" >' +
+                                '<span id="t1_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + t1NameValue + '</span>' +
+                                '</a>';
+                        } else {
+                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 1);" >' +
+                                '<span id="t1_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + e.T1 + '</span>' +
+                                '</a>';
+                        }
                     }
                 }, {
                     title: "2차 평가자",
                     width: 100,
                     field: "T2",
-                    template: function (row){
-                        return '<a href="javascript:void(0);" onclick="userSearch(\''+row.EMP_SEQ+'\', 2);" >' +
-                            '<span id="t2_'+row.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + row.T2 + '</span>' +
-                            '</a>';
+                    template: function(e){
+                        var t2NameValue = '';
+
+                        var checkEmpSeq = window.opener.empSeqArr.find(function(item) {
+                            return parseInt(item.empSeq, 10) === parseInt(e.EMP_SEQ, 10);
+                        });
+
+                        if (checkEmpSeq) {
+                            t2NameValue = checkEmpSeq.t2Name;
+                        }
+
+                        if(checkEmpSeq) {
+                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 2);" >' +
+                                '<span id="t2_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + t2NameValue + '</span>' +
+                                '</a>';
+                        } else {
+                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 2);" >' +
+                                '<span id="t2_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + e.T2 + '</span>' +
+                                '</a>';
+                        }
                     }
                 }, {
                     title: "직군",
@@ -212,16 +244,32 @@
                     title: "비고",
                     width: 150,
                     template: function(e){
-                        if(e.RMK != null) {
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + e.RMK + '" style="width: 100%">' +
-                                '<input type="hidden" id="t1seq'+e.EMP_SEQ+'" value="' + e.T1_SEQ + '">' +
-                                '<input type="hidden" id="t2seq'+e.EMP_SEQ+'" value="' + e.T2_SEQ + '">';
-                        }else{
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value=""  style="width: 100%">' +
+                        var rmkValue = '';
+                        var t1SeqValue = '';
+                        var t2SeqValue = '';
+
+                        var checkEmpSeq = window.opener.empSeqArr.find(function(item) {
+                            return parseInt(item.empSeq, 10) === parseInt(e.EMP_SEQ, 10);
+                        });
+
+                        if (checkEmpSeq) {
+                            rmkValue = checkEmpSeq.rmk;
+                            t1SeqValue = checkEmpSeq.t1seq
+                            t2SeqValue = checkEmpSeq.t2seq
+                        }
+
+                        if(checkEmpSeq || e.RMK != null) {
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + (rmkValue || e.RMK) + '" style="width: 100%">' +
+                                '<input type="hidden" id="t1seq'+e.EMP_SEQ+'"  value="' + (t1SeqValue || e.T1_SEQ) + '">' +
+                                '<input type="hidden" id="t2seq'+e.EMP_SEQ+'"  value="' + (t2SeqValue || e.T2_SEQ) + '">';
+                        } else {
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value=" "  style="width: 100%">' +
                                 '<input type="hidden" id="t1seq'+e.EMP_SEQ+'"  value="' + e.T1_SEQ + '">' +
                                 '<input type="hidden" id="t2seq'+e.EMP_SEQ+'"  value="' + e.T2_SEQ + '">';
                         }
                     },
+
+
                 }
             ]
         }).data("kendoGrid");

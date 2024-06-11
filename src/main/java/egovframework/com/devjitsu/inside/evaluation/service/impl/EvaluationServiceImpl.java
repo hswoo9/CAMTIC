@@ -196,7 +196,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         if(params.get("evalSn") != null && !params.get("evalSn").equals("")){
             evaluationRepository.updReqEvaluation(params);
         }else{
-            evaluationRepository.insEvaluation(params);
+            evaluationRepository.insReqEvaluation(params);
         }
 
         if(params.containsKey("empSeqArr")){
