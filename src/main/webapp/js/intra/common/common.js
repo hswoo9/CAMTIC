@@ -552,3 +552,37 @@ function fn_busnCdSet(pjtSn, pjtCd){
         return "1000";
     }
 }
+
+/** 켄도그리드 엑셀다운 (다운받을 컬럼은 field 값이 있어야 함) */
+function exportGrid(e){
+    const data = e.data;
+    const columns = e.sender.columns;
+    const sheet = e.workbook.sheets[0];
+    const visibleColumns = new Array();
+    const columnTemplates = new Array();
+    const elem = document.createElement("div");
+
+    for (let i=0; i<columns.length; i++){
+        if (!columns[i].hidden && columns[i].field){
+            visibleColumns.push(columns[i]);
+        }
+    }
+
+    for (let i=0; i<visibleColumns.length; i++){
+        if (visibleColumns[i].template){
+            columnTemplates.push({ cellIndex: i, template: kendo.template(visibleColumns[i].template) });
+        }
+    }
+
+    for (let i=1; i<sheet.rows.length; i++){
+        const row = sheet.rows[i];
+        const dataItem = data[i - 1];
+        for (let j=0; j<columnTemplates.length; j++){
+            const columnTemplate = columnTemplates[j];
+            elem.innerHTML = columnTemplate.template(dataItem);
+            if (row.cells[columnTemplate.cellIndex] != undefined){
+                row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+        }
+    }
+}

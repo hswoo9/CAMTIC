@@ -104,6 +104,9 @@ var lectList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.gridReload()">' +
@@ -113,6 +116,11 @@ var lectList = {
                 }
 
             ],
+            excel : {
+                fileName : "교육단위사업 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -134,42 +142,49 @@ var lectList = {
                     field: "LEC_TITLE_BS",
                     title: "강좌명(사업명)"
                 }, {
+                    field: "LEC_STR_DE",
                     title: "교육기간",
                     width: "15%",
                     template: function(e){
                         return e.LEC_STR_DE + "~" + e.LEC_END_DE;
                     }
                 }, {
+                    field: "RECR_MEM_CNT",
                     title: "정원",
                     width: "3%",
                     template: function(e){
                         return e.RECR_MEM_CNT+"명";
                     }
                 }, {
+                    field: "TOT_B",
                     title: "신청",
                     width: "3%",
                     template: function(e){
                         return e.TOT_B+"명";
                     }
                 }, {
+                    field: "TOT_C",
                     title: "대기",
                     width: "3%",
                     template: function(e){
                         return e.TOT_C+"명";
                     }
                 }, {
+                    field: "TOT_D",
                     title: "접수",
                     width: "3%",
                     template: function(e){
                         return e.TOT_D+"명";
                     }
                 }, {
+                    field: "TOT_E",
                     title: "취소",
                     width: "3%",
                     template: function(e){
                         return e.TOT_E+"명";
                     }
                 }, {
+                    field: "TOT_F",
                     title: "수료",
                     width: "3%",
                     template: function(e){
@@ -323,6 +338,9 @@ var lectList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.unitGridReload()">' +
@@ -332,6 +350,11 @@ var lectList = {
                 }
 
             ],
+            excel : {
+                fileName : "단위사업 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -345,18 +368,21 @@ var lectList = {
                     title: "단위사업명",
                     width: "15%"
                 }, {
+                    field: "STR_DT",
                     title: "기간",
                     width: "10%",
                     template: function(e){
                         return e.STR_DT + "~" + e.END_DT;
                     }
                 }, {
+                    field: "UNIT_OBJ",
                     title: "사업목적",
                     width: "20%",
                     template: function(e){
                         return e.UNIT_OBJ;
                     }
                 }, {
+                    field: "CRM_CNT",
                     title: "업체 수",
                     width: "5%",
                     template: function(e){
@@ -421,6 +447,9 @@ var lectList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.consultingGridReload()">' +
@@ -430,6 +459,11 @@ var lectList = {
                 }
 
             ],
+            excel : {
+                fileName : "컨설팅단위사업 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -451,6 +485,7 @@ var lectList = {
                     field: "CON_TITLE_PR",
                     title: "과제명"
                 }, {
+                    field: "CON_STR_DE",
                     title: "협약기간",
                     width: "15%",
                     template: function(e){
