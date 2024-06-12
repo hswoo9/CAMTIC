@@ -1999,6 +1999,7 @@
         <if test="JOB_DETAIL != null">
             JOB_DETAIL = #{JOB_DETAIL},
         </if>
+        BEFOR_CAREER = #{BEFOR_CAREER},
         ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
         <if test="BANK_NAME != null">
         BANK_NAME = #{BANK_NAME},

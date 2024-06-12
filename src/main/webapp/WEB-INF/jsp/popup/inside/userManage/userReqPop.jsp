@@ -223,10 +223,10 @@
                     <th>전직경력</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" > 개월
+                            <input type="text" id="beforCareer" maxlength="4" onKeyup="this.value=this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 15%;text-align: right" > 개월
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BEFOR_CAREER}"> 개월
+                            <input type="text" id="beforCareer" maxlength="4" onKeyup="this.value=this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 15%;text-align: right" value="${uprinfList.BEFOR_CAREER}"> 개월
                         </c:if>
                     </td>
                     <th>경과년차</th>
