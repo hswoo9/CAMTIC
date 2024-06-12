@@ -33,6 +33,7 @@
 
 <input type="hidden" id="reqType" value="${params.reqType}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
+<input type="hidden" id="payRollYm" value="${params.payRollYm}" />
 <input type="hidden" id="docStatus" value=""/>
 <input type="hidden" id="g20BudgetAmt" value="" />
 

@@ -72,11 +72,19 @@ var budgetList = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
+            excel : {
+                fileName : "예산현황 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetList.gridReload()">' +
@@ -91,10 +99,11 @@ var budgetList = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title : "코드",
                     field : "pjtSeq",
+                    title : "코드",
                     width: 150
                 }, {
+                    field : "pjtName",
                     title : "프로젝트 명",
                     width: 500,
                     template:function (e){

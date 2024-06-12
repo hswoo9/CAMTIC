@@ -107,13 +107,20 @@ var exnpList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "지출결의서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
                 }, {
+                    field: "EVI_TYPE",
                     title: "문서유형",
                     width: 70,
                     template: function(e){
@@ -136,50 +143,50 @@ var exnpList = {
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "적요",
                     field: "EXNP_BRIEFS",
+                    title: "적요",
                     width: 200,
                     template: function(e){
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
                     field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: 180,
                     template: function (e){
                         return e.PJT_NM;
                     }
                 }, {
-                    title: "세출과목",
                     field: "BUDGET_NM_EX",
+                    title: "세출과목",
                     width: 160
                 }, {
-                    title: "작성자",
                     field: "REG_EMP_NAME",
+                    title: "작성자",
                     width: 60
                 }, {
+                    field: "REG_DT",
                     title: "신청일",
                     width: 70,
-                    field: "REG_DT",
                     template: function(e){
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
+                    field: "EXNP_DE",
                     title: "결의일자",
-                    width: 70,
-                    field: "EXNP_DE"
+                    width: 70
                 }, {
+                    field: "REQ_DE",
                     title: "지출요청일",
-                    width: 70,
-                    field: "REQ_DE"
+                    width: 70
                 }, {
+                    field: "PAY_EXNP_DE",
                     title: "지출예정일",
-                    width: 70,
-                    field: "PAY_EXNP_DE"
+                    width: 70
                 }, {
+                    field: "REQ_END_DE",
                     title: "지출완료일",
                     width: 70,
-                    field: "REQ_END_DE",
                     template: function(e){
                         if(e.RE_STAT == "Y"){
                             return e.REQ_END_DE;
@@ -188,6 +195,7 @@ var exnpList = {
                         }
                     }
                 }, {
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 70,
                     template: function(e){
@@ -199,6 +207,7 @@ var exnpList = {
                         }
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "결의상태",
                     width: 60,
                     template: function(e){
@@ -214,6 +223,7 @@ var exnpList = {
                         return status;
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "승인상태",
                     width: 60,
                     template: function(e){

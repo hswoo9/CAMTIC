@@ -439,7 +439,7 @@
         WHERE PAD.PAY_APP_SN = #{payAppSn}
         GROUP BY BUDGET_SN, TR_CD, CRM_NM, CRM_ACC_HOLDER, CRM_ACC_NO, REASON
         <![CDATA[
-        HAVING TOT_COST > 0
+        HAVING SUM(TOT_COST) > 0
         ]]>
     </select>
 
@@ -2516,7 +2516,7 @@
         (
             SELECT
                 *,
-                ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD ORDER BY FILE_NO DESC) AS row_num
+                ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num
             FROM
                 CAM_COMMON.DJ_FILE_INFO
             WHERE

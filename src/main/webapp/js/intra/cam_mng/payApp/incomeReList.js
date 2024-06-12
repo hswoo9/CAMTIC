@@ -60,22 +60,31 @@ var incomeReList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="incomeReList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "수입반제결의 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "RE_APP_DE",
                     title: "결의일자",
                     width: 80,
-                    field: "RE_APP_DE",
                     template: function(e){
                         if(e.RE_APP_DE == '' || e.RE_APP_DE == null){
                             return e.APP_DE;
@@ -84,30 +93,31 @@ var incomeReList = {
                         }
                     }
                 }, {
-                    title: "적요",
                     field: "APP_CONT",
+                    title: "적요",
                     width: 280,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.PAY_INCP_SN+', '+e.PAY_INCP_RE_SN+');">'+e.APP_CONT+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
                     field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: 200,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
                     }
                 }, {
-                    title: "세출과목",
                     field: "BUDGET_NM",
+                    title: "세출과목",
                     width: 170,
                 }, {
-                    title: "작성자",
                     field: "EMP_NAME",
+                    title: "작성자",
                     width: 80,
                 }, {
+                    field: "TOT_COST",
                     title: "입금금액",
                     width: 100,
                     template: function(e){
@@ -123,6 +133,7 @@ var incomeReList = {
                         // }
                     }
                 }, {
+                    field: "PAY_INCP_RE_SN",
                     title: "상태",
                     width: 60,
                     template : function(e){

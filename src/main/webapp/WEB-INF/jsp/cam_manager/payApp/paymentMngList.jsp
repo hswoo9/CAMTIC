@@ -48,7 +48,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">지급신청서 (관리자)</h4>
-            <div class="title-road">캠매니저 > 지출관리 &gt; 지급신청서 (관리자)</div>
+            <div class="title-road">캠매니저 > 지출관리 &gt; 지급신청서(관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

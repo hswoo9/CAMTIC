@@ -84,9 +84,9 @@ var storageBoxReader = {
                     width: '3%',
                     template : "<input type='checkbox' id='docId#=DOC_ID#' name='docId' value='#=DOC_ID#' class='k-checkbox checkbox'/>"
                 }, {
-                    field : "FORM_NAME",
-                    title : "문서종류",
-                    width : 200,
+                    field: "FORM_NAME",
+                    title: "문서종류",
+                    width: 200,
                     template : function(e){
                         if(e.DOC_MENU_CD == "rndDelv"){
                             return "수주보고_R&D";

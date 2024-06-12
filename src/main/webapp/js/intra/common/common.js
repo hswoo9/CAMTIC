@@ -594,7 +594,6 @@ function exportGrid(e){
         }
         if(footCk){
             for (let i=0; i<visibleColumns.length; i++){
-                console.log("row.cells[i]", row.cells[i]);
                 row.cells[i].value = "";
             }
         }

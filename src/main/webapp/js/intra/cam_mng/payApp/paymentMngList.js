@@ -127,6 +127,9 @@ var paymentMngList = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentMngList.gridReload()">' +
@@ -135,6 +138,11 @@ var paymentMngList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "지급신청서(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound: paymentMngList.onDataBound,
             columns: [
                 {
@@ -152,6 +160,7 @@ var paymentMngList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "PAY_APP_TYPE",
                     title: "문서유형",
                     width: 90,
                     template: function(e){
@@ -170,8 +179,8 @@ var paymentMngList = {
                     title: "문서번호",
                     width: 150,
                 }, {
-                    title: "신청건명",
                     field: "APP_TITLE",
+                    title: "신청건명",
                     width: 280,
                     template: function(e){
                         var status = "";
@@ -192,29 +201,29 @@ var paymentMngList = {
                         }
                     }
                 }, {
-                    title: "프로젝트 명",
                     field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: 240,
                     template: function(e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm;
                     }
                 }, {
+                    field: "EMP_NAME",
                     title: "신청자",
-                    width: 80,
-                    field: "EMP_NAME"
+                    width: 80
                 }, {
+                    field: "APP_DE",
                     title: "신청일",
                     width: 80,
-                    field: "APP_DE",
                     template: function(e){
 
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
+                    field: "REQ_DE",
                     title: "지출요청일",
                     width: 82,
-                    field: "REQ_DE",
                     template : function(e){
                         if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
                             return '<a href="javascript:alert(\''+e.EXNP_ISS+'\')" style="font-weight: bold">'+e.REQ_DE+'</a>';
@@ -223,13 +232,13 @@ var paymentMngList = {
                         }
                     }
                 }, {
+                    field: "PAY_EXNP_DE",
                     title: "지출예정일",
-                    width: 80,
-                    field: "PAY_EXNP_DE"
+                    width: 80
                 }, {
+                    field: "REQ_END_DE",
                     title: "지출완료일",
                     width: 80,
-                    field: "REQ_END_DE",
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
                             if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
@@ -244,7 +253,8 @@ var paymentMngList = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>합계</div>";
                     }
-                },{
+                }, {
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 110,
                     template: function(e){
@@ -260,6 +270,7 @@ var paymentMngList = {
                         return "<div style='text-align: right'>"+comma(amtSum)+"</div>";
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "상태",
                     width: 70,
                     template : function(e){

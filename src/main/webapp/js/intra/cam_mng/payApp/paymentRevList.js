@@ -73,19 +73,29 @@ var paymentRevList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentRevList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "신청서검토 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
                 }, {
+                    field: "PAY_APP_TYPE",
                     title: "문서유형",
                     width: 100,
                     template: function(e){
@@ -104,8 +114,8 @@ var paymentRevList = {
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "신청건명",
                     field: "APP_TITLE",
+                    title: "신청건명",
                     width: 330,
                     template: function(e){
                         var type = "rev";
@@ -120,33 +130,34 @@ var paymentRevList = {
                         return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+type+'\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
                     field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: 240,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return e.PJT_NM;
                     }
                 }, {
+                    field: "EMP_NAME",
                     title: "신청자",
-                    width: 80,
-                    field: "EMP_NAME"
+                    width: 80
                 }, {
+                    field: "REG_DT",
                     title: "신청일",
                     width: 80,
-                    field: "REG_DT",
                     template: function(e){
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
+                    field: "REQ_DE",
                     title: "지출요청일",
-                    width: 80,
-                    field: "REQ_DE"
+                    width: 80
                 }, {
+                    field: "PAY_EXNP_DE",
                     title: "지출예정일",
-                    width: 80,
-                    field: "PAY_EXNP_DE"
+                    width: 80
                 }, {
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 100,
                     template: function(e){

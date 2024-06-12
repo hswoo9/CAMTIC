@@ -50,4 +50,8 @@ public class EmployRepository extends AbstractDAO {
     public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
         return selectList("employM.getDeptList", params);
     }
+
+    public List<Map<String, Object>> getPartRateEmpPayrollList(Map<String, Object> params) {
+        return selectList("employM.getPartRateEmpPayrollList", params);
+    }
 }

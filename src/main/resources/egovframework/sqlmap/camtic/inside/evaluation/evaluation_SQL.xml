@@ -295,6 +295,35 @@
             EVAL_SN = #{evalSn}
     </update>
 
+    <insert id="insReqEvaluation" parameterType="map">
+        /*insReqEvaluation*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION
+        (
+        BS_YEAR,
+        EVAL_NUM,
+        EVAL_STAT,
+        EVAL_PER_CONTNET,
+        EVAL_COM_PER,
+        EVAL_ACH_PER,
+        MOD_EMP_SEQ
+        )
+        VALUES
+        (
+        #{bsYear},
+        #{evalNum},
+        #{evalStat},
+        #{perContnet},
+        #{evalComPer},
+        #{evalAhcPer},
+        #{regEmpSeq}
+        )
+
+        <selectKey keyProperty="evalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION'
+        </selectKey>
+    </insert>
+
+
     <update id="updReqEvaluation" parameterType="map">
         /*updReqEvaluation*/
         UPDATE
