@@ -317,4 +317,8 @@ public class PurcRepository extends AbstractDAO {
     public List<Map<String, Object>> getMngPurcAppListExcel(Map<String, Object> params) {
         return selectList("purc.getMngPurcAppListExcel", params);
     }
+
+    public void updClaimInspectStat(Map<String, Object> params) {
+        update("purc.updClaimInspectStat", params);
+    }
 }

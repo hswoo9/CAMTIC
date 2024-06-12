@@ -80,70 +80,140 @@ var pri = {
     },
     
     purcDataSet : function(){
-        if($("#purcSn").val() == ""){ return; }
+        if($("#purcSn").val() == ""){
+            if($("#claimSn").val() != ""){
+                pri.global.searchAjaxData = {
+                    claimSn : $("#claimSn").val()
+                }
 
-        pri.global.searchAjaxData = {
-            purcSn : $("#purcSn").val()
+                var result = customKendo.fn_customAjax("/purc/getPurcClaimData.do", pri.global.searchAjaxData);
+
+                console.log(result);
+                var data = result.data;
+                $("#docNo").text(data.DOC_NO);
+                $("#purcReqDate").text(data.PURC_REQ_DATE);
+                $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
+                $("#purcReqEmpName").text(data.EMP_NAME_KR);
+                $("#purcReqDeptSeq").val(data.DEPT_SEQ);
+                $("#purcReqDeptName").text(data.DEPT_NAME);
+                $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
+                $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+                $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
+
+                if($("#mode").val() == "mng"){
+                    $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
+                    $("#file1Label").hide();
+                }else{
+                    if(data.INSPECT_DT != null){
+                        $("#inspectDt").val(data.INSPECT_DT);
+                    }
+                }
+
+                if($("input[name='purcType']:checked").val() != ""){
+                    $("#project").css("display", "");
+                    $("#pjtSn").val(data.PJT_SN);
+                    $("#pjtNm").val(data.PJT_NM);
+                } else {
+                    $("#project").css("display", "none");
+                }
+
+                console.log(data.inspectFile);
+                if(data.PAYMENT_METHOD == "C"){
+                    if(data.purcFile != null){
+                        console.log(data.purcFile)
+
+                        for(var i = 0; i < data.purcFile.length; i++){
+                            pri.global.fileArray.push(data.purcFile[i]);
+                        }
+                        pri.settingTempFileDataInit(data.purcFile);
+                    }
+                } else {
+                    if(data.inspectFile != undefined){
+                        if(data.inspectFile.length != 0){
+                            for(var i = 0; i < data.inspectFile.length; i++){
+                                pri.global.fileArray.push(data.inspectFile[i]);
+                            }
+                            pri.settingTempFileDataInit(data.inspectFile);
+                        }
+                    }
+                }
+
+
+                if(data.INSPECT_STATUS == "100"){
+                    // $("#saveBtn").hide();
+                    $("#inspectBtn").hide();
+                }
+
+                pri.purcItemDataSet(data);
+            } else {
+                return;
+            }
+        } else {
+            pri.global.searchAjaxData = {
+                purcSn : $("#purcSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/purc/getPurcReq.do", pri.global.searchAjaxData);
+            if(result.flag){
+                console.log(result);
+                var data = result.data;
+                $("#docNo").text(data.DOC_NO);
+                $("#purcReqDate").text(data.PURC_REQ_DATE);
+                $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
+                $("#purcReqEmpName").text(data.EMP_NAME_KR);
+                $("#purcReqDeptSeq").val(data.DEPT_SEQ);
+                $("#purcReqDeptName").text(data.DEPT_NAME);
+                $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
+                $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+                $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
+
+                if($("#mode").val() == "mng"){
+                    $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
+                    $("#file1Label").hide();
+                }else{
+                    if(data.INSPECT_DT != null){
+                        $("#inspectDt").val(data.INSPECT_DT);
+                    }
+                }
+
+                if($("input[name='purcType']:checked").val() != ""){
+                    $("#project").css("display", "");
+                    $("#pjtSn").val(data.PJT_SN);
+                    $("#pjtNm").val(data.PJT_NM);
+                } else {
+                    $("#project").css("display", "none");
+                }
+
+                console.log(data.inspectFile);
+                if(data.PAYMENT_METHOD == "C"){
+                    if(data.purcFile != null){
+                        console.log(data.purcFile)
+
+                        for(var i = 0; i < data.purcFile.length; i++){
+                            pri.global.fileArray.push(data.purcFile[i]);
+                        }
+                        pri.settingTempFileDataInit(data.purcFile);
+                    }
+                } else {
+                    if(data.inspectFile.length != 0){
+                        for(var i = 0; i < data.inspectFile.length; i++){
+                            pri.global.fileArray.push(data.inspectFile[i]);
+                        }
+                        pri.settingTempFileDataInit(data.inspectFile);
+                    }
+                }
+
+
+                if(data.INSPECT_STATUS == "100"){
+                    // $("#saveBtn").hide();
+                    $("#inspectBtn").hide();
+                }
+
+                pri.purcItemDataSet(data);
+            }
         }
 
-        var result = customKendo.fn_customAjax("/purc/getPurcReq.do", pri.global.searchAjaxData);
-        if(result.flag){
-            console.log(result);
-            var data = result.data;
-            $("#docNo").text(data.DOC_NO);
-            $("#purcReqDate").text(data.PURC_REQ_DATE);
-            $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
-            $("#purcReqEmpName").text(data.EMP_NAME_KR);
-            $("#purcReqDeptSeq").val(data.DEPT_SEQ);
-            $("#purcReqDeptName").text(data.DEPT_NAME);
-            $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
-            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-            $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
 
-            if($("#mode").val() == "mng"){
-                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
-                $("#file1Label").hide();
-            }else{
-                if(data.INSPECT_DT != null){
-                    $("#inspectDt").val(data.INSPECT_DT);
-                }
-            }
-
-            if($("input[name='purcType']:checked").val() != ""){
-                $("#project").css("display", "");
-                $("#pjtSn").val(data.PJT_SN);
-                $("#pjtNm").val(data.PJT_NM);
-            } else {
-                $("#project").css("display", "none");
-            }
-
-            console.log(data.inspectFile);
-            if(data.PAYMENT_METHOD == "C"){
-                if(data.purcFile != null){
-                    console.log(data.purcFile)
-
-                    for(var i = 0; i < data.purcFile.length; i++){
-                        pri.global.fileArray.push(data.purcFile[i]);
-                    }
-                    pri.settingTempFileDataInit(data.purcFile);
-                }
-            } else {
-                if(data.inspectFile.length != 0){
-                    for(var i = 0; i < data.inspectFile.length; i++){
-                        pri.global.fileArray.push(data.inspectFile[i]);
-                    }
-                    pri.settingTempFileDataInit(data.inspectFile);
-                }
-            }
-
-
-            if(data.INSPECT_STATUS == "100"){
-                // $("#saveBtn").hide();
-                $("#inspectBtn").hide();
-            }
-
-            pri.purcItemDataSet(data);
-        }
     },
 
     purcItemDataSet: function(e){
@@ -172,12 +242,12 @@ var pri = {
                     }
                 }
             }
-            $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME);
-            $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD);
-            $("#item" + i).find("#purcItemUnitPrice" + i).val(comma(e[i].PURC_ITEM_UNIT_PRICE));
-            $("#item" + i).find("#purcItemQty" + i).val(e[i].PURC_ITEM_QTY);
-            $("#item" + i).find("#purcItemUnit" + i).val(e[i].PURC_ITEM_UNIT);
-            $("#item" + i).find("#purcItemAmt" + i).val(comma(e[i].PURC_ITEM_AMT));
+            $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME || e[i].ITEM_NM);
+            $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD || e[i].ITEM_STD);
+            $("#item" + i).find("#purcItemUnitPrice" + i).val(comma(e[i].PURC_ITEM_UNIT_PRICE || e[i].ITEM_UNIT_AMT));
+            $("#item" + i).find("#purcItemQty" + i).val(e[i].PURC_ITEM_QTY || e[i].ITEM_STD);
+            $("#item" + i).find("#purcItemUnit" + i).val(e[i].PURC_ITEM_UNIT || e[i].ITEM_UNIT);
+            $("#item" + i).find("#purcItemAmt" + i).val(comma(e[i].PURC_ITEM_AMT || e[i].ITEM_AMT));
             $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
             $("#item" + i).find("#crmNm" + i).val(e[i].CRM_NM);
             $("#item" + i).find("#rmk" + i).val(e[i].CERT_CONTENT);
@@ -186,7 +256,7 @@ var pri = {
                 $("#item" + i).find("#itemStatus" + i).append("<div style='margin-left:9px; color:red'>반려</div>");
                 $("#item" + i).find("#check" + i).css("display", "none");
             } else {
-                totalPay += Number(e[i].PURC_ITEM_AMT);
+                totalPay += Number(e[i].PURC_ITEM_AMT || e[i].ITEM_AMT);
             }
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
 
@@ -388,7 +458,11 @@ var pri = {
 
     setInspectApp : function(status){
         var formData = new FormData()
-        formData.append("purcSn", $("#purcSn").val())
+        if($("#purcSn").val() != ""){
+            formData.append("purcSn", $("#purcSn").val())
+        } else {
+            formData.append("claimSn", $("#claimSn").val())
+        }
         formData.append("status", "100");
 
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspectStat.do", formData);

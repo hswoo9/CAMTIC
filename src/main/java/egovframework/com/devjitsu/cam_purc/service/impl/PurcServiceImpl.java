@@ -656,17 +656,21 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public void updPurcInspectStat(Map<String, Object> params) {
-        purcRepository.updPurcInspectStat(params);
+        if(params.containsKey("purcSn")){
+            purcRepository.updPurcInspectStat(params);
 
-        List<Map<String, Object>> insList = purcRepository.getInsYList(params);
+            List<Map<String, Object>> insList = purcRepository.getInsYList(params);
 
-        for(Map<String, Object> map : insList){
-            if(map.get("PRODUCT_A").equals("3")){
+            for(Map<String, Object> map : insList){
+                if(map.get("PRODUCT_A").equals("3")){
 //                purcRepository.insItemMaster(map);
-                purcRepository.insItemWhInfo(map);
+                    purcRepository.insItemWhInfo(map);
 
-                purcRepository.insItemMasterHist(map);
+                    purcRepository.insItemMasterHist(map);
+                }
             }
+        } else {
+            purcRepository.updClaimInspectStat(params);
         }
     }
 

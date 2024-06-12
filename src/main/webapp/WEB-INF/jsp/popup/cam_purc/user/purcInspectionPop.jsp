@@ -14,6 +14,7 @@
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
 <input type="hidden" id="mode" value="${params.mode}" />
 <input type="hidden" id="busnClass" value="${pjtData.BUSN_CLASS}" />
+<input type="hidden" id="claimSn" value="${params.claimSn}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
