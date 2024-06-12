@@ -2516,7 +2516,7 @@
         (
             SELECT
                 *,
-                ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD ORDER BY FILE_NO DESC) AS row_num
+                ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num
             FROM
                 CAM_COMMON.DJ_FILE_INFO
             WHERE
