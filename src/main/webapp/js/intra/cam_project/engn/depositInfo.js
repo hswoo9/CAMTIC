@@ -79,19 +79,6 @@ var depoInfo = {
                         return gubun;
                     }
                 }, {
-                    field: "DEPO_STAT",
-                    title: "입금여부",
-                    width: 120,
-                    template: function(e){
-                        var depoStat = "";
-                        if(e.DEPO_STAT == "1"){
-                            depoStat = "미입금";
-                        }else if(e.DEPO_STAT == "2"){
-                            depoStat = "입금완료";
-                        }
-                        return depoStat;
-                    }
-                }, {
                     field: "APP_DE",
                     title: "작성일자",
                     width: 100
