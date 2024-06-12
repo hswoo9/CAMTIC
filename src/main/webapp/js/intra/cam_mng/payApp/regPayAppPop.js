@@ -1823,7 +1823,7 @@ var regPay = {
         regPay.fn_save("", "drafting");
 
         var budgetFlag = false;
-        if($("#pjtCd").val().substring(0,1) == "M"){
+        if($("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z"){
             var tmpBudgetSnAr = [];
             $(".budgetSn").each(function(){
                 tmpBudgetSnAr.push($(this).val());
@@ -2140,7 +2140,7 @@ var regPay = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
@@ -2212,7 +2212,7 @@ var regPay = {
         if(trDe != "" && trDe != null && trDe != undefined){
             if($("#pjtCd").val().substring(0,1) != ""){
                 // 법인운영일 경우
-                if($("#pjtCd").val().substring(0,1) == "M"){
+                if($("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z"){
                     if(eviType == "3"){             // 신용카드
                         trDate.setMonth(trDate.getMonth() + 1);
                         trDate.setDate(10);
@@ -2449,7 +2449,7 @@ var regPay = {
 
         var budgetFlag = false;
         if(type != "drafting"){
-            if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
+            if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
 
             } else {
                 var tmpBudgetSnAr = [];
@@ -2684,7 +2684,7 @@ var regPay = {
             }
         } else if($("#eviType" + index).val() == '3'){
 
-            if($("#pjtCd").val().substring(0,1) == "M"){
+            if($("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z"){
                 if($("#card" + index).val().includes("개인카드")){
                     if(obj.id.match("totCost")){
                         $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val()))));
@@ -3114,7 +3114,7 @@ var regPayDet = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#footerLine").attr("colspan", "9");
             $("#reasonContTr").css("display", "none");
