@@ -439,7 +439,7 @@
         WHERE PAD.PAY_APP_SN = #{payAppSn}
         GROUP BY BUDGET_SN, TR_CD, CRM_NM, CRM_ACC_HOLDER, CRM_ACC_NO, REASON
         <![CDATA[
-        HAVING TOT_COST > 0
+        HAVING SUM(TOT_COST) > 0
         ]]>
     </select>
 
