@@ -64,11 +64,23 @@ var cardList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar : [
+                {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "카드 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title : "G20",
                     columns : [
                         {
+                            field: "TR_CD",
                             title: "카드명",
                             width: 300,
                             template: function (e){
@@ -81,6 +93,7 @@ var cardList = {
 
                             }
                         }, {
+                            field: "CARD_BA_NB",
                             title: "카드번호",
                             width: 250,
                             template: function (e) {
@@ -96,6 +109,7 @@ var cardList = {
                     title: "반출/사용",
                     columns : [
                         {
+                            field: "RT_YN",
                             title : "반출여부",
                             template: function (e){
                                 var rtYn = "";
@@ -108,8 +122,8 @@ var cardList = {
                                 return rtYn;
                             }
                         }, {
-                            title : "반출자",
                             field : "USE_EMP_NAME",
+                            title : "반출자",
                             template : function (e){
                                 var useEmpName = "";
                                 if(e.RT_YN == "N"){
@@ -118,8 +132,8 @@ var cardList = {
                                 return useEmpName;
                             }
                         }, {
-                            title : "반출일시",
                             field : "CARD_TO_DE",
+                            title : "반출일시",
                             template : function (e){
                                 var cardToDe = "";
                                 cardToDe = e.CARD_TO_DE || "";
@@ -131,8 +145,8 @@ var cardList = {
                                 }
                             }
                         }, {
-                            title : "반납예정일시",
                             field : "CARD_FROM_DE",
+                            title : "반납예정일시",
                             template : function (e){
                                 var cardFromDe = "";
                                 cardFromDe = e.CARD_FROM_DE || "";
@@ -152,11 +166,11 @@ var cardList = {
                             title : "담당자",
                             columns : [
                                 {
-                                    title : "부서/팀",
                                     field : "DEPT_NAME",
+                                    title : "부서/팀"
                                 }, {
-                                    title : "이름",
                                     field : "MNG_NAME",
+                                    title : "이름"
                                 }
                             ]
                         }

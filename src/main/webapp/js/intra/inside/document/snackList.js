@@ -50,13 +50,6 @@ var snackList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    },
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.snackPopup();">' +
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
@@ -75,8 +68,23 @@ var snackList = {
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    },
                 }
             ],
+            excel : {
+                fileName : "식대신청 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -109,6 +117,7 @@ var snackList = {
                     title: "일시",
                     width: 80
                 }, {
+                    field: "USER_TEXT",
                     title: "이용자",
                     template : function(row){
                         let userText = row.USER_TEXT;

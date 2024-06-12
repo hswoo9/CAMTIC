@@ -64,6 +64,9 @@ var bustripMngList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
@@ -72,18 +75,25 @@ var bustripMngList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "출장신청(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: bustripMngList.onDataBound,
             columns: [
                 {
+                    field: "TRIP_CODE",
                     title: "출장구분",
                     width: 50,
                     template: function(row){
                         return bustrip.fn_getTripCodeText(row);
                     }
                 }, {
+                    field: "PROJECT",
                     title: "사업명",
                     width: 200,
                     template: function(row){
@@ -118,6 +128,7 @@ var bustripMngList = {
                         }
                     }
                 }, {
+                    field: "VISIT_CRM",
                     title: "출장지 (경유지)",
                     template: function(row){
                         if(row.VISIT_LOC_SUB != ""){
@@ -128,12 +139,14 @@ var bustripMngList = {
                     },
                     width: 160
                 }, {
+                    field: "TRIP_DAY_FR",
                     title: "출발일시",
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
                     width: 100
                 }, {
+                    field: "TRIP_DAY_TO",
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
@@ -167,6 +180,7 @@ var bustripMngList = {
                         }
                     }
                 }, {
+                    field: "STATUS",
                     title: "결재상태",
                     template: function(row){
                         if(row.STATUS == 0){

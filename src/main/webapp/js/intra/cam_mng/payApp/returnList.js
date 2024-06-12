@@ -69,6 +69,9 @@ var returnList = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="returnList.gridReload()">' +
@@ -77,6 +80,11 @@ var returnList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "반납결의서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
@@ -101,12 +109,14 @@ var returnList = {
                     title: "문서번호",
                     width: 120,
                 }, {
+                    field: "DOC_NO",
                     title: "지출유형",
                     width: 80,
                     template : function(e){
                         return '반납';
                     }
                 }, {
+                    field: "EVI_TYPE",
                     title: "증빙유형",
                     width: 80,
                     template: function(e){
@@ -127,14 +137,15 @@ var returnList = {
                         }
                     }
                 }, {
-                    title: "프로젝트 명",
                     field: "PJT_NM",
+                    title: "프로젝트 명",
                     width: 200,
                 }, {
-                    title: "예산비목",
                     field: "BUDGET_NM_EX",
+                    title: "예산비목",
                     width: 200
                 }, {
+                    field: "CRM_NAME",
                     title: "거래처",
                     width: 200,
                     template: function(e){
@@ -145,18 +156,19 @@ var returnList = {
                         }
                     }
                 }, {
-                    title: "적요(제목)",
                     field: "EXNP_BRIEFS",
+                    title: "적요(제목)",
                     width: 280,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'re\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
+                    field: "REG_EMP_NAME",
                     title : "작성자",
-                    width: 80,
-                    field: "REG_EMP_NAME"
+                    width: 80
                 }, {
+                    field: "TOT_COST",
                     title: "반납금액",
                     width: 80,
                     template: function(e){
@@ -170,10 +182,11 @@ var returnList = {
                         // }
                     }
                 }, {
-                    title: "결의일자",
-                    width: 80,
                     field: "EXNP_DE",
+                    title: "결의일자",
+                    width: 80
                 }, {
+                    field: "RE_STAT",
                     title: "상태",
                     width: 60,
                     template: function(e){

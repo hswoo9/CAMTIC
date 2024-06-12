@@ -85,21 +85,29 @@ var purcClaim = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매청구 목록.xlsx",
+                filterable : true
+            },
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "구매요청문서번호",
                     field: "PURC_DOC_NO",
+                    title: "구매요청문서번호",
                     width: 120,
                     template: function(e){
                         if(e.PURC_DOC_NO == null || e.PURC_DOC_NO == ""){
@@ -109,29 +117,30 @@ var purcClaim = {
                         }
                     }
                 }, {
-                    title: "구매청구문서번호",
                     field: "CLAIM_DOC_NO",
+                    title: "구매청구문서번호",
                     width: 120,
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
                     width: 90,
                 }, {
-                    title: "납품(예정)일",
                     field: "GOODS_DT",
+                    title: "납품(예정)일",
                     width: 90
                 }, {
-                    title: "제목",
                     field: "CLAIM_TITLE",
+                    title: "제목",
                     template : function(e){
                         return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' + e.CLAIM_TITLE + '</div>';
                     },
                     width: 200,
                 }, {
+                    field: "CLAIM_EMP_NAME",
                     title: "청구",
-                    width: 80,
-                    field: "CLAIM_EMP_NAME"
+                    width: 80
                 }, {
+                    field: "PURC_EMP_NAME",
                     title: "요청자",
                     width: 80,
                     template: function(e){
@@ -142,6 +151,7 @@ var purcClaim = {
                         }
                     }
                 }, {
+                    field: "PURC_DEPT_NAME",
                     title: "요청팀명",
                     width: 100,
                     template: function(e){
@@ -152,16 +162,18 @@ var purcClaim = {
                         }
                     }
                 }, {
+                    field: "CRM_NM",
                     title: "업체명",
-                    width: 160,
-                    field: "CRM_NM"
+                    width: 160
                 }, {
+                    field: "TOT_AMT",
                     title: "금액",
                     width: 100,
                     template: function (e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
                     }
                 }, {
+                    field: "STATUS",
                     title: "상태",
                     width: 100,
                     template: function (e){
@@ -179,6 +191,7 @@ var purcClaim = {
                         }
                     }
                 }, {
+                    field: "PAYMENT_METHOD",
                     title: "발주상태",
                     width: 100,
                     template: function (e){
@@ -205,6 +218,7 @@ var purcClaim = {
                         }
                     }
                 }, {
+                    field: "INSPECT_YN",
                     title: "검수여부",
                     width: 95,
                     template: function (e){

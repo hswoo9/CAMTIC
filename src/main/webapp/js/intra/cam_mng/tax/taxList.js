@@ -46,6 +46,9 @@ var taxList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.gridReload()">' +
@@ -54,23 +57,31 @@ var taxList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "입출금현황 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
+                    field: "ACCT_TXDAY",
                     title: "거래일자",
                     width: 100,
                     template : function (e){
                         return e.ACCT_TXDAY.substring(0, 4) + "-" + e.ACCT_TXDAY.substring(4, 6) + "-" + e.ACCT_TXDAY.substring(6, 8);
                     }
                 }, {
+                    field: "ACCT_NO",
                     title: "계좌번호",
                     width: 150,
                     template : function (e){
                         return e.ACCT_NO;
                     }
                 }, {
+                    field: "INOUT_GUBUN",
                     title: "입/출금",
                     width: 80,
                     template: function(e){
@@ -81,6 +92,7 @@ var taxList = {
                         }
                     }
                 }, {
+                    field: "OUT_AMOUNT",
                     title: "입/출금액",
                     width: 100,
                     template: function (e){
@@ -91,15 +103,16 @@ var taxList = {
                         }
                     }
                 }, {
+                    field: "JEOKYO",
                     title: "적요",
                     width: 200,
                     template : function(e){
                         return e.JEOKYO;
                     }
                 }, {
+                    field: "BRANCH",
                     title: "계좌명",
-                    width: 120,
-                    field: "BRANCH"
+                    width: 120
                 }
             ]
         }).data("kendoGrid");

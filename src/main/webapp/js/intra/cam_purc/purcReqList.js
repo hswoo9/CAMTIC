@@ -90,14 +90,23 @@ var prm = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prm.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             dataBound : prm.onDataBound,
+            excel : {
+                fileName : "구매요청 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 // {
                 //     title: "번호",
@@ -299,30 +308,29 @@ var prm = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서번호",
                     field: "DOC_NO",
+                    title: "문서번호",
                     width: 120,
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
                     width: 100,
                 }, {
-                    title: "요청자",
                     field: "EMP_NAME_KR",
+                    title: "요청자",
                     width: 80
                 }, {
-                    title: "프로젝트",
                     field: "PJT_NM",
+                    title: "프로젝트",
                     width: 120
                 }, {
-                    title: "목적",
                     field: "PURC_REQ_PURPOSE",
+                    title: "목적",
                     template : function(e){
                         return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />' + e.PURC_REQ_PURPOSE
                     }
                 }, {
                     title: "구매요청서",
-                    field: "STATUS",
                     width: 100,
                     template : function(e){
                         var status = "";
@@ -363,7 +371,6 @@ var prm = {
                     }
                 }, {
                     title: "검수",
-                    field: "STATUS",
                     width: 70,
                     template: function (e) {
                         var status = "";
@@ -390,10 +397,11 @@ var prm = {
                         return status
                     }
                 }, {
+                    field: "CRM_NM",
                     title: "업체",
-                    width: 150,
-                    field : "CRM_NM"
+                    width: 150
                 }, {
+                    field: "PURC_ITEM_AMT_SUM",
                     title: "금액",
                     width: 100,
                     template: function(e){
@@ -411,6 +419,7 @@ var prm = {
                         }
                     }
                 }, {
+                    field: "APPROVE_STAT_CODE",
                     title: "결재상태",
                     width: 70,
                     template : function(e){
@@ -431,6 +440,7 @@ var prm = {
                         }
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "상태",
                     width: 120,
                     template : function(e){
@@ -491,6 +501,7 @@ var prm = {
                         return status
                     }
                 }, {
+                    field: "INSPECT_STATUS",
                     title: "지출상태",
                     width: 80,
                     template: function (e) {

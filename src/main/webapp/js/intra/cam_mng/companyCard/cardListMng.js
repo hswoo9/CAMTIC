@@ -88,8 +88,16 @@ var cardListMng = {
                             '	<span class="k-button-text">비공개</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
                 }
             ],
+            excel : {
+                fileName : "카드(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'cardPk\');"/>',
@@ -99,12 +107,14 @@ var cardListMng = {
                     title : "G20",
                     columns : [
                         {
+                            field: "TR_NM",
                             title: "카드명",
                             width: 400,
                             template: function (e){
                                 return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
                             }
                         }, {
+                            field: "CARD_BA_NB",
                             title: "카드번호",
                             width: 250,
                             template: function (e) {
@@ -118,21 +128,21 @@ var cardListMng = {
                     ]
                 }, {
                     title: "설정",
-                    columns : [
+                    columns: [
                         {
-                            title : "담당자",
-                            columns : [
+                            title: "담당자",
+                            columns: [
                                 {
-                                    title : "부서/팀",
-                                    field : "DEPT_NAME",
+                                    field: "DEPT_NAME",
+                                    title: "부서/팀",
                                 }, {
-                                    title : "이름",
-                                    field : "MNG_NAME",
+                                    field: "MNG_NAME",
+                                    title: "이름",
                                 }
                             ]
                         }, {
-                            title : "소지자",
-                            field : "HOLDER_NAME",
+                            field: "MNG_NAME",
+                            title: "소지자",
                             template: function (e){
                                 if(e.HOLDER_NAME != null){
                                     return e.HOLDER_NAME;
@@ -145,6 +155,7 @@ var cardListMng = {
                                 }
                             }
                         }, {
+                            field: "USE_YN",
                             title: "공개여부",
                             width: 100,
                             template: function (e){

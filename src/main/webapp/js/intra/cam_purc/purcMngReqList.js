@@ -61,21 +61,30 @@ var purcMngReqList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngReqList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매요청관리 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서번호",
                     field: "DOC_NO",
+                    title: "문서번호",
                     width: 180,
                 }, {
                     field: "PURC_REQ_DATE",
@@ -85,20 +94,21 @@ var purcMngReqList = {
                         return e.PURC_REQ_DATE.replaceAll(". ", "-");
                     }
                 }, {
-                    title: "요청부서",
                     field: "DEPT_NAME",
+                    title: "요청부서",
                     width: 130
                 }, {
-                    title: "요청자",
                     field: "EMP_NAME_KR",
+                    title: "요청자",
                     width: 80
                 }, {
-                    title: "목적",
                     field: "PURC_REQ_PURPOSE",
+                    title: "목적",
                     template : function(e){
                         return '<div style="text-align: left"><a onclick="purcMngReqList.fn_reqRegPopup(' + e.PURC_SN + ', \'v\')"> ' + e.PURC_REQ_PURPOSE + '</a></div>'
                     }
                 }, {
+                    field: "RP_CNT",
                     title: "구매",
                     width: 100,
                     template : function(e){

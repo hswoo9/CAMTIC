@@ -113,6 +113,9 @@ var purcDif = {
                 //     }
                 // },
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcDif.gridReload()">' +
@@ -121,6 +124,11 @@ var purcDif = {
                     }
                 }
             ],
+            excel : {
+                fileName : "구매성과 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             /*dataBound : function(e){
                 sum1 = 0;
                 sum2 = 0;
@@ -132,28 +140,29 @@ var purcDif = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서번호",
                     field: "DOC_NO",
+                    title: "문서번호",
                     width: 160,
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
                     width: 120,
                 }, {
-                    title: "납품(예정)일",
                     field: "GOODS_DT",
+                    title: "납품(예정)일",
                     width: 120
                 }, {
-                    title: "제목",
                     field: "CLAIM_TITLE",
+                    title: "제목",
                     template : function(e){
                         return '<div onclick="purcDif.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')" style="font-weight: bold; cursor: pointer; text-align: left ">' + e.CLAIM_TITLE + '</div>'
                     }
                 }, {
+                    field: "CLAIM_EMP_NAME",
                     title: "발주자",
-                    width: 100,
-                    field: "CLAIM_EMP_NAME"
+                    width: 100
                 }, {
+                    field: "PURC_EMP_NAME",
                     title: "요청자",
                     width: 100,
                     template: function(e){
@@ -164,6 +173,7 @@ var purcDif = {
                         }
                     }
                 }, {
+                    field: "PURC_DEPT_NAME",
                     title: "요청팀명",
                     width: 100,
                     template: function(e){
@@ -174,11 +184,12 @@ var purcDif = {
                         }
                     }
                 }, {
+                    field: "CRM_NM",
                     title: "업체명",
                     width: 160,
-                    field: "CRM_NM",
                     footerTemplate: "합계"
                 }, {
+                    field: "TOT_PURC_ITEM_AMT",
                     title: "요청금액",
                     width: 100,
                     template: function (e){
@@ -189,6 +200,7 @@ var purcDif = {
                         return "<div style='text-align: right'>"+comma(sum1)+"</div>";
                     }
                 }, {
+                    field: "TOT_AMT",
                     title: "청구금액",
                     width: 100,
                     template: function (e){

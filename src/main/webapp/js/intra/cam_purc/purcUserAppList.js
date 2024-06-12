@@ -82,13 +82,22 @@ var purcUserAppList = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcUserAppList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매지급신청 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 // {
                 //     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
@@ -113,10 +122,11 @@ var purcUserAppList = {
                     width: 40,
                     template: "#= --record #"
                 }, {
-                    title: "요청부서",
                     field: "DEPT_NAME",
+                    title: "요청부서",
                     width: 120,
                 }, {
+                    field: "PURC_TYPE",
                     title: "구매구분",
                     width: 80,
                     template: function(e){
@@ -137,12 +147,12 @@ var purcUserAppList = {
                         return result
                     }
                 }, {
-                    title: "제목",
                     field: "CLAIM_TITLE",
+                    title: "제목",
                     width: 100
                 }, {
-                    title: "목적",
                     field: "PURC_PURPOSE",
+                    title: "목적",
                     width: 200,
                     template : function(e){
                         return '<div style="text-align: left"><a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a></div>'
@@ -173,6 +183,7 @@ var purcUserAppList = {
                 //     }
                 // }
                 , {
+                    field: "REQ_AMT",
                     title: "지출금액",
                     width: 80,
                     template: function(e){
@@ -219,8 +230,8 @@ var purcUserAppList = {
                         }
                     }
                 }, {
-                    title: "신청자",
                     field: "F_EMP_NAME",
+                    title: "신청자",
                     width: 50,
                     template: function(e){
                         if(e.F_EMP_NAME != null){
@@ -230,6 +241,7 @@ var purcUserAppList = {
                         }
                     }
                 }, {
+                    field: "REQ_AMT",
                     title: "지출상태",
                     width: 60,
                     template: function(e){

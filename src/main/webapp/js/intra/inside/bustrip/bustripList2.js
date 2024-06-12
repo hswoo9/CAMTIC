@@ -52,13 +52,6 @@ var bustList = {
             toolbar : [
                 {
                     name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
                     template : function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustPop.bustripReqPop()">' +
                             '	<span class="k-button-text">신청</span>' +
@@ -78,8 +71,23 @@ var bustList = {
                             '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
+            excel : {
+                fileName : "출장신청 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound : function(e){
                 const grid = this;
                 grid.tbody.find("tr").click(function (e) {
@@ -110,12 +118,14 @@ var bustList = {
                     },
                     width: 30
                 }, {
+                    field: "TRIP_CODE",
                     title: "출장구분",
                     width: 50,
                     template: function(row){
                         return bustrip.fn_getTripCodeText(row);
                     }
                 },{
+                    field: "BUSN_NAME",
                     title: "사업명",
                     width: 130,
                     template: function(row){
@@ -148,6 +158,7 @@ var bustList = {
                         }
                     }
                 }, {
+                    field: "VISIT_CRM",
                     title: "출장지 (경유지)",
                     template: function(row){
                         if(row.VISIT_LOC_SUB != ""){
@@ -158,12 +169,14 @@ var bustList = {
                     },
                     width: 125
                 }, {
+                    field: "TRIP_DAY_FR",
                     title: "출발일시",
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
                     width: 85
                 }, {
+                    field: "TRIP_DAY_TO",
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
@@ -197,7 +210,7 @@ var bustList = {
                         }
                     }
                 }, {
-                    title : "출장신청",
+                    title: "출장신청",
                     width: 70,
                     template : function (e){
                         /** 국내출장 해외출장 분기 */
@@ -230,7 +243,7 @@ var bustList = {
                         }
                     }
                 }, {
-                    title : "결과보고",
+                    title: "결과보고",
                     width: 60,
                     template : function (e){
                         console.log("bustrip:", e);
@@ -295,7 +308,7 @@ var bustList = {
                         }
                     }
                 }, {
-                    title : "지급신청",
+                    title: "지급신청",
                     width: 100,
                     template : function (e){
                         /** 국내출장 해외출장 분기 */
@@ -339,6 +352,7 @@ var bustList = {
                     },
                     footerTemplate: "출장완료 여비합계"
                 }, {
+                    field: "EXNP_DOC_STATUS",
                     title: "입금상태",
                     width: 60,
                     template : function (e){
@@ -355,6 +369,7 @@ var bustList = {
                         }
                     }
                 }, {
+                    field: "PAY_EXNP_DE",
                     title: "지출일자",
                     width: 60,
                     template : function (e){
@@ -369,7 +384,8 @@ var bustList = {
                         }
                     }
                 }, {
-                    title : "여비금액",
+                    field: "RES_EXNP_SUM",
+                    title: "여비금액",
                     width: 70,
                     template : function (e){
                         if(e.TRIP_CODE != "4"){

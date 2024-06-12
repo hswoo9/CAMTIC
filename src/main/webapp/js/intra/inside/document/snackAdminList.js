@@ -72,22 +72,30 @@ var snackAdminList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackAdminList.snackStatPopup();">' +
+                        '	<span class="k-button-text">식대통계</span>' +
+                        '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     },
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="snackAdminList.snackStatPopup();">' +
-                        '	<span class="k-button-text">통계 조회</span>' +
-                        '</button>';
-                    }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            excel : {
+                fileName : "식대신청(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             // dataBound : snackAdminList.onDataBound,
             columns: [
                 {
@@ -107,6 +115,7 @@ var snackAdminList = {
                     title: "일시",
                     width: 80
                 }, {
+                    field: "USER_TEXT",
                     title: "이용자",
                     template : function(row){
                         let userText = row.USER_TEXT;

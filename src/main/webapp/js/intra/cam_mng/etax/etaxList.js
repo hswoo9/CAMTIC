@@ -87,6 +87,9 @@ var etaxList = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="etaxList.gridReload()">' +
@@ -95,6 +98,11 @@ var etaxList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "세금계산서 내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -104,12 +112,14 @@ var etaxList = {
                     title: "번호",
                     width : 30
                 }, {
+                    field: "DIV_NM",
                     title: "사업장",
                     width: 80,
                     template: function (e){
                         return e.DIV_NM;
                     }
                 }, {
+                    field: "TAX_TY",
                     title: "구분",
                     width: 40,
                     template: function (e){
@@ -126,6 +136,7 @@ var etaxList = {
                         }
                     }
                 }, {
+                    field: "ETAX_TY",
                     title: "분류",
                     width: 40,
                     template: function (e){
@@ -138,32 +149,36 @@ var etaxList = {
                         }
                     }
                 }, {
+                    field: "ISS_DT",
                     title: "작성일자",
                     width: 60,
                     template: function (e){
                         return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
                     }
                 }, {
+                    field: "ISU_DT",
                     title: "발급일자",
                     width: 60,
                     template: function (e){
                         return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
                     }
                 }, {
+                    field: "ISS_YMD",
                     title: "전송일자",
                     width: 60,
                     template: function (e){
                         return e.ISS_YMD.substring(0,4) + "-" + e.ISS_YMD.substring(4,6) + "-" + e.ISS_YMD.substring(6,8);
                     }
                 }, {
-                    title: "코드",
-                    width: 40,
                     field: "TR_CD",
+                    title: "코드",
+                    width: 40
                 }, {
-                    title: "거래처명",
-                    width: 100,
                     field: "TR_NM",
+                    title: "거래처명",
+                    width: 100
                 }, {
+                    field: "TRREG_NB",
                     title: "사업자번호",
                     width: 80,
                     template: function (e){
@@ -174,18 +189,21 @@ var etaxList = {
                         }
                     }
                 }, {
+                    field: "SUP_AM",
                     title: "공급가액",
                     width: 60,
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.SUP_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
+                    field: "VAT_AM",
                     title: "세액",
                     width: 60,
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.VAT_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
+                    field: "SUM_AM",
                     title: "합계금액",
                     width: 60,
                     template: function (e){
@@ -193,14 +211,15 @@ var etaxList = {
                         return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
-                    title: "승인번호",
-                    width: 120,
                     field: "ISS_NO",
+                    title: "승인번호",
+                    width: 120
                 }, {
+                    field: "ITEM_DC",
                     title: "품목명",
-                    width: 120,
-                    field: "ITEM_DC"
+                    width: 120
                 }, {
+                    field: "CE_GW_IDX",
                     title: "전표처리",
                     width: 50,
                     template: function (e){
@@ -217,6 +236,7 @@ var etaxList = {
                         }
                     }
                 }, {
+                    field: "PAY_EMP_SEQ",
                     title: "처리자",
                     width: 50,
                     template: function (e) {
@@ -229,6 +249,7 @@ var etaxList = {
                         }
                     }
                 }, {
+                    field: "PAY_REG_DT",
                     title: "처리일자",
                     width: 60,
                     template: function(e){

@@ -76,6 +76,9 @@ var outUseList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.gridReload()">' +
@@ -84,6 +87,11 @@ var outUseList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "전표내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -100,7 +108,7 @@ var outUseList = {
                             title: "카드번호",
                             width: 100,
                         }, {
-                            field: "",
+                            field: "AUTH_DD",
                             title: "결제일자",
                             width: 80,
                             template : function (e){
@@ -135,12 +143,12 @@ var outUseList = {
                             title: "사용자",
                             columns: [
                                 {
-                                    title : "부서/팀",
                                     field : "USE_DEPT_NAME",
+                                    title : "부서/팀",
                                     width: 100,
                                 }, {
-                                    title : "이름",
                                     field : "USE_EMP_NAME",
+                                    title : "이름",
                                     width: 80,
                                 }
                             ]
@@ -150,6 +158,7 @@ var outUseList = {
                     title: "전표처리현황",
                     columns: [
                         {
+                            field: "PAY_APP_SN",
                             title: "전표처리",
                             template: function(e){
                                 if(e.PAY_APP_SN != null){
@@ -164,6 +173,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
+                            field: "PAY_EMP_SEQ",
                             title: "처리자",
                             template: function(e){
                                 if(e.PAY_EMP_SEQ != null){
@@ -178,6 +188,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
+                            field: "PAY_REG_DT",
                             title: "처리일자",
                             width: 80,
                             template: function(e){
@@ -192,6 +203,7 @@ var outUseList = {
                                 }
                             },
                         }, {
+                            field: "PAY_EXNP_STAT",
                             title: "지출결의서",
                             width: 80,
                             template: function(e){

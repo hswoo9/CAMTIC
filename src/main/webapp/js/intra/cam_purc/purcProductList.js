@@ -61,19 +61,29 @@ var prdList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prdList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            excel : {
+                fileName : "구매품목 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "PURC_ITEM_TYPE",
                     title: "분류코드",
                     width: 100,
                     template: function (e){
@@ -98,18 +108,19 @@ var prdList = {
                     title: "품명",
                     width: 150
                 }, {
+                    field: "CRM_NM",
                     title: "구매업체",
-                    width: 100,
-                    field: "CRM_NM"
+                    width: 100
                 }, {
-                    title: "규격",
                     field: "PURC_ITEM_STD",
+                    title: "규격",
                     width: 100,
                 }, {
-                    title: "단위",
                     field: "PURC_ITEM_UNIT",
+                    title: "단위",
                     width: 100,
                 }, {
+                    field: "PURC_ITEM_UNIT_PRICE",
                     title: "단가",
                     width: 100,
                     template : function(e){
