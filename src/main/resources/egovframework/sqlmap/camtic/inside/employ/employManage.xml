@@ -644,6 +644,51 @@
         /*getDeptList*/
         SELECT * FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_LEVEL = 1 AND USE_YN = 'Y' GROUP BY DEPT_SEQ
     </select>
+
+    <select id="getPartRateEmpPayrollList" parameterType="map" resultType="map">
+        /*getPartRateEmpPayrollList*/
+        SELECT
+            A.PJT_SN,
+            A.PART_DET_STR_DT,
+            A.PART_DET_END_DT,
+            A.PART_EMP_NM,
+            A.PART_EMP_SEQ,
+            IF(D.BASIC_SALARY = '', 0,D.BASIC_SALARY) AS BASIC_SALARY,
+            IF(D.FOOD_PAY = '',0, D.FOOD_PAY) AS FOOD_PAY,
+            IF(D.EXTRA_PAY = '',0, D.EXTRA_PAY) AS EXTRA_PAY,
+            IF(D.TOTAL_PAY = '',0, D.TOTAL_PAY) AS TOTAL_PAY,
+            IF(D.NATIONAL_PEN = '',0, D.NATIONAL_PEN) AS NATIONAL_PEN,
+            IF(D.HEALTH_INS = '',0, D.HEALTH_INS) AS HEALTH_INS,
+            IF(D.CARE_INS = '',0, D.CARE_INS) AS CARE_INS,
+            IF(D.EMPLOY_INS = '',0, D.EMPLOY_INS) AS EMPLOY_INS,
+            IF(D.INCOME_TAX = '',0, D.INCOME_TAX) AS INCOME_TAX,
+            IF(D.LOCAL_INCOME_TAX = '',0, D.LOCAL_INCOME_TAX) AS LOCAL_INCOME_TAX,
+            IF(D.DEDUCTION = '',0, D.DEDUCTION) AS DEDUCTION,
+            IF(D.ACTUAL_PAY = '',0, D.ACTUAL_PAY) AS ACTUAL_PAY,
+            IF(D.SCIENCE_DEDUCTION = '',0, D.SCIENCE_DEDUCTION) AS SCIENCE_DEDUCTION,
+            IF(D.MEMBERSHIP_FEE = '',0, D.MEMBERSHIP_FEE) AS MEMBERSHIP_FEE,
+            IF(D.TRAVEL_FUND = '',0, D.TRAVEL_FUND) AS TRAVEL_FUND,
+            IF(D.DORMITORY_FEE = '',0, D.DORMITORY_FEE) AS DORMITORY_FEE,
+            IF(D.SOCIAL_INS = '',0, D.SOCIAL_INS) AS SOCIAL_INS,
+            IF(D.YEAR_TAX = '',0, D.YEAR_TAX) AS YEAR_TAX,
+            IF(D.YEAR_LOCAL_TAX = '',0, D.YEAR_LOCAL_TAX) AS YEAR_LOCAL_TAX,
+            IF(D.SCIENCE_DEDUCTION = '',0, D.SCIENCE_DEDUCTION) + IF(D.MEMBERSHIP_FEE = '',0, D.MEMBERSHIP_FEE) + IF(D.TRAVEL_FUND = '',0, D.TRAVEL_FUND) +
+            IF(D.DORMITORY_FEE = '',0, D.DORMITORY_FEE) + IF(D.SOCIAL_INS = '',0, D.SOCIAL_INS) + IF(D.YEAR_TAX = '',0, D.YEAR_TAX) + IF(D.YEAR_LOCAL_TAX = '',0, D.YEAR_LOCAL_TAX) AS ETC_PAY
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET A
+        LEFT JOIN CAM_HR.DJ_EMP_INFO C
+            ON A.PART_EMP_SEQ = C.EMP_SEQ
+        LEFT JOIN CAM_INSIDE.DJ_PAY_ROLL_LEGER D
+            ON A.PART_EMP_SEQ = D.EMP_SEQ AND D.BASE_YEAR_MONTH = #{bsYm}
+        WHERE
+            A.PJT_SN = #{pjtSn}
+          AND
+            #{bsYm} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y-%m') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y-%m')
+          AND A.PART_RATE_VER_SN = (
+            SELECT MAX(A.PART_RATE_VER_SN) FROM CAM_PJT_MNG.DJ_PART_RATE_DET A
+                                                    LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
+            WHERE A.PJT_SN = #{pjtSn} AND #{bsYm} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y-%m') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y-%m'))
+    </select>
 </mapper>
 
 

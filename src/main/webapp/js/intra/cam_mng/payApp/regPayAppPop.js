@@ -120,7 +120,8 @@ var regPay = {
             const data = {
                 pjtSn : $("#partRatePjtSn").val(),
                 bsYm : $("#bsYm").val(),
-                accountToSn : $("#accountToSn").val()
+                accountToSn : $("#accountToSn").val(),
+                payRollYm : $("#payRollYm").val()
             }
 
             var accountInfo = customKendo.fn_customAjax("/mng/getAccountInfoOne", data);
@@ -165,6 +166,35 @@ var regPay = {
 
                     selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
 
+                }
+            });
+
+            $.ajax({
+                url: "/inside/getPayRollFileList",
+                data: data,
+                type: "POST",
+                dataType: "json",
+                success: function (rs) {
+                    var fileList = rs.fileList;
+                    var fileThumbText = "";
+                    var slist = "";
+
+                    for(let i=0; i<fileList.length; i++){
+                        if(slist != ""){
+                            slist += ",";
+                        }
+                        if(fileThumbText != ""){
+                            fileThumbText += " | ";
+                        }
+                        slist += fileList[i].file_no;
+                        fileThumbText += fileList[i].file_org_name;
+                        fileThumbText += "." + fileList[i].file_ext;
+                    }
+
+                    $("#fileText").text(fileThumbText);
+                    $("#sList").val(slist);
+
+                    regPay.global.fileArray = regPay.global.fileArray.concat(fileList);
                 }
             });
         }
@@ -2323,6 +2353,10 @@ var regPay = {
             }
 
             parameters.bsYm = $("#bsYm").val();
+
+            if($("#sList").val() != ""){
+                parameters.sList = $("#sList").val();
+            }
         }
 
         if($("#cardToSn").val() != ""){
@@ -2577,6 +2611,8 @@ var regPay = {
                                 opener.parent.paymentMngList.gridReload();
                             }else if($("#reqType").val() == "snack"){
                                opener.parent.snackList.mainGrid();
+                            }else if($("#reqType").val() == "partRate"){
+                                window.close();
                             }else{
                                 opener.parent.paymentList.gridReload();
                             }

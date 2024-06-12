@@ -20,4 +20,6 @@ public interface EmployService {
     List<Map<String, Object>> getMonthlyPayRollLedgerList(Map<String, Object> params);
 
     List<Map<String, Object>> getDeptList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPartRateEmpPayrollList(Map<String, Object> params);
 }

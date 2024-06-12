@@ -39,13 +39,21 @@
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
+    <div id="checkboxDiv" style="margin:20px 0;">
+        <p style="font-size: 13px; font-weight: bold; margin-left: 20px; margin-bottom: 5px;">◎ 급여대장 연월 선택</p>
+        <div style="text-align: center">
+            <table id="bsYmTbl" style="margin: 0 auto;">
 
+            </table>
+        </div>
+    </div>
     <div id="mainGrid" style="margin:20px 0;"></div>
 </div>
 
 <script>
 
     mainGrid();
+    fn_getPartRateDate();
 
     function mainGrid(){
         let dataSource = new kendo.data.DataSource({
@@ -82,7 +90,7 @@
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 472,
+            height: 372,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -129,7 +137,7 @@
                     title: "",
                     width : 30,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_reqRegPopup('+e.ACCOUNT_TO_SN+')">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_makePayrollPdf('+e.ACCOUNT_TO_SN+')">' +
                             '	<span class="k-button-text">선택</span>' +
                             '</button>';
                     }
@@ -140,16 +148,209 @@
     }
 
 
-    function fn_reqRegPopup(acKey){
+    function fn_reqRegPopup(acKey, payRollYm){
+
         var key = $("#pjtSn").val();
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regPayAppPop.do?pjtSn=" + key + "&bsYm=" + $("#bsYm").val() + "&reqType=partRate&accountToSn=" + acKey;
         }
+        if(payRollYm != null && payRollYm != ""){
+            url += "&payRollYm=" + payRollYm.substring(1);
+        }
+
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
 
         window.close();
+    }
+
+    function fn_getPartRateDate(){
+
+        $.ajax({
+            url : "/inside/getBusinessParticipationData",
+            data : {
+                pjtSn : $("#pjtSn").val()
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                var strDe = "";
+                if(rs.list[0].MIN_DT != null){
+                    strDe = rs.list[0].MIN_DT.split("-");
+                }else{
+                    strDe = rs.list[0].PART_DET_STR_DT.split("-");
+                }
+
+                var endDe = rs.list[0].PART_DET_END_DT.split("-");
+                var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
+                const projectStartMonth = strDe[0] + "-" + strDe[1];
+                var date = new Date(projectStartMonth);
+
+                var html = "";
+                $("#bsYmTbl").html(html);
+                for(var i = 0 ; i < diffMonth ; i++){
+                    var dtMonth = date.getMonth() + 1;
+                    if(dtMonth.toString().length == 1){
+                        dtMonth = "0" + dtMonth;
+                    }
+
+                    if(i % 12 == 0){
+                        html += "<tr>";
+                    }
+
+                    html += '<td style="font-size: 14px; padding: 5px 10px">' +
+                        '<input type="checkbox" class="k-checkbox" name="ymChkbox" id="ym'+date.getFullYear() + '-' + dtMonth +'" style="margin-right: 3px; width: 14px; height: 14px;" value="'+i+'" />' +
+                        '<label for="ym'+date.getFullYear() + '-' + dtMonth +'" style="margin-bottom: 0px;">'+date.getFullYear() + '-' + dtMonth +'</label>' +
+                        '</td>';
+
+                    if(i % 12 == 11){
+                        html += "</tr>";
+                    }
+
+                    date.setMonth(date.getMonth() + 1);
+                }
+
+                $("#bsYmTbl").html(html);
+            }
+        })
+    }
+
+     function fn_makePayrollPdf(acKey){
+
+        var payRollYm = "";
+        if($("input[name='ymChkbox']:checked").length > 0){
+
+            $.each($("input[name='ymChkbox']:checked"), function(i, v){
+                var bsYm = $(this).attr("id").replace("ym", "");
+                var now = new Date();
+                var data = {
+                    pjtSn : $("#pjtSn").val(),
+                    bsYm : bsYm
+                }
+
+                payRollYm += "," + bsYm;
+
+                var result = customKendo.fn_customAjax("/inside/getPartRateEmpPayrollList", data);
+                if(result.flag){
+                    var ls = result.list;
+                    var basicSum = 0;
+                    var foodSum = 0;
+                    var extraSum = 0;
+                    var totalSum = 0;
+                    var nationalSum = 0;
+                    var healthSum = 0;
+                    var careSum = 0;
+                    var employSum = 0;
+                    var incomeSum = 0;
+                    var localIncomeSum = 0;
+                    var etcSum = 0;
+                    var deductionSum = 0;
+                    var actualSum = 0;
+
+                    var html = "";
+                    html += '<div style="width: 100%; padding: 20px 30px; text-align: center;">';
+                    html += '<h1 style="font-size: 24px; margin-bottom: 10px;">' + bsYm.split("-")[0] + '년 ' + bsYm.split("-")[1] + '월 급여대장</h1>';
+                    html += '<table style="width: 100%; height:100%; margin-top: 10px; border-collapse: collapse; text-align: center; font-size: 11px;">';
+                    html += '    <tbody>';
+                    html += '        <tr>';
+                    html += '            <th colspan="5" style="font-size: 14px; padding: 0 0 5px 0; text-align: left;">(사)캠틱종합기술원</th>';
+                    html += '            <th colspan="9" style="font-size: 14px; padding: 0 0 5px 0; text-align: right;">지급년월일 : '+ now.getFullYear() + '년 ' + (now.getMonth() + 1) +'월 ' + now.getDate() +'일</th>';
+                    html += '        </tr>';
+                    html += '        <tr>';
+                    html += '            <th style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">사원정보</th>';
+                    html += '            <th colspan="4" style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">기본급여 및 제수당</th>';
+                    html += '            <th colspan="8" style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">제공제</th>';
+                    html += '            <th style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">차인지급액</th>';
+                    html += '        </tr>';
+                    html += '        <tr>';
+                    html += '            <td style="border: 1px solid black; width: 40px; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">성명</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">기본급</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">식대</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">제수당</td>';
+                    html += '            <td style="border: 1px solid black; width: 54px; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">지급합계</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">국민연금</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">건강보험</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">장기요양</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">고용보험</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">소득세</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">주민세</td>';
+                    html += '            <td style="border: 1px solid black; width: 45px; font-size: 11px; padding: 10px 5px; background-color: #FFF;">기타</td>';
+                    html += '            <td style="border: 1px solid black; width: 54px; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">공제합계</td>';
+                    html += '            <td style="border: 1px solid black; width: 54px; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">실수령액</td>';
+                    html += '        </tr>';
+
+                    for(var i=0; i<ls.length; i++){
+                        html += '        <tr>';
+                        html += '            <td style="border: 1px solid black; text-align: center; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(ls[i].PART_EMP_NM) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].BASIC_SALARY) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].FOOD_PAY) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].EXTRA_PAY) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">'+ comma(ls[i].TOTAL_PAY) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].NATIONAL_PEN) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].HEALTH_INS) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].CARE_INS) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].EMPLOY_INS) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].INCOME_TAX) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].LOCAL_INCOME_TAX) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].ETC_PAY) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">'+ comma(ls[i].DEDUCTION) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(ls[i].ACTUAL_PAY) +'</td>';
+                        html += '        </tr>';
+
+                        basicSum += Number(ls[i].BASIC_SALARY);
+                        foodSum += Number(ls[i].FOOD_PAY);
+                        extraSum += Number(ls[i].EXTRA_PAY);
+                        totalSum += Number(ls[i].TOTAL_PAY);
+                        nationalSum += Number(ls[i].NATIONAL_PEN);
+                        healthSum += Number(ls[i].HEALTH_INS);
+                        careSum += Number(ls[i].CARE_INS);
+                        employSum += Number(ls[i].EMPLOY_INS);
+                        incomeSum += Number(ls[i].INCOME_TAX);
+                        localIncomeSum += Number(ls[i].LOCAL_INCOME_TAX);
+                        etcSum += Number(ls[i].ETC_PAY);
+                        deductionSum += Number(ls[i].DEDUCTION);
+                        actualSum += Number(ls[i].ACTUAL_PAY);
+                    }
+
+                    html += '        <tr>';
+                    html += '            <td style="border: 1px solid black; text-align: center; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">합계</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(basicSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(foodSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(extraSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(totalSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(nationalSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(healthSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(careSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(employSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(incomeSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(localIncomeSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(etcSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(deductionSum) +'</td>';
+                    html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">'+ comma(actualSum) +'</td>';
+                    html += '        </tr>';
+                    html += '    </tbody>';
+                    html += '</table>';
+                    html += '</div>';
+                }
+
+                $.ajax({
+                    url : "/inside/makePayrollPdf",
+                    data: {
+                        htmlContents : html,
+                        pjtSn : $("#pjtSn").val(),
+                        bsYm : bsYm
+                    },
+                    type : "post",
+                    dataType : "json",
+                    success : function(rs){
+                        console.log(rs);
+                    }
+                });
+            })
+        }
+
+        fn_reqRegPopup(acKey, payRollYm);
     }
 </script>
