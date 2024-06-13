@@ -89,9 +89,11 @@ function filter(dataSource, query) {
 
 function treeClick(e){
     var item = $("#menuTreeView").data("kendoTreeView").dataItem(e.node);
-    dataMod(item);
-    dataModUser(item);
-    console.log(item);
+    if(item.PHONE_USER_NAME == null){
+        dataMod(item);
+    }else{
+        dataModUser(item);
+    }
 }
 
 function inputReset(){
