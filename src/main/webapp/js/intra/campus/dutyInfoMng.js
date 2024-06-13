@@ -70,6 +70,9 @@ var dutyInfoMng = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
@@ -78,6 +81,11 @@ var dutyInfoMng = {
                     },
                 }
             ],
+            excel : {
+                fileName : "목표/직무기술서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -98,6 +106,7 @@ var dutyInfoMng = {
                     title: "전화",
                     width: "10%"
                 }, {
+                    field: "TARGET_STATUS",
                     title: "목표기술서",
                     width: "10%",
                     template: function(row){
@@ -114,6 +123,7 @@ var dutyInfoMng = {
                         }
                     }
                 }, {
+                    field: "DUTY_STATUS",
                     title: "직무기술서",
                     width: "10%",
                     template: function(row){

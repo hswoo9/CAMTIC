@@ -91,19 +91,26 @@ var subHolidayAdmin = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="subHolidayAdmin.fn_delYn();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.fn_delYn();">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
-                    }
-                },
+                }
             ],
+            excel : {
+                fileName : "휴가신청(관리자) 목록.xlsx",
+                filterable : true
+            },
             dataBound: function(e){
                 var grid = this;
                 grid.tbody.find("tr").each(function(){

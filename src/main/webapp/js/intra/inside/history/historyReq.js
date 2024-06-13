@@ -110,28 +110,34 @@ var historyList = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyList.appointProcessing();">' +
+                            '	<span class="k-button-text">수동발령처리</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyList.historyReqPop();">' +
+                            '	<span class="k-button-text">인사발령등록</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.appointProcessing();">' +
-                            '	<span class="k-button-text">수동발령처리</span>' +
-                            '</button>';
-                    }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.historyReqPop();">' +
-                            '	<span class="k-button-text">인사발령등록</span>' +
-                            '</button>';
-                    }
                 }
             ],
+            excel : {
+                fileName : "발령 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -142,6 +148,7 @@ var historyList = {
                     template: "#= --record #",
                     width: 50
                 }, {
+                    field: "EMP_NAME",
                     title: "성명",
                     width: 100,
                     template: function(row){
@@ -160,6 +167,7 @@ var historyList = {
                     title: "호수",
                     width: 100
                 }, {
+                    field: "AF_DEPT_NAME",
                     title: "발령 사항",
                     template : function (row){
                         let historyVal = "";

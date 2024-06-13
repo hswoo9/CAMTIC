@@ -42,6 +42,9 @@ var commonEdu = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commonEdu.gridReload()">' +
@@ -50,6 +53,11 @@ var commonEdu = {
                     }
                 }
             ],
+            excel : {
+                fileName : "공통학습현황 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound: commonEdu.onDataBound,
             columns: [
                 {
@@ -65,6 +73,7 @@ var commonEdu = {
                     title: "학습명",
                     width: 200
                 }, {
+                    field: "START_DT",
                     title: "학습기간",
                     width: 150,
                     template: function(row){
@@ -83,12 +92,14 @@ var commonEdu = {
                     title: "장소",
                     width: 100
                 }, {
+                    field: "PART_COUNT",
                     title: "수료/미수료",
                     width: 50,
                     template: function(row){
                         return row.PART_COUNT+"/"+row.NO_PART_COUNT;
                     }
                 }, {
+                    field: "STATUS",
                     title: "진행상태",
                     width: 50,
                     template: function(row){
@@ -99,6 +110,7 @@ var commonEdu = {
                         }
                     }
                 }, {
+                    field: "PART_YN",
                     title: "이수상태",
                     width: 50,
                     template: function(row){

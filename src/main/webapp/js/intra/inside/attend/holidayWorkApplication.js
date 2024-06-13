@@ -73,28 +73,34 @@ var holidayWorkApplication ={
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplication.gridReload();">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="holidayWorkApplication.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                },
-                {
+                }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplication.subHolidayReqPop2();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="holidayWorkApplication.subHolidayReqPop2();">' +
                             '	<span class="k-button-text">신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplication.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "휴일근로 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -117,14 +123,14 @@ var holidayWorkApplication ={
                     width: 80
                 },
                 {
-                    field:"SUBHOLIDAY_DT_CODE_NM",
-                    title:"구분",
-                    width:250
+                    field: "SUBHOLIDAY_DT_CODE_NM",
+                    title: "구분",
+                    width: 250
                 },
                 {
-                    title:"신청일자",
+                    title: "신청일자",
                     field: "APPLY_DAY",
-                    width:"15%"
+                    width: "15%"
                 },
                 {
                     field: "SUBHOLIDAY_WORK_DAY",
@@ -189,7 +195,8 @@ var holidayWorkApplication ={
                             return "-";
                         }
                     }
-                }]
+                }
+            ]
         }).data("kendoGrid");
     },
 

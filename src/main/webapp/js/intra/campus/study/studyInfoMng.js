@@ -70,6 +70,9 @@ var studyMng = {
             },
             toolbar : [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="studyMng.mainGrid();">' +
@@ -78,15 +81,20 @@ var studyMng = {
                     }
                 }
             ],
+            excel : {
+                fileName : "단체학습(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: studyMng.onDataBound,
             columns: [
                 {
-                    field: "ROW_NUM",
                     title: "순번",
-                    width: 50
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "STUDY_CLASS_TEXT",
                     title: "구분",
@@ -122,6 +130,7 @@ var studyMng = {
                     },
                     width: 100
                 }, {
+                    field: "START_DT",
                     title: "학습기간",
                     width: 200,
                     template: function(row){
@@ -131,7 +140,7 @@ var studyMng = {
                     field: "STUDY_LOCATION",
                     title: "교육장소",
                     width: 300
-                },{
+                }, {
                     field: "EDU_TIME_TOTAL",
                     title: "학습시간",
                     width: 100,
@@ -160,6 +169,7 @@ var studyMng = {
                     }
                 },
                 {
+                    field: "STUDY_TIME",
                     title: "인정시간",
                     width: 100,
                     template : function (e){
@@ -209,6 +219,7 @@ var studyMng = {
                          }
                      }
                  },*/ {
+                    field: "STUDY_CLASS_SN",
                     title: "진행현황",
                     width: 150,
                     template: function(row){
@@ -384,7 +395,10 @@ var studyMng = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

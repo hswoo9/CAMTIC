@@ -51,6 +51,9 @@ var mngPartRate = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="mngPartRate.gridReload()">' +
@@ -59,6 +62,11 @@ var mngPartRate = {
                     }
                 }
             ],
+            excel : {
+                fileName : "참여율신청 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -83,6 +91,7 @@ var mngPartRate = {
                         }
                     }
                 }, {
+                    field: "PART_RATE_VER",
                     title: "버전",
                     width: "7%",
                     template: function(e){
@@ -117,6 +126,7 @@ var mngPartRate = {
                         }
                     }
                 }, {
+                    field: "PAY_BUDGET",
                     title: "인건비 예산(원)",
                     width: "7%",
                     template: function(e){
@@ -135,6 +145,7 @@ var mngPartRate = {
                     title: "시스템 구분",
                     width: "7%"
                 }, {
+                    field: "MNG_STAT",
                     title: "상태",
                     width: "7%",
                     template :function(e){

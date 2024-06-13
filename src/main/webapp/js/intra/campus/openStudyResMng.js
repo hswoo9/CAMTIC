@@ -53,6 +53,9 @@ var openStudyResMng = {
             },
             toolbar : [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-button k-button-solid-base" onclick="openStudyResMng.mainGrid();">' +
@@ -61,15 +64,20 @@ var openStudyResMng = {
                     }
                 }
             ],
+            excel : {
+                fileName : "오픈스터리(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound : openStudyResMng.onDataBound,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
                 {
-                    field: "ROW_NUM",
                     title: "순번",
-                    width: 50
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "OPEN_STUDY_NAME",
                     title: "학습주제"
@@ -78,6 +86,7 @@ var openStudyResMng = {
                     title: "지도자",
                     width: 80
                 }, {
+                    field: "MEMBER",
                     title: "구성원",
                     width: 150,
                     template: function(row){
@@ -88,6 +97,7 @@ var openStudyResMng = {
                         return text;
                     }
                 }, {
+                    field: "OPEN_STUDY_DT",
                     title: "학습기간",
                     width: 300,
                     template: function(row){
@@ -98,7 +108,7 @@ var openStudyResMng = {
                     title: "학습시간",
                     width: 80
                 }, {
-                    field: "",
+                    field: "STEP",
                     title: "진행현황",
                     width: 150,
                     template: function(row){
@@ -121,7 +131,10 @@ var openStudyResMng = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

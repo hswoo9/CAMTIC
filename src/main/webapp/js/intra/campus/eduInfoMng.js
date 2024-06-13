@@ -191,6 +191,9 @@ var eduInfoMng = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e){
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="eduInfoMng.mainGrid();">' +
@@ -206,6 +209,11 @@ var eduInfoMng = {
                     }
                 }*/
             ],
+            excel : {
+                fileName : "직원학습 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -222,6 +230,7 @@ var eduInfoMng = {
                         }
                     },
                 }, {
+                    field: "EDU_FORM_TYPE",
                     title: "학습방법",
                     width: 200,
                     template: function(row){
@@ -256,6 +265,7 @@ var eduInfoMng = {
                     field: "EDU_NAME",
                     title: "학습명"
                 }, {
+                    field: "START_DT",
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 200
@@ -279,6 +289,7 @@ var eduInfoMng = {
                     title: "인정시간",
                     width: 100
                 }, {
+                    field: "STATUS",
                     title: "이수상태",
                     width: 180,
                     template: function(row){

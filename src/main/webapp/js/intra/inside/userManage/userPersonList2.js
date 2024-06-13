@@ -271,27 +271,27 @@ var userPersonList2 = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.sendSmsPop()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="userPersonList2.sendSmsPop()">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
                 }, {
-                    name: 'excel',
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
                     template: function (e) {
-
-                        return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
-                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
+                    }
                 }
-            },
             ],
+            excel : {
+                fileName : "인사 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -331,6 +331,7 @@ var userPersonList2 = {
                     field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
+                    field: "DUTY_NAME",
                     title: "직위",
                     template: function(row){
                         return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);

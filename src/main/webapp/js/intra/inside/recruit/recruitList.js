@@ -51,13 +51,6 @@ var recruitList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" id="delvAppBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="recruitList.recruitDraftingPop();">결재</button>';
                     }
                 }, {
@@ -81,8 +74,23 @@ var recruitList = {
                             '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
+            excel : {
+                fileName : "채용관리 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -110,6 +118,7 @@ var recruitList = {
                         return '<a href="javascript:void(0);" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">'+e.RECRUIT_TITLE+'</a>';
                     }
                 }, {
+                    field: "START_DT",
                     title: "모집기간",
                     template: function(row) {
                         return row.START_DT+" ~ "+row.END_DT;
@@ -131,7 +140,6 @@ var recruitList = {
                     title: "접수인원",
                     width : 70
                 }, {
-                    field: "",
                     title: "서류심사",
                     template: function(e) {
                         if(e.RECRUIT_STATUS_SN > 3){
@@ -143,7 +151,6 @@ var recruitList = {
                         }
                     }
                 }, {
-                    field: "",
                     title: "면접심사",
                     template: function(e) {
                         if(e.RECRUIT_STATUS_SN > 4){

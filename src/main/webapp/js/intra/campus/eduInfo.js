@@ -56,13 +56,6 @@ var eduInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return'<button type="button" class="k-button k-button-solid-base" onclick=" eduInfo.mainGrid();">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
                         return'<button type="button" class="k-button k-button-solid-error" onclick=" eduInfo.setEduInfoDelete();">' +
                                 '	<span class="k-button-text">삭제</span>' +
                                 '</button>';
@@ -74,8 +67,23 @@ var eduInfo = {
                                 '	<span class="k-button-text">학습신청</span>' +
                                 '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return'<button type="button" class="k-button k-button-solid-base" onclick=" eduInfo.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
+            excel : {
+                fileName : "개인학습 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -96,6 +104,7 @@ var eduInfo = {
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "EDU_FORM_TYPE",
                     title: "학습방법",
                     width: 200,
                     template: function(row){
@@ -127,6 +136,7 @@ var eduInfo = {
                     field: "EDU_NAME",
                     title: "학습명"
                 }, {
+                    field: "START_DT",
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 200
@@ -142,6 +152,7 @@ var eduInfo = {
                     title: "목표레벨",
                     width: 100
                 }, {
+                    field: "TERM_TIME",
                     title: "학습시간",
                     width: 100,
                     template: function(row){
@@ -154,10 +165,12 @@ var eduInfo = {
                         return returnText;
                     }
                 },  {
+                    field: "REAL_EDU_TIME",
                     title: "인정시간",
                     template: "<span>#=REAL_EDU_TIME#시간</span>",
                     width: 100
                 }, {
+                    field: "STATUS",
                     title: "진행현황",
                     width: 180,
                     template: function(row){
