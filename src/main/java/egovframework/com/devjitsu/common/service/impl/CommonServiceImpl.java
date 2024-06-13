@@ -371,11 +371,16 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public List<Map<String, Object>> getFvMenu(Map<String, Object> params) {
-        return commonRepository.getFvMenu(params);
+        return commonRepository.getFvMenuMain(params);
     }
     @Override
     public void setDelFvMenu(Map<String, Object> params) {
         commonRepository.setDelFvMenu(params);
+    }
+
+    @Override
+    public void setFavoriteMenuInsert(Map<String, Object> params) {
+        commonRepository.setFavoriteMenuInsert(params);
     }
 
     @Override

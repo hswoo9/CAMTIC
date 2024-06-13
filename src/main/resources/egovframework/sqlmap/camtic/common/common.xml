@@ -536,6 +536,17 @@
         order by A.REG_DATE DESC
     </select>
 
+    <select id="getFvMenuMain" resultType="map" parameterType="map">
+        SELECT
+            (SELECT MENU_ID FROM CAM_COMMON.DJ_MENU_INFO WHERE MENU_TYPE = 'a' AND MENU_DEPTH = 1 LIMIT 1) AS UPPER_MENU_ID,
+            A.*
+        FROM
+            CAM_COMMON.DJ_FAVORITE_MENU A
+        WHERE A.REG_EMP_SEQ = #{empSeq}
+        order by A.REG_DATE DESC
+        LIMIT 9
+    </select>
+
     <delete id="setDelFvMenu" parameterType="map">
         /*fvMenuDelete*/
         DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and FV_MENU_ID = #{menuID}

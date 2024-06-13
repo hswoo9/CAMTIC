@@ -285,17 +285,15 @@
                 });
             } else {
                 $.ajax({
-                    url : "/main/getSearchMenuCnt",
+                    url : "/main/setFavoriteMenuInsert",
                     type : "GET",
                     data : {
                         empSeq : $("#regEmpSeq").val(),
                         menuID : menuID
                     },
                     success : function (data){
-                        if(data.rs.status == 200){
-                            $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");
-                            $("#changeChk").val("Y")
-                        }
+                        $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");
+                        $("#changeChk").val("Y")
                     },
                 });
             }

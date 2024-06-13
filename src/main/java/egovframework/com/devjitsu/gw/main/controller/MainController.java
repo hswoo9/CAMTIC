@@ -346,6 +346,15 @@ public class MainController {
     }
 
     /**
+     * 즐겨찾기 메뉴 추가
+     * */
+    @RequestMapping("/main/setFavoriteMenuInsert")
+    public String setFavoriteMenuInsert(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        commonService.setFavoriteMenuInsert(params);
+        return "jsonView";
+    }
+
+    /**
      * 즐겨찾기 메뉴 삭제
      * */
     @RequestMapping("/main/setDelFvMenu")
