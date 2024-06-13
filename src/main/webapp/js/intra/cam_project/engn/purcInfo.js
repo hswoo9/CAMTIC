@@ -258,12 +258,21 @@ var purcInfo = {
                         /** 구매청구서 작성시 검수 버튼 생성*/
                         let html = "";
                         if(e.ORG_YN == 'N'){
+                            if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend") {
+                                if(e.INSPECT_YN == "Y"){
+                                    return '<a onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', '+e.CLAIM_SN+')" style="font-weight: bold ">검수처리완료</a>'
+                                }
+                            }
                             if(e.PAYMENT_METHOD == "A"){
                                 if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                     if(e.CLAIM_STATUS == "CAYSY"){
                                         if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101") {
-                                            if(e.INSPECT_STATUS != "100"){
-                                                html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                            if(e.INSPECT_YN != "Y"){
+                                                if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend"){
+                                                    return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
+                                                } else {
+                                                    return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                                                }
                                             }else{
                                                 html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
 
@@ -281,8 +290,12 @@ var purcInfo = {
                             } else {
                                 if(e.CLAIM_STATUS == "CAYSY"){
                                     if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
-                                        if(e.INSPECT_STATUS != "100"){
-                                            html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        if(e.INSPECT_YN != "Y"){
+                                            if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend"){
+                                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
+                                            } else {
+                                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                                            }
                                         }else{
                                             html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                         }
@@ -741,10 +754,12 @@ var purcInfo = {
         });
     },
 
-    fn_inspectionPopup : function(key){
+    fn_inspectionPopup : function(key, mod, claimKey){
         var url = "/purc/pop/purcInspectionPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/purcInspectionPop.do?purcSn=" + key;
+        } else {
+            url = "/purc/pop/purcInspectionPop.do?claimSn=" + claimKey + "&mode=" + mod;
         }
         var name = "_blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no";

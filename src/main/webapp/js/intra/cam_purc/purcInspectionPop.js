@@ -468,7 +468,11 @@ var pri = {
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspectStat.do", formData);
         if(result.flag){
             alert("검수처리가 완료되었습니다.");
-            opener.parent.purcClaim.gridReload();
+            if(opener.parent.purcClaim != null){
+                opener.parent.purcClaim.gridReload();
+            } else {
+                opener.parent.purcInfo.gridReload();
+            }
             window.close();
         }
     },
