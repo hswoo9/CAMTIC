@@ -1,10 +1,23 @@
 let sum=0;
 var camPrj = {
 
+    global : {
+        allPjtYear : new Array()
+    },
+
     fn_defaultScript : function (){
 
         var pjtYear = customKendo.fn_customAjax("/project/getPjtYear", {});
         console.log("pjtYear", pjtYear);
+
+        const pjtYearArr = pjtYear.list;
+        const yearArr = new Array();
+        for(let i=0; i<pjtYearArr.length; i++){
+            yearArr.push(pjtYearArr[i].YEAR);
+        }
+
+        camPrj.global.allPjtYear = yearArr;
+
         customKendo.fn_dropDownList("pjtYear", pjtYear.list, "TEXT", "YEAR");
 
         customKendo.fn_textBox(["deptName", "searchText", "empName"]);
@@ -72,6 +85,8 @@ var camPrj = {
         })
 
         this.mainGrid();
+
+        $("#pjtYear").data("kendoDropDownList").bind("change", camPrj.gridReload)
     },
 
     gridReload : function (){
@@ -558,7 +573,8 @@ var camPrj = {
     },
 
     fn_tableSet: function(){
-        const data = { busnClass: "D" };
+        const pjtYear = $("#pjtYear").val();
+        const data = { busnClass: "D", pjtYear: pjtYear};
         const totalData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
 
         $("#expectEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT)+ "건</span>");
