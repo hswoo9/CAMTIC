@@ -210,7 +210,7 @@ public class AchieveController {
 
                     for(Map<String, Object> purcMap : purcList) {
                         if("CAYSY".equals(purcMap.get("CLAIM_STATUS"))){
-                            resInvSum += Integer.parseInt(purcMap.get("PURC_ITEM_AMT_SUM").toString());
+                            resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
                         }
                     }
                     map.put("incpCompAmt", resInvSum);

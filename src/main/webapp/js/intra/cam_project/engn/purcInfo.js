@@ -319,7 +319,7 @@ var purcInfo = {
                     template: function(e){
                         console.log(e)
                         purcSum  += Number(e.PURC_ITEM_AMT_SUM);
-                        return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
                     },
 
                     footerTemplate: function(){
@@ -340,7 +340,7 @@ var purcInfo = {
                         }
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
                     }
                 }, {
                     field: "APPROVE_STAT_CODE",
