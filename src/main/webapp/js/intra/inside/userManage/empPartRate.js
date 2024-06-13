@@ -143,6 +143,9 @@ var empPartRate = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="empPartRate.fn_gridReload()">' +
@@ -151,6 +154,11 @@ var empPartRate = {
                     }
                 },
             ],
+            excel : {
+                fileName : "직원별참여현황 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound: empPartRate.onDataBound,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -170,6 +178,7 @@ var empPartRate = {
                     field: "POSITION_NAME",
                     title: "직위"
                 }, {
+                    field: "MNG_STAT",
                     title: "상태",
                     width: 70,
                     template: function (e) {
@@ -200,6 +209,7 @@ var empPartRate = {
                     field: "PART_DET_END_DT",
                     title: "참여종료"
                 }, {
+                    field: "PART_EMP_SEQ",
                     title: "참여구분",
                     width: 70,
                     template: function (e) {
@@ -214,6 +224,7 @@ var empPartRate = {
                         }
                     }
                 }, {
+                    field: "EMP_SAL",
                     title: "기준급여",
                     width: 80,
                     template: function (e) {
@@ -224,6 +235,7 @@ var empPartRate = {
                         }
                     }
                 }, {
+                    field: "TOT_RATE",
                     title: "총참여율",
                     width: 70,
                     template: function (e) {
@@ -234,6 +246,7 @@ var empPartRate = {
                         }
                     }
                 }, {
+                    field: "MON_SAL",
                     title: "월지급액",
                     width: 70,
                     template: function (e) {

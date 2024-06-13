@@ -78,6 +78,9 @@ var rprReceiptList = {
             },
             toolbar : [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rprReceiptList.gridReload()">' +
@@ -86,6 +89,11 @@ var rprReceiptList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "접수내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -116,6 +124,7 @@ var rprReceiptList = {
                     title: "발명자",
                     width: 13
                 }, {
+                    field: "STATUS",
                     title: "상태",
                     template: function(row){
                         if(row.STATUS == 0){
@@ -134,7 +143,7 @@ var rprReceiptList = {
                     },
                     width: 5
                 }, {
-                    field: "등록",
+                    title: "등록",
                     width: 9,
                     template: function(row){
                         if(row.RPR_CLASS == "1" && row.STATUS == 100 && row.STAT == null) {

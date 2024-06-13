@@ -85,28 +85,34 @@ var holidayWorkApplicationAdmin ={
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplicationAdmin.gridReload();">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="holidayWorkApplicationAdmin.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                },
-                {
+                }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplicationAdmin.subHolidayReqPop2();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="holidayWorkApplicationAdmin.subHolidayReqPop2();">' +
                             '	<span class="k-button-text">신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplicationAdmin.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "휴일근로(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -130,23 +136,23 @@ var holidayWorkApplicationAdmin ={
                     width: 50
                 },
                 {
-                    field:"DEPT_NAME2",
-                    title:"부서/팀",
+                    field: "DEPT_NAME2",
+                    title: "부서/팀",
                     width: 250
                 },
                 {
-                    field:"EMP_NAME_KR",
-                    title:"이름",
+                    field: "EMP_NAME_KR",
+                    title: "이름",
                     width: 80
                 },
                 {
-                    field:"SUBHOLIDAY_DT_CODE_NM",
-                    title:"구분",
+                    field: "SUBHOLIDAY_DT_CODE_NM",
+                    title: "구분",
                     width: 100
                 },
                 {
-                    title:"신청일자",
                     field: "APPLY_DAY",
+                    title: "신청일자",
                     width: 100
                 },
                 {

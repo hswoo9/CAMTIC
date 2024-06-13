@@ -17,6 +17,10 @@ var eduManagement = {
         });
     },
 
+    gridReload: function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
     mainGrid : function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -58,12 +62,27 @@ var eduManagement = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="eduManagement.commonEduReqPop(\'ins\');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="eduManagement.commonEduReqPop(\'ins\');">' +
                             '	<span class="k-button-text">공통학습 추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="eduManagement.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "공통학습(관리자) 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -85,6 +104,7 @@ var eduManagement = {
                         return '<div style="font-weight: bold; cursor: pointer" onclick="eduManagement.commonEduReqPop(\'upd\', '+e.COMMON_EDU_SN+');">'+e.EDU_NAME+'</div>';
                     }
                 }, {
+                    field: "START_DT",
                     title: "학습기간",
                     width: 150,
                     template: function(row){
@@ -99,12 +119,14 @@ var eduManagement = {
                     title: "장소",
                     width: 100
                 }, {
+                    field: "PART_COUNT",
                     title: "수료/미수료",
                     width: 50,
                     template: function(row){
                         return row.PART_COUNT+"/"+row.NO_PART_COUNT;
                     }
                 }, {
+                    field: "STATUS",
                     title: "진행현황",
                     width: 50,
                     template: function(row){

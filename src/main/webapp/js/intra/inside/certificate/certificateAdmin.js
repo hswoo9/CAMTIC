@@ -130,6 +130,9 @@ var certificateAdmin = {
             },
             toolbar : [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="certificateAdmin.gridReload();">' +
@@ -138,6 +141,11 @@ var certificateAdmin = {
                     }
                 }
             ],
+            excel : {
+                fileName : "증명서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -148,6 +156,7 @@ var certificateAdmin = {
                     title: "발급 번호",
                     width: 80
                 }, */{
+                    field: "DOCU_YEAR_DE",
                     title: "발급번호",
                     width: 100,
                     template: function(row){
@@ -182,6 +191,7 @@ var certificateAdmin = {
                     title: "제출예정일",
                     width: 130
                 }, {
+                    field: "STATUS",
                     title: "처리 상태",
                     template : function(row){
                         if(row.STATUS == "10") {
@@ -238,7 +248,6 @@ var certificateAdmin = {
                         }
                     }
                 }, {
-                    field: "",
                     title: "비고",
                     template : function(e){
                         if(e.STATUS == "10"){

@@ -285,37 +285,33 @@ var userPersonList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                },
-                {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="userPersonList.userReqPop();">' +
                             '	<span class="k-button-text">직원 추가</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.sendSmsPop()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="userPersonList.sendSmsPop()">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
                 }, {
-                    name: 'excel',
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
                     template: function (e) {
-
-                        return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
-                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
-                        /*name: 'excel',
-                        text: '엑셀다운로드'*/
                     }
-                },
+                }
             ],
+            excel : {
+                fileName : "인사(관리자) 목록.xlsx",
+                filterable : true
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -362,6 +358,7 @@ var userPersonList = {
                     field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
+                    field: "SPOT",
                     title: "직위",
                     template: function(row){
                         return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
@@ -399,37 +396,34 @@ var userPersonList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                },
-                {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userReqPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="userPersonList.userReqPop();">' +
                             '	<span class="k-button-text">직원 추가</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.sendSmsPop()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="userPersonList.sendSmsPop()">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
                 }, {
-                    name: 'excel',
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
                     template: function (e) {
-
-                        return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
-                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
-                        /*name: 'excel',
-                        text: '엑셀다운로드'*/
                     }
-                },
+                }
             ],
+            excel : {
+                fileName : "퇴사자 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -476,6 +470,7 @@ var userPersonList = {
                     field: "DEPT_TEAM_NAME",
                     title: "부서(팀)"
                 }, {
+                    field: "SPOT",
                     title: "직위",
                     template: function(row){
                         return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
@@ -487,8 +482,8 @@ var userPersonList = {
                     field: "MOBILE_TEL_NUM",
                     title: "핸드폰"
                 }, {
-                    title: "퇴사일",
                     field: "RESIGN_DAY",
+                    title: "퇴사일"
                 }
             ],
             dataBinding: function(){

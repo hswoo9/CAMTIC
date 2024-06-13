@@ -135,23 +135,15 @@ var equipmentListAdminView = {
                     name: '',
                     text: '마감상태 변경',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.selectChkEnd();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="equipmentListAdminView.selectChkEnd();">' +
                             '   <span class="k-button-text">마감상태 변경</span>' +
-                            '</button>';
-                    }
-                },{
-                    name: '',
-                    text: '조회',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.mainGrid();">' +
-                            '   <span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
                     name: '',
                     text: '장비관리',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipmentmangePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="equipmentListAdminView.equipmentmangePopup();">' +
                             '   <span class="k-button-text">장비관리</span>' +
                             '</button>';
                     }
@@ -159,19 +151,35 @@ var equipmentListAdminView = {
                     name: '',
                     text: '결재',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipAppPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="equipmentListAdminView.equipAppPop();">' +
                             '   <span class="k-button-text">결재</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.equipStatPopup();">' +
-                            '	<span class="k-button-text">통계 조회</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="equipmentListAdminView.equipStatPopup();">' +
+                            '	<span class="k-button-text">장비통계</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: '',
+                    text: '조회',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentListAdminView.mainGrid();">' +
+                            '   <span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "장비활용실적 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },

@@ -53,18 +53,34 @@ var openStudy = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="openStudy.mainGrid();">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>' +
-                            '<button type="button" class="k-button k-button-solid-base" onclick=" openStudy.setOpenStudyInfoDelete();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="openStudy.setOpenStudyInfoDelete()">' +
                             '	<span class="k-button-text">삭제</span>' +
-                            '</button>'+
-                        '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="openStudy.openStudyReqPop(\'ins\');">' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="openStudy.openStudyReqPop(\'ins\')">' +
                             '	<span class="k-button-text">모임개설</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="openStudy.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "오픈스터디 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             dataBound : openStudy.onDataBound,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -81,9 +97,9 @@ var openStudy = {
                     },
                     width: 50
                 }, {
-                    field: "ROW_NUM",
                     title: "순번",
-                    width: 50
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "OPEN_STUDY_NAME",
                     title: "학습주제"
@@ -106,6 +122,7 @@ var openStudy = {
                         return text;
                     }*/
                 }, {
+                    field: "OPEN_STUDY_DT",
                     title: "학습기간",
                     width: 250,
                     template: function(row){
@@ -121,7 +138,7 @@ var openStudy = {
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
                     width: 80
                 }, {
-                    field: "",
+                    field: "STEP",
                     title: "진행현황",
                     width: 150,
                     template: function(row){
@@ -150,7 +167,10 @@ var openStudy = {
 
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

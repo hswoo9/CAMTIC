@@ -76,37 +76,37 @@ var bookList = {
                 });
             },
             toolbar : [
-                /*{
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookManagePopUp();">' +
-                            '	<span class="k-button-text">분류관리</span>' +
-                            '</button>';
-                    }
-                },*/
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookRegisPopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bookList.bookRegisPopup();">' +
                             '	<span class="k-button-text">도서등록</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bookList.bookCodePopup();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bookList.bookCodePopup();">' +
                             '	<span class="k-button-text">분류코드</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
+            excel : {
+                fileName : "도서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -124,6 +124,7 @@ var bookList = {
                     }
                 }, */
                 {
+                    field: "BK_LG_CD_NAME",
                     title: "코드",
                     template : function(row){
                         return row.BK_LG_CD_NAME+"-"+row.BK_MD_CD + row.BK_CD
