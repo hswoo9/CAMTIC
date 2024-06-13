@@ -222,7 +222,7 @@ var regIncpRe = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    window.close();
+                    location.href="/payApp/pop/regIncpRePop.do?payIncpSn=" + $("#payIncpSn").val() + "&payIncpReSn=" + rs.rs.payIncpReSn;
                 }
             }
         })
@@ -254,7 +254,9 @@ var regIncpRe = {
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
 
-                    opener.parent.incomeReList.gridReload();
+                    if(opener.parent.incomeReList != null){
+                        opener.parent.incomeReList.gridReload();
+                    }
                     window.close();
                 }
             }
@@ -323,9 +325,6 @@ var regIncpRe = {
             html += '</tr>';
         }
 
-
-
-        console.log(html);
         $("#reBody").html(html);
 
         $(".crmNm, .inDt, .totAmt").kendoTextBox();

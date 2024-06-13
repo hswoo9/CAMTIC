@@ -3384,7 +3384,7 @@
         /*delIncpRe*/
         DELETE FROM CAM_MNG.DJ_PAY_INCP_RE
         WHERE
-            PAY_INCP_RE_SN = #{payIncpReSn}
+            PAY_INCP_RE_SN = #{payIncpReSn} OR GROUP_KEY = #{payIncpReSn}
     </delete>
 
     <select id="getTaxMap" parameterType="map" resultType="map">

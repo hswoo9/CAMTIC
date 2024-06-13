@@ -1883,6 +1883,8 @@ public class PayAppServiceImpl implements PayAppService {
             }
         }
 
+        params.put("payIncpReSn", groupKey);
+
         return params;
     }
 
