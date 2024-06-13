@@ -270,6 +270,10 @@ var projectView = {
                     data.busnClass = $("#busnClass").val();
                     data.myEmpSeq = $("#myEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
+
+                    if($("#openType").val() == "regRnd"){
+                        data.tmStat = "N";
+                    }
                     return data;
                 }
             },

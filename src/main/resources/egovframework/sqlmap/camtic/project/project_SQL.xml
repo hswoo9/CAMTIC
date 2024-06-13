@@ -198,6 +198,7 @@
     </select>
 
     <select id="getDepoManageProjectList" parameterType="map" resultType="map">
+        /* getDepoManageProjectList */
         SELECT
             A.*,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
@@ -269,6 +270,7 @@
     </select>
 
     <select id="getAllProjectList" parameterType="map" resultType="map">
+        /* getAllProjectList */
         SELECT * FROM (
             SELECT
                 A.PJT_SN, A.PJT_CD, A.BUSN_CLASS, A.BUSN_NM, A.PJT_NM, A.PJT_AMT, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS END_DT, A.EMP_NAME, A.PM, A.PJT_STEP, A.PJT_STEP_NM, A.PJT_STOP
@@ -276,8 +278,10 @@
                 CAM_PJT_MNG.DJ_PROJECT A
             WHERE
                 1=1
-            AND A.TEAM_STAT = "N"
             AND A.PARENT_PJT_SN IS NULL
+            <if test='tmStat != null and !"".equals(tmStat)'>
+                AND A.TEAM_STAT = #{tmStat}
+            </if>
 
             UNION ALL
 
@@ -290,7 +294,7 @@
         <choose>
             <when test='busnClass != null and busnClass != ""'>
                 AND
-                RE.BUSN_CLASS = #{busnClass}
+                    RE.BUSN_CLASS = #{busnClass}
             </when>
             <otherwise>
                 AND RE.PJT_CD IS NOT NULL
