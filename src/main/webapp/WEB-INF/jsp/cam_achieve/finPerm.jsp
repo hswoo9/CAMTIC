@@ -108,6 +108,7 @@
                     <input type="text" id="dept" style="width: 250px;" />
                 </span>
                 <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="finPerm.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
+                <button type="button" class="k-button k-button-solid-base" id="objSetting" onclick="finPerm.fn_objSetting();" style="margin-bottom: 5px; margin-right:5px; float: right">목표설정</button>
 
                 <div id="statTable" style="" view="Y">
                     <table class="totalTable table table-bordered" style="margin-bottom: 0px">

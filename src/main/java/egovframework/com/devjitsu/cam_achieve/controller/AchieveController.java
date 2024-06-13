@@ -59,7 +59,11 @@ public class AchieveController {
      * @return
      */
     @RequestMapping("/cam_achieve/finPerm.do")
-    public String finPerm(@RequestParam Map<String, Object> params, Model model) {
+    public String finPerm(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
         return "cam_achieve/finPerm";
     }
 
@@ -85,10 +89,8 @@ public class AchieveController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        params.put("deptLevel", "1");
-        List<Map<String, Object>> list = new ArrayList<>();
-        if(achieveService.getDeptObjList(params).size() > 0){
-            list = achieveService.getDeptObjList(params);
+        List<Map<String, Object>> list = achieveService.getDeptObjList(params);
+        if(list.size() > 0){
             params.put("type", "upd");
         } else {
             list = deptService.getDeptAList(params);

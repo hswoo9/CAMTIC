@@ -12,6 +12,7 @@
         <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="year" value="${params.year}">
         <input type="hidden" id="type" value="${params.type}">
+        <input type="hidden" id="deptLevel" value="${params.deptLevel}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">목표설정</span></h3>
             <div class="btn-st popButton">
@@ -23,7 +24,7 @@
             <div style="padding: 10px 15px;">
 
                 <div style="float: right; margin-top: 5px;">
-                    <span>(단위 : 백만원)</span>
+                    <c:if test="${params.deptLevel eq '1'}"><span>(단위 : 백만원)</span></c:if>
                 </div>
                 <table class="popTable table table-bordered mb-0">
                     <colgroup>
@@ -38,15 +39,28 @@
                         <td style="text-align: center;"><b>매출</b></td>
                         <td style="text-align: center;"><b>운영수익</b></td>
                     </tr>
-                    <c:forEach var="l" items="${list}" varStatus="status">
-                        <tr style="background-color: white" class="objTr">
-                            <input type="hidden" class="deptSeq" value="${l.dept_seq}">
-                            <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
-                            <td><input type="text" id="delvObj_${l.dept_seq}" name="delvObj" style="text-align: right;" value="${l.DELV_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
-                            <td><input type="text" id="saleObj_${l.dept_seq}" name="saleObj" style="text-align: right;" value="${l.SALE_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
-                            <td><input type="text" id="incpObj_${l.dept_seq}" name="incpObj" style="text-align: right;" value="${l.INCP_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
-                        </tr>
-                    </c:forEach>
+                    <c:if test="${params.deptLevel eq '1'}">
+                        <c:forEach var="l" items="${list}" varStatus="status">
+                            <tr style="background-color: white" class="objTr">
+                                <input type="hidden" class="deptSeq" value="${l.dept_seq}">
+                                <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
+                                <td><input type="text" id="delvObj_${l.dept_seq}" name="delvObj" style="text-align: right;" value="${l.DELV_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                <td><input type="text" id="saleObj_${l.dept_seq}" name="saleObj" style="text-align: right;" value="${l.SALE_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                <td><input type="text" id="incpObj_${l.dept_seq}" name="incpObj" style="text-align: right;" value="${l.INCP_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${params.deptLevel eq '2'}">
+                        <c:forEach var="l" items="${list}" varStatus="status">
+                            <tr style="background-color: white" class="objTr">
+                                <input type="hidden" class="deptSeq" value="${l.dept_seq}">
+                                <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
+                                <td><input type="text" id="delvObj_${l.dept_seq}" name="delvObj" style="text-align: right;" value="${l.DELV_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                <td><input type="text" id="saleObj_${l.dept_seq}" name="saleObj" style="text-align: right;" value="${l.SALE_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                <td><input type="text" id="incpObj_${l.dept_seq}" name="incpObj" style="text-align: right;" value="${l.INCP_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                 </table>
             </div>
         </div>

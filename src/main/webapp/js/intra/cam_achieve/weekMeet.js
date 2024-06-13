@@ -121,7 +121,7 @@ var weekMeet = {
     },
 
     fn_objSetting : function(){
-        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val();
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val() + "&deptLevel=1";
         var name = "_blank";
         var option = "width = 680, height = 500, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -273,6 +273,18 @@ var finPerm = {
 
 
 
+    },
+
+    fn_objSetting : function(){
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val() + "&deptLevel=2";
+
+        if($("#dept").val() != ""){
+            url += "&deptSeq=" + $("#dept").val();
+        }
+
+        var name = "_blank";
+        var option = "width = 680, height = 500, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 
