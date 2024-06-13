@@ -784,11 +784,9 @@
                 ${item}
             </foreach>
         </if>
-        <if test='dsI == "Y" or "Y".equals(dsI)'>
-            AND
-            TEMP_DIVISION = "Y"
-        </if>
         AND VUI.EMP_SEQ NOT IN (1)
+        AND VUI.WORK_STATUS_CODE = 'Y'
+        AND TEMP_DIVISION = 'N'
 
         GROUP BY VUI.EMP_SEQ ) RE
 
