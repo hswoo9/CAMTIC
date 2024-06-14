@@ -19,5 +19,30 @@ var docViewInit = {
             hwpDocCtrl.moveToField("CL_ISS", true, true, false);
             hwpDocCtrl.setTextFile(map.CL_ISS.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
+    },
+
+    accCertInit: function(accCertSn){
+        const accCertInfo = customKendo.fn_customAjax("/customDoc/getAccCertData", {accCertSn: accCertSn});
+        const map = accCertInfo.data;
+        console.log("map : ", map);
+
+        let accText = "";
+        if(map.ACC_CERT_TYPE == "A"){
+            accText = "은행용인증서■ 범용인증서□";
+        }else{
+            accText = "은행용인증서□ 범용인증서■";
+        }
+        hwpDocCtrl.putFieldText("ACC_CERT_TYPE", accText);
+        hwpDocCtrl.putFieldText("DEPT_NAME", map.DEPT_NAME);
+        hwpDocCtrl.putFieldText("USE_DE", map.STR_DE +"~"+ map.END_DE);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 사용용도 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("ACC_CERT_USE", "");
+            hwpDocCtrl.moveToField("ACC_CERT_USE", true, true, false);
+            hwpDocCtrl.setTextFile(map.ACC_CERT_USE.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
     }
 }

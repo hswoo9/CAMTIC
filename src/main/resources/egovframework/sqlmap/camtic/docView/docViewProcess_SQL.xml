@@ -23,4 +23,25 @@
         WHERE
             TP_CL_SN = #{tpClSn}
     </update>
+
+    <update id="updateAccCertApprStat" parameterType="map">
+        /* updateAccCertApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_ACC_CERT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            ACC_CERT_SN = #{accCertSn}
+    </update>
+
+    <update id="updateAccCertFinalApprStat" parameterType="map">
+        /* updateAccCertFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_ACC_CERT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            ACC_CERT_SN = #{accCertSn}
+    </update>
 </mapper>
