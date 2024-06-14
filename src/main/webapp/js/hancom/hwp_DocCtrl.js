@@ -589,6 +589,14 @@ var hwpDocCtrl = {
             const documentSn = data.approKey.split("_")[1];
             if (documentSn == null || documentSn == undefined || documentSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             insideInit.inComeInit(documentSn);
+        }else if(data.menuCd == "inCome") {
+            const documentSn = data.approKey.split("_")[1];
+            if (documentSn == null || documentSn == undefined || documentSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            insideInit.inComeInit(documentSn);
+        }else if(data.menuCd == "cardLoss") {
+            const tpClSn = data.approKey.split("_")[1];
+            if (tpClSn == null || tpClSn == undefined || tpClSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.cardLossInit(tpClSn);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -827,6 +835,12 @@ var hwpDocCtrl = {
             const ran = pk;
             if (ran == null || ran == undefined || ran == "") { alert(errorText); return; }
             itemInit.itemInit(ran);
+
+        }else if(data.menuCd == "cardLoss") {
+
+            const tpClSn = pk;
+            if (tpClSn == null || tpClSn == undefined || tpClSn == "") { alert(errorText); return; }
+            docViewInit.cardLossInit(tpClSn);
 
         }
 
