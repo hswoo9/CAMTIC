@@ -221,17 +221,21 @@ var bgView = {
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
                         var idx = $("#idx").val();
-                        var subAm = "";
+                        var subAm = 0;
 
                         if($("#status").val() != "incp"){
                             if($("#payAppType").val() == "4"){
                                 subAm += Number(e.SUB_AM);
                             } else {
-                                subAm += Number(e.CALC_AM - e.WAIT_CK);
+                                subAm += Number(e.CALC_AM) - Number(e.WAIT_CK == null ? 0 : e.WAIT_CK);
                             }
                         } else {
                             subAm += Number(e.SUB_AM);
                         }
+                        console.log(e.SUB_AM);
+                        console.log(e.CALC_AM);
+                        console.log(e.WAIT_CK);
+                        console.log(subAm);
 
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + subAm + '\')">선택</button>';
                     }
