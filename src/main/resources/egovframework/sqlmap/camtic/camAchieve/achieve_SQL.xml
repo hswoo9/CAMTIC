@@ -496,4 +496,19 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <select id="getDeptObjAmt" parameterType="map" resultType="map">
+        /*getDeptObjAmt*/
+        SELECT
+            IFNULL(SUM(DELV_OBJ),0) AS DELV_OBJ,
+            IFNULL(SUM(SALE_OBJ),0) AS SALE_OBJ,
+            IFNULL(SUM(INCP_OBJ),0) AS INCP_OBJ
+        FROM
+            CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
+        WHERE BASE_YEAR = #{year}
+          AND DEPT_LEVEL = #{deptLevel}
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND DEPT_SEQ = #{deptSeq}
+        </if>
+    </select>
 </mapper>

@@ -147,6 +147,13 @@ public class AchieveServiceImpl implements AchieveService {
         result.put("engnAmt", engnAmt);
         result.put("rndAmt", rndAmt);
 
+        // 목표
+        params.put("deptLevel", "2");
+        Map<String, Object> deptObj = achieveRepository.getDeptObjAmt(params);
+        result.put("objDelvAmt", deptObj.get("DELV_OBJ").toString());
+        result.put("objSaleAmt", deptObj.get("SALE_OBJ").toString());
+        result.put("objIncpAmt", deptObj.get("INCP_OBJ").toString());
+
         return result;
     }
 
@@ -175,7 +182,6 @@ public class AchieveServiceImpl implements AchieveService {
 
     @Override
     public List<Map<String, Object>> getDeptObjList(Map<String, Object> params) {
-        List<Map<String, Object>> resultMap = achieveRepository.getDeptObjList(params);
         return achieveRepository.getDeptObjList(params);
     }
 
