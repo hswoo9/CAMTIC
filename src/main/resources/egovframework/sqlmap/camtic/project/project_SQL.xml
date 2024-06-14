@@ -82,8 +82,11 @@
                 PR.STATUS = '100'
         </if>
         <if test='deptSeq != null and deptSeq != ""'>
-            AND
-                A.DEPT_SEQ in (${deptSeq})
+            AND (
+                A.DEPT_SEQ IN (${deptSeq})
+                OR
+                A.DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ IN (${deptSeq})))
+            )
         </if>
         <if test='"1".equals(searchValue)'>
             AND

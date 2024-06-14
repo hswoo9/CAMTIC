@@ -248,7 +248,7 @@ var certificateAdmin = {
                         }
                     }
                 }, {
-                    title: "비고",
+                    title: "처리",
                     template : function(e){
                         if(e.STATUS == "10"){
                             return '<span>' +
