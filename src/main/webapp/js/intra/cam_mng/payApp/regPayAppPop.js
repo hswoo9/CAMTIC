@@ -345,6 +345,7 @@ var regPay = {
                         $("#budgetSn" + idx).val(cem.BUDGET_SN);
                         $("#budgetAmt" + idx).val(9999999999);
 
+                        $("#fileNo" + idx).val(ls[i].FILE_NO || "");
                         $("#authDd" + idx).val(ls[i].AUTH_DD || "");
                         $("#authHh" + idx).val(ls[i].AUTH_HH || "");
                         $("#authNo" + idx).val(ls[i].AUTH_NO || "");
@@ -396,6 +397,7 @@ var regPay = {
                         $("#budgetSn" + idx).val(cem.BUDGET_SN);
                         $("#budgetAmt" + idx).val(9999999999);
 
+                        $("#fileNo" + idx).val(ls[i].FILE_NO || "");
                         $("#issNo" + idx).val(ls[i].ISS_NO || "");
                         $("#coCd" + idx).val(ls[i].CO_CD || "");
                         $("#taxTy" + idx).val(ls[i].TAX_TY || "");
@@ -561,6 +563,7 @@ var regPay = {
                     $("#budgetSn" + i).val(cem.BUDGET_SN);
                     $("#budgetAmt" + i).val(9999999999);
 
+                    $("#fileNo" + i).val(ls[i].FILE_NO || "");
                     $("#authDd" + i).val(ls[i].AUTH_DD || "");
                     $("#authHh" + i).val(ls[i].AUTH_HH || "");
                     $("#authNo" + i).val(ls[i].AUTH_NO || "");
@@ -611,6 +614,7 @@ var regPay = {
                     $("#budgetSn" + i).val(cem.BUDGET_SN);
                     $("#budgetAmt" + i).val(9999999999);
 
+                    $("#fileNo" + i).val(ls[i].FILE_NO || "");
                     $("#issNo" + i).val(ls[i].ISS_NO || "");
                     $("#coCd" + i).val(ls[i].CO_CD || "");
                     $("#taxTy" + i).val(ls[i].TAX_TY || "");
