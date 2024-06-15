@@ -57,7 +57,8 @@
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid"></div>
+                <div id="allEduAdminGrid"></div>
+                <div id="allEduAdminHiddenGrid" style="margin:20px 0; display: none;"></div>
             </div>
         </div>
     </div>

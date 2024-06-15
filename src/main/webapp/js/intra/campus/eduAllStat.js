@@ -7,7 +7,8 @@ var eduAllStat = {
 
     init: function() {
         eduAllStat.dataSet();
-        eduAllStat.mainGrid();
+        eduAllStat.mainGrid()
+        eduAllStat.hiddenGrid();
     },
 
     dataSet: function(){
@@ -81,7 +82,7 @@ var eduAllStat = {
             ]
         });
 
-        $("#mainGrid").kendoGrid({
+        $("#allEduGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
@@ -95,13 +96,18 @@ var eduAllStat = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="eduAllStat.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="eduAllStat.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     },
-                }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
                 }
             ],
             excel : {
@@ -190,10 +196,137 @@ var eduAllStat = {
                 }
             ]
         }).data("kendoGrid");
-    }
-}
+    },
 
-function gridReload(){
-    sum = 0;
-    $("#mainGrid").data("kendoGrid").dataSource.read();
+    hiddenGrid: function() {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/campus/getEduAllStatList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.active = $("#active").val();
+                    data.sEmpName = $("#sEmpName").val();
+                    data.dept = $("#dept").data("kendoDropDownList").value();
+                    data.team = $("#team").data("kendoDropDownList").value();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                }
+            },
+            pageSize: 99999,
+            sort: [
+                { field: "DEPT", dir: "asc" },
+                { field: "DUTY_NAME", dir: "desc", compare: eduAllStat.dutyNameCompare() },
+                { field: "EMP_NAME", dir: "asc" }
+            ]
+        });
+
+        $("#allEduHiddenGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height: 508,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "DEPT",
+                    title: "부서",
+                    width: 455
+                }, {
+                    field: "SPOT",
+                    title: "직위",
+                    width: 125
+                }, {
+                    field: "EMP_NAME",
+                    title: "성명",
+                    width: 100
+                }, {
+                    field: "PERSONAL_TIME",
+                    title: "개인학습 시간",
+                    width: 125
+                }, {
+                    field: "PERSONAL_COUNT",
+                    title: "개인학습 건",
+                    width: 125
+                }, {
+                    field: "COMMON_EDU_TIME",
+                    title: "공통학습 시간",
+                    width: 125
+                }, {
+                    field: "COMMON_EDU_COUNT",
+                    title: "공통학습 건",
+                    width: 125
+                }, {
+                    field: "STUDY_TIME",
+                    title: "학습조 시간",
+                    width: 125
+                }, {
+                    field: "STUDY_COUNT",
+                    title: "학습조 건",
+                    width: 125
+                }, {
+                    field: "PROPAG_TIME",
+                    title: "전파학습 시간",
+                    width: 125
+                }, {
+                    field: "PROPAG_COUNT",
+                    title: "전파학습 건",
+                    width: 125
+                }, {
+                    field: "OJT_TIME",
+                    title: "OJT 시간",
+                    width: 125
+                }, {
+                    field: "OJT_COUNT",
+                    title: "OJT 건",
+                    width: 125
+                }, {
+                    field: "OPEN_STUDY_TIME",
+                    title: "오픈스터디 시간",
+                    width: 125
+                }, {
+                    field: "OPEN_STUDY_COUNT",
+                    title: "오픈스터디 건",
+                    width: 125
+                }, {
+                    field: "TOT_TIME",
+                    title: "합계 시간",
+                    width: 125
+                }, {
+                    field: "TOT_COUNT",
+                    title: "합계 건",
+                    width: 125
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
+    gridReload : function() {
+        sum = 0;
+        $("#allEduGrid").data("kendoGrid").dataSource.read();
+        $("#allEduHiddenGrid").data("kendoGrid").dataSource.read();
+    },
+
+    fn_excelDownload: function(){
+        var grid = $("#allEduHiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "전체학습통계 목록.xlsx";
+        });
+        grid.saveAsExcel();
+    }
 }
