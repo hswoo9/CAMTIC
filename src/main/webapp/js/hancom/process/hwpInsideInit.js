@@ -24,7 +24,7 @@ var insideInit = {
         setTimeout(function() {
             hwpDocCtrl.putFieldText("remarkCn", "");
             hwpDocCtrl.moveToField("remarkCn", true, true, false);
-            hwpDocCtrl.setTextFile(map.REMARK_CN.replaceAll("\n", "<br>"), "html","insertfile");
+            hwpDocCtrl.setTextFile('<span style="font-family:굴림체;">' + map.REMARK_CN.replaceAll("\n", "<br>") + '</span>', "html","insertfile");
         }, 1000);
     }
 }
