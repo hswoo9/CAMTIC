@@ -23,6 +23,7 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">통장 발급신청서</span>
             </h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" id="printBtn" style="display: none; margin-right:5px;" onclick="corpBankPrintPop()">인쇄</button>
                 <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="fn_save()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
@@ -181,7 +182,9 @@
         $("#corpExp").val(comma(result.CORP_EXP));
         $("#corpBankSn").val(result.CORP_BANK_SN);
 
-
+        if($("#corpBankSn").val() != ""){
+            $("#printBtn").show();
+        }
     }
 
     function fn_projectPop (type){
@@ -223,7 +226,13 @@
         return str.replace(/[^\d]+/g, '');
     }
 
-
+    function corpBankPrintPop(){
+        const corpBankSn = $("#corpBankSn").val();
+        let url = "/customDoc/pop/corpBankPrintPop.do?corpBankSn="+corpBankSn;
+        const name = "corpBankPrintPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open(url, name, option);
+    }
 </script>
 </body>
 </html>

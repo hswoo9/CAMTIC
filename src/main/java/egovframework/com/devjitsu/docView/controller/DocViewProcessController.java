@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.docView.controller;
 
+import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.docView.service.DocViewProcessService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
@@ -22,6 +24,8 @@ public class DocViewProcessController {
 
     @Autowired
     private DocViewProcessService docViewProcessService;
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     /** 법인카드 분실신고서 전자결재 페이지*/
     @RequestMapping("/popup/customDoc/approvalFormPopup/cardLossApprovalPop.do")
@@ -41,6 +45,27 @@ public class DocViewProcessController {
         model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
         return "/popup/docView/approvalFormPopup/accCertApprovalPop";
+    }
+
+    /** 법인 통장 발급 신청서 페이지*/
+    @RequestMapping("/customDoc/pop/corpBankPrintPop.do")
+    public String corpBankPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/docView/approvalFormPopup/corpBankPrintPop";
     }
 
     /** 법인카드 분실신고서 결재 상태값에 따른 UPDATE 메서드 */
