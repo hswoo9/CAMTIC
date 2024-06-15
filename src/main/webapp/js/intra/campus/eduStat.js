@@ -80,6 +80,11 @@ var eduStat = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            excel : {
+                fileName : "개인학습통계 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     field: "TEAM",
@@ -113,6 +118,7 @@ var eduStat = {
                     title: "학습목표",
                     width: 150
                 }, {
+                    field: "SUM_TIME",
                     title: "인정시간",
                     width: 150,
                     template : function (row){
