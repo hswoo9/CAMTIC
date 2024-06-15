@@ -577,6 +577,7 @@
     <select id="getEmpData" parameterType="map" resultType="map">
         /*getEmpData*/
         SELECT
+            HEI.BDAY,
             HEI.JOIN_DAY,
             HEI.JOB_DETAIL,
             HEI.RES_REGIS_NUM AS REGIST_NO,
@@ -605,5 +606,94 @@
         DELETE FROM CAM_INSIDE.DJ_TP_RESIGN
         WHERE
             RESIGN_SN = #{resignSn}
+    </delete>
+
+    <insert id="insertDetails" parameterType="map">
+        /*insertDetails*/
+        INSERT INTO CAM_INSIDE.DJ_TP_DETAILS
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                BDAY,
+                JOIN_COMP,
+                DET_TITLE,
+                DET_DE,
+                DET_LOC,
+                DET_CONT,
+                DET_ETC,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{bday},
+                #{joinComp},
+                #{detTitle},
+                #{detDe},
+                #{detLoc},
+                #{detCont},
+                #{detEtc},
+                #{empSeq}
+            )
+        <selectKey keyProperty="detSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_DETAILS'
+        </selectKey>
+    </insert>
+
+    <update id="updateDetails" parameterType="map">
+        /*updateDetails*/
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            BDAY = #{bday},
+            JOIN_COMP = #{joinComp},
+            DET_TITLE = #{detTitle},
+            DET_DE = #{detDe},
+            DET_LOC = #{detLoc},
+            DET_CONT = #{detCont},
+            DET_ETC = #{detEtc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            DET_SN = #{detSn}
+    </update>
+
+    <select id="getDetailsData" parameterType="map" resultType="map">
+        /*getDetailsData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_DETAILS
+        WHERE
+            DET_SN = #{detSn}
+    </select>
+
+    <select id="getDetailsList" parameterType="map" resultType="map">
+        /*getDetailsList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_DETAILS A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delDetails" parameterType="map">
+        /*delDetails*/
+        DELETE FROM CAM_INSIDE.DJ_TP_DETAILS
+        WHERE
+            DET_SN = #{detSn}
     </delete>
 </mapper>

@@ -465,7 +465,6 @@ public class DocViewController {
         return "jsonView";
     }
 
-    //aa
     @RequestMapping("/customDoc/resign.do")
     public String resign(HttpServletRequest request, Model model) {
 
@@ -532,6 +531,81 @@ public class DocViewController {
 
         try{
             docViewService.delResign(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    //aa
+    @RequestMapping("/customDoc/details.do")
+    public String details(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/details";
+    }
+
+    @RequestMapping("/customDoc/pop/popDetails.do")
+    public String popDetails(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("data", docViewService.getEmpData(params));
+
+        return "popup/docView/popDetails";
+    }
+
+    @RequestMapping("/customDoc/saveDetails")
+    public String saveDetails(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            docViewService.saveDetails(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getDetailsData")
+    public String getDetailsData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getDetailsData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getDetailsList")
+    public String getDetailsList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getDetailsList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delDetails")
+    public String delDetails(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delDetails(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

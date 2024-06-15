@@ -64,4 +64,12 @@ public interface DocViewService {
     List<Map<String, Object>> getResignList(Map<String, Object> params);
 
     void delResign(Map<String, Object> params);
+
+    void saveDetails(Map<String, Object> params);
+
+    Map<String, Object> getDetailsData(Map<String, Object> params);
+
+    List<Map<String, Object>> getDetailsList(Map<String, Object> params);
+
+    void delDetails(Map<String, Object> params);
 }
