@@ -696,4 +696,87 @@
         WHERE
             DET_SN = #{detSn}
     </delete>
+
+    <insert id="insertCond" parameterType="map">
+        /*insertCond*/
+        INSERT INTO CAM_INSIDE.DJ_TP_COND
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                COND_CONT,
+                COND_TARGET_NAME,
+                COND_RET,
+                ETC,
+                COND_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{condCont},
+                #{condTargetName},
+                #{condRet},
+                #{etc},
+                #{condAmt},
+                #{empSeq}
+            )
+        <selectKey keyProperty="condSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_COND'
+        </selectKey>
+    </insert>
+
+    <update id="updateCond" parameterType="map">
+        /*updateCond*/
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            COND_CONT = #{condCont},
+            COND_TARGET_NAME = #{condTargetName},
+            COND_RET = #{condRet},
+            ETC = #{etc},
+            COND_AMT = #{condAmt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            COND_SN = #{condSn}
+    </update>
+
+    <select id="getCondData" parameterType="map" resultType="map">
+        /*getCondData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_COND
+        WHERE
+            COND_SN = #{condSn}
+    </select>
+
+    <select id="getCondList" parameterType="map" resultType="map">
+        /*getCondList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_COND A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delCond" parameterType="map">
+        /*delCond*/
+        DELETE FROM CAM_INSIDE.DJ_TP_COND
+        WHERE
+            COND_SN = #{condSn}
+    </delete>
 </mapper>

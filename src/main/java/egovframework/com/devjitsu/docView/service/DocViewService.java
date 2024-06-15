@@ -72,4 +72,12 @@ public interface DocViewService {
     List<Map<String, Object>> getDetailsList(Map<String, Object> params);
 
     void delDetails(Map<String, Object> params);
+
+    void saveCond(Map<String, Object> params);
+
+    Map<String, Object> getCondData(Map<String, Object> params);
+
+    List<Map<String, Object>> getCondList(Map<String, Object> params);
+
+    void delCond(Map<String, Object> params);
 }

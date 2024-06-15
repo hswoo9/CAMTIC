@@ -218,4 +218,28 @@ public class DocViewServiceImpl implements DocViewService {
     public void delDetails(Map<String, Object> params) {
         docViewRepository.delDetails(params);
     }
+
+    @Override
+    public void saveCond(Map<String, Object> params) {
+        if(params.containsKey("condSn")){
+            docViewRepository.updateCond(params);
+        } else {
+            docViewRepository.insertCond(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCondData(Map<String, Object> params) {
+        return docViewRepository.getCondData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCondList(Map<String, Object> params) {
+        return docViewRepository.getCondList(params);
+    }
+
+    @Override
+    public void delCond(Map<String, Object> params) {
+        docViewRepository.delCond(params);
+    }
 }
