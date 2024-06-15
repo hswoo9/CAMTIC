@@ -23,6 +23,7 @@
             A.*,
             B.CRM_NM,
             DLP.DELV_EST_DE,
+            IF(A.BUSN_CLASS IN ('D', 'V'), DLP.DELV_DE, DLP.DELV_DE) AS DELV_DE,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
