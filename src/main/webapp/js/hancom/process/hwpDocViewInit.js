@@ -102,5 +102,36 @@ var docViewInit = {
             hwpDocCtrl.moveToField("USE_ISS", true, true, false);
             hwpDocCtrl.setTextFile(map.USE_ISS.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
+    },
+
+    disAssetInit: function(disAssetSn){
+        const disAssetInfo = customKendo.fn_customAjax("/customDoc/getDisAssetData", {disAssetSn : disAssetSn});
+        const map = disAssetInfo.data;
+        console.log("map : ", map);
+
+        hwpDocCtrl.putFieldText("ASSET_NM", map.ASSET_NM);
+        hwpDocCtrl.putFieldText("ASSET_NO", map.ASSET_NO);
+        hwpDocCtrl.putFieldText("MODEL", map.MODEL);
+        hwpDocCtrl.putFieldText("INS_DE", map.INS_DE);
+        hwpDocCtrl.putFieldText("INS_AMT", map.INS_AMT == "0" ? "0" : comma(map.INS_AMT));
+        hwpDocCtrl.putFieldText("PURC_LOC", map.PURC_LOC);
+        hwpDocCtrl.putFieldText("EMP_NAME", map.EMP_NAME);
+        hwpDocCtrl.putFieldText("DIS_ASSET_DE", map.DIS_ASSET_DE);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 사용용도 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("DIS_ISS", "");
+            hwpDocCtrl.moveToField("DIS_ISS", true, true, false);
+            hwpDocCtrl.setTextFile(map.DIS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+
+        /** 사용용도 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("DIS_ASSET_PB", "");
+            hwpDocCtrl.moveToField("DIS_ASSET_PB", true, true, false);
+            hwpDocCtrl.setTextFile(map.DIS_ASSET_PB.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1500);
     }
 }

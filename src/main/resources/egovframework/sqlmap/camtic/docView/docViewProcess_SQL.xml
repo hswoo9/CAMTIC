@@ -65,4 +65,25 @@
         WHERE
             SIGN_SN = #{signSn}
     </update>
+
+    <update id="updateDisAssetApprStat" parameterType="map">
+        /* updateDisAssetApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DIS_ASSET
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </update>
+
+    <update id="updateDisAssetFinalApprStat" parameterType="map">
+        /* updateDisAssetFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DIS_ASSET
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </update>
 </mapper>
