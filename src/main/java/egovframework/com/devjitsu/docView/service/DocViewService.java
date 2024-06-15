@@ -38,4 +38,12 @@ public interface DocViewService {
     List<Map<String, Object>> getCorpCardList(Map<String, Object> params);
 
     void delCorpCard(Map<String, Object> params);
+
+    void saveSignetTo(Map<String, Object> params);
+
+    Map<String, Object> getSignetToData(Map<String, Object> params);
+
+    List<Map<String, Object>> getSignetToList(Map<String, Object> params);
+
+    void delSignetTo(Map<String, Object> params);
 }

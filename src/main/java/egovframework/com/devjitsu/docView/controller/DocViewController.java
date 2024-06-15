@@ -321,4 +321,76 @@ public class DocViewController {
         return "jsonView";
     }
 
+    @RequestMapping("/customDoc/signetTo.do")
+    public String signetTo(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/signetTo";
+    }
+
+    @RequestMapping("/customDoc/pop/popSignetTo.do")
+    public String popSignetTo(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/docView/popSignetTo";
+    }
+
+    @RequestMapping("/customDoc/saveSignetTo")
+    public String saveSignetTo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            docViewService.saveSignetTo(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getSignetToData")
+    public String getSignetToData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getSignetToData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getSignetToList")
+    public String getSignetToList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getSignetToList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delSignetTo")
+    public String delSignetTo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delSignetTo(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 }

@@ -116,4 +116,29 @@ public class DocViewServiceImpl implements DocViewService {
     public void delCorpCard(Map<String, Object> params) {
         docViewRepository.delCorpCard(params);
     }
+
+    @Override
+    public void saveSignetTo(Map<String, Object> params) {
+        if(params.containsKey("signSn")){
+            docViewRepository.updateSignetTo(params);
+        } else {
+            docViewRepository.insertSignetTo(params);
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> getSignetToData(Map<String, Object> params) {
+        return docViewRepository.getSignetToData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSignetToList(Map<String, Object> params) {
+        return docViewRepository.getSignetToList(params);
+    }
+
+    @Override
+    public void delSignetTo(Map<String, Object> params) {
+        docViewRepository.delSignetTo(params);
+    }
 }

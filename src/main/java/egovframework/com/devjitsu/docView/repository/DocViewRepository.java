@@ -91,4 +91,24 @@ public class DocViewRepository extends AbstractDAO {
     public void delCorpCard(Map<String, Object> params) {
         delete("docView.delCorpCard", params);
     }
+
+    public void updateSignetTo(Map<String, Object> params) {
+        update("docView.updateSignetTo", params);
+    }
+
+    public void insertSignetTo(Map<String, Object> params) {
+        insert("docView.insertSignetTo", params);
+    }
+
+    public Map<String, Object> getSignetToData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getSignetToData", params);
+    }
+
+    public List<Map<String, Object>> getSignetToList(Map<String, Object> params) {
+        return selectList("docView.getSignetToList", params);
+    }
+
+    public void delSignetTo(Map<String, Object> params) {
+        delete("docView.delSignetTo", params);
+    }
 }

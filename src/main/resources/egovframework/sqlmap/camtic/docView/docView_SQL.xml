@@ -323,4 +323,89 @@
         WHERE
             CORP_CARD_SN = #{corpCardSn}
     </delete>
+
+    <insert id="insertSignetTo" parameterType="map">
+        /*insertSignetTo*/
+        INSERT INTO CAM_INSIDE.DJ_TP_SIGNET_TO
+            (
+                USE_ISS,
+                STR_DE,
+                END_DE,
+                SIGN_TYPE,
+                SUB_TYPE,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{useIss},
+                #{strDe},
+                #{endDe},
+                #{signType},
+                #{subType},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="signSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_SIGNET_TO'
+        </selectKey>
+    </insert>
+
+    <update id="updateSignetTo" parameterType="map">
+        /*updateSignetTo*/
+        UPDATE CAM_INSIDE.DJ_TP_SIGNET_TO
+        SET
+            USE_ISS = #{useIss},
+            SIGN_TYPE = #{signType},
+            SUB_TYPE = #{subType},
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            SIGN_SN = #{signSn}
+    </update>
+
+    <select id="getSignetToData" parameterType="map" resultType="map">
+        /*getSignetToData*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_SIGNET_TO A
+        WHERE
+            SIGN_SN = #{signSn}
+    </select>
+
+    <select id="getSignetToList" parameterType="map" resultType="map">
+        /*getSignetToList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_SIGNET_TO A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delSignetTo" parameterType="map">
+        /*delSignetTo*/
+        DELETE FROM CAM_INSIDE.DJ_TP_SIGNET_TO
+        WHERE
+            SIGN_SN = #{signSn}
+    </delete>
 </mapper>
