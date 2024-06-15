@@ -605,6 +605,10 @@ var hwpDocCtrl = {
             const signSn = data.approKey.split("_")[1];
             if (signSn == null || signSn == undefined || signSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             docViewInit.signetToInit(signSn);
+        }else if(data.menuCd == "disAsset") {
+            const disAssetSn = data.approKey.split("_")[1];
+            if (disAssetSn == null || disAssetSn == undefined || disAssetSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.disAssetInit(disAssetSn);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -861,6 +865,12 @@ var hwpDocCtrl = {
             const signSn = pk;
             if (signSn == null || signSn == undefined || signSn == "") { alert(errorText); return; }
             docViewInit.signetToInit(signSn);
+
+        }else if(data.menuCd == "disAsset") {
+
+            const disAssetSn = pk;
+            if (disAssetSn == null || disAssetSn == undefined || disAssetSn == "") { alert(errorText); return; }
+            docViewInit.disAssetInit(disAssetSn);
 
         }
 
