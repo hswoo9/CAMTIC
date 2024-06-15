@@ -224,9 +224,10 @@
     <select id="getCorpBankData" parameterType="map" resultType="map">
         /*getCorpBankData*/
         SELECT
-            *
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE
         FROM
-            CAM_INSIDE.DJ_TP_CORP_BANK
+            CAM_INSIDE.DJ_TP_CORP_BANK A
         WHERE
             CORP_BANK_SN = #{corpBankSn}
     </select>
