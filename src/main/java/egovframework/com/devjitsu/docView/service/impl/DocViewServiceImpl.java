@@ -5,7 +5,6 @@ import egovframework.com.devjitsu.docView.service.DocViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -164,5 +163,34 @@ public class DocViewServiceImpl implements DocViewService {
     @Override
     public void delDisAsset(Map<String, Object> params) {
         docViewRepository.delDisAsset(params);
+    }
+
+    @Override
+    public void saveResign(Map<String, Object> params) {
+        if(params.containsKey("resignSn")){
+            docViewRepository.updateResign(params);
+        } else {
+            docViewRepository.insertResign(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getResignData(Map<String, Object> params) {
+        return docViewRepository.getResignData(params);
+    }
+
+    @Override
+    public Map<String, Object> getEmpData(Map<String, Object> params) {
+        return docViewRepository.getEmpData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getResignList(Map<String, Object> params) {
+        return docViewRepository.getResignList(params);
+    }
+
+    @Override
+    public void delResign(Map<String, Object> params) {
+        docViewRepository.delResign(params);
     }
 }

@@ -54,4 +54,14 @@ public interface DocViewService {
     List<Map<String, Object>> getDisAssetList(Map<String, Object> params);
 
     void delDisAsset(Map<String, Object> params);
+
+    void saveResign(Map<String, Object> params);
+
+    Map<String, Object> getResignData(Map<String, Object> params);
+
+    Map<String, Object> getEmpData(Map<String, Object> params);
+
+    List<Map<String, Object>> getResignList(Map<String, Object> params);
+
+    void delResign(Map<String, Object> params);
 }

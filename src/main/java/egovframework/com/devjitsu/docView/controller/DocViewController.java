@@ -393,7 +393,6 @@ public class DocViewController {
         return "jsonView";
     }
 
-    // ㅁㅁ
     @RequestMapping("/customDoc/disAsset.do")
     public String disAsset(HttpServletRequest request, Model model) {
 
@@ -458,6 +457,81 @@ public class DocViewController {
 
         try{
             docViewService.delDisAsset(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    //aa
+    @RequestMapping("/customDoc/resign.do")
+    public String resign(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/resign";
+    }
+
+    @RequestMapping("/customDoc/pop/popResign.do")
+    public String popResign(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("data", docViewService.getEmpData(params));
+
+        return "popup/docView/popResign";
+    }
+
+    @RequestMapping("/customDoc/saveResign")
+    public String saveResign(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            docViewService.saveResign(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getResignData")
+    public String getResignData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getResignData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getResignList")
+    public String getResignList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getResignList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delResign")
+    public String delResign(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delResign(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

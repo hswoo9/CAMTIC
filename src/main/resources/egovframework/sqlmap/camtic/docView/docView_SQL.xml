@@ -502,4 +502,108 @@
         WHERE
             DIS_ASSET_SN = #{disAssetSn}
     </delete>
+
+    <insert id="insertResign" parameterType="map">
+        /*insertResign*/
+        INSERT INTO CAM_INSIDE.DJ_TP_RESIGN
+            (
+                DEPT_TEAM_NAME,
+                POSITION,
+                REGIST_NO,
+                JOIN_DAY,
+                RESIGN_DAY,
+                JOB_DETAIL,
+                RESIGN_TYPE,
+                RESIGN_ISS,
+                EMP_NAME,
+                EMP_SEQ,
+                DEPT_SEQ,
+                DEPT_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{deptTeamName},
+                #{position},
+                #{registNo},
+                #{joinDay},
+                #{resignDay},
+                #{jobDetail},
+                #{resignType},
+                #{resignIss},
+                #{empName},
+                #{empSeq},
+                #{deptSeq},
+                #{deptName},
+                #{empSeq}
+            )
+        <selectKey keyProperty="resignSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_RESIGN'
+        </selectKey>
+    </insert>
+
+    <update id="updateResign" parameterType="map">
+        /*updateResign*/
+        UPDATE CAM_INSIDE.DJ_TP_RESIGN
+        SET
+            DEPT_TEAM_NAME = #{deptTeamName},
+            POSITION = #{position},
+            REGIST_NO = #{registNo},
+            JOIN_DAY = #{joinDay},
+            RESIGN_DAY = #{resignDay},
+            JOB_DETAIL = #{jobDetail},
+            RESIGN_TYPE = #{resignType},
+            RESIGN_ISS = #{resignIss},
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </update>
+
+    <select id="getResignData" parameterType="map" resultType="map">
+        /*getResignData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_RESIGN
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </select>
+
+    <select id="getEmpData" parameterType="map" resultType="map">
+        /*getEmpData*/
+        SELECT
+            HEI.JOIN_DAY,
+            HEI.JOB_DETAIL,
+            HEI.RES_REGIS_NUM AS REGIST_NO,
+            CONCAT(CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END, " ",
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END) AS DEPT_TEAM_NAME
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getResignList" parameterType="map" resultType="map">
+        /*getResignList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_RESIGN A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delResign" parameterType="map">
+        /*delResign*/
+        DELETE FROM CAM_INSIDE.DJ_TP_RESIGN
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </delete>
 </mapper>
