@@ -153,9 +153,12 @@
     <select id="getAccCertData" parameterType="map" resultType="map">
         /*getAccCertData*/
         SELECT
-            *
+            TAC.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_ACC_CERT
+            CAM_INSIDE.DJ_TP_ACC_CERT TAC
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON TAC.DOC_ID = DI.DOC_ID
         WHERE
             ACC_CERT_SN = #{accCertSn}
     </select>
@@ -385,9 +388,12 @@
         /*getSignetToData*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_TP_SIGNET_TO A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             SIGN_SN = #{signSn}
     </select>
