@@ -83,6 +83,10 @@ public class CommonRepository extends AbstractDAO {
         return selectList("common.getFvMenu", params);
     }
 
+    public List<Map<String, Object>> getFvMenuMain(Map<String, Object> params){
+        return selectList("common.getFvMenuMain", params);
+    }
+
     public Map<String, Object> getDept(Map<String, Object> params) { return (Map<String, Object>) selectOne("common.getDept", params);}
 
     public void insFileUpload(Map<String, Object> fileParameters) {

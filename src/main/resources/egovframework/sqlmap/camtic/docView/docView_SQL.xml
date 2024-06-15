@@ -76,11 +76,14 @@
     <select id="getCardLossData" parameterType="map" resultType="map">
         /*getCardLossData*/
         SELECT
-            *
+            TCL.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_CARD_LOSS
+            CAM_INSIDE.DJ_TP_CARD_LOSS TCL
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON TCL.DOC_ID = DI.DOC_ID
         WHERE
-            TP_CL_SN = #{tpClSn}
+            TCL.TP_CL_SN = #{tpClSn}
     </select>
 
     <delete id="delCardLossData" parameterType="map">

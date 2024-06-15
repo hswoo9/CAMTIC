@@ -49,8 +49,8 @@ public interface CommonService {
 
     List<Map<String, Object>> getSearchMenu(Map<String, Object> params);
 
-   /* *//** 즐겨찾기 추가 *//*
-    void setFavoriteMenuInsert(Map<String, Object> params);*/
+    /** 즐겨찾기 추가 */
+    void setFavoriteMenuInsert(Map<String, Object> params);
 
     /** 즐겨찾기 리스트 */
     List<Map<String, Object>> getFvMenu(Map<String, Object> params);

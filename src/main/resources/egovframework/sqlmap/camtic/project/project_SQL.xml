@@ -23,6 +23,7 @@
             A.*,
             B.CRM_NM,
             DLP.DELV_EST_DE,
+            IF(A.BUSN_CLASS IN ('D', 'V'), DLP.DELV_DE, DLP.DELV_DE) AS DELV_DE,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
@@ -49,20 +50,21 @@
         ) R2 ON A.PJT_SN = R2.PJT_SN
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT PR ON A.PJT_SN = PR.PJT_SN
         WHERE
-        1=1
+            1=1
         AND A.TEAM_STAT = "N"
         AND A.PARENT_PJT_SN IS NULL
         <if test='pjtYear != null and pjtYear != ""'>
             AND
                 DATE_FORMAT(A.STR_DT, '%Y') = #{pjtYear}
         </if>
+
         <if test='busnClass != null and busnClass != ""'>
             AND
                 A.BUSN_CLASS = #{busnClass}
         </if>
         <if test='empName != null and empName != ""'>
             AND
-            A.PM LIKE CONCAT('%', #{empName}, '%')
+                A.PM LIKE CONCAT('%', #{empName}, '%')
         </if>
         <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass) and !"res".equals(busnSubClass)'>
             AND
@@ -81,21 +83,25 @@
                 PR.STATUS = '100'
         </if>
         <if test='deptSeq != null and deptSeq != ""'>
-            AND
-                A.DEPT_SEQ in (${deptSeq})
+            AND (
+                A.DEPT_SEQ IN (${deptSeq})
+                OR
+                A.DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ IN (${deptSeq})))
+            )
         </if>
-        <if test= '"1".equals(searchValue)'>
-            AND
-                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
-
-            AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
-            AND A.PJT_STOP != "Y"
-        </if>
-        <if test= '"2".equals(searchValue)'>
+        <if test='"1".equals(searchValue)'>
             AND
                 (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
+            AND
+                A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
+            AND
+                A.PJT_STOP != "Y"
         </if>
-        <if test= '"3".equals(searchValue)'>
+        <if test='"2".equals(searchValue)'>
+            AND
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
+        </if>
+        <if test='"3".equals(searchValue)'>
             AND
                 A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
@@ -124,7 +130,8 @@
                 A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
         <if test='type != null and !"".equals(type)'>
-            AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
+            AND
+                A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
         </if>
         GROUP BY A.PJT_SN
         ORDER BY A.REG_DT DESC
@@ -195,6 +202,7 @@
     </select>
 
     <select id="getDepoManageProjectList" parameterType="map" resultType="map">
+        /* getDepoManageProjectList */
         SELECT
             A.*,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
@@ -266,6 +274,7 @@
     </select>
 
     <select id="getAllProjectList" parameterType="map" resultType="map">
+        /* getAllProjectList */
         SELECT * FROM (
             SELECT
                 A.PJT_SN, A.PJT_CD, A.BUSN_CLASS, A.BUSN_NM, A.PJT_NM, A.PJT_AMT, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS END_DT, A.EMP_NAME, A.PM, A.PJT_STEP, A.PJT_STEP_NM, A.PJT_STOP
@@ -273,8 +282,10 @@
                 CAM_PJT_MNG.DJ_PROJECT A
             WHERE
                 1=1
-            AND A.TEAM_STAT = "N"
             AND A.PARENT_PJT_SN IS NULL
+            <if test='tmStat != null and !"".equals(tmStat)'>
+                AND A.TEAM_STAT = #{tmStat}
+            </if>
 
             UNION ALL
 
@@ -287,7 +298,7 @@
         <choose>
             <when test='busnClass != null and busnClass != ""'>
                 AND
-                RE.BUSN_CLASS = #{busnClass}
+                    RE.BUSN_CLASS = #{busnClass}
             </when>
             <otherwise>
                 AND RE.PJT_CD IS NOT NULL
@@ -3080,39 +3091,39 @@
     <!-- 커스텀예산 끝 -->
 
     <select id="getProjectTotalData" parameterType="map" resultType="map">
-        /*getProjectTotalData*/
+        /* getProjectTotalData */
         WITH RECURSIVE PROJECT AS (
             SELECT
                 #{busnClass} AS BUSN_CLASS
         )
         SELECT
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_EXPECT_COUNT,
-            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_EXPECT_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS ENGN_PROGRESS_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS ENGN_PROGRESS_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND SPR.STATUS = '100') AS ENGN_COMPLETE_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND SPR.STATUS = '100') AS ENGN_COMPLETE_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS ENGN_COMPLETE_SUM,
 
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_EXPECT_COUNT,
-            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_EXPECT_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS V_PROGRESS_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS V_PROGRESS_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND SPR.STATUS = '100') AS V_COMPLETE_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND SPR.STATUS = '100') AS V_COMPLETE_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E3', 'E4', 'E5', 'E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS V_COMPLETE_SUM,
 
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS RND_EXPECT_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS RND_EXPECT_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R2', 'R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS RND_PROGRESS_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R2', 'R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS RND_PROGRESS_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100') AS RND_COMPLETE_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100') AS RND_COMPLETE_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R2', 'R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R2', 'R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('R3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS RND_COMPLETE_SUM,
 
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('S') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS URND_EXPECT_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('S') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS URND_EXPECT_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S2', 'S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS URND_PROGRESS_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S2', 'S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL)) AS URND_PROGRESS_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100') AS URND_COMPLETE_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100') AS URND_COMPLETE_SUM
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('S') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('S') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S2', 'S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S2', 'S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND (SPR.STATUS != '100' OR SPR.STATUS IS NULL) <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT SPR ON SP.PJT_SN = SPR.PJT_SN WHERE PJT_STEP IN ('S3') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND SPR.STATUS = '100' <if test='pjtYear != null and pjtYear != ""'> AND DATE_FORMAT(SP.STR_DT, '%Y') = #{pjtYear}</if>) AS URND_COMPLETE_SUM
         FROM
             PROJECT P
     </select>

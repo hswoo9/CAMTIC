@@ -328,6 +328,7 @@
         (
             BASE_YEAR,
             DEPT_SEQ,
+            DEPT_LEVEL,
             DELV_OBJ,
             SALE_OBJ,
             INCP_OBJ,
@@ -338,6 +339,7 @@
         (
             #{baseYear},
             #{deptSeq},
+            #{deptLevel},
             #{delvObj},
             #{saleObj},
             #{incpObj},
@@ -375,7 +377,11 @@
             CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING A
         LEFT JOIN CAM_HR.DJ_DEPT_INFO B
           ON A.DEPT_SEQ = B.DEPT_SEQ
-        WHERE BASE_YEAR = #{year}
+        WHERE A.BASE_YEAR = #{year}
+        AND A.DEPT_LEVEL = #{deptLevel}
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND A.DEPT_SEQ = #{deptSeq}
+        </if>
     </select>
 
     <select id="getExnpCompAmt" parameterType="map" resultType="map">
@@ -489,5 +495,20 @@
             CAM_PJT_MNG.DJ_PJT_PAY_SET
         WHERE
             PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getDeptObjAmt" parameterType="map" resultType="map">
+        /*getDeptObjAmt*/
+        SELECT
+            IFNULL(SUM(DELV_OBJ),0) AS DELV_OBJ,
+            IFNULL(SUM(SALE_OBJ),0) AS SALE_OBJ,
+            IFNULL(SUM(INCP_OBJ),0) AS INCP_OBJ
+        FROM
+            CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
+        WHERE BASE_YEAR = #{year}
+          AND DEPT_LEVEL = #{deptLevel}
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND DEPT_SEQ = #{deptSeq}
+        </if>
     </select>
 </mapper>

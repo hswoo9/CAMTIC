@@ -19,6 +19,9 @@
             <if test='groupId != null and !"".equals(groupId)'>
                 AND GROUP_ID NOT IN (#{groupId})
             </if>
+            <if test='loginEmpSeq != null and !"".equals(loginEmpSeq)'>
+                AND REG_EMP_SEQ = #{loginEmpSeq}
+            </if>
     </select>
 
     <select id="getMenuListUser" resultType="map" parameterType="map">

@@ -244,7 +244,7 @@ const appUserPaySetting = {
                 fileNo : $("#fileNo" + index).val(),
             }
 
-            reqPayAmt += uncommaN($("#totCost" + index).val());
+            reqPayAmt += Number(uncommaN($("#totCost" + index).val()));
 
             payItemArr.push(data);
         });

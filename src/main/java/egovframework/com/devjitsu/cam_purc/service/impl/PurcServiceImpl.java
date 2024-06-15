@@ -1154,6 +1154,19 @@ public class PurcServiceImpl implements PurcService {
                 cardMap.put("TR_CD", "");
             }
 
+            params.put("claimExnpSn", params.get("CLAIM_EXNP_SN"));
+            for(Map<String, Object> fileMap : purcRepository.getClaimExnpFileList(params)){
+
+                String[] filePathArr = fileMap.get("file_path").toString().split("/");
+
+                if(fileMap.get("file_cd").equals("useCard")){
+                    if(filePathArr[3].equals(map.get("AUTH_NO").toString()) && filePathArr[4].equals(map.get("AUTH_DD").toString()) &&
+                            filePathArr[5].equals(map.get("AUTH_HH").toString()) && filePathArr[6].equals(map.get("CARD_NO").toString().replaceAll("-", "")))
+                    {
+                        cardMap.put("FILE_NO", fileMap.get("file_no"));
+                    }
+                }
+            }
 
             rsList.add(cardMap);
         }
@@ -1175,6 +1188,19 @@ public class PurcServiceImpl implements PurcService {
             map.put("taxTy", map.get("TAX_TY"));
 
             Map<String, Object> etaxMap = purcRepository.getDetailEtaxInfo(map);
+
+            params.put("claimExnpSn", params.get("CLAIM_EXNP_SN"));
+            for(Map<String, Object> fileMap : purcRepository.getClaimExnpFileList(params)){
+
+                String[] filePathArr = fileMap.get("file_path").toString().split("/");
+
+                if(fileMap.get("file_cd").equals("etax")){
+                    if(filePathArr[3].equals(map.get("CO_CD").toString()) && filePathArr[4].equals(map.get("TAX_TY").toString()) && filePathArr[5].equals(map.get("ISS_NO").toString()))
+                    {
+                        etaxMap.put("FILE_NO", fileMap.get("file_no"));
+                    }
+                }
+            }
 
             rsList.add(etaxMap);
         }

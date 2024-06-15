@@ -1295,12 +1295,18 @@
 
     <select id="getEduAllStatList" resultType="map" parameterType="map">
         /* getEduAllStatList */
+        SELECT
+            RE.*,
+            PERSONAL_TIME + STUDY_TIME + PROPAG_TIME + OJT_TIME + OPEN_STUDY_TIME + COMMON_EDU_TIME AS TOT_TIME,
+            PERSONAL_COUNT + STUDY_COUNT + PROPAG_COUNT + OJT_COUNT + OPEN_STUDY_COUNT + COMMON_EDU_COUNT AS TOT_COUNT
+        FROM (
         <![CDATA[
         SELECT
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ), " ",(SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ)) ELSE HEI.DEPT_NAME END AS DEPT,
             CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION,
             HEI.POSITION_NAME,
-            HEI.DUTY_NAME ,
+            HEI.DUTY_NAME,
+            IF(HEI.DUTY_NAME = '' OR HEI.DUTY_NAME IS NULL, HEI.POSITION_NAME, HEI.DUTY_NAME) AS SPOT,
             HEI.EMP_NAME_KR AS EMP_NAME,
             IFNULL((
                 SELECT SUM(REAL_EDU_TIME)
@@ -1376,8 +1382,10 @@
             1=1
         ]]>
         <if test='"Y".equals(active)'>
-            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
-            AND WORK_STATUS_CODE = 'Y'
+            AND (HEI.DIVISION = 0 OR (HEI.DIVISION = 4 AND HEI.DIVISION_SUB != 3))
+            AND HEI.WORK_STATUS_CODE = 'Y'
+            AND HEI.TEMP_DIVISION != 'Y'
+            AND HEI.EMP_SEQ != '1'
         </if>
         <if test='dept != null and !"".equals(dept)'>
             AND (HEI.DEPT_SEQ = #{dept} OR HDI.PARENT_DEPT_SEQ = #{dept})
@@ -1391,7 +1399,8 @@
         <if test='sEmpName != null and !"".equals(sEmpName)'>
             AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
-        ORDER BY EMP_NAME_KR
+        ) RE
+        ORDER BY RE.EMP_NAME
     </select>
 
     <select id="getEduMyStatList" resultType="map" parameterType="map">

@@ -261,7 +261,7 @@ public class messageController {
     }
 
     /** 사용자 삭제 */
-    @RequestMapping("/textMessages/setUserDel")
+    @RequestMapping("/message/setUserDel")
     public String setMenuUserDel(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");

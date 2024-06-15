@@ -116,6 +116,23 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">연도선택</th>
+                        <td colspan="6">
+                            <input type="text" id="pjtYear" style="width: 150px;">
+                        </td>
+                    </tr>
+                </table>
+
                 <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="camPrj.fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
                 <div id="statTable" style="" view="Y">
                     <table class="totalTable table table-bordered" style="margin-bottom: 0px">
@@ -254,12 +271,6 @@
                         <col width="10%">
                         <col width="25%">
                     </colgroup>
-                    <tr>
-                        <th class="text-center th-color">연도선택</th>
-                        <td colspan="6">
-                            <input type="text" id="pjtYear" style="width: 150px;">
-                        </td>
-                    </tr>
                     <tr>
                         <th class="text-center th-color">사업구분</th>
                         <td>

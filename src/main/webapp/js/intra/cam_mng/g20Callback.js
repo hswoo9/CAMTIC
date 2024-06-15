@@ -55,7 +55,9 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
     if(trCd == null || trCd == "" || trCd == "undefined"){
         trCd = "";
     }
-
+    if(ceoNm == null || ceoNm == "" || ceoNm == "undefined"){
+        ceoNm = "";
+    }
     if(regNb == null || regNb == "" || regNb == "undefined"){
         regNb = "";
     }
@@ -66,6 +68,7 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
     $("#regNo" + idx).val(regNb);
+    $("#ceoNm" + idx).val(ceoNm);
 }
 
 function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){

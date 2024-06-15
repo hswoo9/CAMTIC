@@ -177,6 +177,7 @@
     }
 
     function closeAndRefresh() {
+        window.opener.location.reload();
         window.close();
         window.opener.getFvList();
     }

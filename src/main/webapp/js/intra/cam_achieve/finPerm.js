@@ -50,6 +50,10 @@ var finPerm = {
         $("#expTotAmt").text(comma((result.expEngnAmt || 0) + (result.expRndAmt || 0)));
         $("#expSaleTotAmt").text(comma((result.expSaleEngnAmt || 0) + (result.expSaleRndAmt || 0)));
         $("#expIncpTotAmt").text(comma((result.expIncpEngnAmt || 0) + (result.expIncpRndAmt || 0)));
+
+        $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0))
+        $("#objSaleAmt").text(comma(Math.round(result.objSaleAmt) || 0))
+        $("#objIncpAmt").text(comma(Math.round(result.objIncpAmt) || 0))
     },
 
     fn_engnSearch : function (){
@@ -273,6 +277,18 @@ var finPerm = {
 
 
 
+    },
+
+    fn_objSetting : function(){
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val() + "&deptLevel=2";
+
+        if($("#dept").val() != ""){
+            url += "&deptSeq=" + $("#dept").val();
+        }
+
+        var name = "_blank";
+        var option = "width = 680, height = 500, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

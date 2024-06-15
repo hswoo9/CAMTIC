@@ -23,7 +23,8 @@ var popObjSet = {
                 delvObj : uncomma($(this).find("input[name='delvObj']").val()),
                 saleObj : uncomma($(this).find("input[name='saleObj']").val()),
                 incpObj : uncomma($(this).find("input[name='incpObj']").val()),
-                empSeq : $("#regEmpSeq").val()
+                empSeq : $("#regEmpSeq").val(),
+                deptLevel : $("#deptLevel").val()
             };
 
             objArr.push(item);
@@ -31,7 +32,7 @@ var popObjSet = {
 
         var data = {
             type : $("#type").val(),
-            objArr : JSON.stringify(objArr)
+            objArr : JSON.stringify(objArr),
         }
 
         $.ajax({
@@ -43,7 +44,13 @@ var popObjSet = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    opener.parent.weekMeet.fn_searchData();
+
+                    if($("#deptLevel").val() == "1"){
+                        opener.parent.weekMeet.fn_searchData();
+                    } else {
+                        opener.parent.finPerm.fn_searchData();
+                    }
+
                     window.close();
                 }
             }

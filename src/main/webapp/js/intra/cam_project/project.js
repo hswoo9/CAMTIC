@@ -1,10 +1,23 @@
 let sum=0;
 var camPrj = {
 
+    global : {
+        allPjtYear : new Array()
+    },
+
     fn_defaultScript : function (){
 
         var pjtYear = customKendo.fn_customAjax("/project/getPjtYear", {});
         console.log("pjtYear", pjtYear);
+
+        const pjtYearArr = pjtYear.list;
+        const yearArr = new Array();
+        for(let i=0; i<pjtYearArr.length; i++){
+            yearArr.push(pjtYearArr[i].YEAR);
+        }
+
+        camPrj.global.allPjtYear = yearArr;
+
         customKendo.fn_dropDownList("pjtYear", pjtYear.list, "TEXT", "YEAR");
 
         customKendo.fn_textBox(["deptName", "searchText", "empName"]);
@@ -72,6 +85,8 @@ var camPrj = {
         })
 
         this.mainGrid();
+
+        $("#pjtYear").data("kendoDropDownList").bind("change", camPrj.gridReload)
     },
 
     gridReload : function (){
@@ -129,16 +144,6 @@ var camPrj = {
             },
             toolbar: [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
-                }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="camPrj.setPrjPop()">' +
@@ -152,9 +157,24 @@ var camPrj = {
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                },
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
 
             ],
+            excel : {
+                fileName : "프로젝트 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -243,8 +263,12 @@ var camPrj = {
                         }
                     }
                 }, {
+                    field: "DELV_DE",
+                    title: "종료예상일",
+                    width: 100
+                }, {
                     field: "END_DT",
-                    title: "종료일자",
+                    title: "종료일",
                     width: 100,
                     template: function(e){
                         if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
@@ -264,10 +288,7 @@ var camPrj = {
 
                     },
                     footerTemplate: "합계"
-                }, /*{
-                    title: "종료예정일",
-                    width: 100
-                }, */{
+                }, {
                     field: "PJT_AMT",
                     title: "수주금액",
                     width: 100,
@@ -558,7 +579,8 @@ var camPrj = {
     },
 
     fn_tableSet: function(){
-        const data = { busnClass: "D" };
+        const pjtYear = $("#pjtYear").val();
+        const data = { busnClass: "D", pjtYear: pjtYear};
         const totalData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
 
         $("#expectEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT)+ "건</span>");
