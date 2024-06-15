@@ -51,4 +51,44 @@ public class DocViewRepository extends AbstractDAO {
     public void delAccCertData(Map<String, Object> params) {
         delete("docView.delAccCertData", params);
     }
+
+    public void updateCorpBank(Map<String, Object> params) {
+        update("docView.updateCorpBank", params);
+    }
+
+    public void insertCorpBank(Map<String, Object> params) {
+        insert("docView.insertCorpBank", params);
+    }
+
+    public Map<String, Object> getCorpBankData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getCorpBankData", params);
+    }
+
+    public List<Map<String, Object>> getCorpBankList(Map<String, Object> params) {
+        return selectList("docView.getCorpBankList", params);
+    }
+
+    public void delCorpBank(Map<String, Object> params) {
+        delete("docView.delCorpBank", params);
+    }
+
+    public void updateCorpCard(Map<String, Object> params) {
+        update("docView.updateCorpCard", params);
+    }
+
+    public void insertCorpCard(Map<String, Object> params) {
+        insert("docView.insertCorpCard", params);
+    }
+
+    public Map<String, Object> getCorpCardData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getCorpCardData", params);
+    }
+
+    public List<Map<String, Object>> getCorpCardList(Map<String, Object> params) {
+        return selectList("docView.getCorpCardList", params);
+    }
+
+    public void delCorpCard(Map<String, Object> params) {
+        delete("docView.delCorpCard", params);
+    }
 }

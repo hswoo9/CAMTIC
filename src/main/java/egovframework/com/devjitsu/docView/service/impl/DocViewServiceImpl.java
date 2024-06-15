@@ -68,4 +68,52 @@ public class DocViewServiceImpl implements DocViewService {
     public void delAccCertData(Map<String, Object> params) {
         docViewRepository.delAccCertData(params);
     }
+
+    @Override
+    public void saveCorpBank(Map<String, Object> params) {
+        if(params.containsKey("corpBankSn")){
+            docViewRepository.updateCorpBank(params);
+        } else {
+            docViewRepository.insertCorpBank(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCorpBankData(Map<String, Object> params) {
+        return docViewRepository.getCorpBankData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCorpBankList(Map<String, Object> params) {
+        return docViewRepository.getCorpBankList(params);
+    }
+
+    @Override
+    public void delCorpBank(Map<String, Object> params) {
+        docViewRepository.delCorpBank(params);
+    }
+
+    @Override
+    public void saveCorpCard(Map<String, Object> params) {
+        if(params.containsKey("corpCardSn")){
+            docViewRepository.updateCorpCard(params);
+        } else {
+            docViewRepository.insertCorpCard(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCorpCardData(Map<String, Object> params) {
+        return docViewRepository.getCorpCardData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCorpCardList(Map<String, Object> params) {
+        return docViewRepository.getCorpCardList(params);
+    }
+
+    @Override
+    public void delCorpCard(Map<String, Object> params) {
+        docViewRepository.delCorpCard(params);
+    }
 }

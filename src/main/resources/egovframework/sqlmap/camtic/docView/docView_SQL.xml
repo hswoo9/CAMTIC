@@ -165,4 +165,159 @@
         WHERE
             ACC_CERT_SN = #{accCertSn}
     </delete>
+
+    <insert id="insertCorpBank" parameterType="map">
+        /*insertCorpBank*/
+        INSERT INTO CAM_INSIDE.DJ_TP_CORP_BANK
+        (
+            EMP_NAME,
+            EMP_SEQ,
+            DEPT_SEQ,
+            DEPT_NAME,
+            PJT_SN,
+            BANK,
+            ISS_DE,
+            USE_RMK,
+            CORP_EXP,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{empName},
+            #{empSeq},
+            #{deptSeq},
+            #{deptName},
+            #{pjtSn},
+            #{bank},
+            #{issDe},
+            #{useRmk},
+            #{corpExp},
+            #{empSeq}
+        )
+        <selectKey keyProperty="corpBankSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_CORP_BANK'
+        </selectKey>
+    </insert>
+
+    <update id="updateCorpBank" parameterType="map">
+        /*updateCorpBank*/
+        UPDATE CAM_INSIDE.DJ_TP_CORP_BANK
+        SET
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            PJT_SN = #{pjtSn},
+            BANK = #{bank},
+            ISS_DE = #{issDe},
+            USE_RMK = #{useRmk},
+            CORP_EXP = #{corpExp},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            CORP_BANK_SN = #{corpBankSn}
+    </update>
+
+    <select id="getCorpBankData" parameterType="map" resultType="map">
+        /*getCorpBankData*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_CORP_BANK
+        WHERE
+            CORP_BANK_SN = #{corpBankSn}
+    </select>
+
+    <select id="getCorpBankList" parameterType="map" resultType="map">
+        /*getCorpBankList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            (SELECT BS_TITLE FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS BS_TITLE
+        FROM
+            CAM_INSIDE.DJ_TP_CORP_BANK A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delCorpBank" parameterType="map">
+        /*delCorpBank*/
+        DELETE FROM CAM_INSIDE.DJ_TP_CORP_BANK
+        WHERE
+            CORP_BANK_SN = #{corpBankSn}
+    </delete>
+
+    <insert id="insertCorpCard" parameterType="map">
+        /*insertCorpCard*/
+        INSERT INTO CAM_INSIDE.DJ_TP_CORP_CARD
+            (
+                EMP_NAME,
+                EMP_SEQ,
+                DEPT_SEQ,
+                DEPT_NAME,
+                TYPE,
+                APP_DE,
+                APP_CNT,
+                APP_ISS,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empName},
+                #{empSeq},
+                #{deptSeq},
+                #{deptName},
+                #{type},
+                #{appDe},
+                #{appCnt},
+                #{appIss},
+                #{regEmpSeq}
+            )
+
+        <selectKey keyProperty="corpCardSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_CORP_CARD'
+        </selectKey>
+    </insert>
+
+    <update id="updateCorpCard" parameterType="map">
+        /*updateCorpCard*/
+        UPDATE CAM_INSIDE.DJ_TP_CORP_CARD
+        SET
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            TYPE = #{type},
+            APP_DE = #{appDe},
+            APP_CNT = #{appCnt},
+            APP_ISS = #{appIss},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = now()
+        WHERE
+            CORP_CARD_SN = #{corpCardSn}
+    </update>
+
+    <select id="getCorpCardData" parameterType="map" resultType="map">
+        /*getCorpCardData*/
+        SELECT * FROM CAM_INSIDE.DJ_TP_CORP_CARD
+        WHERE
+            CORP_CARD_SN = #{corpCardSn}
+    </select>
+
+    <select id="getCorpCardList" parameterType="map" resultType="map">
+        /*getCorpCardList*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_TP_CORP_CARD
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delCorpCard" parameterType="map">
+        /*delCorpCard*/
+        DELETE FROM CAM_INSIDE.DJ_TP_CORP_CARD
+        WHERE
+            CORP_CARD_SN = #{corpCardSn}
+    </delete>
 </mapper>

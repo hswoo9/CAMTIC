@@ -15,12 +15,12 @@
 
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-<input type="hidden" id="tpClSn" name="tpClSn" value="${params.key}" />
+<input type="hidden" id="corpCardSn" name="corpCardSn" value="${params.key}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">법인카드 분실 신고서</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">법인카드 발급신청서</span>
             </h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="fn_save()">저장</button>
@@ -47,30 +47,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>법인카드번호(4자리)</th>
-                    <td>
-                        <input type="text" id="cardNo" name="cardNo" value="" style="width: 80%">
-                        <button type="button" class="k-button k-button-solid-base" onclick="regCardToPop.fn_popRegDet(8, 0);">조회</button>
-                    </td>
-                    <th>담당자</th>
-                    <td>
-                        <input type="text" id="cardMst" disabled name="cardMst" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <th>분실일자</th>
-                    <td>
-                        <input type="text" id="clDe" name="clDe" value="" >
-                    </td>
-                    <th>분실장소</th>
-                    <td>
-                        <input type="text" id="clLoc" name="clLoc" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <th>분실사유</th>
+                    <th>신청구분</th>
                     <td colspan="3">
-                        <textarea id="clIss" name="clIss" value="" ></textarea>
+                        <span id="type"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>신청일자</th>
+                    <td>
+                        <input type="text" id="appDe" name="appDe" value="">
+                    </td>
+                    <th>신청매수</th>
+                    <td>
+                        <input type="text" id="appCnt" name="appCnt" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>발급사유</th>
+                    <td colspan="3">
+                        <textarea type="text" id="appIss" name="appIss" value=""></textarea>
                     </td>
                 </tr>
                 </thead>
@@ -81,13 +76,26 @@
 <script type="text/javascript">
 
     $(function(){
-        customKendo.fn_textBox(["empName", "deptName", "cardNo", "cardMst", "clLoc"]);
+        customKendo.fn_textBox(["empName", "deptName", "appCnt"]);
 
-        customKendo.fn_datePicker("clDe", "depth", "yyyy-MM-dd", new Date());
+        $("#appIss").kendoTextArea({
+            rows: 5
+        });
 
-        $("#clIss").kendoTextArea({rows: 5});
+        $("#type").kendoRadioGroup({
+            items: [
+                { label : "신규발급", value : "A" },
+                { label : "재발급", value : "B" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "0"
+        })
 
-        if($("#tpClSn").val() != ""){
+
+        customKendo.fn_datePicker("appDe", "depth", "yyyy-MM-dd", new Date());
+
+        if($("#corpCardSn").val() != "") {
             fn_setData();
         }
     });
@@ -98,60 +106,48 @@
             deptName : $("#deptName").val(),
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            cardNo : $("#cardNo").val(),
-            cardMst : $("#cardMst").val(),
-            clDe : $("#clDe").val(),
-            clLoc : $("#clLoc").val(),
-            clIss : $("#clIss").val()
+            appDe : $("#appDe").val(),
+            appCnt : $("#appCnt").val(),
+            appIss : $("#appIss").val(),
+            type : $("#type").data("kendoRadioGroup").value(),
         };
 
-        if($("#cardNo").val() == ""){
-            alert("법인카드를 선택해주세요.")
-            return;
+        if($("#corpCardSn").val() != ""){
+            parameters.corpCardSn = $("#corpCardSn").val();
         }
 
-        if($("#tpClSn").val() != ""){
-            parameters.tpClSn = $("#tpClSn").val();
-        }
-
-       var rs = customKendo.fn_customAjax("/customDoc/saveCardLoss", parameters);
+       var rs = customKendo.fn_customAjax("/customDoc/saveCorpCard", parameters);
 
        if(rs.code == 200){
            alert("저장되었습니다.");
 
-           location.href = "/customDoc/pop/popCLView.do?key=" + rs.params.tpClSn;
+           location.href = "/customDoc/pop/popCorpCard.do?key=" + rs.params.corpCardSn;
        }
     }
 
-
-    function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){
-        $("#cardNo").val(cardBaNb);
-
-        var parameters ={
-            cardBaNb : cardBaNb.toString().replaceAll("-", "")
-        }
-
-        var rs = customKendo.fn_customAjax("/customDoc/getCardManager", parameters);
-
-        $("#cardMst").val(rs.list[0].MNG_NAME);
-    }
-
     function fn_setData () {
-        var rs = customKendo.fn_customAjax("/customDoc/getCardLossData", {tpClSn : $("#tpClSn").val()});
+        var rs = customKendo.fn_customAjax("/customDoc/getCorpCardData", {corpCardSn : $("#corpCardSn").val()});
 
         var result = rs.data;
 
-        $("#empName").val(result.EMP_NM);
-        $("#deptName").val(result.DEPT_NAME);
-        $("#empSeq").val(result.EMP_SEQ);
-        $("#deptSeq").val(result.DEPT_SEQ);
-        $("#cardNo").val(result.CARD_NO);
-        $("#cardMst").val(result.CARD_MST);
-        $("#clDe").val(result.CL_DE);
-        $("#clLoc").val(result.CL_LOC);
-        $("#clIss").val(result.CL_ISS);
+        $("#appDe").val(result.APP_DE);
+        $("#appCnt").val(result.APP_CNT);
+        $("#appIss").val(result.APP_ISS);
+        $("#type").data("kendoRadioGroup").value(result.TYPE);
 
     }
+
+    function comma(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function uncomma(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    }
+
+
 </script>
 </body>
 </html>
