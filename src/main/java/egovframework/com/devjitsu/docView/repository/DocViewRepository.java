@@ -111,4 +111,24 @@ public class DocViewRepository extends AbstractDAO {
     public void delSignetTo(Map<String, Object> params) {
         delete("docView.delSignetTo", params);
     }
+
+    public void updateDisAsset(Map<String, Object> params) {
+        update("docView.updateDisAsset", params);
+    }
+
+    public void insertDisAsset(Map<String, Object> params) {
+        insert("docView.insertDisAsset", params);
+    }
+
+    public Map<String, Object> getDisAssetData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getDisAssetData", params);
+    }
+
+    public List<Map<String, Object>> getDisAssetList(Map<String, Object> params) {
+        return selectList("docView.getDisAssetList", params);
+    }
+
+    public void delDisAsset(Map<String, Object> params) {
+        delete("docView.delDisAsset", params);
+    }
 }

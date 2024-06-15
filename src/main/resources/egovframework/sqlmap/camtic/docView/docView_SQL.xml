@@ -408,4 +408,97 @@
         WHERE
             SIGN_SN = #{signSn}
     </delete>
+
+    <insert id="insertDisAsset" parameterType="map">
+        /*insertDisAsset*/
+        INSERT INTO CAM_INSIDE.DJ_TP_DIS_ASSET
+            (
+                EMP_NAME,
+                EMP_SEQ,
+                DEPT_SEQ,
+                DEPT_NAME,
+                ASSET_NO,
+                MODEL,
+                INS_AMT,
+                PURC_LOC,
+                ASSET_NM,
+                DIS_ISS,
+                DIS_ASSET_PB,
+                INS_DE,
+                DIS_ASSET_DE,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empName},
+                #{empSeq},
+                #{deptSeq},
+                #{deptName},
+                #{assetNo},
+                #{model},
+                #{insAmt},
+                #{purcLoc},
+                #{assetNm},
+                #{disIss},
+                #{disAssetPb},
+                #{insDe},
+                #{disAssetDe},
+                #{empSeq}
+            )
+        <selectKey keyProperty="disAssetSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_DIS_ASSET'
+        </selectKey>
+    </insert>
+
+    <update id="updateDisAsset" parameterType="map">
+        /*updateDisAsset*/
+        UPDATE CAM_INSIDE.DJ_TP_DIS_ASSET
+        SET
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            ASSET_NO = #{assetNo},
+            MODEL = #{model},
+            INS_AMT = #{insAmt},
+            PURC_LOC = #{purcLoc},
+            ASSET_NM = #{assetNm},
+            DIS_ISS = #{disIss},
+            DIS_ASSET_PB = #{disAssetPb},
+            INS_DE = #{insDe},
+            DIS_ASSET_DE = #{disAssetDe},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </update>
+
+    <select id="getDisAssetData" parameterType="map" resultType="map">
+        /*getDisAssetData*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_DIS_ASSET A
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </select>
+
+    <select id="getDisAssetList" parameterType="map" resultType="map">
+        /*getDisAssetList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_DIS_ASSET A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delDisAsset" parameterType="map">
+        /*delDisAsset*/
+        DELETE FROM CAM_INSIDE.DJ_TP_DIS_ASSET
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </delete>
 </mapper>

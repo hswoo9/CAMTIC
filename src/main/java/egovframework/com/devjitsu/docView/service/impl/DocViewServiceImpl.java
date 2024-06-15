@@ -141,4 +141,28 @@ public class DocViewServiceImpl implements DocViewService {
     public void delSignetTo(Map<String, Object> params) {
         docViewRepository.delSignetTo(params);
     }
+
+    @Override
+    public void saveDisAsset(Map<String, Object> params) {
+        if(params.containsKey("disAssetSn")){
+            docViewRepository.updateDisAsset(params);
+        } else {
+            docViewRepository.insertDisAsset(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getDisAssetData(Map<String, Object> params) {
+        return docViewRepository.getDisAssetData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDisAssetList(Map<String, Object> params) {
+        return docViewRepository.getDisAssetList(params);
+    }
+
+    @Override
+    public void delDisAsset(Map<String, Object> params) {
+        docViewRepository.delDisAsset(params);
+    }
 }

@@ -46,4 +46,12 @@ public interface DocViewService {
     List<Map<String, Object>> getSignetToList(Map<String, Object> params);
 
     void delSignetTo(Map<String, Object> params);
+
+    void saveDisAsset(Map<String, Object> params);
+
+    Map<String, Object> getDisAssetData(Map<String, Object> params);
+
+    List<Map<String, Object>> getDisAssetList(Map<String, Object> params);
+
+    void delDisAsset(Map<String, Object> params);
 }

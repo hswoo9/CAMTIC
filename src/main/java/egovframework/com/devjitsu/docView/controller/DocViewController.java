@@ -393,4 +393,76 @@ public class DocViewController {
         return "jsonView";
     }
 
+    // ㅁㅁ
+    @RequestMapping("/customDoc/disAsset.do")
+    public String disAsset(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/disAsset";
+    }
+
+    @RequestMapping("/customDoc/pop/popDisAsset.do")
+    public String popDisAsset(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/docView/popDisAsset";
+    }
+
+    @RequestMapping("/customDoc/saveDisAsset")
+    public String saveDisAsset(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            docViewService.saveDisAsset(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getDisAssetData")
+    public String getDisAssetData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getDisAssetData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getDisAssetList")
+    public String getDisAssetList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getDisAssetList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delDisAsset")
+    public String delDisAsset(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delDisAsset(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
