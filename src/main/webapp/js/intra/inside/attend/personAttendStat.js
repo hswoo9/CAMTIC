@@ -7,7 +7,9 @@ var personAttendStat = {
 
     fn_defaultScript(){
         personAttendStat.pageSet();
-        personAttendStat.gridReload();
+
+        personAttendStat.loading();
+        personAttendStat.mainGrid("/inside/getPersonAttendStat");
     },
 
     pageSet(){
@@ -295,21 +297,10 @@ var personAttendStat = {
 
     gridReload(){
         personAttendStat.loading();
-
-        personAttendStat.global.searchAjaxData = {
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            dept : $("#dept").val(),
-            team : $("#team").val(),
-            name : $("#name").val(),
-            attendanceItems : $("#attendanceItems").val(),
-            staffDivision : $("#staffDivision").data("kendoDropDownTree").value().join().replaceAll(",", "")
-        }
-
-        personAttendStat.mainGrid("/inside/getPersonAttendStat", personAttendStat.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
-    mainGrid(url, params){
+    mainGrid(url){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -319,9 +310,13 @@ var personAttendStat = {
                     type: "post"
                 },
                 parameterMap: function(data){
-                    for(var key in params){
-                        data[key] = params[key];
-                    }
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.dept = $("#dept").val();
+                    data.team = $("#team").val();
+                    data.name = $("#name").val();
+                    data.attendanceItems = $("#attendanceItems").val();
+                    data.staffDivision = $("#staffDivision").data("kendoDropDownTree").value().join().replaceAll(",", "");
                     return data;
                 }
             },
