@@ -3,10 +3,12 @@ package egovframework.com.devjitsu.docView.controller;
 import egovframework.com.devjitsu.docView.service.DocViewService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,12 @@ public class DocViewController {
 
     @Autowired
     private DocViewService docViewService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
 
 
@@ -680,6 +688,82 @@ public class DocViewController {
 
         try{
             docViewService.delCond(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    //휴직원
+    @RequestMapping("/customDoc/leave.do")
+    public String leave(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/leave";
+    }
+
+    @RequestMapping("/customDoc/pop/popLeave.do")
+    public String popLeave(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("data", docViewService.getEmpData(params));
+
+        return "popup/docView/popLeave";
+    }
+
+    @RequestMapping("/customDoc/saveLeave")
+    public String saveLeave(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+
+        try{
+            docViewService.saveLeave(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getLeaveData")
+    public String getLeaveData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getLeaveData(params);
+        Map<String, Object> file = docViewService.getLeaveFile(data);
+
+        model.addAttribute("data", data);
+        model.addAttribute("file", file);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getLeaveList")
+    public String getLeaveList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getLeaveList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delLeave")
+    public String delLeave(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delLeave(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

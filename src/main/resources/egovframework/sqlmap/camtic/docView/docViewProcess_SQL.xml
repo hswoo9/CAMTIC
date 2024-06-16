@@ -149,4 +149,25 @@
         WHERE
             COND_SN = #{condSn}
     </update>
+
+    <update id="updateLeaveApprStat" parameterType="map">
+        /* updateLeaveApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
+
+    <update id="updateLeaveFinalApprStat" parameterType="map">
+        /* updateLeaveFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
 </mapper>

@@ -800,4 +800,115 @@
         WHERE
             COND_SN = #{condSn}
     </delete>
+
+    <insert id="insertLeave" parameterType="map">
+        /*insertLeave*/
+        INSERT INTO CAM_INSIDE.DJ_TP_LEAVE
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                JOIN_DAY,
+
+                LEAVE_TYPE,
+                STR_DE,
+                END_DE,
+                LEAVE_CONT,
+                ETC,
+
+                FILE_TYPE,
+
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{joinDe},
+
+                #{leaveType},
+                #{strDe},
+                #{endDe},
+                #{leaveCont},
+                #{etc},
+
+                #{fileType},
+
+                #{empSeq}
+            )
+        <selectKey keyProperty="leaveSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_LEAVE'
+        </selectKey>
+    </insert>
+
+    <update id="updateLeave" parameterType="map">
+        /*updateLeave*/
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            LEAVE_TYPE = #{leaveType},
+            STR_DE = #{strDe},
+            END_DE = #{endDe},
+            LEAVE_CONT = #{leaveCont},
+            ETC = #{etc},
+            FILE_TYPE = #{fileType},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
+
+    <update id="updLeaveFile" parameterType="map">
+        /*updLeaveFile*/
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            FILE_NO = #{file_no}
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
+
+    <select id="getLeaveData" parameterType="map" resultType="map">
+        /*getLeaveData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_LEAVE A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </select>
+
+    <select id="getLeaveFile" parameterType="map" resultType="map">
+        /*getLeaveFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{FILE_NO}
+    </select>
+
+    <select id="getLeaveList" parameterType="map" resultType="map">
+        /*getLeaveList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_LEAVE A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delLeave" parameterType="map">
+        /*delLeave*/
+        DELETE FROM CAM_INSIDE.DJ_TP_LEAVE
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </delete>
 </mapper>

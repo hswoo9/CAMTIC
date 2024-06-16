@@ -228,5 +228,30 @@ var docViewInit = {
             hwpDocCtrl.moveToField("ETC", true, true, false);
             hwpDocCtrl.setTextFile(map.ETC.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
+    },
+
+    leaveInit: function(leaveSn){
+        const leaveInfo = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : leaveSn});
+        const map = leaveInfo.data;
+        const file = leaveInfo.file;
+
+        const userInfo = getUser(map.EMP_SEQ);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+        hwpDocCtrl.putFieldText("JOIN_DAY", userInfo.JOIN_DAY);
+
+        hwpDocCtrl.putFieldText("DT", map.STR_DE +" ~ "+ map.END_DE);
+
+        hwpDocCtrl.putFieldText("FILE_NM", file.file_org_name);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 휴직사유 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("LEAVE_CONT", "");
+            hwpDocCtrl.moveToField("LEAVE_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.LEAVE_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
     }
 }

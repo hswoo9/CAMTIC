@@ -195,4 +195,32 @@ public class DocViewRepository extends AbstractDAO {
     public void delCond(Map<String, Object> params) {
         delete("docView.delCond", params);
     }
+
+    public void insertLeave(Map<String, Object> params) {
+        insert("docView.insertLeave", params);
+    }
+
+    public void updateLeave(Map<String, Object> params) {
+        update("docView.updateLeave", params);
+    }
+
+    public void updLeaveFile(Map<String, Object> params) {
+        update("docView.updLeaveFile", params);
+    }
+
+    public Map<String, Object> getLeaveData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getLeaveData", params);
+    }
+
+    public Map<String, Object> getLeaveFile(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("docView.getLeaveFile", map);
+    }
+
+    public List<Map<String, Object>> getLeaveList(Map<String, Object> params) {
+        return selectList("docView.getLeaveList", params);
+    }
+
+    public void delLeave(Map<String, Object> params) {
+        delete("docView.delLeave", params);
+    }
 }
