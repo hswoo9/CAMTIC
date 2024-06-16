@@ -171,4 +171,8 @@
             gridReload();
         }
     }
+
+    function selectLeave(key, de1, de2){
+        console.log(key, de1, de2);
+    }
 </script>

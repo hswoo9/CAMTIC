@@ -799,6 +799,20 @@ public class DocViewController {
         return "popup/docView/popReinstat";
     }
 
+    @RequestMapping("/customDoc/pop/leaveView.do")
+    public String leaveView(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("data", docViewService.getEmpData(params));
+
+        return "popup/docView/leaveView";
+    }
+
     @RequestMapping("/customDoc/saveReinstat")
     public String saveReinstat(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
