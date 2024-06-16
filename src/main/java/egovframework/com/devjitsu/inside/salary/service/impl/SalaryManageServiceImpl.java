@@ -338,7 +338,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
         String errorRow = "";
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        for (int i = 1; i < rows; i++) {
+        for (int i = 5; i < rows; i++) {
             row = sheet.getRow(i);
             col1 = row.getCell(0);
 
@@ -350,35 +350,25 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
                     map.put("baseYearMonth", params.get("baseYearMonth"));
-                    map.put("buisness", cellValueToString(row.getCell(0), workbook));
-                    map.put("retirementPen", removeCommas(cellValueToString(row.getCell(1), workbook)));
-                    map.put("deptName", cellValueToString(row.getCell(3), workbook).trim());
-                    map.put("empName", cellValueToString(row.getCell(4), workbook).trim());
-                    map.put("joinDate", cellValueToString(row.getCell(5), workbook));
-                    map.put("basicSalary", removeCommas(cellValueToString(row.getCell(6), workbook)));
-                    map.put("foodPay", removeCommas(cellValueToString(row.getCell(7), workbook)));
-                    map.put("extraPay", removeCommas(cellValueToString(row.getCell(8), workbook)));
-                    map.put("totalPay", removeCommas(cellValueToString(row.getCell(9), workbook)));
-                    map.put("nationalPen", removeCommas(cellValueToString(row.getCell(10), workbook)));
-                    map.put("healthIns", removeCommas(cellValueToString(row.getCell(11), workbook)));
-                    map.put("careIns", removeCommas(cellValueToString(row.getCell(12), workbook)));
-                    map.put("employIns", removeCommas(cellValueToString(row.getCell(13), workbook)));
-                    map.put("scienceDeduction", removeCommas(cellValueToString(row.getCell(14), workbook)));
-                    map.put("membershipFee", removeCommas(cellValueToString(row.getCell(15), workbook)));
-                    map.put("travelFund", removeCommas(cellValueToString(row.getCell(16), workbook)));
-                    map.put("dormitoryFee", removeCommas(cellValueToString(row.getCell(17), workbook)));
-                    map.put("incomeTax", removeCommas(cellValueToString(row.getCell(18), workbook)));
-                    map.put("localIncomeTax", removeCommas(cellValueToString(row.getCell(19), workbook)));
-                    map.put("socialIns", removeCommas(cellValueToString(row.getCell(20), workbook)));
-                    map.put("yearTax", removeCommas(cellValueToString(row.getCell(21), workbook)));
-                    map.put("yearLocalTax", removeCommas(cellValueToString(row.getCell(22), workbook)));
-                    map.put("deduction", removeCommas(cellValueToString(row.getCell(23), workbook)));
-                    map.put("actualPay", removeCommas(cellValueToString(row.getCell(24), workbook)));
+                    map.put("erpEmpCd", cellValueToString(row.getCell(0), workbook));
+                    map.put("empName", cellValueToString(row.getCell(1), workbook).trim());
+                    map.put("basicSalary", removeCommas(cellValueToString(row.getCell(2), workbook)));
+                    map.put("foodPay", removeCommas(cellValueToString(row.getCell(3), workbook)));
+                    map.put("extraPay", removeCommas(cellValueToString(row.getCell(4), workbook)));
+                    map.put("bonus", removeCommas(cellValueToString(row.getCell(5), workbook)));
+
+                    map.put("healthIns", removeCommas(cellValueToString(row.getCell(6), workbook)));
+                    map.put("careIns", removeCommas(cellValueToString(row.getCell(7), workbook)));
+                    map.put("nationalPen", removeCommas(cellValueToString(row.getCell(8), workbook)));
+                    map.put("employCompIns", removeCommas(cellValueToString(row.getCell(9), workbook)));
+                    map.put("employEmpIns", removeCommas(cellValueToString(row.getCell(10), workbook)));
+                    map.put("indIns", removeCommas(cellValueToString(row.getCell(11), workbook)));
+
                     map.put("loginEmpSeq", params.get("loginEmpSeq"));
 
-                    String empSeq = salaryManageRepository.getEmpNameAndTeam(map);
+                    String empSeq = salaryManageRepository.getEmpSeqByErpCd(map);
                     if(empSeq == null){
-                        errorRow +=  ", " + (cellValueToString(row.getCell(4), workbook).trim());
+                        errorRow +=  ", " + (cellValueToString(row.getCell(1), workbook).trim());
                     }else{
                         map.put("empSeq", empSeq);
                     }
@@ -387,10 +377,23 @@ public class SalaryManageServiceImpl implements SalaryManageService {
             }
         }
 
-        salaryManageRepository.setPayRollLegerDel(params);
-        salaryManageRepository.setPayRollLeger(dataList);
+        String errorMsg = "";
 
-        returnMap.put("errorRow", errorRow.substring(2));
+        try{
+            salaryManageRepository.setPayRollLegerDel(params);
+            salaryManageRepository.setPayRollLeger(dataList);
+        } catch (Exception e){
+            errorMsg = "오류가 발생하였습니다. 관리자에게 문의하세요.";
+        }
+
+        returnMap.put("error", errorMsg);
+
+        if(!"".equals(errorRow)){
+            returnMap.put("errorRow", errorRow.substring(2));
+        } else {
+            returnMap.put("errorRow", "");
+        }
+
         return returnMap;
     }
 
