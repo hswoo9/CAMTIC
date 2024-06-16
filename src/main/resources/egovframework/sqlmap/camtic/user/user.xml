@@ -40,7 +40,8 @@
             HEI.DIVISION,
             HEI.DIVISION_SUB,
             HEI.JOB_DETAIL,
-            IM.FILE_PATH
+            IM.FILE_PATH,
+            HEI.BDAY
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN

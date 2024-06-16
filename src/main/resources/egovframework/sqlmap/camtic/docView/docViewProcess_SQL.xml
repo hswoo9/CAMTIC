@@ -107,4 +107,25 @@
         WHERE
             RESIGN_SN = #{resignSn}
     </update>
+
+    <update id="updateDetailsApprStat" parameterType="map">
+        /* updateDetailsApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DET_SN = #{detSn}
+    </update>
+
+    <update id="updateDetailsFinalApprStat" parameterType="map">
+        /* updateDetailsFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DET_SN = #{detSn}
+    </update>
 </mapper>
