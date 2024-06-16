@@ -427,15 +427,27 @@
     <select id="getPayRollLedgerStatusList" parameterType="map" resultType="map">
         /* getPayRollLedgerStatusList */
         SELECT
-            SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
-            SUM(TOTAL_PAY) AS TOTAL_PAY,
-            SUM(DEDUCTION) AS DEDUCTION,
-            SUM(RETIREMENT_PEN) AS RETIREMENT_PEN
+            RE.*,
+            BASIC_SALARY_SUM + FOOD_PAY_SUM + EXTRA_PAY_SUM + BONUS_SUM AS TOTAL_PAY,
+            HEALTH_INS_SUM + NATIONAL_PEN_SUM + EMPLOY_COMP_INS_SUM + IND_INS_SUM AS DEDUCTION
         FROM
-            CAM_INSIDE.DJ_PAY_ROLL_LEGER
-        WHERE
-            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
-        GROUP BY BASE_YEAR_MONTH
+        (
+            SELECT
+                SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
+                SUM(IFNULL(BASIC_SALARY,0)) AS BASIC_SALARY_SUM,
+                SUM(IFNULL(FOOD_PAY,0)) AS FOOD_PAY_SUM,
+                SUM(IFNULL(EXTRA_PAY,0)) AS EXTRA_PAY_SUM,
+                SUM(IFNULL(BONUS,0)) AS BONUS_SUM,
+                SUM(IFNULL(HEALTH_INS,0)) AS HEALTH_INS_SUM,
+                SUM(IFNULL(NATIONAL_PEN,0)) AS NATIONAL_PEN_SUM,
+                SUM(IFNULL(EMPLOY_COMP_INS,0)) AS EMPLOY_COMP_INS_SUM,
+                SUM(IFNULL(IND_INS,0)) AS IND_INS_SUM
+            FROM
+                CAM_INSIDE.DJ_PAY_ROLL_LEGER
+            WHERE
+                BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            GROUP BY BASE_YEAR_MONTH
+        ) RE
     </select>
 
     <select id="getEmpNameAndTeam" parameterType="map" resultType="String">

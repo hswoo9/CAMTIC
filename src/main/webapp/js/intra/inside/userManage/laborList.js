@@ -150,7 +150,7 @@ var laborList = {
             var month = Number(ls2[i].MONTH);
             var totalPay = Number(ls2[i].TOTAL_PAY);
             var deduction = Number(ls2[i].DEDUCTION);
-            var retirementPen = Number(ls2[i].RETIREMENT_PEN);
+            var retirementPen = Number(ls2[i].RETIREMENT_PEN || 0);
             var pSum = Number(uncomma($("#pSum" + month).text()))
 
             $("#c" + month).text(comma(totalPay - pSum));
