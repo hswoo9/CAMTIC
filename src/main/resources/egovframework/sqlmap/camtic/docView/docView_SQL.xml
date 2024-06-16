@@ -911,4 +911,104 @@
         WHERE
             LEAVE_SN = #{leaveSn}
     </delete>
+
+    <insert id="insertReinstat" parameterType="map">
+        /*insertReinstat*/
+        INSERT INTO CAM_INSIDE.DJ_TP_REINSTAT
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                JOIN_DAY,
+
+                LEAVE_SN,
+                REINSTAT_DE,
+                REINSTAT_CONT,
+
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{joinDe},
+
+                #{leaveSn},
+                #{reinstatDe},
+                #{reinstatCont},
+
+                #{empSeq}
+            )
+        <selectKey keyProperty="reinstatSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_REINSTAT'
+        </selectKey>
+    </insert>
+
+    <update id="updateReinstat" parameterType="map">
+        /*updateReinstat*/
+        UPDATE CAM_INSIDE.DJ_TP_REINSTAT
+        SET
+            LEAVE_SN = #{leaveSn},
+            REINSTAT_DE = #{reinstatDe},
+            REINSTAT_CONT = #{reinstatCont},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            REINSTAT_SN = #{reinstatSn}
+    </update>
+
+    <update id="updReinstatFile" parameterType="map">
+        /*updReinstatFile*/
+        UPDATE CAM_INSIDE.DJ_TP_REINSTAT
+        SET
+            FILE_NO = #{file_no}
+        WHERE
+            REINSTAT_SN = #{ReinstatSn}
+    </update>
+
+    <select id="getReinstatData" parameterType="map" resultType="map">
+        /*getReinstatData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_REINSTAT A
+                LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            REINSTAT_SN = #{ReinstatSn}
+    </select>
+
+    <select id="getReinstatFile" parameterType="map" resultType="map">
+        /*getReinstatFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{FILE_NO}
+    </select>
+
+    <select id="getReinstatList" parameterType="map" resultType="map">
+        /*getReinstatList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_REINSTAT A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delReinstat" parameterType="map">
+        /*delReinstat*/
+        DELETE FROM CAM_INSIDE.DJ_TP_REINSTAT
+        WHERE
+            REINSTAT_SN = #{reinstatSn}
+    </delete>
 </mapper>

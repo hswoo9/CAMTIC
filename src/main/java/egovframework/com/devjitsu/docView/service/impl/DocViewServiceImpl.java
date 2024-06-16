@@ -303,6 +303,57 @@ public class DocViewServiceImpl implements DocViewService {
         docViewRepository.delLeave(params);
     }
 
+    @Override
+    public void saveReinstat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        if(params.containsKey("reinstatSn")){
+            docViewRepository.updateReinstat(params);
+        } else {
+            docViewRepository.insertReinstat(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile file = request.getFile("file");
+        params.put("menuCd", "reinstatFile");
+        if(file != null){
+            if(!file.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file, filePath(params, SERVER_DIR));
+                fileInsMap.put("reinstatSn", params.get("reinstatSn"));
+                fileInsMap.put("contentId", params.get("reinstatSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                docViewRepository.updReinstatFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getReinstatData(Map<String, Object> params) {
+        return docViewRepository.getReinstatData(params);
+    }
+
+    @Override
+    public Map<String, Object> getReinstatFile(Map<String, Object> params) {
+        return docViewRepository.getReinstatFile(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getReinstatList(Map<String, Object> params) {
+        return docViewRepository.getReinstatList(params);
+    }
+
+    @Override
+    public void delReinstat(Map<String, Object> params) {
+        docViewRepository.delReinstat(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

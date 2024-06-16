@@ -771,4 +771,80 @@ public class DocViewController {
 
         return "jsonView";
     }
+
+    //복직원
+    @RequestMapping("/customDoc/reinstat.do")
+    public String reinstat(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/reinstat";
+    }
+
+    @RequestMapping("/customDoc/pop/popReinstat.do")
+    public String popReinstat(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("data", docViewService.getEmpData(params));
+
+        return "popup/docView/popReinstat";
+    }
+
+    @RequestMapping("/customDoc/saveReinstat")
+    public String saveReinstat(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+
+        try{
+            docViewService.saveReinstat(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getReinstatData")
+    public String getReinstatData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getReinstatData(params);
+        Map<String, Object> file = docViewService.getReinstatFile(data);
+
+        model.addAttribute("data", data);
+        model.addAttribute("file", file);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getReinstatList")
+    public String getReinstatList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getReinstatList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delReinstat")
+    public String delReinstat(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delReinstat(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

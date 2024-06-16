@@ -223,4 +223,32 @@ public class DocViewRepository extends AbstractDAO {
     public void delLeave(Map<String, Object> params) {
         delete("docView.delLeave", params);
     }
+
+    public void insertReinstat(Map<String, Object> params) {
+        insert("docView.insertReinstat", params);
+    }
+
+    public void updateReinstat(Map<String, Object> params) {
+        update("docView.updateReinstat", params);
+    }
+
+    public void updReinstatFile(Map<String, Object> params) {
+        update("docView.updReinstatFile", params);
+    }
+
+    public Map<String, Object> getReinstatData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("docView.getReinstatData", params);
+    }
+
+    public Map<String, Object> getReinstatFile(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("docView.getReinstatFile", map);
+    }
+
+    public List<Map<String, Object>> getReinstatList(Map<String, Object> params) {
+        return selectList("docView.getReinstatList", params);
+    }
+
+    public void delReinstat(Map<String, Object> params) {
+        delete("docView.delReinstat", params);
+    }
 }

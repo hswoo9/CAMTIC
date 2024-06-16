@@ -92,4 +92,14 @@ public interface DocViewService {
     List<Map<String, Object>> getLeaveList(Map<String, Object> params);
 
     void delLeave(Map<String, Object> params);
+
+    void saveReinstat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+
+    Map<String, Object> getReinstatData(Map<String, Object> params);
+
+    Map<String, Object> getReinstatFile(Map<String, Object> params);
+
+    List<Map<String, Object>> getReinstatList(Map<String, Object> params);
+
+    void delReinstat(Map<String, Object> params);
 }
