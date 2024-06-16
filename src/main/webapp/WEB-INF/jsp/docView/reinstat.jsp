@@ -111,21 +111,13 @@
                         // }
                     }
                 }, {
-                    field : "STR_DE",
-                    title : "신청 시작일",
-                    width : 150
-                }, {
-                    field : "END_DE",
-                    title : "신청 종료일",
+                    field : "REINSTAT_DE",
+                    title : "복직 희망일",
                     width : 150
                 }, {
                     field : "REINSTAT_CONT",
-                    title : "휴직사유",
+                    title : "복직 사유",
                     width : 600
-                }, {
-                    field : "ETC",
-                    title : "기타사항",
-                    width : 200
                 }, {
                     title : "수정",
                     template: function(e){

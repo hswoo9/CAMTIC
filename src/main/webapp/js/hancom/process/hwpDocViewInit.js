@@ -253,5 +253,41 @@ var docViewInit = {
             hwpDocCtrl.moveToField("LEAVE_CONT", true, true, false);
             hwpDocCtrl.setTextFile(map.LEAVE_CONT.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
+    },
+
+    reinstatInit: function(reinstatSn){
+        const reinstatInfo = customKendo.fn_customAjax("/customDoc/getReinstatData", {reinstatSn : reinstatSn});
+        const map = reinstatInfo.data;
+
+        if(map.LEAVE_SN != null) {
+            const leaveInfo = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : map.LEAVE_SN});
+            const map2 = leaveInfo.data;
+
+            const userInfo = getUser(map2.EMP_SEQ);
+            hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+            hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+            hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+            hwpDocCtrl.putFieldText("JOIN_DAY", userInfo.JOIN_DAY);
+
+            hwpDocCtrl.putFieldText("DT", map2.STR_DE +" ~ "+ map2.END_DE);
+
+            /** 휴직사유 */
+            setTimeout(function() {
+                hwpDocCtrl.putFieldText("LEAVE_CONT", "");
+                hwpDocCtrl.moveToField("LEAVE_CONT", true, true, false);
+                hwpDocCtrl.setTextFile(map2.LEAVE_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+            }, 1000);
+        }
+
+        hwpDocCtrl.putFieldText("REINSTAT_DE", map.REINSTAT_DE);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 복직사유 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("REINSTAT_CONT", "");
+            hwpDocCtrl.moveToField("REINSTAT_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.REINSTAT_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1500);
     }
 }

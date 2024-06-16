@@ -12,4 +12,5 @@ public interface DocViewProcessService {
     void updateDetailsDocState(Map<String, Object> bodyMap) throws Exception;
     void updateCondDocState(Map<String, Object> bodyMap) throws Exception;
     void updateLeaveDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateReinstatDocState(Map<String, Object> bodyMap) throws Exception;
 }

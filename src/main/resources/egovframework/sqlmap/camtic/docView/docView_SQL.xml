@@ -968,7 +968,7 @@
         SET
             FILE_NO = #{file_no}
         WHERE
-            REINSTAT_SN = #{ReinstatSn}
+            REINSTAT_SN = #{reinstatSn}
     </update>
 
     <select id="getReinstatData" parameterType="map" resultType="map">
@@ -979,9 +979,9 @@
             DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_TP_REINSTAT A
-                LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
-            REINSTAT_SN = #{ReinstatSn}
+            REINSTAT_SN = #{reinstatSn}
     </select>
 
     <select id="getReinstatFile" parameterType="map" resultType="map">

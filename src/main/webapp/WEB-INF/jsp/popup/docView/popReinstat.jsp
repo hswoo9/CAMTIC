@@ -144,11 +144,9 @@
         fd.append("position", parameters.position);
         fd.append("joinDe", parameters.joinDe);
 
-        fd.append("reinstatType", parameters.reinstatType);
-        fd.append("strDe", parameters.strDe);
-        fd.append("endDe", parameters.endDe);
+        fd.append("leaveSn", parameters.leaveSn);
+        fd.append("reinstatDe", parameters.reinstatDe);
         fd.append("reinstatCont", parameters.reinstatCont);
-        fd.append("etc", parameters.etc);
 
         fd.append("fileType", parameters.fileType);
 
@@ -180,6 +178,8 @@
 
         var result = rs.data;
 
+        console.log("result", result);
+
         const userInfo = getUser($("#empSeq").val());
         $("#deptSeq").val(userInfo.DEPT_SEQ);
         $("#deptName").val(userInfo.DEPT_NAME);
@@ -190,9 +190,9 @@
         if(result.LEAVE_SN != null) {
             $("#leaveSn").val(result.LEAVE_SN);
 
-            var rs = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : result.LEAVE_SN});
-            var result = rs.data;
-            $("#leaveText").val(result.STR_DE +"~"+ result.END_DE);
+            var rs2 = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : result.LEAVE_SN});
+            var result2 = rs2.data;
+            $("#leaveText").val(result2.STR_DE +"~"+ result2.END_DE);
         }
 
         $("#reinstatDe").val(result.REINSTAT_DE);
