@@ -68,6 +68,7 @@
                     <td colspan="3">
                         <input id="leaveText" style="width: 30%">
                         <input type="hidden" id="leaveSn">
+                        <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="fn_leaveView()">검색</button>
                     </td>
                 </tr>
                 <tr>
@@ -186,19 +187,16 @@
         $("#position").val(fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
         $("#joinDe").val(userInfo.JOIN_DAY);
 
-        $("#reinstatType").data("kendoDropDownList").value(result.REINSTAT_TYPE);
-        if($("#reinstatType").data("kendoDropDownList").value() == "A"){
-            $(".aTypeTr").show();
-        }else{
-            $(".aTypeTr").hide();
+        if(result.LEAVE_SN != null) {
+            $("#leaveSn").val(result.LEAVE_SN);
+
+            var rs = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : result.LEAVE_SN});
+            var result = rs.data;
+            $("#leaveText").val(result.STR_DE +"~"+ result.END_DE);
         }
 
-        $("#strDe").val(result.STR_DE);
-        $("#endDe").val(result.END_DE);
+        $("#reinstatDe").val(result.REINSTAT_DE);
         $("#reinstatCont").val(result.REINSTAT_CONT);
-        $("#etc").val(result.ETC);
-
-        $("#fileType").data("kendoDropDownList").value(result.FILE_TYPE);
 
         var file = rs.file;
         if(file != null && file != ''){
@@ -241,6 +239,21 @@
 
     function fileChange(e){
         $(e).next().text($(e)[0].files[0].name);
+    }
+
+    function fn_leaveView(){
+        var url = "/customDoc/pop/leaveView.do";
+        var name = "_blank";
+        var option = "width = 1370, height = 466, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
+
+    function selectLeave(key, de1, de2){
+        console.log(key, de1, de2);
+
+        $("#leaveSn").val(key);
+        $("#leaveText").val(de1 +"~"+ de2);
+
     }
     
 </script>

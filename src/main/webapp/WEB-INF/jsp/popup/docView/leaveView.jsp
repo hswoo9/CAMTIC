@@ -99,7 +99,7 @@
                 }, {
                     title : "수정",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_popLeaveView('+e.LEAVE_SN+', '+e.STR_DE+', '+e.END_DE+')">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_selectLeave('+e.LEAVE_SN+', \''+e.STR_DE+'\', \''+e.END_DE+'\')">' +
                             '	<span class="k-button-text">선택</span>' +
                             '</button>';
                     },
