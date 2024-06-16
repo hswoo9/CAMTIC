@@ -173,5 +173,29 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("RESIGN_TYPE4", resignText4);
         hwpDocCtrl.putFieldText("RESIGN_TYPE5", resignText5);
         hwpDocCtrl.putFieldText("RESIGN_TYPE6", resignText6);
+    },
+
+    detailsInit: function(detSn){
+        const detailsInfo = customKendo.fn_customAjax("/customDoc/getDetailsData", {detSn : detSn});
+        const map = detailsInfo.data;
+
+        const userInfo = getUser(map.EMP_SEQ);
+
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+        hwpDocCtrl.putFieldText("BDAY", userInfo.BDAY);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+
+        hwpDocCtrl.putFieldText("DET_TITLE", map.DET_TITLE);
+        hwpDocCtrl.putFieldText("DET_DE", map.DET_DE);
+        hwpDocCtrl.putFieldText("DET_LOC", map.DET_LOC);
+        hwpDocCtrl.putFieldText("DET_ETC", map.DET_ETC);
+
+        /** 내용 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("DET_CONT", "");
+            hwpDocCtrl.moveToField("DET_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.DET_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
     }
 }

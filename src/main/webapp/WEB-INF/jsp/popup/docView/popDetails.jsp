@@ -15,8 +15,14 @@
 
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-<input type="hidden" id="detSn" name="detSn" value="${params.key}" />
 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}"/>
+
+<form id="detailsDraftFrm" method="post">
+    <input type="hidden" id="detSn" name="detSn" value="${params.key}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="details">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -24,7 +30,10 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">경위서</span>
             </h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="fn_save()">저장</button>
+                <span id="detailsBtnBox">
+
+                </span>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="margin-right:5px;" onclick="fn_save()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -153,6 +162,39 @@
         $("#detEtc").val(result.DET_ETC);
         $("#bday").val(result.BDAY);
         $("#joinComp").val(result.JOIN_COMP);
+
+        fn_btnSet(result);
+        fn_kendoUIEnableSet(result);
+    }
+
+    function fn_btnSet (data) {
+        let html = makeApprBtnHtml(data, "detailsDrafting()");
+        $("#detailsBtnBox").html(html);
+
+        if(data != null && data.DOC_ID != null){
+            reDraftOnlyOne(data.DOC_ID, $("#empSeq").val(), "reBtn");
+        }
+    }
+
+    function fn_kendoUIEnableSet (data) {
+        if(data != null){
+            /** 상신, 재상신, 최종결재완료 상태일때 UI 비활성화 */
+            if(data.STATUS == "10" || data.STATUS == "50" || data.STATUS == "100"){
+                $("#saveBtn").css("display", "none");
+            }
+        }
+    }
+
+    function detailsDrafting(){
+        $("#detailsDraftFrm").one("submit", function() {
+            var url = "/popup/customDoc/approvalFormPopup/detailsApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+            var popup = window.open(url, name, option);
+            this.action = "/popup/customDoc/approvalFormPopup/detailsApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 
     function comma(str) {
