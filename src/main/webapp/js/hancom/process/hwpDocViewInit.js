@@ -133,5 +133,45 @@ var docViewInit = {
             hwpDocCtrl.moveToField("DIS_ASSET_PB", true, true, false);
             hwpDocCtrl.setTextFile(map.DIS_ASSET_PB.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1500);
+    },
+
+    resignInit: function(resignSn){
+        const resignInfo = customKendo.fn_customAjax("/customDoc/getResignData", {resignSn : resignSn});
+        const map = resignInfo.data;
+
+        hwpDocCtrl.putFieldText("DEPT_NAME", map.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", map.POSITION);
+        hwpDocCtrl.putFieldText("EMP_NAME", map.EMP_NAME);
+        hwpDocCtrl.putFieldText("JOIN_DAY", map.JOIN_DAY);
+        hwpDocCtrl.putFieldText("RESIGN_DAY", map.RESIGN_DAY);
+        hwpDocCtrl.putFieldText("REGIST_NO", map.REGIST_NO);
+        hwpDocCtrl.putFieldText("JOB_DETAIL", map.JOB_DETAIL);
+
+        let resignText1 = "□ 전   직";
+        let resignText2 = "□ 개인신병";
+        let resignText3 = "□ 진   학";
+        let resignText4 = "□ 결   혼";
+        let resignText5 = "□ 가   사";
+        let resignText6 = "□ 기   타";
+
+        if(map.RESIGN_TYPE == "A"){
+            resignText1 = "■ 전   직";
+        }else if(map.RESIGN_TYPE == "B"){
+            resignText2 = "■ 개인신병";
+        }else if(map.RESIGN_TYPE == "C"){
+            resignText3 = "■ 진   학";
+        }else if(map.RESIGN_TYPE == "D"){
+            resignText4 = "■ 결   혼";
+        }else if(map.RESIGN_TYPE == "E"){
+            resignText5 = "■ 가   사";
+        }else if(map.RESIGN_TYPE == "F"){
+            resignText6 = "■ 기   타("+map.RESIGN_ISS+")";
+        }
+        hwpDocCtrl.putFieldText("RESIGN_TYPE1", resignText1);
+        hwpDocCtrl.putFieldText("RESIGN_TYPE2", resignText2);
+        hwpDocCtrl.putFieldText("RESIGN_TYPE3", resignText3);
+        hwpDocCtrl.putFieldText("RESIGN_TYPE4", resignText4);
+        hwpDocCtrl.putFieldText("RESIGN_TYPE5", resignText5);
+        hwpDocCtrl.putFieldText("RESIGN_TYPE6", resignText6);
     }
 }
