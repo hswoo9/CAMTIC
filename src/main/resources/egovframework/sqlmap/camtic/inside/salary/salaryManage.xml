@@ -397,26 +397,28 @@
     <select id="getPayRollLedgerList" parameterType="map" resultType="map">
         /* getPayRollLedgerList */
         SELECT
-            *
+            A.*
         FROM
-            CAM_INSIDE.DJ_PAY_ROLL_LEGER
+            CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B ON A.EMP_SEQ = B.EMP_SEQ
         WHERE
-            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
-                AND EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <when test='"deptName".equals(searchKeyWord)'>
-                AND DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
-            </when>
-            <when test='"buisness".equals(searchKeyWord)'>
-                AND BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+                AND (
+                    B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO where DEPT_SEQ = B.DEPT_SEQ)) LIKE CONCAT('%', #{searchValue}, '%')
+                )
             </when>
             <otherwise>
                 AND (
-                    EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+                    A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO where DEPT_SEQ = B.DEPT_SEQ)) LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>
