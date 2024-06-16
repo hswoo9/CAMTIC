@@ -138,24 +138,30 @@
                             <td colspan="5" style="text-align: center;"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_engnSearch();">개발일반</b></td>
-                            <td style="text-align: right;" id="engnDelvAmt">0</td>
-                            <td style="text-align: right;" id="engnSaleAmt">0</td>
-                            <td style="text-align: right;" id="engnIncpAmt">0</td>
-                            <td style="text-align: center; background-color: #abe3b1;" rowspan="3"><b>달성사업화지수</b></td>
-                            <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="2"><b>운영비</b></td>
-                        </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer">연구개발</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_engnSearch();">R&D</b></td>
                             <td style="text-align: right;" id="rndDelvAmt">0</td>
                             <td style="text-align: right;" id="rndSaleAmt">0</td>
                             <td style="text-align: right;" id="rndIncpAmt">0</td>
+                            <td style="text-align: center; background-color: #abe3b1;" rowspan="4"><b>달성사업화지수</b></td>
+                            <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="3"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>양산판매</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b>비R&D</b></td>
+                            <td style="text-align: right;" id="unRndDelvAmt">0</td>
+                            <td style="text-align: right;" id="unRndSaleAmt">0</td>
+                            <td style="text-align: right;" id="unRndIncpAmt">0</td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;"><b>엔지니어링</b></td>
+                            <td style="text-align: right;" id="engnDelvAmt">0</td>
+                            <td style="text-align: right;" id="engnSaleAmt">0</td>
+                            <td style="text-align: right;" id="engnIncpAmt">0</td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;"><b>용역/기타</b></td>
+                            <td style="text-align: right;" id="otherDelvAmt">0</td>
+                            <td style="text-align: right;" id="otherSaleAmt">0</td>
+                            <td style="text-align: right;" id="otherIncpAmt">0</td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>운영비</b></td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>인건비</b></td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>자체경비</b></td>
@@ -173,24 +179,30 @@
                             <td style="text-align: right;"><b>0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer">개발일반예상</b></td>
-                            <td style="text-align: right;" id="expEngnAmt">0</td>
-                            <td style="text-align: right;" id="expSaleEngnAmt">0</td>
-                            <td style="text-align: right;" id="expIncpEngnAmt">0</td>
-                            <td style="text-align: center; background-color: #eaed77;" rowspan="3"><b>예상사업화지수</b></td>
-                            <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="2"><b>2024년 예상 운영비_물량취합기준</b></td>
-                        </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer">연구개발예상</b></td>
+                            <td style="text-align: center;"><b>R&D예상</b></td>
                             <td style="text-align: right;" id="expRndAmt">0</td>
                             <td style="text-align: right;" id="expSaleRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpRndAmt">0</td>
+                            <td style="text-align: center; background-color: #eaed77;" rowspan="4"><b>예상사업화지수</b></td>
+                            <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="3"><b>2024년 예상 운영비_물량취합기준</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>양산판매예상</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b>비R&D예상</b></td>
+                            <td style="text-align: right;" id="expUnRndAmt">0</td>
+                            <td style="text-align: right;" id="expSaleUnRndAmt">0</td>
+                            <td style="text-align: right;" id="expIncpUnRndAmt">0</td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;"><b>엔지니어링예상</b></td>
+                            <td style="text-align: right;" id="expEngnAmt">0</td>
+                            <td style="text-align: right;" id="expSaleEngnAmt">0</td>
+                            <td style="text-align: right;" id="expIncpEngnAmt">0</td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;"><b>용역/기타예상</b></td>
+                            <td style="text-align: right;" id="expOtherAmt">0</td>
+                            <td style="text-align: right;" id="expSaleOtherAmt">0</td>
+                            <td style="text-align: right;" id="expIncpOtherAmt">0</td>
                             <td style="text-align: center; background-color: #eaed77;"><b>예상운영비</b></td>
                             <td style="text-align: center; background-color: #eaed77;"><b>인건비</b></td>
                             <td style="text-align: center; background-color: #eaed77;"><b>자체경비</b></td>

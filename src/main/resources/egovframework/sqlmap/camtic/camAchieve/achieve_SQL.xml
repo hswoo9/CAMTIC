@@ -10,7 +10,7 @@
 
     <select id="getRndPjtCalc" parameterType="map" resultType="map">
         /*getRndPjtCalc*/
-        SELECT A.PJT_AMT, B.TOT_RES_COST AS EXP_AMT, B.STATUS
+        SELECT A.BUSN_CLASS, A.PJT_AMT, B.TOT_RES_COST AS EXP_AMT, B.STATUS
         FROM
         CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN (
@@ -26,11 +26,15 @@
         <if test='deptSeq != null and deptSeq != ""'>
             AND A.DEPT_SEQ = #{deptSeq}
         </if>
+        <if test='busnClass != null and busnClass != ""'>
+            AND A.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getEngnPjtCalc" parameterType="map" resultType="map">
         /*getEngnPjtCalc*/
         SELECT
+            A.BUSN_CLASS,
             A.PJT_AMT,
             B.EXP_AMT,
             C.STATUS AS DELV_STATUS,
@@ -48,30 +52,39 @@
         <if test='deptSeq != null and deptSeq != ""'>
             AND A.DEPT_SEQ = #{deptSeq}
         </if>
+        <if test='busnClass != null and busnClass != ""'>
+            AND A.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getRndSaleAmt" parameterType="map" resultType="long">
         /*getRndSaleAmt*/
-        SELECT
-            IFNULL(SUM(B.TOT_COST), 0) AS TOT_COST
-        FROM
-            CAM_MNG.DJ_EXNP A
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B
-        ON
-            A.EXNP_SN = B.EXNP_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PROJECT P
-        ON
-            A.PJT_CD = P.PJT_CD
-        WHERE
-            (substr(A.PJT_CD, 1, 1) = 'R' OR substr(A.PJT_CD, 1, 1) = 'S') AND substr(P.STR_DT, 1, 4) = #{year}
-        <if test='deptSeq != null and deptSeq != ""'>
-            AND P.DEPT_SEQ = #{deptSeq}
-        </if>
-        AND
-            DOC_STATUS IN (100, 101)
-        AND B.BUDGET_SN IS NOT NULL
+        SELECT RE.TOT_COST FROM
+        (
+            SELECT
+                IFNULL(SUM(B.TOT_COST), 0) AS TOT_COST
+            FROM
+                CAM_MNG.DJ_EXNP A
+            LEFT JOIN
+                CAM_MNG.DJ_EXNP_DET B
+            ON
+                A.EXNP_SN = B.EXNP_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT P
+            ON
+                A.PJT_CD = P.PJT_CD
+            WHERE
+                (P.BUSN_CLASS = 'R' OR P.BUSN_CLASS = 'S') AND substr(P.STR_DT, 1, 4) = #{year}
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND P.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='busnClass != null and busnClass != ""'>
+                AND P.BUSN_CLASS = #{busnClass}
+            </if>
+            AND
+                DOC_STATUS IN (100, 101)
+            AND B.BUDGET_SN IS NOT NULL
+        ) RE
     </select>
 
     <select id="getPurcRndAmt" parameterType="map" resultType="long">
@@ -79,6 +92,7 @@
         SELECT IFNULL(SUM(SUBSTRING_INDEX(PURC_ITEM_AMT_SUM, '.', 1)), 0) AS PURC_EXNP_AMT
         FROM
             (SELECT
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS BUSN_CLASS,
                  IFNULL((SELECT SUM(ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM
             FROM
                 CAM_MNG.DJ_PURC_CLAIM A
@@ -90,6 +104,10 @@
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
             </if>
         ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getPurcEngnAmt" parameterType="map" resultType="long">
@@ -97,17 +115,22 @@
         SELECT IFNULL(SUM(SUBSTRING_INDEX(PURC_ITEM_AMT_SUM, '.', 1)), 0) AS PURC_EXNP_AMT
         FROM
             (SELECT
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS BUSN_CLASS,
                  IFNULL((SELECT SUM(ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM
              FROM
                  CAM_MNG.DJ_PURC_CLAIM A
              WHERE
-                 (SELECT LEFT(PJT_CD, 1) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) in ('D', 'V')
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) IN ('D', 'V')
             AND
                 (SELECT LEFT(STR_DT, 4) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{year}
             <if test='deptSeq != null and deptSeq != ""'>
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
             </if>
             ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getBustripRndAmt" parameterType="map" resultType="long">
@@ -115,6 +138,7 @@
         SELECT IFNULL(SUM(SUBSTRING_INDEX(RES_EXNP_SUM, '.', 1)), 0) AS BUSTRIP_EXNP_AMT
         FROM
             (SELECT
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS BUSN_CLASS,
                  IFNULL((
                             SELECT
                                 SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
@@ -130,13 +154,17 @@
             ON
                 A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
             WHERE
-                (SELECT LEFT(PJT_CD, 1) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) in ('R', 'S')
+                (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) IN ('R', 'S')
             AND
                 (SELECT LEFT(STR_DT, 4) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{year}
             <if test='deptSeq != null and deptSeq != ""'>
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
             </if>
         ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getBustripEngnAmt" parameterType="map" resultType="long">
@@ -144,6 +172,7 @@
         SELECT IFNULL(SUM(SUBSTRING_INDEX(RES_EXNP_SUM, '.', 1)), 0) AS BUSTRIP_EXNP_AMT
         FROM
             (SELECT
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS BUSN_CLASS,
                  IFNULL((
                             SELECT
                                 SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
@@ -159,13 +188,42 @@
                  ON
                      A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
              WHERE
-                     (SELECT LEFT(PJT_CD, 1) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) in ('D', 'V')
-            AND
+                 (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) IN ('D', 'V')
+             AND
                 (SELECT LEFT(STR_DT, 4) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{year}
             <if test='deptSeq != null and deptSeq != ""'>
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
             </if>
             ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
+    </select>
+
+    <select id="getEstEngnAmt" parameterType="map" resultType="long">
+        /*getEstEngnAmt*/
+        SELECT IFNULL(SUM(EST_TOT_AMT),0) AS EST_TOT_AMT
+        FROM
+        (
+            SELECT
+                BUSN_CLASS,
+                IFNULL(EST_TOT_AMT,0) AS EST_TOT_AMT
+            FROM
+                CAM_PJT_MNG.DJ_PROJECT A
+            LEFT JOIN
+                    CAM_PJT_MNG.DJ_PJT_DEV B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN
+                    CAM_PJT_MNG.DJ_PJT_INV C ON B.DEV_SN = C.DEV_SN
+            WHERE A.BUSN_CLASS IN ('D', 'V') AND LEFT(A.STR_DT, 4) = #{year}
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND A.DEPT_SEQ = #{deptSeq}
+            </if>
+        ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
     </select>
 
     <select id="getExnpRndAmt" parameterType="map" resultType="long">
@@ -173,6 +231,7 @@
         SELECT IFNULL(SUM(TOT_COST), 0) AS EXNP_AMT
         FROM
             (SELECT
+                 D.BUSN_CLASS,
                  IFNULL(TOT_COST, 0) AS TOT_COST
              FROM
                  CAM_MNG.DJ_PAY_APP_DET PAD
@@ -181,11 +240,81 @@
              LEFT JOIN
                  CAM_PJT_MNG.DJ_PROJECT D ON PA.PJT_CD = D.PJT_CD
              WHERE
-                 LEFT(PA.PJT_CD, 1) IN ('R', 'S') AND LEFT(D.STR_DT, 4) = #{year} AND PAD.COST_STAT = 'Y'
+                 D.BUSN_CLASS IN ('R', 'S') AND LEFT(D.STR_DT, 4) = #{year} AND PAD.COST_STAT = 'Y'
             <if test='deptSeq != null and deptSeq != ""'>
                 AND D.DEPT_SEQ = #{deptSeq}
             </if>
             ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
+    </select>
+
+    <select id="getExnpRndAmtList" parameterType="map" resultType="map">
+        /*getExnpRndAmtList*/
+        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS EXNP_AMT
+        FROM
+        (
+            SELECT
+                C.BUSN_CLASS,
+                A.PAY_APP_TYPE,
+                IFNULL(TOT_COST, 0) AS TOT_COST
+            FROM
+                CAM_MNG.DJ_EXNP A
+            LEFT JOIN
+                CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT C ON A.PJT_CD = C.PJT_CD
+            WHERE
+                C.BUSN_CLASS IN ('R', 'S')
+            AND LEFT(C.STR_DT, 4) = #{year}
+            AND A.DOC_STATUS IN (100, 101)
+            AND B.BUDGET_SN IS NOT NULL
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND C.DEPT_SEQ = #{deptSeq}
+            </if>
+        ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
+        GROUP BY PAY_APP_TYPE, BUSN_CLASS
+    </select>
+
+    <select id="getIncpRndAmtList" parameterType="map" resultType="map">
+        /*getIncpRndAmtList*/
+        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS EXNP_AMT
+        FROM
+        (
+            SELECT
+            C.BUSN_CLASS,
+            A.PAY_APP_TYPE,
+            IFNULL(TOT_COST, 0) AS TOT_COST
+            FROM
+                CAM_MNG.DJ_EXNP A
+            LEFT JOIN
+                CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT C ON A.PJT_CD = C.PJT_CD
+            LEFT JOIN
+                CAM_MNG.DJ_PROJECT_BUDGET_MNG D ON C.PJT_CD = D.PJT_CD AND B.BUDGET_SN = D.BGT_CD AND D.ACTIVE = 'Y'
+            WHERE
+                C.BUSN_CLASS IN ('R', 'S')
+            AND LEFT(C.STR_DT, 4) = #{year}
+            AND A.DOC_STATUS IN (100, 101)
+            AND B.BUDGET_SN IS NOT NULL
+            AND D.BGT_CD IS NOT NULL
+            AND D.BGT_AT = 1
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND C.DEPT_SEQ = #{deptSeq}
+            </if>
+        ) RE
+        WHERE 1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND RE.BUSN_CLASS = #{busnClass}
+        </if>
+        GROUP BY PAY_APP_TYPE, BUSN_CLASS
     </select>
 
     <select id="getEngnList" parameterType="map" resultType="map">

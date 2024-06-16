@@ -46,6 +46,16 @@ public class AchieveRepository extends AbstractDAO {
         return (long) selectOne("achieve.getExnpRndAmt", params);
     }
 
+    public List<Map<String, Object>> getExnpRndAmtList(Map<String, Object> params) {
+
+        return selectList("achieve.getExnpRndAmtList", params);
+    }
+
+    public List<Map<String, Object>> getIncpRndAmtList(Map<String, Object> params) {
+
+        return selectList("achieve.getIncpRndAmtList", params);
+    }
+
     public long getPurcEngnAmt(Map<String, Object> params) {
 
         return (long) selectOne("achieve.getPurcEngnAmt", params);
@@ -54,6 +64,11 @@ public class AchieveRepository extends AbstractDAO {
     public long getBustripEngnAmt(Map<String, Object> params) {
 
         return (long) selectOne("achieve.getBustripEngnAmt", params);
+    }
+
+    public long getEstEngnAmt(Map<String, Object> params) {
+
+        return (long) selectOne("achieve.getEstEngnAmt", params);
     }
 
     public List<Map<String, Object>> getEngnList(Map<String, Object> params) {
