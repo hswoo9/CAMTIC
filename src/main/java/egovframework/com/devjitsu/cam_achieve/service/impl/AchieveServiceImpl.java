@@ -182,7 +182,7 @@ public class AchieveServiceImpl implements AchieveService {
             }
         }
         long expSaleRndAmt = budgetSum - saleRndAmt;       // R&D 예상매출 = 예산금액 - R&D 매출
-        long expIncpRndAmt = budgetSum - incpRndAmt;       // R&D 예상수익 = 예산금액 - R&D 수익
+        long expIncpRndAmt = /*budgetSum -*/ incpRndAmt;       // R&D 예상수익 = /*예산금액 -*/ R&D 수익
 
 
         // 비R&D 구매,출장,지출 정산 금액
@@ -233,7 +233,7 @@ public class AchieveServiceImpl implements AchieveService {
             }
         }
         long expSaleUnRndAmt = budgetSum - saleUnRndAmt;     // 비R&D 예상매출 = 예산금액 - 비R&D 매출
-        long expIncpUnRndAmt = budgetSum - incpUnRndAmt;     // 비R&D 예상수익 = 예산금액 - 비R&D 수익
+        long expIncpUnRndAmt = /*budgetSum -*/ incpUnRndAmt;     // 비R&D 예상수익 = /*예산금액 -*/ 비R&D 수익
 
 
         // 엔지니어링 구매,출장 정산 금액 및 투자금액
