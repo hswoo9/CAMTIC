@@ -44,4 +44,109 @@
         WHERE
             ACC_CERT_SN = #{accCertSn}
     </update>
+
+    <update id="updateSignetToApprStat" parameterType="map">
+        /* updateSignetToApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_SIGNET_TO
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            SIGN_SN = #{signSn}
+    </update>
+
+    <update id="updateSignetToFinalApprStat" parameterType="map">
+        /* updateSignetToFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_SIGNET_TO
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            SIGN_SN = #{signSn}
+    </update>
+
+    <update id="updateDisAssetApprStat" parameterType="map">
+        /* updateDisAssetApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DIS_ASSET
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </update>
+
+    <update id="updateDisAssetFinalApprStat" parameterType="map">
+        /* updateDisAssetFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DIS_ASSET
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DIS_ASSET_SN = #{disAssetSn}
+    </update>
+
+    <update id="updateResignApprStat" parameterType="map">
+        /* updateResignApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_RESIGN
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </update>
+
+    <update id="updateResignFinalApprStat" parameterType="map">
+        /* updateResignFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_RESIGN
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </update>
+
+    <update id="updateDetailsApprStat" parameterType="map">
+        /* updateDetailsApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DET_SN = #{detSn}
+    </update>
+
+    <update id="updateDetailsFinalApprStat" parameterType="map">
+        /* updateDetailsFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DET_SN = #{detSn}
+    </update>
+
+    <update id="updateCondApprStat" parameterType="map">
+        /* updateCondApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            COND_SN = #{condSn}
+    </update>
+
+    <update id="updateCondFinalApprStat" parameterType="map">
+        /* updateCondFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            COND_SN = #{condSn}
+    </update>
 </mapper>

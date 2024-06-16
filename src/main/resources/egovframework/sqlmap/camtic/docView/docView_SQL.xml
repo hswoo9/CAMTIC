@@ -153,9 +153,12 @@
     <select id="getAccCertData" parameterType="map" resultType="map">
         /*getAccCertData*/
         SELECT
-            *
+            TAC.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_ACC_CERT
+            CAM_INSIDE.DJ_TP_ACC_CERT TAC
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON TAC.DOC_ID = DI.DOC_ID
         WHERE
             ACC_CERT_SN = #{accCertSn}
     </select>
@@ -385,9 +388,12 @@
         /*getSignetToData*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_TP_SIGNET_TO A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             SIGN_SN = #{signSn}
     </select>
@@ -478,9 +484,12 @@
         /*getDisAssetData*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_TP_DIS_ASSET A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             DIS_ASSET_SN = #{disAssetSn}
     </select>
@@ -501,5 +510,294 @@
         DELETE FROM CAM_INSIDE.DJ_TP_DIS_ASSET
         WHERE
             DIS_ASSET_SN = #{disAssetSn}
+    </delete>
+
+    <insert id="insertResign" parameterType="map">
+        /*insertResign*/
+        INSERT INTO CAM_INSIDE.DJ_TP_RESIGN
+            (
+                DEPT_TEAM_NAME,
+                POSITION,
+                REGIST_NO,
+                JOIN_DAY,
+                RESIGN_DAY,
+                JOB_DETAIL,
+                RESIGN_TYPE,
+                RESIGN_ISS,
+                EMP_NAME,
+                EMP_SEQ,
+                DEPT_SEQ,
+                DEPT_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{deptTeamName},
+                #{position},
+                #{registNo},
+                #{joinDay},
+                #{resignDay},
+                #{jobDetail},
+                #{resignType},
+                #{resignIss},
+                #{empName},
+                #{empSeq},
+                #{deptSeq},
+                #{deptName},
+                #{empSeq}
+            )
+        <selectKey keyProperty="resignSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_RESIGN'
+        </selectKey>
+    </insert>
+
+    <update id="updateResign" parameterType="map">
+        /*updateResign*/
+        UPDATE CAM_INSIDE.DJ_TP_RESIGN
+        SET
+            DEPT_TEAM_NAME = #{deptTeamName},
+            POSITION = #{position},
+            REGIST_NO = #{registNo},
+            JOIN_DAY = #{joinDay},
+            RESIGN_DAY = #{resignDay},
+            JOB_DETAIL = #{jobDetail},
+            RESIGN_TYPE = #{resignType},
+            RESIGN_ISS = #{resignIss},
+            EMP_NAME = #{empName},
+            EMP_SEQ = #{empSeq},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </update>
+
+    <select id="getResignData" parameterType="map" resultType="map">
+        /*getResignData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_RESIGN A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </select>
+
+    <select id="getEmpData" parameterType="map" resultType="map">
+        /*getEmpData*/
+        SELECT
+            HEI.BDAY,
+            HEI.JOIN_DAY,
+            HEI.JOB_DETAIL,
+            HEI.RES_REGIS_NUM AS REGIST_NO,
+            CONCAT(CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END, " ",
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END) AS DEPT_TEAM_NAME
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getResignList" parameterType="map" resultType="map">
+        /*getResignList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_RESIGN A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delResign" parameterType="map">
+        /*delResign*/
+        DELETE FROM CAM_INSIDE.DJ_TP_RESIGN
+        WHERE
+            RESIGN_SN = #{resignSn}
+    </delete>
+
+    <insert id="insertDetails" parameterType="map">
+        /*insertDetails*/
+        INSERT INTO CAM_INSIDE.DJ_TP_DETAILS
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                BDAY,
+                JOIN_COMP,
+                DET_TITLE,
+                DET_DE,
+                DET_LOC,
+                DET_CONT,
+                DET_ETC,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{bday},
+                #{joinComp},
+                #{detTitle},
+                #{detDe},
+                #{detLoc},
+                #{detCont},
+                #{detEtc},
+                #{empSeq}
+            )
+        <selectKey keyProperty="detSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_DETAILS'
+        </selectKey>
+    </insert>
+
+    <update id="updateDetails" parameterType="map">
+        /*updateDetails*/
+        UPDATE CAM_INSIDE.DJ_TP_DETAILS
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            BDAY = #{bday},
+            JOIN_COMP = #{joinComp},
+            DET_TITLE = #{detTitle},
+            DET_DE = #{detDe},
+            DET_LOC = #{detLoc},
+            DET_CONT = #{detCont},
+            DET_ETC = #{detEtc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            DET_SN = #{detSn}
+    </update>
+
+    <select id="getDetailsData" parameterType="map" resultType="map">
+        /*getDetailsData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_DETAILS A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            DET_SN = #{detSn}
+    </select>
+
+    <select id="getDetailsList" parameterType="map" resultType="map">
+        /*getDetailsList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_DETAILS A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delDetails" parameterType="map">
+        /*delDetails*/
+        DELETE FROM CAM_INSIDE.DJ_TP_DETAILS
+        WHERE
+            DET_SN = #{detSn}
+    </delete>
+
+    <insert id="insertCond" parameterType="map">
+        /*insertCond*/
+        INSERT INTO CAM_INSIDE.DJ_TP_COND
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                POSITION,
+                COND_CONT,
+                COND_DE,
+                COND_TARGET_NAME,
+                COND_RET,
+                ETC,
+                COND_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{position},
+                #{condCont},
+                #{condDe},
+                #{condTargetName},
+                #{condRet},
+                #{etc},
+                #{condAmt},
+                #{empSeq}
+            )
+        <selectKey keyProperty="condSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_COND'
+        </selectKey>
+    </insert>
+
+    <update id="updateCond" parameterType="map">
+        /*updateCond*/
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            COND_CONT = #{condCont},
+            COND_DE = #{condDe},
+            COND_TARGET_NAME = #{condTargetName},
+            COND_RET = #{condRet},
+            ETC = #{etc},
+            COND_AMT = #{condAmt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            COND_SN = #{condSn}
+    </update>
+
+    <select id="getCondData" parameterType="map" resultType="map">
+        /*getCondData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_COND A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            COND_SN = #{condSn}
+    </select>
+
+    <select id="getCondList" parameterType="map" resultType="map">
+        /*getCondList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_INSIDE.DJ_TP_COND A
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delCond" parameterType="map">
+        /*delCond*/
+        DELETE FROM CAM_INSIDE.DJ_TP_COND
+        WHERE
+            COND_SN = #{condSn}
     </delete>
 </mapper>

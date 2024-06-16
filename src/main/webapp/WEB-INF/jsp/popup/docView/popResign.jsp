@@ -15,9 +15,10 @@
 
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}"/>
 
-<form id="signetToDraftFrm" method="post">
-    <input type="hidden" id="signSn" name="signSn" value="${params.key}" />
+<form id="resignDraftFrm" method="post">
+    <input type="hidden" id="resignSn" name="resignSn" value="${params.key}" />
     <input type="hidden" id="menuCd" name="menuCd" value="cardLoss">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -26,10 +27,10 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">인감 반출신청서</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">사직서</span>
             </h3>
             <div class="btn-st popButton">
-                <span id="signetToBtnBox">
+                <span id="resignBtnBox">
 
                 </span>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="margin-right:5px;" onclick="fn_save()">저장</button>
@@ -46,31 +47,9 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>신청자</th>
+                    <th>부서 / 팀</th>
                     <td>
-                        <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
-                    </td>
-                    <th>신청부서</th>
-                    <td>
-                        <input type="text" id="deptName" disabled name="deptName" value="${loginVO.orgnztNm}">
-                    </td>
-                </tr>
-                <tr>
-                    <th>인감종류</th>
-                    <td colspan="3">
-                        <span id="signType"></span>
-                    </td>
-                </tr>
-                <tr id="subTr" style="display: none">
-                    <th>소분류</th>
-                    <td colspan="3">
-                        <span id="signType2"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>반출기간</th>
-                    <td>
-                        <input type="text" id="strDe" name="strDe" style="width: 45%" value=""> ~ <input type="text" id="endDe" style="width: 45%" name="endDe" value="">
+                        <input type="text" id="deptTeamName" disabled name="deptTeamName" value="${data.DEPT_TEAM_NAME}">
                     </td>
                     <th>직위</th>
                     <td>
@@ -78,9 +57,41 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>신청사유<br>(사용용도)</th>
+                    <th>성명</th>
+                    <td>
+                        <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
+                    </td>
+                    <th>주민등록번호</th>
+                    <td>
+                        <input type="text" id="registNo" disabled name="registNo" value="${data.REGIST_NO}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>입사일자</th>
+                    <td>
+                        <input type="text" id="joinDay" disabled name="joinDay" value="${data.JOIN_DAY}">
+                    </td>
+                    <th>퇴직예정일자</th>
+                    <td>
+                        <input type="text" id="resignDay" name="resignDay" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>직무명</th>
                     <td colspan="3">
-                        <textarea type="text" id="useIss" name="useIss" value=""></textarea>
+                        <input type="text" id="jobDetail" name="jobDetail" value="${data.JOB_DETAIL}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>퇴직사유</th>
+                    <td colspan="3">
+                        <span id="resignType" name="resignType"></span>
+                    </td>
+                </tr>
+                <tr id="subTr" style="display:none;">
+                    <th>사유</th>
+                    <td colspan="3">
+                        <textArea type="text" id="resignIss" name="resignIss"></textArea>
                     </td>
                 </tr>
                 </thead>
@@ -91,48 +102,39 @@
 <script type="text/javascript">
 
     $(function(){
-        customKendo.fn_textBox(["empName", "deptName", "position"]);
+        customKendo.fn_textBox(["empName", "position", "registNo", "jobDetail", "deptTeamName"]);
 
-        $("#useIss").kendoTextArea({
+        $("#resignIss").kendoTextArea({
             rows: 5
         });
 
-        $("#signType").kendoRadioGroup({
+        $("#resignType").kendoRadioGroup({
             items: [
-                { label : "법인인감", value : "A" },
-                { label : "사용인감", value : "B" }
+                { label : "전직", value : "A" },
+                { label : "개인신병", value : "B" },
+                { label : "진학", value : "C" },
+                { label : "결혼", value : "D" },
+                { label : "가사", value : "E" },
+                { label : "기타", value : "F" }
             ],
             layout : "horizontal",
             labelPosition : "after",
             value : "A"
         })
 
-        $("#signType").data("kendoRadioGroup").bind("change", function(){
-            if($("#signType").data("kendoRadioGroup").value() == "B"){
+        $("#resignType").data("kendoRadioGroup").bind("change", function(){
+            if($("#resignType").data("kendoRadioGroup").value() == "F"){
                 $("#subTr").show();
-                $("#signType2").data("kendoRadioGroup").value("z");
             } else {
                 $("#subTr").hide();
-                $("#signType2").data("kendoRadioGroup").value("");
             }
         })
 
-        $("#signType2").kendoRadioGroup({
-            items: [
-                { label : "이사장인", value : "z" },
-                { label : "원 장 인(대)", value : "x" },
-                { label : "원 장 인(소)", value : "c" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "z"
-        })
 
+        customKendo.fn_datePicker("joinDay", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("resignDay", "depth", "yyyy-MM-dd", new Date());
 
-        customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
-
-        if($("#signSn").val() != "") {
+        if($("#resignSn").val() != "") {
             fn_setData();
         }
     });
@@ -143,45 +145,51 @@
             deptName : $("#deptName").val(),
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            signType : $("#signType").data("kendoRadioGroup").value(),
-            subType : $("#signType2").data("kendoRadioGroup").value(),
-            strDe : $("#strDe").val(),
-            endDe : $("#endDe").val(),
-            useIss : $("#useIss").val(),
-            position : $("#position").val()
+            deptTeamName : $("#deptTeamName").val(),
+            position : $("#position").val(),
+            registNo : $("#registNo").val(),
+            joinDay : $("#joinDay").val(),
+            resignDay : $("#resignDay").val(),
+            jobDetail : $("#jobDetail").val(),
+            resignType : $("#resignType").data("kendoRadioGroup").value(),
+            resignIss : $("#resignIss").val()
         };
 
-        if($("#signSn").val() != ""){
-            parameters.signSn = $("#signSn").val();
+        if($("#resignSn").val() != ""){
+            parameters.resignSn = $("#resignSn").val();
         }
 
-       var rs = customKendo.fn_customAjax("/customDoc/saveSignetTo", parameters);
+       var rs = customKendo.fn_customAjax("/customDoc/saveResign", parameters);
 
        if(rs.code == 200){
            alert("저장되었습니다.");
 
-           location.href = "/customDoc/pop/popSignetTo.do?key=" + rs.params.signSn;
+           location.href = "/customDoc/pop/popResign.do?key=" + rs.params.resignSn;
        }
     }
 
     function fn_setData () {
-        var rs = customKendo.fn_customAjax("/customDoc/getSignetToData", {signSn : $("#signSn").val()});
+        var rs = customKendo.fn_customAjax("/customDoc/getResignData", {resignSn : $("#resignSn").val()});
 
         var result = rs.data;
 
-        $("#useIss").val(result.USE_ISS);
-        $("#strDe").val(result.STR_DE);
-        $("#endDe").val(result.END_DE);
+        $("#empName").val(result.EMP_NAME);
+        $("#deptName").val(result.DEPT_NAME);
+        $("#empSeq").val(result.EMP_SEQ);
+        $("#deptSeq").val(result.DEPT_SEQ);
+        $("#deptTeamName").val(result.DEPT_TEAM_NAME);
+        $("#registNo").val(result.REGIST_NO);
+        $("#joinDay").val(result.JOIN_DAY);
+        $("#resignDay").val(result.RESIGN_DAY);
+        $("#jobDetail").val(result.JOB_DETAIL);
+        $("#resignType").data("kendoRadioGroup").value(result.RESIGN_TYPE);
+        $("#resignIss").val(result.RESIGN_ISS);
         $("#position").val(result.POSITION);
 
-        if(result.SIGN_TYPE == "B"){
-            $("#signType").data("kendoRadioGroup").value("B");
+        if(result.RESIGN_TYPE == "F"){
             $("#subTr").show();
-            $("#signType2").data("kendoRadioGroup").value(result.SUB_TYPE);
         } else {
-            $("#signType").data("kendoRadioGroup").value("A");
             $("#subTr").hide();
-            $("#signType2").data("kendoRadioGroup").value("");
         }
 
         fn_btnSet(result);
@@ -189,8 +197,8 @@
     }
 
     function fn_btnSet (data) {
-        let html = makeApprBtnHtml(data, "signetToDrafting()");
-        $("#signetToBtnBox").html(html);
+        let html = makeApprBtnHtml(data, "resignDrafting()");
+        $("#resignBtnBox").html(html);
 
         if(data != null && data.DOC_ID != null){
             reDraftOnlyOne(data.DOC_ID, $("#empSeq").val(), "reBtn");
@@ -206,13 +214,13 @@
         }
     }
 
-    function signetToDrafting(){
-        $("#signetToDraftFrm").one("submit", function() {
-            var url = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+    function resignDrafting(){
+        $("#resignDraftFrm").one("submit", function() {
+            var url = "/popup/customDoc/approvalFormPopup/resignApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+            this.action = "/popup/customDoc/approvalFormPopup/resignApprovalPop.do";
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");

@@ -17,7 +17,37 @@ public class DocViewProcessRepository extends AbstractDAO {
     public void updateAccCertApprStat(Map<String, Object> params) {
         update("docViewProcess.updateAccCertApprStat", params);
     }
-    public void updateAcccertFinalApprStat(Map<String, Object> params) {
+    public void updateAccCertFinalApprStat(Map<String, Object> params) {
         update("docViewProcess.updateAccCertFinalApprStat", params);
+    }
+    public void updateSignetToApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateSignetToApprStat", params);
+    }
+    public void updateSignetToFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateSignetToFinalApprStat", params);
+    }
+    public void updateDisAssetApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateDisAssetApprStat", params);
+    }
+    public void updateDisAssetFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateDisAssetFinalApprStat", params);
+    }
+    public void updateResignApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateResignApprStat", params);
+    }
+    public void updateResignFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateResignFinalApprStat", params);
+    }
+    public void updateDetailsApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateDetailsApprStat", params);
+    }
+    public void updateDetailsFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateDetailsFinalApprStat", params);
+    }
+    public void updateCondApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateCondApprStat", params);
+    }
+    public void updateCondFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateCondFinalApprStat", params);
     }
 }

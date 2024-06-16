@@ -468,66 +468,52 @@
         INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER
         (
             BASE_YEAR_MONTH,
+            ERP_EMP_CD,
             EMP_SEQ,
             EMP_NAME,
-            DEPT_NAME,
-            JOIN_DATE,
             BASIC_SALARY,
             FOOD_PAY,
             EXTRA_PAY,
-            BUISNESS,
-            RETIREMENT_PEN,
+            BONUS,
             NATIONAL_PEN,
             HEALTH_INS,
             CARE_INS,
-            EMPLOY_INS,
-            SCIENCE_DEDUCTION,
-            MEMBERSHIP_FEE,
-            TRAVEL_FUND,
-            DORMITORY_FEE,
-            INCOME_TAX,
-            LOCAL_INCOME_TAX,
-            SOCIAL_INS,
-            YEAR_TAX,
-            YEAR_LOCAL_TAX,
-            DEDUCTION,
-            TOTAL_PAY,
-            ACTUAL_PAY,
+            EMPLOY_COMP_INS,
+            EMPLOY_EMP_INS,
+            IND_INS,
             REG_EMP_SEQ
         )
         values
         <foreach collection="list" item="item" index="index" separator=",">
         (
             #{item.baseYearMonth},
+            #{item.erpEmpCd},
             #{item.empSeq},
             #{item.empName},
-            #{item.deptName},
-            #{item.joinDate},
             #{item.basicSalary},
             #{item.foodPay},
             #{item.extraPay},
-            #{item.buisness},
-            #{item.retirementPen},
+            #{item.bonus},
             #{item.nationalPen},
             #{item.healthIns},
             #{item.careIns},
-            #{item.employIns},
-            #{item.scienceDeduction},
-            #{item.membershipFee},
-            #{item.travelFund},
-            #{item.dormitoryFee},
-            #{item.incomeTax},
-            #{item.localIncomeTax},
-            #{item.socialIns},
-            #{item.yearTax},
-            #{item.yearLocalTax},
-            #{item.deduction},
-            #{item.totalPay},
-            #{item.actualPay},
-            #{item.loginEmpSeq}
+            #{item.employCompIns},
+            #{item.employEmpIns},
+            #{item.indIns},
+            #{item.regEmpSeq}
         )
         </foreach>
     </insert>
+
+    <select id="getEmpSeqByErpCd" parameterType="map" resultType="String">
+        /*getEmpSeqByErpCd*/
+        SELECT
+            EMP_SEQ
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            ERP_EMP_SEQ = #{erpEmpCd}
+    </select>
 </mapper>
 
 

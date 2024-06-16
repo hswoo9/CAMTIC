@@ -201,7 +201,7 @@ public class AchieveController {
                 }
 
                 map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
-                map.put("tmpProfitAmt", budgetAmt - Long.parseLong(map.get("incpCompAmt").toString()));
+                map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
             } else {
 
                 Map<String, Object> resultStat = achieveService.getResultProject(params);

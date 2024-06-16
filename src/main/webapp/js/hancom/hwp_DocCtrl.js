@@ -601,6 +601,26 @@ var hwpDocCtrl = {
             const accCertSn = data.approKey.split("_")[1];
             if (accCertSn == null || accCertSn == undefined || accCertSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             docViewInit.accCertInit(accCertSn);
+        }else if(data.menuCd == "signetTo") {
+            const signSn = data.approKey.split("_")[1];
+            if (signSn == null || signSn == undefined || signSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.signetToInit(signSn);
+        }else if(data.menuCd == "disAsset") {
+            const disAssetSn = data.approKey.split("_")[1];
+            if (disAssetSn == null || disAssetSn == undefined || disAssetSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.disAssetInit(disAssetSn);
+        }else if(data.menuCd == "resign") {
+            const key = data.approKey.split("_")[1];
+            if (key == null || key == undefined || key == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.resignInit(key);
+        }else if(data.menuCd == "details") {
+            const key = data.approKey.split("_")[1];
+            if (key == null || key == undefined || key == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.detailsInit(key);
+        }else if(data.menuCd == "cond") {
+            const key = data.approKey.split("_")[1];
+            if (key == null || key == undefined || key == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.condInit(key);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -851,6 +871,36 @@ var hwpDocCtrl = {
             const accCertSn = pk;
             if (accCertSn == null || accCertSn == undefined || accCertSn == "") { alert(errorText); return; }
             docViewInit.accCertInit(accCertSn);
+
+        }else if(data.menuCd == "signetTo") {
+
+            const signSn = pk;
+            if (signSn == null || signSn == undefined || signSn == "") { alert(errorText); return; }
+            docViewInit.signetToInit(signSn);
+
+        }else if(data.menuCd == "disAsset") {
+
+            const disAssetSn = pk;
+            if (disAssetSn == null || disAssetSn == undefined || disAssetSn == "") { alert(errorText); return; }
+            docViewInit.disAssetInit(disAssetSn);
+
+        }else if(data.menuCd == "resign") {
+
+            const key = pk;
+            if (key == null || key == undefined || key == "") { alert(errorText); return; }
+            docViewInit.resignInit(key);
+
+        }else if(data.menuCd == "details") {
+
+            const key = pk;
+            if (key == null || key == undefined || key == "") { alert(errorText); return; }
+            docViewInit.detailsInit(key);
+
+        }else if(data.menuCd == "cond") {
+
+            const key = pk;
+            if (key == null || key == undefined || key == "") { alert(errorText); return; }
+            docViewInit.condInit(key);
 
         }
 

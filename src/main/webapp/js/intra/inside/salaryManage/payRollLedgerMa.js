@@ -387,6 +387,10 @@ var payRollLedgerMa = {
                             "[ " + rs.rs.errorRow + " ]사용자를 제외한 데이터가 저장되었습니다.");
                     }
 
+                    if(rs.rs.error != ""){
+                        alert(rs.rs.error);
+                    }
+
                     $('#mask').remove();
                     $('#loadingImg').remove();
                     payRollLedgerMa.gridReload();

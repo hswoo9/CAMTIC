@@ -15,10 +15,11 @@
 
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}"/>
 
-<form id="signetToDraftFrm" method="post">
-    <input type="hidden" id="signSn" name="signSn" value="${params.key}" />
-    <input type="hidden" id="menuCd" name="menuCd" value="cardLoss">
+<form id="detailsDraftFrm" method="post">
+    <input type="hidden" id="detSn" name="detSn" value="${params.key}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="details">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
@@ -26,10 +27,10 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">인감 반출신청서</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">경위서</span>
             </h3>
             <div class="btn-st popButton">
-                <span id="signetToBtnBox">
+                <span id="detailsBtnBox">
 
                 </span>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="margin-right:5px;" onclick="fn_save()">저장</button>
@@ -46,43 +47,56 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>신청자</th>
+                    <th>성명</th>
                     <td>
                         <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
                     </td>
-                    <th>신청부서</th>
+                    <th>생년월일</th>
                     <td>
-                        <input type="text" id="deptName" disabled name="deptName" value="${loginVO.orgnztNm}">
+                        <input type="text" id="bday" disabled name="bday" value="${data.BDAY}">
                     </td>
                 </tr>
                 <tr>
-                    <th>인감종류</th>
-                    <td colspan="3">
-                        <span id="signType"></span>
+                    <th>소속</th>
+                    <td>
+                        <input type="text" id="joinComp" value="캠틱종합기술원" />
                     </td>
-                </tr>
-                <tr id="subTr" style="display: none">
-                    <th>소분류</th>
-                    <td colspan="3">
-                        <span id="signType2"></span>
+                    <th>소속</th>
+                    <td>
+                        <input type="text" id="position" value="${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}" />
                     </td>
                 </tr>
                 <tr>
-                    <th>반출기간</th>
-                    <td>
-                        <input type="text" id="strDe" name="strDe" style="width: 45%" value=""> ~ <input type="text" id="endDe" style="width: 45%" name="endDe" value="">
-                    </td>
-                    <th>직위</th>
-                    <td>
-                        <input type="text" id="position" disabled name="position" value="${loginVO.positionNm}">
+                    <th>제목</th>
+                    <td colspan="3">
+                        <input type="text" id="detTitle" name="detTitle">
                     </td>
                 </tr>
                 <tr>
-                    <th>신청사유<br>(사용용도)</th>
+                    <th>일시</th>
                     <td colspan="3">
-                        <textarea type="text" id="useIss" name="useIss" value=""></textarea>
+                        <input type="text" id="detDe" style="width: 25%"/>
                     </td>
                 </tr>
+                <tr>
+                    <th>장소</th>
+                    <td colspan="3">
+                        <input type="text" id="detLoc" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td colspan="3">
+                        <textArea id="detCont"></textArea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>기타사항</th>
+                    <td colspan="3">
+                        <input type="text" id="detEtc" />
+                    </td>
+                </tr>
+
                 </thead>
             </table>
         </div>
@@ -91,48 +105,15 @@
 <script type="text/javascript">
 
     $(function(){
-        customKendo.fn_textBox(["empName", "deptName", "position"]);
+        customKendo.fn_textBox(["empName", "position", "detTitle", "detLoc", "detCont", "detEtc", "bday", "joinComp"]);
 
-        $("#useIss").kendoTextArea({
+        $("#detCont").kendoTextArea({
             rows: 5
         });
 
-        $("#signType").kendoRadioGroup({
-            items: [
-                { label : "법인인감", value : "A" },
-                { label : "사용인감", value : "B" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "A"
-        })
+        customKendo.fn_datePicker("detDe", "depth", "yyyy-MM-dd", new Date());
 
-        $("#signType").data("kendoRadioGroup").bind("change", function(){
-            if($("#signType").data("kendoRadioGroup").value() == "B"){
-                $("#subTr").show();
-                $("#signType2").data("kendoRadioGroup").value("z");
-            } else {
-                $("#subTr").hide();
-                $("#signType2").data("kendoRadioGroup").value("");
-            }
-        })
-
-        $("#signType2").kendoRadioGroup({
-            items: [
-                { label : "이사장인", value : "z" },
-                { label : "원 장 인(대)", value : "x" },
-                { label : "원 장 인(소)", value : "c" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "z"
-        })
-
-
-        customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
-
-        if($("#signSn").val() != "") {
+        if($("#detSn").val() != "") {
             fn_setData();
         }
     });
@@ -143,54 +124,52 @@
             deptName : $("#deptName").val(),
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            signType : $("#signType").data("kendoRadioGroup").value(),
-            subType : $("#signType2").data("kendoRadioGroup").value(),
-            strDe : $("#strDe").val(),
-            endDe : $("#endDe").val(),
-            useIss : $("#useIss").val(),
-            position : $("#position").val()
+            position : $("#position").val(),
+            detTitle : $("#detTitle").val(),
+            detDe : $("#detDe").val(),
+            detLoc : $("#detLoc").val(),
+            detCont : $("#detCont").val(),
+            detEtc : $("#detEtc").val(),
+            bday : $("#bday").val(),
+            joinComp : $("#joinComp").val()
         };
 
-        if($("#signSn").val() != ""){
-            parameters.signSn = $("#signSn").val();
+        if($("#detSn").val() != ""){
+            parameters.detSn = $("#detSn").val();
         }
 
-       var rs = customKendo.fn_customAjax("/customDoc/saveSignetTo", parameters);
+       var rs = customKendo.fn_customAjax("/customDoc/saveDetails", parameters);
 
        if(rs.code == 200){
            alert("저장되었습니다.");
 
-           location.href = "/customDoc/pop/popSignetTo.do?key=" + rs.params.signSn;
+           location.href = "/customDoc/pop/popDetails.do?key=" + rs.params.detSn;
        }
     }
 
     function fn_setData () {
-        var rs = customKendo.fn_customAjax("/customDoc/getSignetToData", {signSn : $("#signSn").val()});
+        var rs = customKendo.fn_customAjax("/customDoc/getDetailsData", {detSn : $("#detSn").val()});
 
         var result = rs.data;
 
-        $("#useIss").val(result.USE_ISS);
-        $("#strDe").val(result.STR_DE);
-        $("#endDe").val(result.END_DE);
+        $("#empName").val(result.EMP_NAME);
+        $("#deptName").val(result.DEPT_NAME);
         $("#position").val(result.POSITION);
-
-        if(result.SIGN_TYPE == "B"){
-            $("#signType").data("kendoRadioGroup").value("B");
-            $("#subTr").show();
-            $("#signType2").data("kendoRadioGroup").value(result.SUB_TYPE);
-        } else {
-            $("#signType").data("kendoRadioGroup").value("A");
-            $("#subTr").hide();
-            $("#signType2").data("kendoRadioGroup").value("");
-        }
+        $("#detTitle").val(result.DET_TITLE);
+        $("#detDe").val(result.DET_DE);
+        $("#detLoc").val(result.DET_LOC);
+        $("#detCont").val(result.DET_CONT);
+        $("#detEtc").val(result.DET_ETC);
+        $("#bday").val(result.BDAY);
+        $("#joinComp").val(result.JOIN_COMP);
 
         fn_btnSet(result);
         fn_kendoUIEnableSet(result);
     }
 
     function fn_btnSet (data) {
-        let html = makeApprBtnHtml(data, "signetToDrafting()");
-        $("#signetToBtnBox").html(html);
+        let html = makeApprBtnHtml(data, "detailsDrafting()");
+        $("#detailsBtnBox").html(html);
 
         if(data != null && data.DOC_ID != null){
             reDraftOnlyOne(data.DOC_ID, $("#empSeq").val(), "reBtn");
@@ -206,13 +185,13 @@
         }
     }
 
-    function signetToDrafting(){
-        $("#signetToDraftFrm").one("submit", function() {
-            var url = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+    function detailsDrafting(){
+        $("#detailsDraftFrm").one("submit", function() {
+            var url = "/popup/customDoc/approvalFormPopup/detailsApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+            this.action = "/popup/customDoc/approvalFormPopup/detailsApprovalPop.do";
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
@@ -227,6 +206,8 @@
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     }
+
+
 </script>
 </body>
 </html>

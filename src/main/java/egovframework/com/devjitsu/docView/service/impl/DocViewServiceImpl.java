@@ -165,4 +165,81 @@ public class DocViewServiceImpl implements DocViewService {
     public void delDisAsset(Map<String, Object> params) {
         docViewRepository.delDisAsset(params);
     }
+
+    @Override
+    public void saveResign(Map<String, Object> params) {
+        if(params.containsKey("resignSn")){
+            docViewRepository.updateResign(params);
+        } else {
+            docViewRepository.insertResign(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getResignData(Map<String, Object> params) {
+        return docViewRepository.getResignData(params);
+    }
+
+    @Override
+    public Map<String, Object> getEmpData(Map<String, Object> params) {
+        return docViewRepository.getEmpData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getResignList(Map<String, Object> params) {
+        return docViewRepository.getResignList(params);
+    }
+
+    @Override
+    public void delResign(Map<String, Object> params) {
+        docViewRepository.delResign(params);
+    }
+
+    @Override
+    public void saveDetails(Map<String, Object> params) {
+        if(params.containsKey("#detSn")){
+            docViewRepository.updateDetails(params);
+        } else {
+            docViewRepository.insertDetails(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getDetailsData(Map<String, Object> params) {
+        return docViewRepository.getDetailsData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDetailsList(Map<String, Object> params) {
+        return docViewRepository.getDetailsList(params);
+    }
+
+    @Override
+    public void delDetails(Map<String, Object> params) {
+        docViewRepository.delDetails(params);
+    }
+
+    @Override
+    public void saveCond(Map<String, Object> params) {
+        if(params.containsKey("condSn")){
+            docViewRepository.updateCond(params);
+        } else {
+            docViewRepository.insertCond(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getCondData(Map<String, Object> params) {
+        return docViewRepository.getCondData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCondList(Map<String, Object> params) {
+        return docViewRepository.getCondList(params);
+    }
+
+    @Override
+    public void delCond(Map<String, Object> params) {
+        docViewRepository.delCond(params);
+    }
 }

@@ -16,8 +16,8 @@
 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
-<form id="signetToDraftFrm" method="post">
-    <input type="hidden" id="signSn" name="signSn" value="${params.key}" />
+<form id="condDraftFrm" method="post">
+    <input type="hidden" id="condSn" name="condSn" value="${params.key}" />
     <input type="hidden" id="menuCd" name="menuCd" value="cardLoss">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -26,10 +26,10 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">인감 반출신청서</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">경조비 지급신청서</span>
             </h3>
             <div class="btn-st popButton">
-                <span id="signetToBtnBox">
+                <span id="condBtnBox">
 
                 </span>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="margin-right:5px;" onclick="fn_save()">저장</button>
@@ -46,43 +46,54 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>신청자</th>
-                    <td>
-                        <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
-                    </td>
-                    <th>신청부서</th>
+                    <th>부서명</th>
                     <td>
                         <input type="text" id="deptName" disabled name="deptName" value="${loginVO.orgnztNm}">
                     </td>
-                </tr>
-                <tr>
-                    <th>인감종류</th>
-                    <td colspan="3">
-                        <span id="signType"></span>
-                    </td>
-                </tr>
-                <tr id="subTr" style="display: none">
-                    <th>소분류</th>
-                    <td colspan="3">
-                        <span id="signType2"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>반출기간</th>
+                    <th>성명</th>
                     <td>
-                        <input type="text" id="strDe" name="strDe" style="width: 45%" value=""> ~ <input type="text" id="endDe" style="width: 45%" name="endDe" value="">
-                    </td>
-                    <th>직위</th>
-                    <td>
-                        <input type="text" id="position" disabled name="position" value="${loginVO.positionNm}">
+                        <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
                     </td>
                 </tr>
                 <tr>
-                    <th>신청사유<br>(사용용도)</th>
-                    <td colspan="3">
-                        <textarea type="text" id="useIss" name="useIss" value=""></textarea>
+                    <th>직급</th>
+                    <td>
+                        <input type="text" id="position" disabled name="position" value="${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}">
+                    </td>
+                    <th>경조일</th>
+                    <td>
+                        <input type="text" id="condDe" disabled name="condDe" value="">
                     </td>
                 </tr>
+                <tr>
+                    <th>경조내용</th>
+                    <td colspan="3">
+                        <input type="text" id="condCont" name="condCont">
+                    </td>
+                </tr>
+                <tr>
+                    <th>경조 대상자 성명</th>
+                    <td>
+                        <input type="text" id="condTargetName" />
+                    </td>
+                    <th>관계</th>
+                    <td>
+                        <input type="text" id="condRet" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>신청금액</th>
+                    <td colspan="3">
+                        <input type="text" id="condAmt" style="text-align: right; width: 25%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td colspan="3">
+                        <textArea id="etc"></textArea>
+                    </td>
+                </tr>
+
                 </thead>
             </table>
         </div>
@@ -91,48 +102,15 @@
 <script type="text/javascript">
 
     $(function(){
-        customKendo.fn_textBox(["empName", "deptName", "position"]);
+        customKendo.fn_textBox(["empName", "position", "deptName", "condCont", "condTargetName", "condRet", "condAmt"]);
 
-        $("#useIss").kendoTextArea({
+        $("#etc").kendoTextArea({
             rows: 5
         });
 
-        $("#signType").kendoRadioGroup({
-            items: [
-                { label : "법인인감", value : "A" },
-                { label : "사용인감", value : "B" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "A"
-        })
+        customKendo.fn_datePicker("condDe", "depth", "yyyy-MM-dd", new Date());
 
-        $("#signType").data("kendoRadioGroup").bind("change", function(){
-            if($("#signType").data("kendoRadioGroup").value() == "B"){
-                $("#subTr").show();
-                $("#signType2").data("kendoRadioGroup").value("z");
-            } else {
-                $("#subTr").hide();
-                $("#signType2").data("kendoRadioGroup").value("");
-            }
-        })
-
-        $("#signType2").kendoRadioGroup({
-            items: [
-                { label : "이사장인", value : "z" },
-                { label : "원 장 인(대)", value : "x" },
-                { label : "원 장 인(소)", value : "c" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "z"
-        })
-
-
-        customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
-
-        if($("#signSn").val() != "") {
+        if($("#condSn").val() != "") {
             fn_setData();
         }
     });
@@ -143,54 +121,50 @@
             deptName : $("#deptName").val(),
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            signType : $("#signType").data("kendoRadioGroup").value(),
-            subType : $("#signType2").data("kendoRadioGroup").value(),
-            strDe : $("#strDe").val(),
-            endDe : $("#endDe").val(),
-            useIss : $("#useIss").val(),
-            position : $("#position").val()
+            position : $("#position").val(),
+            condCont : $("#condCont").val(),
+            condDe : $("#condDe").val(),
+            condTargetName : $("#condTargetName").val(),
+            condRet : $("#condRet").val(),
+            condAmt : uncomma($("#condAmt").val()),
+            etc : $("#etc").val()
         };
 
-        if($("#signSn").val() != ""){
-            parameters.signSn = $("#signSn").val();
+        if($("#condSn").val() != ""){
+            parameters.condSn = $("#condSn").val();
         }
 
-       var rs = customKendo.fn_customAjax("/customDoc/saveSignetTo", parameters);
+       var rs = customKendo.fn_customAjax("/customDoc/saveCond", parameters);
 
        if(rs.code == 200){
            alert("저장되었습니다.");
 
-           location.href = "/customDoc/pop/popSignetTo.do?key=" + rs.params.signSn;
+           location.href = "/customDoc/pop/popCond.do?key=" + rs.params.condSn;
        }
     }
 
     function fn_setData () {
-        var rs = customKendo.fn_customAjax("/customDoc/getSignetToData", {signSn : $("#signSn").val()});
+        var rs = customKendo.fn_customAjax("/customDoc/getCondData", {condSn : $("#condSn").val()});
 
         var result = rs.data;
 
-        $("#useIss").val(result.USE_ISS);
-        $("#strDe").val(result.STR_DE);
-        $("#endDe").val(result.END_DE);
+        $("#empName").val(result.EMP_NAME);
+        $("#deptName").val(result.DEPT_NAME);
         $("#position").val(result.POSITION);
-
-        if(result.SIGN_TYPE == "B"){
-            $("#signType").data("kendoRadioGroup").value("B");
-            $("#subTr").show();
-            $("#signType2").data("kendoRadioGroup").value(result.SUB_TYPE);
-        } else {
-            $("#signType").data("kendoRadioGroup").value("A");
-            $("#subTr").hide();
-            $("#signType2").data("kendoRadioGroup").value("");
-        }
+        $("#condCont").val(result.COND_CONT);
+        $("#condDe").val(result.COND_DE);
+        $("#condTargetName").val(result.COND_TARGET_NAME);
+        $("#condRet").val(result.COND_RET);
+        $("#condAmt").val(comma(result.COND_AMT));
+        $("#etc").val(result.ETC);
 
         fn_btnSet(result);
         fn_kendoUIEnableSet(result);
     }
 
     function fn_btnSet (data) {
-        let html = makeApprBtnHtml(data, "signetToDrafting()");
-        $("#signetToBtnBox").html(html);
+        let html = makeApprBtnHtml(data, "condDrafting()");
+        $("#condBtnBox").html(html);
 
         if(data != null && data.DOC_ID != null){
             reDraftOnlyOne(data.DOC_ID, $("#empSeq").val(), "reBtn");
@@ -206,16 +180,20 @@
         }
     }
 
-    function signetToDrafting(){
-        $("#signetToDraftFrm").one("submit", function() {
-            var url = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+    function condDrafting(){
+        $("#condDraftFrm").one("submit", function() {
+            var url = "/popup/customDoc/approvalFormPopup/condApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/customDoc/approvalFormPopup/signetToApprovalPop.do";
+            this.action = "/popup/customDoc/approvalFormPopup/condApprovalPop.do";
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    }
+
+    function inputNumberFormat (obj){
+        obj.value = comma(uncomma(obj.value));
     }
 
     function comma(str) {
@@ -227,6 +205,7 @@
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     }
+    
 </script>
 </body>
 </html>

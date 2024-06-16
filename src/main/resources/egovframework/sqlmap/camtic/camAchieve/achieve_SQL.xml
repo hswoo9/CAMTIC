@@ -551,7 +551,7 @@
             A.PJT_CD = #{pjtCd}
         AND
             DOC_STATUS IN (100, 101)
-        AND B.BUDGET_SN IS NOT NULL AND C.BGT_CD IS NOT NULL AND C.BGT_AT = 1
+        AND B.BUDGET_SN IS NOT NULL AND C.BGT_CD IS NOT NULL AND C.BGT_AT = 1 AND C.ACTIVE = 'Y'
         GROUP BY PAY_APP_TYPE
     </select>
 
