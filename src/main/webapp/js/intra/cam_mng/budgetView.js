@@ -393,6 +393,12 @@ var bgView = {
             }
         }
 
+        if(idx == 'all'){
+            if(!confirm("선택하신 예산비목으로 전체변경 하시겠습니까?")) {
+                return;
+            }
+        }
+
         opener.parent.fn_selBudgetInfo(name, cd, idx, subAm);
 
         window.close();
