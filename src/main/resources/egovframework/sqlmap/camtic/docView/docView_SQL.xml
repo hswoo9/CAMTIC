@@ -576,9 +576,12 @@
     <select id="getResignData" parameterType="map" resultType="map">
         /*getResignData*/
         SELECT
-            *
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_RESIGN
+            CAM_INSIDE.DJ_TP_RESIGN A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             RESIGN_SN = #{resignSn}
     </select>
@@ -681,9 +684,12 @@
     <select id="getDetailsData" parameterType="map" resultType="map">
         /*getDetailsData*/
         SELECT
-            *
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_DETAILS
+            CAM_INSIDE.DJ_TP_DETAILS A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             DET_SN = #{detSn}
     </select>
@@ -716,6 +722,7 @@
                 DEPT_NAME,
                 POSITION,
                 COND_CONT,
+                COND_DE,
                 COND_TARGET_NAME,
                 COND_RET,
                 ETC,
@@ -730,6 +737,7 @@
                 #{deptName},
                 #{position},
                 #{condCont},
+                #{condDe},
                 #{condTargetName},
                 #{condRet},
                 #{etc},
@@ -751,6 +759,7 @@
             DEPT_NAME = #{deptName},
             POSITION = #{position},
             COND_CONT = #{condCont},
+            COND_DE = #{condDe},
             COND_TARGET_NAME = #{condTargetName},
             COND_RET = #{condRet},
             ETC = #{etc},
@@ -764,9 +773,12 @@
     <select id="getCondData" parameterType="map" resultType="map">
         /*getCondData*/
         SELECT
-            *
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_INSIDE.DJ_TP_COND
+            CAM_INSIDE.DJ_TP_COND A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             COND_SN = #{condSn}
     </select>

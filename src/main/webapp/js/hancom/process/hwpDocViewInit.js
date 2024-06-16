@@ -173,6 +173,8 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("RESIGN_TYPE4", resignText4);
         hwpDocCtrl.putFieldText("RESIGN_TYPE5", resignText5);
         hwpDocCtrl.putFieldText("RESIGN_TYPE6", resignText6);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
     },
 
     detailsInit: function(detSn){
@@ -191,11 +193,40 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("DET_LOC", map.DET_LOC);
         hwpDocCtrl.putFieldText("DET_ETC", map.DET_ETC);
 
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
         /** 내용 */
         setTimeout(function() {
             hwpDocCtrl.putFieldText("DET_CONT", "");
             hwpDocCtrl.moveToField("DET_CONT", true, true, false);
             hwpDocCtrl.setTextFile(map.DET_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
+    condInit: function(condSn){
+        const condInfo = customKendo.fn_customAjax("/customDoc/getCondData", {condSn : condSn});
+        const map = condInfo.data;
+
+        const userInfo = getUser(map.EMP_SEQ);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+
+        hwpDocCtrl.putFieldText("COND_CONT", map.COND_CONT);
+        hwpDocCtrl.putFieldText("COND_TARGET_NAME", map.COND_TARGET_NAME);
+        hwpDocCtrl.putFieldText("COND_RET", map.COND_RET);
+        hwpDocCtrl.putFieldText("COND_DE", map.COND_DE);
+
+        hwpDocCtrl.putFieldText("COND_AMT", map.COND_AMT == "0" ? "0" : comma(map.COND_AMT));
+        hwpDocCtrl.putFieldText("COND_AMT_TEXT", fn_koreanNumber(map.COND_AMT));
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 비고 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", "");
+            hwpDocCtrl.moveToField("ETC", true, true, false);
+            hwpDocCtrl.setTextFile(map.ETC.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
     }
 }
