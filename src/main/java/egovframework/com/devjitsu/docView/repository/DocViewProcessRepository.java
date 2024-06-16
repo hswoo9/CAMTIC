@@ -32,4 +32,10 @@ public class DocViewProcessRepository extends AbstractDAO {
     public void updateDisAssetFinalApprStat(Map<String, Object> params) {
         update("docViewProcess.updateDisAssetFinalApprStat", params);
     }
+    public void updateResignApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateResignApprStat", params);
+    }
+    public void updateResignFinalApprStat(Map<String, Object> params) {
+        update("docViewProcess.updateResignFinalApprStat", params);
+    }
 }

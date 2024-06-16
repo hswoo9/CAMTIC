@@ -88,6 +88,16 @@ public class DocViewProcessController {
         return "/popup/docView/approvalFormPopup/disAssetApprovalPop";
     }
 
+    /** 사직서 전자결재 페이지*/
+    @RequestMapping("/popup/customDoc/approvalFormPopup/resignApprovalPop.do")
+    public String resignApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/docView/approvalFormPopup/resignApprovalPop";
+    }
+
     /** 법인카드 분실신고서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/customDoc/cardLossReqApp")
     public String cardLossReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -154,6 +164,25 @@ public class DocViewProcessController {
         String resultMessage = "성공하였습니다.";
         try{
             docViewProcessService.updateDisAssetDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 사직서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/customDoc/resignReqApp")
+    public String resignReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            docViewProcessService.updateResignDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

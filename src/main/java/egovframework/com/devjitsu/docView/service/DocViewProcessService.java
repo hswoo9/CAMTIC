@@ -8,4 +8,5 @@ public interface DocViewProcessService {
     void updateAccCertDocState(Map<String, Object> bodyMap) throws Exception;
     void updateSignetToDocState(Map<String, Object> bodyMap) throws Exception;
     void updateDisAssetDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateResignDocState(Map<String, Object> bodyMap) throws Exception;
 }
