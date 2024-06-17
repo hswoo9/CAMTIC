@@ -27,29 +27,41 @@ var finPerm = {
 
         var result = rs.map;
         $("#expEngnAmt").text(comma(result.expEngnAmt));
+        $("#expOtherAmt").text(comma(result.expOtherAmt));
         $("#expRndAmt").text(comma(result.expRndAmt));
+        $("#expUnRndAmt").text(comma(result.expUnRndAmt));
         $("#engnDelvAmt").text(comma(result.engnAmt));
+        $("#otherDelvAmt").text(comma(result.otherAmt));
         $("#rndDelvAmt").text(comma(result.rndAmt));
+        $("#unRndDelvAmt").text(comma(result.unRndAmt));
 
         $("#rndSaleAmt").text(comma(result.saleRndAmt || 0));
+        $("#unRndSaleAmt").text(comma(result.saleunRndAmt || 0));
         $("#engnSaleAmt").text(comma(result.saleEngnAmt || 0));
+        $("#otherSaleAmt").text(comma(result.saleOtherAmt || 0));
 
+        $("#expSaleOtherAmt").text(comma(result.expSaleOtherAmt || 0));
         $("#expSaleEngnAmt").text(comma(result.expSaleEngnAmt || 0));
         $("#expSaleRndAmt").text(comma(result.expSaleRndAmt || 0));
+        $("#expSaleUnRndAmt").text(comma(result.expSaleUnRndAmt || 0));
 
         $("#rndIncpAmt").text(comma(result.incpRndAmt || 0));
+        $("#unRndIncpAmt").text(comma(result.incpUnRndAmt || 0));
         $("#engnIncpAmt").text(comma(result.incpEngnAmt || 0));
+        $("#otherIncpAmt").text(comma(result.incpOtherAmt || 0));
 
         $("#expIncpEngnAmt").text(comma(result.expIncpEngnAmt || 0));
+        $("#expIncpOtherAmt").text(comma(result.expIncpOtherAmt || 0));
         $("#expIncpRndAmt").text(comma(result.expIncpRndAmt || 0));
+        $("#expIncpUnRndAmt").text(comma(result.expIncpUnRndAmt || 0));
 
-        $("#delvTotAmt").text(comma(result.engnAmt + result.rndAmt));
-        $("#saleTotAmt").text(comma((result.saleRndAmt || 0) + (result.saleEngnAmt || 0)));
-        $("#incpTotAmt").text(comma((result.incpRndAmt || 0) + (result.incpEngnAmt || 0)));
+        $("#delvTotAmt").text(comma(result.engnAmt + result.otherAmt + result.rndAmt + result.unRndAmt));
+        $("#saleTotAmt").text(comma((result.saleRndAmt || 0) + (result.saleUnRndAmt || 0) + (result.saleEngnAmt || 0) + (result.saleOtherAmt || 0)));
+        $("#incpTotAmt").text(comma((result.incpRndAmt || 0) + (result.incpUnRndAmt || 0) + (result.incpEngnAmt || 0) + (result.incpOtherAmt || 0)));
 
-        $("#expTotAmt").text(comma((result.expEngnAmt || 0) + (result.expRndAmt || 0)));
-        $("#expSaleTotAmt").text(comma((result.expSaleEngnAmt || 0) + (result.expSaleRndAmt || 0)));
-        $("#expIncpTotAmt").text(comma((result.expIncpEngnAmt || 0) + (result.expIncpRndAmt || 0)));
+        $("#expTotAmt").text(comma((result.expEngnAmt || 0) + (result.expOtherAmt || 0) + (result.expRndAmt || 0) + (result.expUnRndAmt || 0)));
+        $("#expSaleTotAmt").text(comma((result.expSaleEngnAmt || 0) + (result.expSaleOtherAmt || 0) + (result.expSaleRndAmt || 0) + (result.expSaleUnRndAmt || 0)));
+        $("#expIncpTotAmt").text(comma((result.expIncpEngnAmt || 0) + (result.expIncpOtherAmt || 0) + (result.expIncpRndAmt || 0) + (result.expIncpUnRndAmt || 0)));
 
         $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0))
         $("#objSaleAmt").text(comma(Math.round(result.objSaleAmt) || 0))

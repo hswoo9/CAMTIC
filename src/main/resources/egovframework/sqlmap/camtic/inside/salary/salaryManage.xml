@@ -397,26 +397,29 @@
     <select id="getPayRollLedgerList" parameterType="map" resultType="map">
         /* getPayRollLedgerList */
         SELECT
-            *
+            A.*,
+            IFNULL(A.HEALTH_INS,0) + IFNULL(A.NATIONAL_PEN,0) + IFNULL(A.EMPLOY_EMP_INS,0) + IFNULL(A.IND_INS,0) AS DEDUCTION
         FROM
-            CAM_INSIDE.DJ_PAY_ROLL_LEGER
+            CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B ON A.EMP_SEQ = B.EMP_SEQ
         WHERE
-            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
-                AND EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <when test='"deptName".equals(searchKeyWord)'>
-                AND DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
-            </when>
-            <when test='"buisness".equals(searchKeyWord)'>
-                AND BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+                AND (
+                    B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO where DEPT_SEQ = B.DEPT_SEQ)) LIKE CONCAT('%', #{searchValue}, '%')
+                )
             </when>
             <otherwise>
                 AND (
-                    EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+                    A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO where DEPT_SEQ = B.DEPT_SEQ)) LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>
@@ -425,15 +428,23 @@
     <select id="getPayRollLedgerStatusList" parameterType="map" resultType="map">
         /* getPayRollLedgerStatusList */
         SELECT
-            SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
-            SUM(TOTAL_PAY) AS TOTAL_PAY,
-            SUM(DEDUCTION) AS DEDUCTION,
-            SUM(RETIREMENT_PEN) AS RETIREMENT_PEN
+            RE.*,
+            HEALTH_INS_SUM + NATIONAL_PEN_SUM + EMPLOY_EMP_INS + IND_INS_SUM AS DEDUCTION
         FROM
-            CAM_INSIDE.DJ_PAY_ROLL_LEGER
-        WHERE
-            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
-        GROUP BY BASE_YEAR_MONTH
+        (
+            SELECT
+                SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
+                SUM(TOTAL_PAY) AS TOTAL_PAY,
+                SUM(IFNULL(HEALTH_INS,0)) AS HEALTH_INS_SUM,
+                SUM(IFNULL(NATIONAL_PEN,0)) AS NATIONAL_PEN_SUM,
+                SUM(IFNULL(EMPLOY_EMP_INS,0)) AS EMPLOY_EMP_INS,
+                SUM(IFNULL(IND_INS,0)) AS IND_INS_SUM
+            FROM
+                CAM_INSIDE.DJ_PAY_ROLL_LEGER
+            WHERE
+                BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            GROUP BY BASE_YEAR_MONTH
+        ) RE
     </select>
 
     <select id="getEmpNameAndTeam" parameterType="map" resultType="String">
@@ -475,6 +486,7 @@
             FOOD_PAY,
             EXTRA_PAY,
             BONUS,
+            TOTAL_PAY,
             NATIONAL_PEN,
             HEALTH_INS,
             CARE_INS,
@@ -494,6 +506,7 @@
             #{item.foodPay},
             #{item.extraPay},
             #{item.bonus},
+            #{item.totalPay},
             #{item.nationalPen},
             #{item.healthIns},
             #{item.careIns},

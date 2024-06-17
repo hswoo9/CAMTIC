@@ -1,11 +1,18 @@
 package egovframework.com.devjitsu.docView.service.impl;
 
+import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.docView.repository.DocViewRepository;
 import egovframework.com.devjitsu.docView.service.DocViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +22,8 @@ public class DocViewServiceImpl implements DocViewService {
 
     @Autowired
     private DocViewRepository docViewRepository;
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getCardLossList(Map<String, Object> params) {
@@ -241,5 +250,117 @@ public class DocViewServiceImpl implements DocViewService {
     @Override
     public void delCond(Map<String, Object> params) {
         docViewRepository.delCond(params);
+    }
+
+    @Override
+    public void saveLeave(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        if(params.containsKey("leaveSn")){
+            docViewRepository.updateLeave(params);
+        } else {
+            docViewRepository.insertLeave(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile file = request.getFile("file");
+        params.put("menuCd", "leaveFile");
+        if(file != null){
+            if(!file.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file, filePath(params, SERVER_DIR));
+                fileInsMap.put("leaveSn", params.get("leaveSn"));
+                fileInsMap.put("contentId", params.get("leaveSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                docViewRepository.updLeaveFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getLeaveData(Map<String, Object> params) {
+        return docViewRepository.getLeaveData(params);
+    }
+
+    @Override
+    public Map<String, Object> getLeaveFile(Map<String, Object> params) {
+        return docViewRepository.getLeaveFile(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getLeaveList(Map<String, Object> params) {
+        return docViewRepository.getLeaveList(params);
+    }
+
+    @Override
+    public void delLeave(Map<String, Object> params) {
+        docViewRepository.delLeave(params);
+    }
+
+    @Override
+    public void saveReinstat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        if(params.containsKey("reinstatSn")){
+            docViewRepository.updateReinstat(params);
+        } else {
+            docViewRepository.insertReinstat(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile file = request.getFile("file");
+        params.put("menuCd", "reinstatFile");
+        if(file != null){
+            if(!file.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file, filePath(params, SERVER_DIR));
+                fileInsMap.put("reinstatSn", params.get("reinstatSn"));
+                fileInsMap.put("contentId", params.get("reinstatSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                docViewRepository.updReinstatFile(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getReinstatData(Map<String, Object> params) {
+        return docViewRepository.getReinstatData(params);
+    }
+
+    @Override
+    public Map<String, Object> getReinstatFile(Map<String, Object> params) {
+        return docViewRepository.getReinstatFile(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getReinstatList(Map<String, Object> params) {
+        return docViewRepository.getReinstatList(params);
+    }
+
+    @Override
+    public void delReinstat(Map<String, Object> params) {
+        docViewRepository.delReinstat(params);
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 }

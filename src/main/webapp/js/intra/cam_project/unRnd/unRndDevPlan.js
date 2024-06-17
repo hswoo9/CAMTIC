@@ -130,6 +130,12 @@ var unRndDP = {
             $("#verTable").append(html);
 
             unRndDP.fn_setVersion(unRndDP.global.devPjtVerList.list[unRndDP.global.devPjtVerList.list.length-1].DEV_SN);
+        }else{
+            var html = "";
+            html += "<tr style='text-align: center'>";
+            html += "   <td colspan='7'>수행계획서가 작성되지 않았습니다.</td>";
+            html += "</tr>";
+            $("#verTable").append(html);
         }
     },
 

@@ -159,10 +159,12 @@ var monPayList = {
         $("#busnSum").text(comma(busnSum));
 
         for(var i=0; i<deptList.length; i++){
+            // 부서별 사업비 계
             $("#busn" + deptList[i].dept_seq).text(comma(Number(uncomma($("#r" + deptList[i].dept_seq).text())) + Number(uncomma($("#s" + deptList[i].dept_seq).text()))));
 
             for(var j=0; j<ls2.length; j++){
                 if(ls2[j].DEPT_SEQ == deptList[i].dept_seq){
+                    // 부서별 법인운영 및 합계
                     $("#tot" + deptList[i].dept_seq).text(comma(ls2[j].TOT_PAY));
                     $("#m" + deptList[i].dept_seq).text(comma(Number(ls2[j].TOT_PAY) - Number(uncomma($("#busn" + deptList[i].dept_seq).text()))));
                     totSum += Number(ls2[j].TOT_PAY);
@@ -183,6 +185,7 @@ var monPayList = {
             if($("#totSum").text() == 0){
                 $("#rate" + deptList[i].dept_seq).text("0%");
             } else {
+                // 부서별 차지율
                 $("#rate" + deptList[i].dept_seq).text((Number(uncomma($("#tot" + deptList[i].dept_seq).text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
             }
         }
@@ -193,10 +196,144 @@ var monPayList = {
             $("#busnRate").text("0%");
             $("#mRate").text("0%");
         } else {
+            // 사업별 차지율 = 사업구분별합계 / 총합계 * 100
             $("#rRate").text((Number(uncomma($("#rSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
             $("#sRate").text((Number(uncomma($("#sSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
             $("#busnRate").text((Number(uncomma($("#busnSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
             $("#mRate").text((Number(uncomma($("#mSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
         }
-    }
+
+        // monPayList.gridReload();
+    },
+
+    gridReload : function() {
+        monPayList.global.searchAjaxData = {
+            baseYear : $("#baseYear").val(),
+            searchValue : ""
+        }
+        monPayList.mainGrid('/salaryManage/getPayRollLedgerList.do', monPayList.global.searchAjaxData);
+    },
+
+    mainGrid : function(url, params) {
+        $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            scrollable: true,
+            resizable: true,
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, 100],
+                buttonCount : 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="monPayList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel: {
+                fileName:  '급여대장.xlsx',
+                allPages: true
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "",
+                    title: "번호",
+                    template: "#= ++record #",
+                    width: 50
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서/팀",
+                    width : 180
+                }, {
+                    field: "EMP_NAME",
+                    title: "이름",
+                    width : 100,
+                },{
+                    title: "지급내역",
+                    columns: [
+                        {
+                            field: "BASIC_SALARY",
+                            title: "기본급",
+                            attributes : {
+                                style : "text-align: right;"
+                            },
+                            template: function (e) {
+                                return comma(e.BASIC_SALARY);
+                            },
+                            width : 100,
+                        }, {
+                            field: "FOOD_PAY",
+                            title: "식대",
+                            attributes : {
+                                style : "text-align: right;"
+                            },
+                            template: function (e) {
+                                return comma(e.FOOD_PAY);
+                            },
+                            width : 100,
+                        }, {
+                            field: "EXTRA_PAY",
+                            title: "수당",
+                            attributes : {
+                                style : "text-align: right;"
+                            },
+                            template: function (e) {
+                                return comma(e.EXTRA_PAY);
+                            },
+                            width : 100,
+                        }, {
+                            field: "TOTAL_PAY2",
+                            title: "지급합계",
+                            attributes : {
+                                style : "text-align: right;"
+                            },
+                            template: function (e) {
+                                return comma(e.TOTAL_PAY2);
+                            },
+                            width : 100,
+                        },
+                    ]
+                }, {
+                    title: "사업별 지급내역",
+                    columns: [
+                        {
+                            field: "",
+                            title: "R&D",
+                            width : 120,
+                        }, {
+                            field: "",
+                            title: "비R&D",
+                            width : 120,
+                        }, {
+                            field: "",
+                            title: "엔지니어링",
+                            width : 120,
+                        }, {
+                            field: "",
+                            title: "용역/기타",
+                            width : 120,
+                        }, {
+                            field: "",
+                            title: "법인운영 ",
+                            width : 120,
+                        },
+                    ]
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 1);
+            }
+        }).data("kendoGrid");
+    },
 }

@@ -15,7 +15,6 @@ var payRollLedgerMa = {
                 { text: "전체", value: "" },
                 { text: "이름", value: "empName" },
                 { text: "부서/팀", value: "deptName" },
-                { text: "사업자", value: "buisness" },
             ],
             index: 0,
         });
@@ -83,228 +82,101 @@ var payRollLedgerMa = {
             },
             columns: [
                 {
-                    field: "BUISNESS",
-                    title: "사업자",
-                    width : 180
-                }, {
-                    field: "RETIREMENT_PEN",
-                    title: "퇴직연금",
-                    width : 120,
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.RETIREMENT_PEN);
-                    }
-                }, {
                     field: "",
                     title: "번호",
                     template: "#= ++record #",
                     width: 50
                 }, {
-                    field: "DEPT_NAME",
-                    title: "부서/팀",
-                    width : 180
+                    field: "ERP_EMP_CD",
+                    title: "사번",
+                    width : 80
                 }, {
                     field: "EMP_NAME",
-                    title: "이름",
+                    title: "성명",
                     width : 100,
                 }, {
-                    field: "JOIN_DATE",
-                    title: "입사일자",
-                    width : 120,
+                    field: "",
+                    title: "기본급여",
+                    columns: [
+                        {
+                            field: "BASIC_SALARY",
+                            title: "기본급여",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.BASIC_SALARY) + '</div>';
+                            },
+                        }, {
+                            field: "FOOD_PAY",
+                            title: "식대",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.FOOD_PAY) + '</div>';
+                            },
+                        }, {
+                            field: "EXTRA_PAY",
+                            title: "수당",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.EXTRA_PAY) + '</div>';
+                            },
+                        }, {
+                            field: "BONUS",
+                            title: "상여",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.BONUS) + '</div>';
+                            },
+                        }
+                    ]
                 }, {
-                    field: "BASIC_SALARY",
-                    title: "기본급",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.BASIC_SALARY);
-                    },
-                    width : 100,
-                }, {
-                    field: "FOOD_PAY",
-                    title: "식대",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.FOOD_PAY);
-                    },
-                    width : 100,
-                }, {
-                    field: "EXTRA_PAY",
-                    title: "수당",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.EXTRA_PAY);
-                    },
-                    width : 100,
-                }, {
-                    field: "TOTAL_PAY",
-                    title: "지급합계",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.TOTAL_PAY);
-                    },
-                    width : 100,
-                }, {
-                    field: "NATIONAL_PEN",
-                    title: "국민연금",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.NATIONAL_PEN);
-                    },
-                    width : 100,
-                }, {
-                    field: "HEALTH_INS",
-                    title: "건강보험",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.HEALTH_INS);
-                    },
-                    width : 100,
-                }, {
-                    field: "CARE_INS",
-                    title: "장기요양보험",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.CARE_INS);
-                    },
-                    width : 100,
-                }, {
-                    field: "EMPLOY_INS",
-                    title: "고용보험",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.EMPLOY_INS);
-                    },
-                    width : 100,
-                }, {
-                    field: "SCIENCE_DEDUCTION",
-                    title: "과학기술인공제",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.SCIENCE_DEDUCTION);
-                    },
-                    width : 120,
-                }, {
-                    field: "MEMBERSHIP_FEE",
-                    title: "사우회비",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.MEMBERSHIP_FEE);
-                    },
-                    width : 100,
-                }, {
-                    field: "TRAVEL_FUND",
-                    title: "여행기금",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.TRAVEL_FUND);
-                    },
-                    width : 100,
-                }, {
-                    field: "DORMITORY_FEE",
-                    title: "기숙사비",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.DORMITORY_FEE);
-                    },
-                    width : 100,
-                }, {
-                    field: "INCOME_TAX",
-                    title: "소득세",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.INCOME_TAX);
-                    },
-                    width : 100,
-                }, {
-                    field: "LOCAL_INCOME_TAX",
-                    title: "지방소득세",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.LOCAL_INCOME_TAX);
-                    },
-                    width : 100,
-                }, {
-                    field: "SOCIAL_INS",
-                    title: "4대보험 정산",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.SOCIAL_INS);
-                    },
-                    width : 100,
-                }, {
-                    field: "YEAR_TAX",
-                    title: "연말정산소득세",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.YEAR_TAX);
-                    },
-                    width : 120,
-
-                }, {
-                    field: "YEAR_LOCAL_TAX",
-                    title: "연말정산지방소득세",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.YEAR_LOCAL_TAX);
-                    },
-                    width : 140,
-                }, {
-                    field: "DEDUCTION",
-                    title: "공제합계",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.DEDUCTION);
-                    },
-                    width : 100,
-                }, {
-                    field: "ACTUAL_PAY",
-                    title: "실지급액",
-                    attributes : {
-                        style : "text-align: right;"
-                    },
-                    template: function (e) {
-                        return comma(e.ACTUAL_PAY);
-                    },
-                    width : 100,
-                }
+                    field: "",
+                    title: "사대보험",
+                    columns: [
+                        {
+                            field: "HEALTH_INS",
+                            title: "건강보험료",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.HEALTH_INS) + '</div>';
+                            },
+                        }, {
+                            field: "CARE_INS",
+                            title: "장기요양",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.CARE_INS) + '</div>';
+                            },
+                        }, {
+                            field: "NATIONAL_PEN",
+                            title: "국민연금",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.NATIONAL_PEN) + '</div>';
+                            },
+                        }, {
+                            field: "EMPLOY_COMP_INS",
+                            title: "고용보험(사업자)",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.EMPLOY_COMP_INS) + '</div>';
+                            },
+                        }, {
+                            field: "EMPLOY_EMP_INS",
+                            title: "고용보험(근로자)",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.EMPLOY_EMP_INS) + '</div>';
+                            },
+                        }, {
+                            field: "IND_INS",
+                            title: "산재보험",
+                            width : 100,
+                            template: function (e) {
+                                return '<div style="text-align: right">' + comma(e.IND_INS) + '</div>';
+                            },
+                        }
+                    ]
+                },
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 1);

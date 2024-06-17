@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.docView.service;
 
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.List;
 import java.util.Map;
 
@@ -80,4 +82,24 @@ public interface DocViewService {
     List<Map<String, Object>> getCondList(Map<String, Object> params);
 
     void delCond(Map<String, Object> params);
+
+    void saveLeave(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+
+    Map<String, Object> getLeaveData(Map<String, Object> params);
+
+    Map<String, Object> getLeaveFile(Map<String, Object> params);
+
+    List<Map<String, Object>> getLeaveList(Map<String, Object> params);
+
+    void delLeave(Map<String, Object> params);
+
+    void saveReinstat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+
+    Map<String, Object> getReinstatData(Map<String, Object> params);
+
+    Map<String, Object> getReinstatFile(Map<String, Object> params);
+
+    List<Map<String, Object>> getReinstatList(Map<String, Object> params);
+
+    void delReinstat(Map<String, Object> params);
 }

@@ -128,4 +128,67 @@
         WHERE
             DET_SN = #{detSn}
     </update>
+
+    <update id="updateCondApprStat" parameterType="map">
+        /* updateCondApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            COND_SN = #{condSn}
+    </update>
+
+    <update id="updateCondFinalApprStat" parameterType="map">
+        /* updateCondFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_COND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            COND_SN = #{condSn}
+    </update>
+
+    <update id="updateLeaveApprStat" parameterType="map">
+        /* updateLeaveApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
+
+    <update id="updateLeaveFinalApprStat" parameterType="map">
+        /* updateLeaveFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_LEAVE
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            LEAVE_SN = #{leaveSn}
+    </update>
+
+    <update id="updateReinstatApprStat" parameterType="map">
+        /* updateReinstatApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_REINSTAT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            REINSTAT_SN = #{reinstatSn}
+    </update>
+
+    <update id="updateReinstatFinalApprStat" parameterType="map">
+        /* updateReinstatFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_REINSTAT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            REINSTAT_SN = #{reinstatSn}
+    </update>
 </mapper>

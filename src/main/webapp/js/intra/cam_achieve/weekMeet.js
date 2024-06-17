@@ -14,6 +14,7 @@ var weekMeet = {
 
         var parameters = {
             year : $("#year").val(),
+            deptLevel: 1
         }
 
         var rs = customKendo.fn_customAjax("/cam_achieve/getEngnDeptData", parameters);

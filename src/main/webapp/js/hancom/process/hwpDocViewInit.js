@@ -173,6 +173,8 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("RESIGN_TYPE4", resignText4);
         hwpDocCtrl.putFieldText("RESIGN_TYPE5", resignText5);
         hwpDocCtrl.putFieldText("RESIGN_TYPE6", resignText6);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
     },
 
     detailsInit: function(detSn){
@@ -191,11 +193,101 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("DET_LOC", map.DET_LOC);
         hwpDocCtrl.putFieldText("DET_ETC", map.DET_ETC);
 
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
         /** 내용 */
         setTimeout(function() {
             hwpDocCtrl.putFieldText("DET_CONT", "");
             hwpDocCtrl.moveToField("DET_CONT", true, true, false);
             hwpDocCtrl.setTextFile(map.DET_CONT.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
+    },
+
+    condInit: function(condSn){
+        const condInfo = customKendo.fn_customAjax("/customDoc/getCondData", {condSn : condSn});
+        const map = condInfo.data;
+
+        const userInfo = getUser(map.EMP_SEQ);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+
+        hwpDocCtrl.putFieldText("COND_CONT", map.COND_CONT);
+        hwpDocCtrl.putFieldText("COND_TARGET_NAME", map.COND_TARGET_NAME);
+        hwpDocCtrl.putFieldText("COND_RET", map.COND_RET);
+        hwpDocCtrl.putFieldText("COND_DE", map.COND_DE);
+
+        hwpDocCtrl.putFieldText("COND_AMT", map.COND_AMT == "0" ? "0" : comma(map.COND_AMT));
+        hwpDocCtrl.putFieldText("COND_AMT_TEXT", fn_koreanNumber(map.COND_AMT));
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 비고 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", "");
+            hwpDocCtrl.moveToField("ETC", true, true, false);
+            hwpDocCtrl.setTextFile(map.ETC.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
+    leaveInit: function(leaveSn){
+        const leaveInfo = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : leaveSn});
+        const map = leaveInfo.data;
+        const file = leaveInfo.file;
+
+        const userInfo = getUser(map.EMP_SEQ);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+        hwpDocCtrl.putFieldText("JOIN_DAY", userInfo.JOIN_DAY);
+
+        hwpDocCtrl.putFieldText("DT", map.STR_DE +" ~ "+ map.END_DE);
+
+        hwpDocCtrl.putFieldText("FILE_NM", file.file_org_name);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 휴직사유 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("LEAVE_CONT", "");
+            hwpDocCtrl.moveToField("LEAVE_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.LEAVE_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
+    reinstatInit: function(reinstatSn){
+        const reinstatInfo = customKendo.fn_customAjax("/customDoc/getReinstatData", {reinstatSn : reinstatSn});
+        const map = reinstatInfo.data;
+
+        if(map.LEAVE_SN != null) {
+            const leaveInfo = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : map.LEAVE_SN});
+            const map2 = leaveInfo.data;
+
+            const userInfo = getUser(map2.EMP_SEQ);
+            hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+            hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+            hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+            hwpDocCtrl.putFieldText("JOIN_DAY", userInfo.JOIN_DAY);
+
+            hwpDocCtrl.putFieldText("DT", map2.STR_DE +" ~ "+ map2.END_DE);
+
+            /** 휴직사유 */
+            setTimeout(function() {
+                hwpDocCtrl.putFieldText("LEAVE_CONT", "");
+                hwpDocCtrl.moveToField("LEAVE_CONT", true, true, false);
+                hwpDocCtrl.setTextFile(map2.LEAVE_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+            }, 1000);
+        }
+
+        hwpDocCtrl.putFieldText("REINSTAT_DE", map.REINSTAT_DE);
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 복직사유 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("REINSTAT_CONT", "");
+            hwpDocCtrl.moveToField("REINSTAT_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.REINSTAT_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1500);
     }
 }

@@ -1076,7 +1076,7 @@ var devInfo = {
             success : function (rs){
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
-                    commonProject.getReloadPage(3, 3, 3, 1, 0, 0);
+                    commonProject.getReloadPage(3, 2, 2, 1, 0, 0);
 
                 }else{
                     alert("데이터 삭제 중 오류가 발생하였습니다.");

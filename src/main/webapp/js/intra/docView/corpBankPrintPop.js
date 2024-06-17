@@ -27,7 +27,7 @@ const corpBankPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/corpBankPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/corpBankPrintTmp.hwp";
         corpBankPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             corpBankPrintPop.openCallBack();
             corpBankPrintPop.global.hwpCtrl.EditMode = 0;
