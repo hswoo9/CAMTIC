@@ -11,6 +11,16 @@ var approveWaitDocList = {
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "문서명", value: "A" },
+                { text: "문서종류", value: "C" },
+                { text: "기안자", value: "D" }
+            ]
+        })
+
         approveWaitDocList.gridReload();
     },
 

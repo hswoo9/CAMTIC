@@ -497,14 +497,34 @@
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">
         /* getApproveDocBoxList */
-        SELECT RE.* FROM (
+        SELECT RRE.* FROM (
+        SELECT
+            RE.*,
+        <![CDATA[
+            CASE
+            WHEN DOC_MENU_CD = 'rndDelv' THEN '수주보고_R&D'
+            WHEN DOC_MENU_CD = 'unRndDelv' THEN '수주보고_비R&D'
+            WHEN DOC_MENU_CD = 'rndDev' THEN '수행계획서_R&D'
+            WHEN DOC_MENU_CD = 'unRndDev' THEN '수행계획서_비R&D'
+            WHEN DOC_MENU_CD = 'rndRes' THEN '결과보고서_R&D'
+            WHEN DOC_MENU_CD = 'unRndRes' THEN '결과보고서_비R&D'
+            WHEN DOC_MENU_CD = 'delv' AND BUSN_CLASS = 'D' THEN '수주보고_엔지니어링'
+            WHEN DOC_MENU_CD = 'dev' AND BUSN_CLASS = 'D' THEN '수행계획서_엔지니어링'
+            WHEN DOC_MENU_CD = 'pjtRes' AND BUSN_CLASS = 'D' THEN '결과보고서_엔지니어링'
+            WHEN DOC_MENU_CD = 'delv' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+            WHEN DOC_MENU_CD = 'dev' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+            WHEN DOC_MENU_CD = 'pjtRes' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+            ELSE FORM_NAME2
+            END AS FORM_NAME
+        ]]>
+        FROM (
         SELECT
             DAR.APPROVE_EMP_SEQ,
             DI.DOC_ID,
             DI.DOC_MENU_CD,
             DI.APPRO_KEY,
             DO.SECURITY_TYPE,
-            FORM.FORM_NAME,
+            FORM.FORM_NAME AS FORM_NAME2,
             DI.DOC_NO,
             DI.DOC_TITLE,
             DI.REPTIT_DRFT_YN,
@@ -581,11 +601,6 @@
              ]]>
         </if>
 
-        <if test='docTitle != null and !"".equals(docTitle)'>
-            AND
-            DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
-        </if>
-
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
                 AND (
@@ -637,17 +652,48 @@
         <if test='approveStatCodeDesc != null and !"".equals(approveStatCodeDesc)'>
             AND RE.APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc}
         </if>
+        ) RRE
+        WHERE 1=1
+        <if test='docTitle != null and !"".equals(docTitle)'>
+            <choose>
+                <when test='"A".equals(searchKeyword)'>
+                    AND
+                        RRE.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+                </when>
+                <when test='"B".equals(searchKeyword)'>
+                    AND
+                        RRE.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+                </when>
+                <when test='"C".equals(searchKeyword)'>
+                    AND
+                        RRE.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+                </when>
+                <when test='"D".equals(searchKeyword)'>
+                    AND
+                        RRE.DRAFT_EMP_NAME LIKE CONCAT('%', #{docTitle},'%')
+                </when>
+                <otherwise>
+                    AND
+                    (
+                        RRE.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+                        OR RRE.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+                        OR RRE.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+                        OR RRE.DRAFT_EMP_NAME LIKE CONCAT('%', #{docTitle},'%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
                 ORDER BY (
-                CASE WHEN RE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
-                ),  IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+                CASE WHEN RRE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RRE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
+                ),  IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT) DESC
             </when>
             <when test='approveType != null and "wait".equals(approveType)'>
-                ORDER BY IFNULL(RE.APPROVE_DT2, RE.DRAFT_DT2) DESC
+                ORDER BY IFNULL(RRE.APPROVE_DT2, RRE.DRAFT_DT2) DESC
             </when>
             <otherwise>
-                ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+                ORDER BY IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT) DESC
             </otherwise>
         </choose>
         /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
