@@ -144,26 +144,26 @@ public class AchieveServiceImpl implements AchieveService {
         List<Map<String, Object>> incpRndList = achieveRepository.getIncpRndAmtList(params);
         List<Map<String, Object>> rndPjtList = projectRepository.getProjectList(params);
 
-        int aSum = 0;
-        int bSum = 0;
-        int cSum = 0;
-        int dSum = 0;
-        int budgetSum = 0;
+        long aSum = 0;
+        long bSum = 0;
+        long cSum = 0;
+        long dSum = 0;
+        long budgetSum = 0;
 
         for(Map<String, Object> exnpMap : exnpRndList) {
             if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
-                bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                bSum += Long.parseLong(exnpMap.get("TOT_COST").toString());
             } else{
-                aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                aSum += Long.parseLong(exnpMap.get("TOT_COST").toString());
             }
         }
         long saleRndAmt =  aSum - bSum;     // R&D 매출
 
         for(Map<String, Object> incpMap : incpRndList) {
             if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
-                dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                dSum += Long.parseLong(incpMap.get("TOT_COST").toString());
             } else{
-                cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                cSum += Long.parseLong(incpMap.get("TOT_COST").toString());
             }
         }
         long incpRndAmt = cSum - dSum;      // R&D 수익
@@ -202,18 +202,18 @@ public class AchieveServiceImpl implements AchieveService {
 
         for(Map<String, Object> exnpMap : exnpUnRndList) {
             if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
-                bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                bSum += Long.parseLong(exnpMap.get("TOT_COST").toString());
             } else{
-                aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                aSum += Long.parseLong(exnpMap.get("TOT_COST").toString());
             }
         }
         long saleUnRndAmt = aSum - bSum;      // 비R&D 매출액
 
         for(Map<String, Object> incpMap : incpUnRndList) {
             if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
-                dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                dSum += Long.parseLong(incpMap.get("TOT_COST").toString());
             } else{
-                cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                cSum += Long.parseLong(incpMap.get("TOT_COST").toString());
             }
         }
         long incpUnRndAmt = cSum - dSum;    // 비R&D 수익비용
