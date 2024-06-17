@@ -214,6 +214,7 @@ public class CommonController {
                 if(params.containsKey("contentId")){
                     result = approvalService.getOnnaraDocAttachmentList(params);
                 }else{
+                    params.put("type", params.get("docMenuCd"));
                     result = approvalService.getDocAttachmentList(params);
                 }
 
@@ -222,6 +223,11 @@ public class CommonController {
                         if(result.get(i).get("FILE_DOWN_PATH").toString().contains("nas1")) {
                             dir = result.get(i).get("FILE_DOWN_PATH").toString();
                         } else {
+                            if(result.get(i).get("FILE_DOWN_PATH").toString().indexOf("218.158.231.184") > -1){
+                                result.get(i).put("FILE_DOWN_PATH", result.get(i).get("FILE_DOWN_PATH").toString().split("218.158.231.184")[1]);
+                            } else if(result.get(i).get("FILE_DOWN_PATH").toString().indexOf("218.158.231.186") > -1){
+                                result.get(i).put("FILE_DOWN_PATH", result.get(i).get("FILE_DOWN_PATH").toString().split("218.158.231.186")[1]);
+                            }
                             dir = SERVER_PATH + result.get(i).get("FILE_DOWN_PATH").toString();
                         }
 

@@ -1240,6 +1240,13 @@ var docView = {
             }
 
             docView.docApprovalFileDown('attachment', 'zip', 'approval', $("#docId").val(), null, null, docView.global.rs.docInfo.APPRO_KEY);
+        } else if(type == "zip2"){
+            if($("#attachmentGrid").data("kendoGrid").dataSource.total() == 0){
+                alert("첨부파일이 없습니다.");
+                return;
+            }
+
+            docView.docApprovalFileDown('attachment', 'zip2', 'approval', $("#docId").val(), null, null, docView.global.rs.docInfo.APPRO_KEY, 'ver2');
         }
     },
 
@@ -1277,9 +1284,49 @@ var docView = {
             }
 
         }else if(area == "attachment" && format == "zip"){
-            // kendo.saveAs({
-            //     dataURI: "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey + "&docMenuCd=" + docView.global.rs.docInfo.DOC_MENU_CD
-            // });
+            var url = "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey + "&docMenuCd=" + docView.global.rs.docInfo.DOC_MENU_CD;
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "bustrip"){
+                url += "&bustripSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "bustripRes"){
+                url += "&bustripResSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "purc"){
+                url += "&purcSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "claim"){
+                url += "&claimSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "payApp"){
+                url += "&payAppSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "payIncp"){
+                url += "&payIncpSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "exnp"){
+                url += "&exnpSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            }
+
+            if(docView.global.rs.docInfo.DOC_MENU_CD == "campus"){
+                url += "&campusSn=" + docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+                if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducation"){
+                    url += "camticEducation";
+                }else if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducationRes"){
+                    url += "&linkType=camticEducationRes";
+                }
+            }
+
+            kendo.saveAs({
+                dataURI: url
+            });
+
+        }else if(area == "attachment" && format == "zip2"){
             docView.fn_multiDownload();
         }else if(type == "single" && filePath != null && fileName != null){
             var fileName = fileName.replaceAll("&", "%26");

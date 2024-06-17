@@ -245,8 +245,11 @@
                 <div style="display:flex; justify-content: space-between; margin:0 10px 10px;">
                     <div class="spanft" style="font-weight: bold;">· 첨부파일</div>
                     <div class="btn-st" style="margin:0">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.docAttachmentDown('zip', 'approval')">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.docAttachmentDown('zip2', 'approval')">
                             <span class="k-icon k-i-download k-button-icon"></span>
+                        </button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.docAttachmentDown('zip', 'approval')">
+                            <span class="k-icon k-i-zip k-button-icon"></span>
                         </button>
                     </div>
                 </div>

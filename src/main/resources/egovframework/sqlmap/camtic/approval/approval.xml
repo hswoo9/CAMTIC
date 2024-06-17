@@ -596,7 +596,7 @@
         (
             SELECT
                 ROW_NUMBER() OVER (PARTITION BY CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num,
-                IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
+                FI.FILE_NO AS ZIP_NAME,
                 FI.FILE_NO,
                 CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
                 FI.FILE_EXT,
