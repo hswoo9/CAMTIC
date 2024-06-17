@@ -1,4 +1,13 @@
-let sum=0;
+let pjtAmtSum=0;
+let exnpCompAmtSum=0;
+let incpCompAmtSum=0;
+let tmpSaleAmtSum=0;
+let tmpProfitAmtSum=0;
+let befExpSaleAmtSum=0;
+let befExpProfitAmtSum=0;
+let aftSaleAmtSum=0;
+let aftProfitAmtSum=0;
+
 var recordTotal = {
 
 
@@ -126,8 +135,16 @@ var recordTotal = {
             },
             dataBound: function(e){
                 /** 합계 */
-                $("#total").text(fn_numberWithCommas(sum));
-                sum = 0;
+                $("#total").text(fn_numberWithCommas(pjtAmtSum));
+                pjtAmtSum=0;
+                exnpCompAmtSum=0;
+                incpCompAmtSum=0;
+                tmpSaleAmtSum=0;
+                tmpProfitAmtSum=0;
+                befExpSaleAmtSum=0;
+                befExpProfitAmtSum=0;
+                aftSaleAmtSum=0;
+                aftProfitAmtSum=0;
             },
             toolbar: [
                 {
@@ -242,56 +259,91 @@ var recordTotal = {
                         } else {
                             totalCost = e.PJT_AMT;
                         }
-                        sum += Number(totalCost);
+                        pjtAmtSum += Number(totalCost || 0);
                         return '<div style="text-align: right;">'+comma(totalCost)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(pjtAmtSum)+"</div>";
                     }
                 }, {
                     title: "매출액",
                     width: 100,
                     template: function(e){
+                        exnpCompAmtSum += Number(e.exnpCompAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.exnpCompAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(exnpCompAmtSum)+"</div>";
                     }
                 }, {
                     title: "수익",
                     width: 100,
                     template: function(e){
+                        incpCompAmtSum += Number(e.incpCompAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.incpCompAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(incpCompAmtSum)+"</div>";
                     }
                 }, {
                     title: "예상매출액",
                     width: 100,
                     template: function(e){
+                        tmpSaleAmtSum += Number(e.tmpSaleAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.tmpSaleAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(tmpSaleAmtSum)+"</div>";
                     }
                 }, {
                     title: "예상수익",
                     width: 100,
                     template: function(e){
+                        tmpProfitAmtSum += Number(e.tmpProfitAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.tmpProfitAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(tmpProfitAmtSum)+"</div>";
                     }
                 }, {
                     title: "전년도<br>예상매출액",
                     width: 100,
                     template: function(e){
+                        befExpSaleAmtSum += Number(e.befExpSaleAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.befExpSaleAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(befExpSaleAmtSum)+"</div>";
                     }
                 }, {
                     title: "전년도<br>예상수익",
                     width: 100,
                     template: function(e){
+                        befExpProfitAmtSum += Number(e.befExpProfitAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.befExpProfitAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(befExpProfitAmtSum)+"</div>";
                     }
                 }, {
                     title: "차년도<br>매출액",
                     width: 100,
                     template: function(e){
+                        aftSaleAmtSum += Number(e.aftSaleAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.aftSaleAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(aftSaleAmtSum)+"</div>";
                     }
                 }, {
                     title: "차년도<br>수익",
                     width: 100,
                     template: function(e){
+                        aftProfitAmtSum += Number(e.aftProfitAmt || 0);
                         return '<div style="text-align: right;">'+comma(e.aftProfitAmt)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(aftProfitAmtSum)+"</div>";
                     }
                 }, {
                     title: "설정",
