@@ -174,7 +174,7 @@
                             <td style="text-align: right; background-color: #abe3b1;" id="incpTotAmt"><b>0</b></td>
                             <td style="text-align: center;"><b>28.6</b></td>
                             <td style="text-align: right;"><b>0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: right;"><b id="payTotAmt">0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                         </tr>
@@ -215,7 +215,7 @@
                             <td style="text-align: right; background-color: #eaed77;"><b id="expIncpTotAmt">0</b></td>
                             <td style="text-align: center;"><b>34.9</b></td>
                             <td style="text-align: right;"><b>0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: right;"><b id="expPayTotAmt">0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                         </tr>

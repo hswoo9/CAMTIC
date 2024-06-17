@@ -640,4 +640,23 @@
             AND DEPT_SEQ = #{deptSeq}
         </if>
     </select>
+
+    <select id="getDeptPayrollData" resultType="map" parameterType="map">
+        /*getDeptPayrollData*/
+        SELECT
+            DEPT_SEQ,
+            IFNULL(SUM(TOTAL_PAY),0) AS TOT_PAY
+        FROM
+        (
+            SELECT
+                A.*,
+                (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) AS DEPT_SEQ
+            FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+            WHERE 1=1
+                AND BASE_YEAR_MONTH = #{month}
+            <if test='deptSeq != null and deptSeq != ""'>
+                AND (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) = #{deptSeq}
+            </if>
+        ) RE
+    </select>
 </mapper>

@@ -3,7 +3,7 @@ var finPerm = {
 
     fn_DefaultScript : function(){
 
-        customKendo.fn_datePicker("year", "decade", "yyyy", new Date());
+        customKendo.fn_datePicker("year", "year", "yyyy-MM", new Date());
 
         let data = {}
         data.deptLevel = 2;
@@ -20,52 +20,69 @@ var finPerm = {
         $("#engnGrid").css("display", "none");
 
         var parameters = {
-            year : $("#year").val(),
+            year : $("#year").val().split("-")[0],
+            month : $("#year").val(),
             deptSeq : $("#dept").val()
         }
         var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc", parameters);
 
         var result = rs.map;
-        $("#expEngnAmt").text(comma(result.expEngnAmt));
-        $("#expOtherAmt").text(comma(result.expOtherAmt));
-        $("#expRndAmt").text(comma(result.expRndAmt));
-        $("#expUnRndAmt").text(comma(result.expUnRndAmt));
-        $("#engnDelvAmt").text(comma(result.engnAmt));
-        $("#otherDelvAmt").text(comma(result.otherAmt));
+        var result2 = rs.payrollMap;
+
+        /** 수주 */
         $("#rndDelvAmt").text(comma(result.rndAmt));
         $("#unRndDelvAmt").text(comma(result.unRndAmt));
+        $("#engnDelvAmt").text(comma(result.engnAmt));
+        $("#otherDelvAmt").text(comma(result.otherAmt));
 
+        /** 매출 */
         $("#rndSaleAmt").text(comma(result.saleRndAmt || 0));
         $("#unRndSaleAmt").text(comma(result.saleunRndAmt || 0));
         $("#engnSaleAmt").text(comma(result.saleEngnAmt || 0));
         $("#otherSaleAmt").text(comma(result.saleOtherAmt || 0));
 
-        $("#expSaleOtherAmt").text(comma(result.expSaleOtherAmt || 0));
-        $("#expSaleEngnAmt").text(comma(result.expSaleEngnAmt || 0));
-        $("#expSaleRndAmt").text(comma(result.expSaleRndAmt || 0));
-        $("#expSaleUnRndAmt").text(comma(result.expSaleUnRndAmt || 0));
-
+        /** 운영수익 */
         $("#rndIncpAmt").text(comma(result.incpRndAmt || 0));
         $("#unRndIncpAmt").text(comma(result.incpUnRndAmt || 0));
         $("#engnIncpAmt").text(comma(result.incpEngnAmt || 0));
         $("#otherIncpAmt").text(comma(result.incpOtherAmt || 0));
 
-        $("#expIncpEngnAmt").text(comma(result.expIncpEngnAmt || 0));
-        $("#expIncpOtherAmt").text(comma(result.expIncpOtherAmt || 0));
-        $("#expIncpRndAmt").text(comma(result.expIncpRndAmt || 0));
-        $("#expIncpUnRndAmt").text(comma(result.expIncpUnRndAmt || 0));
-
+        /** 달성실적 */
         $("#delvTotAmt").text(comma(result.engnAmt + result.otherAmt + result.rndAmt + result.unRndAmt));
         $("#saleTotAmt").text(comma((result.saleRndAmt || 0) + (result.saleUnRndAmt || 0) + (result.saleEngnAmt || 0) + (result.saleOtherAmt || 0)));
         $("#incpTotAmt").text(comma((result.incpRndAmt || 0) + (result.incpUnRndAmt || 0) + (result.incpEngnAmt || 0) + (result.incpOtherAmt || 0)));
 
+        /** 예상수주 */
+        $("#expRndAmt").text(comma(result.expRndAmt));
+        $("#expUnRndAmt").text(comma(result.expUnRndAmt));
+        $("#expEngnAmt").text(comma(result.expEngnAmt));
+        $("#expOtherAmt").text(comma(result.expOtherAmt));
+
+        /** 예상매출 */
+        $("#expSaleRndAmt").text(comma(result.expSaleRndAmt || 0));
+        $("#expSaleUnRndAmt").text(comma(result.expSaleUnRndAmt || 0));
+        $("#expSaleOtherAmt").text(comma(result.expSaleOtherAmt || 0));
+        $("#expSaleEngnAmt").text(comma(result.expSaleEngnAmt || 0));
+
+        /** 예상운영수익 */
+        $("#expIncpRndAmt").text(comma(result.expIncpRndAmt || 0));
+        $("#expIncpUnRndAmt").text(comma(result.expIncpUnRndAmt || 0));
+        $("#expIncpEngnAmt").text(comma(result.expIncpEngnAmt || 0));
+        $("#expIncpOtherAmt").text(comma(result.expIncpOtherAmt || 0));
+
+        /** TOTAL */
         $("#expTotAmt").text(comma((result.expEngnAmt || 0) + (result.expOtherAmt || 0) + (result.expRndAmt || 0) + (result.expUnRndAmt || 0)));
         $("#expSaleTotAmt").text(comma((result.expSaleEngnAmt || 0) + (result.expSaleOtherAmt || 0) + (result.expSaleRndAmt || 0) + (result.expSaleUnRndAmt || 0)));
         $("#expIncpTotAmt").text(comma((result.expIncpEngnAmt || 0) + (result.expIncpOtherAmt || 0) + (result.expIncpRndAmt || 0) + (result.expIncpUnRndAmt || 0)));
 
-        $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0))
-        $("#objSaleAmt").text(comma(Math.round(result.objSaleAmt) || 0))
-        $("#objIncpAmt").text(comma(Math.round(result.objIncpAmt) || 0))
+        /** 목표 */
+        $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0));
+        $("#objSaleAmt").text(comma(Math.round(result.objSaleAmt) || 0));
+        $("#objIncpAmt").text(comma(Math.round(result.objIncpAmt) || 0));
+
+        /** 운영비 - 인건비 */
+        $("#payTotAmt").text(comma(result2.TOT_PAY));
+        $("#expPayTotAmt").text(comma(result2.TOT_PAY));
     },
 
     fn_engnSearch : function (){
