@@ -7,9 +7,11 @@
         /*getCardLossList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_CARD_LOSS A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -97,9 +99,11 @@
         /*getAccCertList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_ACC_CERT A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -402,9 +406,11 @@
         /*getSignetToList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_SIGNET_TO A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -498,9 +504,11 @@
         /*getDisAssetList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_DIS_ASSET A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -606,9 +614,11 @@
         /*getResignList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_RESIGN A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -698,9 +708,11 @@
         /*getDetailsList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_DETAILS A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -787,9 +799,11 @@
         /*getCondList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_COND A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -898,9 +912,11 @@
         /*getLeaveList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_LEAVE A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>
@@ -998,9 +1014,11 @@
         /*getReinstatList*/
         SELECT
             A.*,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            A.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_REINSTAT A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
     </select>

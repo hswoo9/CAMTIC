@@ -100,17 +100,6 @@
             persistSelection : true,
             columns : [
                 {
-                    field : "DOC_NO",
-                    title : "문서번호",
-                    width : 150,
-                    template : function (e){
-                        // if(e.DOC_NO != null){
-                        //     return e.DOC_NO
-                        // }else{
-                            return "-"
-                        // }
-                    }
-                },{
                     field : "DEPT_NAME",
                     title : "사용부서",
                     width : 150
