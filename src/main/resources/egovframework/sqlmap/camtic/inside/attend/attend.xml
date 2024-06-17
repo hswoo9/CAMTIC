@@ -100,7 +100,18 @@
                         DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
                     AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
                     ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
-                ) AS BUSTRIP
+                ) AS BUSTRIP,
+
+                (
+                    SELECT
+                        HM.TITLE
+                    FROM
+                        CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT HM
+                    WHERE
+                        DR.DATES = DATE_FORMAT(H_DAY, '%Y-%m-%d')
+                        AND SUBSTRING(HM.H_DAY, 1, 4) = DATE_FORMAT(DR.DATES, '%Y')
+                        AND HM.USE_YN = 'Y'
+                 ) AS HOLIDAY2
 
             FROM DATE_RANGE DR
             LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = #{empSeq}
@@ -354,7 +365,18 @@
                         DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
                         AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
                     ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
-                ) AS BUSTRIP
+                ) AS BUSTRIP,
+
+                (
+                    SELECT
+                        HM.TITLE
+                    FROM
+                        CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT HM
+                    WHERE
+                        DR.DATES = DATE_FORMAT(HM.H_DAY, '%Y-%m-%d')
+                        AND SUBSTRING(HM.H_DAY, 1, 4) = DATE_FORMAT(DR.DATES, '%Y')
+                        AND HM.USE_YN = 'Y'
+                ) AS HOLIDAY2
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
             JOIN
