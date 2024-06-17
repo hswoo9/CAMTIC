@@ -200,6 +200,7 @@ var approveWaitDocList = {
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
+            searchKeyword : $("#searchKeyword").val(),
             approveType : "wait",
             resType : "Y",
         }

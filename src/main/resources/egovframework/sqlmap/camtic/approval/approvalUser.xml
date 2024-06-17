@@ -654,7 +654,7 @@
         </if>
         ) RRE
         WHERE 1=1
-        <if test='docTitle != null and !"".equals(docTitle)'>
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
             <choose>
                 <when test='"A".equals(searchKeyword)'>
                     AND
