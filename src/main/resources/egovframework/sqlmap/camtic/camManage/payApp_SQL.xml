@@ -828,7 +828,7 @@
             A.CRM_ACC_HOLDER AS DEPOSITOR,
             A.CARD AS CTR_NM,
             A.CARD_NO AS CTR_NB,
-            A.REG_NB AS REG_NB,
+            A.REG_NO AS REG_NB,
             "" AS ETCDATA_CD,
             "" AS ETCPER_CD,
             "" AS ETCREG_NO,
