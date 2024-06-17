@@ -49,6 +49,11 @@
                 </table>
             </div>
         </div>
+        <div class="panel-body">
+            <div>
+                <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
+        </div>
     </div>
 </div><!-- col-md-9 -->
 

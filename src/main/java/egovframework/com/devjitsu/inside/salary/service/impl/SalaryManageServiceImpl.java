@@ -356,6 +356,8 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     map.put("foodPay", removeCommas(cellValueToString(row.getCell(3), workbook)));
                     map.put("extraPay", removeCommas(cellValueToString(row.getCell(4), workbook)));
                     map.put("bonus", removeCommas(cellValueToString(row.getCell(5), workbook)));
+                    map.put("totalPay", Integer.parseInt(map.get("basicSalary").toString()) + Integer.parseInt(map.get("foodPay").toString())
+                            + Integer.parseInt(map.get("extraPay").toString()) + Integer.parseInt(map.get("bonus").toString()));
 
                     map.put("healthIns", removeCommas(cellValueToString(row.getCell(6), workbook)));
                     map.put("careIns", removeCommas(cellValueToString(row.getCell(7), workbook)));

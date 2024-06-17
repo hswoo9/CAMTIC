@@ -623,12 +623,13 @@
         /*getMonthlyPayRollLedgerList*/
         SELECT
             SUM(TOTAL_PAY) AS TOT_PAY,
-            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = b.DEPT_SEQ) AS DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
             DEPT_SEQ
         FROM
             (
                 SELECT
                     A.*,
+                    IFNULL(A.HEALTH_INS,0) + IFNULL(A.NATIONAL_PEN,0) + IFNULL(A.EMPLOY_EMP_INS,0) + IFNULL(A.IND_INS,0) AS DEDUCTION,
                     IF(
                         (SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ)) = 1,
                         (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ),
