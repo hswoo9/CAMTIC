@@ -718,6 +718,9 @@ var campusInit = {
         const getOjtResList = getOjtResult.list;
         campusInit.global.getOjtResList = getOjtResList;
 
+        const ojtResultInfo = customKendo.fn_customAjax("/campus/getOjtResultInfoOne", {pk: studyInfoSn}).data;
+        campusInit.global.ojtResultInfo = ojtResultInfo;
+
 
 
         hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 결과보고서");
@@ -739,6 +742,7 @@ var campusInit = {
 
         const ojtSubList = campusInit.global.ojtSubList;
         const getOjtResList = campusInit.global.getOjtResList;
+        const ojtResultInfo = campusInit.global.ojtResultInfo;
 
 
         let rowspan = userList2.length + userList3.length + 1;
@@ -815,7 +819,7 @@ var campusInit = {
         html += '               </tr>';
         html += '               <tr>';
         html += '                   <td style="background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>소요비용</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ comma(studyInfo.STUDY_MONEY)+'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ comma(ojtResultInfo.STUDY_MONEY)+'</p></td>';
         html += '                   <td style="background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>산출내역</b></p></td>';
         html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_MONEY_VAL +'</p></td>';
         html += '               </tr>';
