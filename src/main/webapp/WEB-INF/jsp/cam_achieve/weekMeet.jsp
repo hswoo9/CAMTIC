@@ -94,8 +94,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">주간회의자료 (부서별)</h4>
-            <div class="title-road">캠어취브 > 캠어취브 &gt; 주간회의자료 (부서별)</div>
+            <h4 class="panel-title">부서 재무성과</h4>
+            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 부서 재무성과</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -104,12 +104,12 @@
                 <span style="bottom: 3px; position: relative;">
                     <input type="text" id="year" style="width: 130px;" />
                 </span>
-                <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="weekMeet.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
-                <button type="button" class="k-button k-button-solid-base" id="objSetting" onclick="weekMeet.fn_objSetting();" style="margin-bottom: 5px; margin-right:5px; float: right">목표설정</button>
+                <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="weekMeet.fn_dataReset();" style="margin-bottom: 5px; float: right">조회</button>
+<%--                <button type="button" class="k-button k-button-solid-base" id="objSetting" onclick="weekMeet.fn_objSetting();" style="margin-bottom: 5px; margin-right:5px; float: right">목표설정</button>--%>
 
-                <div id="statTable" style="width: 100%; overflow: auto;" view="Y">
-                    <div style="float: right">(단위 : 백만원)</div>
+                <div id="statTable" style="width: 100%; overflow: auto; margin-top: 5px;" view="Y">
                     <table class="totalTable table table-bordered" style="margin-bottom: 0px; white-space:nowrap; width: auto">
+                        <caption style="text-align: left;">(단위 : 백만원)</caption>
                         <thead>
                         <colgroup>
                             <col width="8%">
@@ -147,26 +147,26 @@
                             <td style="text-align: center;" colspan="10"><b>운영수익</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
                             <td style="text-align: center; font-size: 10px"><b>운영비</b></td>
                             <td style="text-align: center; font-size: 10px"><b>사업화지수</b></td>
@@ -175,27 +175,27 @@
                         <c:forEach var="l" items="${list}" varStatus="status">
                             <tr style="background-color: white">
                                 <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
-                                <td style="text-align: right" id="delvObj_${l.dept_seq}" name="delvObj"></td>
-                                <td style="text-align: right" id="delvAch_${l.dept_seq}" name="delvAch"></td>
-                                <td style="text-align: center" id="delvAchPer_${l.dept_seq}" name="delvAchPer"></td>
-                                <td style="text-align: right" id="delvExp_${l.dept_seq}" name="delvExp"></td>
-                                <td style="text-align: center" id="delvExpPer_${l.dept_seq}" name="delvExpPer"></td>
-                                <td style="text-align: right" id="delvSum_${l.dept_seq}" name="delvSum"></td>
-                                <td style="text-align: center" id="delvSumPer_${l.dept_seq}" name="delvSumPer"></td>
-                                <td style="text-align: right" id="saleObj_${l.dept_seq}" name="saleObj"></td>
-                                <td style="text-align: right" id="saleAch_${l.dept_seq}" name="saleAch"></td>
-                                <td style="text-align: center" id="saleAchPer_${l.dept_seq}" name="saleAchPer"></td>
-                                <td style="text-align: right" id="saleExp_${l.dept_seq}" name="saleExp"></td>
-                                <td style="text-align: center" id="saleExpPer_${l.dept_seq}" name="saleExpPer"></td>
-                                <td style="text-align: right" id="saleSum_${l.dept_seq}" name="saleSum"></td>
-                                <td style="text-align: center" id="saleSumPer_${l.dept_seq}" name="saleSumPer"></td>
-                                <td style="text-align: right" id="incpObj_${l.dept_seq}" name="incpObj"></td>
-                                <td style="text-align: right" id="incpAch_${l.dept_seq}" name="incpAch"></td>
-                                <td style="text-align: center" id="incpAchPer_${l.dept_seq}" name="incpAchPer"></td>
-                                <td style="text-align: right" id="incpExp_${l.dept_seq}" name="incpExp"></td>
-                                <td style="text-align: center" id="incpExpPer_${l.dept_seq}" name="incpExpPer"></td>
-                                <td style="text-align: right" id="incpSum_${l.dept_seq}" name="incpSum"></td>
-                                <td style="text-align: center" id="incpSumPer_${l.dept_seq}" name="incpSumPer"></td>
+                                <td style="text-align: right;background-color: #fffef2;" id="delvObj_${l.dept_seq}" name="delvObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="delvAch_${l.dept_seq}" name="delvAch"></td>
+                                <td style="text-align: right;font-weight: bold;" id="delvAchPer_${l.dept_seq}" name="delvAchPer"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="delvExp_${l.dept_seq}" name="delvExp"></td>
+                                <td style="text-align: right;font-weight: bold;" id="delvExpPer_${l.dept_seq}" name="delvExpPer"></td>
+                                <td style="text-align: right;background-color: #f0fff5" id="delvSum_${l.dept_seq}" name="delvSum"></td>
+                                <td style="text-align: right;font-weight: bold;" id="delvSumPer_${l.dept_seq}" name="delvSumPer"></td>
+                                <td style="text-align: right;background-color: #fffef2;" id="saleObj_${l.dept_seq}" name="saleObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="saleAch_${l.dept_seq}" name="saleAch"></td>
+                                <td style="text-align: right;font-weight: bold;" id="saleAchPer_${l.dept_seq}" name="saleAchPer"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="saleExp_${l.dept_seq}" name="saleExp"></td>
+                                <td style="text-align: right;font-weight: bold;" id="saleExpPer_${l.dept_seq}" name="saleExpPer"></td>
+                                <td style="text-align: right;background-color: #f0fff5" id="saleSum_${l.dept_seq}" name="saleSum"></td>
+                                <td style="text-align: right; font-weight: bold" id="saleSumPer_${l.dept_seq}" name="saleSumPer"></td>
+                                <td style="text-align: right;background-color: #fffef2;" id="incpObj_${l.dept_seq}" name="incpObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="incpAch_${l.dept_seq}" name="incpAch"></td>
+                                <td style="text-align: right;font-weight: bold;" id="incpAchPer_${l.dept_seq}" name="incpAchPer"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="incpExp_${l.dept_seq}" name="incpExp"></td>
+                                <td style="text-align: right;font-weight: bold;" id="incpExpPer_${l.dept_seq}" name="incpExpPer"></td>
+                                <td style="text-align: right;background-color: #f0fff5" id="incpSum_${l.dept_seq}" name="incpSum"></td>
+                                <td style="text-align: right; font-weight: bold;" id="incpSumPer_${l.dept_seq}" name="incpSumPer"></td>
                                 <td style="text-align: right"></td>
                                 <td style="text-align: right"></td>
                                 <td style="text-align: right"></td>

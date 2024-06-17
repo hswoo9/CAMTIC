@@ -102,7 +102,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">법인추진실적집계</h4>
-            <div class="title-road">캠어취브 > 캠어취브 &gt; 법인추진실적집계</div>
+            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 법인추진실적집계</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

@@ -86,14 +86,39 @@ public class AchieveRepository extends AbstractDAO {
         return (List<Map<String, Object>>) selectList("achieve.getEngnSaleList", params);
     }
 
+    public List<Map<String, Object>> getEngnPurcList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getEngnPurcList", params);
+    }
+
+    public List<Map<String, Object>> getEngnBustripList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getEngnBustripList", params);
+    }
+
     public List<Map<String, Object>> getRndSaleList(Map<String, Object> params) {
 
         return (List<Map<String, Object>>) selectList("achieve.getRndSaleList", params);
     }
 
+    public List<Map<String, Object>> getEngnEstList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getEngnEstList", params);
+    }
+
+    public List<Map<String, Object>> getRndIncpList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getRndIncpList", params);
+    }
+
     public List<Map<String, Object>> getDeptObjList(Map<String, Object> params) {
 
         return (List<Map<String, Object>>) selectList("achieve.getDeptObjList", params);
+    }
+
+    public List<Map<String, Object>> getObjByDeptList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getObjByDeptList", params);
     }
 
     public void insDeptObjSetting(Map<String, Object> params) {

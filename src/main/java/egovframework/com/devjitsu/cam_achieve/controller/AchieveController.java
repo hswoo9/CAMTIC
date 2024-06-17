@@ -74,7 +74,11 @@ public class AchieveController {
      * @return
      */
     @RequestMapping("/cam_achieve/weekMeet.do")
-    public String weekMeet(@RequestParam Map<String, Object> params, Model model) {
+    public String weekMeet(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
 
         params.put("deptLevel", "1");
         List<Map<String, Object>> list = deptService.getDeptAList(params);
@@ -143,7 +147,8 @@ public class AchieveController {
 
         model.addAttribute("ls", achieveService.getEngnDeptData(params));
         model.addAttribute("saleLs", achieveService.getSaleByDeptData(params));
-        model.addAttribute("objLs", achieveService.getDeptObjList(params));
+        model.addAttribute("incpLs", achieveService.getIncpByDeptData(params));
+        model.addAttribute("objLs", achieveService.getObjByDeptList(params));
         return "jsonView";
     }
 

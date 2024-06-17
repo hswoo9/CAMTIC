@@ -369,8 +369,30 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public Map<String, Object> getIncpByDeptData(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Map<String, Object>> engnEstList = achieveRepository.getEngnEstList(params);           // 민간사업 투자금액
+        List<Map<String, Object>> engnPurcList = achieveRepository.getEngnPurcList(params);         // 민간사업 구매
+        List<Map<String, Object>> engnBustripList = achieveRepository.getEngnBustripList(params);   // 민간사업 출장
+        List<Map<String, Object>> rndIncpList = achieveRepository.getRndIncpList(params);           // 정부사업 수익
+
+        result.put("engnEstList", engnEstList);
+        result.put("engnPurcList", engnPurcList);
+        result.put("engnBustripList", engnBustripList);
+        result.put("rndIncpList", rndIncpList);
+
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> getDeptObjList(Map<String, Object> params) {
         return achieveRepository.getDeptObjList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjByDeptList(Map<String, Object> params) {
+        return achieveRepository.getObjByDeptList(params);
     }
 
     @Override
