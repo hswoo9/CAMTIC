@@ -399,6 +399,8 @@ var personAttendStat = {
                     template: function(row){
                         if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_START == ""){
                             return "휴일";
+                        }else if(row.HOLIDAY2 != null) {
+                            return "공휴일";
                         }else{
                             return row.ATTEND_ADJUSTMENT_START;
                         }
@@ -409,6 +411,8 @@ var personAttendStat = {
                     template: function(row){
                         if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_END == ""){
                             return "휴일";
+                        }else if(row.HOLIDAY2 != null) {
+                            return "공휴일";
                         }else{
                             return row.ATTEND_ADJUSTMENT_END;
                         }
