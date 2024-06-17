@@ -493,6 +493,7 @@
             EMPLOY_COMP_INS,
             EMPLOY_EMP_INS,
             IND_INS,
+            RETIRE.AMT,
             REG_EMP_SEQ
         )
         values
@@ -513,6 +514,7 @@
             #{item.employCompIns},
             #{item.employEmpIns},
             #{item.indIns},
+            #{item.retireAmt},
             #{item.regEmpSeq}
         )
         </foreach>

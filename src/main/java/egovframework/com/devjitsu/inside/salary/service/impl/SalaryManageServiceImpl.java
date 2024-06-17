@@ -365,7 +365,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     map.put("employCompIns", removeCommas(cellValueToString(row.getCell(9), workbook)));
                     map.put("employEmpIns", removeCommas(cellValueToString(row.getCell(10), workbook)));
                     map.put("indIns", removeCommas(cellValueToString(row.getCell(11), workbook)));
-
+                    map.put("retireAmt", removeCommas(cellValueToString(row.getCell(12), workbook)));
                     map.put("loginEmpSeq", params.get("loginEmpSeq"));
 
                     String empSeq = salaryManageRepository.getEmpSeqByErpCd(map);
