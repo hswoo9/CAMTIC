@@ -591,29 +591,31 @@
     <select id="getDocAttachmentList" parameterType="map" resultType="map">
         /* getDocAttachmentList */
         SELECT
-        SUB.*
+            SUB.*
         FROM
         (
-        SELECT
-        ROW_NUMBER() OVER (PARTITION BY CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num,
-        IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
-        FI.FILE_NO,
-        CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
-        FI.FILE_EXT,
-        FI.FILE_SIZE,
-        FI.FILE_UUID AS fileUUID,
-        FI.FILE_PATH AS FILE_DOWN_PATH
-        -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
-        FROM
-        CAM_COMMON.dj_FILE_INFO FI
-        LEFT JOIN
-        DJ_CAMTIC.A_DOC_INFO DI
-        ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
-        WHERE
-        DI.DOC_ID = #{docId}
-            <if test='"purc".equals(type)'>OR (CONTENT_ID = CONCAT('purcReq_', #{purcSn}))
-            </if><if test='
-        type == "claim" or "claim".equals(type)'>OR (CONTENT_ID = #{contentId} AND FILE_CD = #{fileCd})
+            SELECT
+                ROW_NUMBER() OVER (PARTITION BY CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num,
+                IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
+                FI.FILE_NO,
+                CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
+                FI.FILE_EXT,
+                FI.FILE_SIZE,
+                FI.FILE_UUID AS fileUUID,
+                FI.FILE_PATH AS FILE_DOWN_PATH
+                -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
+            FROM
+                CAM_COMMON.dj_FILE_INFO FI
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI
+            ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
+            WHERE
+                DI.DOC_ID = #{docId}
+            <if test='"purc".equals(type)'>
+                OR (CONTENT_ID = CONCAT('purcReq_', #{purcSn}))
+            </if>
+            <if test='type == "claim" or "claim".equals(type)'>
+                OR (CONTENT_ID = #{contentId} AND FILE_CD = #{fileCd})
                 OR (FI.DOC_ID  = (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}) AND FI.FILE_CD = 'purc')
             </if>
             <if test='type == "payApp" or "payApp".equals(type)'>
