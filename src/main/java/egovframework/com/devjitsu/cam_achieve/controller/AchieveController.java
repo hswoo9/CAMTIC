@@ -124,6 +124,7 @@ public class AchieveController {
         map = achieveService.getAllPjtCalc(params);
 
         model.addAttribute("map", map);
+        model.addAttribute("payrollMap", achieveService.getDeptPayrollData(params));
         return "jsonView";
     }
 

@@ -144,4 +144,8 @@ public class AchieveRepository extends AbstractDAO {
     public Map<String, Object> getDeptObjAmt(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("achieve.getDeptObjAmt", params);
     }
+
+    public Map<String, Object> getDeptPayrollData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("achieve.getDeptPayrollData", params);
+    }
 }
