@@ -919,6 +919,10 @@
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
+        <if test='status != null and !"".equals(status)'>
+            AND A.STATUS = #{status}
+            AND A.LEAVE_SN NOT IN (SELECT LEAVE_SN FROM CAM_INSIDE.DJ_TP_REINSTAT)
+        </if>
     </select>
 
     <delete id="delLeave" parameterType="map">
@@ -1015,7 +1019,7 @@
         SELECT
             A.*,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
-            A.DOC_NO
+            DI.DOC_NO
         FROM
             CAM_INSIDE.DJ_TP_REINSTAT A
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID

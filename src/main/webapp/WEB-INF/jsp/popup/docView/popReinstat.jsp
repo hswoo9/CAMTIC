@@ -253,9 +253,7 @@
 
         $("#leaveSn").val(key);
         $("#leaveText").val(de1 +"~"+ de2);
-
     }
-    
 </script>
 </body>
 </html>

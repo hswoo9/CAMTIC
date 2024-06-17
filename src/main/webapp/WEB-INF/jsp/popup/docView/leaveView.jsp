@@ -38,6 +38,7 @@
                     data.deptSeq = $("#deptSeq").val();
                     data.deptName = $("#deptName").val();
                     data.empName = $("#empName").val();
+                    data.status = "100";
 
                     return data;
                 }
