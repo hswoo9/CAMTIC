@@ -253,7 +253,7 @@
 
     <select id="getExnpRndAmtList" parameterType="map" resultType="map">
         /*getExnpRndAmtList*/
-        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS EXNP_AMT
+        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS TOT_COST
         FROM
         (
             SELECT
@@ -284,7 +284,7 @@
 
     <select id="getIncpRndAmtList" parameterType="map" resultType="map">
         /*getIncpRndAmtList*/
-        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS EXNP_AMT
+        SELECT BUSN_CLASS, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS TOT_COST
         FROM
         (
             SELECT
