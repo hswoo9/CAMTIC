@@ -1055,7 +1055,7 @@ var regExnp = {
                     } else if ($("#status").val() == "re") {
                         url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=re";
                     } else if ($("#status").val() == "alt") {
-                        url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=alt";
+                        url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn + "&status=alt";
                     } else {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn;
                     }

@@ -40,7 +40,7 @@
     }
 
     function budgetChangeOpenModal(){
-        alert("열람자 지정 필수(예산담당자)");
+        alert("1. 열람자 지정 필수(예산담당자) \n2.기존에 없는 비목으로 변경이 필요한 경우 전자결재 내의 한글양식에서 수정하여 사용해주시기바랍니다.");
 
         $("#dialog").data("kendoWindow").open();
     }
