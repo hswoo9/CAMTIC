@@ -118,20 +118,43 @@ var studyInfo = {
                     template : function (e){
                         if(e.STUDY_CLASS_SN == "2" || e.STUDY_CLASS_SN == "3"){
                             if(e.OJT_READER != "" && e.OJT_READER != null){
-                                if(e.COUNT_STUDY_MEMBER == "0" || e.COUNT_STUDY_MEMBER == "-1"){
+                                if(e.COUNT_OJT_READER == "0" || e.COUNT_OJT_READER == "-1"){
                                     return e.OJT_READER;
                                 }else {
-                                    return e.OJT_READER + " 외 " + e.COUNT_STUDY_MEMBER + "명";
+                                    return e.OJT_READER + " 외 " + e.COUNT_OJT_READER + "명";
                                 }
                             } else {
                                 return "";
                             }
                         } else {
                             if(e.STUDY_READER != "" && e.STUDY_READER != null){
-                                if(e.COUNT_STUDY_MEMBER == "0" || e.COUNT_STUDY_MEMBER == "-1"){
-                                    return e.STUDY_READER;
+                                return e.STUDY_READER;
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    width: 100
+                }, {
+                    field: "STUDY_NAME",
+                    title: "학습자",
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "2" || e.STUDY_CLASS_SN == "3"){
+                            if(e.OJT_MEMBER != "" && e.OJT_MEMBER != null){
+                                if(e.COUNT_OJT_MEMBER == "0" || e.COUNT_OJT_MEMBER == "-1"){
+                                    return e.OJT_MEMBER;
                                 }else {
-                                    return e.STUDY_READER + " 외 " + e.COUNT_STUDY_MEMBER + "명";
+                                    return e.OJT_MEMBER + " 외 " + e.COUNT_OJT_MEMBER + "명";
+                                }
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            if(e.STUDY_MEMBER != "" && e.STUDY_MEMBER != null){
+                                if(e.COUNT_STUDY_MEMBER == "0" || e.COUNT_STUDY_MEMBER == "-1"){
+                                    return e.STUDY_MEMBER;
+                                }else {
+                                    return e.STUDY_MEMBER + " 외 " + e.COUNT_STUDY_MEMBER + "명";
                                 }
                             } else {
                                 return "";
@@ -148,8 +171,7 @@ var studyInfo = {
                     }
                 }, {
                     field: "STUDY_LOCATION",
-                    title: "교육장소",
-                    width: 300
+                    title: "교육장소"
                 },{
                     field: "EDU_TIME_TOTAL",
                     title: "학습시간",
@@ -266,17 +288,17 @@ var studyInfo = {
                                 }
                             }
                         }else if(studyClass == 3){
-                            if(row.STATUS == 0 || row.STATUS == 40 || row.STATUS == 60){
+                            if((row.STATUS == 0 || row.STATUS == 40 || row.STATUS == 60) && (row.RES_STATUS == null || row.RES_STATUS != 100)){
                                 return "신청서 작성중";
-                            }else if(row.STATUS == 10) {
+                            }else if(row.STATUS == 10 && (row.RES_STATUS == null || row.RES_STATUS != 100)) {
                                 return "신청서 승인요청중";
-                            }else if(row.STATUS == 30) {
+                            }else if(row.STATUS == 30 && (row.RES_STATUS == null || row.RES_STATUS != 100)) {
                                 return "신청서 반려됨";
-                            }else if(row.STATUS == 100){
-                                return "OJT 진행중("+row.ST_CNT+"회)";
-                            } else if(row.STATUS == 101 && row.ADD_STATUS == "C"){
+                            }else if(row.STATUS == 100 && (row.RES_STATUS == null || row.RES_STATUS != 100)){
+                                return "OJT 진행중";
+                            } else if(row.RES_STATUS == 10){
                                 return "결과보고서 승인요청중";
-                            }else if(row.STATUS == 101 && row.ADD_STATUS == "S"){
+                            }else if(row.RES_STATUS == 100){
                                 return "OJT완료";
                             }
                         }

@@ -104,11 +104,7 @@
                     title : "문서번호",
                     width : 150,
                     template : function (e){
-                        // if(e.DOC_NO != null){
-                        //     return e.DOC_NO
-                        // }else{
-                            return "-"
-                        // }
+                        return e.DOC_NO || "";
                     }
                 },{
                     field : "DEPT_NAME",
@@ -142,9 +138,13 @@
                 }, {
                     title : "삭제",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="fn_delSignetTo('+e.SIGN_SN+')">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
+                        if(e.STATUS == "10" || e.STATUS == "50" || e.STATUS == "100"){
+                            return "-";
+                        }else{
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="fn_delSignetTo('+e.SIGN_SN+')">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                        }
                     },
                     width: 80
                 }]
