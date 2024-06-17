@@ -284,4 +284,17 @@ public class AchieveController {
         model.addAttribute("code", 200);
         return "jsonView";
     }
+
+
+    @RequestMapping("/cam_achieve/expenseDetail.do")
+    public String expenseDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_achieve/expenseDetail";
+    }
 }
