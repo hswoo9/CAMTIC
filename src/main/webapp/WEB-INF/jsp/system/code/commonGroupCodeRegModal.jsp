@@ -66,7 +66,7 @@
 						'			</td>' +
 						'		</tr>' +
 						'		<tr>' +
-						'			<th scope="row" class="text-center th-color">순서</th>' +
+						'			<th scope="row" class="text-center th-color"><span class="red-star">*</span>순서</th>' +
 						'			<td><input type="text" name="orderCmGCR" id="orderCmGCR" style="width:20%;"></td>' +
                         '			<th scope="row" class="text-center th-color">사용유무</th>' +
                         '			<td><input type="text" name="active" id="active" style="width:80%;"></td>' +
@@ -135,7 +135,11 @@
 			alert("그룹코드 설명을 입력해주세요.");
 			flag = false;
 			return;
-		}
+		}else if($("#orderCmGCR").val() == ""){
+            alert("그룹코드 순서를 입력해주세요.");
+            flag = false;
+            return;
+        }
 
 		if(confirm("코드를 저장하시겠습니까?")){
 			if(flag){
