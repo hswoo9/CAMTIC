@@ -118,10 +118,14 @@ var depoInfo = {
                     field: "RE_APP_DE",
                     title: "입금일자",
                     template : function(e){
-                        if(e.RE_APP_DE != null && e.RE_APP_DE != "" && e.RE_APP_DE != undefined){
-                            return e.RE_APP_DE;
+                        if(e.ORG_YN == 'N'){
+                            if(e.RE_APP_DE != null && e.RE_APP_DE != "" && e.RE_APP_DE != undefined){
+                                return e.RE_APP_DE;
+                            } else {
+                                return "";
+                            }
                         } else {
-                            return "";
+                            return e.PAY_INCP_DE;
                         }
                     }
                 }, {
@@ -133,15 +137,19 @@ var depoInfo = {
                         //     totAmt = e.TOT_AMT;
                         // }
 
-                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
-                            if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
-                                totAmt = e.RE_TOT_COST;
+                        if(e.ORG_YN == 'N'){
+                            if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
+                                if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                    totAmt = e.RE_TOT_COST;
+                                }
+                            } else {
+                                totAmt = e.TOT_DET_AMT;
                             }
-                        } else {
-                            totAmt = e.TOT_DET_AMT;
-                        }
 
-                        return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
+                            return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
+                        } else {
+                            return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
+                        }
                     }
                 }, {
                     field: "RE_TOT_COST",
@@ -152,15 +160,19 @@ var depoInfo = {
                         //     totAmt = e.TOT_AMT;
                         // }
 
-                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
-                            if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
-                                totAmt = e.RE_TOT_COST;
+                        if(e.ORG_YN == 'N'){
+                            if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
+                                if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                    totAmt = e.RE_TOT_COST;
+                                }
+                            } else {
+                                totAmt = e.TOT_DET_AMT;
                             }
-                        } else {
-                            totAmt = e.TOT_DET_AMT;
-                        }
 
-                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
+                            return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
+                        } else {
+                            return "<div style='text-align:right;'>" + comma(0) + "</div>";
+                        }
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -168,32 +180,36 @@ var depoInfo = {
                     width: 100,
                     template: function(e){
                         var status = "";
-                        if(e.PAY_INCP_SN != null){
-                            if(e.DOC_STATUS == '100'){
-                                if(e.RE_CNT == 0){
-                                    status = "수입결의완료"
-                                } else {
-                                    if(e.RE_TOT_COST == 0){
-                                        status = "미결"
+                        if(e.ORG_YN == 'N'){
+                            if(e.PAY_INCP_SN != null){
+                                if(e.DOC_STATUS == '100'){
+                                    if(e.RE_CNT == 0){
+                                        status = "수입결의완료"
                                     } else {
-                                        if(e.RE_TOT_COST == e.TOT_DET_AMT){
-                                            status = "입금완료"
+                                        if(e.RE_TOT_COST == 0){
+                                            status = "미결"
                                         } else {
-                                            status = "부분입금"
+                                            if(e.RE_TOT_COST == e.TOT_DET_AMT){
+                                                status = "입금완료"
+                                            } else {
+                                                status = "부분입금"
+                                            }
                                         }
                                     }
+                                } else if (e.DOC_STATUS != '0' && e.DOC_STATUS != '30' && e.DOC_STATUS != '40'){
+                                    status = "수입결의결재중"
+                                } else {
+                                    status = "수입결의작성중"
                                 }
-                            } else if (e.DOC_STATUS != '0' && e.DOC_STATUS != '30' && e.DOC_STATUS != '40'){
-                                status = "수입결의결재중"
                             } else {
-                                status = "수입결의작성중"
+                                if(e.APPR_STAT == 'Y'){
+                                    status = "요청완료";
+                                } else {
+                                    status = "작성중"
+                                }
                             }
                         } else {
-                            if(e.APPR_STAT == 'Y'){
-                                status = "요청완료";
-                            } else {
-                                status = "작성중"
-                            }
+                            status = "입금완료";
                         }
 
                         return status;
