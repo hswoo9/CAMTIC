@@ -443,13 +443,11 @@ var purcInfo = {
                             if (e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100") {
                                 if (e.PAY_DOC_STATUS == "100") {
                                     stat = "결재완료"
-                                    if (e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0) {
+                                    if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
                                         stat = "지출완료";
-                                    } else if (e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0) {
-                                        console.log("e.EXNP_DOC_STATUS", e.EXNP_DOC_STATUS);
-                                        console.log("e.EXNP_STATUS", e.EXNP_STATUS);
+                                    } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
                                         stat = "부분지출";
-                                    } else if (e.EXNP_STATUS != 0) {
+                                    } else if (e.EXNP_STATUS != 0){
                                         stat = "지출대기";
                                     }
                                 } else if (e.PAY_DOC_STATUS == "10" || e.PAY_DOC_STATUS == "50") {
