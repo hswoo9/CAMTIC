@@ -263,7 +263,7 @@ var camPrj = {
                         }
                     }
                 }, {
-                    field: "DELV_DE",
+                    field: "DELV_DATE",
                     title: "종료예상일",
                     width: 100
                 }, {

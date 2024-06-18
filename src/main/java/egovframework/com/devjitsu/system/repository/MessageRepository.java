@@ -36,7 +36,9 @@ public class MessageRepository extends AbstractDAO {
     public void setUser(Map<String, Object> params) { insert("message.setUser", params); }
     public void setUserMod(Map<String, Object> params) { update("message.setUserMod", params); }
     public void setUserDel(Map<String, Object> params) { update("message.setUserDel", params); }
-    public void setMailHist(Map<String, Object> params) { insert("message.setMailHist", params); }
+    public void setMailHistIns(Map<String, Object> params) { insert("message.setMailHistIns", params); }
+    public void setMailHistUpd(Map<String, Object> params) { update("message.setMailHistUpd", params); }
     public void setMailDetIns(Map<String, Object> params) { insert("message.setMailDetIns", params); }
     public void setMailDetCom(Map<String, Object> params) { update("message.setMailDetCom", params); }
+    public void setMailDetDel(Map<String, Object> params) { delete("message.setMailDetDel", params); }
 }
