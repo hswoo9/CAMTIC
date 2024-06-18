@@ -83,7 +83,7 @@ var regRnd = {
             ]
         } else {
             dataSource = [
-                {name: setParameters.PARENT_PJT_SN == null ? "사업정보" : "연차보고", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
+                {name: (setParameters == null || setParameters.PARENT_PJT_SN == null) ? "사업정보" : "연차보고", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 //{name: "참여인력", url: tab1Url}, --제외(요청)
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
                 {name: "수행계획", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
@@ -264,7 +264,7 @@ var regRnd = {
         customKendo.fn_dropDownList("yearClass", yearDataSource, "text", "value", 2);
         $("#yearClass").data("kendoDropDownList").bind("change", function(){
             const yearClass = $("#yearClass").val();
-            if(yearClass == "M"){
+            if(yearClass == "M" && $("#paramParentPjtSn").val() != ""){
                 $("#mYearTr").show();
             }else{
                 $("#mYearTr").hide();
@@ -335,7 +335,6 @@ var regRnd = {
             /** 다년이면서 1차년도 프로젝트()가 없을 때 다년 프로젝트 생성 버튼 보이게 */
             }else if(e.YEAR_CLASS == "M" && e.PJT_CD != null && e.PARENT_PJT_SN == null){
                 $("#nextPjtBtn").show();
-                $("#mYearTr").show();
             }
 
             $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
