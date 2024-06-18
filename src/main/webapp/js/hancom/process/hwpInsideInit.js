@@ -12,7 +12,7 @@ var insideInit = {
         hwpDocCtrl.putFieldText("effectiveDt", map.EFFECTIVE_DATE);
         hwpDocCtrl.putFieldText("receiveName", map.RECEIVE_NAME);
         hwpDocCtrl.putFieldText("empName", map.MANAGER_NAME);
-        hwpDocCtrl.putFieldText("deptPart", map.DEPT_PART_TYPE);
+        hwpDocCtrl.putFieldText("deptPart", map.DEPT_PART_TEXT);
 
         if(map.file_no > 0){
             hwpDocCtrl.putFieldText("file_org_name", map.file_org_name);
