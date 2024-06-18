@@ -477,6 +477,7 @@
     </delete>
 
     <select id="getProjectData" parameterType="map" resultType="map">
+        /*getProjectData*/
         SELECT
             A.*,
             D.*,
@@ -487,6 +488,14 @@
             EI.POSITION_NAME,
             DATE_FORMAT(STR_DT, '%Y-%m-%d') AS PJT_START_DT,
             DATE_FORMAT(END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            CASE
+                WHEN A.BUSN_CLASS = 'R' THEN DATE_FORMAT(IFNULL((SELECT NOW_STR_DE FROM CAM_PJT_MNG.DJ_PJT_RND WHERE PJT_SN = A.PJT_SN), A.STR_DT), '%Y-%m-%d')
+                WHEN A.BUSN_CLASS = 'S' THEN DATE_FORMAT(IFNULL((SELECT NOW_STR_DE FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = A.PJT_SN), A.STR_DT), '%Y-%m-%d')
+            END AS PJT_START_DT2,
+            CASE
+                WHEN A.BUSN_CLASS = 'R' THEN DATE_FORMAT(IFNULL((SELECT NOW_END_DE FROM CAM_PJT_MNG.DJ_PJT_RND WHERE PJT_SN = A.PJT_SN), A.END_DT), '%Y-%m-%d')
+                WHEN A.BUSN_CLASS = 'S' THEN DATE_FORMAT(IFNULL((SELECT NOW_END_DE FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = A.PJT_SN), A.END_DT), '%Y-%m-%d')
+            END AS PJT_END_DT2,
             DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_EXP_END_DT,
             DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS END_EXP_DT_FORMAT,
             DATE_FORMAT(STR_DT, '%Y%m%d') AS G20_STR_DT,

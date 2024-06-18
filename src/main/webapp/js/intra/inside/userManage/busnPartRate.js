@@ -41,8 +41,8 @@ var busnPartRate = {
                 $("#pjtCd").val(rs.PJT_CD);
                 $("#pjtNm").val(rs.PJT_NM);
                 $("#busnClass").val(rs.BUSN_NM);
-                $("#strDt").val(rs.PJT_START_DT);
-                $("#endDt").val(rs.PJT_END_DT);
+                $("#strDt").val(rs.PJT_START_DT2);
+                $("#endDt").val(rs.PJT_END_DT2);
 
                 $.ajax({
                     url : "/inside/getBusinessParticipationData",
