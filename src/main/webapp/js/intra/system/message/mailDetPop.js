@@ -75,11 +75,11 @@ var mailDetPop = {
                 }, {
                     field: "NAME",
                     title: "성명",
-                    width: 150,
+                    width: 100,
                 }, {
                     field: "EMAIL",
                     title: "메일주소",
-                    width: 150
+                    width: 200
                 }, {
                     title: "발송상태",
                     width: 150,
@@ -89,6 +89,14 @@ var mailDetPop = {
                         }else{
                             return "발송 "+row.SEND_DATE;
                         }
+                    }
+                }, {
+                    title: "처리 명령",
+                    width: 80,
+                    template: function(row){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-right: 5px" onclick="mailDetPop.mailDel('+row.MAIL_HIST_DET_SN+')">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
                     }
                 }
 
@@ -260,5 +268,21 @@ var mailDetPop = {
             }
         }
 
+    },
+
+    popMail : function() {
+        var url = "/system/pop/popMail.do?mailHistSn="+$("#mailHistSn").val();
+        var name = "popMail";
+        var option = "width = 660, height = 300, top = 200, left = 400, location = no";
+        window.open(url, name, option);
+    },
+
+    mailDel : function(key){
+        var rs = customKendo.fn_customAjax("/system/delMailDet", {mailHistDetSn : key});
+
+        if(rs.result.code == 200){
+            alert("삭제되었습니다.");
+            mailDetPop.gridReload();
+        }
     }
 }

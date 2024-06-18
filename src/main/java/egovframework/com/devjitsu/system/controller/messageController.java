@@ -119,6 +119,16 @@ public class messageController {
         return "popup/system/message/mailReqPop";
     }
 
+    /** 메일주소 단일 등록 팝업 */
+    @RequestMapping("/system/pop/popMail.do")
+    public String popMail(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/system/message/popMail";
+    }
+
     /** 주소등록 및 발송 팝업 */
     @RequestMapping("/system/pop/mailDetPop.do")
     public String mailDetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -299,6 +309,25 @@ public class messageController {
             params.put("code", "500");
         }
         model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /** 메일 주소 삭제 */
+    @RequestMapping("/system/delMailDet")
+    public String delMailDet(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            HttpSession session = request.getSession();
+            LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+            params.put("loginEmpSeq", loginVO.getUniqId());
+            messageService.delMailDet(params);
+            result.put("code", "200");
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+            result.put("code", "500");
+        }
+        model.addAttribute("result", result);
         return "jsonView";
     }
 

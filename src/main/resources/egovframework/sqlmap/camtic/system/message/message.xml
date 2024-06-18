@@ -161,8 +161,8 @@
             PHONE_USER_ID = #{phoneUserId}
     </delete>
 
-    <insert id="setMailHist" parameterType="map">
-        /* setMailHist */
+    <insert id="setMailHistIns" parameterType="map">
+        /* setMailHistIns */
         INSERT INTO CAM_COMMON.DJ_MAIL_HIST
             (
                 MAIL_TILE,
@@ -183,6 +183,18 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_MAIL_HIST'
         </selectKey>
     </insert>
+
+    <update id="setMailHistUpd" parameterType="map">
+        /* setMailHistUpd */
+        UPDATE CAM_COMMON.DJ_MAIL_HIST
+        SET
+            MAIL_TILE = #{subject},
+            MAIL_CONTENT = #{contents},
+            SEND_DATE = #{sendDate},
+            SEND_EMAIL = #{sendEml}
+        WHERE
+            MAIL_HIST_SN = #{mailHistSn}
+    </update>
 
     <insert id="setMailDetIns" parameterType="map">
         /* setMailDetIns */
@@ -217,4 +229,11 @@
             </otherwise>
         </choose>
     </update>
+
+    <delete id="setMailDetDel" parameterType="map">
+        /* setMailDetDel */
+        DELETE FROM CAM_COMMON.DJ_MAIL_HIST_DET
+        WHERE
+            MAIL_HIST_DET_SN = #{mailHistDetSn}
+    </delete>
 </mapper>

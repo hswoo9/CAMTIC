@@ -148,9 +148,9 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void setMailHist(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         if(!params.containsKey("mailHistSn")){
-            messageRepository.setMailHist(params);
+            messageRepository.setMailHistIns(params);
         } else {
-
+            messageRepository.setMailHistUpd(params);
         }
 
         if(file.length > 0){
@@ -176,6 +176,11 @@ public class MessageServiceImpl implements MessageService {
             map.put("mailHistSn", params.get("mailHistSn"));
             messageRepository.setMailDetIns(map);
         }
+    }
+
+    @Override
+    public void delMailDet(Map<String, Object> params) {
+        messageRepository.setMailDetDel(params);
     }
 
     @Override
