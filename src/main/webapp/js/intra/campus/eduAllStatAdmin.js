@@ -70,7 +70,7 @@ var eduAllStatAdmin = {
             ]
         });
 
-        $("#mainGrid").kendoGrid({
+        $("#allEduAdminGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
@@ -208,12 +208,12 @@ var eduAllStatAdmin = {
             pageSize: 99999,
             sort: [
                 { field: "DEPT", dir: "asc" },
-                { field: "DUTY_NAME", dir: "desc", compare: eduAllStat.dutyNameCompare() },
+                { field: "DUTY_NAME", dir: "desc", compare: eduAllStatAdmin.dutyNameCompare() },
                 { field: "EMP_NAME", dir: "asc" }
             ]
         });
 
-        $("#allEduHiddenGrid").kendoGrid({
+        $("#allEduAdminHiddenGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             selectable: "row",
