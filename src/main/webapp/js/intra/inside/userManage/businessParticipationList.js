@@ -153,11 +153,11 @@ var busnPartList = {
                 }, {
                     title: "시작일",
                     width: 80,
-                    field: "PJT_STR_DE",
+                    field: "PJT_STR_DE2",
                 }, {
                     title: "종료일",
                     width: 80,
-                    field: "PJT_END_DE",
+                    field: "PJT_END_DE2",
                 }, {
                     title: "구분",
                     width: 70,
