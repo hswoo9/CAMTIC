@@ -160,10 +160,10 @@ var hwpDocCtrl = {
                     var hostProtocol = location.protocol;
 
                     var host = "";
-                    if(hostFlag == "218.158.231.186"){
+                    if(hostFlag == "218.158.231.186" || hostFlag == "localhost"){
                         host = hostProtocol + "//218.158.231.186/";
                     }else{
-                        host = hostProtocol + "//218.158.231.184/";
+                        host = hostProtocol + "//new.camtic.or.kr/";
                     }
 
                     if(ResultData.FILE_PATH != null){
