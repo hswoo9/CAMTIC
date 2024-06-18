@@ -131,6 +131,14 @@ var mov = {
                         return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ", " + $("#searchYear").val() + ")\">" + e.MF_NAME + "</a>";
                     }
                 }, {
+                    title: "대표자명",
+                    field: "CEO_NAME",
+                    width: 100
+                }, {
+                    title: "휴대폰번호",
+                    field: "CEO_TEL_NUM",
+                    width: 150,
+                }, {
                     title: "사업자번호",
                     field: "MF_NO",
                     width: 120,
@@ -140,10 +148,6 @@ var mov = {
                         }
                     }
                 }, {
-                    title: "대표자 성명",
-                    field: "CEO_NAME",
-                    width: 100
-                }, {
                     title: "대표자 성별",
                     field: "CEO_GENDER",
                     width: 100
@@ -152,6 +156,46 @@ var mov = {
                     field: "ADDR",
                     width: 380,
                 }, {
+                    title: "전화번호",
+                    field: "TEL_NUM",
+                    width: 120,
+                }, {
+                    title: "팩스번호",
+                    field: "FAX_NUM",
+                    width: 120,
+                }, {
+                    title: "E-mail",
+                    field: "EMAIL",
+                    width: 200,
+                }, {
+                    title: "주생산품",
+                    field: "MAIN_PRODUCT",
+                    width: 250,
+                }, {
+                    title: "자본금",
+                    field: "CAPITAL",
+                    width: 120,
+                    attributes: { style: "text-align: right" },
+                    template : function(e){
+                        if(!isNaN(e.CAPITAL)){
+                            return mov.comma(Number(mov.uncomma(e.CAPITAL)) * 1000000);
+                        }else{
+                            return e.CAPITAL;
+                        }
+                    }
+                }, {
+                    title: "매출액",
+                    field: "SALES",
+                    width: 120,
+                    attributes: { style: "text-align: right" },
+                    template : function(e){
+                        if(!isNaN(e.SALES)){
+                            return mov.comma(Number(mov.uncomma(e.SALES)) * 1000000);
+                        }else{
+                            return e.SALES;
+                        }
+                    }
+                }, /*{
                     title: "설립일",
                     field: "EST_DATE",
                     width: 100,
@@ -182,11 +226,7 @@ var mov = {
                     title: "업종코드2자리",
                     field: "INDUSTRY2",
                     width: 100,
-                }, {
-                    title: "주생산품",
-                    field: "MAIN_PRODUCT",
-                    width: 300,
-                }/*, {
+                },*/ /*, {
                     title: "자동차부품",
                     field: "AM_PART",
                     width: 80,
