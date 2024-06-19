@@ -236,9 +236,32 @@
                         return row.hire + " 년 " + row.hire_mon + " 개월";
                     }
                 },{
-                    field: "",
                     title: "당해년도 근속월",
                     width: 100,
+                    template: function (row){
+                        var joinDay = row.JOIN_DAY;
+                        var joinDate = new Date(joinDay);
+                        var nowDate = new Date();
+
+                        var joinYear = joinDate.getFullYear();
+                        var joinMonth = ("0" + (joinDate.getMonth() + 1)).slice(-2);
+                        var joinYearDay = ("0" + joinDate.getDate()).slice(-2);
+                        var nowYear = nowDate.getFullYear();
+                        var nowMonth = ("0" + (nowDate.getMonth() + 1)).slice(-2);
+                        var nowYearDay = ("0" + nowDate.getDate()).slice(-2);
+
+                        var sDate = "2024-01-01";
+                        if(joinYear == nowYear){
+                            sDate = joinYear + "-" + joinMonth + "-" + joinYearDay;
+                        }
+                        var eDate = nowYear + "-" + nowMonth + "-" + nowYearDay;
+
+                        const startDateArr = sDate.split("-");
+                        const endDateArr = eDate.split("-");
+
+                        const numberOfMonths = (endDateArr[0] - startDateArr[0]) * 12 + (endDateArr[1] - startDateArr[1]) + 1;
+                        return numberOfMonths+"개월";
+                    }
                 }, {
                     field: "",
                     title: "비고",
@@ -259,11 +282,11 @@
                         }
 
                         if(checkEmpSeq || e.RMK != null) {
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + (rmkValue || e.RMK) + '" style="width: 100%">' +
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk k-input k-textbox" value="' + (rmkValue || e.RMK) + '" style="width: 100%">' +
                                 '<input type="hidden" id="t1seq'+e.EMP_SEQ+'"  value="' + (t1SeqValue || e.T1_SEQ) + '">' +
                                 '<input type="hidden" id="t2seq'+e.EMP_SEQ+'"  value="' + (t2SeqValue || e.T2_SEQ) + '">';
                         } else {
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value=" "  style="width: 100%">' +
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk k-input k-textbox" value=" "  style="width: 100%">' +
                                 '<input type="hidden" id="t1seq'+e.EMP_SEQ+'"  value="' + e.T1_SEQ + '">' +
                                 '<input type="hidden" id="t2seq'+e.EMP_SEQ+'"  value="' + e.T2_SEQ + '">';
                         }
@@ -275,7 +298,7 @@
         }).data("kendoGrid");
     }
 
-    /*function fn_sendReqUsers(){
+    /*function fn_sendReqUsersBak(){
 
         let grid = $("#mainGrid").data("kendoGrid");
 

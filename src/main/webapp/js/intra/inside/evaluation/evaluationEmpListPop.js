@@ -19,7 +19,7 @@ var evaluationEmpListPop = {
             async: false,
             success: function (result) {
                 var html = "";
-                html += result.data.EVAL_PER_CONTNET ;
+                html += result.data.EVAL_PER_CONTENT ;
                 $('#evalContent').append(html);
             },
             error: function (e) {
@@ -175,7 +175,7 @@ var evaluationEmpListPop = {
     fn_open_eval : function (empSeq){
         var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+empSeq+"&key="+$("#key").val();
         var name = "_blank";
-        var option = "width = 1700, height = 820, top = 200, left = 600, location = no";
+        var option = "width = 1400, height = 820, top = 200, left = 200, location = no";
         var popup = window.open(url, name, option);
     }
 }

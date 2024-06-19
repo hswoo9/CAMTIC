@@ -4,12 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 
-<script src="/js/kendoui/kendo.all.min.js"></script>
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
-<link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
-<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationList.js?v=${today}"/></script>
-<%--<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>--%>
 
 <style>
     .pink{background-color: #eee0d9;font-weight: bold;text-align: center;}
@@ -25,7 +20,7 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">평가관리</h4>
+            <h4 class="panel-title">평가관리(관리자)</h4>
             <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 성과관리 > 인사평가 > 평가관리(관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
@@ -40,7 +35,7 @@
             <div style="float: right; margin: 10px 5px;">
                 <%--<input type="text" id="SearchYear" style="width: 110px;" onchange="getEvaluationList()">--%>
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">
-                    <span class="k-button-text">등록</span>
+                    <span class="k-button-text">평가등록</span>
                 </button>
             </div>
             <div>
@@ -89,28 +84,6 @@
                         <td class="yellow">C</td>
                     </tr>
                     <tbody id="evalList">
-                    <%--<tr style="text-align: center;">
-                        <td>1</td>
-                        <td>2023년</td>
-                        <td>1차</td>
-                        <td>86명</td>
-                        <td style="padding: 0px;">
-                            <button type="button" onclick="" style="width:90%;font-size: 11px;">역량평가설정</button>
-                        </td>
-                        <td>1차(23/07/04~23/07/10)</td>
-                        <td>31</td>
-                        <td>39</td>
-                        <td>16</td>
-                        <td>0</td>
-                        <td style="padding: 0px;">
-                            <button type="button" onclick="" style="width:90%;font-size: 11px;">업적평가설정</button>
-                        </td>
-                        <td>2023/01/01 ~ 2023/12/31</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>--%>
                     </tbody>
                 </table>
             </div>
@@ -164,7 +137,7 @@
                 html += "     <td>" + list[i].EVAL_NUM + " 차</td>";
                 html += "     <td>" + list[i].EVAL_MEM + " 명</td>";
                 html += "     <td style='padding: 0px;'>";
-                html += "         <button type='button' onclick='evalComModify("+ list[i].EVAL_SN +")'  style='width:90%;font-size: 11px;'>역량평가설정</button>";
+                html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalComModify("+ list[i].EVAL_SN +")' style='font-size: 11px;'>역량평가설정</button>";
                 html += "     </td>";
                 if(list[i].EVAL_STR_DT != null){
                     html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
@@ -176,7 +149,7 @@
                 html += "     <td></td>";
                 html += "     <td></td>";
                 html += "     <td style='padding: 0px;'>";
-                html += "         <button type='button' onclick='evalModify("+ list[i].EVAL_SN +")'  style='width:90%;font-size: 11px;'>업적평가설정</button>";
+                html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalModify("+ list[i].EVAL_SN +")' style='font-size: 11px;'>업적평가설정</button>";
                 html += "     </td>";
                 html += "     <td>-</td>";
                 html += "     <td>-</td>";
@@ -205,21 +178,21 @@
         var url = "/evaluation/pop/evaluationReq.do?pk="+pk;
 
         var name = "_blank";
-        var option = "width = 1000, height = 800, top = 100, left = 400, location = no";
+        var option = "width = 1400, height = 800, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
     function evalComModify(pk){
         var url = "/evaluation/pop/evaluationCom.do?pk="+pk;
 
         var name = "_blank";
-        var option = "width = 1500, height = 800, top = 100, left = 400, location = no";
+        var option = "width = 1400, height = 800, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 
     function empList(pk) {
         var url = "/evaluation/pop/evalResultMng.do?pk="+pk;
         var name = "_blank";
-        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var option = "width = 1400, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 
