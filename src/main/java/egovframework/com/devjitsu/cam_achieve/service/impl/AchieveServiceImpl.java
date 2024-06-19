@@ -346,6 +346,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getDeptPayrollList(Map<String, Object> params){
+        return achieveRepository.getDeptPayrollList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEngnList(Map<String, Object> params) {
         return achieveRepository.getEngnList(params);
     }

@@ -303,4 +303,31 @@ public class AchieveController {
 
         return "cam_achieve/expenseDetail";
     }
+
+    @RequestMapping("/cam_achieve/personnelExpenseDetail.do")
+    public String personnelExpenseDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        params.put("deptLevel", "2");
+        List<Map<String, Object>> list = deptService.getDeptBList(params);
+
+        model.addAttribute("list", list);
+
+        return "cam_achieve/personnelExpenseDetail";
+    }
+
+    @RequestMapping("/cam_achieve/getDeptPayrollList")
+    public String getDeptPayrollList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = achieveService.getDeptPayrollList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

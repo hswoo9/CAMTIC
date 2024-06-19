@@ -774,18 +774,45 @@
         /*getDeptPayrollData*/
         SELECT
             DEPT_SEQ,
-            IFNULL(SUM(TOTAL_PAY),0) AS TOT_PAY
+            IFNULL(SUM(SUP_PAY),0) AS TOT_PAY
         FROM
         (
             SELECT
                 A.*,
-                (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) AS DEPT_SEQ
+                (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = A.ERP_EMP_CD) AS DEPT_SEQ
             FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
             WHERE 1=1
                 AND BASE_YEAR_MONTH = #{month}
             <if test='deptSeq != null and deptSeq != ""'>
-                AND (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) = #{deptSeq}
+                AND (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = A.ERP_EMP_CD) = #{deptSeq}
             </if>
         ) RE
+    </select>
+
+    <select id="getDeptPayrollList" parameterType="map" resultType="map">
+        /*getDeptPayrollList*/
+        SELECT
+            BASE_YEAR_MONTH,
+            PRAENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
+            SUM(SUP_PAY) AS TOT_PAY
+        FROM
+            (
+                SELECT
+                    A.*,
+                    C.DEPT_SEQ,
+                    IF(
+                        C.DEPT_LEVEL = 1,
+                        C.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
+                    ) AS PRAENT_DEPT_SEQ
+                FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+                LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+                LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            ) B
+        GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
     </select>
 </mapper>

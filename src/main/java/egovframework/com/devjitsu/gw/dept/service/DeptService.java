@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface DeptService {
     List<Map<String, Object>> getDeptAList(Map<String, Object> params);
+
+    List<Map<String, Object>> getDeptBList(Map<String, Object> params);
 }

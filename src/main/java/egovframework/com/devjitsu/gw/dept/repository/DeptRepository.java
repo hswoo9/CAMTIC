@@ -11,4 +11,8 @@ public class DeptRepository extends AbstractDAO {
     public List<Map<String, Object>> getDeptAList(Map<String, Object> params) {
         return selectList("getDeptAList", params);
     }
+
+    public List<Map<String, Object>> getDeptBList(Map<String, Object> params) {
+        return selectList("getDeptBList", params);
+    }
 }
