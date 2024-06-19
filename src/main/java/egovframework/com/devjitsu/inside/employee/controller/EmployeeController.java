@@ -230,6 +230,12 @@ public class EmployeeController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getG20ProejctList")
+    public String getG20ProejctList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", employService.getG20ProejctList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/inside/makePayrollPdf")
     public String makePayrollPdf(@RequestParam Map<String, Object> params, Model model) {
         createPdf(params);

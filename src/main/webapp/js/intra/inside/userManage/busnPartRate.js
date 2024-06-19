@@ -43,6 +43,7 @@ var busnPartRate = {
                 $("#busnClass").val(rs.BUSN_NM);
                 $("#strDt").val(rs.PJT_START_DT2);
                 $("#endDt").val(rs.PJT_END_DT2);
+                $("#sbjSep").val(rs.SBJ_SEP);
 
                 $.ajax({
                     url : "/inside/getBusinessParticipationData",
@@ -537,10 +538,10 @@ var busnPartRate = {
 
         var url = "/mng/pop/accountList.do";
         if(key != null && key != ""){
-            url = url + "?pjtSn=" + key + "&bsYm=" + $("input[name='ymRadio']:checked").attr("id").replace("ym", "") + "&reqType=partRate";
+            url = url + "?pjtSn=" + key + "&bsYm=" + $("input[name='ymRadio']:checked").attr("id").replace("ym", "") + "&reqType=partRate" + "&sbjSep=" + $("#sbjSep").val();
         }
         var name = "blank";
-        var option = "width = 1100, height = 580, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 780, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
 
 

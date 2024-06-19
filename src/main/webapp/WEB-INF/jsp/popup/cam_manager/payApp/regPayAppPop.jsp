@@ -38,6 +38,7 @@
 <input type="hidden" id="g20BudgetAmt" value="" />
 
 <input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="partRatePjtCd" value="${params.pjtCd}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
 <input type="hidden" id="claimExnpSn" value="${params.claimExnpSn}" />

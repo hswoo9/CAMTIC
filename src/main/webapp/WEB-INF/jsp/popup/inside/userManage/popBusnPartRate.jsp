@@ -39,6 +39,7 @@
                 </th>
                 <td>
                     <input type="text" disabled id="pjtCd" style="width: 90%;" />
+                    <input type="hidden" id="sbjSep" />
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>관리시스템

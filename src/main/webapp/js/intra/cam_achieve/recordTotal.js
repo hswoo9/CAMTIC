@@ -148,31 +148,13 @@ var recordTotal = {
             },
             toolbar: [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
-                }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="recordTotal.mainGrid();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="camPrj.setPrjPop()">' +
-                            '	<span class="k-button-text">등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="camPrj.fn_delPjt(this)">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
-                    }
                 },
-
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -184,41 +166,43 @@ var recordTotal = {
                     width: 50
                 }, {
 
-                    field: "STR_DT",
+                    field: "PJT_STR_DE2",
                     title: "시작일",
                     width: 100,
                     template: function (e) {
                         if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.STR_DT == null || e.STR_DT == ""){
-                                return "";
+                            if(e.PJT_STR_DE2 == null || e.PJT_STR_DE2 == ""){
+                                return e.PJT_STR_DE;
                             }
-                            var date = new Date(e.STR_DT);
-                            var yyyy = date.getFullYear();
-                            var mm = date.getMonth()+1;
-                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            var dd = date.getDate();
-                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            return yyyy+'-'+mm+'-'+dd;
+                            // var date = new Date(e.STR_DT);
+                            // var yyyy = date.getFullYear();
+                            // var mm = date.getMonth()+1;
+                            // mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                            // var dd = date.getDate();
+                            // dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                            // return yyyy+'-'+mm+'-'+dd;
+                            return e.PJT_STR_DE2;
                         } else {
                             return e.DELV_EST_DE || "";
                         }
                     }
                 }, {
-                    field: "END_DT",
+                    field: "PJT_END_DE2",
                     title: "종료일",
                     width: 100,
                     template: function(e){
                         if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.END_DT == null || e.END_DT == ""){
-                                return "";
+                            if(e.PJT_END_DE2 == null || e.PJT_END_DE2 == ""){
+                                return e.PJT_END_DE;
                             }
-                            var date = new Date(e.END_DT);
-                            var yyyy = date.getFullYear();
-                            var mm = date.getMonth()+1;
-                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            var dd = date.getDate();
-                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            return yyyy+'-'+mm+'-'+dd;
+                            // var date = new Date(e.END_DT);
+                            // var yyyy = date.getFullYear();
+                            // var mm = date.getMonth()+1;
+                            // mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                            // var dd = date.getDate();
+                            // dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                            // return yyyy+'-'+mm+'-'+dd;
+                            return e.PJT_END_DE2;
                         } else {
                             return e.GOODS_DT || "";
                         }
@@ -306,7 +290,7 @@ var recordTotal = {
                         return "<div style='text-align: right'>"+comma(tmpProfitAmtSum)+"</div>";
                     }
                 }, {
-                    title: "전년도<br>예상매출액",
+                    title: "전년도<br>매출액",
                     width: 100,
                     template: function(e){
                         befExpSaleAmtSum += Number(e.befExpSaleAmt || 0);
@@ -316,7 +300,7 @@ var recordTotal = {
                         return "<div style='text-align: right'>"+comma(befExpSaleAmtSum)+"</div>";
                     }
                 }, {
-                    title: "전년도<br>예상수익",
+                    title: "전년도<br>운영수익",
                     width: 100,
                     template: function(e){
                         befExpProfitAmtSum += Number(e.befExpProfitAmt || 0);
@@ -336,7 +320,7 @@ var recordTotal = {
                         return "<div style='text-align: right'>"+comma(aftSaleAmtSum)+"</div>";
                     }
                 }, {
-                    title: "차년도<br>수익",
+                    title: "차년도<br>운영수익",
                     width: 100,
                     template: function(e){
                         aftProfitAmtSum += Number(e.aftProfitAmt || 0);

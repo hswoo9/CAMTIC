@@ -164,7 +164,7 @@ var regPay = {
                         $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL_RE));
                     }
 
-                    selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
+                    selectProject(rs[0].PJT_SN, rs[0].PJT_NM, $("#partRatePjtCd").val() == "" ? rs[0].PJT_CD : $("#partRatePjtCd").val());
 
                 }
             });
