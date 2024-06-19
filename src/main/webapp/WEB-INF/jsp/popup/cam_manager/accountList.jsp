@@ -51,7 +51,7 @@
     <div id="sbjSepDiv" style="margin:20px 0; display: none;">
         <p style="font-size: 13px; font-weight: bold; margin-left: 20px; margin-bottom: 5px;">◎ 사업비 선택</p>
         <div style="text-align: center">
-            <table id="sbjSepTbl" style="margin: 0 auto;">
+            <table id="sbjSepTbl" style="margin: 0 20px;">
 
             </table>
         </div>
@@ -170,6 +170,15 @@
         }
         if(payRollYm != null && payRollYm != ""){
             url += "&payRollYm=" + payRollYm.substring(1);
+        }
+
+        if($("#sbjSep").val() == "Y"){
+            if($("input[name='sbjRadio']:checked").length == 0) {
+                alert("사업비를 선택해주세요.");
+                return;
+            } else {
+                url += "&pjtCd=" + $("input[name='sbjRadio']:checked").val()
+            }
         }
 
         var name = "_blank";
@@ -380,14 +389,14 @@
                 var html = "";
 
                 for(var i=0; i<rs.length; i++){
-                    html += '<td style="font-size: 14px; padding: 5px 10px">' +
-                        '<input type="radio" name="sbjRadio" id="'+rs[i].pjtSeq +'" style="margin-right: 3px; width: 14px; height: 14px;" value="'+i+'" />' +
+                    html += '<tr><td style="font-size: 14px; padding: 5px 10px">' +
+                        '<input type="radio" name="sbjRadio" id="'+rs[i].pjtSeq +'" style="margin-right: 3px; width: 14px; height: 14px;" value="'+rs[i].pjtSeq +'" />' +
                         '<label for="'+rs[i].pjtSeq +'" style="margin-bottom: 0px;">'+rs[i].pjtName +'</label>' +
-                        '</td>';
+                        '</td></tr>';
                 }
 
                 $("#sbjSepTbl").html(html);
-                $("#sbjSepDiv").hide();
+                $("#sbjSepDiv").show();
             } else {
                 $("#sbjSepDiv").hide();
             }
