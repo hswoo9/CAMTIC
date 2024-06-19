@@ -272,8 +272,8 @@ var payRollLedgerMa = {
     },
 
     templateDownload : function(){
-        let filePath = "/upload/templateForm/payrollRegister.xlsx"
-        let fileName = "급여대장업로드양식.xlsx";
+        let filePath = "/upload/templateForm/payrollRegister.xls"
+        let fileName = "급여대장업로드양식.xls";
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
         });

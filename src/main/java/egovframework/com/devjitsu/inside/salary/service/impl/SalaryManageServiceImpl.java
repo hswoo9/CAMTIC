@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.salary.repository.SalaryManageRepository;
 import egovframework.com.devjitsu.inside.salary.service.SalaryManageService;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -325,55 +329,74 @@ public class SalaryManageServiceImpl implements SalaryManageService {
         File dest = new File(fileNm.getOriginalFilename());
         fileNm.transferTo(dest);
 
-        XSSFRow row; // 로우값
-        XSSFCell col1;// 서고
-        XSSFCell col2;
+        HSSFRow row; // 로우값
+        HSSFCell col1;// 서고
+        HSSFCell col2;
 
         FileInputStream inputStream = new FileInputStream(dest);
 
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-        XSSFSheet sheet = workbook.getSheetAt(0); // 첫번째 시트
+        HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        HSSFSheet sheet = workbook.getSheetAt(0); // 첫번째 시트
         int rows = sheet.getPhysicalNumberOfRows();
         row = sheet.getRow(0);
 
         String errorRow = "";
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        for (int i = 5; i < rows; i++) {
+        for (int i = 1; i < rows; i++) {
             row = sheet.getRow(i);
             col1 = row.getCell(0);
 
             if (row != null) {
-                if (cellValueToString(col1, workbook).equals("")){
+                if (hCellValueToString(col1, workbook).equals("")){
 
                 } else {
                     Map<String, Object> map = new HashMap<>();
 
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
                     map.put("baseYearMonth", params.get("baseYearMonth"));
-                    map.put("erpEmpCd", cellValueToString(row.getCell(0), workbook));
-                    map.put("empName", cellValueToString(row.getCell(1), workbook).trim());
-                    map.put("basicSalary", removeCommas(cellValueToString(row.getCell(2), workbook)));
-                    map.put("foodPay", removeCommas(cellValueToString(row.getCell(3), workbook)));
-                    map.put("extraPay", removeCommas(cellValueToString(row.getCell(4), workbook)));
-                    map.put("bonus", removeCommas(cellValueToString(row.getCell(5), workbook)));
-                    map.put("totalPay", Integer.parseInt(map.get("basicSalary").toString()) + Integer.parseInt(map.get("foodPay").toString())
-                            + Integer.parseInt(map.get("extraPay").toString()) + Integer.parseInt(map.get("bonus").toString()));
 
-                    map.put("healthIns", removeCommas(cellValueToString(row.getCell(6), workbook)));
-                    map.put("careIns", removeCommas(cellValueToString(row.getCell(7), workbook)));
-                    map.put("nationalPen", removeCommas(cellValueToString(row.getCell(8), workbook)));
-                    map.put("employCompIns", removeCommas(cellValueToString(row.getCell(9), workbook)));
-                    map.put("employEmpIns", removeCommas(cellValueToString(row.getCell(10), workbook)));
-                    map.put("indIns", removeCommas(cellValueToString(row.getCell(11), workbook)));
-                    map.put("retireAmt", removeCommas(cellValueToString(row.getCell(12), workbook)));
-                    map.put("loginEmpSeq", params.get("loginEmpSeq"));
+                    map.put("dept", hCellValueToString(row.getCell(0), workbook));                       // 부서
+                    map.put("erpEmpCd", hCellValueToString(row.getCell(1), workbook));                   // 사원코드
+                    map.put("empName", hCellValueToString(row.getCell(2), workbook).trim());             // 사원명
+                    map.put("deptCode", hCellValueToString(row.getCell(3), workbook));                   // 부서코드
+                    map.put("basicSalary", hCellValueToString(row.getCell(4), workbook));                // 기본급
+                    map.put("foodPay", removeCommas(hCellValueToString(row.getCell(5), workbook)));      // 식대
+                    map.put("dutyPay", removeCommas(hCellValueToString(row.getCell(6), workbook)));      // 직책수당
+                    map.put("dispPay", removeCommas(hCellValueToString(row.getCell(7), workbook)));      // 파견수당
+                    map.put("jobPay", removeCommas(hCellValueToString(row.getCell(8), workbook)));       // 직무수당
+                    map.put("mstPay", removeCommas(hCellValueToString(row.getCell(9), workbook)));       // 관리감독
+                    map.put("ccrPay", removeCommas(hCellValueToString(row.getCell(10), workbook)));      // 겸직수당
+                    map.put("annPay", removeCommas(hCellValueToString(row.getCell(11), workbook)));      // 연차수당
+                    map.put("overPay", removeCommas(hCellValueToString(row.getCell(12), workbook)));     // 연장근무수당
+                    map.put("rdPay", removeCommas(hCellValueToString(row.getCell(13), workbook)));       // 포상금
+                    map.put("vacPay", removeCommas(hCellValueToString(row.getCell(14), workbook)));      // 휴가비
+                    map.put("qfPay", removeCommas(hCellValueToString(row.getCell(15), workbook)));       // 자격수당
+                    map.put("wfPay", removeCommas(hCellValueToString(row.getCell(16), workbook)));       // 복지수당
+                    map.put("itPay", removeCommas(hCellValueToString(row.getCell(17), workbook)));       // 지식재산권포상
+                    map.put("resPay", removeCommas(hCellValueToString(row.getCell(18), workbook)));      // 연구수당
+                    map.put("perfPay", removeCommas(hCellValueToString(row.getCell(19), workbook)));     // 성과금
+                    map.put("cbPay", removeCommas(hCellValueToString(row.getCell(20), workbook)));       // 산전후휴가급여
+                    map.put("siPay", removeCommas(hCellValueToString(row.getCell(21), workbook)));       // 사회보험사업자부담금
+                    map.put("totalPay", removeCommas(hCellValueToString(row.getCell(22), workbook)));    // 지급합계
+                    map.put("salTotPay", removeCommas(hCellValueToString(row.getCell(23), workbook)));   // 급여합계
+                    map.put("natPay", removeCommas(hCellValueToString(row.getCell(24), workbook)));      // 국민연금
+                    map.put("hethPay", removeCommas(hCellValueToString(row.getCell(25), workbook)));     // 건강보험
+                    map.put("emplPay", removeCommas(hCellValueToString(row.getCell(26), workbook)));     // 고용보험
+                    map.put("socPay", removeCommas(hCellValueToString(row.getCell(27), workbook)));      // 사우회비
+                    map.put("socTripPay", removeCommas(hCellValueToString(row.getCell(28), workbook)));  // 사우회여행기금
+                    map.put("carePay", removeCommas(hCellValueToString(row.getCell(29), workbook)));     // 장기요양보험료
+                    map.put("incPay", removeCommas(hCellValueToString(row.getCell(30), workbook)));      // 소득세
+                    map.put("locIncPay", removeCommas(hCellValueToString(row.getCell(31), workbook)));   // 지방소득세
+                    map.put("endTaxPay", removeCommas(hCellValueToString(row.getCell(32), workbook)));   // 연말정산소득세
+                    map.put("endTaxLocPay", removeCommas(hCellValueToString(row.getCell(33), workbook)));// 연말정산 지방소득세
+                    map.put("finsPay", removeCommas(hCellValueToString(row.getCell(34), workbook)));     // 4대보험 연말정산
+                    map.put("socEngnPay", removeCommas(hCellValueToString(row.getCell(35), workbook)));  // 과학기술인공제
+                    map.put("dormPay", removeCommas(hCellValueToString(row.getCell(36), workbook)));     // 기숙사비
+                    map.put("insTotPay", removeCommas(hCellValueToString(row.getCell(37), workbook)));   // 공제합계
+                    map.put("supPay", removeCommas(hCellValueToString(row.getCell(38), workbook)));      // 차인지급액
 
-                    String empSeq = salaryManageRepository.getEmpSeqByErpCd(map);
-                    if(empSeq == null){
-                        errorRow +=  ", " + (cellValueToString(row.getCell(1), workbook).trim());
-                    }else{
-                        map.put("empSeq", empSeq);
-                    }
+                    map.put("regEmpSeq", params.get("loginEmpSeq"));
+
                     dataList.add(map);
                 }
             }
@@ -418,6 +441,30 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
                 }
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                DataFormatter dataFormatter = new DataFormatter();
+                txt =  dataFormatter.formatCellValue(evaluator.evaluateInCell(cell)); // 수식 결과
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
+    }
+
+    public String hCellValueToString(HSSFCell cell, HSSFWorkbook workbook){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == HSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){
+                if( DateUtil.isCellDateFormatted(cell)) {
+                    Date date = cell.getDateCellValue();
+                    txt = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                }else{
+                    txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+                }
+            }else if(cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA){
                 FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
                 DataFormatter dataFormatter = new DataFormatter();
                 txt =  dataFormatter.formatCellValue(evaluator.evaluateInCell(cell)); // 수식 결과
