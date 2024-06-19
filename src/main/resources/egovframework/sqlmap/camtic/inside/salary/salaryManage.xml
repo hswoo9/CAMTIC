@@ -431,16 +431,16 @@
         /* getPayRollLedgerStatusList */
         SELECT
             RE.*,
-            HEALTH_INS_SUM + NATIONAL_PEN_SUM + EMPLOY_EMP_INS + IND_INS_SUM AS DEDUCTION
+            HETH_PAY + CARE_PAY + NAT_PAY + EMPL_PAY AS DEDUCTION
         FROM
         (
             SELECT
                 SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
-                SUM(TOTAL_PAY) AS TOTAL_PAY,
-                SUM(IFNULL(HEALTH_INS,0)) AS HEALTH_INS_SUM,
-                SUM(IFNULL(NATIONAL_PEN,0)) AS NATIONAL_PEN_SUM,
-                SUM(IFNULL(EMPLOY_EMP_INS,0)) AS EMPLOY_EMP_INS,
-                SUM(IFNULL(IND_INS,0)) AS IND_INS_SUM
+                SUM(SUP_PAY) AS TOTAL_PAY,
+                SUM(IFNULL(HETH_PAY,0)) AS HETH_PAY,
+                SUM(IFNULL(CARE_PAY,0)) AS CARE_PAY,
+                SUM(IFNULL(NAT_PAY,0)) AS NAT_PAY,
+                SUM(IFNULL(EMPL_PAY,0)) AS EMPL_PAY
             FROM
                 CAM_INSIDE.DJ_PAY_ROLL_LEGER
             WHERE
