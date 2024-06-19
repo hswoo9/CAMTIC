@@ -245,10 +245,10 @@
             html += '       <input type="text" id="evalCap' + evNum + '" class ="textBox" >';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="evalTitle' + evNum + '" class ="textBox" >';
+            html += '       <textarea type="text" id="evalTitle' + evNum + '" style="overflow: auto;" class ="textBox" ></textarea>';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="evalVal' + evNum + '" class ="textBox" >';
+            html += '       <textarea type="text" id="evalVal' + evNum + '" style="overflow: auto;" class ="textBox" ></textarea>';
             html += '   </td>';
             html += '   <td>';
             html += '       <input type="text" id="gradeS_s' + evNum + '" class ="gradeS_s" style="width: 40%;" oninput="fn_sumScore()"> ~ ';
