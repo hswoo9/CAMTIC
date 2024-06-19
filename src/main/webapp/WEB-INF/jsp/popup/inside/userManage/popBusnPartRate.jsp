@@ -63,7 +63,7 @@
                     <input type="text" id="strDt" disabled style="width: 40%; text-align: left">
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>프로젝트 시작
+                    <span class="red-star"></span>프로젝트 종료
                 </th>
                 <td>
                     <input type="text" id="endDt" disabled style="width: 40%; text-align: left">
