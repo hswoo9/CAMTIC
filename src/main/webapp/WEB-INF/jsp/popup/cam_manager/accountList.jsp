@@ -26,6 +26,7 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
 <input type="hidden" id="reqType" value="${params.reqType}" />
+<input type="hidden" id="sbjSep" value="${params.sbjSep}" />
 
 <input type="hidden" id="payAppType" value="${params.payAppType}" />
 <div>
@@ -47,6 +48,14 @@
             </table>
         </div>
     </div>
+    <div id="sbjSepDiv" style="margin:20px 0; display: none;">
+        <p style="font-size: 13px; font-weight: bold; margin-left: 20px; margin-bottom: 5px;">◎ 사업비 선택</p>
+        <div style="text-align: center">
+            <table id="sbjSepTbl" style="margin: 0 auto;">
+
+            </table>
+        </div>
+    </div>
     <div id="mainGrid" style="margin:20px 0;"></div>
 </div>
 
@@ -54,6 +63,10 @@
 
     mainGrid();
     fn_getPartRateDate();
+
+    if($("#sbjSep").val() == "Y"){
+        fn_drawSbjSepTable();
+    }
 
     function mainGrid(){
         let dataSource = new kendo.data.DataSource({
@@ -90,7 +103,7 @@
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 372,
+            height: 302,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -352,5 +365,32 @@
         }
 
         fn_reqRegPopup(acKey, payRollYm);
+    }
+
+    function fn_drawSbjSepTable(){
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+        }
+
+        var result = customKendo.fn_customAjax("/inside/getG20ProejctList", data);
+        if(result.flag){
+            var rs = result.list;
+
+            if(rs.length > 0){
+                var html = "";
+
+                for(var i=0; i<rs.length; i++){
+                    html += '<td style="font-size: 14px; padding: 5px 10px">' +
+                        '<input type="radio" name="sbjRadio" id="'+rs[i].pjtSeq +'" style="margin-right: 3px; width: 14px; height: 14px;" value="'+i+'" />' +
+                        '<label for="'+rs[i].pjtSeq +'" style="margin-bottom: 0px;">'+rs[i].pjtName +'</label>' +
+                        '</td>';
+                }
+
+                $("#sbjSepTbl").html(html);
+                $("#sbjSepDiv").hide();
+            } else {
+                $("#sbjSepDiv").hide();
+            }
+        }
     }
 </script>

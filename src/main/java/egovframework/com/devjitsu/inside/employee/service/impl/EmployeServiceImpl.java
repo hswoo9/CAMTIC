@@ -2,6 +2,8 @@ package egovframework.com.devjitsu.inside.employee.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.inside.employee.repository.EmployRepository;
 import egovframework.com.devjitsu.inside.employee.service.EmployService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ public class EmployeServiceImpl implements EmployService {
 
     @Autowired
     private EmployRepository employRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public List<Map<String, Object>> getBusinessParticipationList(Map<String, Object> params) {
@@ -125,5 +131,16 @@ public class EmployeServiceImpl implements EmployService {
     @Override
     public List<Map<String, Object>> getPartRateEmpPayrollList(Map<String, Object> params) {
         return employRepository.getPartRateEmpPayrollList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getG20ProejctList(Map<String, Object> params) {
+        Map<String, Object> map = projectRepository.getProjectData(params);
+        params.put("searchText", map.get("PJT_CD").toString().substring(0, map.get("PJT_CD").toString().length()-1));
+        params.put("searchValue2", "1");
+        params.put("pjtFromDate",  map.get("PJT_START_DT").toString());
+        params.put("pjtToDate",  map.get("PJT_END_DT").toString());
+
+        return g20Repository.getProjectList(params);
     }
 }
