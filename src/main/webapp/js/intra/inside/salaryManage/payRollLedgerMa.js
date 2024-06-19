@@ -84,7 +84,7 @@ var payRollLedgerMa = {
                 {
                     field: "",
                     title: "번호",
-                    template: "#= ++record #",
+                    template: "#= --record #",
                     width: 50
                 }, {
                     field: "ERP_EMP_CD",
@@ -119,67 +119,54 @@ var payRollLedgerMa = {
                             template: function (e) {
                                 return '<div style="text-align: right">' + comma(e.EXTRA_PAY) + '</div>';
                             },
-                        }, {
-                            field: "BONUS",
-                            title: "상여",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.BONUS) + '</div>';
-                            },
-                        }
+                        },
                     ]
                 }, {
-                    field: "",
-                    title: "사대보험",
-                    columns: [
-                        {
-                            field: "HEALTH_INS",
-                            title: "건강보험료",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.HEALTH_INS) + '</div>';
-                            },
-                        }, {
-                            field: "CARE_INS",
-                            title: "장기요양",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.CARE_INS) + '</div>';
-                            },
-                        }, {
-                            field: "NATIONAL_PEN",
-                            title: "국민연금",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.NATIONAL_PEN) + '</div>';
-                            },
-                        }, {
-                            field: "EMPLOY_COMP_INS",
-                            title: "고용보험(사업자)",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.EMPLOY_COMP_INS) + '</div>';
-                            },
-                        }, {
-                            field: "EMPLOY_EMP_INS",
-                            title: "고용보험(근로자)",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.EMPLOY_EMP_INS) + '</div>';
-                            },
-                        }, {
-                            field: "IND_INS",
-                            title: "산재보험",
-                            width : 100,
-                            template: function (e) {
-                                return '<div style="text-align: right">' + comma(e.IND_INS) + '</div>';
-                            },
-                        }
-                    ]
-                },
+                    field: "NAT_PAY",
+                    title: "국민연금",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.NAT_PAY) + '</div>';
+                    },
+                }, {
+                    field: "HETH_PAY",
+                    title: "건강보험료",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.HETH_PAY) + '</div>';
+                    },
+                }, {
+                    field: "EMPL_PAY",
+                    title: "고용보험",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.EMPL_PAY) + '</div>';
+                    },
+                }, {
+                    field: "CARE_PAY",
+                    title: "장기요양",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.CARE_PAY) + '</div>';
+                    },
+                }, {
+                    field: "INC_PAY",
+                    title: "소득세",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.INC_PAY) + '</div>';
+                    },
+                }, {
+                    field: "LOC_INC_PAY",
+                    title: "지방소득세",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.LOC_INC_PAY) + '</div>';
+                    },
+                }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 1);
+                record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
 

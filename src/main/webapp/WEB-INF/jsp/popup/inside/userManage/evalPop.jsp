@@ -70,11 +70,11 @@
                 }
                 if(result.first.count > 0){
                     $("#first").css("display" , "")
-                    $("#countF").text(" ("+result.first.count + " 명)")
+                    $("#countF").text(" ("+result.first.count + "명)")
                 }
                 if(result.second.count > 0){
                     $("#second").css("display" , "")
-                    $("#countS").text(" ("+result.second.count + " 명)")
+                    $("#countS").text(" ("+result.second.count + "명)")
                 }
 
             },
@@ -89,9 +89,9 @@
         html += '<tr>';
         html += '   <td>'+ list.EVAL_NUM +' 차</td>';
         html += '   <td>'+ list.EVAL_STR_DT +' ~ ' + list.EVAL_END_DT +'</td>';
-        html += '   <td><button id="self" class="k-button" style="background-color: #dcdcdc; border: none; display: none;" onclick="fn_open_eval(0)">본인 평가</button></td>';
-        html += '   <td><button id="first" class="k-button" style="background-color: #dcdcdc; border: none; display: none;" onclick="fn_open_eval(1)">1차 평가</button><span id="countF"></span></td>';
-        html += '   <td><button id="second" class="k-button" style="background-color: #dcdcdc; border: none; display: none;" onclick="fn_open_eval(2)">2차 평가</button><span id="countS"></span></td>';
+        html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
+        html += '   <td><button id="first" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(1)">평가하기</button><span id="countF"></span></td>';
+        html += '   <td><button id="second" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(2)">평가하기</button><span id="countS"></span></td>';
         html += '   <td></td>';
         html += '</tr>';
 
@@ -107,7 +107,7 @@
         }else{
             var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
             var name = "_blank";
-            var option = "width = 1700, height = 820, top = 200, left = 600, location = no";
+            var option = "width = 1400, height = 820, top = 200, left = 200, location = no";
             var popup = window.open(url, name, option);
         }
     }

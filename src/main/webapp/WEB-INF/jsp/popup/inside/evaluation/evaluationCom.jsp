@@ -29,8 +29,8 @@
             </h3>
 
             <div id="btnDiv" class="btn-st popButton" style="font-size: 12px;">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="display: none;" onclick="fn_save_chk()">등록</button>
-                <button type="button" class="k-button k-button-solid-info" id="updBtn" style="display: none;" onclick="fn_save_chk()">수정</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="display: none;" onclick="fn_save()">등록</button>
+                <button type="button" class="k-button k-button-solid-info" id="updBtn" style="display: none;" onclick="fn_save()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -45,12 +45,12 @@
                 </colgroup>
                 <tr>
                     <th>년도</th>
-                    <td>
-                        <input type="text" id="bsYear" class="bsYear" style="text-align: right; width: 30%" />
-                        <input type="text" id="evalNum" class="evalNum" style="text-align: right; width: 30%" />
+                    <td id="yearTd">
+                        <input id="bsYear" class="bsYear" style="width: 20%" />
+                        <input id="evalNum" class="evalNum" style="width: 20%" />
                     </td>
                     <th>상태</th>
-                    <td colspan="3">
+                    <td id="statTd" colspan="3">
                         <span id="evalStat" name="evalStat"></span>
                     </td>
                 </tr>
@@ -118,7 +118,7 @@
                     <td>
                         <input type="text" id="idx0" class="idx" name="idx" value="" style="width: 60%" disabled /> 차
                     </td>
-                    <td>
+                    <td style="line-height: 35px">
                         평가 <input type="text" id="evalStrDt0" class="evalStrDt" name="evalStrDt" style="width: 40%" /> ~ <input type="text" id="evalEndDt0" class="evalEndDt" name="evalEndDt" style="width: 40%" /> <br>
                         실시 <input type="text" id="condStrDt0" class="condStrDt" name="condStrDt" style="width: 40%" /> ~ <input type="text" id="condEndDt0" class="condEndDt" name="condEndDt" style="width: 40%" />
                     </td>
@@ -174,33 +174,44 @@
                     <tr>
                         <th>부서장용</th>
                         <td colspan="3">
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('deptHeader', '')">부서장 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('deptHeader', '')">부서장 역량평가 설정</button>
                         </td>
                     </tr>
                     <tr>
                         <th>팀장용</th>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'RD')">팀장 R&D 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('teamLeader' , 'RD')">팀장 R&D 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'AC')">팀장 A&C 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('teamLeader' , 'AC')">팀장 A&C 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'PM')">팀장 P&M 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('teamLeader' , 'PM')">팀장 P&M 역량평가 설정</button>
                         </td>
                     <tr>
                         <th>팀원용</th>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'RD')">팀원 R&D 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('team' , 'RD')">팀원 R&D 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'AC')">팀원 A&C 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('team' , 'AC')">팀원 A&C 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team', 'PM')">팀원 P&M 역량평가 설정</button>
+                            <button class="k-button k-button-solid-base" onclick="fn_open_mng('team', 'PM')">팀원 P&M 역량평가 설정</button>
                         </td>
                     </tr>
                 </table>
+            </div>
+
+            <div class="panel-body" style="padding: 0;">
+                <div class="card-header">
+                    <h4 style="position: relative; top:7px">
+                        평가등급별 인원비율 표 (팀원평가)
+                    </h4>
+                </div>
+                <div>
+                    <textarea class="txt_area_01" id="contents2"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -219,6 +230,9 @@
         }
 
         CKEDITOR.replace('contents', {
+            height: 250
+        });
+        CKEDITOR.replace('contents2', {
             height: 250
         });
 
@@ -250,7 +264,6 @@
                 $("#idx0").val($("#evalNum").val())
             }
         });
-
 
         $("#achConf").kendoRadioGroup({
             items: [
@@ -301,42 +314,22 @@
             $("#deptManagerC0").val(evalMap.DEPT_MANAGER_C);
 
             CKEDITOR.instances.contents.setData(evalMap.EVAL_CONTENT); // 안내 페이지 설정
+            CKEDITOR.instances.contents2.setData(evalMap.EVAL_PER_CONTENT);
         }
-    });
 
-    function fn_save_chk(){
-        $.ajax({
-            url : "/evaluation/getEvaluationChk",
-            type : "post",
-            data : {
-                bsYear : $("#bsYear").val(), // 년도
-                evalNum : $("#evalNum").val(), // 차수
-                evalSn : $("#evalSn").val()
-            },
-            dataType : "json",
-            async : false,
-            success : function(result){
-                if(result.data.evalChk < 1){
-                    fn_save();
-                }else{
-                    alert($("#bsYear").val() + "년도" + $("#evalNum").val() + "차수는 이미 등록되어있습니다.");
-                }
-            },
-            error : function(e) {
-                console.log(e);
-            }
-        });
-    }
+        $("#bsYear").data("kendoDatePicker").enable(false);
+        $("#evalNum").data("kendoDropDownList").enable(false);
+        $("#evalStat").data("kendoRadioGroup").enable(false);
+    });
 
     function fn_save(){
         var formData = new FormData();
         var content = CKEDITOR.instances.contents.getData();
+        var perContent = CKEDITOR.instances.contents2.getData();
 
         formData.append("evalSn" , $("#evalSn").val());
-        formData.append("bsYear" , $("#bsYear").val()); // 년도
-        formData.append("evalNum" , $("#evalNum").val()); // 차수
-        formData.append("evalStat" , $("#evalStat").data("kendoRadioGroup").value());  // 작성중, 평가중, 평가완료
         formData.append("regEmpSeq", $("#empSeq").val());
+        formData.append("perContent" , perContent);
 
         // 안내 페이지 설정
         formData.append("content" , content);
@@ -386,10 +379,20 @@
             success : function (rs){
                 if($("#evalSn").val() != "" && $("#evalSn").val() != null){
                     alert("수정이 완료 되었습니다.");
-                    window.close();
+                    try{
+                        opener.getEvaluationList();
+                    }catch{
+
+                    }
+                    location.href = "/evaluation/pop/evaluationCom.do?pk=" + $("#evalSn").val();
                 }else{
-                    alert("등록이 완료 되었습니다.");
-                    window.close();
+                    alert("등록이 완료 되었습니다.");;
+                    try{
+                        opener.getEvaluationList();
+                    }catch{
+
+                    }
+                    location.href = "/evaluation/pop/evaluationCom.do?pk=" + rs.params.evalSn;
                 }
             }
         });

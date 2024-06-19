@@ -204,7 +204,7 @@ var recordTotal = {
                             // return yyyy+'-'+mm+'-'+dd;
                             return e.PJT_END_DE2;
                         } else {
-                            return e.GOODS_DT || "";
+                            return e.DELV_DATE || "";
                         }
 
                     },

@@ -4,10 +4,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script src="/js/kendoui/kendo.all.min.js"></script>
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationEmpListPop.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
-<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -20,8 +19,6 @@
 <input type="hidden" id="empSeq" value="${params.empSeq}"/>
 <input type="hidden" id="duty" value="${empData.DUTY_CODE}"/>
 <input type="hidden" id="occupation" value="${empData.OCCUPATION_NM}"/>
-
-
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -38,13 +35,13 @@
                 <colgroup>
                     <col width="2%">
                     <col width="9%">
-                    <col width="12%">
-                    <col width="24%">
-                    <col width="9%">
-                    <col width="9%">
-                    <col width="9%">
-                    <col width="9%">
-                    <col width="9%">
+                    <col width="20%">
+                    <col width="36%">
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="5%">
                     <col width="9%">
                 </colgroup>
                 <thead>
@@ -69,11 +66,11 @@
                 <thead>
                 <tr style="text-align: center;">
                     <td colspan="4">계</td>
-                    <td><input type="text" id="Sscore" class ="textBox" value="" disabled></td>
-                    <td><input type="text" id="Ascore" class ="textBox" value="" disabled></td>
-                    <td><input type="text" id="Bscore_s" class ="textBox" value="" style="width:40%;" disabled> ~ <input type="text" id="Bscore_e" class ="textBox" value="" style="width:40%;" disabled></td>
-                    <td><input type="text" id="Cscore" class ="textBox" value="" disabled></td>
-                    <td><input type="text" id="Dscore" class ="textBox" value="" disabled></td>
+                    <td id="sScore"></td>
+                    <td id="aScore"></td>
+                    <td id="bScore"></td>
+                    <td id="cScore"></td>
+                    <td id="dScore"></td>
                     <td><input type="text" id="totalScore" class ="textBox" value="" disabled></td>
                 </tr>
                 </thead>
@@ -102,6 +99,17 @@
 
 
 <script>
+    let sStrSum = 0;
+    let sEndSum = 0;
+    let aStrSum = 0;
+    let aEndSum = 0;
+    let bStrSum = 0;
+    let bEndSum = 0;
+    let cStrSum = 0;
+    let cEndSum = 0;
+    let dStrSum = 0;
+    let dEndSum = 0;
+
     if($("#duty").val() == "4" || $("#duty").val() == "5"){
         var evalPositionType = "teamLeader";
     }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){
@@ -161,50 +169,7 @@
                     fn_addRow(item);
                 }
 
-                var Sscore = 0;
-                var Ascore = 0;
-                var Bscore_s = 0;
-                var Bscore_e = 0;
-                var Cscore = 0;
-                var Dscore = 0;
                 var evalScore = 0;
-
-                $(".gradeS_s").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Sscore += value;
-                    }
-                });
-                $(".gradeA_s").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Ascore += value;
-                    }
-                });
-                $(".gradeB_s").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Bscore_s += value;
-                    }
-                });
-                $(".gradeB_e").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Bscore_e += value;
-                    }
-                });
-                $(".gradeC_s").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Cscore += value;
-                    }
-                });
-                $(".gradeD_s").each(function() {
-                    var value = parseFloat($(this).val());
-                    if (!isNaN(value)) {
-                        Dscore += value;
-                    }
-                });
 
                 $(".evalScore").each(function() {
                     var value = parseFloat($(this).val());
@@ -213,13 +178,11 @@
                     }
                 });
 
-                $("#Sscore").val(Sscore);
-                $("#Ascore").val(Ascore);
-                $("#Bscore_s").val(Bscore_s);
-                $("#Bscore_e").val(Bscore_e);
-                $("#Cscore").val(Cscore);
-                $("#Dscore").val(Dscore);
-
+                $("#sScore").text(sStrSum != sEndSum ? (sStrSum+"~"+sEndSum) : sStrSum);
+                $("#aScore").text(aStrSum != aEndSum ? (aStrSum+"~"+aEndSum) : aStrSum);
+                $("#bScore").text(bStrSum != bEndSum ? (bStrSum+"~"+bEndSum) : bStrSum);
+                $("#cScore").text(cStrSum != cEndSum ? (cStrSum+"~"+cEndSum) : cStrSum);
+                $("#dScore").text(dStrSum != dEndSum ? (dStrSum+"~"+dEndSum) : dStrSum);
                 $("#totalScore").val(evalScore);
             },
             error : function(e) {
@@ -229,36 +192,68 @@
     }
 
     function fn_addRow(item){
+        console.log("item", item);
         var evNum = $("#evalList").find("tr").length;
         var html = "";
 
             html += '<tr style="text-align: center;">';
             html += '   <td>' + (evNum + 1) + '</td>';
             html += '   <td>';
-            html += '       <input type="text" id="evalCap' + evNum + '" class ="textBox" value="' +  item.EVAL_CAP + '" disabled>';
+            html += ''+item.EVAL_CAP;
             html += '       <input type="hidden" id="evalItemId' + evNum + '" class ="textBox" value="' +  item.EVAL_ITEM_ID + '">';
             html += '   </td>';
-            html += '   <td>';
-            html += '       <input type="text" id="evalTitle' + evNum + '" class ="textBox" value="' +  item.EVAL_TITLE + '" disabled>';
+            html += '   <td style="text-align: left; font-size: 11px">';
+            html += '' +  (item.EVAL_TITLE).replaceAll("\n", "<br>") + '';
+            html += '   </td>';
+            html += '   <td style="text-align: left; font-size: 11px">';
+            html += '' +  (item.EVAL_VAL).replaceAll("\n", "<br>") + '';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="evalVal' + evNum + '" class ="textBox" value="' +  item.EVAL_VAL + '" disabled>';
+            let sText = item.EVAL_STR_S;
+            if(sText != item.EVAL_END_S){
+                sText += "~"+ item.EVAL_END_S;
+            }
+            html += '' + sText + '';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeS_s' + evNum + '" class ="textBox gradeS_s" style="width: 40%;" value="' +  item.EVAL_STR_S + '" disabled>';
+            let aText = item.EVAL_STR_A;
+            if(aText != item.EVAL_END_A){
+                aText += "~"+ item.EVAL_END_A;
+            }
+            html += '' + aText + '';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeA_s' + evNum + '" class ="textBox gradeA_s" style="width: 40%;" value="' +  item.EVAL_STR_A + '" disabled>';
+            let bText = item.EVAL_STR_B;
+            if(bText != item.EVAL_END_B){
+                bText += "~"+ item.EVAL_END_B;
+            }
+            html += '' + bText + '';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeB_s' + evNum + '" class ="textBox gradeB_s" style="width: 40%;" value="' +  item.EVAL_STR_B + '" disabled> ~ ';
-            html += '       <input type="text" id="gradeB_e' + evNum + '" class ="textBox gradeB_e" style="width: 40%;" value="' +  item.EVAL_END_B + '" disabled>';
+            let cText = item.EVAL_STR_C;
+            if(cText != item.EVAL_END_C){
+                cText += "~"+ item.EVAL_END_C;
+            }
+            html += '' + cText + '';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeC_s' + evNum + '" class ="textBox gradeC_s" style="width: 40%;" value="' +  item.EVAL_STR_C + '" disabled>';
-            html += '   </td>';
-            html += '   <td>';
-            html += '       <input type="text" id="gradeD_s' + evNum + '" class ="textBox gradeD_s" style="width: 40%;" value="' +  item.EVAL_STR_D + '" disabled>';
+            let dText = item.EVAL_STR_D;
+            if(dText != item.EVAL_END_D){
+                dText += "~"+ item.EVAL_END_D;
+            }
+            html += '' + dText + '';
+
+            sStrSum += isNaN(item.EVAL_STR_S) ? 0 : Number(item.EVAL_STR_S);
+            sEndSum += isNaN(item.EVAL_END_S) ? 0 : Number(item.EVAL_END_S);
+            aStrSum += isNaN(item.EVAL_STR_A) ? 0 : Number(item.EVAL_STR_A);
+            aEndSum += isNaN(item.EVAL_END_A) ? 0 : Number(item.EVAL_END_A);
+            bStrSum += isNaN(item.EVAL_STR_B) ? 0 : Number(item.EVAL_STR_B);
+            bEndSum += isNaN(item.EVAL_END_B) ? 0 : Number(item.EVAL_END_B);
+            cStrSum += isNaN(item.EVAL_STR_C) ? 0 : Number(item.EVAL_STR_C);
+            cEndSum += isNaN(item.EVAL_END_C) ? 0 : Number(item.EVAL_END_C);
+            dStrSum += isNaN(item.EVAL_STR_D) ? 0 : Number(item.EVAL_STR_D);
+            dEndSum += isNaN(item.EVAL_END_D) ? 0 : Number(item.EVAL_END_D);
+
             html += '   </td>';
             if(item.TEM_ACTIVE == "Y"){
                 html += '   <td>';

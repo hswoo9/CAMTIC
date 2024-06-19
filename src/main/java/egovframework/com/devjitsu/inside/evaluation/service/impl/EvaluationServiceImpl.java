@@ -203,8 +203,6 @@ public class EvaluationServiceImpl implements EvaluationService {
             Gson gson = new Gson();
             List<Map<String, Object>> empSeqArr = gson.fromJson((String) params.get("empSeqArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
             if(!empSeqArr.isEmpty()){
-            /* params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
-                evaluationRepository.insEvaluationEmp(params);*/
                 evaluationRepository.delEvaluationEmp(params);
                 for(Map<String, Object> empSeq: empSeqArr){
                     empSeq.put("evalSn", params.get("evalSn"));
