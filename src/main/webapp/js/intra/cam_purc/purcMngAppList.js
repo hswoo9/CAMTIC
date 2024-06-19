@@ -154,7 +154,7 @@ var purcMngAppList = {
                         if(amt == 0){
                             return "";
                         } else {
-                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"' crm-sn='"+e.CRM_SN+"'/>";
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"' crm-sn='"+e.CRM_SN+"' bsDt='"+e.EXP_DE+"'/>";
                         }
                     }
                 }, {
@@ -608,8 +608,15 @@ var purcMngAppList = {
     fn_claimExpDateChangeModal : function(){
         purcMngAppList.global.clmList = [];
 
+        var idx = 0;
         $("input[name='clm']:checked").each(function(){
             purcMngAppList.global.clmList.push($(this).val());
+
+            if(idx == 0){
+                $("#expDe").val($(this).attr("bsdt"));
+            }
+
+            idx++;
         });
 
         if(purcMngAppList.global.clmList.length == 0){
