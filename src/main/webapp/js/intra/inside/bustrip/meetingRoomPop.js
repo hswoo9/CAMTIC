@@ -248,8 +248,8 @@ var roomReq = {
                 var date = new Date(a.setDate(a.getDate() + i));
                 if(date.getDay() != "0" && date.getDay() != "6"){
                     otherArr.options.data.push({
-                        text : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate() + "(" + roomReq.getDay(date.getDay()) + ")",
-                        value : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate()
+                        text : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2) + "(" + roomReq.getDay(date.getDay()) + ")",
+                        value : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2)
                     })
                 }
             }
@@ -284,14 +284,14 @@ var roomReq = {
                     var a = new Date($("#startDt").val());
                     var date = new Date(a.setDate(a.getDate() + j));
 
-                    var isExcludedDate = !exSpecificDayVal.includes(date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate());
+                    var isExcludedDate = !exSpecificDayVal.includes(date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2));
                     var isWeekend = date.getDay() === 0 || date.getDay() === 6;
                     var allowedWeekend = !exSpecificDayVal.includes("noSun") && date.getDay() === 0 || !exSpecificDayVal.includes("noSat") && date.getDay() === 6;
 
                     if(isExcludedDate && (isWeekend && allowedWeekend || !isWeekend)){
                         var data = roomReq.saveData();
-                        data.startDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate();
-                        data.endDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate();
+                        data.startDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        data.endDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                         data.roomClassSn = roomClassSn;
                         data.roomClassText = roomClassText;
                         roomReq.searchDuplicateRoom(data);
@@ -319,6 +319,7 @@ var roomReq = {
         if(!flag){
             return;
         }
+        console.log("dataArr", dataArr);
 
         return dataArr;
     },
