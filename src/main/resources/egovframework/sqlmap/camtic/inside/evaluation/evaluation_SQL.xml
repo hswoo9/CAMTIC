@@ -1003,21 +1003,51 @@
             CAM_INSIDE.DJ_EVALUATION_MEM
         SET
         <if test='"eval".equals(evalResultType)'>
-            EVAL = 'Y',
-            EVAL_SCORE = #{totalScore}
+            <if test='evalCk != null and !"".equals(evalCk)'>
+                EVAL = #{evalCk},
+                EVAL_SCORE = #{totalScore},
+            </if>
+            EVAL_VIEW = #{evalView}
         </if>
         <if test='"evalF".equals(evalResultType)'>
-            EVAL_F = 'Y',
-            EVAL_F_SCORE = #{totalScore},
+            <if test='evalCk != null and !"".equals(evalCk)'>
+                EVAL_F = #{evalCk},
+                EVAL_F_SCORE = #{totalScore},
+            </if>
             EVAL_F_VIEW = #{evalView}
         </if>
         <if test='"evalS".equals(evalResultType)'>
-            EVAL_S = 'Y',
-            EVAL_S_SCORE = #{totalScore},
+            <if test='evalCk != null and !"".equals(evalCk)'>
+                EVAL_S = #{evalCk},
+                EVAL_S_SCORE = #{totalScore},
+            </if>
             EVAL_S_VIEW = #{evalView}
         </if>
         WHERE
             EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="updEvaluationMemAll" parameterType="map">
+        /*updEvaluationMemAll*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        SET
+        <if test='"evalF".equals(evalResultType)'>
+            EVAL_F = #{evalCk}
+        </if>
+        <if test='"evalS".equals(evalResultType)'>
+            EVAL_S = #{evalCk}
+        </if>
+        WHERE
+            EVAL_SN = #{evalSn}
+        <if test='"evalF".equals(evalResultType)'>
+            AND EVAL_EVAL_F_SEQ = #{empSeq}
+            AND EVAL_F = 'W'
+        </if>
+        <if test='"evalS".equals(evalResultType)'>
+            AND EVAL_EVAL_S_SEQ = #{empSeq}
+            AND EVAL_S = 'W'
+        </if>
     </update>
 
     <update id="updEvalView" parameterType="map">

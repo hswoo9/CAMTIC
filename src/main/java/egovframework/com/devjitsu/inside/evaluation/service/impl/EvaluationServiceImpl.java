@@ -303,10 +303,12 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
         }
 
-        if(params.get("save").equals("10")){
-            evaluationRepository.updEvaluationMem(params);
-        }
+        evaluationRepository.updEvaluationMem(params);
+    }
 
+    @Override
+    public void setEvalScoreTemSaveAll(Map<String, Object> params) {
+        evaluationRepository.updEvaluationMemAll(params);
     }
 
     @Override

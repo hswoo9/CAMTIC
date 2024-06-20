@@ -201,7 +201,7 @@
             html += '   <td>'+ totalScore +'</td>';
 
             html += '   <td>S</td>';   // 평가등급
-            html += '   <td><input type="text" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 35px;" disabled></td>';
+            html += '   <td><input type="text" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 35px;"></td>';
             html += '   <td>'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
             html += '   <td>S</td>';  // 최종등급
             html += '</tr>';

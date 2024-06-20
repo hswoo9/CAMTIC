@@ -23,10 +23,10 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">본인 평가</h3>
+            <h3 class="card-title title_NM">평가</h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="btnActive1" onclick="saveData(1)">저장</button>
-                <button type="button" class="k-button k-button-solid-info" id="btnActive2"  onclick="saveData(10)">제출</button>
+                <button type="button" class="k-button k-button-solid-info" id="btnActive2" onclick="saveData(10)">제출</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -128,15 +128,21 @@
 
     if($("#step").val() == "0"){  // 본인평가
         var evalResultType = "eval";
+        $(".title_NM").text("본인 평가");
     }else if($("#step").val() == "1"){ // 1차평가
         var evalResultType = "evalF";
+        $(".title_NM").text("1차 역량평가");
+        $("#btnActive2").hide();
     }else if($("#step").val() == "2"){ // 2차평가
         var evalResultType = "evalS";
+        $(".title_NM").text("2차 역량평가");
+        $("#btnActive2").hide();
     }
 
     $(function (){
         fn_mngList();
     });
+
     function fn_mngList(){
         $.ajax({
             url : "/evaluation/getEvaluationScoreList",
@@ -161,6 +167,8 @@
                     $("#evalView").val(result.data.EVAL_F_VIEW)
                 }else if($("#step").val() == "2"){ // 2차평가
                     $("#evalView").val(result.data.EVAL_S_VIEW)
+                }else{ // 본인평가
+                    $("#evalView").val(result.data.EVAL_VIEW)
                 }
 
                 const list = result.list
@@ -306,18 +314,13 @@
             if(!confirm("제출 후 수정이 불가능 합니다. 제출하시겠습니까?")){
                 return;
             }
-
         }
 
         var parameters = {
             evalSn : $("#evalSn").val(),
-            evalEmpSeq : $("#evalEmpSeq").val(),
-            empSeq : $("#empSeq").val(),
-            totalScore : $("#totalScore").val(),
-            evalView : $("#evalView").val(),
-            evalResultType : evalResultType,
-            save : key
+            empSeq : $("#empSeq").val()
         }
+        parameters.evalCk = "Y";
 
         var evalBodyArr = [];
         var evalLen = $("#evalList").find("tr").length;
@@ -339,11 +342,13 @@
                 console.log(rs);
                 if(key == "1") {
                     alert("저장 되었습니다.");
+                    if($("#step").val() == "1" || $("#step").val() == "2"){
+                        opener.evaluationEmpListPop.gridReload();
+                    }
                     window.close();
                 }else if(key == "10") {
-                    opener.location.reload();
-                    window.close();
                     alert("제출이 완료되었습니다.");
+                    window.close();
                 }
             }
         });

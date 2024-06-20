@@ -137,7 +137,7 @@ var evaluationEmpListPop = {
                     title: "평가하기",
                     width: 100,
                     template: function (e){
-                        return "<button class='k-button' style='background-color: #dcdcdc; border: none;' onclick='evaluationEmpListPop.fn_open_eval(" + e.EMP_SEQ + ")'>역량평가하기</button>";
+                        return "<button class='k-button k-button-solid-base' onclick='evaluationEmpListPop.fn_open_eval(" + e.EMP_SEQ + ")'>역량평가하기</button>";
                     }
 
                 }, {
@@ -147,6 +147,8 @@ var evaluationEmpListPop = {
                         if($("#key").val() == "1"){ // 1차평가
                             if(e.EVAL_F == "Y"){
                                 return "<span style='color: blue'>제출완료</span>";
+                            }else if(e.EVAL_F == "W"){
+                                return "<span style='color: black'>작성완료</span>";
                             }else{
                                 return "<span style='color: red'>미제출</span>";
                             }
@@ -155,6 +157,8 @@ var evaluationEmpListPop = {
 
                             if(e.EVAL_S == "Y"){
                                 return "<span style='color: blue'>제출완료</span>";
+                            }else if(e.EVAL_S == "W"){
+                                return "<span style='color: black'>작성완료</span>";
                             }else{
                                 return "<span style='color: red'>미제출</span>";
                             }
@@ -175,7 +179,52 @@ var evaluationEmpListPop = {
     fn_open_eval : function (empSeq){
         var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+empSeq+"&key="+$("#key").val();
         var name = "_blank";
-        var option = "width = 1400, height = 820, top = 200, left = 200, location = no";
+        var option = "width = 1400, height = 820, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    saveDataAll : function (stat){
+        let flag = true;
+        const data = new Object();
+        data.evalSn = $("#evalSn").val();
+        data.bsYMD = $("#bsYear").val()+"-12-31";
+        data.empSeq = $("#empSeq").val();
+        data.key = $("#key").val();
+        const ckList = customKendo.fn_customAjax("/evaluation/getEvaluationEmpList", data).list;
+
+        console.log("ckList", ckList);
+
+        for(let i=0; i < ckList.length; i++){
+            const map = ckList[i];
+            if(($("#key").val() == "1" && map.EVAL_F == "N") || $("#key").val() == "2" && map.EVAL_S == "N"){
+                flag = false;
+            }
+        }
+
+        if(!flag){
+            alert("일괄제출은 모든 평가가 끝난 이후에 가능합니다.");
+            return;
+        }
+
+        if(!confirm("제출 후 수정이 불가능 합니다. 일괄제출하시겠습니까?")){
+            return;
+        }
+
+        var parameters = {
+            evalSn : $("#evalSn").val(),
+            empSeq : $("#empSeq").val(),
+            evalResultType : $("#key").val() == "1" ? "evalF" : "evalS",
+            evalCk : "Y"
+        }
+
+        $.ajax({
+            url : "/evaluation/setEvalScoreTemSaveAll",
+            data : parameters,
+            dataType : "json",
+            success : function (rs){
+                alert("저장 되었습니다.");
+                evaluationEmpListPop.gridReload();
+            }
+        });
     }
 }
