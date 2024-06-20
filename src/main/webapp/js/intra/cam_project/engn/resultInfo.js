@@ -207,7 +207,7 @@ var resultInfo = {
 
         $("#resDraftFrm").one("submit", function(){
             var url = "";
-            if($("#busnClass").val() == "D"){
+            if($("#busnClass").val() == "D" || $("#busnClass").val() == "V"){
                 url = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
             }else if($("#busnClass").val() == "R"){
                 url = "/popup/cam_project/approvalFormPopup/rndResApprovalPop.do";
