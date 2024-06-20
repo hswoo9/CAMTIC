@@ -327,7 +327,9 @@ public class AchieveController {
     public String getDeptPayrollList(@RequestParam Map<String, Object> params, Model model) {
 
         List<Map<String, Object>> list = achieveService.getDeptPayrollList(params);
+        List<Map<String, Object>> list2 = achieveService.getDeptPayrollDutyList(params);
         model.addAttribute("list", list);
+        model.addAttribute("dutyList", list2);
         return "jsonView";
     }
 

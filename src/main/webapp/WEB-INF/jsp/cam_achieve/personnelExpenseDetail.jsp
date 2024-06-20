@@ -52,6 +52,29 @@
         <div class="panel-body">
             <div>
                 <table class="detailTb table table-bordered" style="margin-bottom: 0px; text-align: center; overflow: auto" id="detailTb">
+                    <thead>
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="5%">
+                    </colgroup>
+                    </thead>
+                    <tbody>
                     <tr>
                         <th rowspan="2" style="text-align: center;">구분</th>
                         <th rowspan="2" style="text-align: center;">팀명</th>
@@ -77,26 +100,27 @@
                     </tr>
                     <c:forEach var="l" items="${list}" varStatus="status">
                         <tr style="background-color: white">
-                            <td style="text-align: center;">${l.PARENT_DEPT_NAME}</td>
-                            <td style="text-align: center;" id="${l.dept_seq}">${l.dept_name}</td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon1" class="mon1"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon2" class="mon2"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon3" class="mon3"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon4" class="mon4"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon5" class="mon5"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon6" class="mon6"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon7" class="mon7"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon8" class="mon8"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon9" class="mon9"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon10" class="mon10"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon11" class="mon11"></td>
-                            <td style="text-align: center;" id="${l.dept_seq}_mon12" class="mon12"></td>
-                            <td style="text-align: center;" id="" class=""></td>
-                            <td style="text-align: center;" id="" class=""></td>
-                            <td style="text-align: center;" id="" class=""></td>
-                            <td style="text-align: center;" id="" class=""></td>
+                            <td style="text-align: center;" id="dept_${l.parent_dept_seq}" name="dept">${l.PARENT_DEPT_NAME}</td>
+                            <td style="text-align: center;" id="team_${l.dept_seq}" name="team">${l.dept_name}</td>
+                            <td style="text-align: right;" id="mon1_${l.dept_seq}" name="mon1">0</td>
+                            <td style="text-align: right;" id="mon2_${l.dept_seq}" name="mon2">0</td>
+                            <td style="text-align: right;" id="mon3_${l.dept_seq}" name="mon3">0</td>
+                            <td style="text-align: right;" id="mon4_${l.dept_seq}" name="mon4">0</td>
+                            <td style="text-align: right;" id="mon5_${l.dept_seq}" name="mon5">0</td>
+                            <td style="text-align: right;" id="mon6_${l.dept_seq}" name="mon6">0</td>
+                            <td style="text-align: right;" id="mon7_${l.dept_seq}" name="mon7">0</td>
+                            <td style="text-align: right;" id="mon8_${l.dept_seq}" name="mon8">0</td>
+                            <td style="text-align: right;" id="mon9_${l.dept_seq}" name="mon9">0</td>
+                            <td style="text-align: right;" id="mon10_${l.dept_seq}" name="mon10">0</td>
+                            <td style="text-align: right;" id="mon11_${l.dept_seq}" name="mon11">0</td>
+                            <td style="text-align: right;" id="mon12_${l.dept_seq}" name="mon12">0</td>
+                            <td style="text-align: right;" id="user_${l.dept_seq}" name="user">0</td>
+                            <td style="text-align: right;" id="mng_${l.dept_seq}" name="mng">0</td>
+                            <td style="text-align: right;" id="" class=""></td>
+                            <td style="text-align: right;" id="tot_${l.dept_seq}" name="totalPay"></td>
                         </tr>
                     </c:forEach>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -246,9 +270,140 @@
         }
 
         var result = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollList", data);
-        var rs = result.list;
+        var deptList = result.deptList;
+        var ls = result.list;
+        var dutyLs = result.dutyList;
 
-        console.log("rs", rs);
+        for(var i=0; i<ls.length; i++){
+
+            /** 1월 */
+            $("td[name='mon1']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "01"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 2월 */
+            $("td[name='mon2']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "02"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 3월 */
+            $("td[name='mon3']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "03"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 4월 */
+            $("td[name='mon4']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "04"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 5월 */
+            $("td[name='mon5']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "05"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 6월 */
+            $("td[name='mon6']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "06"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 7월 */
+            $("td[name='mon7']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "07"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 8월 */
+            $("td[name='mon8']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "08"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 9월 */
+            $("td[name='mon9']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "09"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 10월 */
+            $("td[name='mon10']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "10"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 11월 */
+            $("td[name='mon11']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "11"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 12월 */
+            $("td[name='mon12']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    if(ls[i].BASE_YEAR_MONTH.split("-")[1] == "12"){
+                        $(this).text(comma(ls[i].TOT_PAY || 0));
+                    }
+                }
+            });
+        }
+
+        for(var i=0; i<dutyLs.length; i++){
+            /** 팀원 */
+            $("td[name='user']").each(function() {
+                if ($(this).attr("id").split("_")[1] == dutyLs[i].DEPT_SEQ) {
+                    if(dutyLs[i].DUTY == "USER"){
+                        $(this).text(comma(dutyLs[i].TOT_PAY || 0));
+                    }
+                }
+            });
+
+            /** 팀장 */
+            $("td[name='mng']").each(function() {
+                if ($(this).attr("id").split("_")[1] == dutyLs[i].DEPT_SEQ) {
+                    if(dutyLs[i].DUTY == "MNG"){
+                        $(this).text(comma(dutyLs[i].TOT_PAY || 0));
+                    }
+                }
+            });
+        }
     }
 
 </script>
