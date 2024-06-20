@@ -384,7 +384,7 @@ function fn_per(A, B, C){
 
 /** 프로젝트용 퍼센트 표기 숫자를 받아서 fiexd 자리까지 뿌려줌 **/
 function pjtPer(per, fiexd){
-    if(per == null || per == undefined || per == 0){
+    if(per == null || per == undefined || per == 0 || per == "Infinity" || per == "-Infinity" || per == "NaN"){
         return "0%";
     }
 
