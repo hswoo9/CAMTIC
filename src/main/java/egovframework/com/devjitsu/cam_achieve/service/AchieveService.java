@@ -11,6 +11,8 @@ public interface AchieveService {
 
     List<Map<String, Object>> getDeptPayrollList(Map<String, Object> params);
 
+    List<Map<String, Object>> getDeptPayrollDutyList(Map<String, Object> params);
+
     List<Map<String, Object>> getEngnList(Map<String, Object> params);
 
     List<Map<String, Object>> getEngnDeptData(Map<String, Object> params);

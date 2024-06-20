@@ -815,4 +815,32 @@
             ) B
         GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
     </select>
+
+    <select id="getDeptPayrollDutyList" parameterType="map" resultType="map">
+        /*getDeptPayrollDutyList*/
+        SELECT
+            PRAENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
+            SUM(SUP_PAY) AS TOT_PAY,
+            DUTY
+        FROM
+            (
+                SELECT
+                    A.*,
+                    C.DEPT_SEQ,
+                    IF(B.DUTY_CODE != '', 'MNG', 'USER') AS DUTY,
+                    IF(
+                        C.DEPT_LEVEL = 1,
+                        C.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
+                    ) AS PRAENT_DEPT_SEQ
+                FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+                LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+                LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+            ) B
+        GROUP BY DEPT_SEQ, DUTY
+    </select>
 </mapper>
