@@ -2154,6 +2154,7 @@
             (SELECT
                  PJT_SN,
                  EMP_SEQ,
+                 MON_SAL,
                  CASE
                      WHEN #{month} = '01' THEN MON_PAY_1
                      WHEN #{month} = '02' THEN MON_PAY_2
@@ -2170,7 +2171,7 @@
                      END AS MON_SAL_RE
              FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE BS_YEAR = #{year}) D
         ON
-            A.PJT_SN = D.PJT_SN AND A.PART_EMP_SEQ = D.EMP_SEQ
+            A.PJT_SN = D.PJT_SN AND A.PART_EMP_SEQ = D.EMP_SEQ AND A.MON_SAL = D.MON_SAL
         WHERE
             A.PJT_SN = #{pjtSn}
           AND
