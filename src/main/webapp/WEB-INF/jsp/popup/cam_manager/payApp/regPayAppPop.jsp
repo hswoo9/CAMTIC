@@ -270,9 +270,9 @@
                         </c:if>
                         <td>
                             <span>
-                                <input type="text" id="budgetNm0" dir="rtl" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;text-align: right;">
+                                <input type="text" id="budgetNm0" dir="rtl" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;text-align: right;" class="budgetNm">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
-                                <input type="hidden" id="budgetAmt0" value="" />
+                                <input type="hidden" id="budgetAmt0" value="" class="budgetAmt"/>
                             </span>
                         </td>
                         <td class="reasonTr" style="display: none;">

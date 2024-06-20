@@ -46,8 +46,6 @@ var paymentMngList = {
             ]
         });
 
-
-
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
 
@@ -67,24 +65,34 @@ var paymentMngList = {
         $("#payAppEndDe").data("kendoDatePicker").bind("change", paymentMngList.gridReload);
         $("#payAppType").data("kendoDropDownList").bind("change", paymentMngList.gridReload);
         $("#searchDept").data("kendoDropDownList").bind("change", paymentMngList.gridReload);
-        paymentMngList.gridReload();
+        paymentMngList.mainGrid();
     },
 
-    mainGrid : function(url, params){
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    mainGrid : function(){
         const dataSource = new kendo.data.DataSource({
             serverPaging: false,
-            pageSize: 10,
             transport: {
                 read : {
-                    url : url,
+                    url : "/pay/getPaymentList",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
-                    for(var key in params){
-                        data[key] = params[key];
-                    }
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDate = $("#searchDate").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.payAppType = $("#payAppType").val();
 
+                    data.strDe = $("#payAppStrDe").val();
+                    data.endDe = $("#payAppEndDe").val();
+
+                    data.pageType = "USER";
                     return data;
                 }
             },
@@ -96,6 +104,7 @@ var paymentMngList = {
                     return data.list.length;
                 },
             },
+            pageSize: 10,
         });
 
         $("#mainGrid").kendoGrid({
@@ -335,24 +344,6 @@ var paymentMngList = {
     
     onDataBound : function(){
         amtSum = 0;
-    },
-
-    gridReload : function(){
-        paymentMngList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDate : $("#searchDate").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            payAppType : $("#payAppType").val(),
-
-            strDe : $("#payAppStrDe").val(),
-            endDe : $("#payAppEndDe").val(),
-
-            pageType : "USER",
-        }
-
-        paymentMngList.mainGrid("/pay/getPaymentList", paymentMngList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function(key, status, auth){
