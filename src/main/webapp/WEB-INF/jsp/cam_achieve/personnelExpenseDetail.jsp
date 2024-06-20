@@ -116,8 +116,8 @@
                             <td style="text-align: right;" id="mon12_${l.dept_seq}" name="mon12">0</td>
                             <td style="text-align: right;" id="user_${l.dept_seq}" name="user">0</td>
                             <td style="text-align: right;" id="mng_${l.dept_seq}" name="mng">0</td>
-                            <td style="text-align: right;" id="" class=""></td>
-                            <td style="text-align: right;" id="tot_${l.dept_seq}" name="totalPay"></td>
+                            <td style="text-align: right;" id="" class="">0</td>
+                            <td style="text-align: right;" id="tot_${l.dept_seq}" name="totalPay">0</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -404,6 +404,13 @@
                 }
             });
         }
+
+        /** 인건비 합계 */
+        $("td[name='totalPay']").each(function(){
+            var deptSeq = $(this).attr("id").split("_")[1];
+
+            $(this).text( comma(Number(uncommaN($("#user_" + deptSeq).text())) + Number(uncommaN($("#mng_" + deptSeq).text()))) );
+        });
     }
 
 </script>
