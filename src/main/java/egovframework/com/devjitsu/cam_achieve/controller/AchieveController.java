@@ -330,4 +330,41 @@ public class AchieveController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/getExnpList")
+    public String getExnpList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = achieveService.getExnpList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getExnpDetailList")
+    public String getExnpDetailList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = achieveService.getExnpDetailList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/updateExnpStatus")
+    public String updateExnpStatus(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            achieveService.updateExnpStatus(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+
+    }
 }

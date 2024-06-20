@@ -76,6 +76,8 @@
             </table>
 
             <div id="mainGrid"></div>
+
+            <div id="subGrid"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->
@@ -124,20 +126,6 @@
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    width: 30,
-                    template : function(e){
-                        // if(e.TYPE == "반제(지출)"){
-                        if(e.RE_STAT == "N"){
-                            return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
-                        } else {
-                            return '';
-                        }
-                        // } else {
-                        //     return '';
-                        // }
-                    }
-                }, {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
@@ -159,24 +147,37 @@
                                 return "대체";
                             }
                         } else {
-                            return e.TYPE;
+                            return '지급';
                         }
                     }
                 }, {
                     title: "증빙유형",
                     width: 80,
-                    field: "EVID_TYPE_TEXT",
+                    template : function(e){
+                        if(e.EVID_TYPE == "1"){
+                            return "세금계산서";
+                        } else if(e.EVID_TYPE == "2"){
+                            return "계산서";
+                        } else if(e.EVID_TYPE == "3"){
+                            return "신용카드";
+                        } else if(e.EVID_TYPE == "4"){
+                            return "직원지급";
+                        } else if(e.EVID_TYPE == "5"){
+                            return "사업소득자";
+                        } else if(e.EVID_TYPE == "9"){
+                            return "기타소득자";
+                        } else {
+                            return "기타";
+                        }
+                    }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 200,
                 }, {
                     title: "예산비목",
-                    field: "BUDGET_NM_EX",
-                    width: 200,
-                    template: function(e){
-                        return e.BUDGET_NM_EX.replaceAll("/", "-");
-                    }
+                    field: "BUDGET_NM",
+                    width: 200
                 }, {
                     title: "거래처",
                     width: 200,
@@ -190,32 +191,18 @@
                 }, {
                     title: "적요(제목)",
                     field: "EXNP_BRIEFS",
-                    width: 250,
-                    template: function(e){
-                        console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
-                    }
+                    width: 250
                 }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
                         return '<div style="text-align: right">'+comma(cost)+'</div>';
-
-                        // if(e.RE_STAT == "Y"){
-                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
-                        // } else {
-                        //     return '<div style="text-align: right">'+0+'</div>';
-                        // }
                     }
                 }, {
                     title: "결의일자",
                     width: 80,
-                    field: "R_DT",
-                }, {
-                    title: "작성자",
-                    field: "REG_EMP_NAME",
-                    width: 80
+                    field: "EXNP_DE",
                 }, {
                     title: "상태",
                     width: 60,
@@ -227,14 +214,10 @@
                         }
                     }
                 }, {
-                    title: "첨부",
+                    title: "기타",
                     width: 60,
                     template: function(e){
-                        // if(e.RE_STAT == "N"){
-                        //     return ""
-                        // } else {
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="exnpReList.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
-                        // }
+                        return '<button type="button" id="btnDet" class="k-button k-button-solid-base" onclick="btnDetClick('+e.EXNP_SN+');">상세</button>';
                     }
                 }
             ],
@@ -243,10 +226,11 @@
             }
         }).data("kendoGrid");
 
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
-            else $("input[name=check]").prop("checked", false);
-        });
+
+        // $("#checkAll").click(function(){
+        //     if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
+        //     else $("input[name=check]").prop("checked", false);
+        // });
 
         // $("#mainGrid").data("kendoGrid").one("dataBound", function(e){
         //     var grid = e.sender;
@@ -255,6 +239,120 @@
         //         $("#hiddenGrid").data("kendoGrid").dataSource.pageSize(ev.sender.value());
         //     });
         // });
+    }
+
+    function subGrid (url, params) {
+        $("#subGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            toolbar : [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-primary" onclick="fn_rmChange(\'N\', '+e.EXNP_SN+')">' +
+                            '	<span class="k-button-text">제외</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_rmChange(\'Y\', '+e.EXNP_SN+')">' +
+                            '	<span class="k-button-text">포함</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, 50, "ALL"],
+                buttonCount: 5,
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template: function (e) {
+                        return '<input type="checkbox" name="check" value="' + e.EXNP_DET_SN + '"/>';
+                    }
+                }, {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "거래일",
+                    width: 120,
+                    field: "TR_DE",
+                    template : function(e){
+                        return e.TR_DE.substr(0, 4) + "-" + e.TR_DE.substr(4, 2) + "-" + e.TR_DE.substr(6, 2);
+                    }
+                }, {
+                    title: "팀",
+                    width: 200,
+                    field: "TEAM_NAME",
+                    template : function(e){
+                        if(e.TEAM_NAME == "" || e.TEAM_NAME == null){
+                            return '';
+                        } else {
+                            return e.TEAM_NAME;
+                        }
+                    }
+                }, {
+                    title: "예산비목",
+                    field: "BUDGET_NM",
+                    width: 200
+                }, {
+                    title: "거래처",
+                    width: 200,
+                    template: function (e) {
+                        if (e.CRM_CNT > 1) {
+                            return e.CRM_NM + " 외 " + Number(e.CRM_CNT - 1);
+                        } else {
+                            return e.CRM_NM
+                        }
+                    }
+                }, {
+                    title: "지출금액",
+                    width: 80,
+                    template: function (e) {
+                        var cost = e.TOT_COST;
+                        return '<div style="text-align: right">' + comma(cost) + '</div>';
+                    }
+                }, {
+                    title: "결의일자",
+                    width: 80,
+                    field: "EXNP_DE",
+                }, {
+                    title: "상태",
+                    width: 60,
+                    template: function (e) {
+                        if (e.RM_Y == "N") {
+                            return "제외";
+                        } else {
+                            return "포함";
+                        }
+                    }
+                }, {
+                    title: "팀설정",
+                    width: 60,
+                    template: function (e) {
+                        return '<button type="button" id="btnDet" class="k-button k-button-solid-base" onclick="fn_teamChange(' + e.EXNP_DET_SN + ');">팀 수정</button>';
+                    }
+                }
+            ],
+            dataBinding: function () {
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
+            else $("input[name=check]").prop("checked", false);
+        });
     }
 
     function gridReload(){
@@ -267,7 +365,7 @@
             searchValue: $("#searchValue").val()
         }
 
-        mainGrid("/pay/getExnpReList", searchAjaxData);
+        mainGrid("/cam_achieve/getExnpList", searchAjaxData);
     }
 
     function fn_reqRegPopup (key, paySn){
@@ -276,5 +374,52 @@
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         window.open(url, name, option);
     }
+
+    function btnDetClick(key){
+        var parameters = {
+            exnpSn : key
+        }
+        subGrid("/cam_achieve/getExnpDetailList", parameters);
+    }
+
+    function fn_rmChange(stat, key){
+
+        if(stat == 'Y'){
+            if(!confirm('해당 건들을 포함하시겠습니까?')){
+                return;
+            }
+        } else {
+            if(!confirm('해당 건들을 제외하시겠습니까?')){
+                return;
+            }
+        }
+
+        var parameters = {
+            rmY : stat,
+            exnpSn : key
+        }
+
+        $("input[name='check']:checked").each(function(){
+            var exnpDetSn = $(this).val();
+            parameters.exnpDetSn = exnpDetSn;
+
+
+            customKendo.fn_customAjax("/cam_achieve/updateExnpStatus", parameters);
+        });
+
+
+        $("#subGrid").data("kendoGrid").dataSource.read();
+
+    }
+
+    function fn_teamChange(key){
+
+        url = "/cam_achieve/teamChangePop.do?exnpDetSn=" + key;
+        var name = "blank";
+        var option = "width = 800, height = 500, top = 100, left = 400, location = no";
+        window.open(url, name, option);
+    }
+
+
 
 </script>

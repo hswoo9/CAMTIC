@@ -815,4 +815,42 @@
             ) B
         GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
     </select>
+
+    <select id="getExnpList" parameterType="map" resultType="map">
+        /*getExnpList*/
+        SELECT
+            A.*,
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
+            B.TOT_COST,
+            B.BUDGET_NM,
+            B.EVID_TYPE,
+            B.CRM_NM
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN (SELECT SUM(TOT_COST) AS TOT_COST, EXNP_SN, BUDGET_NM, EVID_TYPE, CRM_NM FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN) B
+        ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.RE_STAT = 'Y' AND A.DOC_STATUS = 100
+        ORDER BY EXNP_DE DESC
+    </select>
+
+    <select id="getExnpDetailList" parameterType="map" resultType="map">
+        /*getExnpDetailList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </select>
+
+
+    <update id="updateExnpStatus" parameterType="map">
+        /*updateExnpStatus*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            RM_Y = #{rmY}
+        WHERE
+            EXNP_DET_SN = #{exnpDetSn}
+    </update>
 </mapper>

@@ -260,7 +260,7 @@ var recordTotal = {
                         return "<div style='text-align: right'>"+comma(exnpCompAmtSum)+"</div>";
                     }
                 }, {
-                    title: "수익",
+                    title: "운영수익",
                     width: 100,
                     template: function(e){
                         incpCompAmtSum += Number(e.incpCompAmt || 0);
