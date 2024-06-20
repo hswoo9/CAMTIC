@@ -102,12 +102,12 @@
         if(key === 1 || key === 2){
             var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
             var name = "_blank";
-            var option = "width=965, height=600, scrollbars=no, top=300, left=200, resizable=no, toolbars=no, menubar=no"
+            var option = "width=1400, height=820, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             var popup = window.open(url, name, option);
         }else{
             var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
             var name = "_blank";
-            var option = "width = 1400, height = 820, top = 200, left = 200, location = no";
+            var option = "width = 1400, height = 820, top = 100, left = 200, location = no";
             var popup = window.open(url, name, option);
         }
     }

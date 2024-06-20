@@ -22,6 +22,7 @@ public interface EvaluationService {
     void delEvaluation(Map<String, Object> params);
     void setEvaluationItemCopy(Map<String, Object> params);
     void setEvalScoreTemSave(Map<String, Object> params);
+    void setEvalScoreTemSaveAll(Map<String, Object> params);
     void setSaveMngScore(Map<String, Object> params);
     void setEvaluationMngList(Map<String, Object> params);
     Map<String, Object> getEvaluation(Map<String, Object> params);

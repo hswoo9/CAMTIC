@@ -188,6 +188,10 @@ public class EvaluationRepository extends AbstractDAO {
         insert("evaluation.updEvaluationMem", params);
     }
 
+    public void updEvaluationMemAll(Map<String, Object> params) {
+        insert("evaluation.updEvaluationMemAll", params);
+    }
+
     public void delEvaluationItemCopy(Map<String, Object> params) {
         delete("evaluation.delEvaluationItemCopy", params);
     }
