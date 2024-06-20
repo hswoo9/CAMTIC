@@ -1966,7 +1966,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
-                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%; text-align: right;">' +
+                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%; text-align: right;" class="budgetNm">' +
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_AMT+'" class="budgetAmt"/>' +
                 '   </td>' +
@@ -2980,7 +2980,7 @@ var regPayDet = {
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
-            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%; text-align: right;">' +
+            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%; text-align: right;" class="budgetNm">' +
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="" class="budgetAmt"/>' +
             '   </td>' +
@@ -3307,13 +3307,9 @@ var regPayDet = {
         var bgtNm = p.bgtNm;
         var subAm = p.subAm;
 
-        var len = $("#payDestTb").find("tr").length;
-
-        for(var i = 0 ; i < len ; i++){
-            $("#budgetSn" + i).val(bgtCd);
-            $("#budgetNm" + i).val(bgtNm);
-            $("#budgetAmt" + i).val(subAm);
-        }
+        $(".budgetSn").val(bgtCd);
+        $(".budgetNm").val(bgtNm);
+        $(".budgetAmt").val(subAm);
     }
 }
 
