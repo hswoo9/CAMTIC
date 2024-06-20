@@ -587,6 +587,10 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updHrBizReqResultByPayAppSnEqNull", param);
     }
 
+    public void updHrBizReqByPayAppSnEqNull(int param) {
+        update("payApp.updHrBizReqByPayAppSnEqNull", param);
+    }
+
     public void updClaimExnpByPayAppSnEqNull(int param) {
         update("payApp.updClaimExnpByPayAppSnEqNull", param);
     }

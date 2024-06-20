@@ -3409,6 +3409,15 @@
             PAY_APP_SN = #{payAppSn}
     </update>
 
+    <update id="updHrBizReqByPayAppSnEqNull" parameterType="map">
+        /*updHrBizReqByPayAppSnEqNull*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            BF_PAY_APP_SN = NULL
+        WHERE
+            BF_PAY_APP_SN = #{payAppSn}
+    </update>
+
     <update id="updClaimExnpByPayAppSnEqNull" parameterType="map">
         /*updClaimExnpByPayAppSnEqNull*/
         UPDATE CAM_MNG.DJ_CLAIM_EXNP

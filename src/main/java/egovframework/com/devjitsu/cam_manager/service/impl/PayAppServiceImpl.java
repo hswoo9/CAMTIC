@@ -1662,6 +1662,8 @@ public class PayAppServiceImpl implements PayAppService {
 
             // 출장연결된 지급신청 건 삭제
             payAppRepository.updHrBizReqResultByPayAppSnEqNull(params[i]);
+            // 해외출장 지급신청 건 삭제
+            payAppRepository.updHrBizReqByPayAppSnEqNull(params[i]);
             // 구매지급요청 삭제
             payAppRepository.updClaimExnpByPayAppSnEqNull(params[i]);
             // 식대 지급신청건 삭제
