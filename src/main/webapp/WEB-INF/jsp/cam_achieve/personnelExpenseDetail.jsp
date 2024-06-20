@@ -118,7 +118,7 @@
                             <td style="text-align: right;" id="mon12_${l.dept_seq}" name="mon12">0</td>
                             <td style="text-align: right;" id="user_${l.dept_seq}" name="user">0</td>
                             <td style="text-align: right;" id="mng_${l.dept_seq}" name="mng">0</td>
-                            <td style="text-align: right;" id="" class="">0</td>
+                            <td style="text-align: right;" id="deptPer_${l.dept_seq}" name="deptPer">0</td>
                             <td style="text-align: right;" id="tot_${l.dept_seq}" name="totalPay">0</td>
                         </tr>
                     </c:forEach>
@@ -407,11 +407,48 @@
             });
         }
 
+        /** 부서장비용 배분비율 */
+        $("td[name='deptPer']").each(function(){
+            var teamSeq = $(this).attr("id").split("_")[1];
+            var deptSeq = $(this).closest("tr").attr("class").split("_")[1];
+
+            if(teamSeq != deptSeq){
+
+                var userPay = 0;
+                var mngPay = 0;
+                $.each($(".dept_" + deptSeq), function(i, v){
+                    if($(v).find("td[name='team']").attr("id").split("_")[1] != deptSeq){
+                        userPay += Number(uncommaN($(v).find("td[name='user']").text()));
+                        mngPay += Number(uncommaN($(v).find("td[name='mng']").text()));
+                    }
+                })
+
+                var deptPer = (Number(uncommaN($("#user_" + teamSeq).text())) + Number(uncommaN($("#mng_" + teamSeq).text()))) / (userPay + mngPay) * 100
+
+                $(this).text( Math.round(deptPer * 100) / 100 + " %");
+            } else {
+                $(this).text("-");
+            }
+        });
+
         /** 인건비 합계 */
         $("td[name='totalPay']").each(function(){
-            var deptSeq = $(this).attr("id").split("_")[1];
+            var teamSeq = $(this).attr("id").split("_")[1];
+            var deptSeq = $(this).closest("tr").attr("class").split("_")[1];
 
-            $(this).text( comma(Number(uncommaN($("#user_" + deptSeq).text())) + Number(uncommaN($("#mng_" + deptSeq).text()))) );
+            if(teamSeq != deptSeq){
+
+                var userPay = Number(uncommaN($("#user_" + teamSeq).text()));   // 팀원
+                var mngPay = Number(uncommaN($("#mng_" + teamSeq).text()));     // 팀장
+                var deptPer = Number(($("#deptPer_" + teamSeq).text().split(" ")[0]));      // 부서장 배분비율
+                var headPay = Number(uncommaN($("#mng_" + deptSeq).text().split(" ")[0]));  // 부서장
+
+                var totPay = (deptPer * headPay / 100) + userPay + mngPay;
+
+                $(this).text( comma(Math.round(totPay)) );
+            } else {
+                $(this).text("-");
+            }
         });
     }
 

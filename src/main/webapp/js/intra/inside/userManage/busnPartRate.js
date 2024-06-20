@@ -122,6 +122,7 @@ var busnPartRate = {
                         for(var i = 0 ; i < rs.list.length ; i++){
                             var itemMonMap;
                             data.empSeq = rs.list[i].PART_EMP_SEQ;
+                            data.monSal = rs.list[i].MON_SAL;
 
                             $.ajax({
                                 url : "/inside/getBusnPartRatePayData",

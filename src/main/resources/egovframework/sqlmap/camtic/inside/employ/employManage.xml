@@ -470,6 +470,10 @@
         AND
             BS_YEAR = #{year}
         </if>
+        <if test='monSal != null and !"".equals(monSal)'>
+        AND
+            MON_SAL = #{monSal}
+        </if>
         ORDER BY BS_YEAR
     </select>
 
