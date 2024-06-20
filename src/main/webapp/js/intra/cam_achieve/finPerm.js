@@ -21,7 +21,7 @@ var finPerm = {
 
         var parameters = {
             year : $("#year").val().split("-")[0],
-            month : $("#year").val(),
+            baseYear : $("#year").val(),
             deptSeq : $("#dept").val()
         }
         var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc", parameters);

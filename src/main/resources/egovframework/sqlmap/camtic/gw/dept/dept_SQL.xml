@@ -20,19 +20,21 @@
     </select>
 
     <select id="getDeptBList" resultType="map">
-        /*getDeptBList*/
-        SELECT A.*, B.DEPT_NAME AS PARENT_DEPT_NAME
+        SELECT
+            A.dept_seq,
+            IF(A.DEPT_LEVEL = 1, CONCAT(A.DEPT_NAME,'장'), A.DEPT_NAME) AS dept_name,
+            IF(A.DEPT_LEVEL = 1, A.DEPT_SEQ, B.DEPT_SEQ) AS parent_dept_seq,
+            IF(A.DEPT_LEVEL = 1, A.DEPT_NAME, B.DEPT_NAME)  AS parent_dept_name,
+            A.path_name,
+            ROW_NUMBER() OVER (PARTITION BY parent_dept_seq order by parent_dept_seq, B.dept_level desc, B.ORDER_SN, A.ORDER_SN) AS row_num,
+            COUNT(*)OVER(PARTITION BY parent_dept_seq DESC) AS row_cnt
         FROM CAM_HR.DJ_DEPT_INFO A
         LEFT JOIN CAM_HR.DJ_DEPT_INFO B
-        ON B.DEPT_SEQ = A.PARENT_DEPT_SEQ
-        WHERE A.DEPT_LEVEL = #{deptLevel}
-        <if test="parentDeptSeq != null and parentDeptSeq != ''">
-            AND
-            A.PARENT_DEPT_SEQ = #{parentDeptSeq}
-        </if>
-        AND A.USE_YN = 'Y'
-        AND B.USE_YN = 'Y'
-        ORDER BY B.ORDER_SN, A.ORDER_SN
+            ON B.DEPT_SEQ = A.PARENT_DEPT_SEQ
+        WHERE 1=1
+            AND A.USE_YN = 'Y'
+            AND B.USE_YN = 'Y'
+        ORDER BY parent_dept_seq, B.dept_level desc, B.order_sn, A.order_sn
     </select>
 
 

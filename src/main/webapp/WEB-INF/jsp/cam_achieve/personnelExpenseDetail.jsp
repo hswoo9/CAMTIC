@@ -50,12 +50,12 @@
             <div id="mainGrid"></div>
         </div>
         <div class="panel-body">
-            <div>
-                <table class="detailTb table table-bordered" style="margin-bottom: 0px; text-align: center; overflow: auto" id="detailTb">
+            <div style="width: 100%; overflow: auto;">
+                <table class="detailTb table table-bordered" style="margin-bottom: 0px; text-align: center;  white-space:nowrap; width: auto" id="detailTb">
                     <thead>
                     <colgroup>
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="12%">
+                        <col width="15%">
                         <col width="5%">
                         <col width="5%">
                         <col width="5%">
@@ -99,8 +99,10 @@
                         <th style="text-align: center;">팀장</th>
                     </tr>
                     <c:forEach var="l" items="${list}" varStatus="status">
-                        <tr style="background-color: white">
-                            <td style="text-align: center;" id="dept_${l.parent_dept_seq}" name="dept">${l.PARENT_DEPT_NAME}</td>
+                        <tr style="background-color: white;" class="dept_${l.parent_dept_seq}">
+                            <c:if test="${l.row_num eq 1}">
+                                <td style="text-align: center;" name="dept" rowspan="${l.row_cnt}">${l.parent_dept_name}</td>
+                            </c:if>
                             <td style="text-align: center;" id="team_${l.dept_seq}" name="team">${l.dept_name}</td>
                             <td style="text-align: right;" id="mon1_${l.dept_seq}" name="mon1">0</td>
                             <td style="text-align: right;" id="mon2_${l.dept_seq}" name="mon2">0</td>
@@ -389,7 +391,7 @@
             /** 팀원 */
             $("td[name='user']").each(function() {
                 if ($(this).attr("id").split("_")[1] == dutyLs[i].DEPT_SEQ) {
-                    if(dutyLs[i].DUTY == "USER"){
+                    if(dutyLs[i].DUTY_TYPE == "USER"){
                         $(this).text(comma(dutyLs[i].TOT_PAY || 0));
                     }
                 }
@@ -398,7 +400,7 @@
             /** 팀장 */
             $("td[name='mng']").each(function() {
                 if ($(this).attr("id").split("_")[1] == dutyLs[i].DEPT_SEQ) {
-                    if(dutyLs[i].DUTY == "MNG"){
+                    if(dutyLs[i].DUTY_TYPE == "MNG"){
                         $(this).text(comma(dutyLs[i].TOT_PAY || 0));
                     }
                 }
