@@ -774,6 +774,16 @@
             EVAL_EMP_SEQ = #{empSeq}
     </select>
 
+    <select id="getEvalMemDet" parameterType="map" resultType="map">
+        /*getEvalMemDet*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        WHERE
+            EVAL_MEM_SN = #{evalMemSn}
+    </select>
+
     <select id="getUserPersonnelinformOne" parameterType="map" resultType="map">
         /*getUserPersonnelinformOne*/
         <![CDATA[

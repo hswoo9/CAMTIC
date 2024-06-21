@@ -177,6 +177,17 @@ public class EvaluationController {
         return "popup/inside/evaluation/evalResultMng";
     }
 
+    @RequestMapping("/evaluation/pop/evalResUserPop.do")
+    public String evalResUserPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalResUserPop";
+    }
+
     @RequestMapping("/evaluation/pop/evalResult.do")
     public String evalResult(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
@@ -397,6 +408,12 @@ public class EvaluationController {
         model.addAttribute("data", evaluationService.getEvaluationView(params));
 
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/getEvalMemDet")
+    public String getEvalMemDet(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", evaluationService.getEvalMemDet(params));
         return "jsonView";
     }
 

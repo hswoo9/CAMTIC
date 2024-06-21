@@ -84,6 +84,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public Map<String, Object> getEvalMemDet(Map<String, Object> params) {
+        return evaluationRepository.getEvalMemDet(params);
+    }
+
+    @Override
     public Map<String, Object> getEvaluation(Map<String, Object> params) {
         return evaluationRepository.getEvaluation(params);
     }
@@ -95,7 +100,8 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params) {
         return evaluationRepository.getUserPersonnelinformOne(params);
-    }    @Override
+    }
+    @Override
     public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
         return evaluationRepository.getEvaluationBs(params);
     }

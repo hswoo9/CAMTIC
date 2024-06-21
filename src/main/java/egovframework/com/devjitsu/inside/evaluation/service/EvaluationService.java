@@ -38,4 +38,6 @@ public interface EvaluationService {
     List<Map<String, Object>> getEvaluationMngList(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationScoreList(Map<String, Object> params);
     Map<String, Object> getEvaluationView(Map<String, Object> params);
+
+    Map<String, Object> getEvalMemDet(Map<String, Object> params);
 }

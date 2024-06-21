@@ -150,7 +150,7 @@
             html += '   <td><input type="checkbox" id="check' + i + '" value="'+ list[i].EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
             html += '   <td>' + list[i].DEPT_NAME + '</td>';
             html += '   <td>' + list[i].DEPT_TEAM_NAME + '</td>';
-            html += '   <td>' + list[i].EMP_NAME_KR + '</td>';
+            html += '   <td><div onclick="evalResUserPop('+ list[i].EVAL_MEM_SN+');">' + list[i].EMP_NAME_KR + '</div></td>';
             html += '   <td>' + list[i].EVAL_SCORE + '</td>';
             html += '   <td>' + list[i].EVAL_F_SCORE + '</td>';
 
@@ -249,7 +249,12 @@
         });
     }
 
-
+    function evalResUserPop(key) {
+        var url = "/evaluation/pop/evalResUserPop.do?pk="+$("#evalSn").val()+"&evalMemSn="+key;
+        var name = "evalResUserPop";
+        var option = "width = 1400, height = 820, top = 100, left = 300, location = no";
+        var popup = window.open(url, name, option);
+    }
 
 </script>
 </body>

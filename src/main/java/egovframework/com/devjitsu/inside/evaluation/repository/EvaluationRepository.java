@@ -56,6 +56,10 @@ public class EvaluationRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("evaluation.getEvaluationView", params);
     }
 
+    public Map<String, Object> getEvalMemDet(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvalMemDet", params);
+    }
+
     public Map<String, Object> getEvaluation(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getEvaluation", params);
     }
