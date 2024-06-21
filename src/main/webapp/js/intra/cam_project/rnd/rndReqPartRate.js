@@ -122,7 +122,6 @@ var rndRPR = {
 
         if(pjtAmt < (Number(uncomma($("#payBudget").val())) + Number(uncomma($("#itemBudget").val())))){
             alert("인건비 예산이 초과되었습니다.");
-            return;
         }
 
         var parameters = {
