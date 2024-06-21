@@ -2305,25 +2305,25 @@ var regPay = {
         if(stat == "re"){
             if($("#auth").val() != "user"){
                 $("#titleStat").text("검토");
+                $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+                $("#exnpAddBtn").text("반납결의서 작성");
+                $("#addBtn").css("display", "none");
+                $("#exnpAddBtn").css("display", "");
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
-            $("#exnpAddBtn").text("반납결의서 작성");
-            $("#addBtn").css("display", "none");
-            $("#exnpAddBtn").css("display", "");
         }
 
         if(stat == "alt"){
             if($("#auth").val() != "user"){
                 $("#titleStat").text("검토");
+                $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+                $("#exnpAddBtn").text("대체결의서 작성");
+                $("#addBtn").css("display", "none");
+                $("#exnpAddBtn").css("display", "");
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
-            $("#exnpAddBtn").text("대체결의서 작성");
-            $("#addBtn").css("display", "none");
-            $("#exnpAddBtn").css("display", "");
         }
     },
 

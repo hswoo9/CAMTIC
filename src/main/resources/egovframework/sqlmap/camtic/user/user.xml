@@ -42,7 +42,16 @@
             HEI.JOB_DETAIL,
             IM.FILE_PATH,
             HEI.BDAY,
-            DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY
+            DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY,
+            <![CDATA[
+            CASE
+                WHEN CC.CM_CODE_NM = 'P&M' THEN CONCAT('경영관리(', CC.CM_CODE_NM,')')
+                WHEN CC.CM_CODE_NM = 'A&C' THEN CONCAT('기업지원(', CC.CM_CODE_NM,')')
+                WHEN CC.CM_CODE_NM = 'R&D' THEN CONCAT('연구개발(', CC.CM_CODE_NM,')')
+                ELSE ''
+            END AS OCC_NM,
+            CC.CM_CODE_NM AS OCCUPATION_NM
+            ]]>
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
@@ -58,6 +67,7 @@
                 CAM_COMMON.DJ_FILE_INFO FI
             ON FI.FILE_NO = IM.SIGN_IMAGE_PK
         )IM ON IM.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN CAM_COMMON.DJ_COM_CODE CC ON CC.CM_GROUP_CODE_ID = 9 AND HEI.OCCUPATION_CODE = CC.CM_CODE
         WHERE 1=1
         <choose>
             <when test='active != null and !"".equals(active)'></when>

@@ -70,13 +70,17 @@
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col style="width: 10%">
-                    <col style="width: 40%">
+                    <col style="width: 20%">
+                    <col style="width: 16%">
                     <col style="width: 10%">
-                    <col style="width: 40%">
+                    <col style="width: 11%">
+                    <col style="width: 11%">
+                    <col style="width: 11%">
+                    <col style="width: 11%">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th colspan="4" style="font-weight: bold">평가자</th>
+                    <th colspan="8" style="font-weight: bold">평가자</th>
                 </tr>
                 <tr>
                     <th>구 분</th>
@@ -88,8 +92,8 @@
                     <th>환산점수</th>
                     <th>최종점수</th>
                 </tr>
-                <tr>
-                    <td id="td1-1"></td>
+                <tr id="tr1" style="text-align: center">
+                    <td id="td1-1">1차</td>
                     <td id="td1-2"></td>
                     <td id="td1-3"></td>
                     <td id="td1-4"></td>
@@ -98,8 +102,8 @@
                     <td id="td1-7"></td>
                     <td id="td1-8"></td>
                 </tr>
-                <tr>
-                    <td id="td2-1"></td>
+                <tr id="tr2" style="text-align: center">
+                    <td id="td2-1">2차</td>
                     <td id="td2-2"></td>
                     <td id="td2-3"></td>
                     <td id="td2-4"></td>
@@ -109,6 +113,79 @@
                     <td id="td2-8"></td>
                 </tr>
                 </thead>
+            </table>
+        </div>
+
+        <div class="panel-body" style="padding-bottom: 0px">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col style="width: 33.4%">
+                    <col style="width: 33.3%">
+                    <col style="width: 33.3%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="3" style="font-weight: bold">평가의견</th>
+                </tr>
+                <tr>
+                    <th>본인평가</th>
+                    <th>1차 평가자</th>
+                    <th>2차 평가자</th>
+                </tr>
+                <tr id="tr3" style="text-align: center">
+                    <td id="view1"></td>
+                    <td id="view2"></td>
+                    <td id="view3"></td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="panel-body" style="padding-bottom: 0px">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 40%">
+                    <col style="width: 10%">
+                    <col style="width: 40%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="4" id="detailTd" style="font-weight: bold"></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div class="panel-body">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="5%">
+                    <col width="9%">
+                    <col width="20%">
+                    <col width="38%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color" rowspan="2">순번</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">역량</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">정의</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">평가 착안점</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">배점</th>
+                    <th scope="row" class="text-center th-color" colspan="3">평가기준</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">본인평가</th>
+                    <th scope="row" class="text-center th-color">1차 평가</th>
+                    <th scope="row" class="text-center th-color">2차 평가</th>
+                </tr>
+                </thead>
+                <tbody id="evalList">
+                </tbody>
             </table>
         </div>
     </div>

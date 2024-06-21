@@ -318,7 +318,12 @@
 
         var parameters = {
             evalSn : $("#evalSn").val(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            empSeq : $("#empSeq").val(),
+            totalScore : $("#totalScore").val(),
+            evalView : $("#evalView").val(),
+            evalResultType : evalResultType,
+            save : key
         }
         parameters.evalCk = "Y";
 
