@@ -1872,12 +1872,12 @@ var regPay = {
                 if(flag){
                     $("#payAppDraftFrm").one("submit", function() {
                         var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
-                        var name = "_self";
+                        var name = "payAppApprovalPop";
                         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
                         var popup = window.open(url, name, option);
                         this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
                         this.method = 'POST';
-                        this.target = '_self';
+                        this.target = 'payAppApprovalPop';
                     }).trigger("submit");
                 }
             }
@@ -2620,7 +2620,6 @@ var regPay = {
                             }else if($("#reqType").val() == "snack"){
                                opener.parent.snackList.mainGrid();
                             }else if($("#reqType").val() == "partRate"){
-                                window.close();
                             }else{
                                 opener.parent.paymentList.gridReload();
                             }

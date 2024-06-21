@@ -641,6 +641,13 @@ var draft = {
                 }catch{
 
                 }
+                try{
+                    if(draft.global.params.menuCd == "payApp"){
+                        opener.location.reload();
+                    }
+                }catch{
+
+                }
                 window.close();
             }
         }
@@ -989,6 +996,13 @@ var draft = {
                                         }catch{
 
                                         }
+                                        try{
+                                            if(draft.global.params.menuCd == "payApp"){
+                                                opener.location.reload();
+                                            }
+                                        }catch{
+
+                                        }
                                         window.close();
                                     }
                                 }
@@ -1033,6 +1047,13 @@ var draft = {
                             }
                             try{
                                 opener.opener.gridReload();
+                            }catch{
+
+                            }
+                            try{
+                                if(draft.global.params.menuCd == "payApp"){
+                                    opener.location.reload();
+                                }
                             }catch{
 
                             }
@@ -1095,6 +1116,13 @@ var draft = {
                         }
                         try{
                             opener.opener.gridReload();
+                        }catch{
+
+                        }
+                        try{
+                            if(draft.global.params.menuCd == "payApp"){
+                                opener.location.reload();
+                            }
                         }catch{
 
                         }
@@ -1333,6 +1361,13 @@ var draft = {
                 }
                 try{
                     opener.opener.gridReload();
+                }catch{
+
+                }
+                try{
+                    if(draft.global.params.menuCd == "payApp"){
+                        opener.location.reload();
+                    }
                 }catch{
 
                 }
