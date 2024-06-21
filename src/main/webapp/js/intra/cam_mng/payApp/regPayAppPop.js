@@ -246,11 +246,11 @@ var regPay = {
                     claimSn : $("#claimSn").val().toString().split(",")[x],
                     claimExnpSn : $("#claimExnpSn").val().toString().split(",")[x]
                 }
-                //
-                // var map = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
-                // if(map != null){
-                //     data.purcSn = map.data.PURC_SN
-                // }
+
+                var map = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+                if(map != null){
+                    data.purcSn = map.data.PURC_SN
+                }
 
                 var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
 
@@ -691,6 +691,10 @@ var regPay = {
             var data = {
                 claimExnpSn: $("#claimExnpSn").val(),
                 claimSn : $("#claimSn").val()
+            }
+
+            if($("#purcSn").val() != 'undefined'){
+                data.purcSn = $("#purcSn").val();
             }
 
             var fileResult = new Array();
