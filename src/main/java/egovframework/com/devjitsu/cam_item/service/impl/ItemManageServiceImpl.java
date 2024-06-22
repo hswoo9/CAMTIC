@@ -109,6 +109,17 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public void setDepositUpd(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> oorlArr = gson.fromJson((String) params.get("oorlArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oorlArr.size() > 0){
+            for(Map<String, Object> map : oorlArr){
+                itemManageRepository.setDepositUpd(map);
+            }
+        }
+    }
+
+    @Override
     public void setObtainOrder(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> orArr = gson.fromJson((String) params.get("orArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());

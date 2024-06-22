@@ -225,6 +225,12 @@ public class ItemManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/item/setDepositUpd.do")
+    public String setDepositUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setDepositUpd(params);
+        return "jsonView";
+    }
+
     /**
      * 수주등록 팝업
      * @param params

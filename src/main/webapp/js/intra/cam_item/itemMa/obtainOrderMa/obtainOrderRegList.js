@@ -35,6 +35,7 @@ var oorl = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             height : 508,
             sortable: true,
+            scrollable : true,
             selectable: "row",
             pageable: {
                 refresh: true,
@@ -57,6 +58,13 @@ var oorl = {
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="oorl.setObtainOrderCancel()">' +
                             '	<span class="k-button-text">수주취소</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.setDepositUpd()">' +
+                            '	<span class="k-button-text">입금완료</span>' +
                             '</button>';
                     }
                 }, {
@@ -86,8 +94,8 @@ var oorl = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        if(e.OBTAIN_ORDER_TYPE == "Y" && e.DEADLINE == "N") {
-                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' style=\"top: 3px; position: relative\" />"
+                        if((e.OBTAIN_ORDER_TYPE == "Y" && e.DEADLINE == "N") || e.DEPOSIT == "N") {
+                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" />"
                         }else{
                             return ""
                         }
@@ -100,6 +108,7 @@ var oorl = {
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
+                    width: 200,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
@@ -294,6 +303,17 @@ var oorl = {
                         }
                     },
                 }, {
+                    title: "입금구분",
+                    field: "DEPOSIT",
+                    width: 80,
+                    template : function (e){
+                        if(e.DEPOSIT == "Y"){
+                            return "입금"
+                        }else{
+                            return "미입금";
+                        }
+                    },
+                }, {
                     title: "마감구분",
                     field: "DEADLINE",
                     width: 80,
@@ -364,7 +384,10 @@ var oorl = {
                     obtainOrderSn : $(this).val(),
                     empSeq : $("#regEmpSeq").val()
                 }
-                oorlArr.push(data);
+
+                if($(this).attr("deadline") == "N"){
+                    oorlArr.push(data);
+                }
             })
 
             oorl.global.saveAjaxData = {
@@ -372,6 +395,37 @@ var oorl = {
             }
 
             var result = customKendo.fn_customAjax("/item/setDeadlineUpd.do", oorl.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                oorl.gridReload();
+            }
+        }
+    },
+
+    setDepositUpd: function(){
+        if($("input[name=ooSn]:checked").length == 0){
+            alert("항목을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("선택한 항목을 입금완료처리하시겠습니까?")){
+            var oorlArr = new Array()
+            $.each($("input[name=ooSn]:checked"), function(){
+                var data = {
+                    obtainOrderSn : $(this).val(),
+                    empSeq : $("#regEmpSeq").val()
+                }
+
+                if($(this).attr("deposit") == "N"){
+                    oorlArr.push(data);
+                }
+            })
+
+            oorl.global.saveAjaxData = {
+                oorlArr : JSON.stringify(oorlArr)
+            }
+
+            var result = customKendo.fn_customAjax("/item/setDepositUpd.do", oorl.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
                 oorl.gridReload();
