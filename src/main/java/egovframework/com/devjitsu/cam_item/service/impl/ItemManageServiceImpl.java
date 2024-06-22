@@ -754,6 +754,13 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setInspectionUpd(Map<String, Object> params) {
         itemManageRepository.setInspectionUpd(params);
+
+        String whSn[] = params.get("whSn").toString().split(",");
+        for(String map : whSn){
+            params.put("itemWhSn", map);
+            Map<String, Object> tempMap = itemManageRepository.getItemWhInfo(params);
+            itemManageRepository.setItemHistInfo(tempMap);
+        }
     }
 
     @Override

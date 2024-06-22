@@ -63,6 +63,7 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params) { return selectList("item.getItemWhInfoList", params);}
     public Map<String, Object> getItemWhInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("item.getItemWhInfo", params);}
     public void setInspectionUpd(Map<String, Object> params) { update("item.setInspectionUpd", params);}
+    public void setItemHistInfo(Map<String, Object> params) { update("item.setItemHistInfo", params);}
     public void setReceivingReg(Map<String, Object> params) { insert("item.setReceivingReg", params);}
     public void setReceivingRegUpd(Map<String, Object> params) { update("item.setReceivingRegUpd", params);}
     public void setReceivingCancel(Map<String, Object> params) { update("item.setReceivingCancel", params);}

@@ -1373,6 +1373,32 @@
             ITEM_WH_SN IN (${whSn})
     </update>
 
+    <insert id="setItemHistInfo" parameterType="map">
+        /*setItemHistInfo*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_HIST
+        (
+            MASTER_SN,
+            ITEM_WH_SN,
+            CRM_SN,
+            IN_CNT,
+            OUT_CNT,
+            UNIT_AMT,
+            TOT_AMT,
+            DEF_DATE
+        )
+        VALUES
+        (
+            #{MASTER_SN},
+            #{ITEM_WH_SN},
+            #{CRM_SN},
+            #{WH_VOLUME},
+            0,
+            #{UNIT_PRICE},
+            #{AMT},
+            #{WH_DT}
+        )
+    </insert>
+
     <insert id="setReceivingReg" parameterType="map">
         /* setReceivingReg */
         INSERT INTO CAM_ITEM.DJ_ITEM_WH_INFO
