@@ -484,6 +484,11 @@
         DELETE FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER WHERE BASE_YEAR_MONTH = #{baseYearMonth}
     </delete>
 
+    <delete id="setPayRollCompDel" parameterType="map">
+        /* setPayRollCompDel */
+        DELETE FROM CAM_INSIDE.DJ_PAY_ROLL_COMP WHERE BASE_YEAR_MONTH = #{baseYearMonth}
+    </delete>
+
     <insert id="setPayRollLeger" parameterType="list">
         /* setPayRollLeger */
         INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER (
@@ -576,6 +581,48 @@
         </foreach>
     </insert>
 
+    <insert id="setPayRollComp" parameterType="list">
+        /* setPayRollComp */
+        INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_COMP (
+            BASE_YEAR_MONTH,
+            EMP_TYPE,
+            ERP_EMP_CD,
+            EMP_SEQ,
+            EMP_NAME,
+            PAY_TYPE,
+            C_NAT_PAY,
+            C_HETH_PAY,
+            C_EMPL_PAY,
+            E_EMPL_PAY,
+            C_CARE_PAY,
+            C_INDT_PAY,
+            RETIRE_PAY,
+            C_TOT_PAY,
+            E_TOT_PAY,
+            REG_EMP_SEQ
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.baseYearMonth},
+                #{item.empType},
+                #{item.erpEmpCd},
+                #{item.empSeq},
+                #{item.empName},
+                #{item.payType},
+                #{item.cNatPay},
+                #{item.cHethPay},
+                #{item.cEmplPay},
+                #{item.eEmplPay},
+                #{item.cCarePay},
+                #{item.cIndtPay},
+                #{item.retirePay},
+                #{item.cTotPay},
+                #{item.eTotPay},
+                #{item.regEmpSeq}
+            )
+        </foreach>
+    </insert>
+
     <select id="getEmpSeqByErpCd" parameterType="map" resultType="String">
         /*getEmpSeqByErpCd*/
         SELECT
@@ -584,6 +631,16 @@
             CAM_HR.DJ_EMP_INFO
         WHERE
             ERP_EMP_SEQ = #{erpEmpCd}
+    </select>
+
+    <select id="getPayRollCompanyPay" parameterType="map" resultType="map">
+        /*getPayRollCompanyPay*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_PAY_ROLL_COMP
+        WHERE
+            BASE_YEAR_MONTH = #{baseYear}
     </select>
 </mapper>
 

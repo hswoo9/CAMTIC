@@ -30,4 +30,8 @@ public interface SalaryManageService {
     Map<String, Object> setExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
 
     List<Map<String, Object>> getPayRollLedgerStatusList(Map<String, Object> params);
+
+    Map<String, Object> setExcelUpload2(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
+
+    List<Map<String, Object>> getPayRollCompanyPay(Map<String, Object> params);
 }

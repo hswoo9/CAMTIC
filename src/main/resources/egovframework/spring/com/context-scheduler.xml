@@ -16,10 +16,10 @@
         <task:scheduled ref="schedulerService" method="etaxG20Scheduler" cron="0 0 0 * * ?"/>
     </task:scheduled-tasks>
 
-<!--    <task:scheduler id="exnpApproveStatChangeSheduler" pool-size="1"/>-->
-<!--    <task:scheduled-tasks scheduler="exnpApproveStatChangeSheduler">-->
-<!--        <task:scheduled ref="schedulerService" method="exnpApproveStatChangeSheduler" cron="0 0 0-9 * * ?"/>-->
-<!--    </task:scheduled-tasks>-->
+    <task:scheduler id="exnpApproveStatChangeSheduler" pool-size="1"/>
+    <task:scheduled-tasks scheduler="exnpApproveStatChangeSheduler">
+        <task:scheduled ref="schedulerService" method="exnpApproveStatChangeSheduler" cron="0 0 0-9 * * ?"/>
+    </task:scheduled-tasks>
 
     <task:scheduler id="appointmentScheduler" pool-size="1"/>
     <task:scheduled-tasks scheduler="appointmentScheduler">

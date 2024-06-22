@@ -860,7 +860,26 @@
         LEFT JOIN (SELECT SUM(TOT_COST) AS TOT_COST, EXNP_SN, BUDGET_NM, EVID_TYPE, CRM_NM FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN) B
         ON A.EXNP_SN = B.EXNP_SN
         WHERE
-            A.RE_STAT = 'Y' AND A.DOC_STATUS = 100
+            A.RE_STAT = 'Y' AND A.DOC_STATUS = 100 AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
+        AND
+            A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        <if test='busnCd != null and !"".equals(busnCd)'>
+            AND A.BUSN_CD = #{busnCd}
+        </if>
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            AND A.${searchValue} LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='searchValue == null or "".equals(searchValue)'>
+            AND (
+                    A.EXNP_BRIEFS LIKE CONCAT('%', #{searchText}, '%')
+                )
+        </if>
+        <if test='teamSeq != null and !"".equals(teamSeq)'>
+            AND B.TEAM_SEQ = #{teamSeq}
+        </if>
+        <if test='rmStat != null and !"".equals(rmStat)'>
+            AND B.RM_Y = #{rmStat}
+        </if>
         ORDER BY EXNP_DE DESC
     </select>
 
@@ -880,6 +899,16 @@
         UPDATE CAM_MNG.DJ_EXNP_DET
         SET
             RM_Y = #{rmY}
+        WHERE
+            EXNP_DET_SN = #{exnpDetSn}
+    </update>
+
+    <update id="updChangeTeam" parameterType="map">
+        /*updChangeTeam*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            TEAM_SEQ = #{teamSeq},
+            TEAM_NAME = #{teamName}
         WHERE
             EXNP_DET_SN = #{exnpDetSn}
     </update>

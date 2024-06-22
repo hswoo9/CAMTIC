@@ -196,4 +196,9 @@ public class AchieveRepository extends AbstractDAO {
 
         update("achieve.updateExnpStatus", params);
     }
+
+    public void updChangeTeam(Map<String, Object> params) {
+
+        update("achieve.updChangeTeam", params);
+    }
 }

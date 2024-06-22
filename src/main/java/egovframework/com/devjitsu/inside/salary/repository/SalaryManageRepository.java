@@ -76,5 +76,17 @@ public class SalaryManageRepository extends AbstractDAO  {
     public String getEmpSeqByErpCd(Map<String, Object> map) {
         return (String) selectOne("salaryManage.getEmpSeqByErpCd", map);
     }
+
+    public void setPayRollCompDel(Map<String, Object> params) {
+        delete("salaryManage.setPayRollCompDel", params);
+    }
+
+    public void setPayRollComp(List<Map<String, Object>> dataList) {
+        insert("salaryManage.setPayRollComp", dataList);
+    }
+
+    public List<Map<String, Object>> getPayRollCompanyPay(Map<String, Object> params) {
+        return selectList("salaryManage.getPayRollCompanyPay", params);
+    }
 }
 

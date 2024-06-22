@@ -256,4 +256,21 @@ public class SalaryManageController {
         model.addAttribute("rs", salaryManageService.setExcelUpload(params, request));
         return "jsonView";
     }
+
+    /**
+     * 사대보험 사업자부담분 및 퇴직연금 엑셀 업로드
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/salaryManage/setExcelUpload2")
+    public String setExcelUpload2(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
+        model.addAttribute("rs", salaryManageService.setExcelUpload2(params, request));
+        return "jsonView";
+    }
+
+    @RequestMapping("/salaryManage/getPayRollCompanyPay")
+    public String getPayRollCompanyPay(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", salaryManageService.getPayRollCompanyPay(params));
+        return "jsonView";
+    }
 }

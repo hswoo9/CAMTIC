@@ -369,4 +369,28 @@ public class AchieveController {
         return "jsonView";
 
     }
+
+    @RequestMapping("/cam_achieve/teamChangePop.do")
+    public String teamChangePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_achieve/teamChangePop";
+    }
+
+    @RequestMapping("/cam_achieve/updChangeTeam")
+    public String updChangeTeam(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            achieveService.updChangeTeam(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

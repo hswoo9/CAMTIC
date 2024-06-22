@@ -423,6 +423,82 @@ public class SalaryManageServiceImpl implements SalaryManageService {
     }
 
     @Override
+    public Map<String, Object> setExcelUpload2(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        Map<String, Object> returnMap = new HashMap<>();
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        MultipartFile fileNm = request.getFile("file");
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        HSSFRow row; // 로우값
+        HSSFCell col1;// 서고
+        HSSFCell col2;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        HSSFSheet sheet = workbook.getSheetAt(0); // 첫번째 시트
+        int rows = sheet.getPhysicalNumberOfRows();
+        row = sheet.getRow(0);
+
+        String errorRow = "";
+        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        for (int i = 1; i < rows; i++) {
+            row = sheet.getRow(i);
+            col1 = row.getCell(0);
+
+            if (row != null) {
+                if (hCellValueToString(col1, workbook).equals("")){
+
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+
+                    int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    map.put("baseYearMonth", params.get("baseYearMonth"));
+
+                    map.put("erpEmpCd", hCellValueToString(row.getCell(0), workbook));                   // 사원코드
+                    map.put("empType", hCellValueToString(row.getCell(1), workbook).trim());             // 구분
+                    map.put("empName", hCellValueToString(row.getCell(2), workbook));                    // 사원명
+                    map.put("cHethPay", removeCommas(hCellValueToString(row.getCell(3), workbook)));     // 건강보험료
+                    map.put("cCarePay", removeCommas(hCellValueToString(row.getCell(4), workbook)));     // 장기요양
+                    map.put("cNatPay", removeCommas(hCellValueToString(row.getCell(5), workbook)));      // 국민연금
+                    map.put("cEmplPay", removeCommas(hCellValueToString(row.getCell(6), workbook)));     // 고용보험(사업자부담분)
+                    map.put("eEmplPay", removeCommas(hCellValueToString(row.getCell(7), workbook)));     // 고용보험(근로자)
+                    map.put("cIndtPay", removeCommas(hCellValueToString(row.getCell(8), workbook)));     // 산재보험
+                    map.put("retirePay", removeCommas(hCellValueToString(row.getCell(9), workbook)));    // 퇴직연금
+                    map.put("cTotPay", removeCommas(hCellValueToString(row.getCell(10), workbook)));     // 사대보험 합계(사업자)
+                    map.put("eTotPay", removeCommas(hCellValueToString(row.getCell(11), workbook)));     // 사대보험 합계(근로자)
+                    map.put("payType", hCellValueToString(row.getCell(12), workbook).trim());            // 구분
+
+                    map.put("regEmpSeq", params.get("loginEmpSeq"));
+
+                    dataList.add(map);
+                }
+            }
+        }
+
+        String errorMsg = "";
+
+        try{
+            salaryManageRepository.setPayRollCompDel(params);
+            salaryManageRepository.setPayRollComp(dataList);
+        } catch (Exception e){
+            errorMsg = "오류가 발생하였습니다. 관리자에게 문의하세요.";
+        }
+
+        returnMap.put("error", errorMsg);
+
+        if(!"".equals(errorRow)){
+            returnMap.put("errorRow", errorRow.substring(2));
+        } else {
+            returnMap.put("errorRow", "");
+        }
+
+        return returnMap;
+    }
+
+    @Override
     public List<Map<String, Object>> getPayRollLedgerStatusList(Map<String, Object> params) {
         return salaryManageRepository.getPayRollLedgerStatusList(params);
     }
@@ -518,5 +594,10 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
     private static String removeCommas(String value) {
         return value.replace(",", "");
+    }
+
+    @Override
+    public List<Map<String, Object>> getPayRollCompanyPay(Map<String, Object> params) {
+        return salaryManageRepository.getPayRollCompanyPay(params);
     }
 }

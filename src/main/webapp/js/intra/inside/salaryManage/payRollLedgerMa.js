@@ -2,7 +2,8 @@ var payRollLedgerMa = {
 
     global: {
         searchAjaxData : "",
-        yearFlag : false
+        yearFlag : false,
+        yearFlag2 : false
     },
 
     fn_defaultScript : function(){
@@ -30,6 +31,7 @@ var payRollLedgerMa = {
             baseYear : $("#searchYear").val()
         }
         payRollLedgerMa.mainGrid('/salaryManage/getPayRollLedgerList.do', payRollLedgerMa.global.searchAjaxData);
+        payRollLedgerMa.mainGrid2('/salaryManage/getPayRollCompanyPay', payRollLedgerMa.global.searchAjaxData);
     },
 
     mainGrid : function(url, params) {
@@ -45,6 +47,11 @@ var payRollLedgerMa = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return '<span>급여대장</span>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.gridReload()">' +
@@ -176,17 +183,177 @@ var payRollLedgerMa = {
         }
     },
 
+    mainGrid2 : function(url, params) {
+        $("#mainGrid2").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            scrollable: true,
+            resizable: true,
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, 100],
+                buttonCount : 5
+            },
+            toolbar : [
+                {
+                    name : 'text',
+                    template : function (e){
+                        return '<span>사대보험 및 퇴직연금</span>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name : 'button',
+                    template : function (){
+                        return '' +
+                            '<input type="text" id="baseYearMonth2"/>' +
+                            '<input type="file" id="file2" style="display: none" onchange="payRollLedgerMa.fileChange2(this)"/>' +
+                            '<input type="text" id="fileName2" readonly class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="$(\'#file2\').click()"/>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="$(\'#file2\').click()">' +
+                            '	<span class="k-button-text">파일선택</span>' +
+                            '</button>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.templateDownload2()">' +
+                            '	<span class="k-button-text">양식다운로드</span>' +
+                            '</button>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.fileUpload2()">' +
+                            '	<span class="k-button-text">업로드</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            excel: {
+                fileName:  '급여대장.xlsx',
+                allPages: true
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "",
+                    title: "번호",
+                    template: "#= --record #",
+                    width: 50
+                }, {
+                    field: "ERP_EMP_CD",
+                    title: "사번",
+                    width : 80
+                }, {
+                    field: "EMP_NAME",
+                    title: "성명",
+                    width : 100,
+                }, {
+                    field: "PAY_TYPE",
+                    title: "비용구분",
+                    width : 100,
+                }, {
+                    field: "C_NAT_PAY",
+                    title: "국민연금",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_NAT_PAY) + '</div>';
+                    },
+                }, {
+                    field: "C_HETH_PAY",
+                    title: "건강보험료",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_HETH_PAY) + '</div>';
+                    },
+                }, {
+                    field: "C_EMPL_PAY",
+                    title: "고용보험<br>(사업자부담)",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_EMPL_PAY) + '</div>';
+                    },
+                }, {
+                    field: "E_EMPL_PAY",
+                    title: "고용보험<br>(근로자)",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.E_EMPL_PAY) + '</div>';
+                    },
+                }, {
+                    field: "C_CARE_PAY",
+                    title: "장기요양",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_CARE_PAY) + '</div>';
+                    },
+                }, {
+                    field: "C_INDT_PAY",
+                    title: "산재보험",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_INDT_PAY) + '</div>';
+                    },
+                }, {
+                    field: "RETIRE_PAY",
+                    title: "퇴직연금",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.RETIRE_PAY) + '</div>';
+                    },
+                }, {
+                    field: "C_TOT_PAY",
+                    title: "사대보험 합계<br>(사업자)",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.C_TOT_PAY) + '</div>';
+                    },
+                }, {
+                    field: "E_TOT_PAY",
+                    title: "사대보험 합계<br>(근로자)",
+                    width : 100,
+                    template: function (e) {
+                        return '<div style="text-align: right">' + comma(e.E_TOT_PAY) + '</div>';
+                    },
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+
+        if(!payRollLedgerMa.global.yearFlag2){
+            customKendo.fn_datePicker("baseYearMonth2", "year", "yyyy-MM", new Date());
+            payRollLedgerMa.global.yearFlag2 = true;
+        }
+    },
+
     fileChange : function(e){
         var file = $(e)[0].files[0];
         var fileExt = file.name.split(".")[file.name.split(".").length - 1];
 
-        if($.inArray(fileExt, ['xls', 'xlsx']) == -1){
-            alert("xls, xlsx 확장자만 업로드할 수 있습니다.");
+        if($.inArray(fileExt, ['xls']) == -1){
+            alert("xls 확장자만 업로드할 수 있습니다.");
             $(e).val("");
             return;
         }
 
         $("#fileName").val($(e)[0].files[0].name);
+    },
+
+    fileChange2 : function(e){
+        var file = $(e)[0].files[0];
+        var fileExt = file.name.split(".")[file.name.split(".").length - 1];
+
+        if($.inArray(fileExt, ['xls']) == -1){
+            alert("xls 확장자만 업로드할 수 있습니다.");
+            $(e).val("");
+            return;
+        }
+
+        $("#fileName2").val($(e)[0].files[0].name);
     },
 
     fileUpload : function(){
@@ -258,9 +425,86 @@ var payRollLedgerMa = {
         }
     },
 
+    fileUpload2 : function(){
+        if($("#baseYearMonth2").val() == ""){
+            alert("업로드 년월을 선택해주세요.");
+            return;
+        }
+
+        if($("#file2")[0].files.length == 0){
+            alert("파일을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("등록하시겠습니까?")){
+            var formData = new FormData();
+            formData.append("file", $("#file2")[0].files[0]);
+            formData.append("baseYearMonth", $("#baseYearMonth2").val());
+            formData.append("loginEmpSeq", $("#empSeq").val());
+            $.ajax({
+                url : '/inside/salaryManage/setExcelUpload2',
+                type : 'POST',
+                data: formData,
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                beforeSend : function(){
+                    var maskHeight = $(document).height();
+                    var maskWidth  = $(document).width();
+                    var mask       = "<div id='mask' style='position:absolute; z-index:9999999999; background-color:#000000; display:none; left:0; top:0;'></div>";
+                    var loadingDiv       = "<div id=\"loadingImg\" style=\"display: none;\"></div>";
+                    var loadingImg = "<img src='/css/kendoui/Black/loading_2x.gif' id='imgTag' style='display: block; margin: 0px auto;'/>";
+                    $('body').append(mask)
+                    $('body').append(loadingDiv)
+
+                    $('#loadingImg').css({
+                        "position": "absolute",
+                        "display": "block",
+                        "margin": "0px auto",
+                        "top": "50%",
+                        "left": "50%",
+                        "z-index": "10000000000",
+                    });
+
+                    $('#mask').css({
+                        'width' : maskWidth,
+                        'height': maskHeight,
+                        'opacity' : '0.3'
+                    });
+                    $('#mask').show();
+                    $('#loadingImg').append(loadingImg);
+                    $('#loadingImg').show();
+                },
+                success : function(rs) {
+                    if(rs.rs.errorRow != ""){
+                        alert("[ " + rs.rs.errorRow + " ]사용자를 찾을 수 없습니다.\n" +
+                            "[ " + rs.rs.errorRow + " ]사용자를 제외한 데이터가 저장되었습니다.");
+                    }
+
+                    if(rs.rs.error != ""){
+                        alert(rs.rs.error);
+                    }
+
+                    $('#mask').remove();
+                    $('#loadingImg').remove();
+                    payRollLedgerMa.gridReload();
+                },
+            })
+        }
+    },
+
     templateDownload : function(){
         let filePath = "/upload/templateForm/payrollRegister.xls"
         let fileName = "급여대장업로드양식.xls";
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+        });
+    },
+
+    templateDownload2 : function(){
+        let filePath = "/upload/templateForm/payrollRegister2.xls"
+        let fileName = "사대보험 및 퇴직연금.xls";
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
         });

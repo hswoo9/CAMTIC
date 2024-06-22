@@ -473,4 +473,9 @@ public class AchieveServiceImpl implements AchieveService {
     public void updateExnpStatus(Map<String, Object> params) {
         achieveRepository.updateExnpStatus(params);
     }
+
+    @Override
+    public void updChangeTeam(Map<String, Object> params) {
+        achieveRepository.updChangeTeam(params);
+    }
 }

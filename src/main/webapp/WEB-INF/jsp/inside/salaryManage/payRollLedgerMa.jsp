@@ -51,6 +51,8 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
+
+                <div id="mainGrid2" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>

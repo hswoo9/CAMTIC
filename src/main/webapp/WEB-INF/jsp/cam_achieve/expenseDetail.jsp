@@ -38,39 +38,28 @@
                     <col width="25%">
                 </colgroup>
                 <tr>
-                    <th class="text-center th-color">연도선택</th>
-                    <td colspan="6">
-                        <input type="text" id="pjtYear" style="width: 150px;">
+                    <th class="text-center th-color">날짜</th>
+                    <td>
+                        <input type="text" id="startDt" style="width: 150px;"> ~ <input type="text" id="endDt" style="width: 150px;">
+                    </td>
+                    <th class="text-center th-color">사업장</th>
+                    <td>
+                        <input type="text" id="busnCd" style="width: 100%;">
+                    </td>
+                    <th class="text-center th-color">팀명</th>
+                    <td>
+                        <input type="text" id="team" style="width: 150px;">
                     </td>
                 </tr>
                 <tr>
-                    <th class="text-center th-color">사업구분</th>
+                    <th class="text-center th-color">구분</th>
                     <td>
-                        <input type="text" id="busnClass" style="width: 150px;">
-                    </td>
-                    <th class="text-center th-color">진행단계</th>
-                    <td>
-                        <input type="text" id="busnSubClass" style="width: 150px;">
-                    </td>
-                    <th class="text-center th-color">PM</th>
-                    <td>
-                        <input type="text" id="empName" style="width: 150px;">
-                    </td>
-                </tr>
-                <tr>
-                    <th class="text-center th-color">대상부서</th>
-                    <td>
-                        <div onclick="fn_deptSelect();">
-                            <input type="text" id="deptName" style="width: 90%;">
-                            <span class='k-icon k-i-search k-button-icon' style="cursor: pointer"></span>
-                            <input type="hidden" id="deptSeq" name="deptSeq" />
-                        </div>
+                        <input type="text" id="rmStat" style="width: 50%;">
                     </td>
                     <th class="text-center th-color">검색</th>
                     <td colspan="4">
                         <input type="text" id="searchValue" style="width: 150px;">
-                        <input type="text" id="searchValue2" style="width: 150px;">
-                        <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ recordTotal.mainGrid(); }" style="width: 200px;">
+                        <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 200px;">
                     </td>
                 </tr>
             </table>
@@ -84,6 +73,7 @@
 
 <script>
 
+    let sumT = 0;
     $(function(){
         fn_defaultScript()
 
@@ -92,6 +82,7 @@
     });
 
     function fn_defaultScript(){
+        customKendo.fn_textBox(["searchText"])
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
@@ -105,6 +96,46 @@
             if($("#startDt").val() > $("#endDt").val()){
                 $("#startDt").val($("#endDt").val());
             }
+        });
+
+        $("#busnCd").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                { text: "7000-(사)캠틱종합기술원", value: "7000" }
+            ]
+        });
+
+        $("#searchValue").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "적요", value: "EXNP_BRIEFS" }
+            ]
+        });
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+            deptLevel : 2
+        });
+
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq","5");
+
+        $("#rmStat").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "비용처리", value: "Y" },
+                { text: "비용제외", value: "N" }
+            ]
         });
 
         gridReload();
@@ -124,6 +155,7 @@
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: onDataBound,
             columns: [
                 {
                     title: "번호",
@@ -191,28 +223,23 @@
                 }, {
                     title: "적요(제목)",
                     field: "EXNP_BRIEFS",
-                    width: 250
+                    width: 250,
+                    footerTemplate: "합계"
                 }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
-                        var cost = e.TOT_COST;
+                        sumT  += Number(e.TOT_COST || 0);
+                        var cost = e.TOT_COST || 0;
                         return '<div style="text-align: right">'+comma(cost)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+fn_numberWithCommas(sumT)+"</div>";
                     }
                 }, {
                     title: "결의일자",
                     width: 80,
                     field: "EXNP_DE",
-                }, {
-                    title: "상태",
-                    width: 60,
-                    template: function(e){
-                        if(e.RE_STAT == "N"){
-                            return "미승인"
-                        } else {
-                            return "승인"
-                        }
-                    }
                 }, {
                     title: "기타",
                     width: 60,
@@ -225,6 +252,10 @@
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        function onDataBound(){
+            sumT = 0;
+        }
 
 
         // $("#checkAll").click(function(){
@@ -259,7 +290,7 @@
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_rmChange(\'Y\', '+e.EXNP_SN+')">' +
-                            '	<span class="k-button-text">포함</span>' +
+                            '	<span class="k-button-text">비용</span>' +
                             '</button>';
                     }
                 }
@@ -333,7 +364,7 @@
                         if (e.RM_Y == "N") {
                             return "제외";
                         } else {
-                            return "포함";
+                            return "비용";
                         }
                     }
                 }, {
@@ -361,8 +392,12 @@
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
             searchStatus: $("#searchStatus").val(),
+            searchText: $("#searchText").val(),
             searchKeyword: $("#searchKeyword").val(),
-            searchValue: $("#searchValue").val()
+            searchValue: $("#searchValue").val(),
+            busnCd : $("#busnCd").data("kendoDropDownList").value(),
+            teamSeq : $("#team").data("kendoDropDownList").value(),
+            rmStat : $("#rmStat").data("kendoDropDownList").value()
         }
 
         mainGrid("/cam_achieve/getExnpList", searchAjaxData);
@@ -385,7 +420,7 @@
     function fn_rmChange(stat, key){
 
         if(stat == 'Y'){
-            if(!confirm('해당 건들을 포함하시겠습니까?')){
+            if(!confirm('해당 건들을 비용처리 하시겠습니까?')){
                 return;
             }
         } else {
@@ -416,7 +451,7 @@
 
         url = "/cam_achieve/teamChangePop.do?exnpDetSn=" + key;
         var name = "blank";
-        var option = "width = 800, height = 500, top = 100, left = 400, location = no";
+        var option = "width = 800, height = 355, top = 100, left = 400, location = no";
         window.open(url, name, option);
     }
 

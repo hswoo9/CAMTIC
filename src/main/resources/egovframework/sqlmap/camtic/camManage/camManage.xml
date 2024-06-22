@@ -629,7 +629,7 @@
             CAM_MNG.DJ_EXNP
         WHERE
         <![CDATA[
-            DT3 <= now()
+            EXNP_DE = DATE_FORMAT(now(), '%Y-%m-%d')
         AND RE_STAT = 'N'
         AND PAY_APP_TYPE = 1
         ]]>
