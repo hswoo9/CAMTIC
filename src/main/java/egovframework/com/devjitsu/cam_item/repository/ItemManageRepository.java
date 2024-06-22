@@ -20,6 +20,7 @@ public class ItemManageRepository extends AbstractDAO {
     public Map<String, Object> getObtainOrder(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getObtainOrder", params);}
     public void setDeliveryAmtUpd(Map<String, Object> params) { update("item.setDeliveryAmtUpd", params);}
     public void setDeadlineUpd(Map<String, Object> params) { update("item.setDeadlineUpd", params);}
+    public void setDepositUpd(Map<String, Object> params) { update("item.setDepositUpd", params);}
     public void setObtainOrder(Map<String, Object> params) { insert("item.setObtainOrder", params);}
     public void setObtainOrderUpd(Map<String, Object> params) { update("item.setObtainOrderUpd", params);}
     public void setObtainOrderCancel(Map<String, Object> params) { update("item.setObtainOrderCancel", params);}
@@ -63,6 +64,7 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params) { return selectList("item.getItemWhInfoList", params);}
     public Map<String, Object> getItemWhInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("item.getItemWhInfo", params);}
     public void setInspectionUpd(Map<String, Object> params) { update("item.setInspectionUpd", params);}
+    public void setItemHistInfo(Map<String, Object> params) { update("item.setItemHistInfo", params);}
     public void setReceivingReg(Map<String, Object> params) { insert("item.setReceivingReg", params);}
     public void setReceivingRegUpd(Map<String, Object> params) { update("item.setReceivingRegUpd", params);}
     public void setReceivingCancel(Map<String, Object> params) { update("item.setReceivingCancel", params);}

@@ -278,6 +278,18 @@
         ]]>
     </update>
 
+    <update id="setDepositUpd" parameterType="map">
+        /* setDepositUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            DEPOSIT = 'Y',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
+
     <insert id="setObtainOrder" parameterType="map">
         /* setObtainOrder */
         INSERT INTO CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
@@ -1373,6 +1385,32 @@
             ITEM_WH_SN IN (${whSn})
     </update>
 
+    <insert id="setItemHistInfo" parameterType="map">
+        /*setItemHistInfo*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_HIST
+        (
+            MASTER_SN,
+            ITEM_WH_SN,
+            CRM_SN,
+            IN_CNT,
+            OUT_CNT,
+            UNIT_AMT,
+            TOT_AMT,
+            DEF_DATE
+        )
+        VALUES
+        (
+            #{MASTER_SN},
+            #{ITEM_WH_SN},
+            #{CRM_SN},
+            #{WH_VOLUME},
+            0,
+            #{UNIT_PRICE},
+            #{AMT},
+            #{WH_DT}
+        )
+    </insert>
+
     <insert id="setReceivingReg" parameterType="map">
         /* setReceivingReg */
         INSERT INTO CAM_ITEM.DJ_ITEM_WH_INFO
@@ -1784,58 +1822,67 @@
 
     <select id="getCrmSalesConfirmList" parameterType="map" resultType="map">
         /* getCrmSalesConfirmList */
-        SELECT
-            CI.CRM_SN,
-            CI.CRM_NM,
-            SR.OBTAIN_ORDER_SN,
-            IFNULL(CSC.CRM_SALES_CONFIRM_SN, '') AS CRM_SALES_CONFIRM_SN,
-            IFNULL(SR.SALES_MONTH, 0) AS SALES_MONTH,
-            IFNULL(SR.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
-            IFNULL(CSC.CONFIRM_AMT, 0) AS CONFIRM_AMT,
-            IFNULL(CSC.CONFIRM_YN, 'N') AS CONFIRM_YN,
-            EI.EMP_SEQ,
-            EI.EMP_NAME_KR,
-            (select IFNULL(sum(TOT_AMT),0) from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and confirm_chk = 'Y' and date_format(MOD_DT, '%Y-%m') = #{yearMonth} and in_cnt = 0) AS DEADLINE_AMT,
-            (select confirm_chk from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and date_format(MOD_DT, '%Y-%m') = #{yearMonth} limit 1) AS CONFIRM_CHK
-        FROM
-            CAM_CRM.DJ_CRM_INFO CI
-        LEFT JOIN
-            CAM_ITEM.DJ_CRM_SALES_CONFIRM CSC
-        ON CI.CRM_SN = CSC.CRM_SN AND DATE_FORMAT(CSC.CONFIRM_DATE, '%Y-%m') = #{yearMonth}
-        LEFT JOIN
-            CAM_HR.DJ_EMP_INFO EI
-        ON CSC.CONFIRM_EMP_SEQ = EI.EMP_SEQ
-        LEFT JOIN (
+        SELECT * FROM
+        (
             SELECT
+                CI.CRM_SN,
+                CI.CRM_NM,
                 SR.OBTAIN_ORDER_SN,
-                SR.CRM_SN,
-                SUM(SRH.AMT) AS SALES_MONTH,
-                SUM(DISTINCT SR.DEPOSIT_AMT) AS DEPOSIT_AMT
+                IFNULL(CSC.CRM_SALES_CONFIRM_SN, '') AS CRM_SALES_CONFIRM_SN,
+                IFNULL(SR.SALES_MONTH, 0) AS SALES_MONTH,
+                IFNULL(SR.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
+                IFNULL(CSC.CONFIRM_AMT, 0) AS CONFIRM_AMT,
+                IFNULL(CSC.CONFIRM_YN, 'N') AS CONFIRM_YN,
+                EI.EMP_SEQ,
+                EI.EMP_NAME_KR,
+                (select IFNULL(sum(TOT_AMT),0) from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and confirm_chk = 'Y' and date_format(MOD_DT, '%Y-%m') = #{yearMonth} and in_cnt = 0) AS DEADLINE_AMT,
+                (select confirm_chk from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and date_format(MOD_DT, '%Y-%m') = #{yearMonth} limit 1) AS CONFIRM_CHK
             FROM
-                CAM_ITEM.DJ_ITEM_SM_RECORD_HIST SRH
-            JOIN
-                CAM_ITEM.DJ_ITEM_SM_RECORD SR
-            ON SRH.SM_RECORD_SN = SR.SM_RECORD_SN
-            WHERE
-                SR.DEADLINE = 'Y'
-            AND
-                SR.UNPAID_TYPE != 'C'
-            AND
-                DATE_FORMAT(SRH.DELIVERY_DT, '%Y-%m') = #{yearMonth}
-            GROUP BY SRH.CRM_SN
-        )SR
-        ON CI.CRM_SN = SR.CRM_SN
+                CAM_CRM.DJ_CRM_INFO CI
+            LEFT JOIN
+                CAM_ITEM.DJ_CRM_SALES_CONFIRM CSC
+            ON CI.CRM_SN = CSC.CRM_SN AND DATE_FORMAT(CSC.CONFIRM_DATE, '%Y-%m') = #{yearMonth}
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO EI
+            ON CSC.CONFIRM_EMP_SEQ = EI.EMP_SEQ
+            LEFT JOIN (
+                SELECT
+                    SR.OBTAIN_ORDER_SN,
+                    SR.CRM_SN,
+                    SUM(SRH.AMT) AS SALES_MONTH,
+                    SUM(DISTINCT SR.DEPOSIT_AMT) AS DEPOSIT_AMT
+                FROM
+                    CAM_ITEM.DJ_ITEM_SM_RECORD_HIST SRH
+                JOIN
+                    CAM_ITEM.DJ_ITEM_SM_RECORD SR
+                ON SRH.SM_RECORD_SN = SR.SM_RECORD_SN
+                WHERE
+                    SR.DEADLINE = 'Y'
+                AND
+                    SR.UNPAID_TYPE != 'C'
+                AND
+                    DATE_FORMAT(SRH.DELIVERY_DT, '%Y-%m') = #{yearMonth}
+                GROUP BY SRH.CRM_SN
+            )SR
+            ON CI.CRM_SN = SR.CRM_SN
+            WHERE 1=1
+        ) SUB
         WHERE 1=1
-        <if test='crmSn != null and !"".equals(crmSn)'>
-            AND CI.CRM_SN = #{crmSn}
-        </if>
+        <choose>
+            <when test='crmSn != null and !"".equals(crmSn)'>
+                AND SUB.CRM_SN = #{crmSn}
+            </when>
+            <otherwise>
+                AND SUB.OBTAIN_ORDER_SN IS NOT NULL
+            </otherwise>
+        </choose>
         <if test='confirmYn != null and !"".equals(confirmYn)'>
             <choose>
                 <when test='"N".equals(confirmYn)'>
-                    AND CSC.CONFIRM_YN = 'N' OR CSC.CONFIRM_YN IS NULL
+                    AND SUB.CONFIRM_YN = 'N'
                 </when>
                 <otherwise>
-                    AND CSC.CONFIRM_YN = 'Y'
+                    AND SUB.CONFIRM_YN = 'Y'
                 </otherwise>
             </choose>
         </if>
