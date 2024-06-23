@@ -117,7 +117,14 @@ var budgetList = {
                     field: "pjtToDate",
                     title: "종료일자",
                     width: 80,
-                }
+                }, /*{
+                    field: "",
+                    title: "",
+                    width: 80,
+                    template : function(e){
+                        return "<button onclick='budgetList.fn_test(\"" + e.pjtSeq + "\")'>TEST</button>";
+                    }
+                }*/
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -136,5 +143,23 @@ var budgetList = {
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    fn_test : function(pjtCd){
+        $.ajax({
+            url: "/mng/insProjectBudgetStatus",
+            data: {
+                pjtCd : pjtCd
+            },
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(rs) {
+
+            },
+            error: function (e) {
+                console.log('error : ', e);
+            }
+        });
     }
 }

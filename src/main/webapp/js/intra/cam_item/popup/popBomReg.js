@@ -101,10 +101,16 @@ var bomReg = {
                     '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange()">' +
+                    '<input type="text" id="itemCdName' + bomReg.global.bomDetailIndex + '" class="itemCdName k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange()" value="0">' +
+                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')" value="0">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="totPrice' + bomReg.global.bomDetailIndex + '" class="totPrice numberInput" readonly style="text-align: right" value="0">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + bomReg.global.bomDetailIndex + '" class="rmk">' +
@@ -116,7 +122,7 @@ var bomReg = {
 
         $("#bomDetailTb").append(bomReg.global.createHtmlStr);
 
-        customKendo.fn_textBox(["reqQty" + bomReg.global.bomDetailIndex, "rmk" + bomReg.global.bomDetailIndex])
+        customKendo.fn_textBox(["reqQty" + bomReg.global.bomDetailIndex, "totPrice" + bomReg.global.bomDetailIndex, "rmk" + bomReg.global.bomDetailIndex])
 
         $(".numberInput").keyup(function(){
             $(this).val(bomReg.comma(bomReg.uncomma($(this).val())));
@@ -247,6 +253,7 @@ var bomReg = {
             $("#masterSn" + bomReg.global.masterSnIndex).val($("#masterSn").val())
             $("#itemNo" + bomReg.global.masterSnIndex).val($("#itemNo").val())
             $("#itemName" + bomReg.global.masterSnIndex).val($("#itemName").val())
+            $("#itemCdName" + bomReg.global.masterSnIndex).val($("#itemCdName").val())
             $("#whCdNm" + bomReg.global.masterSnIndex).val($("#whCdNm").val())
             $("#standard" + bomReg.global.masterSnIndex).val($("#standard").val())
             $("#itemType" + bomReg.global.masterSnIndex).val($("#itemType").val())
@@ -284,12 +291,16 @@ var bomReg = {
         $("#itemType").val("")
     },
 
-    costPriceChange : function(){
+    costPriceChange : function(idx){
         var sum = 0;
+        var amt = 0;
         $.each($("#bomDetailTb .unitPrice"), function(){
-            sum += Number(bomReg.uncomma($(this).val())) * Number(bomReg.uncomma($(this).closest("tr").find("input.reqQty").val()))
+            sum += Number(bomReg.uncomma($(this).val())) * Number(bomReg.uncomma($(this).closest("tr").find("input.reqQty").val()));
         })
 
+        amt = Number(bomReg.uncomma($("#unitPrice" + idx).val())) * Number(bomReg.uncomma($("#reqQty" + idx).val()));
+
+        $("#totPrice" + idx).val(bomReg.comma(amt));
         $("#bomCostPrice").val(bomReg.comma(sum));
     },
 

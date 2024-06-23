@@ -47,5 +47,7 @@ public interface ManageService {
 
     void updProjectPayAsync(Map<String, Object> params);
 
+    void insProjectBudgetStatus(Map<String, Object> params);
+
     Map<String, Object> getExistProject(Map<String, Object> params);
 }
