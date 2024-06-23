@@ -478,4 +478,9 @@ public class AchieveServiceImpl implements AchieveService {
     public void updChangeTeam(Map<String, Object> params) {
         achieveRepository.updChangeTeam(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEmpRateValue(Map<String, Object> params) {
+        return achieveRepository.getEmpRateValue(params);
+    }
 }

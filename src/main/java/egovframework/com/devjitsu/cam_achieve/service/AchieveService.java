@@ -46,4 +46,6 @@ public interface AchieveService {
     void updateExnpStatus(Map<String, Object> params);
 
     void updChangeTeam(Map<String, Object> params);
+
+    List<Map<String, Object>> getEmpRateValue(Map<String, Object> params);
 }

@@ -201,4 +201,9 @@ public class AchieveRepository extends AbstractDAO {
 
         update("achieve.updChangeTeam", params);
     }
+
+    public List<Map<String, Object>> getEmpRateValue(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getEmpRateValue", params);
+    }
 }
