@@ -251,7 +251,8 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2", "mngDeptName", "mngEmpName", "parentPjtNm"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm"
+            , "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2", "allPjtAmt", "mngDeptName", "mngEmpName", "parentPjtNm"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -266,6 +267,9 @@ var regRnd = {
             const yearClass = $("#yearClass").val();
             if(yearClass == "M" && $("#paramParentPjtSn").val() != ""){
                 $("#mYearTr").show();
+                $("#mYearTr2").show();
+            }else if(yearClass == "M"){
+                $("#mYearTr2").show();
             }else{
                 $("#mYearTr").hide();
             }
@@ -337,6 +341,10 @@ var regRnd = {
                 $("#nextPjtBtn").show();
             }
 
+            if(e.YEAR_CLASS == "M"){
+                $("#mYearTr2").show();
+            }
+
             $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
             //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
             $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
@@ -349,6 +357,7 @@ var regRnd = {
             $("#rndCrmSn").val(e.CRM_SN);
             $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
             $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
+            $("#allPjtAmt").val(comma(e.ALL_PJT_AMT));
 
             const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: $("#pjtSn").val()});
             const delvMap = rndInfo.map;
@@ -418,6 +427,7 @@ var regRnd = {
             $("#rndCrmSn").val(e.CRM_SN);
             $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
             $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
+            $("#allPjtAmt").val(comma(e.ALL_PJT_AMT));
 
             if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
                 $("#rndConCrmNm").val(e.CRM_CON_SN);
@@ -542,7 +552,15 @@ var regRnd = {
 
         /** 다년이면서 2차년도 이상 프로젝트일때(프로젝트 선택했을때) */
         if($("#mYearCk").val() == "Y"){
-            parameters.parentPjtSn = $("#parentPjtSn").val()
+            parameters.parentPjtSn = $("#parentPjtSn").val();
+        }
+
+        parameters.allPjtAmt = uncomma($("#allPjtAmt").val());
+        if($("#yearClass").val() == "M"){
+            if(parameters.allPjtAmt == "" || parameters.allPjtAmt == 0){
+                alert("총 수주금액을 입력해주세요.");
+                return;
+            }
         }
 
         if(parameters.yearClass == ""){
@@ -659,8 +677,16 @@ var regRnd = {
             parameters.parentPjtSn = $("#parentPjtSn").val()
         }
 
+        parameters.allPjtAmt = uncomma($("#allPjtAmt").val());
+        if($("#yearClass").val() == "M"){
+            if(parameters.allPjtAmt == "" || parameters.allPjtAmt == 0){
+                alert("총 수주금액을 입력해주세요.");
+                return;
+            }
+        }
+
         if(parameters.yearClass == ""){
-            alert("사업구분을 선택해주세요.");
+            alert("사업구분을 선택해주세요.");U
             return;
         }
         if(parameters.mngEmpSeq == ""){
