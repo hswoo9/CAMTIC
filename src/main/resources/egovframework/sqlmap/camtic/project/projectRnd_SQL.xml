@@ -30,6 +30,7 @@
                 CRM_PART_SN,
                 PJT_EXP_AMT,
                 ALL_BUSN_COST,
+                ALL_PJT_AMT,
                 SECURITY,
                 PARENT_PJT_SN,
                 <if test='parentPjtSn != null and !"".equals(parentPjtSn)'>
@@ -63,6 +64,7 @@
                 #{crmPartSn},
                 #{pjtExpAmt},
                 #{allBusnCost},
+                #{allPjtAmt},
                 #{security},
                 #{parentPjtSn},
                 <if test='parentPjtSn != null and !"".equals(parentPjtSn)'>
@@ -99,6 +101,7 @@
             CRM_CON_SN = #{crmConSn},
             CRM_PART_SN = #{crmPartSn},
             ALL_BUSN_COST = #{allBusnCost},
+            ALL_PJT_AMT = #{allPjtAmt},
             SECURITY = #{security},
             PARENT_PJT_SN = #{parentPjtSn},
             PJT_EXP_AMT = #{pjtExpAmt}

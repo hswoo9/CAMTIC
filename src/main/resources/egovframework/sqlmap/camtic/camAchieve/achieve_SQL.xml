@@ -797,7 +797,9 @@
             (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
             DEPT_SEQ,
             (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
-            SUM(SUP_PAY) AS TOT_PAY
+            SUM(SUP_PAY) AS TOT_PAY,
+            SUM(INS_TOT_PAY) AS INS_TOT_PAY,
+            SUM(RETIRE_PAY) AS RETIRE_PAY
         FROM
             (
                 SELECT
@@ -807,7 +809,8 @@
                         C.DEPT_LEVEL = 1,
                         C.DEPT_SEQ,
                         (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
-                    ) AS PRAENT_DEPT_SEQ
+                    ) AS PRAENT_DEPT_SEQ,
+                    (SELECT RETIRE_PAY FROM CAM_INSIDE.DJ_PAY_ROLL_COMP WHERE ERP_EMP_CD = A.ERP_EMP_CD AND BASE_YEAR_MONTH = A.BASE_YEAR_MONTH) AS RETIRE_PAY
                 FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
                 LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
@@ -912,4 +915,45 @@
         WHERE
             EXNP_DET_SN = #{exnpDetSn}
     </update>
+
+    <select id="getEmpRateValue" parameterType="map" resultType="map">
+        /*getEmpRateValue*/
+        SELECT
+            A.*,
+            COUNT(*) AS CNT
+        FROM
+            (
+                SELECT
+                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+                    DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+                    IFNULL(CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END, "") AS SPOT,
+                    CASE WHEN HEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = HEI.DUTY_CODE)
+                         WHEN HEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE)
+                         ELSE 999 END SORT
+                FROM
+                    CAM_HR.DJ_EMP_INFO      AS HEI
+                LEFT JOIN
+                    CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+                WHERE
+                    HEI.ACTIVE = 'Y'
+                  AND HEI.WORK_STATUS_CODE = 'Y'
+                  AND
+                    DATE_FORMAT('2024-06-23', '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
+                  AND
+                    EMP_NAME_KR like concat('%', '' ,'%')
+                  AND
+                    (
+                        (DIVISION IN(0))
+                            OR
+                        (DIVISION IN(4) AND DIVISION_SUB IN(1,2))
+                        )
+                  AND
+                    TEMP_DIVISION = "N"
+                ORDER BY EMP_NAME_KR
+            ) A
+        GROUP BY TEAM_SEQ, DEPT_SEQ
+    </select>
 </mapper>

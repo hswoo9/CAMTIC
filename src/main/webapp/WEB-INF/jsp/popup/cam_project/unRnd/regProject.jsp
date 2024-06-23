@@ -190,6 +190,14 @@
                         <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" disabled value="0"/>
                     </td>
                 </tr>
+                <tr id="mYearTr2" style="display: none">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>총 수주금액
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="allPjtAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" name="allPjtAmt" style="width: 32%; text-align: right" value="0"/>
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>연구 시작/종료일

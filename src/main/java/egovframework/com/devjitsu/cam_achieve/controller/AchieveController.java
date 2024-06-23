@@ -393,4 +393,24 @@ public class AchieveController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/totRateValue.do")
+    public String totRateValue(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_achieve/totRateValue";
+    }
+
+    @RequestMapping("/cam_achieve/getEmpRateValue")
+    public String getEmpRateValue(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = achieveService.getEmpRateValue(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

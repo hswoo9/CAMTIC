@@ -239,6 +239,13 @@ var rndInit = {
             const map = purcList[i];
             invSum += Number(map.EST_TOT_AMT);
         }
+        let allPjtAmt = 0;
+        if(map.YEAR_CLASS != null && map.YEAR_CLASS == "M"){
+            allPjtAmt = map.ALL_PJT_AMT;
+        }else{
+            allPjtAmt = pjtAmt;
+        }
+        hwpDocCtrl.putFieldText('AMT0', String(comma(allPjtAmt)));
         hwpDocCtrl.putFieldText('AMT1', String(comma(pjtAmt)));
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
         let invPer = (invSum / pjtAmt * 100);
