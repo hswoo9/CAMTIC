@@ -2148,7 +2148,7 @@ var regPay = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
+        if($("#pjtCd").val().substring(0,1) != "M" && ($("#pjtCd").val().substring(0,1) != "Z" || $("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012") && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
@@ -2457,7 +2457,7 @@ var regPay = {
 
         var budgetFlag = false;
         if(type != "drafting"){
-            if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
+            if($("#pjtCd").val().substring(0,1) != "M" && ($("#pjtCd").val().substring(0,1) != "Z" || $("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012") && $("#pjtCd").val().substring(0,1) != ""){
 
             } else {
                 var tmpBudgetSnAr = [];
@@ -3121,7 +3121,7 @@ var regPayDet = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != "Z" && $("#pjtCd").val().substring(0,1) != ""){
+        if($("#pjtCd").val().substring(0,1) != "M" && ($("#pjtCd").val().substring(0,1) != "Z" || $("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012") && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#footerLine").attr("colspan", "9");
             $("#reasonContTr").css("display", "none");
