@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/certificate/certificateReqAdminPop.js?v=3"></script>
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="empName" value="${loginVO.name}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="empSeq" value="${params.empSeq}"/>
+<input type="hidden" id="empName" value=""/>
+<input type="hidden" id="deptName" value=""/>
+<input type="hidden" id="dutyName" value=""/>
 <input type="hidden" id="regEmpSeq" value="${regEmpInfo.uniqId}"/>
 
 <div class="col-lg-12" style="padding:0;">
@@ -45,21 +45,21 @@
                 <tr>
                     <th>사번</th>
                     <td>
-                        <input type="text" id="regErpSn" value="${loginVO.erpEmpCd}" style="width: 80%;">
+                        <input type="text" id="regErpSn" value="" style="width: 80%;">
                     </td>
                     <th>성명</th>
                     <td>
-                        <input type="text" id="regtrName" value="${loginVO.name}" style="width: 80%;">
+                        <input type="text" id="regtrName" value="" style="width: 80%;">
                     </td>
                 </tr>
                 <tr>
                     <th>부서명</th>
                     <td>
-                        <input type="text" id="regDeptName" value="${loginVO.orgnztNm}" style="width: 80%;">
+                        <input type="text" id="regDeptName" value="" style="width: 80%;">
                     </td>
                     <th>직위</th>
                     <td>
-                        <input type="text" id="regDutyName" value="${loginVO.dutyNm ne '' ? loginVO.dutyNm : loginVO.positionNm}" style="width: 80%;">
+                        <input type="text" id="regDutyName" value="" style="width: 80%;">
                     </td>
                 </tr>
                 <tr>
