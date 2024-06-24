@@ -91,7 +91,14 @@ var budgetList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }
+                }, /*{
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetList.fn_test()">' +
+                            '	<span class="k-button-text">TEST</span>' +
+                            '</button>';
+                    }
+                }*/
             ],
             columns: [
                 {
@@ -146,11 +153,17 @@ var budgetList = {
     },
 
     fn_test : function(pjtCd){
+        var data = {
+
+        };
+
+        if(pjtCd != null){
+            data.pjtCd = pjtCd;
+        }
+
         $.ajax({
             url: "/mng/insProjectBudgetStatus",
-            data: {
-                pjtCd : pjtCd
-            },
+            data: data,
             type: "post",
             dataType: "json",
             async: false,

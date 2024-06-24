@@ -49,5 +49,7 @@ public interface ManageService {
 
     void insProjectBudgetStatus(Map<String, Object> params);
 
+    List<Map<String, Object>> getProjectBudgetStatusList(Map<String, Object> params);
+
     Map<String, Object> getExistProject(Map<String, Object> params);
 }

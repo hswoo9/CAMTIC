@@ -636,4 +636,10 @@ public class ManageController {
         manageService.insProjectBudgetStatus(params);
         return "jsonView";
     }
+
+    @RequestMapping("/mng/getProjectBudgetStatus")
+    public String getProjectBudgetStatus(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", manageService.getProjectBudgetStatusList(params));
+        return "jsonView";
+    }
 }

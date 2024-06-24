@@ -35,7 +35,7 @@ var busnCostPreCon = {
             serverPaging: false,
             transport: {
                 read : {
-                    url: '/g20/getProjectList2',
+                    url: '/mng/getProjectBudgetStatus',
                     dataType: "json",
                     type: "post",
                     async: false
@@ -98,93 +98,83 @@ var busnCostPreCon = {
                     template: "#= --record #",
                     width: 40
                 }, {
-                    title : "코드",
-                    field : "pjtSeq",
+                    title : "프로젝트 코드",
+                    field : "PJT_CD",
                     width: 80
                 }, {
                     title : "프로젝트 명",
                     width: 300,
                     template:function (e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='busnCostPreCon.fn_popBudgetDetail(\"" + e.pjtSeq + "\")'>" + e.pjtName + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='busnCostPreCon.fn_popBudgetDetail(\"" + e.PJT_CD + "\")'>" + e.PJT_NM + "</a>";
                     }
                 }, {
-                    field: "pjtFromDate",
+                    field: "PJT_STR_DT",
                     title: "시작일자",
                     width: 80,
                 }, {
-                    field: "pjtToDate",
+                    field: "PJT_END_DT",
                     title: "종료일자",
                     width: 80,
                 }, {
-                    field: "bankNumber",
+                    field: "ACC_NO",
                     title: "계좌",
                     width: 100,
                     template: function (e){
-                        if(e.bankNumber == 0){
+                        if(e.ACC_NO == 0){
                             return "";
                         } else {
-                            return e.bankNumber;
+                            return e.ACC_NO;
                         }
                     }
                 }, {
+                    field: "PETTY_CASH",
                     title: "시재",
                     width: 80,
                     template: function (e){
-                        console.log(e)
-
-                        var rs = e.rs;
-                        var cash = 0;
-                        var point = 0;
-                        if(e.carryoverCash != ''){
-                            cash = e.carryoverCash;
-                        }
-                        if(e.carryoverPoint != ''){
-                            point = e.carryoverPoint;
-                        }
-                        var overPay = (cash + point);
-
-                        var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
-
-                        if(e.ibranchAmt != totPay){
-                            return '<div style="text-align: right" class="diffPay">'+comma(totPay)+'</div>';
+                        if(e.IBRANCH_AMT != e.PETTY_CASH){
+                            return '<div style="text-align: right" class="diffPay">'+comma(e.PETTY_CASH)+'</div>';
                         } else {
-                            return '<div style="text-align: right">'+comma(totPay)+'</div>';
+                            return '<div style="text-align: right">'+comma(e.PETTY_CASH)+'</div>';
                         }
                     }
                 }, {
+                    field: "INCP_BUDGET_AMT",
                     title: "수입예산",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align: right">'+comma(e.g20IncpBgtAmt || 0)+'</div>';
+                        return '<div style="text-align: right">'+comma(e.INCP_BUDGET_AMT || 0)+'</div>';
                     }
                 }, {
+                    field: "INCP_BUDGET_SUB_AMT",
                     title: "수입예산잔액",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align: right">'+comma(Number(e.g20IncpBgtAmt || 0) - Number(e.approveIncpAmt || 0))+'</div>';
+                        return '<div style="text-align: right">'+comma(e.INCP_BUDGET_SUB_AMT || 0)+'</div>';
                     }
                 }, {
+                    field: "EXNP_BUDGET_AMT",
                     title: "지출예산",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align: right">'+comma(Number(e.g20exnpBgtAmt || 0))+'</div>';
+                        return '<div style="text-align: right">'+comma(Number(e.EXNP_BUDGET_AMT || 0))+'</div>';
                     }
                 }, {
+                    field: "EXNP_BUDGET_SUB_AMT",
                     title: "지출예산잔액",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align: right">'+comma(Number(e.g20exnpBgtAmt || 0) - Number(e.approveExnpAmt || 0))+'</div>';
+                        return '<div style="text-align: right">'+comma(e.EXNP_BUDGET_SUB_AMT || 0)+'</div>';
                     }
                 }, {
                     field: "",
                     title: "집행률",
                     width: 50,
                 }, {
-                    field: "ibranchAmt",
+                    field: "IBRANCH_AMT",
                     title: "금융CM연동시재",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align : right">'+comma(e.ibranchAmt)+'</div>'
+                        return '<div style="text-align : right">'+comma(e.IBRANCH_AMT)+'</div>'
                     }
                 }
             ],

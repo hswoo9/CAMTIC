@@ -495,7 +495,7 @@
         }
 
 
-        if(cd.substring(0, 1) == "M" || (cd.substring(0, 1) == "Z" && busnNm == "")) {
+        if(cd.substring(0, 1) == "M" || (cd.substring(0, 1) == "Z" && busnNm == "") && !(cd == "Za9g923011" || cd == "Za9g923012")) {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");

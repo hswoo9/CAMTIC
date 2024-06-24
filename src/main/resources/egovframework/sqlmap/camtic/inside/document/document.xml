@@ -80,7 +80,10 @@
             CFI.file_size,
             IFNULL(CFI.file_no, 0) AS file_no,
             CFI.file_path,
-            CFI.file_uuid
+            CFI.file_uuid,
+            IFNULL(CFI2.file_no, 0) AS file_no2,
+            CFI2.file_path AS file_path2,
+            CFI2.file_uuid AS file_uuid2
         FROM
             (
                 SELECT
@@ -109,6 +112,8 @@
             ) RE
             LEFT JOIN
                 CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_ORDER_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'order'
+            LEFT JOIN
+                CAM_COMMON.DJ_FILE_INFO CFI2 ON RE.DOCUMENT_ORDER_SN = CFI2.CONTENT_ID AND CFI2.FILE_CD = 'order2'
         ORDER BY RE.ROW_NUM DESC
     </select>
 
