@@ -23,7 +23,7 @@
     const pjtMap = pjtResult.map;
 
     /** pjtMap가 null이면서 (법인프로젝트) 앞자리가 M또는 Z일때 */
-    if(pjtMap == null && (rs.PJT_CD.substring(0,1) == "M" || rs.PJT_CD.substring(0,1) == "Z")){
+    if(pjtMap == null && (rs.PJT_CD.substring(0,1) == "M" || rs.PJT_CD.substring(0,1) == "Z") && !(rs.PJT_CD == "Za9g923011" || rs.PJT_CD == "Za9g923012")){
         formId = "154";
     }
 
