@@ -173,13 +173,13 @@ var docuOrderList = {
                     title: "납품서",
                     width: "5%",
                     template : function(row){
-                        if(row.file_no != 0){
-                            var fileName = row.file_org_name;
+                        if(row.file_no2 != null && row.file_no2 != 0){
+                            var fileName = row.file_org_name2;
                             if(fileName.indexOf(".") > -1){
                             }else{
-                                fileName = row.file_org_name + "." + row.file_ext;
+                                fileName = row.file_org_name2 + "." + row.file_ext2;
                             }
-                            return '<a href=\"javascript:docuOrderList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">있음</a>';
+                            return '<a href=\"javascript:docuOrderList.fileDown(\''+ row.file_path2 + row.file_uuid2 +'\',\''+ fileName +'\');\">있음</a>';
                         }else{
                             return '없음';
                         }
