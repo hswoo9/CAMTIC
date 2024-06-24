@@ -102,8 +102,10 @@
                         <col style="width: 20%;">
                         <col>
                         <col>
+                        <col>
                         <col style="width: 12%;">
                         <col style="width: 8%;">
+                        <col style="width: 10%;">
                         <col style="width: 15%;">
                         <col style="width: 5%;">
                     </colgroup>
@@ -112,8 +114,10 @@
                         <th>BOM</th>
                         <th>품번</th>
                         <th>품명</th>
+                        <th>품목구분</th>
                         <th>단가</th>
                         <th>필요수량</th>
+                        <th>합계</th>
                         <th>비고</th>
                         <th></th>
                     </tr>
@@ -127,6 +131,7 @@
             <input type="hidden" id="masterSn" onchange="bomReg.itemInfoChange()">
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
+            <input type="hidden" id="itemCdName">
             <input type="hidden" id="maxUnitPrice">
             <input type="hidden" id="whCdNm">
             <input type="hidden" id="standard">

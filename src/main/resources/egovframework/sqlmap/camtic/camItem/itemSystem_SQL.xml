@@ -280,6 +280,7 @@
             IM.*,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             (SELECT IFNULL(MAX(UNIT_PRICE), 0) FROM CAM_ITEM.DJ_ITEM_INVENTORY WHERE MASTER_SN = IM.MASTER_SN) AS MAX_UNIT_PRICE
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
@@ -289,6 +290,9 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
         WHERE 1=1
         <choose>
             <when test='itemNo != null and !"".equals(itemNo)'>

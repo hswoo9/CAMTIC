@@ -630,4 +630,10 @@ public class ManageController {
         manageService.updProjectPayAsync(params);
         return "jsonView";
     }
+
+    @RequestMapping("/mng/insProjectBudgetStatus")
+    public String insProjectBudgetStatus(@RequestParam Map<String, Object> params, Model model){
+        manageService.insProjectBudgetStatus(params);
+        return "jsonView";
+    }
 }

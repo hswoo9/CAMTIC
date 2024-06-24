@@ -71,12 +71,19 @@ var popItemNoList = {
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
+                    width: 150
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
+                    width: 150
+                }, {
+                    title: "품목구분",
+                    field: "ITEM_TYPE_NM",
+                    width: 150
                 }, {
                     title: "규격",
                     field: "STANDARD",
+                    width: 80
                 }, {
                     title: "단위",
                     field: "ITEM_UNIT_NM",
@@ -140,6 +147,7 @@ var popItemNoList = {
             opener.parent.$("#masterSn").val(rs.MASTER_SN);
             opener.parent.$("#itemNo").val(rs.ITEM_NO);
             opener.parent.$("#itemName").val(rs.ITEM_NAME);
+            opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
             opener.parent.$("#baseWhCd").val(rs.WH_CD);
             opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
             opener.parent.$("#standard").val(rs.STANDARD);
