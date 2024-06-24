@@ -8,7 +8,7 @@ var hwpApprovalLine = {
         const formId = $("#formId").val();
         console.log("----- 양식 결재선 세팅 -----");
 
-        if(formId == "1"){
+        if(formId == "1" || formId == "157"){
             this.documentLinePut();
         }else{
             /** 결재선 초기화 */
@@ -377,7 +377,7 @@ var hwpApprovalLine = {
     },
 
     setHwpApprovalDocuSignPut : function(formId){
-        if(formId == "1") {
+        if(formId == "1" || formId == "157") {
             let list = docView.global.rs.approveRoute;
 
             let DText = "";
