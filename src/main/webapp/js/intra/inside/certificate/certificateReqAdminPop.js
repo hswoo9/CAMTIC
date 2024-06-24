@@ -1,6 +1,11 @@
 var certificateReqAdminPop = {
 
     init: function(){
+        const reqUserInfo = getUser($("#empSeq").val());
+        $("#empName, #regtrName").val(reqUserInfo.EMP_NAME_KR);
+        $("#deptName, #regDeptName").val(reqUserInfo.DEPT_NAME);
+        $("#dutyName, #regDutyName").val(fn_getSpot(reqUserInfo.DUTY_NAME, reqUserInfo.POSITION_NAME));
+        $("#regErpSn").val(reqUserInfo.ERP_EMP_SEQ);
         certificateReqAdminPop.dataSet();
     },
 
