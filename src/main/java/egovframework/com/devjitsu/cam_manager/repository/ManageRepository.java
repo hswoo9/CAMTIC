@@ -191,4 +191,14 @@ public class ManageRepository extends AbstractDAO {
 
         update("manage.updProjectPayAsync", params);
     }
+
+    public void insProjectBudgetStatus(Map<String, Object> params) {
+
+        insert("manage.insProjectBudgetStatus", params);
+    }
+
+    public List<Map<String, Object>> getProjectBudgetStatusList(Map<String, Object> params) {
+
+        return selectList("manage.getProjectBudgetStatusList", params);
+    }
 }

@@ -992,4 +992,69 @@
         WHERE
             PJT_CD = #{pjtCd}
     </update>
+
+    <insert id="insProjectBudgetStatus" parameterType="map">
+        /*insProjectBudgetStatus*/
+        INSERT INTO CAM_MNG.DJ_PROJECT_BUDGET_STATUS
+        (
+            PJT_CD,
+            PJT_NM,
+            PJT_STR_DT,
+            PJT_END_DT,
+            ACC_NO,
+            PETTY_CASH,
+            INCP_BUDGET_AMT,
+            INCP_BUDGET_SUB_AMT,
+            EXNP_BUDGET_AMT,
+            EXNP_BUDGET_SUB_AMT,
+            IBRANCH_AMT,
+            REG_DT
+        )
+        VALUES
+        (
+            #{pjtCd},
+            #{pjtNm},
+            #{pjtStrDt},
+            #{pjtEndDt},
+            #{bankNB},
+            #{pettyCash},
+            #{incpBudgetAmt},
+            #{incpBudgetSubAmt},
+            #{exnpBudgetAmt},
+            #{exnpBudgetSubAmt},
+            #{ibranchAmt},
+            NOW()
+        )
+    </insert>
+
+    <select id="getProjectBudgetStatusList" parameterType="map" resultType="map">
+        /*getProjectBudgetStatusList*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_PROJECT_BUDGET_STATUS A
+        RIGHT JOIN (
+            SELECT PJT_CD, MAX(REG_DT) AS REG_DT FROM CAM_MNG.DJ_PROJECT_BUDGET_STATUS GROUP BY PJT_CD
+        ) B
+        ON A.PJT_CD = B.PJT_CD AND A.REG_DT = B.REG_DT
+        WHERE 1=1
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
+                AND A.PJT_NM LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_CD".equals(searchKeyword)'>
+                AND A.PJT_CD = #{searchValue}
+            </when>
+            <otherwise>
+                AND (
+                    A.PJT_NM LIKE CONCAT('%', #{searchValue}, '%') OR
+                    A.PJT_CD = #{searchValue}
+                )
+            </otherwise>
+        </choose>
+        AND (
+            (A.PJT_STR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}) OR
+            (A.PJT_END_DT BETWEEN #{pjtFromDate} AND #{pjtToDate})
+        )
+    </select>
 </mapper>
