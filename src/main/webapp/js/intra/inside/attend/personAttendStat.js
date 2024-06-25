@@ -250,6 +250,11 @@ var personAttendStat = {
                         count10++;
                         sum10++;
                     }
+
+                    if(jMap.HOLIDAY_WORK != null){
+                        count13++;
+                        sum13++;
+                    }
                 }
             }
             let rowHtml = '';
@@ -397,7 +402,7 @@ var personAttendStat = {
                     field: "ATTEND_ADJUSTMENT_START",
                     title: "출근 시간",
                     template: function(row){
-                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_START == ""){
+                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_START == "" && row.HOLIDAY_WORK == null){
                             return "휴일";
                         }else if(row.HOLIDAY2 != null) {
                             return "공휴일";
@@ -409,7 +414,7 @@ var personAttendStat = {
                     field: "ATTEND_ADJUSTMENT_END",
                     title: "퇴근 시간",
                     template: function(row){
-                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_END == ""){
+                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_END == "" && row.HOLIDAY_WORK == null){
                             return "휴일";
                         }else if(row.HOLIDAY2 != null) {
                             return "공휴일";

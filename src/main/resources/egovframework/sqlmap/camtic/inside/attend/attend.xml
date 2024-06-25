@@ -41,6 +41,7 @@
                 WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NOT NULL THEN CONCAT(HOLIDAY, ', ', BUSTRIP)
                 WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NULL THEN HOLIDAY
                 WHEN HOLIDAY IS NULL AND BUSTRIP IS NOT NULL THEN BUSTRIP
+                WHEN HOLIDAY_WORK IS NOT NULL THEN HOLIDAY_WORK
                 ELSE ''
             END AS ATTEND_TEXT,
 
@@ -111,7 +112,26 @@
                         DR.DATES = DATE_FORMAT(H_DAY, '%Y-%m-%d')
                         AND SUBSTRING(HM.H_DAY, 1, 4) = DATE_FORMAT(DR.DATES, '%Y')
                         AND HM.USE_YN = 'Y'
-                 ) AS HOLIDAY2
+                ) AS HOLIDAY2,
+
+                (
+                    SELECT
+                        SC.SUBHOLIDAY_DT_CODE_NM
+                    FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SM
+                        ON SM.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN AND SM.ACTIVE = 'Y'
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SC
+                        ON SM.SUBHOLIDAY_CODE_ID = SC.SUBHOLIDAY_CODE_ID
+                    LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+                        ON M.DOC_ID = DI.DOC_ID
+                    WHERE 1=1
+                        AND M.ACTIVE = 'Y'
+                        AND SM.SUBHOLIDAY_CODE_ID = 11
+                        AND DR.DATES = SM.SUBHOLIDAY_WORK_DAY
+                        AND SM.APPLY_SEQ = HEI.EMP_SEQ
+                    GROUP BY M.HOLIDAY_WORK_MASTER_SN
+                    ORDER BY SM.APPLY_DATE DESC
+                ) AS HOLIDAY_WORK
 
             FROM DATE_RANGE DR
             LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = #{empSeq}
@@ -299,6 +319,7 @@
                 WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NOT NULL THEN CONCAT(HOLIDAY, ', ', BUSTRIP)
                 WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NULL THEN HOLIDAY
                 WHEN HOLIDAY IS NULL AND BUSTRIP IS NOT NULL THEN BUSTRIP
+                WHEN HOLIDAY_WORK IS NOT NULL THEN HOLIDAY_WORK
                 ELSE ''
             END AS ATTEND_TEXT,
 
@@ -376,7 +397,26 @@
                         DR.DATES = DATE_FORMAT(HM.H_DAY, '%Y-%m-%d')
                         AND SUBSTRING(HM.H_DAY, 1, 4) = DATE_FORMAT(DR.DATES, '%Y')
                         AND HM.USE_YN = 'Y'
-                ) AS HOLIDAY2
+                ) AS HOLIDAY2,
+
+                (
+                    SELECT
+                        SC.SUBHOLIDAY_DT_CODE_NM
+                    FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SM
+                        ON SM.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN AND SM.ACTIVE = 'Y'
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SC
+                        ON SM.SUBHOLIDAY_CODE_ID = SC.SUBHOLIDAY_CODE_ID
+                    LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+                        ON M.DOC_ID = DI.DOC_ID
+                    WHERE 1=1
+                        AND M.ACTIVE = 'Y'
+                        AND SM.SUBHOLIDAY_CODE_ID = 11
+                        AND DR.DATES = SM.SUBHOLIDAY_WORK_DAY
+                        AND SM.APPLY_SEQ = HEI.EMP_SEQ
+                    GROUP BY M.HOLIDAY_WORK_MASTER_SN
+                    ORDER BY SM.APPLY_DATE DESC
+                ) AS HOLIDAY_WORK
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
             JOIN
