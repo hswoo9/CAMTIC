@@ -6,6 +6,10 @@ var weekMeet = {
         customKendo.fn_datePicker("year", "decade", "yyyy", new Date());
 
         weekMeet.fn_dataReset();
+
+        $("#year").change(function (){
+            weekMeet.fn_dataReset();
+        });
     },
 
     fn_dataReset : function() {
@@ -255,7 +259,7 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -268,7 +272,7 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -281,7 +285,7 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -294,7 +298,7 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -307,7 +311,7 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -320,7 +324,7 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -333,7 +337,7 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -346,7 +350,7 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
 
@@ -359,7 +363,7 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 100) / 100 + " %" );
+                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
     },
