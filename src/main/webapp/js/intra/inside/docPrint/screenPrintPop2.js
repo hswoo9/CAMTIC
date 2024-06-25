@@ -260,7 +260,15 @@ const screenPrintPop = {
                 var imgHtml = '';
                 if(result2.data.signImg != null){
                     const imgMap = result2.data.signImg;
-                    imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
+                    var hostFlag = location.host;
+                    var hostProtocol = location.protocol;
+                    var host = "";
+                    if(hostFlag.indexOf("218.158.231.184") > -1 || hostFlag.indexOf("new.camtic.or.kr") > -1){
+                        host = hostProtocol + "//new.camtic.or.kr/";
+                    }else{
+                        host = hostProtocol + "//218.158.231.186/";
+                    }
+                    imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"'+host+imgMap.file_path+imgMap.file_uuid+'\">';
                 }else{
                     imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;<b style=\"\">'+paramArr[x].empName+'</b>';
                 }

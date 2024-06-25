@@ -115,7 +115,7 @@ const screenPrintPop = {
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:100px;"><p style="font-size:13px;"><b>근무부서</b></p></th>' +
                     '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:170px;"><p style="font-size:13px;"><b>' + area.DEPT_NAME + ' <br> ' + area.TEAM_NAME + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:105px;"><p style="font-size:13px;"><b>채용부문</b></p></th>' +
-                    '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:225px;"><p style="font-size:13px;"><b>' + area.JOB + '</b></p></td>' +
+                    '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:230px;"><p style="font-size:13px;"><b>' + area.JOB + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:85px;"><p style="font-size:13px;"><b>필요경력</b></p></th>' +
                     '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:60px;"><p style="font-size:13px;"><b>' + area.CAREER + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:105px;"><p style="font-size:13px;"><b>채용직급</b></p></th>' +
@@ -250,7 +250,15 @@ const screenPrintPop = {
                 let imgHtml = '';
                 if(result.data.signImg != null){
                     const imgMap = result.data.signImg;
-                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
+                    var hostFlag = location.host;
+                    var hostProtocol = location.protocol;
+                    var host = "";
+                    if(hostFlag.indexOf("218.158.231.184") > -1 || hostFlag.indexOf("new.camtic.or.kr") > -1){
+                        host = hostProtocol + "//new.camtic.or.kr/";
+                    }else{
+                        host = hostProtocol + "//218.158.231.186/";
+                    }
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+host+imgMap.file_path+imgMap.file_uuid+'\">';
                 }else{
                     imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[x].EMP_NAME_KR+'</b></span>';
                 }
@@ -303,7 +311,7 @@ const screenPrintPop = {
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:100px;"><p style="font-size:13px;"><b>근무부서</b></p></th>' +
                     '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:170px;"><p style="font-size:13px;"><b>' + area.DEPT_NAME + ' <br> ' + area.TEAM_NAME + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:105px;"><p style="font-size:13px;"><b>채용부문</b></p></th>' +
-                    '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:225px;"><p style="font-size:13px;"><b>' + area.JOB + '</b></p></td>' +
+                    '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:230px;"><p style="font-size:13px;"><b>' + area.JOB + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:85px;"><p style="font-size:13px;"><b>필요경력</b></p></th>' +
                     '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:60px;"><p style="font-size:13px;"><b>' + area.CAREER + '</b></p></td>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:105px;"><p style="font-size:13px;"><b>채용직급</b></p></th>' +
@@ -414,7 +422,15 @@ const screenPrintPop = {
                 let imgHtml = '';
                 if(result.data.signImg != null){
                     const imgMap = result.data.signImg;
-                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
+                    var hostFlag = location.host;
+                    var hostProtocol = location.protocol;
+                    var host = "";
+                    if(hostFlag.indexOf("218.158.231.184") > -1 || hostFlag.indexOf("new.camtic.or.kr") > -1){
+                        host = hostProtocol + "//new.camtic.or.kr/";
+                    }else{
+                        host = hostProtocol + "//218.158.231.186/";
+                    }
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+host+imgMap.file_path+imgMap.file_uuid+'\">';
                 }else{
                     imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[x].EMP_NAME_KR+'</b></span>';
                 }
