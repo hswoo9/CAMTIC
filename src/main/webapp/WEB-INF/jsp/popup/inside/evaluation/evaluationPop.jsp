@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="evalView" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                        <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 100%; height: 100px;"><textarea type="text" id="evalView" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
                 </tr>
             </table>
@@ -157,18 +157,18 @@
             dataType : "json",
             async : false,
             success : function(result){
-                if(result.data.EVAL_F == "Y" || result.data.EVAL_S == "Y"){
+                if(result.data.EVAL == "Y" || result.data.EVAL_F == "Y" || result.data.EVAL_S == "Y"){
                     document.getElementById("evalView").disabled = true;
                     document.getElementById("btnActive1").disabled = true;
                     document.getElementById("btnActive2").disabled = true;
                 }
 
                 if($("#step").val() == "1"){ // 1차평가
-                    $("#evalView").val(result.data.EVAL_F_VIEW)
+                    $("#evalView").val(result.data.EVAL_F_VIEW);
                 }else if($("#step").val() == "2"){ // 2차평가
-                    $("#evalView").val(result.data.EVAL_S_VIEW)
+                    $("#evalView").val(result.data.EVAL_S_VIEW);
                 }else{ // 본인평가
-                    $("#evalView").val(result.data.EVAL_VIEW)
+                    $("#evalView").val(result.data.EVAL_VIEW);
                 }
 
                 const list = result.list
@@ -265,7 +265,7 @@
             html += '   </td>';
             if(item.TEM_ACTIVE == "Y"){
                 html += '   <td>';
-                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore()" disabled>';
+                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore()">';
                 html += '   </td>';
             }else{
                 html += '   <td>';
@@ -325,7 +325,11 @@
             evalResultType : evalResultType,
             save : key
         }
-        parameters.evalCk = "Y";
+        if(key == "10"){
+            parameters.evalCk = "Y";
+        }else{
+            parameters.evalCk = "W";
+        }
 
         var evalBodyArr = [];
         var evalLen = $("#evalList").find("tr").length;
