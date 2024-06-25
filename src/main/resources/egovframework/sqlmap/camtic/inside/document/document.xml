@@ -81,6 +81,9 @@
             IFNULL(CFI.file_no, 0) AS file_no,
             CFI.file_path,
             CFI.file_uuid,
+            CFI2.file_org_name AS file_org_name2,
+            CFI2.file_ext AS file_ext2,
+            CFI2.file_size AS file_size2,
             IFNULL(CFI2.file_no, 0) AS file_no2,
             CFI2.file_path AS file_path2,
             CFI2.file_uuid AS file_uuid2
