@@ -470,6 +470,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpListForTotRate(Map<String, Object> params) {
+        return achieveRepository.getExnpListForTotRate(params);
+    }
+
+    @Override
     public void updateExnpStatus(Map<String, Object> params) {
         achieveRepository.updateExnpStatus(params);
     }
@@ -477,6 +482,11 @@ public class AchieveServiceImpl implements AchieveService {
     @Override
     public void updChangeTeam(Map<String, Object> params) {
         achieveRepository.updChangeTeam(params);
+    }
+
+    @Override
+    public void updateExnpExceptPay(Map<String, Object> params) {
+        achieveRepository.updateExnpExceptPay(params);
     }
 
     @Override

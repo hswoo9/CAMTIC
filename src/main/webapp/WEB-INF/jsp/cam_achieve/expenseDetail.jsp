@@ -156,6 +156,16 @@
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: onDataBound,
+            toolbar : [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             columns: [
                 {
                     title: "번호",
@@ -319,7 +329,11 @@
                     width: 120,
                     field: "TR_DE",
                     template : function(e){
-                        return e.TR_DE.substr(0, 4) + "-" + e.TR_DE.substr(4, 2) + "-" + e.TR_DE.substr(6, 2);
+                        if(e.TR_DE.length < 9){
+                            return e.TR_DE.substr(0, 4) + "-" + e.TR_DE.substr(4, 2) + "-" + e.TR_DE.substr(6, 2);
+                        } else {
+                            return e.TR_DE
+                        }
                     }
                 }, {
                     title: "팀",
@@ -354,6 +368,15 @@
                         return '<div style="text-align: right">' + comma(cost) + '</div>';
                     }
                 }, {
+                    title: "제외금액",
+                    width: 160,
+                    template: function (e) {
+                        return '<div>' +
+                                '<input type="text" class="k-input" style="width: 100px; text-align: right;" id="pay_'+ e.EXNP_DET_SN +'" value="'+ comma(e.EXCEPT_PAY) +'" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                                '<button class="k-button k-button-solid-base" style="margin-left: 5px;" onclick="fn_exceptPay(' + e.EXNP_DET_SN + ', '+ e.TOT_COST +');">저장</button>' +
+                            '</div>';
+                    }
+                },  {
                     title: "결의일자",
                     width: 80,
                     field: "EXNP_DE",
@@ -455,6 +478,34 @@
         window.open(url, name, option);
     }
 
+    function fn_exceptPay(key, totCost){
+        var exceptPay = uncommaN($("#pay_" + key).val())
+        var totCost = totCost;
+
+        if(exceptPay > totCost) {
+            alert("입력값이 지출금액을 초과하였습니다.");
+            return;
+        }
+
+        $.ajax({
+            url: "/cam_achieve/updateExnpExceptPay",
+            data: {
+                exnpDetSn : key,
+                exceptPay : exceptPay
+            },
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(){
+                alert("저장되었습니다.");
+                $("#subGrid").data("kendoGrid").dataSource.read();
+            },
+            error: function() {
+
+            }
+        });
+
+    }
 
 
 </script>

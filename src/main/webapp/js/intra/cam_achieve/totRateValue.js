@@ -5,7 +5,9 @@ var trv = {
         customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
 
         var parameters = {
-            baseYear : $("#year").val()
+            baseYear : $("#year").val(),
+            startDt : $("#year").val() + "-01-01",
+            endDt : $("#year").val() + "-12-31",
         }
 
         var rs = customKendo.fn_customAjax("/cam_achieve/getEmpRateValue", parameters);
@@ -15,7 +17,11 @@ var trv = {
 
         var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollList", parameters);
         var payList = payRs.list;
-        console.log(payList)
+        console.log(payList);
+
+        // 자체경비
+        var exnpRs =  customKendo.fn_customAjax("/cam_achieve/getExnpListForTotRate", parameters);
+        var exnpLs = exnpRs.list;
 
         for(var i = 0; i < eRs.length; i++) {
             eLen += Number(eRs[i].CNT);
@@ -25,6 +31,9 @@ var trv = {
         var aEmp = 0;
         var aInsPay = 0;
         var aRetirePay = 0;
+
+        let aExnpPay = 0;
+        let aExceptPay = 0;
 
         // 전담인력 계산식
         for(var i = 0; i < eRs.length; i++) {
@@ -55,6 +64,24 @@ var trv = {
                     $(this).next().text(comma(tInsPay));
                     $(this).next().next().text(comma(tRetirePay));
                     $(this).next().next().next().text(comma(tPay + tInsPay + tRetirePay));
+                }
+
+                // 자체경비
+                if($(this).attr("id").toString().split("_")[1] == item.TEAM_SEQ &&
+                    $(this).attr("id").toString().split("_")[0] == "tExnpPay") {
+                    var tExnpPay = 0;
+                    var tExceptPay = 0;
+
+                    for(var j = 0; j < exnpLs.length; j++) {
+                        if(exnpLs[j].TEAM_SEQ == item.TEAM_SEQ) {
+                            tExnpPay += Number(exnpLs[j].TOT_COST || 0);
+                            tExceptPay += Number(exnpLs[j].EXCEPT_PAY || 0);
+                        }
+                    }
+
+                    $(this).text(comma(tExnpPay));
+                    $(this).next().text(comma(tExceptPay));
+                    $(this).next().next().text(comma(tExnpPay + tExceptPay));
                 }
 
             });
@@ -94,6 +121,24 @@ var trv = {
                     aInsPay += dInsPay;
                     aRetirePay += dRetirePay;
                 }
+
+                // 자체경비
+                if($(this).attr("id").toString().split("_")[1] == item.DEPT_SEQ &&
+                    $(this).attr("id").toString().split("_")[0] == "dExnpPay") {
+                    var dExnpPay = 0;
+                    var dExceptPay = 0;
+
+                    for(var j = 0; j < exnpLs.length; j++) {
+                        if(exnpLs[j].TEAM_SEQ == item.DEPT_SEQ || exnpLs[j].PARENT_DEPT_SEQ == item.DEPT_SEQ) {
+                            dExnpPay += Number(exnpLs[j].TOT_COST || 0);
+                            dExceptPay += Number(exnpLs[j].EXCEPT_PAY || 0);
+                        }
+                    }
+
+                    $(this).text(comma(dExnpPay));
+                    $(this).next().text(comma(dExceptPay));
+                    $(this).next().next().text(comma(dExnpPay + dExceptPay));
+                }
             });
 
             $("td[name='dept2']").each(function() {
@@ -131,6 +176,24 @@ var trv = {
                     aInsPay += dInsPay;
                     aRetirePay += dRetirePay;
                 }
+
+                // 자체경비
+                if($(this).attr("id").toString().split("_")[1] == item.DEPT_SEQ &&
+                    $(this).attr("id").toString().split("_")[0] == "dExnpPay") {
+                    var dExnpPay = 0;
+                    var dExceptPay = 0;
+
+                    for(var j = 0; j < exnpLs.length; j++) {
+                        if(exnpLs[j].TEAM_SEQ == item.DEPT_SEQ || exnpLs[j].PARENT_DEPT_SEQ == item.DEPT_SEQ) {
+                            dExnpPay += Number(exnpLs[j].TOT_COST || 0);
+                            dExceptPay += Number(exnpLs[j].EXCEPT_PAY || 0);
+                        }
+                    }
+
+                    $(this).text(comma(dExnpPay));
+                    $(this).next().text(comma(dExceptPay));
+                    $(this).next().next().text(comma(dExnpPay + dExceptPay));
+                }
             });
         }
 
@@ -142,6 +205,11 @@ var trv = {
             if($(this).attr("id").toString().split("_")[0] == "dPay") {
                 aPay += Number($(this).text());
             }
+
+            if($(this).attr("id").toString().split("_")[0] == "dExnpPay") {
+                aExnpPay += Number(uncomma($(this).text()));
+                aExceptPay += Number(uncomma($(this).next().text()));
+            }
         });
 
         $("#emp_all").text(aEmp.toFixed(1));
@@ -149,12 +217,18 @@ var trv = {
         $("#insPay_all").text(comma(aInsPay));
         $("#retirePay_all").text(comma(aRetirePay));
         $("#payTotal_all").text(comma(aPay + aInsPay + aRetirePay));
+        $("#exnpPay_all").text(comma(aExnpPay));
+        $("#exnpPay_all").next().text(comma(aExceptPay));
+        $("#exnpPay_all").next().next().text(comma(aExnpPay + aExceptPay));
 
         $("#emp").text(comma(Number($("#emp_all").text()) + Number($("#dEmp_1219").text())));
         $("#totPay").text(comma(Number(uncomma($("#totPay_all").text())) + Number(uncomma($("#dTotPay_1219").text()))));
         $("#insPay").text(comma(Number(uncomma($("#insPay_all").text())) + Number(uncomma($("#dInsPay_1219").text()))));
         $("#retirePay").text(comma(Number(uncomma($("#retirePay_all").text())) + Number(uncomma($("#dRetirePay_1219").text()))));
         $("#payTotal").text(comma(Number(uncomma($("#payTotal_all").text())) + Number(uncomma($("#dPayTotal_1219").text()))));
+        $("#exnpPay").text(comma(Number(uncomma($("#exnpPay_all").text())) + Number(uncomma($("#dExnpPay_1219").text()))));
+        $("#exnpPay").next().text(comma(Number(uncomma($("#exnpPay_all").next().text())) + Number(uncomma($("#dExnpPay_1219").next().text()))));
+        $("#exnpPay").next().next().text(comma(Number(uncomma($("#exnpPay_all").next().next().text())) + Number(uncomma($("#dExnpPay_1219").next().next().text()))));
     },
 
 

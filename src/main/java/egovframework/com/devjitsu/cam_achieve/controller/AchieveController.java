@@ -115,8 +115,9 @@ public class AchieveController {
 
 
     @RequestMapping("/cam_achieve/monMeet.do")
-    public String monMeet(@RequestParam Map<String, Object> params, Model model) {
-
+    public String monMeet(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         return "cam_achieve/monMeet";
     }
 
@@ -291,12 +292,13 @@ public class AchieveController {
         return "jsonView";
     }
 
-
     @RequestMapping("/cam_achieve/expenseDetail.do")
     public String expenseDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
@@ -357,6 +359,18 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/getExnpListForTotRate")
+    public String getExnpListForTotRate(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = achieveService.getExnpListForTotRate(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/updateExnpStatus")
     public String updateExnpStatus(@RequestParam Map<String, Object> params, Model model) {
         try{
@@ -394,11 +408,24 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/updateExnpExceptPay")
+    public String updateExnpExceptPay(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            achieveService.updateExnpExceptPay(params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/totRateValue.do")
     public String totRateValue(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);

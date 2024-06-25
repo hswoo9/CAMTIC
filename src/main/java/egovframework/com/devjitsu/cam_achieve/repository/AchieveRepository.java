@@ -192,6 +192,11 @@ public class AchieveRepository extends AbstractDAO {
         return (List<Map<String, Object>>) selectList("achieve.getExnpDetailList", params);
     }
 
+    public List<Map<String, Object>> getExnpListForTotRate(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getExnpListForTotRate", params);
+    }
+
     public void updateExnpStatus(Map<String, Object> params) {
 
         update("achieve.updateExnpStatus", params);
@@ -200,6 +205,11 @@ public class AchieveRepository extends AbstractDAO {
     public void updChangeTeam(Map<String, Object> params) {
 
         update("achieve.updChangeTeam", params);
+    }
+
+    public void updateExnpExceptPay(Map<String, Object> params) {
+
+        update("achieve.updateExnpExceptPay", params);
     }
 
     public List<Map<String, Object>> getEmpRateValue(Map<String, Object> params) {

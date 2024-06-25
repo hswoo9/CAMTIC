@@ -896,6 +896,30 @@
             EXNP_SN = #{exnpSn}
     </select>
 
+    <select id="getExnpListForTotRate" parameterType="map" resultType="map">
+        /*getExnpListForTotRate*/
+        SELECT
+            A.*,
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
+            B.TOT_COST,
+            B.BUDGET_NM,
+            B.EVID_TYPE,
+            B.CRM_NM,
+            B.TEAM_SEQ,
+            B.TEAM_NAME,
+            (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_NAME,
+            B.EXCEPT_PAY
+        FROM
+        CAM_MNG.DJ_EXNP A
+        LEFT JOIN (SELECT SUM(TOT_COST) AS TOT_COST, EXNP_SN, BUDGET_NM, EVID_TYPE, CRM_NM, TEAM_SEQ, TEAM_NAME, EXCEPT_PAY FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN, TEAM_SEQ) B
+        ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.RE_STAT = 'Y' AND A.DOC_STATUS = 100 AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
+        AND
+            A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        ORDER BY EXNP_DE DESC
+    </select>
 
     <update id="updateExnpStatus" parameterType="map">
         /*updateExnpStatus*/
@@ -912,6 +936,15 @@
         SET
             TEAM_SEQ = #{teamSeq},
             TEAM_NAME = #{teamName}
+        WHERE
+            EXNP_DET_SN = #{exnpDetSn}
+    </update>
+
+    <update id="updateExnpExceptPay" parameterType="map">
+        /*updateExnpExceptPay*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            EXCEPT_PAY = #{exceptPay}
         WHERE
             EXNP_DET_SN = #{exnpDetSn}
     </update>

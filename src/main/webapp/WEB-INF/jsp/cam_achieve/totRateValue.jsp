@@ -83,7 +83,7 @@
                             <td style="text-align: right;" id="tInsPay_1209" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1209" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1209" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -97,7 +97,7 @@
                             <td style="text-align: right;" id="tInsPay_1230" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1230" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1230" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -111,7 +111,7 @@
                             <td style="text-align: right;" id="dInsPay_1206" name="dept">0</td>
                             <td style="text-align: right;" id="dRetirePay_1206" name="dept">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1206" name="dept">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -126,7 +126,7 @@
                             <td style="text-align: right;" id="tInsPay_1211" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1211" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1211" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -140,7 +140,7 @@
                             <td style="text-align: right;" id="tInsPay_1212" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1212" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1212" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -154,14 +154,14 @@
                             <td style="text-align: right;" id="dInsPay_1210" name="dept">0</td>
                             <td style="text-align: right;" id="dRetirePay_1210" name="dept">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1210" name="dept">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;" rowspan="2"><b>기업성장지원본부</b></td>
+                            <td style="text-align: center;" rowspan="2"><b>우주항공사업부</b></td>
                             <td style="text-align: center;">우주개발팀</td>
                             <td style="text-align: right;" id="tEmp_1215" name="team">0</td>
                             <td style="text-align: right;" id="tPubRate_1215" name="team">0</td>
@@ -169,7 +169,7 @@
                             <td style="text-align: right;" id="tInsPay_1215" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1215" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1215" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -183,7 +183,7 @@
                             <td style="text-align: right;" id="tInsPay_1216" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1216" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1216" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -197,7 +197,7 @@
                             <td style="text-align: right;" id="dInsPay_1214" name="dept">0</td>
                             <td style="text-align: right;" id="dRetirePay_1214" name="dept">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1214" name="dept">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -212,7 +212,7 @@
                             <td style="text-align: right;" id="tInsPay_1225" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1225" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1235" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -226,7 +226,7 @@
                             <td style="text-align: right;" id="tInsPay_1226" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1226" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1226" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -240,7 +240,7 @@
                             <td style="text-align: right;" id="dInsPay_1217" name="dept">0</td>
                             <td style="text-align: right;" id="dRetirePay_1217" name="dept">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1217" name="dept">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -255,7 +255,7 @@
                             <td style="text-align: right;" id="tInsPay_1204" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1204" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1204" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -269,7 +269,7 @@
                             <td style="text-align: right;" id="tInsPay_1205" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1205" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1205" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -283,7 +283,7 @@
                             <td style="text-align: right;" id="tInsPay_1233" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1233" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1233" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -297,21 +297,21 @@
                             <td style="text-align: right;" id="dInsPay_1203" name="dept">0</td>
                             <td style="text-align: right;" id="dRetirePay_1203" name="dept">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1203" name="dept">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center; font-weight: bold" colspan="2">사업인력 합계</td>
+                            <td style="text-align: center; font-weight: bold" colspan="2">합계</td>
                             <td style="text-align: right;" id="emp_all" name="busnAll">0</td>
                             <td style="text-align: right;" id="pubRate_all" name="busnAll">0</td>
                             <td style="text-align: right;" id="totPay_all" name="busnAll">0</td>
                             <td style="text-align: right;" id="insPay_all" name="busnAll">0</td>
                             <td style="text-align: right;" id="retirePay_all" name="busnAll">0</td>
                             <td style="text-align: right;" id="payTotal_all">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="exnpPay_all" name="busnAll">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -327,7 +327,7 @@
                             <td style="text-align: right;" id="tInsPay_1227" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1227" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1227" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -341,7 +341,7 @@
                             <td style="text-align: right;" id="tInsPay_1228" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1228" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1228" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -355,7 +355,7 @@
                             <td style="text-align: right;" id="tInsPay_1229" name="team">0</td>
                             <td style="text-align: right;" id="tRetirePay_1229" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1229" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -369,21 +369,21 @@
                             <td style="text-align: right;" id="dInsPay_1219" name="dept2">0</td>
                             <td style="text-align: right;" id="dRetirePay_1219" name="dept2">0</td>
                             <td style="text-align: right;" id="dPayTotal_1219">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="dExnpPay_1219" name="dept2">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center; font-weight: bold" colspan="2">사업인력 + 지원인력 총 계</td>
+                            <td style="text-align: center; font-weight: bold" colspan="2">총계</td>
                             <td style="text-align: right;" id="emp" name="all">0</td>
                             <td style="text-align: right;" id="pubRate" name="all">0</td>
                             <td style="text-align: right;" id="totPay" name="all">0</td>
                             <td style="text-align: right;" id="insPay" name="all">0</td>
                             <td style="text-align: right;" id="retirePay" name="all">0</td>
                             <td style="text-align: right;" id="payTotal">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="exnpPay" name="all">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
