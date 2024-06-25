@@ -70,7 +70,7 @@
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mngBtn" id="docScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenPrintPop()">
           <span>서류심사 평가표</span>
         </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info mngBtn" id="inScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenViewPop('in')">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info mngBtn" id="inScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenPrintPop2()">
           <span>면접심사 평가표</span>
         </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.recruitDetailPop();">

@@ -502,8 +502,8 @@
 
     <select id="getApplicationCountH" parameterType="map" resultType="map">
         /* getApplicationCountH */
-        SELECT COUNT(-1) AS COUNT_H FROM (SELECT
-            AM.*
+        SELECT
+            AM.APPLICATION_ID, USER_NAME, COUNT(EMP_NAME_KR) +1 AS COUNT
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
@@ -551,7 +551,7 @@
         AND AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         AND AM.IN_AVOID != 'Y'
 
-        GROUP BY AM.APPLICATION_ID
-        ORDER BY AM.USER_NAME) R
+        GROUP BY AM.USER_NAME, AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME
     </select>
 </mapper>

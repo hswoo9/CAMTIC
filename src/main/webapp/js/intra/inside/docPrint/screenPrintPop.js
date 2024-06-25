@@ -110,7 +110,7 @@ const screenPrintPop = {
                 html += '       <td style="border-width: 0 0 0 0; font-weight: normal;">';
                 html += '' +
                     '<p style="text-align: center"><h2 style="margin: 0">채용 서류심사 평가표(경력)</h2></p>' +
-                    '<table border="1" style="border-collapse: collapse; margin: 0px; width: 1500px; height: 500;">' +
+                    '<table border="1" style="border-collapse: collapse; margin: 0px; width: 1500px;">' +
                     '<tr>' +
                     '   <th style="height:40px;background-color:#99b7dc; text-align:center; width:100px;"><p style="font-size:13px;"><b>근무부서</b></p></th>' +
                     '   <td style="height:40px;background-color:#FFFFFF; text-align:center; width:170px;"><p style="font-size:13px;"><b>' + area.DEPT_NAME + ' <br> ' + area.TEAM_NAME + '</b></p></td>' +
@@ -123,7 +123,7 @@ const screenPrintPop = {
                     '</tr>' +
                     '</table>' +
 
-                    '<table border="1" style="border-collapse: collapse; margin: 0px; width: 1500px; height: 1500; text-align: center;">' +
+                    '<table border="1" style="border-collapse: collapse; margin: 0px; width: 1500px; text-align: center;">' +
                     '<tr>' +
                     '    <th style="height:50px;background-color:#99b7dc; text-align:center; width:80px;" rowSpan="2"><p style="font-size:13px;"><b>번호</b></p></th>' +
                     '    <th style="height:50px;background-color:#99b7dc; text-align:center; width:100px;" rowSpan="2"><p style="font-size:13px;"><b>성명</b></p></th>' +

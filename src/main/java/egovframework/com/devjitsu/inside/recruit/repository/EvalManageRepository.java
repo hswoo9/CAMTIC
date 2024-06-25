@@ -34,5 +34,5 @@ public class EvalManageRepository extends AbstractDAO {
         delete("evalManage.delLoginChk", map);
     }
 
-    public Map<String, Object> getApplicationCountH(Map<String, Object> params) { return (Map<String, Object>) selectOne("evalManage.getApplicationCountH", params);}
+    public List<Map<String, Object>> getApplicationCountH(Map<String, Object> params) { return selectList("evalManage.getApplicationCountH", params);}
 }
