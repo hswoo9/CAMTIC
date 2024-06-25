@@ -475,6 +475,11 @@
     }
 
     function selectProject(sn, nm, cd, baseYear, busnNm){
+        /** 이전 프로젝트와 현재 프로젝트가 다르면 예산비목 초기화 */
+        if($("#pjtCd").val() != "" && $("#pjtCd").val() != cd){
+            fn_selBudgetInfo("", "", "all", "");
+        }
+
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
