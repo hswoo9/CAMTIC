@@ -1521,7 +1521,7 @@
             WHERE GROUP_KEY IS NULL) AB
         WHERE
         <![CDATA[
-            (AB.APP_DE > #{startDt} AND AB.APP_DE <= #{endDt} OR AB.RE_APP_DE > #{startDt} AND AB.RE_APP_DE <= #{endDt})
+            (AB.APP_DE >= #{startDt} AND AB.APP_DE <= #{endDt} OR AB.RE_APP_DE >= #{startDt} AND AB.RE_APP_DE <= #{endDt})
         ]]>
         <if test='searchDept == "1" or "1".equals(searchDept)'>
             AND AB.DOC_STATUS IN (0,30,40)
