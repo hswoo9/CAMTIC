@@ -223,14 +223,16 @@ var bgView = {
                         var idx = $("#idx").val();
                         var subAm = 0;
 
-                        if($("#status").val() != "incp"){
-                            if($("#payAppType").val() == "4"){
-                                subAm += Number(e.SUB_AM);
+                        if(e.DIV_FG_NM == "항"){
+                            if($("#status").val() != "incp"){
+                                if($("#payAppType").val() == "4"){
+                                    subAm += Number(e.SUB_AM);
+                                } else {
+                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
+                                }
                             } else {
-                                subAm += Number(e.CALC_AM) - Number(e.WAIT_CK == null ? 0 : e.WAIT_CK);
+                                subAm = Number(e.SUB_AM);
                             }
-                        } else {
-                            subAm += Number(e.SUB_AM);
                         }
                         console.log(e.SUB_AM);
                         console.log(e.CALC_AM);

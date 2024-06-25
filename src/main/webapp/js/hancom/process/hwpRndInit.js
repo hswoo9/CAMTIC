@@ -566,6 +566,8 @@ var rndInit = {
         /** 과제명 */
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
 
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);
         const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {

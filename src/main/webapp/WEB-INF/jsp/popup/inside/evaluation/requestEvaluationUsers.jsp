@@ -331,6 +331,10 @@
             return;
         }
 
+        if(!confirm("평가대상 설정 완료 버튼 클릭시 컨펌 메시지 추가 평가대상 재설정시 제출정보가 초기화됩니다. 저장하시겠습니까?")){
+            return;
+        }
+
         let empSeqsArray = [];
 
         checked.each(function() {

@@ -28,7 +28,7 @@
 
             <div id="btnDiv" class="btn-st popButton" style="font-size: 12px;">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="display: none;" onclick="fn_save_chk()">등록</button>
-                <button type="button" class="k-button k-button-solid-info" id="updBtn" style="display: none;" onclick="fn_save_chk()">수정</button>
+                <button type="button" class="k-button k-button-solid-info" id="updBtn" style="display: none;" onclick="fn_save_chk()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="fn_del()">삭제</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

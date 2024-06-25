@@ -753,13 +753,15 @@
             CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT B ON A.EVAL_ITEM_ID = B.EVAL_ITEM_ID AND B.EMP_SEQ = #{empSeq}
         WHERE
             A.EVAL_SN = #{evalSn}
-       <if test='!"deptHeader".equals(pType)'>
-          AND
+        <if test='!"deptHeader".equals(pType)'>
+        AND
             A.EVAL_TYPE = #{eType}
-      </if>
-          AND
+        </if>
+        AND
             A.EVAL_POSITION_TYPE = #{pType}
-          AND (B.EVAL_ITEM_ID IS NULL OR B.EVAL_TYPE = #{rType});
+        <if test='!"N".equals(eval)'>
+            AND (B.EVAL_ITEM_ID IS NULL OR B.EVAL_TYPE = #{rType})
+        </if>
     </select>
 
     <select id="getEvaluationView" parameterType="map" resultType="map">
@@ -848,15 +850,15 @@
     <insert id="setEvalScoreTemSave" parameterType="map">
         /*setEvalScoreTemSave*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT
-        (
-            EVAL_SN,
-            EVAL_ITEM_ID,
-            EVAL_EMP_SEQ,
-            EMP_SEQ,
-            EVAL_SCORE,
-            EVAL_TYPE,
-            REG_EMP_SEQ
-        )
+            (
+                EVAL_SN,
+                EVAL_ITEM_ID,
+                EVAL_EMP_SEQ,
+                EMP_SEQ,
+                EVAL_SCORE,
+                EVAL_TYPE,
+                REG_EMP_SEQ
+            )
         VALUES
             (
                 #{evalSn},

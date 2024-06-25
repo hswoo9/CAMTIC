@@ -31,6 +31,7 @@ public class EvaluationController {
     @RequestMapping("/Inside/evaluationReq.do")
     public String evaluationReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -404,8 +405,16 @@ public class EvaluationController {
     @RequestMapping("/evaluation/getEvaluationScoreList")
     public String getEvaluationScoreList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
+        Map<String, Object> data = evaluationService.getEvaluationView(params);
+        model.addAttribute("data", data);
+        if("eval".equals(params.get("rType").toString())){
+            params.put("eval", data.get("EVAL"));
+        }else if("evalF".equals(params.get("rType").toString())){
+            params.put("eval", data.get("EVAL_F"));
+        }else{
+            params.put("eval", data.get("EVAL_S"));
+        }
         model.addAttribute("list", evaluationService.getEvaluationScoreList(params));
-        model.addAttribute("data", evaluationService.getEvaluationView(params));
 
 
         return "jsonView";
