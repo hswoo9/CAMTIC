@@ -423,7 +423,15 @@
                     }
                 })
 
-                var deptPer = (Number(uncommaN($("#user_" + teamSeq).text())) + Number(uncommaN($("#mng_" + teamSeq).text()))) / (userPay + mngPay) * 100
+                var tempA = (Number(uncommaN($("#user_" + teamSeq).text())) + Number(uncommaN($("#mng_" + teamSeq).text())));
+                var tempB = (userPay + mngPay);
+                var deptPer = 0;
+
+                if(tempA == 0 || tempB == 0) {
+                    deptPer = 0;
+                } else {
+                    deptPer = tempA / tempB * 100;
+                }
 
                 $(this).text( Math.round(deptPer * 100) / 100 + " %");
             } else {
@@ -443,8 +451,15 @@
                 var deptPer = Number(($("#deptPer_" + teamSeq).text().split(" ")[0]));      // 부서장 배분비율
                 var headPay = Number(uncommaN($("#mng_" + deptSeq).text().split(" ")[0]));  // 부서장
 
-                var totPay = (deptPer * headPay / 100) + userPay + mngPay;
+                var tempA = deptPer * headPay;
+                var totPay = 0;
 
+                if(tempA == 0) {
+                    totPay = 0 + + userPay + mngPay;
+                } else {
+                    totPay = (tempA / 100) + userPay + mngPay;
+                }
+                
                 $(this).text( comma(Math.round(totPay)) );
             } else {
                 $(this).text("-");

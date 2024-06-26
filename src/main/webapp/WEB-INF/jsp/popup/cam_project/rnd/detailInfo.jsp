@@ -186,7 +186,7 @@
             </tr>
             <tr class="budgetExDiv" style="display: none">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>수주금액<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
+                    <span class="red-star"></span>당해년도 사업비<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
                 </th>
                 <td colspan="3">
                     <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
@@ -261,7 +261,7 @@
                     <div style="display: flex; justify-content: space-between;">
                         <span id="budgetType"></span>
                         <span id="tooltip">
-                            <span href="#" title="사업비 분리사용 유무에 따른 예산등록 금액 = 수주금액, 법인사업비(현금) / 현물 존재시 입력" id="projectTooltip"></span>
+                            <span href="#" title="사업비 분리사용 유무에 따른 예산등록 금액 = 당해년도 사업비, 법인사업비(현금) / 현물 존재시 입력" id="projectTooltip"></span>
                         </span>
                     </div>
                     <div id="customBudgetGrid-1"></div>
