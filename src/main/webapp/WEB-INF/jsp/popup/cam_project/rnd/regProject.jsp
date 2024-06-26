@@ -194,7 +194,7 @@
                     <td>
                         <input type="text" id="allBusnCost" name="allBusnCost" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 80%; text-align: right" value="0"/>
                     </td>
-                    <th scope="row" class="text-center th-color">수주금액</th>
+                    <th scope="row" class="text-center th-color" id="pjtAmtText">당해년도 사업비</th>
                     <td>
                         <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" disabled value="0"/>
                     </td>
