@@ -232,17 +232,23 @@ var recordTotal = {
                         return "<div style=\"text-align: left;\">" + (e.CRM_NM || '') + "</div>";
                     }
                 }, {
+                    title: "수주금액",
+                    width: 100,
+                    template: function(e){
+                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
+                            return '<div style="text-align: right;">'+comma(e.ALL_PJT_AMT)+'</div>';
+                        } else {
+                            return '<div style="text-align: right;">'+comma(e.PJT_AMT)+'</div>';
+                        }
+                    }
+                }, {
                     field: "PJT_AMT",
                     title: "총사업비",
                     width: 100,
                     template: function(e){
                         var totalCost = 0
 
-                        if(e.BUSN_CLASS == 'S' || e.BUSN_CLASS == 'R'){
-                            totalCost = e.ALL_BUSN_COST;
-                        } else {
-                            totalCost = e.PJT_AMT;
-                        }
+                        totalCost = e.PJT_AMT;
                         pjtAmtSum += Number(totalCost || 0);
                         return '<div style="text-align: right;">'+comma(totalCost)+'</div>';
                     },
@@ -253,8 +259,9 @@ var recordTotal = {
                     title: "매출액",
                     width: 100,
                     template: function(e){
-                        exnpCompAmtSum += Number(e.exnpCompAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.exnpCompAmt)+'</div>';
+                        exnpCompAmtSum += Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
+                        console.log(e);
+                        return '<div style="text-align: right;">'+comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(exnpCompAmtSum)+"</div>";
@@ -263,8 +270,8 @@ var recordTotal = {
                     title: "운영수익",
                     width: 100,
                     template: function(e){
-                        incpCompAmtSum += Number(e.incpCompAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.incpCompAmt)+'</div>';
+                        incpCompAmtSum += Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(incpCompAmtSum)+"</div>";
@@ -273,8 +280,8 @@ var recordTotal = {
                     title: "예상매출액",
                     width: 100,
                     template: function(e){
-                        tmpSaleAmtSum += Number(e.tmpSaleAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.tmpSaleAmt)+'</div>';
+                        tmpSaleAmtSum += Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpSaleAmtSum)+"</div>";
@@ -283,8 +290,8 @@ var recordTotal = {
                     title: "예상수익",
                     width: 100,
                     template: function(e){
-                        tmpProfitAmtSum += Number(e.tmpProfitAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.tmpProfitAmt)+'</div>';
+                        tmpProfitAmtSum += Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpProfitAmtSum)+"</div>";
