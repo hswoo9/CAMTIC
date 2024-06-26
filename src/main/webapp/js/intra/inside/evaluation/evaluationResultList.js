@@ -28,6 +28,45 @@ var evaluationResultList = {
 
         evaluationResultList.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
         customKendo.fn_dropDownList("duty", evaluationResultList.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+
+        $("#evalNum").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "1차", value: "1" },
+                { text: "2차", value: "2" },
+                { text: "3차", value: "3" },
+                { text: "4차", value: "4" },
+                { text: "5차", value: "5" }
+            ],
+            index: 0
+        });
+
+        $("#dept").data("kendoDropDownList").value($("#regDeptSeq").val())
+        $("#dept").data("kendoDropDownList").trigger("change");
+        $("#dept").data("kendoDropDownList").enable(false);
+        $("#team").data("kendoDropDownList").value($("#regTeamSeq").val());
+        if(!($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")){
+            $("#team").data("kendoDropDownList").enable(false);
+        }
+
+        const authorList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "19"}).rs;
+        for(let i=0; i<authorList.length; i++){
+            const map = authorList[i];
+            if(map.EMP_SEQ == $("#regEmpSeq").val()){
+                $("#dept").data("kendoDropDownList").enable(true);
+                $("#team").data("kendoDropDownList").enable(true);
+            }
+        }
+
+        if($("#regEmpSeq").val() == "1"){
+            $("#dept").data("kendoDropDownList").enable(true);
+            $("#team").data("kendoDropDownList").enable(true);
+            $("#dept").data("kendoDropDownList").value("");
+            $("#dept").data("kendoDropDownList").trigger("change");
+            $("#team").data("kendoDropDownList").value("");
+        }
     },
 
     mainGrid: function() {
@@ -35,14 +74,16 @@ var evaluationResultList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/Inside/employeeInterviewCard.do',
+                    url : '/evaluation/getEvalResultList',
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.searchText = $("#searchText").val();
+                    data.searchDate = $("#searchDate").val();
+                    data.evalNum = $("#evalNum").val();
                     data.dept = $("#dept").val();
                     data.team = $("#team").val();
-                    data.searchDate = $("#searchDate").val();
+                    data.position = $("#position").val();
+                    data.duty = $("#duty").val();
                     return data;
                 }
             },
@@ -87,49 +128,64 @@ var evaluationResultList = {
             /*dataBound: ,*/
             columns: [
                 {
-                    field: "row_num",
-                    title: "순번",
-                    width: "5%"
-                },
-                {
-                    field:"dept_name",
+                    field:"deptNm",
                     title:"부서명",
-                    width:"10%",
-                    template:function(e){
-                        return '<input type="hidden" id="' + e.EMP_SEQ + '_dept_seq">' + e.dept_name;
-                    }
+                    width:"10%"
                 },
                 {
-                    field:"dept_team_name",
+                    field:"teamNm",
                     title:"팀명",
-                    width:"10%",
-                    template:function(e){
-                        return '<input type="hidden" id="' + e.EMP_SEQ + '_team_seq">' + e.dept_team_name;
-                    }
+                    width:"10%"
                 },
                 {
-                    field: "emp_name_kr",
+                    field: "EMP_NAME_KR",
                     title: "성명",
+                    width: "10%"
+                }, {
+                    title: "최종점수",
                     width: "10%",
                     template: function (e) {
-                        return "<a href='#' onclick='evaluationResultList.contentDetailPop(" + e.card_number + ");' style='color: blue; cursor: pointer;'>" + e.emp_name_kr + "</a>";
+                        var scoreF;
+                        var scoreS;
+
+                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
+                            scoreF = (parseFloat(e.DEPT_MANAGER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
+                            scoreF = (parseFloat(e.TEAM_MANAGER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                        }else{
+                            scoreF = (parseFloat(e.TEAM_MEMBER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                        }
+
+                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
+                            scoreS =  (parseFloat(e.DEPT_MANAGER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
+                            scoreS = (parseFloat(e.TEAM_MANAGER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                        }else{
+                            scoreS = (parseFloat(e.TEAM_MEMBER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                        }
+
+                        var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
+
+                        return parseFloat(totalScore) + parseFloat(e.EVAL_SCORE_MNG);
+                    }
+                },{
+                    title: "최종등급",
+                    width: "10%",
+                    template: function (e) {
+                        return "S";
                     }
                 }, {
-                    field: "card_interview_date",
-                    title: "최종점수",
-                    width: "10%"
-                },{
-                    field: "sTime",
-                    title: "최종등급",
-                    width: "10%"
-                }, {
-                    field: "eTime",
                     title: "1차 평가의견",
-                    width: "30%"
+                    width: "30%",
+                    template: function (e) {
+                        return e.EVAL_F_VIEW.replaceAll("\n", "<br>");
+                    }
                 },{
-                    field: "card_interviewer",
                     title: "2차 평가의견",
-                    width: "30%"
+                    width: "30%",
+                    template: function (e) {
+                        return e.EVAL_S_VIEW.replaceAll("\n", "<br>");
+                    }
                 }]
         }).data("kendoGrid");
     },

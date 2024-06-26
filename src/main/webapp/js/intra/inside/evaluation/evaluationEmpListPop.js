@@ -28,6 +28,20 @@ var evaluationEmpListPop = {
         });
     },
 
+    statCk: function(list){
+        let ck = true;
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            if(($("#key").val() == "1" && map.EVAL_F == "Y") || ($("#key").val() == "2" && map.EVAL_S == "Y")){
+                ck = false;
+            }
+        }
+
+        if(!ck){
+            document.getElementById("btnActive2").disabled = true;
+        }
+    },
+
     mainGrid: function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -42,53 +56,12 @@ var evaluationEmpListPop = {
                     data.bsYMD = $("#bsYear").val()+"-12-31";
                     data.empSeq = $("#empSeq").val();
                     data.key = $("#key").val();
-
-                    /*if($("#key").val() == "1"){ // 1차평가
-                        if($("#duty").val() == "4" || $("#duty").val() == "5"){// 팀장 -> 팀원
-                            data.bsYMD = $("#bsYear").val()+"-12-31";
-                            data.teamLeader = "N";
-                            data.deptHeader = "N";
-                            data.deptSeq = $("#deptSeq").val();
-                        }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀장
-                            data.bsYMD = $("#bsYear").val()+"-12-31";
-                            data.teamLeader = "Y";
-                            data.deptHeader = "N";
-                            data.pDeptSeq = $("#deptSeq").val();
-                        }else if($("#duty").val() == "1"){  //원장 -> 실장,부장
-                            console.log("adfadf")
-                            data.bsYMD = $("#bsYear").val()+"-12-31";
-                            data.teamLeader = "N";
-                            data.deptHeader = "Y";
-                            data.duty = "1";
-                        }
-                        else{
-
-                        }
-                    }else if($("#key").val() == "2"){ // 2차평가
-                        if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀원
-                            data.bsYMD = $("#bsYear").val()+"-12-31";
-                            data.teamLeader = "N";
-                            data.deptHeader = "N";
-                            data.empSeq = $("#empSeq").val();
-                            data.pDeptSeq = $("#deptSeq").val();
-
-                        }else if($("#duty").val() == "1"){  // 원장 -> 팀장
-                            data.bsYMD = $("#bsYear").val()+"-12-31";
-                            data.teamLeader = "Y";
-                            data.deptHeader = "N";
-                            data.duty = "1";
-                        }
-                        else{
-
-                        }
-
-                    }*/
-
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
+                    evaluationEmpListPop.statCk(data.list);
                     return data.list;
                 },
                 total: function (data) {
@@ -144,11 +117,12 @@ var evaluationEmpListPop = {
                     title: "제출상태",
                     width: 100,
                     template: function (e){
+                        console.log(e);
                         if($("#key").val() == "1"){ // 1차평가
                             if(e.EVAL_F == "Y"){
-                                return "<span style='color: blue'>제출완료</span>";
+                                return "<span style='color: blue'>제출완료 ("+e.EVAL_F_SCORE+"점)</span>";
                             }else if(e.EVAL_F == "W"){
-                                return "<span style='color: black'>작성완료</span>";
+                                return "<span style='color: black'>작성완료 ("+e.EVAL_F_SCORE+"점)</span>";
                             }else{
                                 return "<span style='color: red'>미제출</span>";
                             }
@@ -156,9 +130,9 @@ var evaluationEmpListPop = {
                         }else if($("#key").val() == "2"){ // 2차평가
 
                             if(e.EVAL_S == "Y"){
-                                return "<span style='color: blue'>제출완료</span>";
+                                return "<span style='color: blue'>제출완료 ("+e.EVAL_S_SCORE+"점)</span>";
                             }else if(e.EVAL_S == "W"){
-                                return "<span style='color: black'>작성완료</span>";
+                                return "<span style='color: black'>작성완료 ("+e.EVAL_F_SCORE+"점)</span>";
                             }else{
                                 return "<span style='color: red'>미제출</span>";
                             }

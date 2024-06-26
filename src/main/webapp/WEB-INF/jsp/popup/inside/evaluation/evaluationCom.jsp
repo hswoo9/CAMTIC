@@ -299,10 +299,10 @@
             // 평가대상
 
             $("#idx0").val(evalMap.CAP_IDX);
-            $("#evalStrDt0").data("kendoDatePicker").value(evalMap.COND_STR_DT);
-            $("#evalEndDt0").data("kendoDatePicker").value(evalMap.COND_END_DT);
-            $("#condStrDt0").data("kendoDatePicker").value(evalMap.EVAL_STR_DT);
-            $("#condEndDt0").data("kendoDatePicker").value(evalMap.EVAL_END_DT);
+            $("#evalStrDt0").data("kendoDatePicker").value(evalMap.EVAL_STR_DT);
+            $("#evalEndDt0").data("kendoDatePicker").value(evalMap.EVAL_END_DT);
+            $("#condStrDt0").data("kendoDatePicker").value(evalMap.COND_STR_DT);
+            $("#condEndDt0").data("kendoDatePicker").value(evalMap.COND_END_DT);
             $("#teamMemberA0").val(evalMap.TEAM_MEMBER_A);
             $("#teamMemberB0").val(evalMap.TEAM_MEMBER_B);
             $("#teamMemberC0").val(evalMap.TEAM_MEMBER_C);

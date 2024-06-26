@@ -175,15 +175,18 @@
                             t1NameValue = checkEmpSeq.t1Name;
                         }
 
-                        if(checkEmpSeq) {
-                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 1);" >' +
-                                '<span id="t1_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + t1NameValue + '</span>' +
-                                '</a>';
-                        } else {
-                            return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 1);" >' +
-                                '<span id="t1_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + e.T1 + '</span>' +
-                                '</a>';
+                        let returnName = "";
+                        if(checkEmpSeq && t1NameValue != null && t1NameValue != "undefined") {
+                            returnName = t1NameValue;
+                        } else if(e.T1 != null && e.T1 != "undefined") {
+                            returnName = e.T1;
+                        }else{
+                            returnName = "";
                         }
+
+                        return '<a href="javascript:void(0);" onclick="userSearch(\''+e.EMP_SEQ+'\', 1);" >' +
+                            '<span id="t1_'+e.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + returnName + '</span>' +
+                            '</a>';
                     }
                 }, {
                     title: "2차 평가자",

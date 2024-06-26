@@ -566,7 +566,7 @@ public class DocumentServiceImpl implements DocumentService {
             documentRepository.updateInComeApprStat(params);
         }
 
-        if("10".equals(docSts)){
+        if("10".equals(docSts) || "50".equals(docSts)){
             /** STEP1. pjtSn 으로 delvData 호출 */
             params.put("contentId", approKey);
             params.put("fileCd", "inCome");

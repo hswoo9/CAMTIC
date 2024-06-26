@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script src="/js/kendoui/kendo.all.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationEmpListPop.js?v=${today}"></script>
@@ -141,6 +140,27 @@
 
     $(function (){
         fn_mngList();
+
+        $('.inputScore').on('input', function () {
+
+            // 입력된 값에서 숫자와 소수점 이외의 문자를 모두 제거합니다.
+            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+
+            // 입력된 값이 소수점을 포함하는 경우에 대해서만 처리합니다.
+            var inputValue = $(this).val();
+            if (inputValue.indexOf('.') !== -1) {
+                // 소수점 이전 값에 대해서는 자연수 2자리까지만 입력되도록 합니다.
+                var naturalNumber = inputValue.split('.')[0].slice(0, 3);
+                // 소수점 이후 값에 대해서는 소수점 1자리까지만 입력되도록 합니다.
+                var decimalNumber = inputValue.split('.')[1].slice(0, 1);
+                inputValue = naturalNumber + '.' + decimalNumber;
+            } else {
+                // 입력된 값이 소수점을 포함하지 않는 경우에는 자연수 2자리까지만 입력되도록 합니다.
+                inputValue = inputValue.slice(0, 3);
+            }
+
+            $(this).val(inputValue);
+        });
     });
 
     function fn_mngList(){
@@ -216,7 +236,9 @@
             html += '   <td style="text-align: left; font-size: 11px">';
             html += '' +  (item.EVAL_VAL).replaceAll("\n", "<br>") + '';
             html += '   </td>';
-            html += '   <td>';
+            html += '   <td>' +
+                '<input type="hidden" id="gradeS_s'+evNum+'" value="'+item.EVAL_STR_S+'"/>' +
+                '<input type="hidden" id="gradeD_e'+evNum+'" value="'+item.EVAL_END_D+'"/>';
             let sText = item.EVAL_STR_S;
             if(sText != item.EVAL_END_S){
                 sText += "~"+ item.EVAL_END_S;
@@ -269,15 +291,15 @@
                 html += '   </td>';
             }else{
                 html += '   <td>';
-                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore('+evNum+')">';
+                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore inputScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore('+evNum+')">';
                 html += '   </td>';
             }
             html += '</tr>';
 
         $('#evalList').append(html);
 
-        customKendo.fn_textBox(["evalCap" + evNum, "evalTitle" + evNum, "evalVal" + evNum, "gradeS_s" + evNum,
-             "gradeA_s" + evNum, "gradeB_s" + evNum, "gradeB_e" + evNum, "gradeC_s" + evNum, "gradeD_s" + evNum, "evalScore" + evNum,
+        customKendo.fn_textBox(["evalCap" + evNum, "evalTitle" + evNum, "evalVal" + evNum,
+             "evalScore" + evNum,
             "Sscore", "Ascore", "Bscore_s", "Bscore_e", "Cscore", "Dscore", "totalScore" ]);
     }
 
@@ -285,15 +307,15 @@
 
         var evalScoreValue = parseFloat(document.getElementById("evalScore" + evNum).value);
         var gradeS_sValue = parseFloat(document.getElementById("gradeS_s" + evNum).value);
-        var gradeD_sValue = parseFloat(document.getElementById("gradeD_s" + evNum).value);
+        var gradeD_eValue = parseFloat(document.getElementById("gradeD_e" + evNum).value);
 
         if (evalScoreValue > gradeS_sValue) {
             alert(gradeS_sValue + "점 이하로 입력해주세요.");
             $("#evalScore"+evNum).val("0");
         }
 
-        if (evalScoreValue < gradeD_sValue) {
-            alert(gradeD_sValue + "점 이상으로 입력해주세요.");
+        if (evalScoreValue < gradeD_eValue) {
+            alert(gradeD_eValue + "점 이상으로 입력해주세요.");
             $("#evalScore"+evNum).val("0");
         }
 
@@ -362,8 +384,6 @@
             }
         });
     }
-
-
 
 </script>
 </body>

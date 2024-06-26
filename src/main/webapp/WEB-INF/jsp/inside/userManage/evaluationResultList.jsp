@@ -13,8 +13,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">6월팀원평가결과</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가 > 평가결과조회 > 6월팀원평가결과</div>
+            <h4 class="panel-title">팀원 평가결과</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가 > 평가결과조회 > 팀원평가결과</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -37,14 +37,12 @@
                         </td>
                         <th class="text-center th-color">차수</th>
                         <td>
-                            <input type="text" id="" style="width:110px;">
+                            <input type="text" id="evalNum" style="width:110px;">
                         </td>
                         <th class="text-center th-color">부서/팀</th>
                         <td>
-                            <input type="text" id="dept" style="width:160px;">
-                            <input type="hidden" id="dept_seq">
-                            <input type="text" id="team" style="width:165px;">
-                            <input type="hidden" id="team_seq">
+                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
+                            <input type="text" id="team" class="searchInput" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">직책/직급</th>
                         <td>

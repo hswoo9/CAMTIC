@@ -203,4 +203,8 @@ public class EvaluationRepository extends AbstractDAO {
         insert("evaluation.setEvaluationItemCopy", scoreBody);
     }
 
+    public List<Map<String, Object>> getEvalResultList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalResultList", params);
+    }
+
 }

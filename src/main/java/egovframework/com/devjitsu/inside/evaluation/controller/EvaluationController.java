@@ -432,6 +432,8 @@ public class EvaluationController {
     public String evaluationResultList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/evaluationResultList";
@@ -505,6 +507,13 @@ public class EvaluationController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/userManage/contentDetailPop";
+    }
+
+    @RequestMapping("/evaluation/getEvalResultList")
+    public String getEvalResultList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = evaluationService.getEvalResultList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss

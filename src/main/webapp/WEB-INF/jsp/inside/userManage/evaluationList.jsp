@@ -133,14 +133,14 @@
             for(var i = 0; i < list.length; i++){
                 html += "<tr style='text-align: center;'>";
                 html += "     <td>" + (i+1) + "</td>";
-                html += "     <td onclick='evalReqModify("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].BS_YEAR + "</td>";
+                html += "     <td onclick='evalReqModify("+ list[i].EVAL_SN +")' style='cursor: pointer; text-decoration: underline; font-weight: bold'>" + list[i].BS_YEAR + "</td>";
                 html += "     <td>" + list[i].EVAL_NUM + " 차</td>";
                 html += "     <td>" + list[i].EVAL_MEM + " 명</td>";
                 html += "     <td style='padding: 0px;'>";
                 html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalComModify("+ list[i].EVAL_SN +")' style='font-size: 11px;'>역량평가설정</button>";
                 html += "     </td>";
                 if(list[i].EVAL_STR_DT != null){
-                    html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
+                    html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer; text-decoration: underline; font-weight: bold'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
                 }else{
                     html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>-</td>";
                 }

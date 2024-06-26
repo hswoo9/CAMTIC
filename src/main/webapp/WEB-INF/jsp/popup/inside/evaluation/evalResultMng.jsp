@@ -148,62 +148,62 @@
 
             html += '<tr>';
             html += '   <td><input type="checkbox" id="check' + i + '" value="'+ list[i].EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
-            html += '   <td>' + list[i].DEPT_NAME + '</td>';
-            html += '   <td>' + list[i].DEPT_TEAM_NAME + '</td>';
+            html += '   <td>' + list[i].deptNm + '</td>';
+            html += '   <td>' + list[i].teamNm + '</td>';
             html += '   <td><div onclick="evalResUserPop('+ list[i].EVAL_MEM_SN+');">' + list[i].EMP_NAME_KR + '</div></td>';
-            html += '   <td>' + list[i].EVAL_SCORE + '</td>';
-            html += '   <td>' + list[i].EVAL_F_SCORE + '</td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">' + list[i].EVAL_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + list[i].EVAL_F_SCORE + '</td>';
 
             if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
-                scoreF = (parseFloat(data.DEPT_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
-                html += '   <td>'+ data.DEPT_MANAGER_A +'</td>';
-                html += '   <td>' + scoreF + '</td>';
+                scoreF = (parseFloat(data.DEPT_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_A +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
-                scoreF = (parseFloat(data.TEAM_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
-                html += '   <td>'+ data.TEAM_MANAGER_A +'</td>';
-                html += '   <td>' + scoreF + '</td>';
+                scoreF = (parseFloat(data.TEAM_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_A +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }else{
-                scoreF = (parseFloat(data.TEAM_MEMBER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
-                html += '   <td>'+ data.TEAM_MEMBER_A +'</td>';
-                html += '   <td>' + scoreF + '</td>';
+                scoreF = (parseFloat(data.TEAM_MEMBER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.TEAM_MEMBER_A +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }
 
 
-            html += '   <td>' + list[i].EVAL_S_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + list[i].EVAL_S_SCORE + '</td>';
 
             if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
-                scoreS =  (parseFloat(data.DEPT_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
-                html += '   <td>'+ data.DEPT_MANAGER_B +'</td>';
-                html += '   <td>' + scoreS + '</td>';
+                scoreS =  (parseFloat(data.DEPT_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_B +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
-                scoreS = (parseFloat(data.TEAM_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
-                html += '   <td>'+ data.TEAM_MANAGER_B +'</td>';
-                html += '   <td>' + scoreS + '</td>';
+                scoreS = (parseFloat(data.TEAM_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_B +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }else{
-                scoreS = (parseFloat(data.TEAM_MEMBER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
-                html += '   <td>'+ data.TEAM_MEMBER_B +'</td>';
-                html += '   <td>' + scoreS + '</td>';
+                scoreS = (parseFloat(data.TEAM_MEMBER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ data.TEAM_MEMBER_B +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }
 
-            html += '   <td>0</td>';
+            html += '   <td style="text-align: center">0</td>';
             if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
-                html += '   <td>'+ data.DEPT_MANAGER_C +'</td>';
-                html += '   <td>0</td>';
+                html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_C +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
             }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
-                html += '   <td>'+ data.TEAM_MANAGER_C +'</td>';
-                html += '   <td>0</td>';
+                html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_C +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
             }else{
-                html += '   <td>'+ data.TEAM_MEMBER_C +'</td>';
-                html += '   <td>0</td>';
+                html += '   <td style="text-align: center">'+ data.TEAM_MEMBER_C +' %</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
             }
 
-            var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(2);
-            html += '   <td>'+ totalScore +'</td>';
+            var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
+            html += '   <td style="text-align: center">'+ totalScore +'</td>';
 
-            html += '   <td>S</td>';   // 평가등급
-            html += '   <td><input type="text" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 35px;"></td>';
-            html += '   <td>'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
-            html += '   <td>S</td>';  // 최종등급
+            html += '   <td style="text-align: center">S</td>';   // 평가등급
+            html += '   <td style="text-align: center; background-color: #EFEFEF; padding-left:5px; padding-right:5px"><input type="text" class="k-input" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 95%;"></td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">S</td>';  // 최종등급
             html += '</tr>';
         }
 

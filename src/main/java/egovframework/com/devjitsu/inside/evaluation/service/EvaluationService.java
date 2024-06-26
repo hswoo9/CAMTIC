@@ -40,4 +40,5 @@ public interface EvaluationService {
     Map<String, Object> getEvaluationView(Map<String, Object> params);
 
     Map<String, Object> getEvalMemDet(Map<String, Object> params);
+    List<Map<String, Object>> getEvalResultList(Map<String, Object> params);
 }

@@ -3,8 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script src="/js/kendoui/kendo.all.min.js"></script>
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
@@ -64,6 +62,7 @@
             dataType : "json",
             async : false,
             success : function(result){
+                console.log("result", result);
                 fn_addTbody(result.list);
                 if(result.self.self > 0){
                     $("#self").css("display" , "")
@@ -89,7 +88,18 @@
         html += '<tr>';
         html += '   <td>'+ list.EVAL_NUM +' 차</td>';
         html += '   <td>'+ list.EVAL_STR_DT +' ~ ' + list.EVAL_END_DT +'</td>';
-        html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
+
+        var result = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
+            evalSn : $("#evalSn").val(),
+            empSeq : $("#empSeq").val(),
+            rType : "eval"
+        });
+
+        if(result.data.EVAL == "N"){
+            html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
+        }else{
+            html += '   <td><button id="self" class="k-button k-button-solid-info" style="display: none;" onclick="fn_open_eval(0)">제출완료</button></td>';
+        }
         html += '   <td><button id="first" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(1)">평가하기</button><span id="countF"></span></td>';
         html += '   <td><button id="second" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(2)">평가하기</button><span id="countS"></span></td>';
         html += '   <td></td>';
