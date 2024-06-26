@@ -319,7 +319,7 @@
                         </tr>
 
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center; font-weight: bold" rowspan="3">공통비용</td>
+                            <td style="text-align: center; font-weight: bold" rowspan="4">공통비용</td>
                             <td style="text-align: center;">인사총무팀</td>
                             <td style="text-align: right;" id="tEmp_1227" name="team">0</td>
                             <td style="text-align: right;" id="tPubRate_1227" name="team">0</td>
@@ -356,6 +356,20 @@
                             <td style="text-align: right;" id="tRetirePay_1229" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;" id="tExnpPay_1229" name="team">0</td>
+                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;">0</td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;">공통운영비</td>
+                            <td style="text-align: right;" id="cEmp" name="common">0</td>
+                            <td style="text-align: right;" id="cPubRate" name="common">0</td>
+                            <td style="text-align: right;" id="cTotPay" name="common">0</td>
+                            <td style="text-align: right;" id="cInsPay" name="common">0</td>
+                            <td style="text-align: right;" id="cRetirePay" name="common">0</td>
+                            <td style="text-align: right;">0</td>
+                            <td style="text-align: right;" id="cExnpPay" name="common">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
