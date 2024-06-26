@@ -130,7 +130,7 @@ var mailHistList = {
             url += "?mailHistSn="+mailHistSn;
         }
         const name = "mailReqPop";
-        const option = "width = 720, height = 666, top = 100, left = 300, location = no";
+        const option = "width = 1440, height = 800, top = 100, left = 300, location = no";
         window.open(url, name, option);
     },
 

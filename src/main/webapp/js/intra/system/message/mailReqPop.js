@@ -14,6 +14,10 @@ const mailReqReq = {
         customKendo.fn_textArea(["contents"]);
         customKendo.fn_datePicker("sendDate", 'month', "yyyy-MM-dd", new Date());
         $("#sendDate").attr("readonly", true);
+
+        CKEDITOR.replace('contents', {
+            height: 250
+        });
     },
 
     fn_dataSet: function(){
@@ -23,9 +27,8 @@ const mailReqReq = {
                 mailHistSn : $("#mailHistSn").val()
             });
             const rs = result.data;
-            console.log("rs", rs);
             $("#subject").val(rs.MAIL_TILE);
-            $("#contents").val(rs.MAIL_CONTENT)
+            CKEDITOR.instances.contents.setData(rs.MAIL_CONTENT);
             $("#sendDate").val(rs.SEND_DATE);
             $("#sendEml").val(rs.SEND_EMAIL);
 
@@ -50,13 +53,20 @@ const mailReqReq = {
 
     fn_saveBtn: function(){
         const subject = $("#subject").val();
-        const contents = $("#contents").val();
         const sendDate = $("#sendDate").val();
         const sendEml = $("#sendEml").val();
         const mailHistSn = $("#mailHistSn").val();
+        const hostFlag = location.host;
+        const hostProtocol = location.protocol;
+        let host = "";
+        if(hostFlag.indexOf("218.158.231.184") > -1 || hostFlag.indexOf("new.camtic.or.kr") > -1){
+            host = hostProtocol + "//new.camtic.or.kr/";
+        }else{
+            host = hostProtocol + "//218.158.231.186/";
+        }
+        const contents = CKEDITOR.instances.contents.getData().replace('src="/ckeditor', 'src="'+host+'ckeditor');
 
         if(subject == ""){ alert("메일제목을 작성해주세요."); return;}
-        if(contents == ""){ alert("메일내용을 작성해주세요."); return;}
         if(sendDate == ""){ alert("발신일자를 입력해주세요."); return;}
         if(subject == ""){ alert("발송메일 주소를 작성해주세요."); return;}
 
@@ -72,13 +82,6 @@ const mailReqReq = {
         formData.append("sendDate", sendDate);
         formData.append("sendEml", sendEml);
         formData.append("regEmpSeq", $("#regEmpSeq").val());
-
-        /** 증빙파일 첨부파일 */
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("file", fCommon.global.attFiles[i]);
-            }
-        }
 
         if(mailHistSn != ""){
             formData.append("mailHistSn", mailHistSn);

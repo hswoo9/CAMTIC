@@ -5,7 +5,12 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body class="font-opensans" style="background-color:#fff;">
+<style>
+    .txt_area_01 {display: inline-block; width: 100%; height: 360px; border: 1px solid #c9c9c9; }
+</style>
+
 <script type="text/javascript" src="<c:url value='/js/intra/system/message/mailReqPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -52,21 +57,13 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>메일내용</th>
                     <td>
-                        <textarea id="contents" style="height: 300px;"></textarea>
+                        <textarea class="txt_area_01" id="contents"></textarea>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>발송일</th>
                     <td>
                         <input id="sendDate" style="width: 150px">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">첨부파일</th>
-                    <td>
-                        <label for="fileList" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="fileList" name="fileList" onchange="mailReqReq.fileChange()" style="display: none" multiple />
-                        <span id="fileName" name="fileName"></span>
                     </td>
                 </tr>
                 <tr>

@@ -63,11 +63,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Map<String, Object> getMailHistData(Map<String, Object> params) {
         Map<String, Object> result = messageRepository.getMailHistData(params);
-        Map<String, Object> searchMap = new HashMap<>();
-        searchMap.put("fileCd", "mailHist");
-        searchMap.put("contentId", params.get("mailHistSn"));
-
-        result.put("fileList", commonRepository.getFileList(searchMap));
         return result;
     }
 
@@ -151,20 +146,6 @@ public class MessageServiceImpl implements MessageService {
             messageRepository.setMailHistIns(params);
         } else {
             messageRepository.setMailHistUpd(params);
-        }
-
-        if(file.length > 0){
-            MainLib mainLib = new MainLib();
-            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
-            for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("mailHistSn"));
-                list.get(i).put("empSeq", params.get("regEmpSeq"));
-                list.get(i).put("fileCd", params.get("menuCd"));
-                list.get(i).put("filePath", filePath(params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
-            }
-            commonRepository.insFileInfo(list);
         }
     }
 

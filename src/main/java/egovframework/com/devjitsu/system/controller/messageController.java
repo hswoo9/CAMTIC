@@ -363,7 +363,7 @@ public class messageController {
         MailUtil mailUtil = new MailUtil();
         params.put("mailType", "mailHist");
 
-        mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+        mailUtil.mailHistSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
         model.addAttribute("rs", "SUCCESS");
 
         messageService.setMailDetCom(params);
