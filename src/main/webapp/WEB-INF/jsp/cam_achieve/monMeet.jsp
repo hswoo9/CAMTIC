@@ -73,36 +73,36 @@
                             <td style="text-align: center;" colspan="5"><b>운영수익</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
-                            <td style="text-align: center;"><b>목표</b></td>
-                            <td style="text-align: center;"><b>달성</b></td>
-                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                            <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                            <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
                             <td style="text-align: center;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
                         </tr>
                         <tr style="background-color: white">
-                            <td style="text-align: right;" id="delvObj" name="delvObj"></td>
-                            <td style="text-align: right;" id="delvAch" name="delvAch"></td>
-                            <td style="text-align: right;" id="delvExp" name="delvExp"></td>
+                            <td style="text-align: right;background-color: #fffef2;" id="delvObj" name="delvObj"></td>
+                            <td style="text-align: right;background-color: #fff4f4;" id="delvAch" name="delvAch"></td>
+                            <td style="text-align: right;background-color: #f2ffff;" id="delvExp" name="delvExp"></td>
                             <td style="text-align: right;" id="delvSum" name="delvSum"></td>
                             <td style="text-align: right;font-weight: bold;" id="delvPer" name="delvPer"></td>
-                            <td style="text-align: right;" id="saleObj" name="saleObj"></td>
-                            <td style="text-align: right;" id="saleAch" name="saleAch"></td>
-                            <td style="text-align: right;" id="saleExp" name="saleExp"></td>
+                            <td style="text-align: right;background-color: #fffef2;" id="saleObj" name="saleObj"></td>
+                            <td style="text-align: right;background-color: #fff4f4;" id="saleAch" name="saleAch"></td>
+                            <td style="text-align: right;background-color: #f2ffff;" id="saleExp" name="saleExp"></td>
                             <td style="text-align: right;" id="saleSum" name="saleSum"></td>
                             <td style="text-align: right;font-weight: bold" id="salePer" name="salePer"></td>
-                            <td style="text-align: right;" id="incpObj" name="incpObj"></td>
-                            <td style="text-align: right;" id="incpAch" name="incpAch"></td>
-                            <td style="text-align: right;" id="incpExp" name="incpExp"></td>
+                            <td style="text-align: right;background-color: #fffef2;" id="incpObj" name="incpObj"></td>
+                            <td style="text-align: right;background-color: #fff4f4;" id="incpAch" name="incpAch"></td>
+                            <td style="text-align: right;background-color: #f2ffff;" id="incpExp" name="incpExp"></td>
                             <td style="text-align: right;" id="incpSum" name="incpSum"></td>
                             <td style="text-align: right; font-weight: bold;" id="incpPer" name="incpPer"></td>
                         </tr>
