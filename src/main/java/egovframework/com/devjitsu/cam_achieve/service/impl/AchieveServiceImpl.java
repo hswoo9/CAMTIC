@@ -8,6 +8,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -470,6 +471,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getDeptPayrollListForTotRate(Map<String, Object> params) {
+        return achieveRepository.getDeptPayrollListForTotRate(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getExnpListForTotRate(Map<String, Object> params) {
         return achieveRepository.getExnpListForTotRate(params);
     }
@@ -492,5 +498,20 @@ public class AchieveServiceImpl implements AchieveService {
     @Override
     public List<Map<String, Object>> getEmpRateValue(Map<String, Object> params) {
         return achieveRepository.getEmpRateValue(params);
+    }
+
+    @Override
+    public void insDeptExpenseRateValue(Map<String, Object> params) {
+        Gson gson = new Gson();
+
+        if (!StringUtils.isEmpty(params.get("rateArr"))) {
+            List<Map<String, Object>> itemList = gson.fromJson((String) params.get("rateArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            achieveRepository.insDeptExpenseRateValue(itemList);
+        }
+    }
+
+    @Override
+    public void updDeptExpenseRateStatus(Map<String, Object> params) {
+        achieveRepository.updDeptExpenseRateStatus(params);
     }
 }

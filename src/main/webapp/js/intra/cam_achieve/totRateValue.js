@@ -2,12 +2,21 @@ var trv = {
 
 
     fn_defaultScript: function(){
-        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
+        customKendo.fn_datePicker("year", 'year', "yyyy-MM", new Date());
 
+        trv.fn_searchData();
+
+        $("#year").change(function (){
+            trv.fn_searchData();
+        })
+    },
+
+    fn_searchData : function(){
+        var date = new Date($("#year").val().split("-")[0], $("#year").val().split("-")[1], 0);
         var parameters = {
             baseYear : $("#year").val(),
-            startDt : $("#year").val() + "-01-01",
-            endDt : $("#year").val() + "-12-31",
+            startDt : $("#year").val().split("-")[0] + "-01-01",
+            endDt : $("#year").val() + "-" + date.getDate()
         }
 
         var rs = customKendo.fn_customAjax("/cam_achieve/getEmpRateValue", parameters);
@@ -15,7 +24,7 @@ var trv = {
         var eRs = rs.list;
         var eLen = 0;
 
-        var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollList", parameters);
+        var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollListForTotRate", parameters);
         var payList = payRs.list;
         console.log(payList);
 
@@ -231,6 +240,73 @@ var trv = {
         $("#exnpPay").next().next().text(comma(Number(uncomma($("#exnpPay_all").next().next().text())) + Number(uncomma($("#dExnpPay_1219").next().next().text()))));
     },
 
+
+    fn_saveData : function(){
+        if(!confirm("저장하시겠습니까?")){
+            return;
+        }
+
+        var rateArr = [];
+        $.each($(".rateTr"), function(i, v){
+            var item = {
+                baseYear : $("#year").val(),
+                deptSeq : $(this).attr("name"),
+                personnelInCharge : $(this).find(".tEmp").text(),
+                commonRate : $(this).find(".tPubRate").text(),
+                personnelExpenses : uncommaN($(this).find(".tTotPay").text()),
+                fourInsurance : uncommaN($(this).find(".tInsPay").text()),
+                retirementPension : uncommaN($(this).find(".tRetirePay").text()),
+                personnelTotal : uncommaN($(this).find(".tRetirePay").next().text()),
+                directPay : uncommaN($(this).find(".tExnpPay").text()),
+                exceptPay :uncommaN( $(this).find(".tExnpPay").next().text()),
+                selfPayTotal : uncommaN($(this).find(".tExnpPay").next().next().text()),
+                commonExpenses : uncommaN($(this).find(".tExnpPay").next().next().next().text()),
+                personnelExpensesTotal : uncommaN($(this).find(".tExnpPay").next().next().next().next().text()),
+            };
+
+            rateArr.push(item);
+        });
+
+        var data = {
+            rateArr : JSON.stringify(rateArr),
+        }
+
+        $.ajax({
+            url : "/cam_achieve/insDeptExpenseRateValue",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                }
+            }
+        });
+    },
+
+    fn_updStatus : function(){
+        if(!confirm("취소하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            baseYear : $("#year").val(),
+        }
+
+        $.ajax({
+            url : "/cam_achieve/updDeptExpenseRateStatus",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("취소되었습니다.");
+                }
+            }
+        });
+    }
 
 }
 

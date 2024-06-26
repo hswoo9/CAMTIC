@@ -43,6 +43,8 @@ public interface AchieveService {
 
     List<Map<String, Object>> getExnpDetailList(Map<String, Object> params);
 
+    List<Map<String, Object>> getDeptPayrollListForTotRate(Map<String, Object> params);
+
     List<Map<String, Object>> getExnpListForTotRate(Map<String, Object> params);
 
     void updateExnpStatus(Map<String, Object> params);
@@ -52,4 +54,8 @@ public interface AchieveService {
     void updateExnpExceptPay(Map<String, Object> params);
 
     List<Map<String, Object>> getEmpRateValue(Map<String, Object> params);
+
+    void insDeptExpenseRateValue (Map<String, Object> params);
+
+    void updDeptExpenseRateStatus (Map<String, Object> params);
 }

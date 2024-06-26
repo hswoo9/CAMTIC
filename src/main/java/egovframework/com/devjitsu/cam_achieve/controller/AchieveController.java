@@ -359,15 +359,17 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/getDeptPayrollListForTotRate")
+    public String getDeptPayrollListForTotRate(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = achieveService.getDeptPayrollListForTotRate(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/getExnpListForTotRate")
     public String getExnpListForTotRate(@RequestParam Map<String, Object> params, Model model) {
-
-        List<Map<String, Object>> list = new ArrayList<>();
-
-        list = achieveService.getExnpListForTotRate(params);
-
+        List<Map<String, Object>> list = achieveService.getExnpListForTotRate(params);
         model.addAttribute("list", list);
-
         return "jsonView";
     }
 
@@ -438,6 +440,20 @@ public class AchieveController {
 
         List<Map<String, Object>> list = achieveService.getEmpRateValue(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/insDeptExpenseRateValue")
+    public String insDeptExpenseRateValue(@RequestParam Map<String, Object> params, Model model) {
+        achieveService.insDeptExpenseRateValue(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/updDeptExpenseRateStatus")
+    public String updDeptExpenseRateStatus(@RequestParam Map<String, Object> params, Model model) {
+        achieveService.updDeptExpenseRateStatus(params);
+        model.addAttribute("code", 200);
         return "jsonView";
     }
 }

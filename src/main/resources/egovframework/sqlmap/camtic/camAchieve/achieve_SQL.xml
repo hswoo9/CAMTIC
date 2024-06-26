@@ -896,6 +896,36 @@
             EXNP_SN = #{exnpSn}
     </select>
 
+    <select id="getDeptPayrollListForTotRate" parameterType="map" resultType="map">
+        /*getDeptPayrollListForTotRate*/
+        SELECT
+            BASE_YEAR_MONTH,
+            PRAENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
+            SUM(SUP_PAY) AS TOT_PAY,
+            SUM(INS_TOT_PAY) AS INS_TOT_PAY,
+            SUM(RETIRE_PAY) AS RETIRE_PAY
+        FROM
+            (
+                SELECT
+                    A.*,
+                    C.DEPT_SEQ,
+                    IF(
+                        C.DEPT_LEVEL = 1,
+                        C.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
+                    ) AS PRAENT_DEPT_SEQ,
+                    (SELECT RETIRE_PAY FROM CAM_INSIDE.DJ_PAY_ROLL_COMP WHERE ERP_EMP_CD = A.ERP_EMP_CD AND BASE_YEAR_MONTH = A.BASE_YEAR_MONTH) AS RETIRE_PAY
+                FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+                         LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+                         LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+                WHERE DATE_FORMAT(CONCAT(BASE_YEAR_MONTH,'-01'),'%Y%m%d') BETWEEN DATE_FORMAT(#{startDt},'%Y%m%d') AND DATE_FORMAT(#{endDt},'%Y%m%d')
+            ) B
+        GROUP BY DEPT_SEQ
+    </select>
+
     <select id="getExnpListForTotRate" parameterType="map" resultType="map">
         /*getExnpListForTotRate*/
         SELECT
@@ -974,7 +1004,7 @@
                     HEI.ACTIVE = 'Y'
                   AND HEI.WORK_STATUS_CODE = 'Y'
                   AND
-                    DATE_FORMAT('2024-06-23', '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
+                    DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
                   AND
                     EMP_NAME_KR like concat('%', '' ,'%')
                   AND
@@ -989,4 +1019,51 @@
             ) A
         GROUP BY TEAM_SEQ, DEPT_SEQ
     </select>
+
+    <insert id="insDeptExpenseRateValue" parameterType="map">
+        /*insDeptExpenseRateValue*/
+        INSERT INTO CAM_MNG.DJ_DEPT_EXPENSE_RATE
+        (
+            BASE_YEAR,
+            DEPT_SEQ,
+            PERSONNEL_IN_CHARGE,
+            COMMON_RATE,
+            PERSONNEL_EXPENSES,
+            FOUR_INSURANCE,
+            RETIREMENT_PENSION,
+            PERSONNEL_TOTAL,
+            DIRECT_PAY,
+            EXCEPT_PAY,
+            SELF_PAY_TOTAL,
+            COMMON_EXPENSES,
+            EXPENSES_TOTAL
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.baseYear},
+            #{item.deptSeq},
+            #{item.personnelInCharge},
+            #{item.commonRate},
+            #{item.personnelExpenses},
+            #{item.fourInsurance},
+            #{item.retirementPension},
+            #{item.personnelTotal},
+            #{item.directPay},
+            #{item.exceptPay},
+            #{item.selfPayTotal},
+            #{item.commonExpenses},
+            #{item.personnelExpensesTotal}
+        )
+        </foreach>
+    </insert>
+
+    <update id="updDeptExpenseRateStatus" parameterType="map">
+        /*updDeptExpenseRateStatus*/
+        UPDATE CAM_MNG.DJ_DEPT_EXPENSE_RATE
+        SET
+            STATUS = 'N'
+        WHERE
+            BASE_YEAR = #{baseYear}
+    </update>
 </mapper>

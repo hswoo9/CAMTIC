@@ -25,10 +25,14 @@
                 <span style="bottom: 3px; position: relative;">
                     <input type="text" id="year" style="width: 130px;" />
                 </span>
-                <span style="bottom: 3px; position: relative;">
-                    <input type="text" id="dept" style="width: 250px;" />
-                </span>
-                <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
+<%--                <span style="bottom: 3px; position: relative;">--%>
+<%--                    <input type="text" id="dept" style="width: 250px;" />--%>
+<%--                </span>--%>
+                <div style="float: right;">
+<%--                    <button type="button" class="k-button k-button-solid-base" onclick="trv.fn_saveData();" style="margin-bottom: 5px;">월 마감</button>--%>
+<%--                    <button type="button" class="k-button k-button-solid-base" onclick="trv.fn_updStatus();" style="margin-bottom: 5px;">마감취소</button>--%>
+                    <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="trv.fn_searchData();" style="margin-bottom: 5px;">조회</button>
+                </div>
 
                 <div id="statTable" style="" view="Y">
                     <table class="totalTable table table-bordered" style="margin-bottom: 0px">
@@ -74,30 +78,30 @@
                             <td style="text-align: center;"><b>4번</b></td>
                             <td style="text-align: center;"><b>합계</b></td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1209">
                             <td style="text-align: center;" rowspan="2"><b>R&BD 사업본부</b></td>
                             <td style="text-align: center;">복합소재뿌리기술센터</td>
-                            <td style="text-align: right;" id="tEmp_1209" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1209" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1209" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1209" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1209" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1209" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1209" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1209" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1209" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1209" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1209" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1209" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1230">
                             <td style="text-align: center;">R&D상용화센터</td>
-                            <td style="text-align: right;" id="tEmp_1230" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1230" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1230" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1230" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1230" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1230" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1230" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1230" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1230" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1230" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1230" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1230" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -117,30 +121,30 @@
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1211">
                             <td style="text-align: center;" rowspan="2"><b>기업성장지원본부</b></td>
                             <td style="text-align: center;">창업/기업성장지원팀</td>
-                            <td style="text-align: right;" id="tEmp_1211" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1211" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1211" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1211" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1211" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1211" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1211" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1211" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1211" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1211" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1211" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1211" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1212">
                             <td style="text-align: center;">인재개발팀</td>
-                            <td style="text-align: right;" id="tEmp_1212" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1212" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1212" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1212" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1212" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1212" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1212" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1212" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1212" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1212" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1212" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1212" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -160,30 +164,30 @@
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1215">
                             <td style="text-align: center;" rowspan="2"><b>우주항공사업부</b></td>
                             <td style="text-align: center;">우주개발팀</td>
-                            <td style="text-align: right;" id="tEmp_1215" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1215" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1215" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1215" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1215" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1215" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1215" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1215" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1215" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1215" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1215" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1215" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1216">
                             <td style="text-align: center;">항공개발팀</td>
-                            <td style="text-align: right;" id="tEmp_1216" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1216" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1216" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1216" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1216" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1216" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1216" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1216" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1216" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1216" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1216" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1216" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -203,30 +207,30 @@
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1225">
                             <td style="text-align: center;" rowspan="2"><b>드론사업부</b></td>
                             <td style="text-align: center;">드론산업육성팀</td>
-                            <td style="text-align: right;" id="tEmp_1225" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1225" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1225" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1225" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1225" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1225" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1225" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1225" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1225" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1225" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1235" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1235" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1226">
                             <td style="text-align: center;">상용화기술팀</td>
-                            <td style="text-align: right;" id="tEmp_1226" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1226" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1226" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1226" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1226" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1226" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1226" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1226" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1226" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1226" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1226" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1226" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -246,44 +250,44 @@
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1204">
                             <td style="text-align: center;" rowspan="3"><b>미래전략기획본부</b></td>
                             <td style="text-align: center;">미래전략기획팀</td>
-                            <td style="text-align: right;" id="tEmp_1204" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1204" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1204" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1204" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1204" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1204" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1204" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1204" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1204" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1204" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1204" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1204" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1205">
                             <td style="text-align: center;">J-밸리혁신팀</td>
-                            <td style="text-align: right;" id="tEmp_1205" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1205" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1205" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1205" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1205" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1205" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1205" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1205" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1205" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1205" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1205" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1205" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1233">
                             <td style="text-align: center;">일자리사업기획팀</td>
-                            <td style="text-align: right;" id="tEmp_1233" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1233" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1233" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1233" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1233" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1233" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1233" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1233" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1233" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1233" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1233" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1233" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
@@ -318,58 +322,58 @@
                             <td style="text-align: right;">0</td>
                         </tr>
 
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1227">
                             <td style="text-align: center; font-weight: bold" rowspan="4">공통비용</td>
                             <td style="text-align: center;">인사총무팀</td>
-                            <td style="text-align: right;" id="tEmp_1227" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1227" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1227" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1227" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1227" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1227" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1227" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1227" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1227" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1227" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1227" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1227" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1228">
                             <td style="text-align: center;">재무회계팀</td>
-                            <td style="text-align: right;" id="tEmp_1228" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1228" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1228" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1228" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1228" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1228" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1228" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1228" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1228" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1228" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1228" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1228" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="1229">
                             <td style="text-align: center;">사업관리팀</td>
-                            <td style="text-align: right;" id="tEmp_1229" name="team">0</td>
-                            <td style="text-align: right;" id="tPubRate_1229" name="team">0</td>
-                            <td style="text-align: right;" id="tTotPay_1229" name="team">0</td>
-                            <td style="text-align: right;" id="tInsPay_1229" name="team">0</td>
-                            <td style="text-align: right;" id="tRetirePay_1229" name="team">0</td>
+                            <td style="text-align: right;" id="tEmp_1229" class="tEmp" name="team">0</td>
+                            <td style="text-align: right;" id="tPubRate_1229" class="tPubRate" name="team">0</td>
+                            <td style="text-align: right;" id="tTotPay_1229" class="tTotPay" name="team">0</td>
+                            <td style="text-align: right;" id="tInsPay_1229" class="tInsPay" name="team">0</td>
+                            <td style="text-align: right;" id="tRetirePay_1229" class="tRetirePay" name="team">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="tExnpPay_1229" name="team">0</td>
+                            <td style="text-align: right;" id="tExnpPay_1229" class="tExnpPay" name="team">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                         </tr>
-                        <tr style="color : black ; background-color: #ffffff;">
+                        <tr style="color : black ; background-color: #ffffff;" class="rateTr" name="99999">
                             <td style="text-align: center;">공통운영비</td>
-                            <td style="text-align: right;" id="cEmp" name="common">0</td>
-                            <td style="text-align: right;" id="cPubRate" name="common">0</td>
-                            <td style="text-align: right;" id="cTotPay" name="common">0</td>
-                            <td style="text-align: right;" id="cInsPay" name="common">0</td>
-                            <td style="text-align: right;" id="cRetirePay" name="common">0</td>
+                            <td style="text-align: right;" id="cEmp" class="tEmp" name="common">0</td>
+                            <td style="text-align: right;" id="cPubRate" class="tPubRate" name="common">0</td>
+                            <td style="text-align: right;" id="cTotPay" class="tTotPay" name="common">0</td>
+                            <td style="text-align: right;" id="cInsPay" class="tInsPay" name="common">0</td>
+                            <td style="text-align: right;" id="cRetirePay" class="tRetirePay" name="common">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: right;" id="cExnpPay" name="common">0</td>
+                            <td style="text-align: right;" id="cExnpPay" class="tExnpPay" name="common">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
