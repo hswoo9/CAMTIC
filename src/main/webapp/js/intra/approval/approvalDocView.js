@@ -354,13 +354,17 @@ var docView = {
                 }, {
                     template : function(e){
                         let fileExt = e.FILE_EXT.toLowerCase();
-                        if(fileExt == "pdf" || fileExt == "png" || fileExt == "jpg" ||fileExt == "jpeg" || fileExt == "gif"){
-                            return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
-                                        '<span class="k-button-text">보기</span>' +
-                                    '</button>'
-                        }else{
-                            return '';
-                        }
+                        // if(fileExt == "pdf" || fileExt == "png" || fileExt == "jpg" ||fileExt == "jpeg" || fileExt == "gif"){
+                        //     return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
+                        //                 '<span class="k-button-text">보기</span>' +
+                        //             '</button>'
+                        // }else{
+                        //     return '';
+                        // }
+
+                        return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer2(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\', \'' + e.fileUUID + '\')">' +
+                                    '<span class="k-button-text">보기</span>' +
+                                '</button>'
                     },
                     width : 60
                 }]
@@ -380,6 +384,29 @@ var docView = {
         var name = "_blank";
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open("http://218.158.231.184" + path, name, option);
+    },
+
+    fileViewer2: function(path, name, fid) {
+
+        var url = "http://218.158.231.43:8080/SynapDocViewServer/convert?fileType=URL&convertType=2&filePath=";
+
+
+        var pth = "http://218.158.231.184" + path;
+        if(path.indexOf("http") > -1){
+            pth = path;
+        } else {
+            pth = "http://218.158.231.184" + path;
+        }
+
+        const encodedPath = encodeURIComponent(pth);
+
+        url += encodedPath;
+        url += "&fid=" + fid;
+        url += "&urlEncoding=UTF-8";
+        
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     getIsExistsAbsent : function(){

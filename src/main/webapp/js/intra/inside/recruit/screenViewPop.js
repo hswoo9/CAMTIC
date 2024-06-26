@@ -972,6 +972,24 @@ var screenViewPop = {
             console.log('window resizing cat not run dev mode.');
         }
     },
+
+    screenPrintPop: function(){
+        const recruitInfoSn = $("#recruitInfoSn").val();
+        const recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        var url = "/inside/pop/screenPrintPop.do?recruitInfoSn="+recruitInfoSn+"&recruitAreaInfoSn="+recruitAreaInfoSn;
+        var name = "screenPrintPop";
+        var option = "width=1250, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
+
+    screenPrintPop2: function(){
+        const recruitInfoSn = $("#recruitInfoSn").val();
+        const recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        var url = "/inside/pop/screenPrintPop2.do?recruitInfoSn="+recruitInfoSn+"&recruitAreaInfoSn="+recruitAreaInfoSn;
+        var name = "screenPrintPop2";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
 }
 
 var renderedImg = new Array;
