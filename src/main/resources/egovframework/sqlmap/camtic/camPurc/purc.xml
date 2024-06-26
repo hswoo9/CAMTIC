@@ -504,7 +504,13 @@
                 AND FILE_CD = 'payClaim')
             OR
             (CONTENT_ID LIKE CONCAT('payClaim_', (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}))
-                AND FILE_CD IN ('etax','useCard'))
+                <if test='fileCtrl != null and !"".equals(fileCtrl)'>
+                     AND FILE_CD IN ('etax')
+                </if>
+                <if test='fileCtrl == null and "".equals(fileCtrl)'>
+                    AND FILE_CD IN ('etax','useCard')
+                </if>
+            )
         ORDER BY REG_DATE DESC
     </select>
 

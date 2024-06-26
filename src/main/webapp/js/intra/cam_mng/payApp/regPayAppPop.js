@@ -476,6 +476,7 @@ var regPay = {
                     }
                 }
 
+                data.fileCtrl = "Y";
                 fileResultTmp.push(customKendo.fn_customAjax("/purc/purcFileList", data).listMap);
 
                 for(var z = 0 ; z < fileResultTmp[x].length ; z++){
@@ -703,6 +704,7 @@ var regPay = {
             for(let i = 0; i < data.claimExnpSn.toString().split(",").length; i++) {
                 data.claimExnpSn = data.claimExnpSn.toString().split(",")[i];
                 data.claimSn = data.claimSn.toString().split(",")[i];
+                data.fileCtrl = "Y";
 
                 fileResultTmp.push(customKendo.fn_customAjax("/purc/purcFileList", data).listMap);
             }
