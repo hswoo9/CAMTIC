@@ -46,10 +46,12 @@
       <div class="btn-st popButton">
         <c:choose>
           <c:when test="${params.type eq 'doc'}">
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake()">평가표 다운로드</button>
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake()">평가표 다운로드 PDF</button>
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="screenViewPop.screenPrintPop()">평가표 다운로드 HWP</button>
           </c:when>
           <c:otherwise>
-            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake2()">평가표 다운로드</button>
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="pdfMake2()">평가표 다운로드 PDF</button>
+            <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="screenViewPop.screenPrintPop2()">평가표 다운로드 HWP</button>
           </c:otherwise>
         </c:choose>
 
