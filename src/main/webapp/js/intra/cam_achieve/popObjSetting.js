@@ -7,6 +7,7 @@ var popObjSet = {
 
     fn_defaultScript: function (){
         $("input[name='delvObj'], input[name='saleObj'], input[name='incpObj']").kendoTextBox();
+        $("input[name='payrollObj'], input[name='exnpObj'], input[name='commObj']").kendoTextBox();
     },
 
     saveBtn : function() {
@@ -23,6 +24,9 @@ var popObjSet = {
                 delvObj : uncomma($(this).find("input[name='delvObj']").val()),
                 saleObj : uncomma($(this).find("input[name='saleObj']").val()),
                 incpObj : uncomma($(this).find("input[name='incpObj']").val()),
+                payrollObj : uncomma($(this).find("input[name='payrollObj']").val()),
+                exnpObj : uncomma($(this).find("input[name='exnpObj']").val()),
+                commObj : uncomma($(this).find("input[name='commObj']").val()),
                 empSeq : $("#regEmpSeq").val(),
                 deptLevel : $("#deptLevel").val()
             };

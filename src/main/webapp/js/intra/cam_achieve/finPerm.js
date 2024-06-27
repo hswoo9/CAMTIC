@@ -21,11 +21,15 @@ var finPerm = {
     fn_searchData : function(){
         $("#engnGrid").css("display", "none");
 
+        var date = new Date($("#year").val().split("-")[0], $("#year").val().split("-")[1], 0);
         var parameters = {
             year : $("#year").val().split("-")[0],
-            baseYear : $("#year").val(),
-            deptSeq : $("#dept").val()
+            baseYear : $("#year").val().split("-")[0],
+            deptSeq : $("#dept").val(),
+            startDt : $("#year").val() + "-01",
+            endDt : $("#year").val() + "-" + date.getDate()
         }
+
         var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc", parameters);
 
         var result = rs.map;
@@ -86,10 +90,6 @@ var finPerm = {
         $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0));
         $("#objSaleAmt").text(comma(Math.round(result.objSaleAmt) || 0));
         $("#objIncpAmt").text(comma(Math.round(result.objIncpAmt) || 0));
-
-        /** 운영비 - 인건비 */
-        $("#payTotAmt").text(comma(result2.TOT_PAY));
-        $("#expPayTotAmt").text(comma(result2.TOT_PAY));
 
         /** 달성율 */
         if(Number(uncommaN($("#delvTotAmt").text())) != 0 && Number(uncommaN($("#objDelvAmt").text())) != 0){
@@ -161,6 +161,23 @@ var finPerm = {
             operPer = Math.round((incpTotAmt / operTotAmt * 100) * 10) / 10;
         }
         $("#operPer").text(operPer);
+
+        /** 운영비 목표 (예상 운영비) */
+        $("#expPayTotAmt").text(comma(Math.round(result.objPayrollAmt) || 0));
+        $("#expExnpTotAmt").text(comma(Math.round(result.objExnpAmt) || 0));
+        $("#expCommTotAmt").text(comma(Math.round(result.objCommAmt) || 0));
+        $("#expOperTotAmt").text(comma(Number(uncommaN($("#expPayTotAmt").text())) + Number(uncommaN($("#expExnpTotAmt").text())) + Number(uncommaN($("#expCommTotAmt").text()))));
+
+        /** 예상사업화지수 */
+        var expIncpTotAmt = Number(uncommaN($("#expIncpTotAmt").text()));       // 운영수익예상 소계
+        var expOperTotAmt = Number(uncommaN($("#expOperTotAmt").text()));       // 예상운영비
+        var expOperPer = 0;
+        if(expIncpTotAmt == 0 || expOperTotAmt == 0){
+            expOperPer = 0
+        } else {
+            expOperPer = Math.round((expIncpTotAmt / expOperTotAmt * 100) * 10) / 10;
+        }
+        $("#expOperPer").text(expOperPer);
     },
 
     fn_engnSearch : function (){
@@ -386,11 +403,16 @@ var finPerm = {
 
     },
 
-    fn_objSetting : function(){
-        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val() + "&deptLevel=2";
+    fn_objSetting : function(type){
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val().split("-")[0];
 
-        if($("#dept").val() != ""){
-            url += "&deptSeq=" + $("#dept").val();
+        if(type == "team"){
+            url += "&deptLevel=2";
+            if($("#dept").val() != ""){
+                url += "&deptSeq=" + $("#dept").val();
+            }
+        } else {
+            url += "&deptLevel=99&deptSeq=999999";
         }
 
         var name = "_blank";

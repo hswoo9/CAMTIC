@@ -123,8 +123,11 @@
                  (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) IN ('D', 'V')
             AND
                 (SELECT LEFT(STR_DT, 4) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{year}
-            <if test='deptSeq != null and deptSeq != ""'>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
+            </if>
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND A.CLAIM_DE BETWEEN #{startDt} AND #{endDt}
             </if>
             ) RE
         WHERE 1=1
@@ -191,8 +194,11 @@
                  (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) IN ('D', 'V')
              AND
                 (SELECT LEFT(STR_DT, 4) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{year}
-            <if test='deptSeq != null and deptSeq != ""'>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND (SELECT DEPT_SEQ FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) = #{deptSeq}
+            </if>
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND ((A.TRIP_DAY_FR BETWEEN #{startDt} AND #{endDt}) OR (A.TRIP_DAY_TO BETWEEN #{startDt} AND #{endDt}))
             </if>
             ) RE
         WHERE 1=1
@@ -271,8 +277,11 @@
             AND LEFT(C.STR_DT, 4) = #{year}
             AND A.DOC_STATUS IN (100, 101)
             AND B.BUDGET_SN IS NOT NULL
-            <if test='deptSeq != null and deptSeq != ""'>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND C.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
             </if>
         ) RE
         WHERE 1=1
@@ -306,8 +315,11 @@
             AND B.BUDGET_SN IS NOT NULL
             AND D.BGT_CD IS NOT NULL
             AND D.BGT_AT = 1
-            <if test='deptSeq != null and deptSeq != ""'>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND C.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
             </if>
         ) RE
         WHERE 1=1
@@ -569,6 +581,9 @@
             DELV_OBJ,
             SALE_OBJ,
             INCP_OBJ,
+            PAYROLL_OBJ,
+            EXNP_OBJ,
+            COMM_OBJ,
             REG_EMP_SEQ,
             REG_DT
         )
@@ -580,6 +595,9 @@
             #{delvObj},
             #{saleObj},
             #{incpObj},
+            #{payrollObj},
+            #{exnpObj},
+            #{commObj},
             #{empSeq},
             NOW()
         )
@@ -592,6 +610,9 @@
             DELV_OBJ = #{delvObj},
             SALE_OBJ = #{saleObj},
             INCP_OBJ = #{incpObj},
+            PAYROLL_OBJ = #{payrollObj},
+            EXNP_OBJ = #{exnpObj},
+            COMM_OBJ = #{commObj},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
@@ -609,7 +630,10 @@
             B.DEPT_NAME as dept_name,
             FORMAT(A.DELV_OBJ, 0) AS DELV_OBJ,
             FORMAT(A.SALE_OBJ, 0) AS SALE_OBJ,
-            FORMAT(A.INCP_OBJ, 0) AS INCP_OBJ
+            FORMAT(A.INCP_OBJ, 0) AS INCP_OBJ,
+            FORMAT(A.PAYROLL_OBJ, 0) AS PAYROLL_OBJ,
+            FORMAT(A.EXNP_OBJ, 0) AS EXNP_OBJ,
+            FORMAT(A.COMM_OBJ, 0) AS COMM_OBJ
         FROM
             CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING A
         LEFT JOIN CAM_HR.DJ_DEPT_INFO B
@@ -760,7 +784,10 @@
         SELECT
             IFNULL(SUM(DELV_OBJ),0) AS DELV_OBJ,
             IFNULL(SUM(SALE_OBJ),0) AS SALE_OBJ,
-            IFNULL(SUM(INCP_OBJ),0) AS INCP_OBJ
+            IFNULL(SUM(INCP_OBJ),0) AS INCP_OBJ,
+            IFNULL(SUM(PAYROLL_OBJ),0) AS PAYROLL_OBJ,
+            IFNULL(SUM(EXNP_OBJ),0) AS EXNP_OBJ,
+            IFNULL(SUM(COMM_OBJ),0) AS COMM_OBJ
         FROM
             CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
         WHERE BASE_YEAR = #{baseYear}

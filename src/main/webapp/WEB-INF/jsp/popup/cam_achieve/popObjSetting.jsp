@@ -33,13 +33,13 @@
                         <col width="25%">
                         <col width="25%">
                     </colgroup>
-                    <tr style="color : black ; background-color: #f0f6ff;">
-                        <td style="text-align: center;"><b>구분</b></td>
-                        <td style="text-align: center;"><b>수주</b></td>
-                        <td style="text-align: center;"><b>매출</b></td>
-                        <td style="text-align: center;"><b>운영수익</b></td>
-                    </tr>
                     <c:if test="${params.deptLevel eq '1'}">
+                        <tr style="color : black ; background-color: #f0f6ff;">
+                            <td style="text-align: center;"><b>구분</b></td>
+                            <td style="text-align: center;"><b>수주</b></td>
+                            <td style="text-align: center;"><b>매출</b></td>
+                            <td style="text-align: center;"><b>운영수익</b></td>
+                        </tr>
                         <c:forEach var="l" items="${list}" varStatus="status">
                             <tr style="background-color: white" class="objTr">
                                 <input type="hidden" class="deptSeq" value="${l.dept_seq}">
@@ -51,6 +51,12 @@
                         </c:forEach>
                     </c:if>
                     <c:if test="${params.deptLevel eq '2'}">
+                        <tr style="color : black ; background-color: #f0f6ff;">
+                            <td style="text-align: center;"><b>구분</b></td>
+                            <td style="text-align: center;"><b>수주</b></td>
+                            <td style="text-align: center;"><b>매출</b></td>
+                            <td style="text-align: center;"><b>운영수익</b></td>
+                        </tr>
                         <c:forEach var="l" items="${list}" varStatus="status">
                             <tr style="background-color: white" class="objTr">
                                 <input type="hidden" class="deptSeq" value="${l.dept_seq}">
@@ -60,6 +66,21 @@
                                 <td><input type="text" id="incpObj_${l.dept_seq}" name="incpObj" style="text-align: right;" value="${l.INCP_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
                             </tr>
                         </c:forEach>
+                    </c:if>
+                    <c:if test="${params.deptSeq eq '999999'}">
+                        <tr style="color : black ; background-color: #f0f6ff;">
+                            <td style="text-align: center;"><b>구분</b></td>
+                            <td style="text-align: center;"><b>인건비</b></td>
+                            <td style="text-align: center;"><b>자체경비</b></td>
+                            <td style="text-align: center;"><b>공통경비</b></td>
+                        </tr>
+                        <tr style="background-color: white" class="objTr">
+                            <input type="hidden" class="deptSeq" value="999999">
+                            <td style="text-align: center; font-weight: bold">운영비</td>
+                            <td><input type="text" id="payrollObj" name="payrollObj" style="text-align: right;" value="${list[0].PAYROLL_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                            <td><input type="text" id="exnpObj" name="exnpObj" style="text-align: right;" value="${list[0].EXNP_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                            <td><input type="text" id="commObj" name="commObj" style="text-align: right;" value="${list[0].COMM_OBJ}" onkeyup="fn_inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                        </tr>
                     </c:if>
                 </table>
             </div>

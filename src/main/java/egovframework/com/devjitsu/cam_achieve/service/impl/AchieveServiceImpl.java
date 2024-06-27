@@ -331,12 +331,20 @@ public class AchieveServiceImpl implements AchieveService {
         result.put("rndAmt", rndAmt);               // R&D 수주액
         result.put("unRndAmt", unRndAmt);           // 비R&D 수주액
 
-        // 목표
+        // 팀 목표
         params.put("deptLevel", "2");
         Map<String, Object> deptObj = achieveRepository.getDeptObjAmt(params);
         result.put("objDelvAmt", deptObj.get("DELV_OBJ").toString());
         result.put("objSaleAmt", deptObj.get("SALE_OBJ").toString());
         result.put("objIncpAmt", deptObj.get("INCP_OBJ").toString());
+
+        // 운영비 목표
+        params.put("deptLevel", "99");
+        params.put("deptSeq", "999999");
+        Map<String, Object> operObj = achieveRepository.getDeptObjAmt(params);
+        result.put("objPayrollAmt", operObj.get("PAYROLL_OBJ").toString());
+        result.put("objExnpAmt", operObj.get("EXNP_OBJ").toString());
+        result.put("objCommAmt", operObj.get("COMM_OBJ").toString());
 
         return result;
     }
