@@ -636,7 +636,7 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
         }
 
-        if($("#formId").val() == "1" || $("#formId").val() == ""){
+        if($("#formId").val() == "1" || $("#formId").val() == "157" || $("#formId").val() == ""){
             const draftEmpSeq = $("#empSeq").val();
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
@@ -925,7 +925,7 @@ var hwpDocCtrl = {
         }
 
         /** 재상신이면 사인 초기화 */
-        if($("#formId").val() == "1"){
+        if($("#formId").val() == "1" || $("#formId").val() == "157"){
 
             hwpDocCtrl.putFieldText("docAppr1", " ");
             hwpDocCtrl.putFieldText("docAppr2", " ");
@@ -968,7 +968,7 @@ var hwpDocCtrl = {
 
         }
 
-        if(formId == "1"){
+        if(formId == "1" || formId == "157"){
             if(docView.global.rs.docInfo.APPROVE_STAT_CODE == "30" || docView.global.rs.docInfo.APPROVE_STAT_CODE == "40"){
                 hwpDocCtrl.putFieldText("docAppr1", " ");
                 hwpDocCtrl.putFieldText("docAppr2", " ");

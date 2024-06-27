@@ -13,7 +13,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">직원 면담 카드</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사평가 > 직원 면담 카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사평가 > 직원면담카드</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

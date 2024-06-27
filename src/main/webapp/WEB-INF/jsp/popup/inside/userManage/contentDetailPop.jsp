@@ -21,12 +21,13 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="documentSn" value="${data.documentSn}"/>
+<input type="hidden" id="cardNumber" value=""/>
 <div style="padding:0;">
     <div class="table-responsive">
             <div class="card-header pop-header">
                 <h3 class="card-title title_NM">직원 면담 카드 </h3>
                 <div class="btn-st popButton">
+                    <button type="button" id="adminBtn" class="k-button k-button-solid-info" style="display: none" onclick="saveData3()">차상급자 COMMENT 저장</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </div>
@@ -148,6 +149,24 @@
                     </tr>
                     </thead>
                 </table>
+                <table class="popTable table table-bordered mb-0" style="border-left: none;">
+                    <colgroup>
+                        <col width="13%">
+                        <col width="37%">
+                        <col width="13%">
+                        <col width="37%">
+                    </colgroup>
+                    <thead>
+                    <tr class="trAdmin">
+                        <th id="interview_admin" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">차상급자 COMMENT</th>
+                    </tr>
+                    <tr class="trAdmin">
+                        <td colspan="4" id="interview_content_admin">
+                            <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContentAdmin" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
             </div>
         </div>
 </div>
@@ -208,6 +227,17 @@
                     $("#interview_content4").text(response.list[0].interview_content4);
                     $("#interview_content5").text(response.list[0].interview_content5);
 
+                    if($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7"){
+                        $("#adminBtn").show();
+                        $("#interviewContentAdmin").val(response.list[0].interview_content_admin);
+                    }else{
+                        if(response.list[0].interview_content_admin == null || response.list[0].interview_content_admin == ""){
+                            $("#interview_content_admin").text("-");
+                        }else{
+                            $("#interview_content_admin").text(response.list[0].interview_content_admin);
+                        }
+                    }
+
                     // 면담일시 날짜 형식 변환 예시:
                     var cardInterviewDateValue = response.list[0].card_interview_date;
                     var date = new Date(cardInterviewDateValue);
@@ -235,8 +265,24 @@
     $(document).ready(function() {
         var urlParams = new URLSearchParams(window.location.search);
         var cardNumber = urlParams.get("cardNumber");
+        $("#cardNumber").val(cardNumber);
         retrieveData2(cardNumber);
     });
+
+    function saveData3() {
+        $.ajax({
+            type: "POST",
+            url: "/Inside/setInterviewContent2.do",  // 실제 데이터 저장 처리를 담당하는 컨트롤러 메서드의 URL
+            data: {
+                cardNumber: $("#cardNumber").val(),
+                interviewContentAdmin: $("#interviewContentAdmin").val()
+                // ... 나머지 필드들도 동일한 방식으로 추가 ...
+            },
+            success: function(response) {
+                alert("저장이 완료되었습니다.");
+            }
+        });
+    }
 
 </script>
 </body>

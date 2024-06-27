@@ -82,42 +82,42 @@
                     <col width="37%">
                 </colgroup>
                 <thead>
-                <tr>
+                <tr class="tr1">
                     <th id="interview_topic1" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                 </tr>
-                <tr>
+                <tr class="tr1">
                     <td colspan="4">
                         <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContent1" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="tr2">
                     <th id="interview_topic2" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                 </tr>
-                <tr>
+                <tr class="tr2">
                     <td colspan="4">
                         <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContent2" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="tr3">
                     <th id="interview_topic3" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                 </tr>
-                <tr>
+                <tr class="tr3">
                     <td colspan="4">
                         <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContent3" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="tr4">
                     <th id="interview_topic4" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                 </tr>
-                <tr>
+                <tr class="tr4">
                     <td colspan="4">
                         <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContent4" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="tr5">
                     <th id="interview_topic5" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                 </tr>
-                <tr>
+                <tr class="tr5">
                     <td colspan="4">
                         <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="interviewContent5" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
                     </td>
@@ -161,11 +161,31 @@
                 console.log(response); // 예시로 응답 데이터를 콘솔에 출력
 
                 if (response.list && response.list.length > 0) {
-                    $("#interview_topic1").text(response.list[0].interview_topic1);
-                    $("#interview_topic2").text(response.list[0].interview_topic2);
-                    $("#interview_topic3").text(response.list[0].interview_topic3);
-                    $("#interview_topic4").text(response.list[0].interview_topic4);
-                    $("#interview_topic5").text(response.list[0].interview_topic5);
+                    if(response.list[0].interview_topic1 != ""){
+                        $("#interview_topic1").text(response.list[0].interview_topic1);
+                    }else{
+                        $(".tr1").hide();
+                    }
+                    if(response.list[0].interview_topic2 != ""){
+                        $("#interview_topic2").text(response.list[0].interview_topic2);
+                    }else{
+                        $(".tr2").hide();
+                    }
+                    if(response.list[0].interview_topic3 != ""){
+                        $("#interview_topic3").text(response.list[0].interview_topic3);
+                    }else{
+                        $(".tr3").hide();
+                    }
+                    if(response.list[0].interview_topic4 != ""){
+                        $("#interview_topic4").text(response.list[0].interview_topic4);
+                    }else{
+                        $(".tr4").hide();
+                    }
+                    if(response.list[0].interview_topic5 != ""){
+                        $("#interview_topic5").text(response.list[0].interview_topic5);
+                    }else{
+                        $(".tr5").hide();
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

@@ -167,7 +167,7 @@ var hwpApprovalLine = {
                     /** 기안자 사인 */
                     const empSeq = $("#empSeq").val();
                     const empName = $("#empName").val();
-                    if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
+                    if(draft.global.params.formId != "1" && draft.global.params.formId != "157" && $("#mySignCk").val() == "N"){
                         if(draft.global.params.formId != "96" && draft.global.params.formId != "153"){
                             hwpApprovalLine.setSign(field, empSeq, empName);
                         }else{

@@ -242,7 +242,17 @@ var hwpInit = {
 
         hwpDocCtrl.putFieldText('PJT_NM', map.BS_TITLE);
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
-        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+
+        if(rs.YEAR_CLASS == "M"){
+            console.log("rs", rs);
+            if(rs.busnClass == "R"){
+                hwpDocCtrl.putFieldText("PJT_DT", rs.NOW_STR_DE_RND+" ~ "+rs.NOW_END_DE_RND);
+            }else{
+                hwpDocCtrl.putFieldText("PJT_DT", rs.NOW_STR_DE_UNRND+" ~ "+rs.NOW_END_DE_UNRND);
+            }
+        }else{
+            hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+        }
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
         const mem = result.result.projectMemberInfo;
@@ -296,11 +306,11 @@ var hwpInit = {
             const map = befMem[i];
             html += '               <tr>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(map.PJT_STR_DT, map.PJT_END_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(map.PART_DET_STR_DT, map.PART_DET_END_DT) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_PAY_BUDG) +'</p></td>';
             html += '               </tr>';
@@ -323,7 +333,7 @@ var hwpInit = {
             const map = mem[i];
             html += '               <tr>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PART_DET_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PART_DET_END_DT +'</p></td>';

@@ -30,6 +30,11 @@ public class InterviewCardServiceImpl implements InterviewCardService {
     }
 
     @Override
+    public void setInterviewContent2(Map<String, Object> params){
+        interviewCardRepository.setInterviewContent2(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getInterviewCardList(Map<String, Object> params){
         System.out.println("------------------------------컨트롤러 탔다 --------------------------------------------------");
         return interviewCardRepository.getInterviewCardList(params);

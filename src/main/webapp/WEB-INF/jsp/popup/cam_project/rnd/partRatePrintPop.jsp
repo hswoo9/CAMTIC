@@ -39,6 +39,7 @@
 <script type="text/javascript">
     let params = JSON.parse('${params}');
     let data;
+    let data2;
     let staticData;
 
     partRatePrintPop.init();
