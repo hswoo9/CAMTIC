@@ -13,7 +13,9 @@ var finPerm = {
 
         finPerm.fn_searchData();
 
-
+        $("#dept, #year").on("change", function(){
+            finPerm.fn_searchData();
+        });
     },
 
     fn_searchData : function(){
@@ -90,23 +92,52 @@ var finPerm = {
         $("#expPayTotAmt").text(comma(result2.TOT_PAY));
 
         /** 달성율 */
-        $("#delvPer").text(Math.round((Number(uncommaN($("#delvTotAmt").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
-        $("#salePer").text(Math.round((Number(uncommaN($("#saleTotAmt").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
-        $("#incpPer").text(Math.round((Number(uncommaN($("#incpTotAmt").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+        if(Number(uncommaN($("#delvTotAmt").text())) != 0 && Number(uncommaN($("#objDelvAmt").text())) != 0){
+            $("#delvPer").text(Math.round((Number(uncommaN($("#delvTotAmt").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#delvPer").text("0%");
+        }
+        if(Number(uncommaN($("#saleTotAmt").text())) != 0 && Number(uncommaN($("#objSaleAmt").text())) != 0){
+            $("#salePer").text(Math.round((Number(uncommaN($("#saleTotAmt").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#salePer").text("0%");
+        }
+        if(Number(uncommaN($("#incpTotAmt").text())) != 0 && Number(uncommaN($("#objIncpAmt").text())) != 0){
+            $("#incpPer").text(Math.round((Number(uncommaN($("#incpTotAmt").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#incpPer").text("0%");
+        }
 
         /** 예상 달성율 */
-        $("#expDelvPer").text(Math.round((Number(uncommaN($("#totAmtSum").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
-        $("#expSalePer").text(Math.round((Number(uncommaN($("#saleTotAmtSum").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
-        $("#expIncpPer").text(Math.round((Number(uncommaN($("#incpTotAmtSum").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+        if(Number(uncommaN($("#totAmtSum").text())) != 0 && Number(uncommaN($("#objDelvAmt").text())) != 0){
+            $("#expDelvPer").text(Math.round((Number(uncommaN($("#totAmtSum").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#expDelvPer").text("0%");
+        }
+        if(Number(uncommaN($("#saleTotAmtSum").text())) != 0 && Number(uncommaN($("#objSaleAmt").text())) != 0){
+            $("#expSalePer").text(Math.round((Number(uncommaN($("#saleTotAmtSum").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#expSalePer").text("0%");
+        }
+        if(Number(uncommaN($("#incpTotAmtSum").text())) != 0 && Number(uncommaN($("#objIncpAmt").text())) != 0){
+            $("#expIncpPer").text(Math.round((Number(uncommaN($("#incpTotAmtSum").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+        } else {
+            $("#expIncpPer").text("0%");
+        }
 
 
         parameters.month = $("#year").val();
-        parameters.startDt = $("#year").val() + "-01";
-        parameters.endDt = $("#year").val() + "-31";
+        parameters.startDt = $("#year").val().split("-")[0] + "-01-01";
+        parameters.endDt = $("#year").val().split("-")[0] + "-12-31";
 
         /** 운영비 - 인건비 */
-        var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollData", parameters);
-        $("#payTotAmt").text(comma(payRs.data.TOT_PAY));
+        var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollListForTotRate", parameters);
+        var payList = payRs.list;
+        var pay = 0;
+        for(var j = 0; j < payList.length; j++) {
+            pay += Number(payList[j].TOT_PAY || 0);
+        }
+        $("#payTotAmt").text(comma(pay));
 
         /** 운영비 - 자체경비 */
         var exnpRs =  customKendo.fn_customAjax("/cam_achieve/getExnpListForTotRate", parameters);
@@ -118,7 +149,7 @@ var finPerm = {
         $("#exnpTotAmt").text(comma(exnpPay));
 
         /** 운영비 */
-        $("#operTotAmt").text(comma(Number(payRs.data.TOT_PAY) + Number(exnpPay) + Number(uncommaN($("#commTotAmt").text()))));
+        $("#operTotAmt").text(comma(Number(pay) + Number(exnpPay) + Number(uncommaN($("#commTotAmt").text()))));
 
         /** 달성사업화지수 */
         var incpTotAmt = Number(uncommaN($("#incpTotAmt").text()));     // 운영수익
