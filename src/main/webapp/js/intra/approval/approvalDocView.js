@@ -609,7 +609,7 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
-        if(docView.global.rs.docInfo.FORM_ID != "1"){
+        if(docView.global.rs.docInfo.FORM_ID != "1" && docView.global.rs.docInfo.FORM_ID != "157"){
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
                 hwpApprovalLine.setHwpApprovalSignPut();

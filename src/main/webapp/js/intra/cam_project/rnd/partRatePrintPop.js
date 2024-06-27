@@ -11,6 +11,7 @@ const partRatePrintPop = {
 
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", params);
         data = result.result.projectMemberInfo;
+        data2 = result.map;
 
         partRatePrintPop.dataSet();
     },
@@ -46,6 +47,7 @@ const partRatePrintPop = {
 
         var bsTitle = staticData.BS_TITLE;
         var pjtNm = staticData.PJT_NM;
+        var rs = data2;
         var strDt = new Date(staticData.STR_DT);
         var endDt = new Date(staticData.END_DT);
 
@@ -54,9 +56,19 @@ const partRatePrintPop = {
 
         partRatePrintPop.global.hwpCtrl.PutFieldText("bsTitle", bsTitle);
         partRatePrintPop.global.hwpCtrl.PutFieldText("pjtNm", pjtNm);
-        partRatePrintPop.global.hwpCtrl.PutFieldText("sbjDate", sbjDate);
 
         var memHtml = '';
+
+        if(rs.YEAR_CLASS == "M"){
+            console.log("rs", rs);
+            if(rs.busnClass == "R"){
+                partRatePrintPop.global.hwpCtrl.PutFieldText("sbjDate", rs.NOW_STR_DE_RND+" ~ "+rs.NOW_END_DE_RND);
+            }else{
+                partRatePrintPop.global.hwpCtrl.PutFieldText("sbjDate", rs.NOW_STR_DE_UNRND+" ~ "+rs.NOW_END_DE_UNRND);
+            }
+        }else{
+            partRatePrintPop.global.hwpCtrl.PutFieldText("sbjDate", sbjDate);
+        }
 
         if(mem != null){
             memHtml += '<table style="font-family: 함초롱바탕; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; font-size: 5px; text-align: left; font-size:10px; line-height: 10px; width: 100%; ">';
@@ -127,9 +139,12 @@ const partRatePrintPop = {
                 memHtml += '   <td style="font-size: 8px;"><span style="font-size: 10px;">' + mem[i].EMP_NAME + '</span></td>';
                 memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(bsSal) + '</span></td>';
                 memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(totAmt) + '</span></td>';
-                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PJT_STR_DT + '</span></td>';
-                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PJT_END_DT + '</span></td>';
-                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + partRatePrintPop.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT) + '</span></td>';
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PART_DET_STR_DT + '</span></td>';
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PART_DET_END_DT + '</span></td>';
+
+                var test = "";
+                test = fn_monDiff(mem[i].PART_DET_STR_DT, mem[i].PART_DET_END_DT);
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + test + '</span></td>';
                 memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + mem[i].PAY_RATE + '</span></td>';      // 참여율 현금(%)
                 total += mem[i].TOT_PAY_BUDG;
                 memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(mem[i].TOT_PAY_BUDG) + '</span></td>';      // 인건비 현금 총액

@@ -1422,6 +1422,8 @@ public class ProjectServiceImpl implements ProjectService {
 
                         data.put("EMP_NAME", empInfo.get("EMP_NAME_KR"));
                         data.put("EMP_SEQ", empInfo.get("EMP_SEQ"));
+                        data.put("POSITION_NAME", empInfo.get("POSITION_NAME"));
+                        data.put("DUTY_NAME", empInfo.get("DUTY_NAME"));
                     }
 
                     projectMemberInfo.add(data);
