@@ -183,7 +183,19 @@ var partRate = {
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');" onchange="partRate.getPartStartBs(' + rs.PAY_BUDGET + ', this,' + i + ');" name="strDt" /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
-                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"  onkeyup="partRate.fn_memMonChange(' + rs.PAY_BUDGET + ', this,' + i + ')"></td>';
+
+                var test = "";
+                if(rs.YEAR_CLASS == "M"){
+                    console.log("rs", rs);
+                    if(rs.busnClass == "R"){
+                        test = partRate.fn_monDiff(rs.NOW_STR_DE_RND, rs.NOW_END_DE_RND);
+                    }else{
+                        test = partRate.fn_monDiff(rs.NOW_STR_DE_UNRND, rs.NOW_END_DE_UNRND);
+                    }
+                }else{
+                    test = partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT);
+                }
+                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+test+'"  onkeyup="partRate.fn_memMonChange(' + rs.PAY_BUDGET + ', this,' + i + ')"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +', this, true);" oninput="this.value = this.value.replace(/[^\\d.]/g, \'\').replace(/(\\..*?)\\./g, \'$1\');"></td>';
@@ -410,6 +422,9 @@ var partRate = {
     },
 
     fn_monDiff : function (_date1, _date2){
+        console.log("_date1", _date1);
+        console.log("_date2", _date2);
+
         var pSDate = _date1; // 참여 시작일
         var pEDate = _date2; // 참여 종료일
 
