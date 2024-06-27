@@ -334,4 +334,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getEvalResultList(Map<String, Object> params) {
         return evaluationRepository.getEvalResultList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getNowEvalCount(Map<String, Object> params) {
+        return evaluationRepository.getNowEvalCount(params);
+    }
 }

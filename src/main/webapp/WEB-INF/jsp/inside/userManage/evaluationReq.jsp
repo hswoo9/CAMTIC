@@ -72,6 +72,7 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="evalStat" value=""/>
+<input type="hidden" id="evalSn" value=""/>
 
 
 
@@ -112,8 +113,9 @@
             async : false,
             success : function(result){
                 $("#evalStat").val(result.data.EVAL_STAT);
-                bsYear = result.data.BS_YEAR
-                evalSn = result.data.EVAL_SN
+                $("#evalSn").val(result.data.EVAL_SN);
+                bsYear = result.data.BS_YEAR;
+                evalSn = result.data.EVAL_SN;
                 fn_addNotice(result.data);
             },
             error : function(e) {
@@ -122,7 +124,20 @@
         });
 
         if($("#evalStat").val() == "I"){
-            $("#eval").css("display" , "");
+            const nowEvalInfo = customKendo.fn_customAjax("/evaluation/getNowEvalCount", {
+                evalSn : $("#evalSn").val(),
+                regEmpSeq : $("#empSeq").val()
+            });
+            const nowEvalList = nowEvalInfo.list;
+
+            let ck = false;
+            if(nowEvalInfo != null && nowEvalList.length > 0){
+                ck = true;
+            }
+            if(ck){
+                $("#eval").css("display" , "");
+            }
+
             $("#evalResult").css("display" , "none");
         }else if($("#evalStat").val() == "C"){
             $("#eval").css("display" , "none");
@@ -131,9 +146,6 @@
             $("#eval").css("display" , "none");
             $("#evalResult").css("display" , "none");
         }
-
-
-
     });
 
     function  fn_addNotice(data){

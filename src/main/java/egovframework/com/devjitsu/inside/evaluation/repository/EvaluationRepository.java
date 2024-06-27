@@ -207,4 +207,8 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvalResultList", params);
     }
 
+    public List<Map<String, Object>> getNowEvalCount(Map<String, Object> params) {
+        return selectList("evaluation.getNowEvalCount", params);
+    }
+
 }
