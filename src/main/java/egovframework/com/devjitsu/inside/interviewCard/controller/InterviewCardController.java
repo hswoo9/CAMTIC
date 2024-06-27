@@ -47,6 +47,12 @@ public class InterviewCardController {
         return "jsonView";
     }
 
+    @RequestMapping(value= "/Inside/setInterviewContent2.do", method = RequestMethod.POST)
+    public String setInterviewContent2(@RequestParam Map<String, Object> params){
+        interviewCardService.setInterviewContent2(params);
+        return "jsonView";
+    }
+
     @RequestMapping(value = "/Inside/employeeInterviewCard.do", method = RequestMethod.POST)
     public String getInterviewCardList(@RequestParam Map<String,Object> params, Model model) {
         List<Map<String, Object>> list = interviewCardService.getInterviewCardList(params);

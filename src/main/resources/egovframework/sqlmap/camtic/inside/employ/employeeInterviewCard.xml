@@ -25,30 +25,40 @@
 <!--    면담카드등록-->
     <insert id="setInterviewContent" parameterType="Map">
         INSERT INTO cam_inside.dj_employee_interview_card
-        (
-         card_interview_date,
-         stime,
-         etime,
-         card_interviewer,
-         interview_content1,
-         interview_content2,
-         interview_content3,
-         interview_content4,
-         interview_content5,
-         EMP_SEQ)
+            (
+                card_interview_date,
+                stime,
+                etime,
+                card_interviewer,
+                interview_content1,
+                interview_content2,
+                interview_content3,
+                interview_content4,
+                interview_content5,
+                EMP_SEQ
+            )
         VALUES
             (
-             #{cardDate},
-             #{sTime},
-             #{eTime},
-             #{cardInterviewer},
-             #{interviewContent1},
-             #{interviewContent2},
-             #{interviewContent3},
-             #{interviewContent4},
-             #{interviewContent5},
-             #{empSeq}
+                #{cardDate},
+                #{sTime},
+                #{eTime},
+                #{cardInterviewer},
+                #{interviewContent1},
+                #{interviewContent2},
+                #{interviewContent3},
+                #{interviewContent4},
+                #{interviewContent5},
+                #{empSeq}
             )
+    </insert>
+
+    <!--    면담카드등록-->
+    <insert id="setInterviewContent2" parameterType="Map">
+        UPDATE cam_inside.dj_employee_interview_card
+        SET
+            INTERVIEW_CONTENT_ADMIN = #{interviewContentAdmin}
+        WHERE
+            CARD_NUMBER = #{cardNumber}
     </insert>
 
 <!--    리스트(조회)-->
