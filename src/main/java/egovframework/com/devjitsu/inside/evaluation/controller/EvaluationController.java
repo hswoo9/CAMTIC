@@ -516,6 +516,13 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/getNowEvalCount")
+    public String getNowEvalCount(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = evaluationService.getNowEvalCount(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

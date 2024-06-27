@@ -243,50 +243,17 @@ var camPrj = {
                     }
                 }, {
 
-                    field: "STR_DT",
+                    field: "LIST_STR_DE",
                     title: "수주일",
-                    width: 100,
-                    template: function (e) {
-                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.STR_DT == null || e.STR_DT == ""){
-                                return "";
-                            }
-                            var date = new Date(e.STR_DT);
-                            var yyyy = date.getFullYear();
-                            var mm = date.getMonth()+1;
-                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            var dd = date.getDate();
-                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            return yyyy+'-'+mm+'-'+dd;
-                        } else {
-                            return e.DELV_EST_DE || "";
-                        }
-                    }
+                    width: 100
                 }, {
-                    field: "DELV_DATE",
+                    field: "LIST_END_EX_DE",
                     title: "종료예상일",
                     width: 100
                 }, {
-                    field: "END_DT",
+                    field: "LIST_END_DE",
                     title: "종료일",
                     width: 100,
-                    template: function(e){
-                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.END_DT == null || e.END_DT == ""){
-                                return "";
-                            }
-                            var date = new Date(e.END_DT);
-                            var yyyy = date.getFullYear();
-                            var mm = date.getMonth()+1;
-                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            var dd = date.getDate();
-                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            return yyyy+'-'+mm+'-'+dd;
-                        } else {
-                            return e.GOODS_DT || "";
-                        }
-
-                    },
                     footerTemplate: "합계"
                 }, {
                     field: "PJT_AMT",

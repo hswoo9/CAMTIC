@@ -645,9 +645,9 @@
             A.*,
             B.*,
             C.PARENT_DEPT_SEQ,
-        IFNULL((SELECT SUM(EVAL_SCORE +EVAL_F_SCORE+ EVAL_S_SCORE) FROM CAM_INSIDE.dj_evaluation_mem WHERE EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = B.EMP_SEQ),0)AS EVAL_TOTAL_SCORE,
-        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
-        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END AS teamNm
+        IFNULL((SELECT SUM(EVAL_SCORE + EVAL_F_SCORE + EVAL_S_SCORE) FROM CAM_INSIDE.dj_evaluation_mem WHERE EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = B.EMP_SEQ), 0)AS EVAL_TOTAL_SCORE,
+        CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE B.DEPT_NAME END AS deptNm,
+        CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END AS teamNm
         FROM
             CAM_INSIDE.dj_evaluation_mem A
         LEFT JOIN
@@ -1168,5 +1168,16 @@
         <if test='duty != null and duty != ""'>
             AND B.DUTY_CODE = #{duty}
         </if>
+    </select>
+
+    <select id="getNowEvalCount" parameterType="map" resultType="map">
+        /*getNowEvalCount*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        WHERE
+            EVAL_SN = #{evalSn}
+        AND (EVAL_EMP_SEQ = #{regEmpSeq} OR EVAL_EVAL_F_SEQ = #{regEmpSeq} OR EVAL_EVAL_S_SEQ = #{regEmpSeq})
     </select>
 </mapper>
