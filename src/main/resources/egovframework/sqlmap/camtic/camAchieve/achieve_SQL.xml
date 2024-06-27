@@ -948,6 +948,9 @@
             A.RE_STAT = 'Y' AND A.DOC_STATUS = 100 AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
         AND
             A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND B.TEAM_SEQ = #{deptSeq}
+        </if>
         ORDER BY EXNP_DE DESC
     </select>
 

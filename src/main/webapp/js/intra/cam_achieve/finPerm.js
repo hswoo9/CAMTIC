@@ -98,6 +98,38 @@ var finPerm = {
         $("#expDelvPer").text(Math.round((Number(uncommaN($("#totAmtSum").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
         $("#expSalePer").text(Math.round((Number(uncommaN($("#saleTotAmtSum").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
         $("#expIncpPer").text(Math.round((Number(uncommaN($("#incpTotAmtSum").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+
+
+        parameters.month = $("#year").val();
+        parameters.startDt = $("#year").val() + "-01";
+        parameters.endDt = $("#year").val() + "-31";
+
+        /** 운영비 - 인건비 */
+        var payRs = customKendo.fn_customAjax("/cam_achieve/getDeptPayrollData", parameters);
+        $("#payTotAmt").text(comma(payRs.data.TOT_PAY));
+
+        /** 운영비 - 자체경비 */
+        var exnpRs =  customKendo.fn_customAjax("/cam_achieve/getExnpListForTotRate", parameters);
+        var exnpLs = exnpRs.list;
+        var exnpPay = 0;
+        for(var j = 0; j < exnpLs.length; j++) {
+            exnpPay += Number(exnpLs[j].TOT_COST || 0);
+        }
+        $("#exnpTotAmt").text(comma(exnpPay));
+
+        /** 운영비 */
+        $("#operTotAmt").text(comma(Number(payRs.data.TOT_PAY) + Number(exnpPay) + Number(uncommaN($("#commTotAmt").text()))));
+
+        /** 달성사업화지수 */
+        var incpTotAmt = Number(uncommaN($("#incpTotAmt").text()));     // 운영수익
+        var operTotAmt = Number(uncommaN($("#operTotAmt").text()));     // 운영비
+        var operPer = 0;
+        if(incpTotAmt == 0 || operTotAmt == 0){
+            operPer = 0
+        } else {
+            operPer = Math.round((incpTotAmt / operTotAmt * 100) * 10) / 10;
+        }
+        $("#operPer").text(operPer);
     },
 
     fn_engnSearch : function (){

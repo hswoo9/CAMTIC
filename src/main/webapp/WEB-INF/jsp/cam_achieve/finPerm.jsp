@@ -172,11 +172,11 @@
                             <td style="text-align: right; background-color: #abe3b1;"><b id="delvTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #abe3b1;"><b id="saleTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #abe3b1;"><b id="incpTotAmt">0</b></td>
-                            <td style="text-align: center;"><b>28.6</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: center;"><b id="operPer">0</b></td>
+                            <td style="text-align: right;"><b id="operTotAmt">0</b></td>
                             <td style="text-align: right;"><b id="payTotAmt">0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: right;"><b id="exnpTotAmt">0</b></td>
+                            <td style="text-align: right;"><b id="commTotAmt">0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b>R&D예상</b></td>
@@ -213,11 +213,11 @@
                             <td style="text-align: right; background-color: #eaed77;"><b id="expTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #eaed77;"><b id="expSaleTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #eaed77;"><b id="expIncpTotAmt">0</b></td>
-                            <td style="text-align: center;"><b>34.9</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: center;"><b id="expOperPer">0</b></td>
+                            <td style="text-align: right;"><b id="expOperTotAmt">0</b></td>
                             <td style="text-align: right;"><b id="expPayTotAmt">0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
-                            <td style="text-align: right;"><b>0</b></td>
+                            <td style="text-align: right;"><b id="expExnpTotAmt">0</b></td>
+                            <td style="text-align: right;"><b id="expCommTotAmt">0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center; background-color: #efb098;"><b>합계</b></td>

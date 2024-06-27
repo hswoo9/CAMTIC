@@ -133,6 +133,12 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/getDeptPayrollData")
+    public String getDeptPayrollData(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", achieveService.getDeptPayrollData(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/getEngnList")
     public String getEngnList(@RequestParam Map<String, Object> params, Model model) {
     	List<Map<String, Object>> list = new ArrayList<>();
