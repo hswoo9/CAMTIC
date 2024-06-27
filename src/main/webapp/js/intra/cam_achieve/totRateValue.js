@@ -238,6 +238,78 @@ var trv = {
         $("#exnpPay").text(comma(Number(uncomma($("#exnpPay_all").text())) + Number(uncomma($("#dExnpPay_1219").text()))));
         $("#exnpPay").next().text(comma(Number(uncomma($("#exnpPay_all").next().text())) + Number(uncomma($("#dExnpPay_1219").next().text()))));
         $("#exnpPay").next().next().text(comma(Number(uncomma($("#exnpPay_all").next().next().text())) + Number(uncomma($("#dExnpPay_1219").next().next().text()))));
+
+
+        /** 공통비 배분율 */
+        let payTotal1204 = Number(uncommaN($("#tPayTotal_1204").text()));
+        let payTotal1205 = Number(uncommaN($("#tPayTotal_1205").text()));
+        let allPayTotal = Number(uncommaN($("#payTotal_all").text()));
+
+        $(".tPubRate").each(function(){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let teamPayTotal = Number(uncommaN($("#tPayTotal_" + deptSeq).text()));
+
+            if(allPayTotal == 0 || teamPayTotal == 0){
+                $(this).text(0 + " %");
+            } else {
+                $(this).text(Math.round((teamPayTotal / (allPayTotal - payTotal1204 - payTotal1205) * 100) * 10) / 10 + " %");
+            }
+
+        })
+
+
+        /** 공통경비 */
+        let payTotal1219 = Number(uncommaN($("#dPayTotal_1219").text()));
+        let exnpPay1219 = Number(uncommaN($("#dExnpPay_1219").next().next().text()));
+
+        $(".tCommPay").each(function(){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let tPubRate = Number($("#tPubRate_" + deptSeq).text().split(" %")[0]);
+
+            $(this).text(comma(Math.round((payTotal1219 + exnpPay1219) * tPubRate)));
+        })
+
+        let commPayAll = 0;
+        $(".dCommPay").each(function(){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let commPay = 0;
+
+            $(".dept_" + deptSeq).each(function(){
+                commPay += Number(uncommaN($(this).find(".tCommPay" ).text()));
+            })
+
+            commPayAll += commPay;
+            $(this).text(comma(Math.round(commPay)));
+        })
+        $("#commPay_all, #commPay").text(comma(Math.round(commPayAll)));
+
+        /** 비용합계 */
+        $(".tTotalPay").each(function(){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let totalPay = 0;
+
+            totalPay += Number(uncommaN($("#tPayTotal_" + deptSeq).text()));
+            totalPay += Number(uncommaN($("#tCommPay_" + deptSeq).prev().text()));
+            totalPay += Number(uncommaN($("#tCommPay_" + deptSeq).text()));
+
+
+            $(this).text(comma(Math.round(totalPay)));
+        })
+
+        let totalPayall = 0;
+        $(".dTotalPay").each(function(){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let totalPay = 0;
+
+            $(".dept_" + deptSeq).each(function(){
+                totalPay += Number(uncommaN($(this).find(".tTotalPay" ).text()));
+            })
+
+            totalPayall += totalPay;
+            $(this).text(comma(Math.round(totalPay)));
+        })
+        $("#totalPay_all, #totalPay").text(comma(Math.round(totalPayall)));
+
     },
 
 
