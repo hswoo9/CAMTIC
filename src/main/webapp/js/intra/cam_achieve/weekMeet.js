@@ -3,7 +3,7 @@ var weekMeet = {
 
     fn_DefaultScript : function(){
 
-        customKendo.fn_datePicker("year", "decade", "yyyy", new Date());
+        customKendo.fn_datePicker("year", "year", "yyyy-MM", new Date());
 
         weekMeet.fn_dataReset();
 
@@ -40,9 +40,11 @@ var weekMeet = {
     },
 
     fn_searchData : function(){
-
+        var date = new Date($("#year").val().split("-")[0], $("#year").val().split("-")[1], 0);
         var parameters = {
-            year : $("#year").val(),
+            year : $("#year").val().split("-")[0],
+            startDt : $("#year").val().split("-")[0] + "-01-01",
+            endDt : $("#year").val() + "-" + date.getDate(),
             // deptLevel: 1
         }
 
@@ -59,6 +61,21 @@ var weekMeet = {
         var engnBustripList = rs.incpLs.engnBustripList;    // 민간사업 출장
         var rndIncpList = rs.incpLs.rndIncpList;            // 정부사업 수익
 
+        var delvObjTotal = 0;       // 수주목표 총계
+        var delvAchTotal = 0;       // 수주달성 총계
+        var delvExpTotal = 0;       // 수주예상 총계
+        var delvSumTotal = 0;       // 수주합계 총계
+
+        var saleObjTotal = 0;       // 매출목표 총계
+        var saleAchTotal = 0;       // 매출달성 총계
+        var saleExpTotal = 0;       // 매출예상 총계
+        var saleSumTotal = 0;       // 매출합계 총계
+
+        var incpObjTotal = 0;       // 운영수익목표 총계
+        var incpAchTotal = 0;       // 운영수익달성 총계
+        var incpExpTotal = 0;       // 운영수익예상 총계
+        var incpSumTotal = 0;       // 운영수익합계 총계
+
         for(var i = 0 ; i < ls.length ; i++){
 
             /** 수주 목표 */
@@ -67,6 +84,7 @@ var weekMeet = {
                     for (var j = 0; j < objList.length; j++) {
                         if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
                             $(this).text(comma(Math.floor(objList[j].DELV_OBJ / 1000000) || 0));
+                            delvObjTotal += Math.floor(objList[j].DELV_OBJ / 1000000) || 0;
                         }
                     }
                 }
@@ -76,6 +94,7 @@ var weekMeet = {
             $("td[name='delvAch']").each(function(){
                 if($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ){
                     $(this).text(comma((Math.floor(ls[i].PJT_AMT / 1000000) || 0)));
+                    delvAchTotal += Math.floor(ls[i].PJT_AMT / 1000000) || 0;
                 }
             });
 
@@ -83,6 +102,7 @@ var weekMeet = {
             $("td[name='delvExp']").each(function(){
                 if($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ){
                     $(this).text(comma((Math.floor((ls[i].EXP_AMT + ls[i].EXP_AMT2) / 1000000) || 0)));
+                    delvExpTotal += Math.floor((ls[i].EXP_AMT + ls[i].EXP_AMT2) / 1000000) || 0;
                 }
             });
 
@@ -90,6 +110,7 @@ var weekMeet = {
             $("td[name='delvSum']").each(function(){
                 if($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ){
                     $(this).text(comma((Math.floor((ls[i].PJT_AMT + (ls[i].EXP_AMT + ls[i].EXP_AMT2)) / 1000000) || 0)));
+                    delvSumTotal += Math.floor((ls[i].PJT_AMT + (ls[i].EXP_AMT + ls[i].EXP_AMT2)) / 1000000) || 0;
                 }
             });
 
@@ -100,6 +121,7 @@ var weekMeet = {
                     for (var j = 0; j < objList.length; j++) {
                         if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
                             $(this).text(comma(Math.floor(objList[j].SALE_OBJ / 1000000) || 0));
+                            saleObjTotal += Math.floor(objList[j].SALE_OBJ / 1000000) || 0;
                         }
                     }
                 }
@@ -124,8 +146,11 @@ var weekMeet = {
                     }
 
                     $(this).text(comma((Math.floor((ls[i].PJT_AMT + (saleEngnAchSum || 0) + (saleRndAchSum || 0)) / 1000000)) || 0));
+                    saleAchTotal += Math.floor((ls[i].PJT_AMT + (saleEngnAchSum || 0) + (saleRndAchSum || 0)) / 1000000) || 0;
+
                     /** 매출 합계 */
                     $("#saleSum_" + ls[i].DEPT_SEQ).text(comma((Math.floor((Number(uncomma($("#saleSum_" + ls[i].DEPT_SEQ).text()))) + (ls[i].PJT_AMT + (saleEngnAchSum || 0) + (saleRndAchSum || 0)) / 1000000)) || 0));
+                    saleSumTotal += Math.floor((Number(uncomma($("#saleSum_" + ls[i].DEPT_SEQ).text()))) + (ls[i].PJT_AMT + (saleEngnAchSum || 0) + (saleRndAchSum || 0)) / 1000000) || 0;
                 }
             });
 
@@ -148,8 +173,11 @@ var weekMeet = {
                     }
 
                     $(this).text(comma((Math.floor((ls[i].PJT_AMT + (saleEngnExpSum || 0) + (ls[i].PJT_AMT - (saleRndExpSum || 0))) / 1000000)) || 0));
+                    saleExpTotal += Math.floor((ls[i].PJT_AMT + (saleEngnExpSum || 0) + (ls[i].PJT_AMT - (saleRndExpSum || 0))) / 1000000) || 0;
+
                     /** 매출 합계 */
                     $("#saleSum_" + ls[i].DEPT_SEQ).text(comma((Math.floor((Number(uncomma($("#saleSum_" + ls[i].DEPT_SEQ).text()))) + (ls[i].PJT_AMT + (saleEngnExpSum || 0) + (ls[i].PJT_AMT - (saleRndExpSum || 0))) / 1000000)) || 0));
+                    saleSumTotal += Math.floor((Number(uncomma($("#saleSum_" + ls[i].DEPT_SEQ).text()))) + (ls[i].PJT_AMT + (saleEngnExpSum || 0) + (ls[i].PJT_AMT - (saleRndExpSum || 0))) / 1000000) || 0;
                 }
             });
 
@@ -160,6 +188,7 @@ var weekMeet = {
                     for (var j = 0; j < objList.length; j++) {
                         if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
                             $(this).text(comma(Math.floor(objList[j].INCP_OBJ / 1000000) || 0));
+                            incpObjTotal += Math.floor(objList[j].INCP_OBJ / 1000000) || 0;
                         }
                     }
                 }
@@ -203,8 +232,11 @@ var weekMeet = {
                     var rndIncpSum = (incpRndAchSum || 0);
 
                     $(this).text(comma((Math.floor((engnSaleSum - engnIncpSum + rndIncpSum) / 1000000)) || 0));
+                    incpAchTotal += Math.floor((engnSaleSum - engnIncpSum + rndIncpSum) / 1000000) || 0;
+
                     /** 운영수익 합계 */
                     $("#incpSum_" + ls[i].DEPT_SEQ).text(comma((Math.floor((Number(uncomma($("#incpSum_" + ls[i].DEPT_SEQ).text()))) + (engnSaleSum - engnIncpSum + rndIncpSum) / 1000000)) || 0));
+                    incpSumTotal += Math.floor((Number(uncomma($("#incpSum_" + ls[i].DEPT_SEQ).text()))) + (engnSaleSum - engnIncpSum + rndIncpSum) / 1000000) || 0;
                 }
             });
 
@@ -239,11 +271,29 @@ var weekMeet = {
                     var rndIncpSum = (incpRndAchSum || 0);
 
                     $(this).text(comma((Math.floor((engnSaleSum - engnIncpSum + rndIncpSum) / 1000000)) || 0));
+                    incpExpTotal += Math.floor((engnSaleSum - engnIncpSum + rndIncpSum) / 1000000) || 0;
+
                     /** 매출 합계 */
                     $("#incpSum_" + ls[i].DEPT_SEQ).text(comma((Math.floor((Number(uncomma($("#incpSum_" + ls[i].DEPT_SEQ).text()))) + (engnSaleSum - engnIncpSum + rndIncpSum) / 1000000)) || 0));
+                    incpSumTotal += Math.floor((Number(uncomma($("#incpSum_" + ls[i].DEPT_SEQ).text()))) + (engnSaleSum - engnIncpSum + rndIncpSum) / 1000000) || 0;
                 }
             });
         }
+
+        $("#delvObjTotal").text(comma(delvObjTotal));
+        $("#delvAchTotal").text(comma(delvAchTotal));
+        $("#delvExpTotal").text(comma(delvExpTotal));
+        $("#delvSumTotal").text(comma(delvSumTotal));
+
+        $("#saleObjTotal").text(comma(saleObjTotal));
+        $("#saleAchTotal").text(comma(saleAchTotal));
+        $("#saleExpTotal").text(comma(saleExpTotal));
+        $("#saleSumTotal").text(comma(saleSumTotal));
+
+        $("#incpObjTotal").text(comma(incpObjTotal));
+        $("#incpAchTotal").text(comma(incpAchTotal));
+        $("#incpExpTotal").text(comma(incpExpTotal));
+        $("#incpSumTotal").text(comma(incpSumTotal));
 
         weekMeet.fn_calcPercent();
     },
@@ -366,6 +416,73 @@ var weekMeet = {
                 $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
             }
         });
+
+        /** 수주 총계 비율 */
+        let objAmt = Number(uncommaN($("#delvObjTotal").text()));
+        let achAmt = Number(uncommaN($("#delvAchTotal").text()));
+        let expAmt = Number(uncommaN($("#delvExpTotal").text()));
+        let sumAmt = Number(uncommaN($("#delvSumTotal").text()));
+
+        if(objAmt == 0 || achAmt == 0){
+            $("#delvAchPerTotal").text("0 %");
+        } else {
+            $("#delvAchPerTotal").text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || expAmt == 0){
+            $("#delvExpPerTotal").text("0 %");
+        } else {
+            $("#delvExpPerTotal").text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || sumAmt == 0){
+            $("#delvSumPerTotal").text("0 %");
+        } else {
+            $("#delvSumPerTotal").text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+
+        /** 매출 총계 비율 */
+        objAmt = Number(uncommaN($("#saleObjTotal").text()));
+        achAmt = Number(uncommaN($("#saleAchTotal").text()));
+        expAmt = Number(uncommaN($("#saleExpTotal").text()));
+        sumAmt = Number(uncommaN($("#saleSumTotal").text()));
+
+        if(objAmt == 0 || achAmt == 0){
+            $("#saleAchPerTotal").text("0 %");
+        } else {
+            $("#saleAchPerTotal").text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || expAmt == 0){
+            $("#saleExpPerTotal").text("0 %");
+        } else {
+            $("#saleExpPerTotal").text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || sumAmt == 0){
+            $("#saleSumPerTotal").text("0 %");
+        } else {
+            $("#saleSumPerTotal").text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+
+        /** 운영수익 총계 비율 */
+        objAmt = Number(uncommaN($("#incpObjTotal").text()));
+        achAmt = Number(uncommaN($("#incpAchTotal").text()));
+        expAmt = Number(uncommaN($("#incpExpTotal").text()));
+        sumAmt = Number(uncommaN($("#incpSumTotal").text()));
+
+        if(objAmt == 0 || achAmt == 0){
+            $("#incpAchPerTotal").text("0 %");
+        } else {
+            $("#incpAchPerTotal").text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || expAmt == 0){
+            $("#incpExpPerTotal").text("0 %");
+        } else {
+            $("#incpExpPerTotal").text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+        if(objAmt == 0 || sumAmt == 0){
+            $("#incpSumPerTotal").text("0 %");
+        } else {
+            $("#incpSumPerTotal").text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+        }
+
     },
 
     fn_objSetting : function(){

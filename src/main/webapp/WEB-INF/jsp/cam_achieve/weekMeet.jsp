@@ -201,6 +201,33 @@
                                 <td style="text-align: right"></td>
                             </tr>
                         </c:forEach>
+                        <tr style="background-color: white">
+                            <td style="text-align: center;background-color: #f0f6ff;font-weight: bold;">총계</td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvObjTotal" name="delvObjTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvAchTotal" name="delvAchTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvAchPerTotal" name="delvAchPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvExpTotal" name="delvExpTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvExpPerTotal" name="delvExpPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvSumTotal" name="delvSumTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="delvSumPerTotal" name="delvSumPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleObjTotal" name="saleObjTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleAchTotal" name="saleAchTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleAchPerTotal" name="saleAchPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleExpTotal" name="saleExpTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleExpPerTotal" name="saleExpPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleSumTotal" name="saleSumTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold"; id="saleSumPerTotal" name="saleSumPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpObjTotal" name="incpObjTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpAchTotal" name="incpAchTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpAchPerTotal" name="incpAchPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpExpTotal" name="incpExpTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpExpPerTotal" name="incpExpPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpSumTotal" name="incpSumTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpSumPerTotal" name="incpSumPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;"></td>
+                        </tr>
                         </thead>
                     </table>
                 </div>

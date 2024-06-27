@@ -460,6 +460,9 @@
                   AND
                     DOC_STATUS IN (100, 101)
                   AND B.BUDGET_SN IS NOT NULL
+                <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                    AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+                </if>
             ) AA
         GROUP BY DEPT_SEQ
     </select>
@@ -505,6 +508,9 @@
             WHERE
                 B.BUSN_CLASS IN ('D', 'V')
             AND LEFT(B.STR_DT, 4) = #{year}
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND A.CLAIM_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
         ) RE
         WHERE 1=1
         GROUP BY DEPT_SEQ
@@ -535,13 +541,16 @@
             WHERE
                 C.BUSN_CLASS  IN ('D', 'V')
             AND LEFT(C.STR_DT, 4) = #{year}
+            <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                AND ((A.TRIP_DAY_FR BETWEEN #{startDt} AND #{endDt}) OR (A.TRIP_DAY_TO BETWEEN #{startDt} AND #{endDt}))
+            </if>
         ) RE
         WHERE 1=1
         GROUP BY DEPT_SEQ
     </select>
 
     <select id="getRndIncpList" parameterType="map" resultType="map">
-        /*getRndSaleList*/
+        /*getRndIncpList*/
         SELECT DEPT_SEQ, PAY_APP_TYPE, IFNULL(SUM(TOT_COST), 0) AS TOT_COST
         FROM
             (
@@ -566,6 +575,9 @@
                   AND B.BUDGET_SN IS NOT NULL
                   AND D.BGT_CD IS NOT NULL
                   AND D.BGT_AT = 1
+                <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+                    AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+                </if>
             ) RE
         WHERE 1=1
         GROUP BY PAY_APP_TYPE, DEPT_SEQ
