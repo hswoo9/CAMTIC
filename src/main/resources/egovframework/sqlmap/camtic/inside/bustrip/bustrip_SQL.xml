@@ -565,9 +565,9 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll')
-          AND
-            CONTENT_ID in (#{hrBizReqId}, #{hrBizReqResultId})
+            (FILE_CD IN ('bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll') AND CONTENT_ID = #{hrBizReqResultId})
+            OR
+            (FILE_CD = 'bustripReq' AND CONTENT_ID = #{hrBizReqId})
     </select>
 
     <update id="updBustripReq" parameterType="map">
