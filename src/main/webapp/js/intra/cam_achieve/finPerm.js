@@ -26,7 +26,7 @@ var finPerm = {
             year : $("#year").val().split("-")[0],
             baseYear : $("#year").val().split("-")[0],
             deptSeq : $("#dept").val(),
-            startDt : $("#year").val() + "-01",
+            startDt : $("#year").val().split("-")[0] + "-01-01",
             endDt : $("#year").val() + "-" + date.getDate()
         }
 
@@ -127,7 +127,6 @@ var finPerm = {
 
 
         parameters.month = $("#year").val();
-        parameters.startDt = $("#year").val().split("-")[0] + "-01-01";
         parameters.endDt = $("#year").val().split("-")[0] + "-12-31";
 
         /** 운영비 - 인건비 */
