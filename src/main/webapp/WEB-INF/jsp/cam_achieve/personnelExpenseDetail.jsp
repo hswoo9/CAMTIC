@@ -75,7 +75,7 @@
                     </colgroup>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr style="background-color: #f0f6ff;">
                         <th rowspan="2" style="text-align: center;">구분</th>
                         <th rowspan="2" style="text-align: center;">팀명</th>
                         <th rowspan="2" style="text-align: center;">1월</th>
@@ -94,14 +94,14 @@
                         <th rowspan="2" style="text-align: center;">부서장비용<br>배분비율</th>
                         <th rowspan="2" style="text-align: center;">인건비합계</th>
                     </tr>
-                    <tr>
+                    <tr style="background-color: #f0f6ff;">
                         <th style="text-align: center;">팀원</th>
                         <th style="text-align: center;">팀장</th>
                     </tr>
                     <c:forEach var="l" items="${list}" varStatus="status">
                         <tr style="background-color: white;" class="dept_${l.parent_dept_seq}">
                             <c:if test="${l.row_num eq 1}">
-                                <td style="text-align: center;" name="dept" rowspan="${l.row_cnt}">${l.parent_dept_name}</td>
+                                <td style="text-align: center;background-color: #f0fde9;" name="dept" rowspan="${l.row_cnt}">${l.parent_dept_name}</td>
                             </c:if>
                             <td style="text-align: center;" id="team_${l.dept_seq}" name="team">${l.dept_name}</td>
                             <td style="text-align: right;" id="mon1_${l.dept_seq}" name="mon1">0</td>
@@ -121,7 +121,47 @@
                             <td style="text-align: right;" id="deptPer_${l.dept_seq}" name="deptPer">0</td>
                             <td style="text-align: right;" id="tot_${l.dept_seq}" name="totalPay">0</td>
                         </tr>
+                        <c:if test="${l.row_num eq l.row_cnt}">
+                            <tr style="background-color: #fff8df;" class="deptTotalTr" id="deptTotal_${l.parent_dept_seq}">
+                                <td style="text-align: center;" name="deptTotal" colspan="2">${l.parent_dept_name} 소계</td>
+                                <td style="text-align: right;" id="deptTotalMon1_${l.dept_seq}" name="deptTotalMon1">0</td>
+                                <td style="text-align: right;" id="deptTotalMon2_${l.dept_seq}" name="deptTotalMon2">0</td>
+                                <td style="text-align: right;" id="deptTotalMon3_${l.dept_seq}" name="deptTotalMon3">0</td>
+                                <td style="text-align: right;" id="deptTotalMon4_${l.dept_seq}" name="deptTotalMon4">0</td>
+                                <td style="text-align: right;" id="deptTotalMon5_${l.dept_seq}" name="deptTotalMon5">0</td>
+                                <td style="text-align: right;" id="deptTotalMon6_${l.dept_seq}" name="deptTotalMon6">0</td>
+                                <td style="text-align: right;" id="deptTotalMon7_${l.dept_seq}" name="deptTotalMon7">0</td>
+                                <td style="text-align: right;" id="deptTotalMon8_${l.dept_seq}" name="deptTotalMon8">0</td>
+                                <td style="text-align: right;" id="deptTotalMon9_${l.dept_seq}" name="deptTotalMon9">0</td>
+                                <td style="text-align: right;" id="deptTotalMon10_${l.dept_seq}" name="deptTotalMon10">0</td>
+                                <td style="text-align: right;" id="deptTotalMon11_${l.dept_seq}" name="deptTotalMon11">0</td>
+                                <td style="text-align: right;" id="deptTotalMon12_${l.dept_seq}" name="deptTotalMon12">0</td>
+                                <td style="text-align: right;" id="deptTotalUser_${l.dept_seq}" name="deptTotalUser">0</td>
+                                <td style="text-align: right;" id="deptTotalMng_${l.dept_seq}" name="deptTotalMng">0</td>
+                                <td style="text-align: right;" id="deptTotalDeptPer_${l.dept_seq}" name="deptTotalDeptPer">100%</td>
+                                <td style="text-align: right;" id="deptTotalPayroll_${l.dept_seq}" name="deptTotalPayroll">0</td>
+                            </tr>
+                        </c:if>
                     </c:forEach>
+                    <tr class="totalTr" style="background-color: #f0f6ff;">
+                        <th colspan="2" style="text-align: center;">총계</th>
+                        <th style="text-align: right;" id="totalMon1"></th>
+                        <th style="text-align: right;" id="totalMon2"></th>
+                        <th style="text-align: right;" id="totalMon3"></th>
+                        <th style="text-align: right;" id="totalMon4"></th>
+                        <th style="text-align: right;" id="totalMon5"></th>
+                        <th style="text-align: right;" id="totalMon6"></th>
+                        <th style="text-align: right;" id="totalMon7"></th>
+                        <th style="text-align: right;" id="totalMon8"></th>
+                        <th style="text-align: right;" id="totalMon9"></th>
+                        <th style="text-align: right;" id="totalMon10"></th>
+                        <th style="text-align: right;" id="totalMon11"></th>
+                        <th style="text-align: right;" id="totalMon12"></th>
+                        <th style="text-align: right;" id="totalUser"></th>
+                        <th style="text-align: right;" id="totalMng"></th>
+                        <th style="text-align: right;"></th>
+                        <th style="text-align: right;" id="totalPayroll"></th>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -200,7 +240,7 @@
                     width: 80,
                     field: "",
                     template: function(e){
-                        if(e.DUTY_CODE != ""){
+                        if(e.DUTY_CODE != "" && e.DUTY_CODE != null){
                             return "관리자";
                         } else {
                             return "일반";
@@ -465,6 +505,53 @@
                 $(this).text("-");
             }
         });
+
+        /** 부서별 소계 */
+        let mon1PaySum = 0; let mon2PaySum = 0; let mon3PaySum = 0; let mon4PaySum = 0; let mon5PaySum = 0; let mon6PaySum = 0;
+        let mon7PaySum = 0; let mon8PaySum = 0; let mon9PaySum = 0; let mon10PaySum = 0; let mon11PaySum = 0; let mon12PaySum = 0;
+        let userPaySum = 0; let mngPaySum = 0; let payrollSum = 0;
+        $.each($(".deptTotalTr"), function(i, v){
+            let deptSeq = $(this).attr("id").split("_")[1];
+            let deptMon1PaySum = 0; let deptMon2PaySum = 0; let deptMon3PaySum = 0; let deptMon4PaySum = 0; let deptMon5PaySum = 0; let deptMon6PaySum = 0;
+            let deptMon7PaySum = 0; let deptMon8PaySum = 0; let deptMon9PaySum = 0; let deptMon10PaySum = 0; let deptMon11PaySum = 0; let deptMon12PaySum = 0;
+            let deptUserPaySum = 0; let deptMngPaySum = 0; let deptPayrollSum = 0;
+
+            $.each($(".dept_" + deptSeq), function(i, v){
+                deptMon1PaySum += Number(uncommaN($(v).find("td[name='mon1']").text()));    deptMon2PaySum += Number(uncommaN($(v).find("td[name='mon2']").text()));
+                deptMon3PaySum += Number(uncommaN($(v).find("td[name='mon3']").text()));    deptMon4PaySum += Number(uncommaN($(v).find("td[name='mon4']").text()));
+                deptMon5PaySum += Number(uncommaN($(v).find("td[name='mon5']").text()));    deptMon6PaySum += Number(uncommaN($(v).find("td[name='mon6']").text()));
+                deptMon7PaySum += Number(uncommaN($(v).find("td[name='mon7']").text()));    deptMon8PaySum += Number(uncommaN($(v).find("td[name='mon8']").text()));
+                deptMon9PaySum += Number(uncommaN($(v).find("td[name='mon9']").text()));    deptMon10PaySum += Number(uncommaN($(v).find("td[name='mon10']").text()));
+                deptMon11PaySum += Number(uncommaN($(v).find("td[name='mon11']").text()));    deptMon12PaySum += Number(uncommaN($(v).find("td[name='mon12']").text()));
+                deptUserPaySum += Number(uncommaN($(v).find("td[name='user']").text()));    deptMngPaySum += Number(uncommaN($(v).find("td[name='mng']").text()));
+
+                if($(v).find("td[name='totalPay']").text() != '-'){
+                    deptPayrollSum += Number(uncommaN($(v).find("td[name='totalPay']").text()));
+                }
+            })
+
+            $(this).find("td[name='deptTotalMon1']").text(comma(deptMon1PaySum));       $(this).find("td[name='deptTotalMon2']").text(comma(deptMon2PaySum));
+            $(this).find("td[name='deptTotalMon3']").text(comma(deptMon3PaySum));       $(this).find("td[name='deptTotalMon4']").text(comma(deptMon4PaySum));
+            $(this).find("td[name='deptTotalMon5']").text(comma(deptMon5PaySum));       $(this).find("td[name='deptTotalMon6']").text(comma(deptMon6PaySum));
+            $(this).find("td[name='deptTotalMon7']").text(comma(deptMon7PaySum));       $(this).find("td[name='deptTotalMon8']").text(comma(deptMon8PaySum));
+            $(this).find("td[name='deptTotalMon9']").text(comma(deptMon9PaySum));       $(this).find("td[name='deptTotalMon10']").text(comma(deptMon10PaySum));
+            $(this).find("td[name='deptTotalMon11']").text(comma(deptMon11PaySum));       $(this).find("td[name='deptTotalMon12']").text(comma(deptMon12PaySum));
+            $(this).find("td[name='deptTotalUser']").text(comma(deptUserPaySum));       $(this).find("td[name='deptTotalMng']").text(comma(deptMngPaySum));
+            $(this).find("td[name='deptTotalPayroll']").text(comma(deptPayrollSum));
+
+            mon1PaySum += deptMon1PaySum; mon2PaySum += deptMon2PaySum; mon3PaySum += deptMon3PaySum; mon4PaySum += deptMon4PaySum;
+            mon5PaySum += deptMon5PaySum; mon6PaySum += deptMon6PaySum; mon7PaySum += deptMon7PaySum; mon8PaySum += deptMon8PaySum;
+            mon9PaySum += deptMon9PaySum; mon10PaySum += deptMon10PaySum; mon11PaySum += deptMon11PaySum; mon12PaySum += deptMon12PaySum;
+            userPaySum += deptUserPaySum; mngPaySum += deptMngPaySum; payrollSum += deptPayrollSum;
+        });
+
+        /** 총계 */
+        $("#totalMon1").text(comma(mon1PaySum));    $("#totalMon2").text(comma(mon2PaySum));    $("#totalMon3").text(comma(mon3PaySum));
+        $("#totalMon4").text(comma(mon4PaySum));    $("#totalMon5").text(comma(mon5PaySum));    $("#totalMon6").text(comma(mon6PaySum));
+        $("#totalMon7").text(comma(mon7PaySum));    $("#totalMon8").text(comma(mon8PaySum));    $("#totalMon9").text(comma(mon9PaySum));
+        $("#totalMon10").text(comma(mon10PaySum));    $("#totalMon11").text(comma(mon11PaySum));    $("#totalMon12").text(comma(mon12PaySum));
+        $("#totalUser").text(comma(userPaySum));    $("#totalMng").text(comma(mngPaySum));    $("#totalPayroll").text(comma(payrollSum));
+
     }
 
 </script>

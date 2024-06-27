@@ -20,9 +20,13 @@
     </select>
 
     <select id="getDeptBList" resultType="map">
+        /*getDeptBList*/
         SELECT
-            A.dept_seq,
-            IF(A.DEPT_LEVEL = 1, CONCAT(A.DEPT_NAME,'장'), A.DEPT_NAME) AS dept_name,
+            IF(A.DEPT_NAME = '경영지원실', 999999, A.DEPT_SEQ) AS dept_seq,
+            CASE
+                WHEN A.DEPT_NAME = '경영지원실' THEN '공통운영비'
+                ELSE IF(A.DEPT_LEVEL = 1, CONCAT(A.DEPT_NAME,'장'), A.DEPT_NAME)
+            END AS dept_name,
             IF(A.DEPT_LEVEL = 1, A.DEPT_SEQ, B.DEPT_SEQ) AS parent_dept_seq,
             IF(A.DEPT_LEVEL = 1, A.DEPT_NAME, B.DEPT_NAME)  AS parent_dept_name,
             A.path_name,
