@@ -47,7 +47,7 @@ var finPerm = {
         $("#engnIncpAmt").text(comma(result.incpEngnAmt || 0));
         $("#otherIncpAmt").text(comma(result.incpOtherAmt || 0));
 
-        /** 달성실적 */
+        /** 달성소계 */
         $("#delvTotAmt").text(comma(result.engnAmt + result.otherAmt + result.rndAmt + result.unRndAmt));
         $("#saleTotAmt").text(comma((result.saleRndAmt || 0) + (result.saleUnRndAmt || 0) + (result.saleEngnAmt || 0) + (result.saleOtherAmt || 0)));
         $("#incpTotAmt").text(comma((result.incpRndAmt || 0) + (result.incpUnRndAmt || 0) + (result.incpEngnAmt || 0) + (result.incpOtherAmt || 0)));
@@ -70,10 +70,15 @@ var finPerm = {
         $("#expIncpEngnAmt").text(comma(result.expIncpEngnAmt || 0));
         $("#expIncpOtherAmt").text(comma(result.expIncpOtherAmt || 0));
 
-        /** TOTAL */
+        /** 예상소계 */
         $("#expTotAmt").text(comma((result.expEngnAmt || 0) + (result.expOtherAmt || 0) + (result.expRndAmt || 0) + (result.expUnRndAmt || 0)));
         $("#expSaleTotAmt").text(comma((result.expSaleEngnAmt || 0) + (result.expSaleOtherAmt || 0) + (result.expSaleRndAmt || 0) + (result.expSaleUnRndAmt || 0)));
         $("#expIncpTotAmt").text(comma((result.expIncpEngnAmt || 0) + (result.expIncpOtherAmt || 0) + (result.expIncpRndAmt || 0) + (result.expIncpUnRndAmt || 0)));
+
+        /** 합계 */
+        $("#totAmtSum").text(comma(Number(uncommaN($("#expTotAmt").text())) + Number(uncommaN($("#delvTotAmt").text()))));
+        $("#saleTotAmtSum").text(comma(Number(uncommaN($("#saleTotAmt").text())) + Number(uncommaN($("#expSaleTotAmt").text()))));
+        $("#incpTotAmtSum").text(comma(Number(uncommaN($("#incpTotAmt").text())) + Number(uncommaN($("#expIncpTotAmt").text()))));
 
         /** 목표 */
         $("#objDelvAmt").text(comma(Math.round(result.objDelvAmt) || 0));
@@ -83,6 +88,16 @@ var finPerm = {
         /** 운영비 - 인건비 */
         $("#payTotAmt").text(comma(result2.TOT_PAY));
         $("#expPayTotAmt").text(comma(result2.TOT_PAY));
+
+        /** 달성율 */
+        $("#delvPer").text(Math.round((Number(uncommaN($("#delvTotAmt").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
+        $("#salePer").text(Math.round((Number(uncommaN($("#saleTotAmt").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
+        $("#incpPer").text(Math.round((Number(uncommaN($("#incpTotAmt").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
+
+        /** 예상 달성율 */
+        $("#expDelvPer").text(Math.round((Number(uncommaN($("#totAmtSum").text())) / Number(uncommaN($("#objDelvAmt").text())) * 100) * 10) / 10 + " %");
+        $("#expSalePer").text(Math.round((Number(uncommaN($("#saleTotAmtSum").text())) / Number(uncommaN($("#objSaleAmt").text())) * 100) * 10) / 10 + " %");
+        $("#expIncpPer").text(Math.round((Number(uncommaN($("#incpTotAmtSum").text())) / Number(uncommaN($("#objIncpAmt").text())) * 100) * 10) / 10 + " %");
     },
 
     fn_engnSearch : function (){

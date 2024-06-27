@@ -168,10 +168,10 @@
                             <td style="text-align: center; background-color: #abe3b1;"><b>공통경비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center; background-color: #abe3b1;"><b>달성실적</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;" id="delvTotAmt"><b>0</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;" id="saleTotAmt"><b>0</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;" id="incpTotAmt"><b>0</b></td>
+                            <td style="text-align: center; background-color: #abe3b1;"><b>달성소계</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;"><b id="delvTotAmt">0</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;"><b id="saleTotAmt">0</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;"><b id="incpTotAmt">0</b></td>
                             <td style="text-align: center;"><b>28.6</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                             <td style="text-align: right;"><b id="payTotAmt">0</b></td>
@@ -209,7 +209,7 @@
                             <td style="text-align: center; background-color: #eaed77;"><b>공통경비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center; background-color: #eaed77;"><b>TOTAL</b></td>
+                            <td style="text-align: center; background-color: #eaed77;"><b>예상소계</b></td>
                             <td style="text-align: right; background-color: #eaed77;"><b id="expTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #eaed77;"><b id="expSaleTotAmt">0</b></td>
                             <td style="text-align: right; background-color: #eaed77;"><b id="expIncpTotAmt">0</b></td>
@@ -220,16 +220,22 @@
                             <td style="text-align: right;"><b>0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center; background-color: #efb098;"><b>합계</b></td>
+                            <td style="text-align: right; background-color: #efb098;"><b id="totAmtSum">0</b></td>
+                            <td style="text-align: right; background-color: #efb098;"><b id="saleTotAmtSum">0</b></td>
+                            <td style="text-align: right; background-color: #efb098;"><b id="incpTotAmtSum">0</b></td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b>달성율</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
+                            <td style="text-align: center;"><b id="delvPer">0%</b></td>
+                            <td style="text-align: center;"><b id="salePer">0%</b></td>
+                            <td style="text-align: center;"><b id="incpPer">0%</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b>예상달성율</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
-                            <td style="text-align: center;"><b>0%</b></td>
+                            <td style="text-align: center;"><b id="expDelvPer">0%</b></td>
+                            <td style="text-align: center;"><b id="expSalePer">0%</b></td>
+                            <td style="text-align: center;"><b id="expIncpPer">0%</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #f0f6ff;">
                             <td style="text-align: center;" rowspan="2"><b>목표대비현황<br>(최종예상)</b></td>
