@@ -67,6 +67,10 @@ var evaluationResultList = {
             $("#dept").data("kendoDropDownList").trigger("change");
             $("#team").data("kendoDropDownList").value("");
         }
+
+        if($("#regDutyName") == ""){
+            $("#adminInput").hide();
+        }
     },
 
     mainGrid: function() {
@@ -84,6 +88,9 @@ var evaluationResultList = {
                     data.team = $("#team").val();
                     data.position = $("#position").val();
                     data.duty = $("#duty").val();
+                    if($("#regDutyName").val() == ""){
+                        data.empSeq = $("#empSeq").val();
+                    }
                     return data;
                 }
             },

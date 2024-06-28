@@ -3,10 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script src="/js/kendoui/kendo.all.min.js"></script>
-<script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -142,54 +140,92 @@
         $("#evalList").empty();
         var html = "";
 
+        const scoreList = customKendo.fn_customAjax("/evaluation/getEvaluation", {
+            evalSn: $("#evalSn").val()
+        }).scList;
+
         for(var i = 0 ; i < list.length ; i++) {
+            const map = list[i];
             var scoreF;
             var scoreS;
 
             html += '<tr>';
-            html += '   <td><input type="checkbox" id="check' + i + '" value="'+ list[i].EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
-            html += '   <td>' + list[i].deptNm + '</td>';
-            html += '   <td>' + list[i].teamNm + '</td>';
-            html += '   <td><div onclick="evalResUserPop('+ list[i].EVAL_MEM_SN+');">' + list[i].EMP_NAME_KR + '</div></td>';
-            html += '   <td style="text-align: center; background-color: #EFEFEF">' + list[i].EVAL_SCORE + '</td>';
-            html += '   <td style="text-align: center">' + list[i].EVAL_F_SCORE + '</td>';
+            html += '   <td><input type="checkbox" id="check' + i + '" value="'+ map.EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
+            html += '   <td>' + map.deptNm + '</td>';
+            html += '   <td>' + map.teamNm + '</td>';
+            html += '   <td><div onclick="evalResUserPop('+ map.EVAL_MEM_SN+');">' + map.EMP_NAME_KR + '</div></td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">' + map.EVAL_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + map.EVAL_F_SCORE + '</td>';
 
-            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
-                scoreF = (parseFloat(data.DEPT_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_A +' %</td>';
+            let aDeptPer = data.DEPT_MANAGER_A;
+            let bDeptPer = data.DEPT_MANAGER_B;
+            let aTeamPer = data.TEAM_MANAGER_A;
+            let bTeamPer = data.TEAM_MANAGER_B;
+            let aMemPer = data.TEAM_MEMBER_A;
+            let bMemPer = data.TEAM_MEMBER_B;
+
+            if(map.EVAL_EVAL_F_SEQ == "undefined" || map.EVAL_EVAL_F_SEQ == ""){
+                console.log(map.EMP_NAME_KR+"님은 1차평가자가 없습니다.");
+                aDeptPer = 0;
+                bDeptPer = 100;
+                aTeamPer = 0;
+                bTeamPer = 100;
+                aMemPer = 0;
+                bMemPer = 100;
+            }else if(map.EVAL_EVAL_S_SEQ == "undefined" || map.EVAL_EVAL_S_SEQ == ""){
+                console.log(map.EMP_NAME_KR+"님은 2차평가자가 없습니다.");
+                aDeptPer = 100;
+                bDeptPer = 0;
+                aTeamPer = 100;
+                bTeamPer = 0;
+                aMemPer = 100;
+                bMemPer = 0;
+            }else if(map.EVAL_EVAL_F_SEQ == map.EVAL_EVAL_S_SEQ){
+                console.log(map.EMP_NAME_KR+"님은 1차평가자와 2차평가자가 같습니다.");
+                aDeptPer = 0;
+                bDeptPer = 100;
+                aTeamPer = 0;
+                bTeamPer = 100;
+                aMemPer = 0;
+                bMemPer = 100;
+            }
+
+            if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
+                scoreF = (parseFloat(aDeptPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ aDeptPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
-            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
-                scoreF = (parseFloat(data.TEAM_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_A +' %</td>';
+            }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
+                scoreF = (parseFloat(aTeamPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ aTeamPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }else{
-                scoreF = (parseFloat(data.TEAM_MEMBER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.TEAM_MEMBER_A +' %</td>';
+                scoreF = (parseFloat(aMemPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ aMemPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }
 
 
-            html += '   <td style="text-align: center">' + list[i].EVAL_S_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + map.EVAL_S_SCORE + '</td>';
 
-            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
-                scoreS =  (parseFloat(data.DEPT_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_B +' %</td>';
+            if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
+                scoreS =  (parseFloat(bDeptPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ bDeptPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
-            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
-                scoreS = (parseFloat(data.TEAM_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_B +' %</td>';
+            }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
+                scoreS = (parseFloat(bTeamPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ bTeamPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }else{
-                scoreS = (parseFloat(data.TEAM_MEMBER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(1);
-                html += '   <td style="text-align: center">'+ data.TEAM_MEMBER_B +' %</td>';
+                scoreS = (parseFloat(bMemPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                html += '   <td style="text-align: center">'+ bMemPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }
 
             html += '   <td style="text-align: center">0</td>';
-            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
+            if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
                 html += '   <td style="text-align: center">'+ data.DEPT_MANAGER_C +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
-            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
+            }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
                 html += '   <td style="text-align: center">'+ data.TEAM_MANAGER_C +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
             }else{
@@ -200,10 +236,31 @@
             var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
             html += '   <td style="text-align: center">'+ totalScore +'</td>';
 
-            html += '   <td style="text-align: center">S</td>';   // 평가등급
-            html += '   <td style="text-align: center; background-color: #EFEFEF; padding-left:5px; padding-right:5px"><input type="text" class="k-input" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 95%;"></td>';
-            html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
-            html += '   <td style="text-align: center; background-color: #EFEFEF">S</td>';  // 최종등급
+            let grade = "-";
+            let resGrade = "-";
+            for (let i = 0; i < scoreList.length; i++) {
+                const scItem = scoreList[i];
+                console.log("scItem", scItem);
+
+                if(scItem.EVAL_SCORE_B >= totalScore && totalScore >= scItem.EVAL_SCORE_A){
+                    grade = scItem.EVAL_GRADE;
+                }
+            }
+
+            html += '   <td style="text-align: center">'+grade+'</td>';   // 평가등급
+            html += '   <td style="text-align: center; background-color: #EFEFEF; padding-left:5px; padding-right:5px"><input type="text" class="k-input" id="scoreMng'+i+'" value="'+ map.EVAL_SCORE_MNG +'" style="width: 95%;"></td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) +'</td>';
+
+            for (let i = 0; i < scoreList.length; i++) {
+                const scItem = scoreList[i];
+                console.log("scItem", scItem);
+
+                if(scItem.EVAL_SCORE_B >= (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) && (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) >= scItem.EVAL_SCORE_A){
+                    resGrade = scItem.EVAL_GRADE;
+                }
+            }
+
+            html += '   <td style="text-align: center; background-color: #EFEFEF">'+resGrade+'</td>';  // 최종등급
             html += '</tr>';
         }
 
@@ -222,6 +279,7 @@
     }
 
     function saveMngScore() {
+        let cnt = 0;
         var evalScoreMngArr = [];
         $("#evalList").find("tr").each(function(index, row) {
             var evalMemSn = $(row).find("input[type='checkbox']");
@@ -232,8 +290,17 @@
                     evalMemSn: evalMemSn.val(),
                     scoreMng: scoreMng.val()
                 });
+                cnt++;
             }
         });
+        if(cnt == 0){
+            alert("조정할 대상을 선택해주세요.");
+            return;
+        }
+
+        if(!confirm("평가점수를 조정하시겠습니까?")){
+            return;
+        }
 
         var parameters = {
             evalScoreMngArr: JSON.stringify(evalScoreMngArr)
@@ -244,7 +311,9 @@
             data: parameters,
             dataType: "json",
             success: function(rs) {
+                alert("저장되었습니다.");
                 console.log(rs);
+                location.reload();
             }
         });
     }
