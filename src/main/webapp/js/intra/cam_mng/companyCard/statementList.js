@@ -187,10 +187,14 @@ var statementList = {
                     title: "사용이력등록",
                     width: 80,
                     template: function(e){
-                        if(e.RT_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
+                        if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.RT_YN == 'N'){
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
+                            } else {
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-info" disabled>추가</button>'
+                            }
                         } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-info" disabled>추가</button>'
+                            return "";
                         }
                     }
                 }, {
@@ -198,10 +202,14 @@ var statementList = {
                     width: 80,
                     template: function(e){
                         console.log(e);
-                        if(e.RT_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\', \''+e.CARD_BA_NB+'\')">반납</button>'
+                        if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.RT_YN == 'N'){
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\', \''+e.CARD_BA_NB+'\')">반납</button>'
+                            } else {
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
+                            }
                         } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
+                            return "";
                         }
                     }
                 }, {
