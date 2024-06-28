@@ -2008,7 +2008,7 @@
                         row.append($("<td class='dept_team_name'></td>").text(card.dept_team_name));
                         row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));
                         /*row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));*/
-                        row.append($("<td class='card_interview_date' style='font-weight: 900; cursor: pointer;' onClick='cardDetailPop(" + card.card_number + ")'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
+                        row.append($("<td class='card_interview_date' style='font-weight: 900; cursor: pointer;'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
                         row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
                      /*   row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
                         row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));

@@ -170,6 +170,7 @@
             data : {
                 evalSn : $("#evalSn").val(),
                 empSeq : $("#empSeq").val(),
+                evalEmpSeq : $("#evalEmpSeq").val(),
                 eType : evalType,
                 pType : evalPositionType,
                 rType : evalResultType
@@ -341,7 +342,7 @@
         var parameters = {
             evalSn : $("#evalSn").val(),
             empSeq : $("#empSeq").val(),
-            empSeq : $("#empSeq").val(),
+            evalEmpSeq : $("#evalEmpSeq").val(),
             totalScore : $("#totalScore").val(),
             evalView : $("#evalView").val(),
             evalResultType : evalResultType,

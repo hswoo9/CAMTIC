@@ -752,7 +752,7 @@
         FROM
             CAM_INSIDE.DJ_EVALUATION_ITEM A
         LEFT JOIN
-            CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT B ON A.EVAL_ITEM_ID = B.EVAL_ITEM_ID AND B.EMP_SEQ = #{empSeq}
+            CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT B ON A.EVAL_ITEM_ID = B.EVAL_ITEM_ID AND B.EMP_SEQ = #{empSeq} AND B.EVAL_EMP_SEQ = #{evalEmpSeq}
         WHERE
             A.EVAL_SN = #{evalSn}
         <if test='!"deptHeader".equals(pType)'>
@@ -1167,6 +1167,9 @@
         </if>
         <if test='duty != null and duty != ""'>
             AND B.DUTY_CODE = #{duty}
+        </if>
+        <if test='empSeq != null and empSeq != ""'>
+            AND B.EMP_SEQ = #{empSeq}
         </if>
     </select>
 

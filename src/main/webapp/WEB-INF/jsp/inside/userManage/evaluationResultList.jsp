@@ -39,12 +39,12 @@
                         <td>
                             <input type="text" id="evalNum" style="width:110px;">
                         </td>
-                        <th class="text-center th-color">부서/팀</th>
+                        <th class="text-center th-color adminInput">부서/팀</th>
                         <td>
                             <input type="text" id="dept" class="searchInput" style="width: 150px;">
                             <input type="text" id="team" class="searchInput" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">직책/직급</th>
+                        <th class="text-center th-color adminInput">직책/직급</th>
                         <td>
                             <input type="text" id="position" style="width: 160px;">
                             <input type="text" id="duty" style="width: 160px;">
