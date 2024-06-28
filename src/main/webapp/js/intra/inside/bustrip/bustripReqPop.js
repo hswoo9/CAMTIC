@@ -7,7 +7,7 @@ const bustripReq = {
         bustrip.fn_setPageName();
         bustripReq.pageSet();
         bustripReq.dataSet();
-        bustripReq.fn_crmChk();
+        // bustripReq.fn_crmChk();
     },
 
     pageSet: function(){
@@ -142,8 +142,12 @@ const bustripReq = {
         $("#visitCrm").val(busInfo.VISIT_CRM);
         if($("#crmSn").val() == "99999999"){
             $("#crmYn").attr("checked", false);
+            $("#visitCrm").data("kendoTextBox").enable(true);
+            $("#crmBtn").attr('disabled', true);
         } else {
             $("#crmYn").attr("checked", true);
+            $("#visitCrm").data("kendoTextBox").enable(false);
+            $("#crmBtn").attr('disabled', false);
         }
 
         /** 출장지역 */
@@ -568,6 +572,10 @@ const bustripReq = {
             $("#visitCrm").data("kendoTextBox").enable(true);
             $("#crmBtn").attr('disabled', true);
         }
+
+        $("#visitCrm").val("");
+        $("#crmSn").val("");
+        $("#visitLoc").val("");
     },
 
     addrSearch : function(){

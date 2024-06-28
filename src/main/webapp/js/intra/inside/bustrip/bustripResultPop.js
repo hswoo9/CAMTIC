@@ -9,7 +9,7 @@ var bustripResultPop = {
     init: function(){
         bustrip.fn_setPageName();
         bustripResultPop.pageSet();
-        bustripResultPop.fn_crmChk();
+        // bustripResultPop.fn_crmChk();
 
         /** 출장결과보고 미작성 시 출장신청 데이터 로드 */
         if(hrBizReqResultId == ""){
@@ -123,10 +123,14 @@ var bustripResultPop = {
         $("#visitCrm").val(busInfo.VISIT_CRM);
         if($("#crmSn").val() == "99999999"){
             $("#crmYn").attr("checked", false);
+            $("#visitCrm").data("kendoTextBox").enable(true);
+            $("#crmBtn").attr('disabled', true);
         } else {
             $("#crmYn").attr("checked", true);
+            $("#visitCrm").data("kendoTextBox").enable(false);
+            $("#crmBtn").attr('disabled', false);
         }
-        bustripResultPop.fn_crmChk();
+        // bustripResultPop.fn_crmChk();
 
         /** 출장지역 */
         $("#visitLoc").val(busInfo.VISIT_LOC);
@@ -406,10 +410,14 @@ var bustripResultPop = {
         $("#visitCrm").val(resInfo.VISIT_CRM);
         if($("#crmSn").val() == "99999999"){
             $("#crmYn").attr("checked", false);
+            $("#visitCrm").data("kendoTextBox").enable(true);
+            $("#crmBtn").attr('disabled', true);
         } else {
             $("#crmYn").attr("checked", true);
+            $("#visitCrm").data("kendoTextBox").enable(false);
+            $("#crmBtn").attr('disabled', false);
         }
-        bustripResultPop.fn_crmChk();
+        // bustripResultPop.fn_crmChk();
 
         /** 출장지역 */
         $("#visitLoc").val(resInfo.VISIT_LOC);
@@ -854,12 +862,16 @@ var bustripResultPop = {
 
     fn_crmChk : function(){
         if($("#crmYn").is(':checked')){
-            $("#visitCrm").attr("readonly", true)
+            $("#visitCrm").data("kendoTextBox").enable(false);
             $("#crmBtn").attr('disabled', false);
         } else {
-            $("#visitCrm").attr('readonly', false);
+            $("#visitCrm").data("kendoTextBox").enable(true);
             $("#crmBtn").attr('disabled', true);
         }
+
+        $("#visitCrm").val("");
+        $("#crmSn").val("");
+        $("#visitLoc").val("");
     },
 
     bustripExnpPop : function (){
