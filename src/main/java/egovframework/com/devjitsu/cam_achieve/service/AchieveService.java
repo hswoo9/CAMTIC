@@ -58,4 +58,10 @@ public interface AchieveService {
     void insDeptExpenseRateValue (Map<String, Object> params);
 
     void updDeptExpenseRateStatus (Map<String, Object> params);
+
+    List<Map<String, Object>> getPayRollCompList(Map<String, Object> params);
+
+    List<Map<String, Object>> getDeptPayRollCompList(Map<String, Object> params);
+
+    List<Map<String, Object>> getDeptPayrollCompDutyList(Map<String, Object> params);
 }

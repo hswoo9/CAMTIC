@@ -522,4 +522,19 @@ public class AchieveServiceImpl implements AchieveService {
     public void updDeptExpenseRateStatus(Map<String, Object> params) {
         achieveRepository.updDeptExpenseRateStatus(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPayRollCompList(Map<String, Object> params) {
+        return achieveRepository.getPayRollCompList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDeptPayRollCompList(Map<String, Object> params) {
+        return achieveRepository.getDeptPayRollCompList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDeptPayrollCompDutyList(Map<String, Object> params) {
+        return achieveRepository.getDeptPayrollCompDutyList(params);
+    }
 }

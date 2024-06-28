@@ -231,4 +231,19 @@ public class AchieveRepository extends AbstractDAO {
 
         update("achieve.updDeptExpenseRateStatus", params);
     }
+
+    public List<Map<String, Object>> getPayRollCompList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getPayRollCompList", params);
+    }
+
+    public List<Map<String, Object>> getDeptPayRollCompList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getDeptPayRollCompList", params);
+    }
+
+    public List<Map<String, Object>> getDeptPayrollCompDutyList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getDeptPayrollCompDutyList", params);
+    }
 }

@@ -462,4 +462,58 @@ public class AchieveController {
         model.addAttribute("code", 200);
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/fourInsuranceDetail.do")
+    public String fourInsuranceDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        params.put("deptLevel", "2");
+        List<Map<String, Object>> list = deptService.getDeptBList(params);
+
+        model.addAttribute("list", list);
+
+        return "cam_achieve/fourInsuranceDetail";
+    }
+
+    @RequestMapping("/cam_achieve/getPayRollCompList.do")
+    public String getPayRollCompList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", achieveService.getPayRollCompList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getDeptPayrollCompDutyList")
+    public String getDeptPayrollCompDutyList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = achieveService.getDeptPayRollCompList(params);
+        List<Map<String, Object>> list2 = achieveService.getDeptPayrollCompDutyList(params);
+        model.addAttribute("list", list);
+        model.addAttribute("dutyList", list2);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/retirementPension.do")
+    public String retirementPension(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        params.put("deptLevel", "2");
+        List<Map<String, Object>> list = deptService.getDeptBList(params);
+
+        model.addAttribute("list", list);
+
+        return "cam_achieve/retirementPension";
+    }
 }

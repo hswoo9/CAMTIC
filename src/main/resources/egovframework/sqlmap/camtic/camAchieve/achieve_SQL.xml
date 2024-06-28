@@ -1108,4 +1108,102 @@
         WHERE
             BASE_YEAR = #{baseYear}
     </update>
+
+    <select id="getPayRollCompList" parameterType="map" resultType="map">
+        /*getPayRollCompList*/
+        SELECT
+            A.*,
+            B.DUTY_CODE,
+            IF(C.DEPT_LEVEL = 1, C.DEPT_NAME, D.DEPT_NAME) AS DEPT_NAME,
+            C.DEPT_NAME AS DEPT_TEAM_NAME
+        FROM
+            CAM_INSIDE.DJ_PAY_ROLL_COMP A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO C ON C.DEPT_SEQ = B.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO D ON D.DEPT_SEQ = C.PARENT_DEPT_SEQ
+        WHERE
+            A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+        AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+        <choose>
+            <when test='"empName".equals(searchKeyWord)'>
+                AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='"deptName".equals(searchKeyWord)'>
+                AND (
+                B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </when>
+            <otherwise>
+                AND (
+                A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY BASE_YEAR_MONTH, D.ORDER_SN, C.ORDER_SN
+    </select>
+
+    <select id="getDeptPayRollCompList" parameterType="map" resultType="map">
+        /*getDeptPayRollCompList*/
+        SELECT
+            BASE_YEAR_MONTH,
+            PRAENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
+            SUM(C_TOT_PAY) AS C_TOT_PAY,
+            SUM(RETIRE_PAY) AS RETIRE_PAY
+        FROM
+            (
+                SELECT
+                    A.*,
+                    C.DEPT_SEQ,
+                    IF(
+                        C.DEPT_LEVEL = 1,
+                        C.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
+                    ) AS PRAENT_DEPT_SEQ
+                FROM CAM_INSIDE.DJ_PAY_ROLL_COMP A
+                         LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+                         LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+            ) B
+        GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
+    </select>
+
+    <select id="getDeptPayrollCompDutyList" parameterType="map" resultType="map">
+        /*getDeptPayrollCompDutyList*/
+        SELECT
+            PRAENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.PRAENT_DEPT_SEQ) AS PARENT_DEPT_NAME,
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS DEPT_NAME,
+            SUM(C_TOT_PAY) AS C_TOT_PAY,
+            SUM(RETIRE_PAY) AS RETIRE_PAY,
+            DUTY_TYPE,
+            DUTY_NAME
+        FROM
+            (
+                SELECT
+                    A.*,
+                    C.DEPT_SEQ,
+                    B.DUTY_NAME,
+                    IF(B.DUTY_CODE != '', 'MNG', 'USER') AS DUTY_TYPE,
+                    IF(
+                        C.DEPT_LEVEL = 1,
+                        C.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = C.DEPT_SEQ)
+                    ) AS PRAENT_DEPT_SEQ
+                FROM CAM_INSIDE.DJ_PAY_ROLL_COMP A
+                LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
+                LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+            ) B
+        GROUP BY DEPT_SEQ, DUTY_TYPE
+    </select>
 </mapper>
