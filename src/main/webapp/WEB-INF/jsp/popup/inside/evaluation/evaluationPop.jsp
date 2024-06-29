@@ -333,6 +333,24 @@
     }
 
     function saveData(key){
+        var flag = true;
+        var evalBodyArr = [];
+        var evalLen = $("#evalList").find("tr").length;
+        for(var i = 0 ; i < evalLen ; i++) {
+            evalBodyArr.push({
+                evalItemId: $("#evalItemId" + i).val(),
+                evalScore: $("#evalScore" + i).val()
+            });
+
+            if($("#evalScore" + i).val() == "0"){
+                flag = false;
+                break;
+            }
+        }
+        if(!flag){
+            alert("모든 평가 항목에 점수를 작성해야 저장이 가능합니다."); return;
+        }
+
         if(key == "10"){
             if(!confirm("제출 후 수정이 불가능 합니다. 제출하시겠습니까?")){
                 return;
@@ -352,16 +370,6 @@
             parameters.evalCk = "Y";
         }else{
             parameters.evalCk = "W";
-        }
-
-        var evalBodyArr = [];
-        var evalLen = $("#evalList").find("tr").length;
-
-        for(var i = 0 ; i < evalLen ; i++) {
-            evalBodyArr.push({
-                evalItemId: $("#evalItemId" + i).val(),
-                evalScore: $("#evalScore" + i).val()
-            });
         }
 
         parameters.evalBodyArr = JSON.stringify(evalBodyArr);
