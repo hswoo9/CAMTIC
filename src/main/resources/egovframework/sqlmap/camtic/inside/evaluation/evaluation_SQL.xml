@@ -653,16 +653,30 @@
             C.PARENT_DEPT_SEQ,
         IFNULL((SELECT SUM(EVAL_SCORE + EVAL_F_SCORE + EVAL_S_SCORE) FROM CAM_INSIDE.dj_evaluation_mem WHERE EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = B.EMP_SEQ), 0)AS EVAL_TOTAL_SCORE,
         CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE B.DEPT_NAME END AS deptNm,
-        CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END AS teamNm
+        CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END AS teamNm,
+        D.DEPT_MANAGER_A,
+        D.TEAM_MANAGER_A,
+        D.TEAM_MEMBER_A,
+        D.DEPT_MANAGER_B,
+        D.TEAM_MANAGER_B,
+        D.TEAM_MEMBER_B
         FROM
             CAM_INSIDE.dj_evaluation_mem A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B ON A.EVAL_EMP_SEQ = B.EMP_SEQ
         LEFT JOIN
             CAM_HR.dj_dept_info C ON B.DEPT_SEQ = C.DEPT_SEQ
-
+        LEFT JOIN
+            CAM_INSIDE.DJ_EVALUATION_CAP D ON A.EVAL_SN = D.EVAL_SN
         WHERE
-            EVAL_SN = #{evalSn}
+        <choose>
+            <when test='listCk != null and listCk != ""'>
+                A.EVAL_SN = (SELECT EVAL_SN FROM CAM_INSIDE.DJ_EVALUATION WHERE BS_YEAR = #{searchDate} AND EVAL_NUM = #{evalNum} AND ACTIVE = 'Y' LIMIT 1)
+            </when>
+            <otherwise>
+                A.EVAL_SN = #{evalSn}
+            </otherwise>
+        </choose>
         <if test='dept != null and dept != ""'>
             AND C.PARENT_DEPT_SEQ = #{dept}
         </if>
@@ -674,6 +688,9 @@
         </if>
         <if test='duty != null and duty != ""'>
             AND DUTY_CODE = #{duty}
+        </if>
+        <if test='empSeq != null and empSeq != ""'>
+            AND A.EVAL_EMP_SEQ = #{empSeq}
         </if>
     </select>
 

@@ -107,42 +107,42 @@
                         <col width="37%">
                     </colgroup>
                     <thead>
-                    <tr>
+                    <tr class="interviewTopicTr1">
                         <th id="interview_topic1" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr1">
                         <td id="interview_content1" colspan="4">
                             <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"></span>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr2">
                         <th id="interview_topic2" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr2">
                         <td id="interview_content2" colspan="4">
                             <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"></span>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr3">
                         <th id="interview_topic3" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr3">
                         <td id="interview_content3" colspan="4">
                             <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"></span>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr4">
                         <th id="interview_topic4" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr4">
                         <td id="interview_content4" colspan="4">
                             <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"></span>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr5">
                         <th id="interview_topic5" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;"></th>
                     </tr>
-                    <tr>
+                    <tr class="interviewTopicTr5">
                         <td id="interview_content5" colspan="4">
                             <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"></span>
                         </td>
@@ -183,11 +183,31 @@
                 console.log(response); // 예시로 응답 데이터를 콘솔에 출력
 
                 if (response.list && response.list.length > 0) {
-                    $("#interview_topic1").text(response.list[0].interview_topic1);
-                    $("#interview_topic2").text(response.list[0].interview_topic2);
-                    $("#interview_topic3").text(response.list[0].interview_topic3);
-                    $("#interview_topic4").text(response.list[0].interview_topic4);
-                    $("#interview_topic5").text(response.list[0].interview_topic5);
+                    if(response.list[0].interview_topic1 != null && response.list[0].interview_topic1 != ""){
+                        $("#interview_topic1").text(response.list[0].interview_topic1);
+                    }else{
+                        $(".interviewTopicTr1").hide();
+                    }
+                    if(response.list[0].interview_topic2 != null && response.list[0].interview_topic2 != ""){
+                        $("#interview_topic2").text(response.list[0].interview_topic2);
+                    }else{
+                        $(".interviewTopicTr2").hide();
+                    }
+                    if(response.list[0].interview_topic3 != null && response.list[0].interview_topic3 != ""){
+                        $("#interview_topic3").text(response.list[0].interview_topic3);
+                    }else{
+                        $(".interviewTopicTr3").hide();
+                    }
+                    if(response.list[0].interview_topic4 != null && response.list[0].interview_topic4 != ""){
+                        $("#interview_topic4").text(response.list[0].interview_topic4);
+                    }else{
+                        $(".interviewTopicTr4").hide();
+                    }
+                    if(response.list[0].interview_topic5 != null && response.list[0].interview_topic5 != ""){
+                        $("#interview_topic5").text(response.list[0].interview_topic5);
+                    }else{
+                        $(".interviewTopicTr5").hide();
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

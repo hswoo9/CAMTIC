@@ -3,7 +3,9 @@ var now = new Date();
 var evaluationResultList = {
     global : {
         searchAjaxData : "",
-        dropDownDataSource : ""
+        dropDownDataSource : "",
+        evalData : null,
+        scoreList : new Array()
     },
 
     init: function(){
@@ -78,7 +80,7 @@ var evaluationResultList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/evaluation/getEvalResultList',
+                    url : "/evaluation/getEvalResultEmpList",
                     type : "post"
                 },
                 parameterMap: function(data) {
@@ -88,14 +90,22 @@ var evaluationResultList = {
                     data.team = $("#team").val();
                     data.position = $("#position").val();
                     data.duty = $("#duty").val();
-                    if($("#regDutyName").val() == ""){
+                    if($("#regDutyName").val() == "" && $("#regEmpSeq").val() != "1"){
                         data.empSeq = $("#empSeq").val();
                     }
+                    data.listCk = "Y";
                     return data;
                 }
             },
             schema : {
                 data: function (data) {
+                    if(data.list.length > 0){
+                        evaluationResultList.global.evalData = data.data;
+                        evaluationResultList.global.scoreList = customKendo.fn_customAjax("/evaluation/getEvaluation", {
+                            evalSn: data.list[0].EVAL_SN
+                        }).scList;
+                    }
+
                     return data.list;
                 },
                 total: function (data) {
@@ -152,34 +162,125 @@ var evaluationResultList = {
                     title: "최종점수",
                     width: "10%",
                     template: function (e) {
-                        var scoreF;
-                        var scoreS;
+                        let aDeptPer = Number(e.DEPT_MANAGER_A);
+                        let bDeptPer = Number(e.DEPT_MANAGER_B);
+                        let aTeamPer = Number(e.TEAM_MANAGER_A);
+                        let bTeamPer = Number(e.TEAM_MANAGER_B);
+                        let aMemPer = Number(e.TEAM_MEMBER_A);
+                        let bMemPer = Number(e.TEAM_MEMBER_B);
+
+                        if(e.EVAL_EVAL_F_SEQ == "undefined" || e.EVAL_EVAL_F_SEQ == ""){
+                            aDeptPer = 0;
+                            bDeptPer = 100;
+                            aTeamPer = 0;
+                            bTeamPer = 100;
+                            aMemPer = 0;
+                            bMemPer = 100;
+                        }else if(e.EVAL_EVAL_S_SEQ == "undefined" || e.EVAL_EVAL_S_SEQ == ""){
+                            aDeptPer = 100;
+                            bDeptPer = 0;
+                            aTeamPer = 100;
+                            bTeamPer = 0;
+                            aMemPer = 100;
+                            bMemPer = 0;
+                        }else if(e.EVAL_EVAL_F_SEQ == e.EVAL_EVAL_S_SEQ){
+                            aDeptPer = 0;
+                            bDeptPer = 100;
+                            aTeamPer = 0;
+                            bTeamPer = 100;
+                            aMemPer = 0;
+                            bMemPer = 100;
+                        }
+
+                        let scoreF = 0;
+                        let scoreS = 0;
+                        let scoreTot = 0;
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreF = (parseFloat(e.DEPT_MANAGER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreF = (parseFloat(e.TEAM_MANAGER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
                         }else{
-                            scoreF = (parseFloat(e.TEAM_MEMBER_A / 100 * e.EVAL_F_SCORE)).toFixed(1);
+                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
                         }
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreS =  (parseFloat(e.DEPT_MANAGER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreS = (parseFloat(e.TEAM_MANAGER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
                         }else{
-                            scoreS = (parseFloat(e.TEAM_MEMBER_B / 100 * e.EVAL_S_SCORE)).toFixed(1);
+                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
                         }
 
-                        var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
+                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
 
-                        return parseFloat(totalScore) + parseFloat(e.EVAL_SCORE_MNG);
+                        return scoreTot;
                     }
                 },{
                     title: "최종등급",
                     width: "10%",
                     template: function (e) {
-                        return "S";
+
+                        let aDeptPer = Number(e.DEPT_MANAGER_A);
+                        let bDeptPer = Number(e.DEPT_MANAGER_B);
+                        let aTeamPer = Number(e.TEAM_MANAGER_A);
+                        let bTeamPer = Number(e.TEAM_MANAGER_B);
+                        let aMemPer = Number(e.TEAM_MEMBER_A);
+                        let bMemPer = Number(e.TEAM_MEMBER_B);
+
+                        if(e.EVAL_EVAL_F_SEQ == "undefined" || e.EVAL_EVAL_F_SEQ == ""){
+                            aDeptPer = 0;
+                            bDeptPer = 100;
+                            aTeamPer = 0;
+                            bTeamPer = 100;
+                            aMemPer = 0;
+                            bMemPer = 100;
+                        }else if(e.EVAL_EVAL_S_SEQ == "undefined" || e.EVAL_EVAL_S_SEQ == ""){
+                            aDeptPer = 100;
+                            bDeptPer = 0;
+                            aTeamPer = 100;
+                            bTeamPer = 0;
+                            aMemPer = 100;
+                            bMemPer = 0;
+                        }else if(e.EVAL_EVAL_F_SEQ == e.EVAL_EVAL_S_SEQ){
+                            aDeptPer = 0;
+                            bDeptPer = 100;
+                            aTeamPer = 0;
+                            bTeamPer = 100;
+                            aMemPer = 0;
+                            bMemPer = 100;
+                        }
+
+                        let scoreF = 0;
+                        let scoreS = 0;
+                        let scoreTot = 0;
+
+                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
+                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
+                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                        }else{
+                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                        }
+
+                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
+                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
+                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
+                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
+                        }else{
+                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
+                        }
+
+                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
+
+                        let resGrade = "-";
+                        for (let j = 0; j < evaluationResultList.global.scoreList.length; j++) {
+                            const scItem = evaluationResultList.global.scoreList[j];
+                            if(Number(scItem.EVAL_SCORE_B) >= Number(scoreTot) && Number(scoreTot) >= Number(scItem.EVAL_SCORE_A)){
+                                resGrade = scItem.EVAL_GRADE;
+                            }
+                        }
+                        return resGrade;
                     }
                 }, {
                     title: "1차 평가의견",
