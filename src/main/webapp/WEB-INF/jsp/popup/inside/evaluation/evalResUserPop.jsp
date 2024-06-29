@@ -16,8 +16,7 @@
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">역량평가 결과</h3>
-            <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="saveMngScore()">평가점수 조정</button>
+            <div class="btn-st popButton"
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>

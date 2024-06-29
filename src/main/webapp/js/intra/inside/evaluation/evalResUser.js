@@ -6,20 +6,103 @@ var evalResUser = {
         };
         const result = customKendo.fn_customAjax("/evaluation/getEvaluation", data);
         const evalMap = result.data;
+        console.log("evalMap : ", evalMap);
 
         const yearText = evalMap.BS_YEAR+"년 역량평가표 ("+evalMap.EVAL_NUM+"차)";
         $("#yearTd").text(yearText);
 
         const result2 = customKendo.fn_customAjax("/evaluation/getEvalMemDet", data);
         const evalMem = result2.data;
-
         console.log("evalMem : ", evalMem);
 
+        const evalResInfo = customKendo.fn_customAjax("/evaluation/getEvalResultEmpList", data);
+        const evalResList = evalResInfo.list;
+        console.log("evalResList : ", evalResList);
+
         const userInfo = getUser(evalMem.EVAL_EMP_SEQ);
+        console.log("userInfo : ", userInfo);
+
+        const dutyCode = userInfo.DUTY_CODE;
+        const empName = userInfo.EMP_NAME_KR;
+
         $("#targetDept").text(userInfo.DEPT_NAME);
-        $("#targetEmpName").text(userInfo.EMP_NAME_KR);
+        $("#targetEmpName").text(empName);
         $("#targetSpot").text(fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
         $("#targetJob").text(userInfo.JOB_DETAIL);
+
+        let aDeptPer = evalMap.DEPT_MANAGER_A;
+        let bDeptPer = evalMap.DEPT_MANAGER_B;
+        let aTeamPer = evalMap.TEAM_MANAGER_A;
+        let bTeamPer = evalMap.TEAM_MANAGER_B;
+        let aMemPer = evalMap.TEAM_MEMBER_A;
+        let bMemPer = evalMap.TEAM_MEMBER_B;
+
+        if(evalMem.EVAL_EVAL_F_SEQ == "undefined" || evalMem.EVAL_EVAL_F_SEQ == ""){
+            console.log(empName+"님은 1차평가자가 없습니다.");
+            aDeptPer = 0;
+            bDeptPer = 100;
+            aTeamPer = 0;
+            bTeamPer = 100;
+            aMemPer = 0;
+            bMemPer = 100;
+        }else if(evalMem.EVAL_EVAL_S_SEQ == "undefined" || evalMem.EVAL_EVAL_S_SEQ == ""){
+            console.log(empName+"님은 2차평가자가 없습니다.");
+            aDeptPer = 100;
+            bDeptPer = 0;
+            aTeamPer = 100;
+            bTeamPer = 0;
+            aMemPer = 100;
+            bMemPer = 0;
+        }else if(evalMem.EVAL_EVAL_F_SEQ == evalMem.EVAL_EVAL_S_SEQ){
+            console.log(empName+"님은 1차평가자와 2차평가자가 같습니다.");
+            aDeptPer = 0;
+            bDeptPer = 100;
+            aTeamPer = 0;
+            bTeamPer = 100;
+            aMemPer = 0;
+            bMemPer = 100;
+        }
+
+        let scoreF = 0;
+        let scoreS = 0;
+        let scoreTot = 0;
+
+        if(dutyCode == "2" || dutyCode == "3" || dutyCode == "7"){
+            scoreF = (parseFloat(aDeptPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            $("#td1-6").text(aDeptPer+" %");
+            $("#td1-7").text(scoreF);
+        }else if(dutyCode == "4" || dutyCode == "5"){
+            scoreF = (parseFloat(aTeamPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            $("#td1-6").text(aTeamPer+" %");
+            $("#td1-7").text(scoreF);
+        }else{
+            scoreF = (parseFloat(aMemPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            $("#td1-6").text(aMemPer+" %");
+            $("#td1-7").text(scoreF);
+        }
+
+        if(dutyCode == "2" || dutyCode == "3" || dutyCode == "7"){
+            scoreS = (parseFloat(bDeptPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            $("#td2-6").text(bDeptPer+" %");
+            $("#td2-7").text(scoreS);
+        }else if(dutyCode == "4" || dutyCode == "5"){
+            scoreS = (parseFloat(bTeamPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            $("#td2-6").text(bTeamPer+" %");
+            $("#td2-7").text(scoreS);
+        }else{
+            scoreS = (parseFloat(bMemPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            $("#td2-6").text(bMemPer+" %");
+            $("#td2-7").text(scoreS);
+        }
+
+        for(let i=0; i<evalResList.length; i++){
+            const map = evalResList[i];
+            if(map.EMP_SEQ == evalMem.EVAL_EMP_SEQ){
+                scoreTot = (Number(scoreF) + Number(scoreS) + Number(map.EVAL_SCORE_MNG)).toFixed(1);
+            }
+        }
+
+
 
         if(evalMem.EVAL_EVAL_F_SEQ != null && evalMem.EVAL_EVAL_F_SEQ != "" && evalMem.EVAL_EVAL_F_SEQ != "undefined"){
             const subUser = getUser(evalMem.EVAL_EVAL_F_SEQ);
@@ -28,9 +111,7 @@ var evalResUser = {
             $("#td1-3").text(fn_getSpot(subUser.DUTY_NAME, subUser.POSITION_NAME));
             $("#td1-4").text(subUser.EMP_NAME_KR);
             $("#td1-5").text(evalMem.EVAL_F_SCORE);
-            $("#td1-6").text("-");
-            $("#td1-7").text("-");
-            $("#td1-8").text("-");
+            $("#td1-8").text(scoreTot);
         }else{
             $("#tr1").hide();
         }
@@ -42,9 +123,7 @@ var evalResUser = {
             $("#td2-3").text(fn_getSpot(subUser2.DUTY_NAME, subUser2.POSITION_NAME));
             $("#td2-4").text(subUser2.EMP_NAME_KR);
             $("#td2-5").text(evalMem.EVAL_S_SCORE);
-            $("#td2-6").text("-");
-            $("#td2-7").text("-");
-            $("#td2-8").text("-");
+            $("#td2-8").text(scoreTot);
         }else{
             $("#tr2").hide();
         }
@@ -92,6 +171,7 @@ var evalResUser = {
         const result3 = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
             evalSn : $("#evalSn").val(),
             empSeq : evalMem.EVAL_EMP_SEQ,
+            evalEmpSeq : evalMem.EVAL_EMP_SEQ,
             eType : evalType,
             pType : evalPositionType,
             rType : "eval"
@@ -99,6 +179,7 @@ var evalResUser = {
         const result4 = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
             evalSn : $("#evalSn").val(),
             empSeq : evalMem.EVAL_EMP_SEQ,
+            evalEmpSeq : evalMem.EVAL_EVAL_F_SEQ,
             eType : evalType,
             pType : evalPositionType,
             rType : "evalF"
@@ -106,6 +187,7 @@ var evalResUser = {
         const result5 = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
             evalSn : $("#evalSn").val(),
             empSeq : evalMem.EVAL_EMP_SEQ,
+            evalEmpSeq : evalMem.EVAL_EVAL_S_SEQ,
             eType : evalType,
             pType : evalPositionType,
             rType : "evalS"

@@ -146,6 +146,7 @@
 
         for(var i = 0 ; i < list.length ; i++) {
             const map = list[i];
+            console.log("map", map);
             var scoreF;
             var scoreS;
 
@@ -153,7 +154,7 @@
             html += '   <td><input type="checkbox" id="check' + i + '" value="'+ map.EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
             html += '   <td>' + map.deptNm + '</td>';
             html += '   <td>' + map.teamNm + '</td>';
-            html += '   <td><div onclick="evalResUserPop('+ map.EVAL_MEM_SN+');">' + map.EMP_NAME_KR + '</div></td>';
+            html += '   <td><div style="cursor: pointer" onclick="evalResUserPop('+ map.EVAL_MEM_SN+');">' + map.EMP_NAME_KR + '</div></td>';
             html += '   <td style="text-align: center; background-color: #EFEFEF">' + map.EVAL_SCORE + '</td>';
             html += '   <td style="text-align: center">' + map.EVAL_F_SCORE + '</td>';
 
@@ -238,12 +239,16 @@
 
             let grade = "-";
             let resGrade = "-";
-            for (let i = 0; i < scoreList.length; i++) {
-                const scItem = scoreList[i];
-                console.log("scItem", scItem);
+            for (let j = 0; j < scoreList.length; j++) {
+                const scItem = scoreList[j];
 
-                if(scItem.EVAL_SCORE_B >= totalScore && totalScore >= scItem.EVAL_SCORE_A){
+                if(Number(scItem.EVAL_SCORE_B) >= Number(totalScore) && Number(totalScore) >= Number(scItem.EVAL_SCORE_A)){
                     grade = scItem.EVAL_GRADE;
+                }
+
+                if(map.EMP_SEQ == "1160"){
+                    console.log("scItem", scItem);
+                    console.log("totalScore", totalScore);
                 }
             }
 
@@ -251,11 +256,10 @@
             html += '   <td style="text-align: center; background-color: #EFEFEF; padding-left:5px; padding-right:5px"><input type="text" class="k-input" id="scoreMng'+i+'" value="'+ map.EVAL_SCORE_MNG +'" style="width: 95%;"></td>';
             html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) +'</td>';
 
-            for (let i = 0; i < scoreList.length; i++) {
-                const scItem = scoreList[i];
-                console.log("scItem", scItem);
+            for (let j = 0; j < scoreList.length; j++) {
+                const scItem = scoreList[j];
 
-                if(scItem.EVAL_SCORE_B >= (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) && (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) >= scItem.EVAL_SCORE_A){
+                if(Number(scItem.EVAL_SCORE_B) >= Number(parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) && Number(parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) >= Number(scItem.EVAL_SCORE_A)){
                     resGrade = scItem.EVAL_GRADE;
                 }
             }

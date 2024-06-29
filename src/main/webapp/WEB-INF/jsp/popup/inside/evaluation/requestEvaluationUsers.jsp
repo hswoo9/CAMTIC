@@ -176,9 +176,9 @@
                         }
 
                         let returnName = "";
-                        if(checkEmpSeq && t1NameValue != null && t1NameValue != "undefined") {
+                        if(checkEmpSeq && t1NameValue != null && t1NameValue != "undefined"){
                             returnName = t1NameValue;
-                        } else if(e.T1 != null && e.T1 != "undefined") {
+                        }else if(e.T1 != null && e.T1 != "undefined"){
                             returnName = e.T1;
                         }else{
                             returnName = "";
