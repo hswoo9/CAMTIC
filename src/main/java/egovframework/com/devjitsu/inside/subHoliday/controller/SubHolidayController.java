@@ -262,6 +262,12 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/getHolidayWorkDuplList")
+    public String getHolidayWorkDuplList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", subHolidayService.getHolidayWorkDuplList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/subHoliday/getVacUseHistoryWorkList")
     public String getVacUseHistoryWorkList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", subHolidayService.getVacUseHistoryWorkList(params));

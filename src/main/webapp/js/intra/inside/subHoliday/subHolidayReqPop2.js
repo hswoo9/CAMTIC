@@ -6,6 +6,7 @@ const subHolidayReqPop2 = {
         holidayWorkData: new Object()
     },
 
+
     fn_defaultScript : function(){
         this.pageSet();
         this.dataSet();
@@ -234,15 +235,27 @@ const subHolidayReqPop2 = {
         let flag = true;
         let workDayCk = false;
 
+        const reqArr = [];
         for(let i=0; i<$(".addData").length; i++){
             if($("#edtHolidayWorkDay_"+i).val() == ""){
                 continue;
             }else{
+                reqArr.push($("#edtHolidayWorkDay_"+i).val());
                 workDayCk = true;
             }
 
             if($("#edtHolidayAlternativeDate_"+i).val() == ""){
                 alert($("#edtHolidayWorkDay_"+i).val()+" 해당 일자에 대채휴가일자가 작정되지 않았습니다");
+                flag = false;
+                break;
+            }
+
+            const duplList = customKendo.fn_customAjax("/subHoliday/getHolidayWorkDuplList", {
+                applyDate: $("#edtHolidayWorkDay_"+i).val(),
+                regEmpSeq: $("#empSeq").val()
+            }).list;
+            if(duplList.length > 0){
+                alert("해당 기간에 이미 신청한 근로일자가 있습니다.");
                 flag = false;
                 break;
             }
@@ -252,6 +265,16 @@ const subHolidayReqPop2 = {
             alert("근로일자가 선택되지 않았습니다.");
             flag = false;
         }
+
+        const set = new Set(reqArr);
+        console.log("reqArr", reqArr);
+        console.log("set", set);
+        if(reqArr.length != set.size){
+            alert("신청한 근로일자 중 동일한 날짜가 있습니다.");
+            flag = false;
+        }
+
+
 
         return flag;
     },

@@ -52,7 +52,7 @@ var employeeList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/Inside/employeeInterviewCard.do',
+                    url : '/Inside/getInterviewCardList',
                     type : "post"
                 },
                 parameterMap: function(data) {
@@ -120,39 +120,34 @@ var employeeList = {
             /*dataBound: ,*/
             columns: [
                 {
-                    field: "row_num",
                     title: "순번",
-                    width: "5%"
-                },
-                {
-                    field:"dept_name",
-                    title:"부서명",
-                    width:"15%",
-                    template:function(e){
-                        return '<input type="hidden" id="' + e.EMP_SEQ + '_dept_seq">' + e.dept_name;
+                    width: "5%",
+                    template: "#= --record #"
+                }, {
+                    title: "부서명",
+                    width: "15%",
+                    template: function(e){
+                        return '<input type="hidden" id="' + e.DEPT_SEQ + '_dept_seq">' + e.DEPT_NAME;
                     }
-                    },
-                {
-                    field:"dept_team_name",
-                    title:"팀명",
-                    width:"15%",
-                    template:function(e){
-                        return '<input type="hidden" id="' + e.EMP_SEQ + '_team_seq">' + e.dept_team_name;
+                }, {
+                    title: "팀명",
+                    width: "15%",
+                    template: function(e){
+                        return '<input type="hidden" id="' + e.TEAM_SEQ + '_team_seq">' + e.TEAM_NAME;
                     }
-                    },
-                {
-                    field: "emp_name_kr",
+                }, {
+                    field: "EMP_NAME_KR",
                     title: "피면담자",
                     template: function (e) {
-                        return "<a href='#' onclick='employeeList.contentDetailPop(" + e.card_number + ");' style='color: blue; cursor: pointer;'>" + e.emp_name_kr + "</a>";
+                        return "<a href='#' onclick='employeeList.contentDetailPop(" + e.CARD_NUMBER + ");' style='color: blue; cursor: pointer;'>" + e.EMP_NAME_KR + "</a>";
                     },
                     width: "10%"
                 }, {
-                    field: "card_interview_date",
+                    field: "CARD_INTERVIEW_DATE",
                     title: "면담일자",
                     width: "20%",
                     template: function (dataItem) {
-                        var unixTime = dataItem.card_interview_date; // Unix 시간 데이터
+                        var unixTime = dataItem.CARD_INTERVIEW_DATE; // Unix 시간 데이터
                         var date = new Date(unixTime);
 
                         var formattedDate = date.getFullYear() + '-' +
@@ -161,23 +156,23 @@ var employeeList = {
 
                         return formattedDate;
                     }
-                },{
-                    field: "sTime",
+                }, {
+                    field: "STIME",
                     title: "시작시간",
                     width: "10%"
                 }, {
-                    field: "eTime",
+                    field: "ETIME",
                     title: "종료시간",
                     width: "10%"
-                },{
-                    field: "card_interviewer",
+                }, {
+                    field: "CARD_INTERVIEWER",
                     title: "면담자",
                     width: "10%"
-                }, /*{
-                    field: "card_status",
-                    title: "상태",
-                    width: "5%"
-                }*/]
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -246,7 +241,7 @@ var employeeList = {
         // }
 
         // 데이터가 잘 설정되었는지 확인하기 위해 mainGrid 함수 호출
-        employeeList.mainGrid('/Inside/employeeInterviewCard.do', employeeList.global.searchAjaxData);
+        employeeList.mainGrid('/Inside/getInterviewCardList', employeeList.global.searchAjaxData);
     }
 
 

@@ -30,6 +30,7 @@ public class SubHolidayRepository extends AbstractDAO  {
     public Map<String, Object> getVacUseHistoryOne(Map<String, Object> params){ return (Map<String, Object>)selectOne("subHoliday.getVacUseHistoryOne", params);}
     public Map<String, Object> getHolidayWorkMasterOne(Map<String, Object> params){ return (Map<String, Object>)selectOne("subHoliday.getHolidayWorkMasterOne", params);}
     public List<Map<String, Object>> getHolidayWorkHistOne(Map<String, Object> params){ return selectList("subHoliday.getHolidayWorkHistOne", params);}
+    public List<Map<String, Object>> getHolidayWorkDuplList(Map<String, Object> params){ return selectList("subHoliday.getHolidayWorkDuplList", params);}
     public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryWorkList", params);}
     public int getVacUseHistoryListTotal(Map<String, Object> params) {return (int) selectOne("subHoliday.getVacUseHistoryListTotal", params);}
     public List<Map<String, Object>> getUserVacList(Map<String, Object> params) { return selectList("subHoliday.getUserVacList", params);}

@@ -363,7 +363,7 @@ var evaluationResultList = {
         // }
 
         // 데이터가 잘 설정되었는지 확인하기 위해 mainGrid 함수 호출
-        evaluationResultList.mainGrid('/Inside/employeeInterviewCard.do', evaluationResultList.global.searchAjaxData);
+        evaluationResultList.mainGrid('/Inside/getInterviewCardList', evaluationResultList.global.searchAjaxData);
     }
 
 

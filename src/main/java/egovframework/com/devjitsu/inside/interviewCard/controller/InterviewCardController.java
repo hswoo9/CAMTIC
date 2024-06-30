@@ -53,7 +53,7 @@ public class InterviewCardController {
         return "jsonView";
     }
 
-    @RequestMapping(value = "/Inside/employeeInterviewCard.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/Inside/getInterviewCardList", method = RequestMethod.POST)
     public String getInterviewCardList(@RequestParam Map<String,Object> params, Model model) {
         List<Map<String, Object>> list = interviewCardService.getInterviewCardList(params);
         System.out.println("====컨트롤러 탔다 ====");

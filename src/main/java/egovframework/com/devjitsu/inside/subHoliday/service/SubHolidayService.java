@@ -51,6 +51,7 @@ public interface SubHolidayService {
     Map<String, Object> getVacUseHistoryOne(Map<String, Object> params);
     Map<String, Object> getHolidayWorkMasterOne(Map<String, Object> params);
     List<Map<String, Object>> getHolidayWorkHistOne(Map<String, Object> params);
+    List<Map<String, Object>> getHolidayWorkDuplList(Map<String, Object> params);
 
     List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params);
 

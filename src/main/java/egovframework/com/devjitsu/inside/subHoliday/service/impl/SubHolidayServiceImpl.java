@@ -146,6 +146,11 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     }
 
     @Override
+    public List<Map<String, Object>> getHolidayWorkDuplList(Map<String, Object> params) {
+        return subHolidayRepository.getHolidayWorkDuplList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params) {
         return subHolidayRepository.getVacUseHistoryWorkList(params);
     }

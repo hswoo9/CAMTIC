@@ -63,56 +63,57 @@
 
 <!--    리스트(조회)-->
     <select id="getInterviewCardList" parameterType="map" resultType="map">
-        select
-        row_number() OVER (ORDER BY card_number ASC) AS row_num,
-        DATE_FORMAT(deic.card_interview_date,'%Y-%m-%d') as card_interview_date,
-        deic.EMP_SEQ,
-        deic.card_interviewer,
-        deic.sTime,
-        deic.eTime,
-        deic.card_number,
-        deic.card_superior_person,
-        deic.card_superior_person2,
-        deic.card_status,
-        car.dept_name,
-        car.dept_team_name,
-        car.emp_name_kr,
-        car.dept_seq,
-        car.team_seq
-        from (
-        select
-        CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_SEQ END AS dept_seq,
-        CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_NAME END AS dept_name,
-        CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_SEQ ELSE "" END AS team_seq,
---         CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_NAME ELSE "" END AS dept_team_name,
-        a.emp_seq,
-        a.dept_team_name,
-        a.emp_name_kr
-        from cam_hr.dj_emp_info as a
-        join cam_hr.dj_dept_info ddi
-        on a.DEPT_SEQ = ddi.dept_seq
-        )as car
-        join cam_inside.dj_employee_interview_card deic
-        on car.emp_seq = deic.EMP_SEQ
-        where 1=1
+        /*getInterviewCardList*/
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY CARD_NUMBER ASC) AS ROW_NUM,
+            DATE_FORMAT(DEIC.CARD_INTERVIEW_DATE,'%Y-%m-%d') AS CARD_INTERVIEW_DATE,
+            DEIC.EMP_SEQ,
+            DEIC.CARD_INTERVIEWER,
+            DEIC.STIME,
+            DEIC.ETIME,
+            DEIC.CARD_NUMBER,
+            DEIC.CARD_SUPERIOR_PERSON,
+            DEIC.CARD_SUPERIOR_PERSON2,
+            DEIC.CARD_STATUS,
+            CAR.DEPT_NAME,
+            CAR.TEAM_NAME,
+            CAR.EMP_NAME_KR,
+            CAR.DEPT_SEQ,
+            CAR.TEAM_SEQ
+        FROM (
+            SELECT
+                CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE A.DEPT_NAME END AS DEPT_NAME,
+                CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE A.DEPT_SEQ END AS DEPT_SEQ,
+                CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE '' END AS TEAM_NAME,
+                CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE '' END AS TEAM_SEQ,
+                A.EMP_SEQ,
+                A.EMP_NAME_KR
+            FROM CAM_HR.DJ_EMP_INFO AS A
+            JOIN CAM_HR.DJ_DEPT_INFO DDI ON A.DEPT_SEQ = DDI.DEPT_SEQ
+        ) AS CAR
+        JOIN CAM_INSIDE.DJ_EMPLOYEE_INTERVIEW_CARD DEIC
+        ON CAR.EMP_SEQ = DEIC.EMP_SEQ
+        WHERE
+            1=1
         <!-- searchDate 조건 -->
         <if test='searchDate != null and !"".equals(searchDate)'>
-            AND YEAR(deic.card_interview_date) = YEAR(STR_TO_DATE(#{searchDate}, '%Y'))
+            AND
+                YEAR(DEIC.CARD_INTERVIEW_DATE) = YEAR(STR_TO_DATE(#{searchDate}, '%Y'))
         </if>
         <!-- dept 조건 -->
         <if test='dept != null and !"".equals(dept)'>
             AND
-            car.dept_seq = #{dept}
+                CAR.DEPT_SEQ = #{dept}
         </if>
         <!-- team 조건 -->
         <if test='team != null and !"".equals(team)'>
             AND
-            car.team_seq = #{team}
+                CAR.TEAM_SEQ = #{team}
         </if>
         <!-- searchText 조건 -->
         <if test='searchText != null and !"1".equals(searchText)'>
             AND
-            car.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
+                CAR.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
         </if>
     </select>
 

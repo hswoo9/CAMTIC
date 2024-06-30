@@ -11,7 +11,7 @@ public class MessageRepository extends AbstractDAO {
     public List<Map<String, Object>> getMenuList(Map<String, Object> params) { return selectList("message.getMenuList", params); }
     public List<Map<String, Object>> getMenuListUser(Map<String, Object> params) { return selectList("message.getMenuListUser", params); }
     public List<Map<String, Object>> getMessageHistList(Map<String, Object> params) {
-        return selectListPrjMs("messageSend.getMessageHistList", params);
+        return selectListPrjMs("messagePrj.getMessageHistList", params);
     }
     public List<Map<String, Object>> getMailHistList(Map<String, Object> params) {
         return selectList("message.getMailHistList", params);
@@ -24,10 +24,10 @@ public class MessageRepository extends AbstractDAO {
     }
 
 
-    public List<Map<String, Object>> test(Map<String, Object> params) { return selectList("messageSend.test", params); }
+    public List<Map<String, Object>> test(Map<String, Object> params) { return selectListPrjMs("messagePrj.test", params); }
 
-    public void msgSendSMS(Map<String, Object> params) { insertPrjMs("messageSend.msgSendSMS", params); }
-    public void msgSendMMS(Map<String, Object> params) { insertPrjMs("messageSend.msgSendMMS", params); }
+    public void msgSendSMS(Map<String, Object> params) { insertPrjMs("messagePrj.msgSendSMS", params); }
+    public void msgSendMMS(Map<String, Object> params) { insertPrjMs("messagePrj.msgSendMMS", params); }
 
 
     public void setGroup(Map<String, Object> params) { insert("message.setGroup", params); }

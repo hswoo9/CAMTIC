@@ -551,6 +551,20 @@
             M.HOLIDAY_WORK_MASTER_SN = #{holidayWorkMasterSn}
     </select>
 
+    <select id="getHolidayWorkDuplList" resultType="map" parameterType="map">
+        /* getHolidayWorkDuplList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
+        LEFT JOIN
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M ON SUH.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN
+        WHERE
+            SUH.APPLY_SEQ = #{regEmpSeq}
+        AND SUH.SUBHOLIDAY_WORK_DAY = #{applyDate}
+        AND SUH.ACTIVE = 'Y' AND M.ACTIVE = 'Y'
+    </select>
+
     <select id="getUserVacList" resultType="map" parameterType="map">
         /* getUserVacList */
         SELECT RE. * FROM (SELECT
