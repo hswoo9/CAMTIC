@@ -160,7 +160,9 @@
 
         for(var i = 0 ; i < list.length ; i++) {
             const map = list[i];
-            console.log("map", map);
+            if(map.EMP_NAME_KR == "김민정"){
+                console.log("map", map);
+            }
             var scoreF;
             var scoreS;
 
