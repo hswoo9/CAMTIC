@@ -178,10 +178,24 @@
             dataType : "json",
             async : false,
             success : function(result){
-                if(result.data.EVAL == "Y" || result.data.EVAL_F == "Y" || result.data.EVAL_S == "Y"){
-                    document.getElementById("evalView").disabled = true;
-                    document.getElementById("btnActive1").disabled = true;
-                    document.getElementById("btnActive2").disabled = true;
+                if($("#step").val() == "0"){  // 본인평가
+                    if(result.data.EVAL == "Y"){
+                        document.getElementById("evalView").disabled = true;
+                        document.getElementById("btnActive1").disabled = true;
+                        document.getElementById("btnActive2").disabled = true;
+                    };
+                }else if($("#step").val() == "1"){ // 1차평가
+                    if(result.data.EVAL_F == "Y"){
+                        document.getElementById("evalView").disabled = true;
+                        document.getElementById("btnActive1").disabled = true;
+                        document.getElementById("btnActive2").disabled = true;
+                    };
+                }else if($("#step").val() == "2"){ // 2차평가
+                    if(result.data.EVAL_S == "Y"){
+                        document.getElementById("evalView").disabled = true;
+                        document.getElementById("btnActive1").disabled = true;
+                        document.getElementById("btnActive2").disabled = true;
+                    };
                 }
 
                 if($("#step").val() == "1"){ // 1차평가
