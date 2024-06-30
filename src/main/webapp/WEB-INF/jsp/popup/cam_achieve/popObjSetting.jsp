@@ -16,6 +16,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">목표설정</span></h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="popObjSet.histBtn()">이력</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="popObjSet.saveBtn()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>

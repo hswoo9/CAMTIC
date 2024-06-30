@@ -246,4 +246,13 @@ public class AchieveRepository extends AbstractDAO {
 
         return (List<Map<String, Object>>) selectList("achieve.getDeptPayrollCompDutyList", params);
     }
+
+    public List<Map<String, Object>> getObjHistList(Map<String, Object> params) {
+        return selectList("achieve.getObjHistList", params);
+    }
+
+
+    public void insDeptObjSettingHistory(Map<String, Object> params) {
+        insert("achieve.insDeptObjSettingHistory", params);
+    }
 }

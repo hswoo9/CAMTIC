@@ -36,6 +36,7 @@ var popObjSet = {
 
         var data = {
             type : $("#type").val(),
+            baseYear : $("#year").val(),
             objArr : JSON.stringify(objArr),
         }
 
@@ -59,6 +60,13 @@ var popObjSet = {
                 }
             }
         });
+    },
+
+    histBtn : function (){
+        var url = "/cam_achieve/popup/popObjHist.do?year=" + $("#year").val() + "&deptLevel=2";
+        var name = "_blank";
+        var option = "width = 950, height = 500, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 
 }

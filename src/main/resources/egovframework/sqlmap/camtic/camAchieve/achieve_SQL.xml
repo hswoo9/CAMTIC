@@ -1206,4 +1206,24 @@
             ) B
         GROUP BY DEPT_SEQ, DUTY_TYPE
     </select>
+
+    <select id="getObjHistList" parameterType="map" resultType="map">
+        /*getObjHistList*/
+        SELECT
+            A.*,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AS DEPT_NAME,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING_HISTORY A
+        WHERE
+            BASE_YEAR = #{baseYear} AND DEPT_LEVEL = 2
+        ORDER BY A.REG_DT
+    </select>
+
+    <insert id="insDeptObjSettingHistory" parameterType="map">
+        /*insDeptObjSettingHistory*/
+        INSERT INTO CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING_HISTORY (OBJ_SN, BASE_YEAR, DEPT_SEQ, DEPT_LEVEL, DELV_OBJ, SALE_OBJ, INCP_OBJ, REG_EMP_SEQ, REG_DT, MOD_EMP_SEQ, MOD_DT)
+        SELECT OBJ_SN, BASE_YEAR, DEPT_SEQ, DEPT_LEVEL, DELV_OBJ, SALE_OBJ, INCP_OBJ, REG_EMP_SEQ, REG_DT, MOD_EMP_SEQ, MOD_DT FROM CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
+        WHERE BASE_YEAR = #{baseYear} AND DEPT_LEVEL = 2
+    </insert>
 </mapper>
