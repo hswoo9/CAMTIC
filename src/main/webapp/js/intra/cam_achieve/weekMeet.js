@@ -309,7 +309,8 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((achAmt / objAmt * 100) * 10) / 10;
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -322,7 +323,8 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((expAmt / objAmt * 100) * 10) / 10
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -335,7 +337,8 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((sumAmt / objAmt * 100) * 10) / 10;
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -348,7 +351,8 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((achAmt / objAmt * 100) * 10) / 10
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -361,7 +365,8 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((expAmt / objAmt * 100) * 10) / 10;
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -374,7 +379,8 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((sumAmt / objAmt * 100) * 10) / 10
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -387,7 +393,8 @@ var weekMeet = {
             if(objAmt == 0 || achAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((achAmt / objAmt * 100) * 10) / 10;
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -400,7 +407,9 @@ var weekMeet = {
             if(objAmt == 0 || expAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((expAmt / objAmt * 100) * 10) / 10;
+
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -413,7 +422,8 @@ var weekMeet = {
             if(objAmt == 0 || sumAmt == 0){
                 $(this).text("0 %");
             } else {
-                $(this).text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+                var num = Math.round((sumAmt / objAmt * 100) * 10) / 10;
+                $(this).text( num.toFixed(1) + " %" );
             }
         });
 
@@ -426,17 +436,22 @@ var weekMeet = {
         if(objAmt == 0 || achAmt == 0){
             $("#delvAchPerTotal").text("0 %");
         } else {
-            $("#delvAchPerTotal").text( Math.round((achAmt / objAmt * 100) * 10) / 10 + " %" );
+            var num = Math.round((achAmt / objAmt * 100) * 10) / 10;
+            $("#delvAchPerTotal").text( num.toFixed(1) + " %" );
         }
         if(objAmt == 0 || expAmt == 0){
             $("#delvExpPerTotal").text("0 %");
         } else {
-            $("#delvExpPerTotal").text( Math.round((expAmt / objAmt * 100) * 10) / 10 + " %" );
+            var num = Math.round((expAmt / objAmt * 100) * 10) / 10;
+
+            $("#delvExpPerTotal").text( num.toFixed(1) + " %" );
         }
         if(objAmt == 0 || sumAmt == 0){
             $("#delvSumPerTotal").text("0 %");
         } else {
-            $("#delvSumPerTotal").text( Math.round((sumAmt / objAmt * 100) * 10) / 10 + " %" );
+            var num = Math.round((sumAmt / objAmt * 100) * 10);
+
+            $("#delvSumPerTotal").text( num.toFixed(1) + " %" );
         }
 
         /** 매출 총계 비율 */

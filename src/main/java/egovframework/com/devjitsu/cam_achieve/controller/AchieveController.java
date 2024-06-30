@@ -527,4 +527,24 @@ public class AchieveController {
 
         return "cam_achieve/retirementPension";
     }
+
+    @RequestMapping("/cam_achieve/popup/popObjHist.do")
+    public String popObjHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_achieve/popObjHist";
+    }
+
+    @RequestMapping("/cam_achieve/getObjHistList")
+    public String getObjHistList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        model.addAttribute("list", achieveService.getObjHistList(params));
+
+        return "jsonView";
+    }
 }

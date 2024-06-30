@@ -132,7 +132,7 @@ var evaluationEmpListPop = {
                             if(e.EVAL_S == "Y"){
                                 return "<span style='color: blue'>제출완료 ("+e.EVAL_S_SCORE+"점)</span>";
                             }else if(e.EVAL_S == "W"){
-                                return "<span style='color: black'>작성완료 ("+e.EVAL_F_SCORE+"점)</span>";
+                                return "<span style='color: black'>작성완료 ("+e.EVAL_S_SCORE+"점)</span>";
                             }else{
                                 return "<span style='color: red'>미제출</span>";
                             }

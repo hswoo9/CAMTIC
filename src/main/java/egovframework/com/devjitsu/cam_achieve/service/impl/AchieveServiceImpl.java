@@ -429,6 +429,8 @@ public class AchieveServiceImpl implements AchieveService {
             }
         }
 
+        achieveRepository.insDeptObjSettingHistory(params);
+
     }
 
     @Override
@@ -541,5 +543,10 @@ public class AchieveServiceImpl implements AchieveService {
     @Override
     public List<Map<String, Object>> getDeptPayrollCompDutyList(Map<String, Object> params) {
         return achieveRepository.getDeptPayrollCompDutyList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getObjHistList(Map<String, Object> params) {
+        return achieveRepository.getObjHistList(params);
     }
 }
