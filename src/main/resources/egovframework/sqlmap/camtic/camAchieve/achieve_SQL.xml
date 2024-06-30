@@ -935,6 +935,33 @@
             EXNP_SN = #{exnpSn}
     </select>
 
+    <select id="getDeptExnpList" parameterType="map" resultType="map">
+        /*getDeptExnpList*/
+        SELECT * FROM
+        (
+            SELECT
+                DATE_FORMAT(A.EXNP_DE,'%Y-%m') AS EXNP_DE,
+                B.TOT_COST,
+                B.TEAM_SEQ,
+                B.TEAM_NAME,
+                (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_SEQ,
+                (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_NAME,
+                B.EXCEPT_PAY
+            FROM
+                CAM_MNG.DJ_EXNP A
+            LEFT JOIN (SELECT SUM(TOT_COST) AS TOT_COST, EXNP_SN, BUDGET_NM, EVID_TYPE, CRM_NM, TEAM_SEQ, TEAM_NAME, RM_Y, EXCEPT_PAY FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN, TEAM_SEQ) B
+                ON A.EXNP_SN = B.EXNP_SN
+            WHERE
+                A.RE_STAT = 'Y' AND A.DOC_STATUS = 100 AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
+            AND
+                A.EXNP_DE BETWEEN #{startDt} AND  #{endDt}
+            AND
+                B.RM_Y = 'Y'
+        ) SUB
+        WHERE 1=1
+        GROUP BY EXNP_DE, TEAM_SEQ
+    </select>
+
     <select id="getDeptPayrollListForTotRate" parameterType="map" resultType="map">
         /*getDeptPayrollListForTotRate*/
         SELECT

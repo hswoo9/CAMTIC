@@ -479,6 +479,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getDeptExnpList(Map<String, Object> params) {
+        return achieveRepository.getDeptExnpList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getDeptPayrollListForTotRate(Map<String, Object> params) {
         return achieveRepository.getDeptPayrollListForTotRate(params);
     }
