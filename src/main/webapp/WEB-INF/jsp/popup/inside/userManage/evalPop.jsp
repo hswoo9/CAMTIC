@@ -63,7 +63,7 @@
             async : false,
             success : function(result){
                 console.log("result", result);
-                fn_addTbody(result.list);
+                fn_addTbody(result);
                 if(result.self.self > 0){
                     $("#self").css("display" , "")
                 }
@@ -83,23 +83,31 @@
         });
     });
 
-    function fn_addTbody(list){
+    function fn_addTbody(result){
+        console.log("result", result);
+        const list = result.list;
         var html = "";
         html += '<tr>';
         html += '   <td>'+ list.EVAL_NUM +' 차</td>';
         html += '   <td>'+ list.EVAL_STR_DT +' ~ ' + list.EVAL_END_DT +'</td>';
 
-        var result = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
-            evalSn : $("#evalSn").val(),
-            empSeq : $("#empSeq").val(),
-            rType : "eval"
-        });
+        if(result.self.self != "0"){
+            var result = customKendo.fn_customAjax("/evaluation/getEvaluationScoreList", {
+                evalSn : $("#evalSn").val(),
+                empSeq : $("#empSeq").val(),
+                rType : "eval"
+            });
+            console.log("result", result);
 
-        if(result.data.EVAL == "N"){
-            html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
+            if(result.data.EVAL == "N"){
+                html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
+            }else{
+                html += '   <td><button id="self" class="k-button k-button-solid-info" style="display: none;" onclick="fn_open_eval(0)">제출완료</button></td>';
+            }
         }else{
-            html += '   <td><button id="self" class="k-button k-button-solid-info" style="display: none;" onclick="fn_open_eval(0)">제출완료</button></td>';
+            html += '<td>-</td>';
         }
+
         html += '   <td><button id="first" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(1)">평가하기</button><span id="countF"></span></td>';
         html += '   <td><button id="second" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(2)">평가하기</button><span id="countS"></span></td>';
         html += '   <td></td>';

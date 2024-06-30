@@ -74,6 +74,7 @@
 <script>
 
     let sumT = 0;
+    let sumT2 = 0;
     $(function(){
         fn_defaultScript()
 
@@ -283,6 +284,10 @@
     }
 
     function subGrid (url, params) {
+        function onDataBound2(){
+            sumT2 = 0;
+        }
+
         $("#subGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -310,6 +315,7 @@
                 pageSizes: [10, 20, 50, "ALL"],
                 buttonCount: 5,
             },
+            dataBound: onDataBound2,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -364,8 +370,12 @@
                     title: "지출금액",
                     width: 80,
                     template: function (e) {
+                        sumT2 += Number(e.TOT_COST || 0);
                         var cost = e.TOT_COST;
                         return '<div style="text-align: right">' + comma(cost) + '</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+fn_numberWithCommas(sumT2)+"</div>";
                     }
                 }, {
                     title: "제외금액",
