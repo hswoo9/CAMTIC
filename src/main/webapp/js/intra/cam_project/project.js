@@ -260,8 +260,13 @@ var camPrj = {
                     title: "수주금액",
                     width: 100,
                     template: function(e){
-                        sum += Number(e.PJT_AMT);
-                        return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
+                        if(e.YEAR_CLASS != null && e.YEAR_CLASS == "M"){
+                            sum += Number(e.ALL_PJT_AMT);
+                            return '<div style="text-align: right;">'+camPrj.comma(e.ALL_PJT_AMT)+'</div>';
+                        }else{
+                            sum += Number(e.PJT_AMT);
+                            return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
+                        }
                     },
                     footerTemplate : function () {
                         return "<span id='total'></span>";
