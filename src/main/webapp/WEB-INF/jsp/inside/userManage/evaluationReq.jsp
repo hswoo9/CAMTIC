@@ -104,49 +104,47 @@
     var bsYear;
     var evalSn;
 
-    $(function (){
-        $.ajax({
-            url : "/evaluation/getEvaluationOne",
-            type : "post",
-            data : { year : $("#SearchYear").val()},
-            dataType : "json",
-            async : false,
-            success : function(result){
-                $("#evalStat").val(result.data.EVAL_STAT);
-                $("#evalSn").val(result.data.EVAL_SN);
-                bsYear = result.data.BS_YEAR;
-                evalSn = result.data.EVAL_SN;
-                fn_addNotice(result.data);
-            },
-            error : function(e) {
-                console.log(e);
-            }
-        });
-
-        if($("#evalStat").val() == "I"){
-            const nowEvalInfo = customKendo.fn_customAjax("/evaluation/getNowEvalCount", {
-                evalSn : $("#evalSn").val(),
-                regEmpSeq : $("#empSeq").val()
-            });
-            const nowEvalList = nowEvalInfo.list;
-
-            let ck = false;
-            if(nowEvalInfo != null && nowEvalList.length > 0){
-                ck = true;
-            }
-            if(ck){
-                $("#eval").css("display" , "");
-            }
-
-            $("#evalResult").css("display" , "none");
-        }else if($("#evalStat").val() == "C"){
-            $("#eval").css("display" , "none");
-            $("#evalResult").css("display" , "");
-        }else{
-            $("#eval").css("display" , "none");
-            $("#evalResult").css("display" , "none");
+    $.ajax({
+        url : "/evaluation/getEvaluationOne",
+        type : "post",
+        data : { year : $("#SearchYear").val()},
+        dataType : "json",
+        async : false,
+        success : function(result){
+            $("#evalStat").val(result.data.EVAL_STAT);
+            $("#evalSn").val(result.data.EVAL_SN);
+            bsYear = result.data.BS_YEAR;
+            evalSn = result.data.EVAL_SN;
+            fn_addNotice(result.data);
+        },
+        error : function(e) {
+            console.log(e);
         }
     });
+
+    if($("#evalStat").val() == "I"){
+        const nowEvalInfo = customKendo.fn_customAjax("/evaluation/getNowEvalCount", {
+            evalSn : $("#evalSn").val(),
+            regEmpSeq : $("#empSeq").val()
+        });
+        const nowEvalList = nowEvalInfo.list;
+
+        let ck = false;
+        if(nowEvalInfo != null && nowEvalList.length > 0){
+            ck = true;
+        }
+        if(ck){
+            $("#eval").css("display" , "");
+        }
+
+        $("#evalResult").css("display" , "none");
+    }else if($("#evalStat").val() == "C"){
+        $("#eval").css("display" , "none");
+        $("#evalResult").css("display" , "");
+    }else{
+        $("#eval").css("display" , "none");
+        $("#evalResult").css("display" , "none");
+    }
 
     function  fn_addNotice(data){
         var html = "";
