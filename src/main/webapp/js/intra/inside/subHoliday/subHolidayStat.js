@@ -227,18 +227,21 @@ var subHolidayStat = {
                             title: "전년사용",
                             width: 45
                         }, {
+                            field: "ANNUAL",
                             title: "금년사용",
                             width: 45,
                             template: function(row){
                                 return '<span class="highlight" onclick="subHolidayStat.searchGrid(1, \''+row.EMP_NAME_KR+'\');">'+row.ANNUAL+'</span>';
                             }
                         }, {
+                            field: "MORNING",
                             title: "오전반차",
                             width: 45,
                             template: function(row){
                                 return '<span class="highlight" onclick="subHolidayStat.searchGrid(3, \''+row.EMP_NAME_KR+'\');">'+row.MORNING+'</span>';
                             }
                         }, {
+                            field: "AFTERNOON",
                             title: "오후반차",
                             width: 45,
                             template: function(row){
@@ -251,24 +254,28 @@ var subHolidayStat = {
                         }
                     ]
                 }, {
+                    field: "SICK",
                     title: "병가",
                     width: 35,
                     template: function(row){
                         return '<span class="highlight" onclick="subHolidayStat.searchGrid(5, \''+row.EMP_NAME_KR+'\');">'+row.SICK+'</span>';
                     }
                 }, {
+                    field: "PUBLICHOLI",
                     title: "공가",
                     width: 35,
                     template: function(row){
                         return '<span class="highlight" onclick="subHolidayStat.searchGrid(6, \''+row.EMP_NAME_KR+'\');">'+row.PUBLICHOLI+'</span>';
                     }
                 }, {
+                    field: "CONDOLENCES",
                     title: "경조휴가",
                     width: 45,
                     template: function(row){
                         return '<span class="highlight" onclick="subHolidayStat.searchGrid(7, \''+row.EMP_NAME_KR+'\');">'+row.CONDOLENCES+'</span>';
                     }
                 }, {
+                    field: "MATERNITY",
                     title: "출산휴가",
                     width: 45,
                     template: function(row){
@@ -282,6 +289,7 @@ var subHolidayStat = {
                             title: "발생일수",
                             width: 45
                         }, {
+                            field: "ALTERNATIVE",
                             title: "사용일수",
                             width: 45,
                             template: function(row){
@@ -290,6 +298,7 @@ var subHolidayStat = {
                         }
                     ]
                 }, {
+                    field: "LONGAWARD",
                     title: "근속포상휴가",
                     width: 65,
                     template: function(row){
