@@ -93,6 +93,7 @@ public class AchieveController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        params.put("deptLevel", "2");
         List<Map<String, Object>> list = achieveService.getDeptObjList(params);
         if(list.size() > 0){
             params.put("type", "upd");

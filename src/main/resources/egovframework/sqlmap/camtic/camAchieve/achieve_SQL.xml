@@ -652,6 +652,7 @@
             BASE_YEAR,
             DEPT_SEQ,
             DEPT_LEVEL,
+            OBJ_TYPE,
             DELV_OBJ,
             SALE_OBJ,
             INCP_OBJ,
@@ -666,6 +667,7 @@
             #{baseYear},
             #{deptSeq},
             #{deptLevel},
+            #{objType},
             #{delvObj},
             #{saleObj},
             #{incpObj},
@@ -693,6 +695,8 @@
             BASE_YEAR = #{baseYear}
         AND
             DEPT_SEQ = #{deptSeq}
+        AND
+            OBJ_TYPE = #{objType}
     </update>
 
     <select id="getDeptObjList" parameterType="map" resultType="map">
@@ -714,6 +718,7 @@
           ON A.DEPT_SEQ = B.DEPT_SEQ
         WHERE A.BASE_YEAR = #{year}
         AND A.DEPT_LEVEL = #{deptLevel}
+        AND A.OBJ_TYPE = #{objType}
         <if test='deptSeq != null and !"".equals(deptSeq)'>
             AND A.DEPT_SEQ = #{deptSeq}
         </if>
@@ -866,6 +871,7 @@
             CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
         WHERE BASE_YEAR = #{baseYear}
           AND DEPT_LEVEL = #{deptLevel}
+          AND OBJ_TYPE = #{objType}
         <if test='deptSeq != null and deptSeq != ""'>
             AND DEPT_SEQ = #{deptSeq}
         </if>
@@ -1315,6 +1321,6 @@
         /*insDeptObjSettingHistory*/
         INSERT INTO CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING_HISTORY (OBJ_SN, BASE_YEAR, DEPT_SEQ, DEPT_LEVEL, DELV_OBJ, SALE_OBJ, INCP_OBJ, REG_EMP_SEQ, REG_DT, MOD_EMP_SEQ, MOD_DT)
         SELECT OBJ_SN, BASE_YEAR, DEPT_SEQ, DEPT_LEVEL, DELV_OBJ, SALE_OBJ, INCP_OBJ, REG_EMP_SEQ, REG_DT, MOD_EMP_SEQ, MOD_DT FROM CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
-        WHERE BASE_YEAR = #{baseYear} AND DEPT_LEVEL = 2
+        WHERE BASE_YEAR = #{baseYear} AND DEPT_LEVEL = 2 AND OBJ_TYPE = 'team'
     </insert>
 </mapper>

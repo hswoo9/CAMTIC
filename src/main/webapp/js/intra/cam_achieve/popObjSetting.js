@@ -28,7 +28,8 @@ var popObjSet = {
                 exnpObj : uncomma($(this).find("input[name='exnpObj']").val()),
                 commObj : uncomma($(this).find("input[name='commObj']").val()),
                 empSeq : $("#regEmpSeq").val(),
-                deptLevel : $("#deptLevel").val()
+                deptLevel : $("#deptLevel").val(),
+                objType : $("#objType").val()
             };
 
             objArr.push(item);
@@ -38,6 +39,7 @@ var popObjSet = {
             type : $("#type").val(),
             baseYear : $("#year").val(),
             objArr : JSON.stringify(objArr),
+            objType : $("#objType").val()
         }
 
         $.ajax({

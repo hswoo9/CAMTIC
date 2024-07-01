@@ -109,7 +109,7 @@
                 </span>
                 <div style="float: right;">
                     <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('team');" style="margin-bottom: 5px;">팀 목표설정</button>
-                    <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('all');" style="margin-bottom: 5px;">운영 목표설정</button>
+                    <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('oper');" style="margin-bottom: 5px;">운영 목표설정</button>
                     <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="finPerm.fn_searchData();" style="margin-bottom: 5px;">조회</button>
                 </div>
 

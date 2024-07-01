@@ -406,15 +406,10 @@ var finPerm = {
     },
 
     fn_objSetting : function(type){
-        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val().split("-")[0];
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val().split("-")[0] + "&objType=" + type;
 
-        if(type == "team"){
-            url += "&deptLevel=2";
-            if($("#dept").val() != ""){
-                url += "&deptSeq=" + $("#dept").val();
-            }
-        } else {
-            url += "&deptLevel=99&deptSeq=999999";
+        if($("#dept").val() != ""){
+            url += "&deptSeq=" + $("#dept").val();
         }
 
         var name = "_blank";
