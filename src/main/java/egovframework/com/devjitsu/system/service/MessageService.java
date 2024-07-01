@@ -24,4 +24,5 @@ public interface MessageService {
     void setMailDet(Map<String, Object> params);
     void delMailDet(Map<String, Object> params);
     void setMailDetCom(Map<String, Object> params);
+    void sendFms(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 }
