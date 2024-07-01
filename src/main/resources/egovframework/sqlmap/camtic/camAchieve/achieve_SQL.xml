@@ -406,11 +406,24 @@
         ON
             A.PJT_SN = G.PJT_SN
         WHERE
-            A.BUSN_CLASS = #{busnClass} AND substr(A.STR_DT, 1, 4) = 2024
-        AND A.PARENT_PJT_SN IS NULL
-        <if test='deptSeq != null and deptSeq != ""'>
-            AND A.DEPT_SEQ = #{deptSeq}
+            1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND A.BUSN_CLASS = #{busnClass}
         </if>
+            AND substr(A.STR_DT, 1, 4) = 2024
+        AND A.PARENT_PJT_SN IS NULL
+        <choose>
+            <when test='parentDeptSeq != null and parentDeptSeq != ""'>
+                AND (
+                    A.DEPT_SEQ = #{deptSeq}
+                    OR
+                    A.DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{parentDeptSeq}))
+                )
+            </when>
+            <when test='deptSeq != null and deptSeq != ""'>
+                AND A.DEPT_SEQ = #{deptSeq}
+            </when>
+        </choose>
         <choose>
             <when test='"delv".equals(stat)'>
                 <if test='"R".equals(busnClass)'>
