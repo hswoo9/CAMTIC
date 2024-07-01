@@ -523,7 +523,7 @@ var camPrj = {
             }
         }
 
-        if(flag){
+        if(flag || $("#regEmpSeq").val() == "1"){
             var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
             if(cs == "R"){
