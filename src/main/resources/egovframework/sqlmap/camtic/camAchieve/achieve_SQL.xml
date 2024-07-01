@@ -990,7 +990,8 @@
     <select id="getExnpDetailList" parameterType="map" resultType="map">
         /*getExnpDetailList*/
         SELECT
-            *
+            *,
+            (SELECT EXNP_DE FROM CAM_MNG.DJ_EXNP WHERE EXNP_SN = #{exnpSn}) AS EXNP_DE
         FROM
             CAM_MNG.DJ_EXNP_DET
         WHERE
@@ -999,29 +1000,30 @@
 
     <select id="getDeptExnpList" parameterType="map" resultType="map">
         /*getDeptExnpList*/
-        SELECT * FROM
-        (
+        SELECT
+            SUM(B.TOT_COST) AS TOT_COST,
+            A.EXNP_SN,
+            DATE_FORMAT(A.EXNP_DE,'%Y-%m') AS EXNP_DE,
+            B.TEAM_SEQ,
+            B.TEAM_NAME,
+            (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_NAME
+        FROM CAM_MNG.DJ_EXNP A
+        LEFT JOIN (
             SELECT
-                DATE_FORMAT(A.EXNP_DE,'%Y-%m') AS EXNP_DE,
-                B.TOT_COST,
-                B.TEAM_SEQ,
-                B.TEAM_NAME,
-                (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_SEQ,
-                (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT IF(DEPT_LEVEL=1, DEPT_SEQ, PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO WHERE B.TEAM_SEQ = DEPT_SEQ)) AS PARENT_DEPT_NAME,
-                B.EXCEPT_PAY
-            FROM
-                CAM_MNG.DJ_EXNP A
-            LEFT JOIN (SELECT SUM(TOT_COST) AS TOT_COST, EXNP_SN, BUDGET_NM, EVID_TYPE, CRM_NM, TEAM_SEQ, TEAM_NAME, RM_Y, EXCEPT_PAY FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN, TEAM_SEQ) B
-                ON A.EXNP_SN = B.EXNP_SN
-            WHERE
-                A.RE_STAT = 'Y' AND A.DOC_STATUS = 100 AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
-            AND
-                A.EXNP_DE BETWEEN #{startDt} AND  #{endDt}
-            AND
-                B.RM_Y = 'Y'
-        ) SUB
-        WHERE 1=1
-        GROUP BY EXNP_DE, TEAM_SEQ
+                TOT_COST, EXNP_SN, BUDGET_NM,
+                IF(TEAM_SEQ = '' OR TEAM_SEQ IS NULL, '1219', TEAM_SEQ) AS TEAM_SEQ,
+                IF(TEAM_NAME = '팀 선택' OR TEAM_NAME IS NULL, '공통운영비', TEAM_NAME) AS TEAM_NAME,
+                RM_Y, EXCEPT_PAY
+            FROM CAM_MNG.DJ_EXNP_DET
+        ) B ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+          AND A.RE_STAT = 'Y'
+          AND A.DOC_STATUS = 100
+          AND LEFT(A.PJT_CD, 1) IN ('E', 'V', 'M')
+          AND B.RM_Y = 'Y'
+        GROUP BY DATE_FORMAT(A.EXNP_DE,'%Y-%m'), B.TEAM_SEQ
     </select>
 
     <select id="getDeptPayrollListForTotRate" parameterType="map" resultType="map">
