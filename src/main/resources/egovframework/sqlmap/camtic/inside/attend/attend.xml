@@ -409,13 +409,13 @@
                         ON SM.SUBHOLIDAY_CODE_ID = SC.SUBHOLIDAY_CODE_ID
                     LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
                         ON M.DOC_ID = DI.DOC_ID
-                    WHERE 1=1
-                        AND M.ACTIVE = 'Y'
-                        AND SM.SUBHOLIDAY_CODE_ID = 11
-                        AND DR.DATES = SM.SUBHOLIDAY_WORK_DAY
-                        AND SM.APPLY_SEQ = HEI.EMP_SEQ
-                    GROUP BY M.HOLIDAY_WORK_MASTER_SN
-                    ORDER BY SM.APPLY_DATE DESC
+                    WHERE
+                        1=1
+                    AND SM.SUBHOLIDAY_CODE_ID = 11
+                    AND DR.DATES = SM.SUBHOLIDAY_WORK_DAY
+                    AND SM.APPLY_SEQ = HEI.EMP_SEQ
+                    AND SM.ACTIVE = 'Y'
+                    GROUP BY SM.SUBHOLIDAY_WORK_DAY
                 ) AS HOLIDAY_WORK
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
