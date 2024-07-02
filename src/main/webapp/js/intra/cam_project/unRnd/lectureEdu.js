@@ -86,10 +86,12 @@ var lectureEdu = {
                     title: "소속",
                     width: "6%",
                     template: function(row){
-                        if(row.CRM_NM == null || row.CRM_NM == ""){
+                        if(row.CRM_NM != null){
+                            return row.CRM_NM;
+                        }else if(row.CO_NAME != null){
                             return row.CO_NAME;
                         }else{
-                            return row.CRM_NM;
+                            return "";
                         }
                     }
                 }, {
@@ -98,9 +100,17 @@ var lectureEdu = {
                     width: "5%",
                     template: function(row){
                         if(row.USER_TYPE == "S"){
-                            return row.SCHOOL_NAME;
-                        }else{
+                            if(row.SCHOOL_MAJOR != null){
+                                return row.SCHOOL_MAJOR;
+                            }else if(row.SCHOOL_NAME != null){
+                                return row.SCHOOL_NAME;
+                            }else{
+                                return "-";
+                            }
+                        }else if(row.PART != null){
                             return row.PART;
+                        }else{
+                            return "-";
                         }
                     }
                 }, {
