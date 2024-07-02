@@ -71,8 +71,8 @@ public class SetManagementServiceImpl implements SetManagementService {
         params.put("pjtTmpCd", pjtMap.get("CORP_PJT_CD"));
         params.put("pProjectNM", pjtMap.get("CORP_PJT_NM"));
         params.put("pProjectNMEx", pjtMap.get("CORP_PJT_SUB_NM"));
-        params.put("pSDate", pjtMap.get("STR_DT"));
-        params.put("pEDate", pjtMap.get("END_DT"));
+        params.put("pSDate", pjtMap.get("STR_DT2"));
+        params.put("pEDate", pjtMap.get("END_DT2"));
         params.put("pType", "I");
 
         /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
