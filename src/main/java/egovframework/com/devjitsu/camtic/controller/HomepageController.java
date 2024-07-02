@@ -307,9 +307,8 @@ public class HomepageController {
 
 
     @RequestMapping("/error/page")
-    public String errorPage(){
-
-
+    public String errorPage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("windowType", "popup");
         return "error/error";
     }
 }

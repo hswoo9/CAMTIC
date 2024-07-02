@@ -2650,6 +2650,8 @@ var regPay = {
                         }
                         location.href = url;
                     }
+                } else if(rs.code == 404){
+                    location.href = '/error/page?code=' + rs.code;
                 }
             }
         });

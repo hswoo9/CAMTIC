@@ -354,6 +354,14 @@ public class PayAppController {
     @RequestMapping("/payApp/payAppSetData")
     public String payAppSetData(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("code", 404);
+            return "jsonView";
+        }
+
         try{
             MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
 
@@ -618,6 +626,14 @@ public class PayAppController {
     @RequestMapping("/payApp/setExnpData")
     public String setExnpData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
 
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("code", 404);
+            return "jsonView";
+        }
+
         try{
             MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
             payAppService.setExnpData(params, fileList, SERVER_DIR, BASE_DIR);
@@ -796,6 +812,14 @@ public class PayAppController {
 
     @RequestMapping("/payApp/payIncpSetData")
     public String payIncpSetData(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("code", 404);
+            return "jsonView";
+        }
 
         try{
             MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
@@ -1168,7 +1192,16 @@ public class PayAppController {
     }
 
     @RequestMapping("/pay/setIncpRe")
-    public String setIncpRe(@RequestParam Map<String, Object> params, Model model){
+    public String setIncpRe(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("code", 404);
+            return "jsonView";
+        }
+
         try{
             Map<String, Object> map = payAppService.setIncpRe(params);
             model.addAttribute("code", 200);

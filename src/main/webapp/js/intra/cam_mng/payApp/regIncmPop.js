@@ -592,6 +592,8 @@ var regIncm = {
                     alert("저장되었습니다.");
                     location.href="/payApp/pop/regIncmPop.do?payIncpSn=" + rs.params.payIncpSn;
                     opener.gridReload();
+                } else if(rs.code == 404){
+                    location.href = '/error/page?code=' + rs.code;
                 }
             }
         });

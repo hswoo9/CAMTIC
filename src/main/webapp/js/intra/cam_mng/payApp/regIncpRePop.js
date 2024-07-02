@@ -223,6 +223,8 @@ var regIncpRe = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     location.href="/payApp/pop/regIncpRePop.do?payIncpSn=" + $("#payIncpSn").val() + "&payIncpReSn=" + rs.rs.payIncpReSn;
+                } else if(rs.code == 404){
+                    location.href = '/error/page?code=' + rs.code;
                 }
             }
         })
