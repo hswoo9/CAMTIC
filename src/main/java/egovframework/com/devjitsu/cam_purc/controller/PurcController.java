@@ -155,6 +155,11 @@ public class PurcController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         if(params.containsKey("pjtSn")){
             model.addAttribute("pjtData", projectService.getProjectData(params));
         }
@@ -402,6 +407,11 @@ public class PurcController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         if(params.containsKey("purcSn") || params.containsKey("claimSn")){
@@ -478,6 +488,11 @@ public class PurcController {
 
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
@@ -573,7 +588,7 @@ public class PurcController {
     @RequestMapping("/purc/purcProductList.do")
     public String purcProductList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("params", params);
@@ -603,6 +618,11 @@ public class PurcController {
     public String purcInspectionPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
 
         if(params.containsKey("pjtSn")){
             model.addAttribute("pjtData", projectService.getProjectData(params));
@@ -862,6 +882,11 @@ public class PurcController {
 
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);

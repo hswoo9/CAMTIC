@@ -208,6 +208,11 @@ public class DocumentController {
         model.addAttribute("flag", "false");
         model.addAttribute("params", params);
 
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         if(params.containsKey("snackInfoSn")){
             Map<String, Object> data = documentService.getSnackOne(params);
             model.addAttribute("snackInfoSn", data.get("SNACK_INFO_SN"));

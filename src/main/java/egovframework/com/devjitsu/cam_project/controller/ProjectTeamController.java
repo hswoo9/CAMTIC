@@ -81,6 +81,10 @@ public class ProjectTeamController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_project/teamMng";
     }
 
@@ -93,6 +97,10 @@ public class ProjectTeamController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_project/teamList";
     }

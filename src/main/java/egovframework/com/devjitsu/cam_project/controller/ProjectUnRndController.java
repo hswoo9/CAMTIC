@@ -204,6 +204,11 @@ public class ProjectUnRndController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_project/unRnd/personList";
     }
     /** 단위사업(교육) 강사 관리 페이지 */
@@ -214,6 +219,11 @@ public class ProjectUnRndController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+        
         return "cam_project/unRnd/lectureTeacherList";
     }
 

@@ -87,6 +87,11 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         return "popup/cam_manager/payApp/regPayAppPop";
     }
 
@@ -102,6 +107,11 @@ public class PayAppController {
             Map<String, Object> map = projectService.getProjectData(params);
 
             model.addAttribute(map);
+        }
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
         }
 
         return "popup/cam_manager/payDepo/regPayDepoPop";
@@ -571,6 +581,12 @@ public class PayAppController {
     public String reqExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         params.put("erpEmpSeq", loginVO.getErpEmpCd());
         Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);
@@ -584,6 +600,12 @@ public class PayAppController {
     public String regExnpRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         params.put("erpEmpSeq", loginVO.getErpEmpCd());
         Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);
@@ -711,6 +733,12 @@ public class PayAppController {
     public String regIncmPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         params.put("erpEmpSeq", loginVO.getErpEmpCd());
         Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);
@@ -732,6 +760,12 @@ public class PayAppController {
     public String regIncpRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         params.put("erpEmpSeq", loginVO.getErpEmpCd());
         Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);
@@ -745,6 +779,12 @@ public class PayAppController {
     public String regIncmRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         params.put("erpEmpSeq", loginVO.getErpEmpCd());
         Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);

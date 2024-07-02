@@ -60,6 +60,11 @@ public class ProjectController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_project/viewProject";
     }
 
@@ -1691,6 +1696,11 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_project/hist/projectHistEngn";
     }
 
@@ -1700,6 +1710,11 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_project/hist/projectHistRnd";
     }
 
@@ -1709,6 +1724,11 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+        
         return "cam_project/hist/projectHistEdu";
     }
 

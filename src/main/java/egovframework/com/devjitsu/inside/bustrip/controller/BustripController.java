@@ -114,6 +114,12 @@ public class BustripController {
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         return "popup/inside/bustrip/bustripReqPop";
     }
 
@@ -279,6 +285,11 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         List<Map<String, Object>> exnpData = new ArrayList<>();
         List<Map<String, Object>> exnpData2 = new ArrayList<>();
         List<Map<String, Object>> extData = new ArrayList<>();
@@ -328,6 +339,11 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         //params.put("BType", "B");
         List<Map<String, Object>> exnpData = new ArrayList<>();
@@ -367,6 +383,11 @@ public class BustripController {
     public String businessExnpPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
 
         /** 해외출장 사전정산 추가 */
         List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);

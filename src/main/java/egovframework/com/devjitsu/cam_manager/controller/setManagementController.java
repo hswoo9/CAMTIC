@@ -95,6 +95,9 @@ public class setManagementController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/setManagement/projectCorpMng";
     }

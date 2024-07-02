@@ -26,9 +26,20 @@
         <div class="error-info">
             <h2>Error Information</h2>
             <p><strong>Error Message</strong></p>
-            <p>로그인 세션이 만료되었습니다. <br>다시 <span style="font-weight: bold;cursor: pointer" onclick="javascript:location.href='/logoutAction';">로그인</span> 해주세요.</p>
+            <p>로그인 세션이 만료되었습니다. <br>다시 <span style="font-weight: bold;cursor: pointer" onclick="fn_logout();">로그인</span> 해주세요.</p>
         </div>
     </div>
 </div>
+<script>
+
+    function fn_logout(){
+        if(${windowType eq 'popup'}){
+            opener.parent.location.href='/logoutAction';
+            window.close();
+        } else {
+            location.href='/logoutAction';
+        }
+    }
+</script>
 </body>
 </html>
