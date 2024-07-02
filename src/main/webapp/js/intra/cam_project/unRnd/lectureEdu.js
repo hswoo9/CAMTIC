@@ -86,19 +86,11 @@ var lectureEdu = {
                     title: "소속",
                     width: "6%",
                     template: function(row){
-                        if(row.EXISTING_YN == "Y"){
-                            if(row.CO_NAME == null){
-                                return "";
-                            } else {
-                                return row.CO_NAME;
-                            }
-                        } else if(row.EXISTING_YN == "N"){
-                            if(row.CRM_NM == null){
-                                return "";
-                            } else {
-                                return row.CRM_NM;
-                            }
-                        } else {
+                        if(row.CRM_NM != null){
+                            return row.CRM_NM;
+                        }else if(row.CO_NAME != null){
+                            return row.CO_NAME;
+                        }else{
                             return "";
                         }
                     }
@@ -108,17 +100,17 @@ var lectureEdu = {
                     width: "5%",
                     template: function(row){
                         if(row.USER_TYPE == "S"){
-                            if(row.SCHOOL_MAJOR == null){
-                                return "";
-                            } else {
+                            if(row.SCHOOL_MAJOR != null){
                                 return row.SCHOOL_MAJOR;
+                            }else if(row.SCHOOL_NAME != null){
+                                return row.SCHOOL_NAME;
+                            }else{
+                                return "-";
                             }
+                        }else if(row.PART != null){
+                            return row.PART;
                         }else{
-                            if(row.PART == null){
-                                return "";
-                            } else {
-                                return row.PART;
-                            }
+                            return "-";
                         }
                     }
                 }, {
