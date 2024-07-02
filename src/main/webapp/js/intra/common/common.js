@@ -607,7 +607,7 @@ function fileViewer(path, fid){
 
     if(path.indexOf("http") > -1){
         pth = path + fid;
-    } else {
+    }else{
         pth = "http://218.158.231.184" + path + fid;
     }
 
