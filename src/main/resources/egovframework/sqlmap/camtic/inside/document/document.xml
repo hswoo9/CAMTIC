@@ -1043,7 +1043,7 @@
     </update>
 
     <select id="getInComeUpdateList" resultType="map" parameterType="map">
-        /*접수대장 팝업 조회*/
+        /* getInComeUpdateList */
         SELECT
             CCD.*,
             DATE_FORMAT(CCD.EFFECTIVE_DT, '%Y-%m-%d') AS EFFECTIVE_DATE,
@@ -1059,7 +1059,7 @@
         FROM
             CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         LEFT JOIN
-            CAM_COMMON.DJ_FILE_INFO CFI ON CCD.DOCUMENT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome'
+            CAM_COMMON.DJ_FILE_INFO CFI ON FILE_NO = (SELECT MAX(FILE_NO) FROM CAM_COMMON.DJ_FILE_INFO SCFI WHERE CCD.DOCUMENT_SN = SCFI.CONTENT_ID AND SCFI.FILE_CD = 'inCome')
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON CCD.DOC_ID = DI.DOC_ID
         WHERE
