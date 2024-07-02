@@ -609,7 +609,7 @@ var rndBg = {
                     template : function(e){
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.DOC_STATUS == 0 || e.DOC_STATUS == 30 || e.DOC_STATUS == 40){
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="rndBg.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
                                     '	<span class="k-button-text">삭제</span>' +
                                     '</button>';
                             } else {
@@ -831,5 +831,33 @@ var rndBg = {
                 $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#E7FFDD");
             }
         });
+    },
+
+    // 삭제 function
+    fn_delReqReg : function (key, owner){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        var checkValue = [];
+        checkValue.push(key);
+
+        var data = {
+            payAppSn : checkValue,
+        }
+
+        $.ajax({
+            url : "/pay/delPayApp",
+            type : "POST",
+            data : data,
+            dataType : 'json',
+            traditional : true,
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+                    rndBg.gridReload();
+                }
+            }
+        });
+
     }
 }
