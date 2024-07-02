@@ -39,6 +39,10 @@ public class CompanyCardController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/companyCard/cardList";
     }
 
@@ -49,6 +53,10 @@ public class CompanyCardController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/companyCard/cardListMng";
     }
@@ -61,6 +69,10 @@ public class CompanyCardController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/companyCard/outUseList";
     }
@@ -123,6 +135,10 @@ public class CompanyCardController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/companyCard/statementList";
     }
@@ -506,6 +522,11 @@ public class CompanyCardController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/companyCard/cardAuthMng";
     }
 

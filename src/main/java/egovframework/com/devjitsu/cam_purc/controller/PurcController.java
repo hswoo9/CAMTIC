@@ -76,8 +76,13 @@ public class PurcController {
     @RequestMapping("/purc/purcReqList.do")
     public String purcReqList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
-        model.addAttribute("loginVO", session.getAttribute("LoginVO"));
+        model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_purc/user/purcReqList";
     }
@@ -85,8 +90,13 @@ public class PurcController {
     @RequestMapping("/purc/purcMngReqList.do")
     public String purcMngReqList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
-        model.addAttribute("loginVO", session.getAttribute("LoginVO"));
+        model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_purc/mng/purcMngReqList";
     }
@@ -98,8 +108,15 @@ public class PurcController {
      * @return
      */
     @RequestMapping("/purc/getPurcReqList.do")
-    public String getPurcReqList(@RequestParam Map<String, Object> params, Model model) {
+    public String getPurcReqList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("list", purcService.getPurcReqList(params));
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "jsonView";
     }
 
@@ -294,6 +311,10 @@ public class PurcController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_purc/mng/purcClaim";
     }
 
@@ -311,6 +332,10 @@ public class PurcController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_purc/mng/purcDif";
     }
@@ -553,6 +578,10 @@ public class PurcController {
 
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_purc/user/purcProductList";
     }
 
@@ -730,6 +759,10 @@ public class PurcController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_purc/user/purcUserAppList";
     }
 
@@ -742,6 +775,10 @@ public class PurcController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_purc/mng/purcMngAppList";
     }
@@ -917,6 +954,11 @@ public class PurcController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_purc/hist/purcHist";
     }
 

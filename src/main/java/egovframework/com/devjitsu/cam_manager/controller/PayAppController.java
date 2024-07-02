@@ -63,6 +63,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/paymentMngList";
     }
 
@@ -470,6 +474,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/paymentRevList";
     }
 
@@ -662,6 +670,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/exnpList";
     }
 
@@ -673,6 +685,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/exnpReList";
     }
 
@@ -683,6 +699,10 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/payApp/incomeList";
     }
@@ -784,6 +804,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/incomeReList";
     }
 
@@ -794,6 +818,10 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/payApp/entryList";
     }
@@ -806,6 +834,10 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/payApp/returnList";
     }
 
@@ -816,6 +848,10 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/payApp/alterList";
     }
@@ -933,6 +969,10 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/deposit/depositList";
     }
@@ -1168,6 +1208,10 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/payApp/paymentNotDoneList";
     }

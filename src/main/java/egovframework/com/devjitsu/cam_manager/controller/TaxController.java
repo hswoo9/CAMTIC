@@ -29,6 +29,10 @@ public class TaxController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/tax/taxList";
     }
 
@@ -51,6 +55,10 @@ public class TaxController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/etax/etaxList";
     }

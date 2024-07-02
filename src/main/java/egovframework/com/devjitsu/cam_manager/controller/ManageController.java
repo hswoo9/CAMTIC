@@ -151,6 +151,10 @@ public class ManageController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/budget/budgetList";
     }
 
@@ -205,6 +209,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/enaralink";
     }
 
@@ -214,6 +222,10 @@ public class ManageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/kukgohCommCodeView";
     }
@@ -250,6 +262,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/budgetConfigView";
     }
 
@@ -259,6 +275,10 @@ public class ManageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/projectConfigView";
     }
@@ -270,6 +290,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/submitInvoice";
     }
 
@@ -280,6 +304,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/saveInterfacePage";
     }
 
@@ -289,6 +317,10 @@ public class ManageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/enaraExceptList";
     }
@@ -574,6 +606,10 @@ public class ManageController {
 
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
 
         return "cam_manager/accountManagement/userAccountManagement";
     }

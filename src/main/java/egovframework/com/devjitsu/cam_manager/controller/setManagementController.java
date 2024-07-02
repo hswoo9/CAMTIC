@@ -31,6 +31,10 @@ public class setManagementController {
         
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/setManagement/projectDepositManagement";
     }
 
@@ -61,6 +65,10 @@ public class setManagementController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/setManagement/projectBgtManagement";
     }
 
@@ -72,6 +80,9 @@ public class setManagementController {
 
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/setManagement/projectCorp";
     }
@@ -178,6 +189,10 @@ public class setManagementController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/setManagement/exnpDeChangeRs";
     }
 
@@ -221,6 +236,10 @@ public class setManagementController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/setManagement/rndProjectOperationStatus";
     }

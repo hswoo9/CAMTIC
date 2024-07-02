@@ -48,6 +48,10 @@ public class BudgetController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/budget/makeBudget";
     }
 
@@ -177,6 +181,10 @@ public class BudgetController {
         model.addAttribute("params", params);
         model.addAttribute("loginVO", loginVO);
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         return "cam_manager/budget/budgetPreCondition";
     }
 
@@ -225,6 +233,10 @@ public class BudgetController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(loginVO == null){
+            return "error/error";
+        }
 
         return "cam_manager/budget/busnCostPreCondition";
     }
