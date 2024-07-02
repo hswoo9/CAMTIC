@@ -93,6 +93,7 @@ public class AchieveController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        params.put("deptLevel", "2");
         List<Map<String, Object>> list = achieveService.getDeptObjList(params);
         if(list.size() > 0){
             params.put("type", "upd");
@@ -309,6 +310,11 @@ public class AchieveController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        params.put("deptLevel", "2");
+        List<Map<String, Object>> list = deptService.getDeptCList(params);
+
+        model.addAttribute("list", list);
+
         return "cam_achieve/expenseDetail";
     }
 
@@ -362,6 +368,12 @@ public class AchieveController {
 
         model.addAttribute("list", list);
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getDeptExnpList")
+    public String getDeptExnpList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", achieveService.getDeptExnpList(params));
         return "jsonView";
     }
 

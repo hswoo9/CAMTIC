@@ -23,4 +23,9 @@ public class DeptServiceImpl implements DeptService {
     public List<Map<String, Object>> getDeptBList(Map<String, Object> params) {
         return deptRepository.getDeptBList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getDeptCList(Map<String, Object> params) {
+        return deptRepository.getDeptCList(params);
+    }
 }

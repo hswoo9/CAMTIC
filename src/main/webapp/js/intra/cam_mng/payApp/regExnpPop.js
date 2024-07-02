@@ -417,7 +417,7 @@ var regExnp = {
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                     deptLevel : 2
                 });
-                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","9");
                 $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
 
                 regExnpDet.global.itemIndex++;
@@ -707,7 +707,7 @@ var regExnp = {
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                     deptLevel : 2
                 });
-                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","9");
                 $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
 
                 regExnpDet.global.itemIndex++;
@@ -894,7 +894,7 @@ var regExnp = {
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                     deptLevel : 2
                 });
-                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","9");
                 $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
 
                 regExnpDet.global.itemIndex++;
@@ -1335,7 +1335,7 @@ var regExnpDet = {
                 deptLevel : 2
             });
 
-            customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","5");
+            customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","9");
             $("#appTeam0").data("kendoDropDownList").value($("#teamSeq").val());
         }
 
@@ -1481,7 +1481,7 @@ var regExnpDet = {
                 deptLevel : 2
             });
 
-            customKendo.fn_dropDownList("appTeam" + clIdx, ds.rs, "dept_name", "dept_seq","5");
+            customKendo.fn_dropDownList("appTeam" + clIdx, ds.rs, "dept_name", "dept_seq","9");
             $("#appTeam" + clIdx).data("kendoDropDownList").value($("#teamSeq").val());
 
             regExnpDet.global.itemIndex++;

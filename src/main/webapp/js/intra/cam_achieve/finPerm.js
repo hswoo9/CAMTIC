@@ -33,6 +33,7 @@ var finPerm = {
         var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc", parameters);
 
         var result = rs.map;
+        console.log("result", result);
         var result2 = rs.payrollMap;
 
         /** 수주 */
@@ -179,7 +180,7 @@ var finPerm = {
         $("#expOperPer").text(expOperPer);
     },
 
-    fn_engnSearch : function (){
+    fn_pjtSearch : function (busnClass, stat){
         $("#engnGrid").css("display", "block");
 
         var dataSource = new kendo.data.DataSource({
@@ -193,6 +194,8 @@ var finPerm = {
                 parameterMap: function(data){
                     data.year = $("#year").val();
                     data.deptSeq = $("#dept").val();
+                    data.busnClass = busnClass;
+                    data.stat = stat;
 
                     return data;
                 }
@@ -252,16 +255,16 @@ var finPerm = {
                     width: 80,
                     field: "STAT_A"
                 }, {
-                    title: "수주일자",
-                    field: "DELV_DE",
+                    title: "시작일",
+                    field: "LIST_STR_DE",
                     width: 80
                 }, {
-                    title: "수주일자",
-                    field: "DELV_EST_DE",
+                    title: "종료예정일",
+                    field: "LIST_END_EX_DE",
                     width: 80
                 }, {
-                    title: "납품예정일자",
-                    field: "DELV_DE",
+                    title: "종료일",
+                    field: "LIST_END_DE",
                     width: 80
                 }, {
                     title: "프로젝트명",
@@ -403,15 +406,10 @@ var finPerm = {
     },
 
     fn_objSetting : function(type){
-        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val().split("-")[0];
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val().split("-")[0] + "&objType=" + type;
 
-        if(type == "team"){
-            url += "&deptLevel=2";
-            if($("#dept").val() != ""){
-                url += "&deptSeq=" + $("#dept").val();
-            }
-        } else {
-            url += "&deptLevel=99&deptSeq=999999";
+        if($("#dept").val() != ""){
+            url += "&deptSeq=" + $("#dept").val();
         }
 
         var name = "_blank";

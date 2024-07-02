@@ -370,4 +370,21 @@ public class messageController {
 
         return "jsonView";
     }
+
+    /** 팩스 전송 */
+    @RequestMapping("/message/sendFms")
+    public String sendFms(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            MultipartFile[] file = request.getFiles("file").toArray(new MultipartFile[0]);
+            messageService.sendFms(params, file, SERVER_DIR, BASE_DIR);
+            result.put("code", "200");
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+            result.put("code", "500");
+        }
+        model.addAttribute("result", result);
+        return "jsonView";
+    }
 }

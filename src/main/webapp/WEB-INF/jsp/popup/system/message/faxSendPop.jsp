@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<link rel="stylesheet" href="/css/quirk.css">
-<link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/system/message/faxSendPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
+
+<script type="text/javascript" src="/js/intra/system/message/faxSendPop.js?v=${today}"></script>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -53,7 +53,6 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>첨부파일</th>
                     <td>
-                        <input type="hidden" id="fileSn" name="fileSn">
                         <label for="file" id="fileLabel" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file" name="file" onchange="faxSendPop.fileChange(this)" style="display: none">
                         <span id="fileName"></span>

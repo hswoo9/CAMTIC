@@ -184,6 +184,25 @@ public class MessageServiceImpl implements MessageService {
         return 80;
     }
 
+    @Override
+    public void sendFms(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", "send");
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+                commonRepository.insFileInfoOne(list.get(i));
+                params.put("fileUUID", list.get(i).get("fileUUID"));
+                messageRepository.msgSendFMS(params);
+            }
+        }
+
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

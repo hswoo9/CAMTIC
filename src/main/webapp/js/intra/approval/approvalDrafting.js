@@ -386,7 +386,7 @@ var draft = {
     },
 
     docGbnChange : function (){
-        if(draft.global.params.formId == "1"){
+        if(draft.global.params.formId == "1" || draft.global.params.formId == "157"){
             if(this.value() == "001"){
                 hwpDocCtrl.putFieldText("sender_name", "사단법인 캠틱종합기술원장");
                 hwpDocCtrl.putFieldText("doc_receivelist_txt", "수신자");
@@ -1270,7 +1270,7 @@ var draft = {
             }
         }
 
-        if($("#formId").val() == "1" && $("#docGbn").data("kendoRadioGroup").value() == "001" && hwpDocCtrl.fieldExist("인")){
+        if(($("#formId").val() == "1" || $("#formId").val() == "157") && $("#docGbn").data("kendoRadioGroup").value() == "001" && hwpDocCtrl.fieldExist("인")){
             /** 외부시행문서 일경우 직인 */
             if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
                 const signInfo = getSign();

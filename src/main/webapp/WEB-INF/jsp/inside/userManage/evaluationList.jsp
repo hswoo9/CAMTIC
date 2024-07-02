@@ -93,20 +93,15 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    $(function (){
-
-        $("#SearchYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
-
-        getEvaluationList();
-
+    $("#SearchYear").kendoDatePicker({
+        start: "decade",
+        depth: "decade",
+        culture : "ko-KR",
+        format : "yyyy",
+        value : new Date()
     });
 
+    getEvaluationList();
 
     function  getEvaluationList(){
         $.ajax({

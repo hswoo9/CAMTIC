@@ -214,6 +214,8 @@ var customKendo = {
             dataSource.unshift({[textField] : "부서 선택", [valueField] : ""});
         }else if(type == "7"){
             dataSource.unshift({[textField] : "해당 없음", [valueField] : ""});
+        }else if(type == "9"){
+            dataSource.unshift({[textField] : "공통운영비", [valueField] : ""});
         }else{
             dataSource.unshift({[textField] : "전체", [valueField] : ""});
         }

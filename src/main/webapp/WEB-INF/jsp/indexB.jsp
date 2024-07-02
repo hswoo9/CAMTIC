@@ -80,6 +80,85 @@
     }
 </style>
 
+<div class="col-md-12 col-lg-12" class="adminContent" style="float: left; display: none">
+    <div style="margin-top:-10px; padding-bottom: 10px">
+        <div class="media leftpanel-profile" style="text-align:center; background-color:#fff; margin-bottom: 10px">
+            <div style="padding-left : 20px; padding-right: 20px; text-align: left;">
+                <h4 class="panel-title">전체 재무성과</h4>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <div id="statTable" style="width: 100%; overflow: auto; margin-top: 5px;" view="Y">
+                        <table class="totalTable table table-bordered" style="margin-bottom: 0px; white-space:nowrap;">
+                            <caption style="text-align: left;">(단위 : 백만원, %)</caption>
+                            <thead>
+                            <colgroup>
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                                <col width="6.6%">
+                            </colgroup>
+                            <tr style="color : black ; background-color: #f0f6ff;">
+                                <td style="text-align: center;" colspan="5"><b>수주</b></td>
+                                <td style="text-align: center;" colspan="5"><b>매출</b></td>
+                                <td style="text-align: center;" colspan="5"><b>운영수익</b></td>
+                            </tr>
+                            <tr style="color : black ; background-color: #ffffff;">
+                                <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                                <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                                <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
+                                <td style="text-align: center;"><b>합계</b></td>
+                                <td style="text-align: center;"><b>(%)</b></td>
+                                <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                                <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                                <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
+                                <td style="text-align: center;"><b>합계</b></td>
+                                <td style="text-align: center;"><b>(%)</b></td>
+                                <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
+                                <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
+                                <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
+                                <td style="text-align: center;"><b>합계</b></td>
+                                <td style="text-align: center;"><b>(%)</b></td>
+                            </tr>
+                            <tr style="background-color: white">
+                                <td style="text-align: right;background-color: #fffef2;" id="monMeetDelvObj" name="delvObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="monMeetDelvAch" name="delvAch"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="monMeetDelvExp" name="delvExp"></td>
+                                <td style="text-align: right;" id="monMeetDelvSum" name="delvSum"></td>
+                                <td style="text-align: right;font-weight: bold;" id="monMeetDelvPer" name="delvPer"></td>
+                                <td style="text-align: right;background-color: #fffef2;" id="monMeetSaleObj" name="saleObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="monMeetSaleAch" name="saleAch"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="monMeetSaleExp" name="saleExp"></td>
+                                <td style="text-align: right;" id="monMeetSaleSum" name="saleSum"></td>
+                                <td style="text-align: right;font-weight: bold" id="monMeetSalePer" name="salePer"></td>
+                                <td style="text-align: right;background-color: #fffef2;" id="monMeetIncpObj" name="incpObj"></td>
+                                <td style="text-align: right;background-color: #fff4f4;" id="monMeetIncpAch" name="incpAch"></td>
+                                <td style="text-align: right;background-color: #f2ffff;" id="monMeetIncpExp" name="incpExp"></td>
+                                <td style="text-align: right;" id="monMeetIncpSum" name="incpSum"></td>
+                                <td style="text-align: right; font-weight: bold;" id="monMeetIncpPer" name="incpPer"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="col-md-2 col-lg-2" id="mainContent" style="float: left">
     <div style="margin-top:-10px;">
         <div class="media leftpanel-profile" style="text-align:center; background-color:#fff; margin-bottom: 10px">
@@ -361,6 +440,160 @@
     var currentYearMonth = currentYear + '.' + currentMonth;
     var showCurrentMonth = document.querySelector('#currentYearMonth');
     showCurrentMonth.textContent = currentYearMonth;*/
+    fn_dataReset();
+
+    function fn_dataReset(){
+
+        $("td[name='delvObj']").text("0");
+        $("td[name='delvAch']").text("0");
+        $("td[name='delvExp']").text("0");
+        $("td[name='delvSum']").text("0");
+        $("td[name='delvPer']").text("0");
+
+        $("td[name='saleObj']").text("0");
+        $("td[name='saleAch']").text("0");
+        $("td[name='saleExp']").text("0");
+        $("td[name='saleSum']").text("0");
+        $("td[name='salePer']").text("0");
+
+        $("td[name='incpObj']").text("0");
+        $("td[name='incpAch']").text("0");
+        $("td[name='incpExp']").text("0");
+        $("td[name='incpSum']").text("0");
+        $("td[name='incpPer']").text("0");
+
+        fn_searchData();
+    }
+
+    function fn_searchData(){
+        let today = new Date();
+        let year = today.getFullYear();
+
+        var parameters = {
+            year : year,
+        }
+
+        var rs = customKendo.fn_customAjax("/cam_achieve/getEngnDeptData", parameters);
+
+        console.log(rs);
+        var ls = rs.ls;
+        var engnSaleList = rs.saleLs.engnSaleList;          // 민간사업 매출
+        var rndSaleList = rs.saleLs.rndSaleList;            // 정부사업 매출
+        var objList = rs.objLs;                             // 목표
+
+        var engnEstList = rs.incpLs.engnEstList;            // 민간사업 투자금액
+        var engnPurcList = rs.incpLs.engnPurcList;          // 민간사업 구매
+        var engnBustripList = rs.incpLs.engnBustripList;    // 민간사업 출장
+        var rndIncpList = rs.incpLs.rndIncpList;            // 정부사업 수익
+
+
+        /** 목표 */
+        var delvObj = 0;
+        var saleObj = 0;
+        var incpObj = 0;
+
+        for (var j = 0; j < objList.length; j++) {
+            delvObj += (objList[j].DELV_OBJ || 0);
+            saleObj += (objList[j].SALE_OBJ || 0);
+            incpObj += (objList[j].INCP_OBJ || 0);
+        }
+
+        $("#monMeetDelvObj").text(comma(Math.floor(delvObj / 1000000) || 0));      // 수주목표
+        $("#monMeetSaleObj").text(comma(Math.floor(saleObj / 1000000) || 0));      // 매출목표
+        $("#monMeetIncpObj").text(comma(Math.floor(incpObj / 1000000) || 0));      // 운영수익목표
+
+
+        /** 달성, 예상, 합계 */
+        var pjtAmt = 0;
+        var expAmt = 0;
+        var expAmt2 = 0;
+        var engnPjtAmt = 0;
+        var rndPjtAmt = 0;
+        var purcEngnSum = 0;
+        var bustripEngnSum = 0;
+        var incpRndSum = 0;
+        var estEngnSum = 0;
+
+        for(var i = 0 ; i < ls.length ; i++){
+            pjtAmt += (ls[i].PJT_AMT || 0);
+            expAmt += (ls[i].EXP_AMT || 0);
+            expAmt2 += (ls[i].EXP_AMT2 || 0);
+        }
+
+        for(var j = 0 ; j < engnSaleList.length ; j++){
+            engnPjtAmt += (engnSaleList[j].PJT_AMT || 0);
+        }
+
+        for(var j = 0 ; j < rndSaleList.length ; j++){
+            rndPjtAmt += (rndSaleList[j].PJT_AMT || 0);
+        }
+
+        for(var j = 0 ; j < engnPurcList.length ; j++){
+            purcEngnSum += (engnPurcList[j].PURC_EXNP_AMT || 0);
+        }
+
+        for(var j = 0 ; j < engnBustripList.length ; j++){
+            bustripEngnSum += (engnBustripList[j].BUSTRIP_EXNP_AMT || 0);
+        }
+
+        for(var j = 0 ; j < rndIncpList.length ; j++){
+            incpRndSum += (rndIncpList[j].TOT_COST || 0);
+        }
+
+        for(var j = 0 ; j < engnEstList.length ; j++){
+            estEngnSum += (engnEstList[j].EST_TOT_AMT || 0);
+        }
+
+        var engnSaleSum = pjtAmt + engnPjtAmt;
+        var engnIncpSum = purcEngnSum + bustripEngnSum;
+
+        $("#monMeetDelvAch").text(comma((Math.floor(pjtAmt / 1000000) || 0)));                         // 수주 달성
+        $("#monMeetDelvExp").text(comma((Math.floor((expAmt + expAmt2) / 1000000) || 0)));             // 수주 예상
+        $("#monMeetDelvSum").text(comma((Math.floor((pjtAmt + (expAmt + expAmt2)) / 1000000) || 0)));  // 수주 합계
+
+        $("#monMeetSaleAch").text(comma((Math.floor((pjtAmt + (engnPjtAmt || 0) + (rndPjtAmt || 0)) / 1000000)) || 0));                // 매출 달성
+        $("#monMeetSaleExp").text(comma((Math.floor((pjtAmt + (engnPjtAmt || 0) + (pjtAmt - (rndPjtAmt || 0))) / 1000000)) || 0));     // 매출 예상
+        $("#monMeetSaleSum").text(comma(Number(uncomma($("#monMeetSaleAch").text())) + Number(uncomma($("#monMeetSaleExp").text()))));                  // 매출 합계
+
+        $("#monMeetIncpAch").text(comma((Math.floor((engnSaleSum - engnIncpSum + incpRndSum) / 1000000)) || 0));           // 운영수익 달성
+        $("#monMeetIncpExp").text(comma((Math.floor((engnSaleSum - estEngnSum + incpRndSum) / 1000000)) || 0));            // 운영수익 예상
+        $("#monMeetIncpSum").text(comma(Number(uncomma($("#monMeetIncpAch").text())) + Number(uncomma($("#monMeetIncpExp").text()))));      // 운영수익 합계
+
+        fn_calcPercent();
+    }
+
+    function fn_calcPercent(){
+
+        /** 수주  */
+        var delvObj = Number(uncommaN($("#monMeetDelvObj").text()));
+        var delvSum = Number(uncommaN($("#monMeetDelvSum").text()));
+
+        if(delvObj == 0 || delvSum == 0){
+            $("#monMeetDelvPer").text("0 %");
+        } else {
+            $("#monMeetDelvPer").text( Math.round((delvSum / delvObj * 100) * 10) / 10 + " %" );
+        }
+
+        /** 매출  */
+        var saleObj = Number(uncommaN($("#monMeetSaleObj").text()));
+        var saleSum = Number(uncommaN($("#monMeetSaleSum").text()));
+
+        if(saleObj == 0 || saleSum == 0){
+            $("#monMeetSalePer").text("0 %");
+        } else {
+            $("#monMeetSalePer").text( Math.round((saleSum / saleObj * 100) * 10) / 10 + " %" );
+        }
+
+        /** 운영수익  */
+        var incpObj = Number(uncommaN($("#monMeetIncpObj").text()));
+        var incpSum = Number(uncommaN($("#monMeetIncpSum").text()));
+
+        if(incpObj == 0 || incpSum == 0){
+            $("#monMeetIncpPer").text("0 %");
+        } else {
+            $("#monMeetIncpPer").text( Math.round((incpSum / incpObj * 100) * 10) / 10 + " %" );
+        }
+    }
 
     var watchBoardId = "";
 

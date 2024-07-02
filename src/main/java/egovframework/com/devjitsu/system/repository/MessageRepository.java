@@ -28,6 +28,7 @@ public class MessageRepository extends AbstractDAO {
 
     public void msgSendSMS(Map<String, Object> params) { insertPrjMs("messagePrj.msgSendSMS", params); }
     public void msgSendMMS(Map<String, Object> params) { insertPrjMs("messagePrj.msgSendMMS", params); }
+    public void msgSendFMS(Map<String, Object> params) { insert("messageSend.msgSendFMS", params); }
 
 
     public void setGroup(Map<String, Object> params) { insert("message.setGroup", params); }

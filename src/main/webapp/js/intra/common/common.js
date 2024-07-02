@@ -599,3 +599,25 @@ function exportGrid(e){
         }
     }
 }
+
+/** 파일뷰어 공통 함수 */
+function fileViewer(path, fid){
+    let url = "http://218.158.231.43:8080/SynapDocViewServer/convert?fileType=URL&convertType=2&filePath=";
+    let pth = "";
+
+    if(path.indexOf("http") > -1){
+        pth = path + fid;
+    } else {
+        pth = "http://218.158.231.184" + path + fid;
+    }
+
+    const encodedPath = encodeURIComponent(pth);
+
+    url += encodedPath;
+    url += "&fid=" + fid;
+    url += "&urlEncoding=UTF-8";
+
+    const name = "_blank";
+    const option = "width=1300, height=820, top=100, left=400, location=no";
+    const popup = window.open(url, name, option);
+}

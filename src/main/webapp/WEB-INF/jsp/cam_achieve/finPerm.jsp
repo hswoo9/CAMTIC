@@ -95,7 +95,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">팀 재무성과</h4>
-            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 팀 재무성과</div>
+            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 팀재무성과</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -109,7 +109,7 @@
                 </span>
                 <div style="float: right;">
                     <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('team');" style="margin-bottom: 5px;">팀 목표설정</button>
-                    <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('all');" style="margin-bottom: 5px;">운영 목표설정</button>
+                    <button type="button" class="k-button k-button-solid-base" onclick="finPerm.fn_objSetting('oper');" style="margin-bottom: 5px;">운영 목표설정</button>
                     <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="finPerm.fn_searchData();" style="margin-bottom: 5px;">조회</button>
                 </div>
 
@@ -141,7 +141,7 @@
                             <td colspan="5" style="text-align: center;"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_engnSearch();">R&D</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R', 'dev');">R&D</b></td>
                             <td style="text-align: right;" id="rndDelvAmt">0</td>
                             <td style="text-align: right;" id="rndSaleAmt">0</td>
                             <td style="text-align: right;" id="rndIncpAmt">0</td>
@@ -149,19 +149,19 @@
                             <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="3"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>비R&D</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S', 'dev');">비R&D</b></td>
                             <td style="text-align: right;" id="unRndDelvAmt">0</td>
                             <td style="text-align: right;" id="unRndSaleAmt">0</td>
                             <td style="text-align: right;" id="unRndIncpAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>엔지니어링</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D', 'dev');">엔지니어링</b></td>
                             <td style="text-align: right;" id="engnDelvAmt">0</td>
                             <td style="text-align: right;" id="engnSaleAmt">0</td>
                             <td style="text-align: right;" id="engnIncpAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>용역/기타</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V', 'dev');">용역/기타</b></td>
                             <td style="text-align: right;" id="otherDelvAmt">0</td>
                             <td style="text-align: right;" id="otherSaleAmt">0</td>
                             <td style="text-align: right;" id="otherIncpAmt">0</td>
@@ -182,7 +182,7 @@
                             <td style="text-align: right;"><b id="commTotAmt">0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>R&D예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R', 'delv');">R&D예상</b></td>
                             <td style="text-align: right;" id="expRndAmt">0</td>
                             <td style="text-align: right;" id="expSaleRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpRndAmt">0</td>
@@ -190,19 +190,19 @@
                             <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="3"><b>2024년 예상 운영비_물량취합기준</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>비R&D예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S', 'delv');">비R&D예상</b></td>
                             <td style="text-align: right;" id="expUnRndAmt">0</td>
                             <td style="text-align: right;" id="expSaleUnRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpUnRndAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>엔지니어링예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D', 'delv');">엔지니어링예상</b></td>
                             <td style="text-align: right;" id="expEngnAmt">0</td>
                             <td style="text-align: right;" id="expSaleEngnAmt">0</td>
                             <td style="text-align: right;" id="expIncpEngnAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>용역/기타예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V', 'delv');">용역/기타예상</b></td>
                             <td style="text-align: right;" id="expOtherAmt">0</td>
                             <td style="text-align: right;" id="expSaleOtherAmt">0</td>
                             <td style="text-align: right;" id="expIncpOtherAmt">0</td>

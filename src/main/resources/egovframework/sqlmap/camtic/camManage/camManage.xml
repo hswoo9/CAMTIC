@@ -210,9 +210,11 @@
     <select id="getCorpProjectData" parameterType="map" resultType="map">
         /*getCorpProjectData*/
         SELECT
-            *
+            A.*,
+            DATE_FORMAT(A.STR_DT, '%Y%m%d') AS STR_DT2,
+            DATE_FORMAT(A.END_DT, '%Y%m%d') AS END_DT2
         FROM
-            CAM_PJT_MNG.DJ_CORP_PROJECT
+            CAM_PJT_MNG.DJ_CORP_PROJECT A
         WHERE
             CORP_PJT_SN = #{corpPjtSn}
     </select>

@@ -45,7 +45,7 @@
             deptLevel : 2
         });
 
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq","5");
+        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq","9");
     });
 
     function saveBtn(){

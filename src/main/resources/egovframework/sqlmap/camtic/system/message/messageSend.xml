@@ -120,6 +120,38 @@
             )
     </insert>
 
+    <insert id="msgSendFMS" parameterType="map">
+        /*msgSendFMS*/
+        INSERT INTO CAM_TOOLS.SDK_FMS_SEND
+            (
+                USER_ID,
+                MSG_SUBTYPE,
+                SCHEDULE_TYPE,
+                SUBJECT,
+                NOW_DATE,
+                SEND_DATE,
+
+                CALLBACK,
+                DEST_COUNT,
+                DEST_INFO,
+                ATTACH_FILE
+            )
+        VALUES
+            (
+                'camtic',
+                '20',
+                '0',
+                'CAMTIC FMS 서비스',
+                #{pkDate},
+                #{pkDate},
+
+                #{requestNum},
+                '1',
+                #{dest_phone},
+                #{fileUUID}
+            )
+    </insert>
+
     <select id="test" resultType="map" parameterType="map">
         /* test */
         SELECT * FROM CAM_TOOLS.SDK_MMS_SEND

@@ -95,7 +95,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">부서 재무성과</h4>
-            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 부서 재무성과</div>
+            <div class="title-road">캠어취브 > 캠어취브 &gt; 재무성과 &gt; 부서재무성과</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -174,7 +174,7 @@
                         </tr>
                         <c:forEach var="l" items="${list}" varStatus="status">
                             <tr style="background-color: white">
-                                <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
+                                <td style="text-align: center; font-weight: bold"><b style="cursor: pointer" onclick="weekMeet.fn_pjtSearch('${l.dept_seq}');">${l.dept_name}</b></td>
                                 <td style="text-align: right;background-color: #fffef2;" id="delvObj_${l.dept_seq}" name="delvObj"></td>
                                 <td style="text-align: right;background-color: #fff4f4;" id="delvAch_${l.dept_seq}" name="delvAch"></td>
                                 <td style="text-align: right;font-weight: bold;" id="delvAchPer_${l.dept_seq}" name="delvAchPer"></td>
@@ -234,7 +234,7 @@
             </div>
         </div>
         <div class="panel-body">
-
+            <div id="engnGrid"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

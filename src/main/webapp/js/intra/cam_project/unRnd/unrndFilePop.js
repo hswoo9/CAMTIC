@@ -42,7 +42,7 @@ const unrndFilePop = {
                 html1 += '   <td>' + size + '</td>';
                 html1 += '   <td>';
                 if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="unrndFilePop.fileViewer(' +  + ')">'
+                    html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="unrndFilePop.fileViewer1(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">';
                 }
                 html1 += '   </td>';
                 html1 += '</tr>';
@@ -171,6 +171,14 @@ const unrndFilePop = {
         } else {
             hostUrl = "http://218.158.231.186";
         }
+        var popup = window.open(hostUrl + path, name, option);
+    },
+
+    fileViewer1 : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var hostUrl = "http://218.158.231.189";
+
         var popup = window.open(hostUrl + path, name, option);
     },
 
