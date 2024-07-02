@@ -87,10 +87,20 @@ var lecturePersonReq = {
                     title: "소속",
                     width: "30%",
                     template: function(row){
-                        if(row.CRM_NM == null || row.CRM_NM == ""){
-                            return row.CO_NAME;
-                        }else{
-                            return row.CRM_NM;
+                        if(row.EXISTING_YN == "Y"){
+                            if(row.CO_NAME == null){
+                                return "";
+                            } else {
+                                return row.CO_NAME;
+                            }
+                        } else if(row.EXISTING_YN == "N"){
+                            if(row.CRM_NM == null){
+                                return "";
+                            } else {
+                                return row.CRM_NM;
+                            }
+                        } else {
+                            return "";
                         }
                     }
                 }, {
@@ -99,9 +109,17 @@ var lecturePersonReq = {
                     width: "15%",
                     template: function(row){
                         if(row.USER_TYPE == "S"){
-                            return row.SCHOOL_NAME;
+                            if(row.SCHOOL_MAJOR == null){
+                                return "";
+                            } else {
+                                return row.SCHOOL_MAJOR;
+                            }
                         }else{
-                            return row.PART;
+                            if(row.PART == null){
+                                return "";
+                            } else {
+                                return row.PART;
+                            }
                         }
                     }
                 }, {
