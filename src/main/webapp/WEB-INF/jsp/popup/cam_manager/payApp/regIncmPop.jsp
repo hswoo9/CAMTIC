@@ -50,7 +50,7 @@
                 </colgroup>
                 <thead>
                 <tr id="project">
-                    <th scope="row" class="text-center th-color">사업명</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
                     <td colspan="4">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.AFT_PJT_NM}"  style="width: 40%;">
@@ -61,7 +61,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">예산비목</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>예산비목</th>
                     <td colspan="4">
                         <span>
                             <input type="text" id="budgetNm" disabled value=""  style="width: 40%;">
@@ -98,13 +98,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">적요</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>적요</th>
                     <td colspan="4">
                         <input type="text" id="appCont" style="width: 100%;"/>
                     </td>
                 </tr>
                 <tr>
-                    <th rowspan="3" scope="row" class="text-center th-color">입금계좌</th>
+                    <th rowspan="3" scope="row" class="text-center th-color"><span class="red-star">*</span>입금계좌</th>
                     <th style="width: 10%">계좌명</th>
                     <td colspan="3">
                         <input type="text" id="accNm" disabled style="width: 50%;">

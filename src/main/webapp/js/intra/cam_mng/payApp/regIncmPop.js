@@ -477,11 +477,6 @@ var regIncm = {
     },
 
     fn_save : function (){
-        if(!$("#appCont").val() || $("#appCont").val() == ''){
-            alert("적요가 입력되지 않았습니다.");
-            return;
-        }
-
         var parameters = {
             appDe : $("#appDe").val(),
             payExnpDe : $("#payIncpDe").val(),
@@ -503,6 +498,26 @@ var regIncm = {
             // payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#regEmpSeq").val()
+        }
+
+        if(parameters.pjtCd == ""){
+            alert("사업을 선택해주세요.");
+            return;
+        }
+
+        if(parameters.budgetSn == ""){
+            alert("비목을 선택해주세요.");
+            return;
+        }
+
+        if(parameters.appCont == ""){
+            alert("적요가 입력되지 않았습니다.");
+            return;
+        }
+
+        if(parameters.accNm == ""){
+            alert("입금계좌를 선택해주세요.");
+            return;
         }
 
         if($("#payIncpSn").val() != ""){
