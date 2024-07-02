@@ -95,7 +95,7 @@ const regPayAtt = {
                 // if (fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg") {
                 //     html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid + '\', "", \'' + fileArray[i].file_uuid + '\')">'
                 // }
-                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid + '\', \'\', \'' + fileArray[i].file_uuid + '\')">'
+                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\'' + fileArray[i].file_path + '\', \'' + fileArray[i].file_uuid + '\')">'
                 html1 += '   </td>';
                 if ($("#type").val() != "exnp") {
                     html1 += '   <td>';
@@ -210,7 +210,7 @@ const regPayAtt = {
                 //     html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'' + fileArray[i].file_uuid + '\')">'
                 // }
 
-                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'\', \'' + fileArray[i].file_uuid + '\')">'
+                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\'' + fileArray[i].file_path +'\', \'' + fileArray[i].file_uuid + '\')">'
 
                 html1 += '   </td>';
                 html1 += '   <td>';
@@ -318,7 +318,7 @@ const regPayAtt = {
                 //     html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'' + fileArray[i].file_uuid +'\')">'
                 // }
 
-                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'\', \'' + fileArray[i].file_uuid +'\')">'
+                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\'' + fileArray[i].file_path +'\', \'' + fileArray[i].file_uuid +'\')">'
 
                 
                 html1 += '   </td>';
@@ -387,7 +387,7 @@ const regPayAtt = {
                 // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
                 //     html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'' + fileArray[i].file_uuid + '\')">'
                 // }
-                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\', \'\', \'' + fileArray[i].file_uuid + '\')">'
+                html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fileArray[i].file_path +'\', \''+ fileArray[i].file_uuid +'\')">'
 
 
                 html1 += '   </td>';
@@ -469,7 +469,7 @@ const regPayAtt = {
                         //         '		    </button>';
                         // }
 
-                        html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer2(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\', \''+e[i].file_uuid+'\')">' +
+                        html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+e[i].file_path+'\', \''+e[i].file_uuid+'\')">' +
                             '			    <span class="k-button-text">뷰어</span>' +
                             '		    </button>';
                         html += '   </td>';
@@ -552,36 +552,6 @@ const regPayAtt = {
         } else {
             opener.parent.regExnp.global.attFiles = regPayAtt.global.attFiles;
         }
-    },
-
-
-    fileViewer2 : function (path, name, fid){
-        var name = "_blank";
-        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
-        // var hostUrl = "";
-        // if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
-        //     hostUrl = "http://218.158.231.184";
-        // } else {
-        //     hostUrl = "http://218.158.231.186";
-        // }
-
-        var url = "http://218.158.231.43:8080/SynapDocViewServer/convert?fileType=URL&convertType=2&filePath=";
-
-
-        var pth = "http://218.158.231.184" + path;
-        if(path.indexOf("http") > -1){
-            pth = path;
-        } else {
-            pth = "http://218.158.231.184" + path;
-        }
-
-        const encodedPath = encodeURIComponent(pth);
-
-        url += encodedPath;
-        url += "&fid=" + fid;
-        url += "&urlEncoding=UTF-8";
-
-        var popup = window.open(url, name, option);
     },
 
     fn_close : function (){
