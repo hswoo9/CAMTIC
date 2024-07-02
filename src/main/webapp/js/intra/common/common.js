@@ -600,6 +600,7 @@ function exportGrid(e){
     }
 }
 
+/** 파일뷰어 공통 함수 */
 function fileViewer(path, fid){
     let url = "http://218.158.231.43:8080/SynapDocViewServer/convert?fileType=URL&convertType=2&filePath=";
     let pth = "";
