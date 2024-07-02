@@ -173,9 +173,10 @@ const regIncmAtt = {
                 html1 += '   <td>';
 
                 if(fileArray[i].file_ext != undefined && fileArray[i].file_ext != null && fileArray[i].file_ext != ""){
-                    if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
-                        html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regIncmAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
-                    }
+                    /*if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+
+                    }*/
+                    html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fileArray[i].file_path +'\', \''+ fileArray[i].file_uuid +'\')">'
                 }
 
                 html1 += '   </td>';
@@ -281,12 +282,13 @@ const regIncmAtt = {
                         html += '   <td style="text-align: left">'+e[i].file_org_name+'</td>';
                         html += '   <td>'+ e[i].file_ext +'</td>';
                         html += '   <td>'+ e[i].file_size +'</td>';
-                        html += '   <td>';
+                        html += '   <td>';/*
                         if(e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "jpeg"){
-                            html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regIncmAtt.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
-                                '			    <span class="k-button-text">뷰어</span>' +
-                                '		    </button>';
-                        }
+
+                        }*/
+                        html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e[i].file_path +'\', \'' +e[i].file_uuid+ '\')">' +
+                            '			    <span class="k-button-text">뷰어</span>' +
+                            '		    </button>';
                         html += '   </td>';
                         html += '   <td></td>';
                         html += '</tr>';

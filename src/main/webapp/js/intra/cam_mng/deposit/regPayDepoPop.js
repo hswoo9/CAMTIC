@@ -208,11 +208,8 @@ var regPayDepo = {
 
                 if(rs != null && rs != '' && rs.file_org_name != null && rs.file_org_name != '' && rs.file_org_name != undefined){
                     $("#fileName").text(rs.file_org_name + "." +rs.file_ext);
-                    if(rs.file_ext == "pdf" || rs.file_ext == "PDF" || rs.file_ext == "jpg" || rs.file_ext == "JPG" || rs.file_ext == "png" || rs.file_ext == "PNG"){
-                        $("#viewerBtn").css("display", "");
-
-                        $("#viewerBtn").attr("onclick", "regPayDepo.fileViewer(\""+rs.file_path + rs.file_uuid + "\");")
-                    }
+                    $("#viewerBtn").css("display", "");
+                    $("#viewerBtn").attr("onclick", "fileViewer(\""+rs.file_path+ "\", \""+rs.file_uuid+ "\");")
                 }
 
 

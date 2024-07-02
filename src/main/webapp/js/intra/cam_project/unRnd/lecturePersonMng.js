@@ -74,8 +74,12 @@ const lecturePersonMng = {
             }else{
                 $("#crmName").val(psMap.CRM_NM);
             }
+            $("#crmSn").val(psMap.CRM_SN);
 
             $("#schoolMajor").val(psMap.SCHOOL_MAJOR);
+
+            $("#crmDept").val(psMap.PART);
+            $("#crmPosition").val(psMap.PLACE);
         }
     },
 
