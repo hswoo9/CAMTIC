@@ -174,9 +174,9 @@ const regReListFilePop = {
                 html += '   <td>' + fileArray[i].file_ext + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regReListFilePop.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
-                }
+                /*if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fileArray[i].file_path +'\', \''+ fileArray[i].file_uuid +'\')">'
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
@@ -210,7 +210,7 @@ const regReListFilePop = {
                         html += '   <td>'+ e[i].file_size +'</td>';
                         html += '   <td>';
                         if(e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "jpeg"){
-                            html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regReListFilePop.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
+                            html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fileArray[i].file_path +'\', \''+ fileArray[i].file_uuid +'\')">' +
                                 '			    <span class="k-button-text">뷰어</span>' +
                                 '		    </button>';
                         }

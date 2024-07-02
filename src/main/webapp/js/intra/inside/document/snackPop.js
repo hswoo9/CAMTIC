@@ -220,9 +220,9 @@ var snackReq = {
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '   <td>';
-                if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
-                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + e.file_path + e.file_uuid +'\')">'
-                }
+                /*if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e.file_path +'\', \''+ e.file_uuid +'\')">'
                 html += '   </td>';
                 html += '</tr>';
                 $("#fileGrid").append(html);
@@ -239,9 +239,9 @@ var snackReq = {
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '   <td>';
-                if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
-                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + e.file_path + e.file_uuid +'\')">'
-                }
+                /*if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e.file_path +'\', \''+ e.file_uuid +'\')">'
                 html += '   <td>';
                 html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
                     '			<span class="k-button-text">삭제</span>' +
@@ -675,9 +675,9 @@ var snackReq = {
                     html += '   <td>' + snackReq.global.attFiles[i].fileExt + '</td>';
                     html += '   <td>' + size + '</td>';
                     html += '   <td>';
-                    if(snackReq.global.attFiles[i].fileExt.toLowerCase() == "pdf" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpg" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "png" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpeg"){
-                        html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + snackReq.global.attFiles[i].filePath + snackReq.global.attFiles[i].fileUuid +'\')">'
-                    }
+                    /*if(snackReq.global.attFiles[i].fileExt.toLowerCase() == "pdf" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpg" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "png" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpeg"){
+                    }*/
+                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ snackReq.global.attFiles[i].filePath +'\', \''+ snackReq.global.attFiles[i].fileUuid +'\')">'
                     html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.commonFileDel(' + snackReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
                     html += '   </td>';

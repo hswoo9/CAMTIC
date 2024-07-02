@@ -316,9 +316,9 @@ var bustripInit = {
                     html += '   <td>'+ e[i].file_ext +'</td>';
                     html += '   <td>'+ fCommon.bytesToKB(e[i].file_size) +'</td>';
                     html += '   <td>';
-                    if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
-                        html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="bustripInit.fileViewer(\'' + e[i].file_path + e[i].file_uuid +'\')">'
-                    }
+                    /*if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
+                    }*/
+                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e[i].file_path +'\', \''+ e[i].file_uuid +'\')">';
                     html += '   </td>';
                     html += '   <td>';
                     if(status != 100){

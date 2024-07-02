@@ -1299,9 +1299,9 @@ var prp = {
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
                 html += '   </td>';
                 html += '   <td>';
-                if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="prp.fileViewer(\'' + fCommon.global.attFiles[i].file_path + fCommon.global.attFiles[i].file_uuid +'\')">'
-                }
+                /*if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                }*/
+                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fCommon.global.attFiles[i].file_path +'\', \''+ fCommon.global.attFiles[i].file_uuid +'\')">'
                 html += '   </td>';
                 html += '</tr>';
             }
@@ -1326,9 +1326,9 @@ var prp = {
                     '		    </button>';
                 html += '   </td>';
                 html += '   <td>';
-                if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="prp.fileViewer(\'' + e[i].file_path + e[i].file_uuid +'\')">'
-                }
+                /*if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e[i].file_path +'\', \''+ e[i].file_uuid +'\')">'
                 html += '   </td>';
                 html += '</tr>';
             }
