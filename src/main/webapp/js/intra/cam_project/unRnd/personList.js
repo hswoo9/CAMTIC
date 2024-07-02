@@ -82,7 +82,7 @@ var personList = {
                     title: "전화번호",
                     width: "10%"
                 }, {
-                    field: "TEL_NUM",
+                    field: "HP_NUM",
                     title: "핸드폰",
                     width: "10%"
                 }, {
