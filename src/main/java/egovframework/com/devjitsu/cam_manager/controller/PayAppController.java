@@ -49,6 +49,9 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
+        if(loginVO == null){
+            return "error/error";
+        }
         return "cam_manager/payApp/paymentList";
     }
 

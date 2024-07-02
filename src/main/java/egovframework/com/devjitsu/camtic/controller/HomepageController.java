@@ -304,4 +304,12 @@ public class HomepageController {
 
     @RequestMapping("/camtic/about/locationENG.do")
     public String AlocationENG(){ return "camtic/about/locationENG"; }
+
+
+    @RequestMapping("/error/page")
+    public String errorPage(){
+
+
+        return "error/error";
+    }
 }
