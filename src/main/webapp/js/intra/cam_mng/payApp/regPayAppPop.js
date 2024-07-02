@@ -732,6 +732,8 @@ var regPay = {
             const hrBizReqResultId = $("#hrBizReqResultId").val();
             const exnpList = [];
             const cardList = [];
+            const busResResult = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: hrBizReqResultId });
+            const busInfo = busResResult.map;
 
             const corpCar = customKendo.fn_customAjax("/bustrip/getCorpCarExnpData", {hrBizReqResultId : hrBizReqResultId});
             console.log("corpCar", corpCar);
@@ -1185,9 +1187,10 @@ var regPay = {
 
             $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
             $("#bList").val(resultBlist);
+
+            $("#appDe").val(busInfo.TRIP_DAY_FR);
+            $(".trDe").val(busInfo.TRIP_DAY_FR);
         }
-
-
 
         if($("#reqType").val() == "business"){
             const hrBizReqId = $("#hrBizReqId").val();
