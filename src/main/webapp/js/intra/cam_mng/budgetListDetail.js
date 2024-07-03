@@ -13,7 +13,7 @@ var bld = {
         $("#carryoverCash, #carryoverPoint").kendoTextBox();
 
         bld.getCarryoverAmt();
-        bld.getCurrentAmountStatus();
+        // bld.getCurrentAmountStatus();
         bld.budgetMainGrid();
         bld.budgetMainGrid2();
     },
@@ -331,25 +331,25 @@ var bld = {
         }).data("kendoGrid");
     },
 
-    getCurrentAmountStatus : function(){
-        console.log("getCurrentAmountStatus");
-        var data = {
-            bankNB : $("#bankNB").val().replaceAll("-", ""),
-        }
-        $.ajax({
-            url : "/mng/getCurrentAmountStatus",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                if(rs.data != null){
-                    $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
-                } else {
-                    $("#currentAmt").text("-");
-                }
-            }
-        })
-    },
+    // getCurrentAmountStatus : function(){
+    //     console.log("getCurrentAmountStatus");
+    //     var data = {
+    //         bankNB : $("#bankNB").val().replaceAll("-", ""),
+    //     }
+    //     $.ajax({
+    //         url : "/mng/getCurrentAmountStatus",
+    //         data : data,
+    //         type : "post",
+    //         dataType : "json",
+    //         success : function(rs){
+    //             if(rs.data != null){
+    //                 $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
+    //             } else {
+    //                 $("#currentAmt").text("-");
+    //             }
+    //         }
+    //     })
+    // },
 
     fn_budgetDetailViewPop : function(type, bgtCd, temp){
         var url = "/mng/pop/budgetDetailView.do?pjtCd=" + $("#pjtCd").val() + "&bgtCd=" + bgtCd + "&type=" + type + "&temp=" + temp + "&strDt=" + $("#g20FrDt").val() + "&endDt=" + $("#g20ToDt").val();
@@ -370,8 +370,15 @@ var bld = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                $("#carryoverCash").val(comma(rs.data.CARRYOVER_CASH));
-                $("#carryoverPoint").val(comma(rs.data.CARRYOVER_POINT));
+                if(rs.data != null){
+                    $("#carryoverCash").val(comma(rs.data.CARRYOVER_CASH || 0));
+                    $("#carryoverPoint").val(comma(rs.data.CARRYOVER_POINT || 0));
+                } else {
+                    $("#carryoverCash").val(comma(0));
+                    $("#carryoverPoint").val(comma(0));
+                }
+
+                bld.fn_getIncpExnpAmt();
             }
         })
     },
@@ -457,6 +464,22 @@ var bld = {
                 $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#E7FFDD");
             }
         });
+    },
+
+    fn_getIncpExnpAmt: function(){
+        var data = {
+            pjtCd : $("#pjtCd").val(),
+            baNb : $("#bankNB").val().replaceAll("-", "")
+        }
+
+        var rs = customKendo.fn_customAjax("/mng/getIncpExnpAmt", data);
+
+        rs = rs.rs;
+
+        var overPay = Number(uncommaN($("#carryoverCash").val())) + Number(uncommaN($("#carryoverPoint").val()));
+
+        var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
+        $("#currentAmt").text(comma(totPay));
     }
 }
 
