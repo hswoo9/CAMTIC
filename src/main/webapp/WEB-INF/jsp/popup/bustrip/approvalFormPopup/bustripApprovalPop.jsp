@@ -15,6 +15,7 @@
     const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
         hrBizReqId: hrBizReqId
     });
+    const busInfo = result.rs.rs;
 
     let tripCode = result.rs.rs.TRIP_CODE;
     let tripCodeText = "";
@@ -44,7 +45,7 @@
         approvalParams.type = "drafting";
         approvalParams.menuCd = "bustrip";
         approvalParams.docType = "A";
-        approvalParams.docTitle = "[출장신청서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[출장신청서]["+busInfo.TRIP_DAY_FR+"]${loginVO.orgnztNm}-${loginVO.name}";
 
         approvalParams.linkageProcessId = "6";
         approvalParams.linkageType = "2";
