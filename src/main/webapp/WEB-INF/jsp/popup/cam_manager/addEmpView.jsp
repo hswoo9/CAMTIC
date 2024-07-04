@@ -151,6 +151,15 @@
             return;
         }
 
+        let flag = true;
+        const duplCk = customKendo.fn_customAjax("/g20/getOtherDupl", data).list;
+        if(duplCk.length > 0){
+            flag = false;
+        }
+        if(!flag){
+            alert("동일 주민번호가 있습니다. 재무회계팀에 문의해주세요."); return;
+        }
+
         $.ajax({
             url : "/g20/insEtcEmpInfo",
             data : data,
