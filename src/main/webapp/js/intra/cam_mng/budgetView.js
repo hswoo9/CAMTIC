@@ -388,7 +388,7 @@ var bgView = {
 
         if(name != "기타 / 기타 / 기타"){
             if($("#status").val() != "incp"){
-                if($("#payAppType").val() != "2"){
+                if($("#payAppType").val() != "2" && $("#payAppType").val() != "3" && $("#status").val() != "re" && $("#status").val() != "in"){
                     if(subAm <= 0) {
                         alert("예산잔액이 부족합니다.");
                         return;
