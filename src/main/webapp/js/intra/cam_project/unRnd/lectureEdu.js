@@ -88,8 +88,6 @@ var lectureEdu = {
                     template: function(row){
                         if(row.CRM_NM != null){
                             return row.CRM_NM;
-                        }else if(row.CO_NAME != null){
-                            return row.CO_NAME;
                         }else{
                             return "";
                         }
@@ -133,6 +131,10 @@ var lectureEdu = {
                 }, {
                     field: "HP_NUM",
                     title: "휴대폰",
+                    width: "8%"
+                },  {
+                    field: "EMAIL",
+                    title: "이메일",
                     width: "8%"
                 }, {
                     title: "수료(인증)",
