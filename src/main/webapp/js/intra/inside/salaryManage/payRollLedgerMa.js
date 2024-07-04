@@ -1,3 +1,6 @@
+let basicSum = 0, foodSum = 0, extraSum = 0, salTotSum = 0, natSum = 0, hethSum = 0, careSum = 0,
+    emplSum = 0, incSum = 0, locIncSum = 0, etcSum = 0, insTotSum = 0, supSum = 0;
+let cNatSum = 0, cCareSum = 0, cHethSum = 0, cEmplSum = 0, eEmplSum = 0, cIndtSum = 0, retireSum = 0, cTotSum = 0, eTotSum = 0;
 var payRollLedgerMa = {
 
     global: {
@@ -101,77 +104,174 @@ var payRollLedgerMa = {
                     field: "EMP_NAME",
                     title: "성명",
                     width : 100,
+                    footerTemplate: "합계"
                 }, {
                     field: "",
-                    title: "기본급여",
+                    title: "기본급여 및 제수당",
                     columns: [
                         {
                             field: "BASIC_SALARY",
                             title: "기본급여",
                             width : 100,
                             template: function (e) {
+                                basicSum += Number(e.BASIC_SALARY);
                                 return '<div style="text-align: right">' + comma(e.BASIC_SALARY) + '</div>';
                             },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(basicSum)+"</div>";
+                            }
                         }, {
                             field: "FOOD_PAY",
                             title: "식대",
                             width : 100,
                             template: function (e) {
+                                foodSum += Number(e.FOOD_PAY);
                                 return '<div style="text-align: right">' + comma(e.FOOD_PAY) + '</div>';
                             },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(foodSum)+"</div>";
+                            }
                         }, {
                             field: "EXTRA_PAY",
                             title: "수당",
                             width : 100,
                             template: function (e) {
+                                extraSum += Number(e.EXTRA_PAY);
                                 return '<div style="text-align: right">' + comma(e.EXTRA_PAY) + '</div>';
                             },
-                        },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(extraSum)+"</div>";
+                            }
+                        }, {
+                            field: "SAL_TOT_PAY",
+                            title: "지급합계",
+                            width : 100,
+                            template: function (e) {
+                                salTotSum += Number(e.SAL_TOT_PAY);
+                                return '<div style="text-align: right">' + comma(e.SAL_TOT_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(salTotSum)+"</div>";
+                            }
+                        }
                     ]
                 }, {
-                    field: "NAT_PAY",
-                    title: "국민연금",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.NAT_PAY) + '</div>';
-                    },
+                    field: "",
+                    title: "기본급여 및 제수당",
+                    columns: [
+                        {
+                            field: "NAT_PAY",
+                            title: "국민연금",
+                            width : 100,
+                            template: function (e) {
+                                natSum += Number(e.NAT_PAY);
+                                return '<div style="text-align: right">' + comma(e.NAT_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(natSum)+"</div>";
+                            }
+                        }, {
+                            field: "HETH_PAY",
+                            title: "건강보험",
+                            width : 100,
+                            template: function (e) {
+                                hethSum += Number(e.HETH_PAY);
+                                return '<div style="text-align: right">' + comma(e.HETH_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(hethSum)+"</div>";
+                            }
+                        }, {
+                            field: "CARE_PAY",
+                            title: "장기요양",
+                            width : 100,
+                            template: function (e) {
+                                careSum += Number(e.CARE_PAY);
+                                return '<div style="text-align: right">' + comma(e.CARE_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(careSum)+"</div>";
+                            }
+                        }, {
+                            field: "EMPL_PAY",
+                            title: "고용보험",
+                            width : 100,
+                            template: function (e) {
+                                emplSum += Number(e.EMPL_PAY);
+                                return '<div style="text-align: right">' + comma(e.EMPL_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(emplSum)+"</div>";
+                            }
+                        },  {
+                            field: "INC_PAY",
+                            title: "소득세",
+                            width : 100,
+                            template: function (e) {
+                                incSum += Number(e.INC_PAY);
+                                return '<div style="text-align: right">' + comma(e.INC_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(incSum)+"</div>";
+                            }
+                        }, {
+                            field: "LOC_INC_PAY",
+                            title: "주민세",
+                            width : 100,
+                            template: function (e) {
+                                locIncSum += Number(e.LOC_INC_PAY);
+                                return '<div style="text-align: right">' + comma(e.LOC_INC_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(locIncSum)+"</div>";
+                            }
+                        }, {
+                            field: "ETC_PAY",
+                            title: "기타",
+                            width : 100,
+                            template: function (e) {
+                                etcSum += Number(e.ETC_PAY);
+                                return '<div style="text-align: right">' + comma(e.ETC_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(etcSum)+"</div>";
+                            }
+                        }, {
+                            field: "INS_TOT_PAY",
+                            title: "공제합계",
+                            width : 100,
+                            template: function (e) {
+                                insTotSum += Number(e.INS_TOT_PAY);
+                                return '<div style="text-align: right">' + comma(e.INS_TOT_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(insTotSum)+"</div>";
+                            }
+                        }
+                    ]
                 }, {
-                    field: "HETH_PAY",
-                    title: "건강보험료",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.HETH_PAY) + '</div>';
-                    },
-                }, {
-                    field: "EMPL_PAY",
-                    title: "고용보험",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.EMPL_PAY) + '</div>';
-                    },
-                }, {
-                    field: "CARE_PAY",
-                    title: "장기요양",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.CARE_PAY) + '</div>';
-                    },
-                }, {
-                    field: "INC_PAY",
-                    title: "소득세",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.INC_PAY) + '</div>';
-                    },
-                }, {
-                    field: "LOC_INC_PAY",
-                    title: "지방소득세",
-                    width : 100,
-                    template: function (e) {
-                        return '<div style="text-align: right">' + comma(e.LOC_INC_PAY) + '</div>';
-                    },
-                }
+                    field: "",
+                    title: "차인지급액",
+                    columns: [
+                        {
+                            field: "SUP_PAY",
+                            title: "실수령액",
+                            width : 100,
+                            template: function (e) {
+                                supSum += Number(e.SUP_PAY);
+                                return '<div style="text-align: right">' + comma(e.SUP_PAY) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(supSum)+"</div>";
+                            }
+                        },
+                    ]
+                },
             ],
+            dataBound: function(){
+                basicSum = 0, foodSum = 0, extraSum = 0, salTotSum =0, natSum = 0; hethSum = 0, careSum = 0;
+                emplSum = 0, incSum = 0, locIncSum = 0, etcSum = 0, insTotSum = 0, supSum = 0;
+            },
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
@@ -254,71 +354,111 @@ var payRollLedgerMa = {
                     field: "PAY_TYPE",
                     title: "비용구분",
                     width : 100,
+                    footerTemplate: "합계"
                 }, {
                     field: "C_NAT_PAY",
                     title: "국민연금",
                     width : 100,
                     template: function (e) {
+                        cNatSum += Number(e.C_NAT_PAY);
                         return '<div style="text-align: right">' + comma(e.C_NAT_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cNatSum)+"</div>";
+                    }
                 }, {
                     field: "C_HETH_PAY",
                     title: "건강보험료",
                     width : 100,
                     template: function (e) {
+                        cHethSum += Number(e.C_HETH_PAY);
                         return '<div style="text-align: right">' + comma(e.C_HETH_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cHethSum)+"</div>";
+                    }
                 }, {
                     field: "C_EMPL_PAY",
                     title: "고용보험<br>(사업자부담)",
                     width : 100,
                     template: function (e) {
+                        cEmplSum += Number(e.C_EMPL_PAY);
                         return '<div style="text-align: right">' + comma(e.C_EMPL_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cEmplSum)+"</div>";
+                    }
                 }, {
                     field: "E_EMPL_PAY",
                     title: "고용보험<br>(근로자)",
                     width : 100,
                     template: function (e) {
+                        eEmplSum += Number(e.E_EMPL_PAY);
                         return '<div style="text-align: right">' + comma(e.E_EMPL_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(eEmplSum)+"</div>";
+                    }
                 }, {
                     field: "C_CARE_PAY",
                     title: "장기요양",
                     width : 100,
                     template: function (e) {
+                        cCareSum += Number(e.C_CARE_PAY);
                         return '<div style="text-align: right">' + comma(e.C_CARE_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cCareSum)+"</div>";
+                    }
                 }, {
                     field: "C_INDT_PAY",
                     title: "산재보험",
                     width : 100,
                     template: function (e) {
+                        cIndtSum += Number(e.C_INDT_PAY);
                         return '<div style="text-align: right">' + comma(e.C_INDT_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cIndtSum)+"</div>";
+                    }
                 }, {
                     field: "RETIRE_PAY",
                     title: "퇴직연금",
                     width : 100,
                     template: function (e) {
+                        retireSum += Number(e.RETIRE_PAY);
                         return '<div style="text-align: right">' + comma(e.RETIRE_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(retireSum)+"</div>";
+                    }
                 }, {
                     field: "C_TOT_PAY",
                     title: "사대보험 합계<br>(사업자)",
                     width : 100,
                     template: function (e) {
+                        cTotSum += Number(e.C_TOT_PAY);
                         return '<div style="text-align: right">' + comma(e.C_TOT_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(cTotSum)+"</div>";
+                    }
                 }, {
                     field: "E_TOT_PAY",
                     title: "사대보험 합계<br>(근로자)",
                     width : 100,
                     template: function (e) {
+                        eTotSum += Number(e.E_TOT_PAY);
                         return '<div style="text-align: right">' + comma(e.E_TOT_PAY) + '</div>';
                     },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(eTotSum)+"</div>";
+                    }
                 }
             ],
+            dataBound : function(){
+                cNatSum = 0, cCareSum = 0, cHethSum = 0, cEmplSum = 0, eEmplSum = 0, cIndtSum = 0, retireSum = 0, cTotSum = 0, eTotSum = 0;
+            },
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
