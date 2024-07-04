@@ -60,7 +60,6 @@ var userPrintHtml = {
 
         for(var i=0;  i < userMap3.length; i++){
             var Career = userMap3[i];
-            console.log(Career);
             var mainTask = Career.MAIN_TASK == null ? " " : Career.MAIN_TASK;
             var rmk = Career.RMK == null ? " " : Career.RMK;
             html += '               <tr>';
