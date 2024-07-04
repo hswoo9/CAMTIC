@@ -67,13 +67,14 @@
 
 </style>
 
-
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-<input type="hidden" id="evalStat" value=""/>
-<input type="hidden" id="evalSn" value=""/>
-
+<form name="evalForm0">
+    <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}"/>
+    <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}"/>
+    <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}"/>
+    <input type="hidden" id="evalStat" name="evalStat" value=""/>
+    <input type="hidden" id="evalSn" name="evalSn" value=""/>
+    <input type="hidden" id="bsYear" name="bsYear" value=""/>
+</form>
 
 
 <div class="col-md-12 col-lg-12 dash-left">
@@ -112,6 +113,7 @@
         async : false,
         success : function(result){
             $("#evalStat").val(result.data.EVAL_STAT);
+            $("#bsYear").val(result.data.BS_YEAR);
             $("#evalSn").val(result.data.EVAL_SN);
             bsYear = result.data.BS_YEAR;
             evalSn = result.data.EVAL_SN;
@@ -153,10 +155,15 @@
     }
 
     function evalPop(){
-        var url = "/Inside/pop/evalPop.do?bsYear="+bsYear+"&evalSn="+evalSn+"&empSeq="+$("#empSeq").val();
-        var name = "evalPop";
-        var option = "width=1000, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
+        let url = "/Inside/pop/evalPop.do";
+        const option = "width=1000, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open("", "evalForm0", option);
+
+        const myForm = document.evalForm0;
+        myForm.action = url;
+        myForm.target = "evalForm0";
+        myForm.method = "post";
+        myForm.submit();
     }
 
     function evalResultPop(){

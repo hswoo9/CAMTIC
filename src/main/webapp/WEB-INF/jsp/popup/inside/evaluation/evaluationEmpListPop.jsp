@@ -7,17 +7,17 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationEmpListPop.js?v=${today}"></script>
 
-<input type="hidden" id="evalSn" value="${params.pk}"/>
-<input type="hidden" id="bsYear" value="${params.bsYear}"/>
-<input type="hidden" id="key" value="${params.key}"/>
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="duty" value="${loginVO.dutyCode}"/>
-<input type="hidden" id="deptSeq" value="${empData.DEPT_SEQ}"/>
-
-<input type="hidden" id="occupation" value="${empData.OCCUPATION_NM}"/>
-<input type="hidden" id="pDeptSeq" value="${empData.PARENT_DEPT_SEQ}"/>
-
-
+<form name="evalForm2">
+    <input type="hidden" id="evalSn" name="pk" value="${params.pk}"/>
+    <input type="hidden" id="bsYear" name="bsYear" value="${params.bsYear}"/>
+    <input type="hidden" id="key" name="key" value="${params.key}"/>
+    <input type="hidden" id="evalEmpSeq" name="evalEmpSeq" value="${loginVO.uniqId}"/>
+    <input type="hidden" id="empSeq" name="empSeq" value=""/>
+    <input type="hidden" id="duty" name="duty" value="${loginVO.dutyCode}"/>
+    <input type="hidden" id="deptSeq" name="deptSeq" value="${empData.DEPT_SEQ}"/>
+    <input type="hidden" id="occupation" name="occupation" value="${empData.OCCUPATION_NM}"/>
+    <input type="hidden" id="pDeptSeq" name="pDeptSeq" value="${empData.PARENT_DEPT_SEQ}"/>
+</form>
 
 <div style="padding:0;">
     <div class="table-responsive">

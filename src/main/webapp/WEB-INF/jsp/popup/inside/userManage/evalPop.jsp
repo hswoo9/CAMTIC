@@ -6,14 +6,18 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="evalSn" value="${params.evalSn}"/>
-<input type="hidden" id="bsYear" value="${params.bsYear}"/>
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
-<input type="hidden" id="duty" value="${empData.DUTY_CODE}"/>
-<input type="hidden" id="occupation" value="${empData.OCCUPATION_NM}"/>
+
+<form name="evalForm">
+    <input type="hidden" id="evalSn" name="pk" value="${params.evalSn}"/>
+    <input type="hidden" id="key" name="key" value=""/>
+    <input type="hidden" id="bsYear" name="bsYear" value="${params.bsYear}"/>
+    <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}"/>
+    <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}"/>
+    <input type="hidden" id="duty" name="duty" value="${empData.DUTY_CODE}"/>
+    <input type="hidden" id="occupation" name="occupation" value="${empData.OCCUPATION_NM}"/>
+    <input type="hidden" id="targetEmpSeq" name="targetEmpSeq" value="${loginVO.uniqId}"/>
+</form>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -116,18 +120,22 @@
         $('#evalList').append(html);
     }
 
-    function fn_open_eval(key) {
-        if(key === 1 || key === 2){
-            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
-            var name = "_blank";
-            var option = "width=1400, height=820, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
-            var popup = window.open(url, name, option);
-        }else{
-            var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
-            var name = "_blank";
-            var option = "width = 1400, height = 820, top = 100, left = 200, location = no";
-            var popup = window.open(url, name, option);
+    function fn_open_eval(key){
+        $("#key").val(key);
+        let url;
+        if (key == 1 || key == 2) {
+            url = "/evaluation/pop/evaluationEmpListPop.do";
+        } else {
+            url = "/evaluation/pop/evaluationPop.do";
         }
+        const option = "width=1400, height=820, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open("", "evalForm", option);
+
+        const myForm = document.evalForm;
+        myForm.action = url;
+        myForm.target = "evalForm";
+        myForm.method = "post";
+        myForm.submit();
     }
 </script>
 </body>
