@@ -415,6 +415,7 @@
             CAM_HR.DJ_DEPT_INFO D ON D.DEPT_SEQ = C.PARENT_DEPT_SEQ
         WHERE
             A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+        AND A.EMP_TYPE like '%전담%'
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
                 AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
@@ -494,7 +495,7 @@
         /* setPayRollLeger */
         INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER (
             BASE_YEAR_MONTH,
-            DEPT,
+            EMP_TYPE,
             DEPT_CODE,
             ERP_EMP_CD,
             EMP_NAME,
@@ -538,7 +539,7 @@
         <foreach collection="list" item="item" index="index" separator=",">
         (
             #{item.baseYearMonth},
-            #{item.dept},
+            #{item.empType},
             #{item.deptCode},
             #{item.erpEmpCd},
             #{item.empName},

@@ -355,7 +355,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
                     map.put("baseYearMonth", params.get("baseYearMonth"));
 
-                    map.put("dept", hCellValueToString(row.getCell(0), workbook));                       // 부서
+                    map.put("empType", hCellValueToString(row.getCell(0), workbook));                    // 부서
                     map.put("erpEmpCd", hCellValueToString(row.getCell(1), workbook));                   // 사원코드
                     map.put("empName", hCellValueToString(row.getCell(2), workbook).trim());             // 사원명
                     map.put("deptCode", hCellValueToString(row.getCell(3), workbook));                   // 부서코드
