@@ -74,7 +74,7 @@ const userPrintPop = {
         /** 인사정보 */
         userPrintPop.global.fileTitle = userMap1.EMP_NAME_KR + " 인사기록카드.hwp";
         userPrintPop.global.hwpCtrl.PutFieldText("DEPT_NAME", userMap1.DEPT_NAME);
-        userPrintPop.global.hwpCtrl.PutFieldText("POSITION_NAME", userMap1.POSITION_NAME+"("+userMap1.DUTY_NAME+")");
+        userPrintPop.global.hwpCtrl.PutFieldText("POSITION_NAME", fn_getSpot(userMap1.DUTY_NAME, userMap1.POSITION_NAME));
         userPrintPop.global.hwpCtrl.PutFieldText("DEPT_SEQ", userMap1.ERP_EMP_SEQ);
         userPrintPop.global.hwpCtrl.PutFieldText("REG_DATE", userMap1.JOIN_DAY_F);
         userPrintPop.global.hwpCtrl.PutFieldText("RESIGN_DAY", userMap1.RESIGN_DAY_F); 
@@ -105,7 +105,7 @@ const userPrintPop = {
                 userPrintPop.global.hwpCtrl.MoveToField('idImg', true, true, false);
                 userPrintPop.global.hwpCtrl.InsertBackgroundPicture(
                     "SelectedCell",
-                    "http://218.158.231.186/" + userMap1.picFilePath,
+                    "https://new.camtic.or.kr" + userMap1.picFilePath,
                     1,
                     5,
                     0,

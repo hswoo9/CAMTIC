@@ -20,13 +20,14 @@ var userPrintHtml = {
         for(var i=0;  i < userMap2.length; i++){
             var education = userMap2[i];
             var gubunCodeNm = education.GUBUN_CODE_NM == null ? " " : education.GUBUN_CODE_NM;
+            var graduationCodeNm = education.GRADUATION_CODE_NM == null ? " " : education.GRADUATION_CODE_NM;
 
             html += '               <tr>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (i + 1) +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ education.ADMISSION_DAY + '~' + education.GRADUATION_DAY +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ education.SCHOOL_NAME +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ graduationCodeNm +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ gubunCodeNm +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ education.RMK +'</p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
@@ -59,15 +60,17 @@ var userPrintHtml = {
 
         for(var i=0;  i < userMap3.length; i++){
             var Career = userMap3[i];
+            console.log(Career);
             var mainTask = Career.MAIN_TASK == null ? " " : Career.MAIN_TASK;
+            var rmk = Career.RMK == null ? " " : Career.RMK;
             html += '               <tr>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (i + 1) +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.JOIN_DAY + '~' + Career.RESIGN_DAY +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.EMPLOY_DEPT_NAME +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.POSITION_OR_DUTY +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ mainTask +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.CAREER_PERIOD + Career.CAREER_MONTH +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.RMK +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Career.CAREER_PERIOD + '년 ' + Career.CAREER_MONTH + '개월' +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ rmk +'</p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
@@ -193,7 +196,7 @@ var userPrintHtml = {
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Licence.ACQUISITION_DAY +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Licence.CERTIFICATE_NUM +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Licence.ISSUER +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Licence.RMK +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (Licence.RMK || '') +'</p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
@@ -265,13 +268,13 @@ var userPrintHtml = {
             var afDeptTeam = Appoint.AF_DEPT_TEAM == null ? " " : Appoint.AF_DEPT_TEAM;
             var afPositionName = Appoint.AF_POSITION_NAME == null ? " " : Appoint.AF_POSITION_NAME;
             var afDutyName = Appoint.AF_DUTY_NAME == null ? " " : Appoint.AF_DUTY_NAME;
-
+            var regUser = getUser(Appoint.REG_EMP_SEQ);
             html += '               <tr>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (i + 1) +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Appoint.APNT_NAME +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Appoint.historyDt +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ afDeptName +' ' + afDeptTeam +' '+afPositionName+' '+afDutyName +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Appoint.REG_EMP_NAME +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ regUser.EMP_NAME_KR +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Appoint.ETC +'</p></td>';
             html += '               </tr>';
         }
