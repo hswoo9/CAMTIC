@@ -54,7 +54,7 @@ var evaluationEmpListPop = {
                 parameterMap: function(data) {
                     data.evalSn = $("#evalSn").val();
                     data.bsYMD = $("#bsYear").val()+"-12-31";
-                    data.empSeq = $("#empSeq").val();
+                    data.empSeq = $("#evalEmpSeq").val();
                     data.key = $("#key").val();
                     return data;
                 }
@@ -150,11 +150,17 @@ var evaluationEmpListPop = {
         }).data("kendoGrid");
     },
 
-    fn_open_eval : function (empSeq){
-        var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+empSeq+"&key="+$("#key").val();
-        var name = "_blank";
-        var option = "width = 1400, height = 820, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+    fn_open_eval: function(empSeq){
+        $("#empSeq").val(empSeq);
+        let url = "/evaluation/pop/evaluationPop.do";
+        const option = "width=1400, height=820, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open("", "evalForm2", option);
+
+        const myForm = document.evalForm2;
+        myForm.action = url;
+        myForm.target = "evalForm2";
+        myForm.method = "post";
+        myForm.submit();
     },
 
     saveDataAll : function (stat){
@@ -162,7 +168,7 @@ var evaluationEmpListPop = {
         const data = new Object();
         data.evalSn = $("#evalSn").val();
         data.bsYMD = $("#bsYear").val()+"-12-31";
-        data.empSeq = $("#empSeq").val();
+        data.empSeq = $("#evalEmpSeq").val();
         data.key = $("#key").val();
         const ckList = customKendo.fn_customAjax("/evaluation/getEvaluationEmpList", data).list;
 
@@ -186,7 +192,7 @@ var evaluationEmpListPop = {
 
         var parameters = {
             evalSn : $("#evalSn").val(),
-            empSeq : $("#empSeq").val(),
+            empSeq : $("#evalEmpSeq").val(),
             evalResultType : $("#key").val() == "1" ? "evalF" : "evalS",
             evalCk : "Y"
         }
