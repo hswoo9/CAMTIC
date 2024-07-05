@@ -17,12 +17,17 @@
     </select>
 
     <select id="getCrmData" parameterType="map" resultType="map">
+        /*getCrmData*/
         SELECT
-            *
+            A.*,
+            B.BANK_NAME,
+            B.ACCOUNTING_NUM,
+            B.ACCOUNTING_HOLDER
         FROM
-            CAM_CRM.DJ_CRM_INFO
+            CAM_CRM.DJ_CRM_INFO A
+        LEFT JOIN CAM_CRM.DJ_CRM_ACCOUNTING B ON A.CRM_SN = B.CRM_SN
         WHERE
-            CRM_SN = #{crmSn}
+            A.CRM_SN = #{crmSn}
     </select>
 
     <select id="getCrmList" parameterType="map" resultType="map">
