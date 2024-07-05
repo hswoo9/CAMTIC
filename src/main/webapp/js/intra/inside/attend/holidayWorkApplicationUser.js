@@ -106,7 +106,7 @@ var holidayWorkApplicationUser ={
                     template : function(e){
                         console.log(e)
                         if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
-                            return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
+                            return "<input type='checkbox' id='hisPk#=HOLIDAY_WORK_MASTER_SN#' name='hisPk' value=\""+e.HOLIDAY_WORK_MASTER_SN+"\" class=''/>";
                         } else {
                             return "";
                         }
@@ -234,7 +234,7 @@ var holidayWorkApplicationUser ={
             return;
         }
 
-        var result = customKendo.fn_customAjax("/Inside/setHistoryWorkApplyDel.do", {subHolidayUseId : checkedList.join()});
+        var result = customKendo.fn_customAjax("/Inside/setHistoryWorkApplyDel.do", {holidayWorkMasterSn : checkedList.join()});
         if(result.flag){
             alert("휴가 작성내역이 삭제되었습니다.");
             holidayWorkApplicationUser.gridReload();
