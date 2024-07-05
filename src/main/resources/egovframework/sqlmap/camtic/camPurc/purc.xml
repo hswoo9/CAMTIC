@@ -1645,10 +1645,13 @@
             AND
                 ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
         </if>
-        <if test='pjtSn != null and !"".equals(pjtSn)'>
+        <if test='"R".equals(busnClass) or "S".equals(busnClass)'>
             AND
-            A.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
-
+                A.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+        </if>
+        <if test='"D".equals(busnClass) or "V".equals(busnClass)'>
+            AND
+                LEFT(A.PJT_CD, 1) = 'M' AND B.PJT_SN = #{pjtSn}
         </if>
         GROUP BY A.CE_GW_IDX
         ORDER BY A.CLAIM_EXNP_SN DESC

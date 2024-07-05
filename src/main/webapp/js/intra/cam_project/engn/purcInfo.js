@@ -18,6 +18,7 @@ var purcInfo = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             camProject: "Y",
+            busnClass: commonProject.global.busnClass
         }
 
         $("#radioSelectPurcType").kendoRadioGroup({
