@@ -685,7 +685,7 @@
                 +
                 (CASE
                    WHEN VC.GRANT_DAY = 0
-                    THEN IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                    THEN IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND DEL_YN != 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
                      ELSE 0
                 END)
                 ), 0)
@@ -699,7 +699,7 @@
                 WHEN
                     VC.GRANT_DAY = 0
                 THEN
-                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND DEL_YN != 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
                 ELSE
                     0
             END)
@@ -754,7 +754,7 @@
 
         LEFT JOIN cam_inside.dj_subholiday_use_hist VUH ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y'  AND VUH.APPR_STAT = 'Y' AND LEFT(VUH.SUBHOLIDAY_ST_DT, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10 )
 
-        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH2 ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y' AND LEFT(VUH.APPLY_DATE, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 11 )
+        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH2 ON VUI.emp_seq = VUH2.reg_emp_seq AND VUH2.ACTIVE = 'Y' AND VUH2.DEL_YN != 'Y' AND LEFT(VUH2.APPLY_DATE, 4) = #{holidayYear} AND VUH2.subholiday_code_id IN ( 11 )
         <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
             AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
@@ -903,8 +903,8 @@
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (8) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year} AND DEL_YN = 'N'), 0) AS matHoly,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (9) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year} AND DEL_YN = 'N'), 0) AS altHoly,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (10) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year} AND DEL_YN = 'N'), 0) AS compHoly,
-            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND LEFT(B.APPLY_DATE, 4) = #{year} AND DEL_YN = 'N'), 0) AS workHoly,
-            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND LEFT(B.APPLY_DATE, 4) = #{year} AND DEL_YN = 'N'), 0) AS remainWorkHoly
+            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' AND DEL_YN = 'N' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND LEFT(B.APPLY_DATE, 4) = #{year} AND DEL_YN = 'N'), 0) AS workHoly,
+            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' AND DEL_YN = 'N' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND LEFT(B.APPLY_DATE, 4) = #{year} AND DEL_YN = 'N'), 0) AS remainWorkHoly
         FROM
             CAM_INSIDE.DJ_HOLIDAY DH
         WHERE
