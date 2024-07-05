@@ -153,7 +153,7 @@ var holidayWorkApplicationUser ={
                     title: "사유",
                     template : function(e){
                         console.log(e.RMK)
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="holidayWorkApplicationUser.subHolidayReqPop('+e.HOLIDAY_WORK_MASTER_SN+');">'+e.RMK+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="holidayWorkApplicationUser.subHolidayReqPop('+e.HOLIDAY_WORK_MASTER_SN+');">'+e.RMK+'</div><input type="hidden" name="delYn" value="' + e.DEL_YN + '">';
                     }
                 }, {
                     title: "승인요청",
@@ -172,18 +172,17 @@ var holidayWorkApplicationUser ={
         }).data("kendoGrid");
     },
 
-    // onDataBound : function(){
-    //     var grid = this;
-    //
-    //     grid.tbody.find("tr").dblclick(function (e) {
-    //         var dataItem = grid.dataItem($(this));
-    //
-    //         var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + dataItem.HOLIDAY_WORK_MASTER_SN;
-    //         var name = "subHolidayReqPop2";
-    //         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-    //         var popup = window.open(url, name, option);
-    //     });
-    // },
+    onDataBound : function(){
+        var grid = this;
+        grid.tbody.find("tr").each(function(){
+            var delYn = $(this).find("input[name='delYn']").val();
+
+            if(delYn == "Y"){
+                $(this).css('text-decoration', 'line-through');
+                $(this).css('color', 'red');
+            }
+        });
+    },
 
     subHolidayReqPop : function(e) {
         var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + e;
