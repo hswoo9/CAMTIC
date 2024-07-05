@@ -226,8 +226,8 @@ var payEtaxHist = {
                 var txtDummy1 = (eTaxInfo.DUMMY1 || '');
                 var txtItemName = (eTaxInfo.itemName || eTaxInfo.ITEM_DC) || '';
                 var txtItemStendard = (eTaxInfo.itemStendard || '-');
-                var txtItemCnt = Number(eTaxInfo.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', 0) : fnGetCurrencyCode(eTaxInfo.itemCnt, 0);
-                var txtItemUnitAmt = Number(eTaxInfo.itemUnitAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.amt, 0) : fnGetCurrencyCode(eTaxInfo.itemUnitAmt, 0);
+                var txtItemCnt = Number(eTaxInfo.itemCnt || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.itemCnt, 0);
+                var txtItemUnitAmt = Number(eTaxInfo.itemUnitAmt || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.itemUnitAmt, 0);
                 var txtItemStdAmt = Number(eTaxInfo.itemStdAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.stdAmt, 0) : fnGetCurrencyCode(eTaxInfo.itemStdAmt, 0);
                 var txtItemVatAmt = Number(eTaxInfo.itemVatAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.vatAmt, 0) : fnGetCurrencyCode(eTaxInfo.itemVatAmt, 0);
 
@@ -349,7 +349,7 @@ var payEtaxHist = {
                             itemDateMonth = ((eTaxInfo.ISU_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
                             itemDateDate = ( (eTaxInfo.ISU_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
                         }
-                        var itemCnt = Number(item.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', '') : fnGetCurrencyCode(item.itemCnt, 0);
+                        var itemCnt = Number(item.itemCnt || '0') == 0 ? '' : fnGetCurrencyCode(item.itemCnt, 0);
                         var itemUnitAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
                         var itemStdAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
                         if(eTaxInfo.TAX_TY == '4'){
@@ -463,8 +463,8 @@ var payEtaxHist = {
                 var txtDummy1 = (eTaxInfo.DUMMY1 || '');
                 var txtItemName = (eTaxInfo.itemName || eTaxInfo.ITEM_DC) || '';
                 var txtItemStendard = (eTaxInfo.itemStendard || '-');
-                var txtItemCnt = Number(eTaxInfo.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', 0) : fnGetCurrencyCode(eTaxInfo.itemCnt, 0);
-                var txtItemUnitAmt = Number(eTaxInfo.itemUnitAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.amt, 0) : fnGetCurrencyCode(eTaxInfo.itemUnitAmt, 0);
+                var txtItemCnt = Number(eTaxInfo.itemCnt || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.itemCnt, 0);
+                var txtItemUnitAmt = Number(eTaxInfo.itemUnitAmt || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.itemUnitAmt, 0);
                 var txtItemStdAmt = Number(eTaxInfo.itemStdAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.stdAmt, 0) : fnGetCurrencyCode(eTaxInfo.itemStdAmt, 0);
                 var txtItemVatAmt = Number(eTaxInfo.itemVatAmt || '0') == 0 ? fnGetCurrencyCode(eTaxInfo.vatAmt, 0) : fnGetCurrencyCode(eTaxInfo.itemVatAmt, 0);
 
@@ -579,7 +579,7 @@ var payEtaxHist = {
                         //항목이 있는 경우만 리스트 나타냄
                         var itemDateMonth = ((eTaxInfo.ISU_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
                         var itemDateDate = ( (eTaxInfo.ISU_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
-                        var itemCnt = Number(item.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', '') : fnGetCurrencyCode(item.itemCnt, 0);
+                        var itemCnt = Number(item.itemCnt || '0') == 0 ? '' : fnGetCurrencyCode(item.itemCnt, 0);
                         var itemUnitAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
                         var itemStdAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
                         if(eTaxInfo.TAX_TY == '4'){

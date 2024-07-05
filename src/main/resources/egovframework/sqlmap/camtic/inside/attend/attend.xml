@@ -839,7 +839,7 @@
         SET
             ACTIVE = 'N'
         WHERE
-            SUBHOLIDAY_USE_ID IN (${subHolidayUseId})
+            HOLIDAY_WORK_MASTER_SN IN (${holidayWorkMasterSn})
     </update>
 
     <update id="setHistoryWorkApplyAdminDel" parameterType="map">
@@ -849,7 +849,7 @@
         SET
             DEL_YN = 'Y'
         WHERE
-            SUBHOLIDAY_USE_ID IN (${subHolidayUseId})
+            HOLIDAY_WORK_MASTER_SN IN (${holidayWorkMasterSn})
     </update>
 
 <!--    휴일 근로 신청 내역(관리자)-->
