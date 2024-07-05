@@ -237,7 +237,7 @@ var purcUserAppList = {
                         if(e.F_EMP_NAME != null){
                             return e.F_EMP_NAME;
                         } else {
-                            return e.REG_EMP_NAME;
+                            return e.PURC_EMP_NAME;
                         }
                     }
                 }, {
