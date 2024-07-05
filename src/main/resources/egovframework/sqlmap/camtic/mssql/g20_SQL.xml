@@ -311,8 +311,8 @@
             , #{bankNm}
             , #{bankMngNm}
             , ''
-            , #{crmEvn}
             , #{crmOcc}
+            , #{crmEvn}
             , #{erpEmpCd}
             , #{ip}
     </insert>

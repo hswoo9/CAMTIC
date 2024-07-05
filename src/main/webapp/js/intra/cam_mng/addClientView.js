@@ -88,4 +88,7 @@ function fn_selCrmInfo(rs){
     $("#addr").val(rs.ADDR);
     $("#crmEvn").val(rs.CRM_EVENT);
     $("#crmOcc").val(rs.CRM_OCC);
+    $("#bankNm").val(rs.BANK_NAME);
+    $("#accNo").val(rs.ACCOUNTING_NUM);
+    $("#bankMngNm").val(rs.ACCOUNTING_HOLDER);
 }
