@@ -52,7 +52,7 @@ public class CommonServiceImpl implements CommonService {
         InputStream in = null;
         OutputStream out = null;
 
-        fileNm = URLDecoder.decode(fileNm, "utf-8");
+        fileNm = URLDecoder.decode(fileNm.replaceAll("%", "%25"), "utf-8");
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = "http://218.158.231.186" + path;
