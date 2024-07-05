@@ -414,6 +414,21 @@
 
     </select>
 
+    <select id="getOtherDupl" parameterType="map" resultType="map">
+        /*getOtherDupl*/
+        SELECT
+            *
+        FROM VN_G20HEARNER_INFO
+        WHERE
+            REG_NO = #{regNo}
+        <if test='type == "9" or "9".equals(type)'>
+            AND DATA_CD = 'G' AND REG_NO != ''
+        </if>
+        <if test='type == "5" or "5".equals(type)'>
+            AND DATA_CD = 'F'
+        </if>
+    </select>
+
     <select id="getSempData" parameterType="map" resultType="map">
         /*getSempData*/
         SELECT * FROM SEMP WHERE EMP_CD = #{erpEmpSeq}

@@ -921,7 +921,7 @@
                 FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
                 LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
-                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE LIKE '%전담%'
             ) B
         GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
     </select>
@@ -951,7 +951,7 @@
                 FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
                          LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                          LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
-                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE LIKE '%전담%'
             ) B
         GROUP BY DEPT_SEQ, DUTY_TYPE
     </select>
@@ -1058,6 +1058,7 @@
                          LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                          LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
                 WHERE DATE_FORMAT(CONCAT(BASE_YEAR_MONTH,'-01'),'%Y%m%d') BETWEEN DATE_FORMAT(#{startDt},'%Y%m%d') AND DATE_FORMAT(#{endDt},'%Y%m%d')
+                AND A.EMP_TYPE LIKE '%전담%'
             ) B
         GROUP BY DEPT_SEQ
     </select>
@@ -1223,7 +1224,7 @@
             CAM_HR.DJ_DEPT_INFO D ON D.DEPT_SEQ = C.PARENT_DEPT_SEQ
         WHERE
             A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
-        AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+        AND A.EMP_TYPE LIKE '%전담%'
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
                 AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
@@ -1268,7 +1269,7 @@
                 FROM CAM_INSIDE.DJ_PAY_ROLL_COMP A
                          LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                          LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
-                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE LIKE '%전담%'
             ) B
         GROUP BY DEPT_SEQ, BASE_YEAR_MONTH
     </select>
@@ -1299,7 +1300,7 @@
                 FROM CAM_INSIDE.DJ_PAY_ROLL_COMP A
                 LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.ERP_EMP_CD = B.ERP_EMP_SEQ
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
-                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE NOT IN ('위촉인력', '단기인력', '경비실', '시설환경')
+                WHERE BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%') AND A.EMP_TYPE LIKE '%전담%'
             ) B
         GROUP BY DEPT_SEQ, DUTY_TYPE
     </select>

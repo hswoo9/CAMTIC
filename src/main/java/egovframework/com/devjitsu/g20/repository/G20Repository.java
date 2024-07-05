@@ -65,6 +65,10 @@ public class G20Repository extends AbstractDAO {
         return selectListMs("g20.getOtherList", params);
     }
 
+    public List<Map<String, Object>> getOtherDupl(Map<String, Object> params) {
+        return selectListMs("g20.getOtherDupl", params);
+    }
+
     public Map<String, Object> getSempData(Map<String, Object> params) {
         return (Map<String, Object>) selectOneMs("g20.getSempData", params);
     }

@@ -264,6 +264,14 @@ public class G20Controller {
         return "jsonView";
     }
 
+    @RequestMapping("/g20/getOtherDupl")
+    public String getOtherDupl(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getOtherDupl(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/g20/getCorpProjectList")
     public String getCorpProjectList(@RequestParam Map<String, Object> params, Model model){
 

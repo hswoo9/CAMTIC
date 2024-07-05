@@ -2759,16 +2759,24 @@
     <select id="getApprovalExnpCommonFileData" parameterType="map" resultType="map">
         /*getApprovalExnpCommonFileData*/
         SELECT
-            *
+            SUB.*
         FROM
-            CAM_COMMON.DJ_FILE_INFO A
-        WHERE
-            (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
-        OR
-            (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
-        <if test='exnpSn != null and !"".equals(exnpSn)'>
-            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
-        </if>
+        (
+            SELECT
+                *,
+                ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num
+            FROM
+                CAM_COMMON.DJ_FILE_INFO A
+            WHERE
+                (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
+            OR
+                (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
+            <if test='exnpSn != null and !"".equals(exnpSn)'>
+                OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
+            </if>
+        ) SUB
+        WHERE SUB.row_num = 1
+        GROUP BY FILE_UUID, FILE_PATH;
     </select>
 
     <select id="getApprovalExnpFileData" parameterType="map" resultType="map">

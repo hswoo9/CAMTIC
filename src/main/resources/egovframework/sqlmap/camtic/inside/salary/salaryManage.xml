@@ -403,7 +403,8 @@
             C.DEPT_NAME AS DEPT_TEAM_NAME,
             IFNULL(A.DUTY_PAY,0) + IFNULL(A.DISP_PAY,0) + IFNULL(A.JOB_PAY,0) + IFNULL(A.MST_PAY,0) + IFNULL(A.CCR_PAY,0) + IFNULL(A.ANN_PAY,0) + IFNULL(A.OVER_PAY,0) +
             IFNULL(A.RD_PAY,0) + IFNULL(A.VAC_PAY,0) + IFNULL(A.QF_PAY,0) + IFNULL(A.WF_PAY,0) + IFNULL(A.IT_PAY,0) + IFNULL(A.RES_PAY,0) + IFNULL(A.PERF_PAY,0) +
-            IFNULL(A.CB_PAY,0) +  IFNULL(A.SI_PAY,0) AS EXTRA_PAY
+            IFNULL(A.CB_PAY,0) +  IFNULL(A.SI_PAY,0) AS EXTRA_PAY,
+            IFNULL(A.SOC_PAY,0) + IFNULL(A.SOC_TRIP_PAY,0) + IFNULL(A.END_TAX_PAY,0) + IFNULL(A.END_TAX_LOC_PAY,0) + IFNULL(A.FINS_PAY,0) + IFNULL(A.SOC_ENGN_PAY,0) + IFNULL(A.DORM_PAY,0) AS ETC_PAY
         FROM
             CAM_INSIDE.DJ_PAY_ROLL_LEGER A
         LEFT JOIN
@@ -414,6 +415,7 @@
             CAM_HR.DJ_DEPT_INFO D ON D.DEPT_SEQ = C.PARENT_DEPT_SEQ
         WHERE
             A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+        AND A.EMP_TYPE like '%전담%'
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
                 AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
@@ -493,7 +495,7 @@
         /* setPayRollLeger */
         INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER (
             BASE_YEAR_MONTH,
-            DEPT,
+            EMP_TYPE,
             DEPT_CODE,
             ERP_EMP_CD,
             EMP_NAME,
@@ -537,7 +539,7 @@
         <foreach collection="list" item="item" index="index" separator=",">
         (
             #{item.baseYearMonth},
-            #{item.dept},
+            #{item.empType},
             #{item.deptCode},
             #{item.erpEmpCd},
             #{item.empName},
