@@ -1324,4 +1324,14 @@
         SELECT OBJ_SN, BASE_YEAR, DEPT_SEQ, DEPT_LEVEL, DELV_OBJ, SALE_OBJ, INCP_OBJ, REG_EMP_SEQ, REG_DT, MOD_EMP_SEQ, MOD_DT FROM CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
         WHERE BASE_YEAR = #{baseYear} AND DEPT_LEVEL = 2 AND OBJ_TYPE = 'team'
     </insert>
+
+    <select id="getCorpProjectData" parameterType="map" resultType="map">
+        /*getCorpProjectData*/
+        SELECT
+            OVER_CASH, OVER_POINT
+        FROM
+            CAM_PJT_MNG.DJ_OVER_PAY
+        WHERE
+            PJT_CD = #{pjtCd}
+    </select>
 </mapper>

@@ -551,4 +551,9 @@ public class AchieveServiceImpl implements AchieveService {
     public List<Map<String, Object>> getObjHistList(Map<String, Object> params) {
         return achieveRepository.getObjHistList(params);
     }
+
+    @Override
+    public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
+        return achieveRepository.getCorpProjectData(params);
+    }
 }

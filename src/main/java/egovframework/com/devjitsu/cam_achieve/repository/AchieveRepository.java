@@ -260,4 +260,8 @@ public class AchieveRepository extends AbstractDAO {
     public void insDeptObjSettingHistory(Map<String, Object> params) {
         insert("achieve.insDeptObjSettingHistory", params);
     }
+
+    public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("achieve.getCorpProjectData", params);
+    }
 }

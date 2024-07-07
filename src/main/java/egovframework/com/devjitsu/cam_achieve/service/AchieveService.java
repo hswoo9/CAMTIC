@@ -68,4 +68,6 @@ public interface AchieveService {
     List<Map<String, Object>> getDeptPayrollCompDutyList(Map<String, Object> params);
 
     List<Map<String, Object>> getObjHistList(Map<String, Object> params);
+
+    Map<String, Object> getCorpProjectData(Map<String, Object> params);
 }

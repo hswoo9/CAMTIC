@@ -548,4 +548,24 @@ public class AchieveController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/fundsManagement.do")
+    public String fundsManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("menuNm", request.getRequestURI());
+
+        return "cam_achieve/fundsManagement";
+    }
+
+    @RequestMapping("/cam_achieve/getCorpProjectData")
+    public String getCorpProjectData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = achieveService.getCorpProjectData(params);
+
+        model.addAttribute("data", map);
+        return "jsonView";
+    }
 }
