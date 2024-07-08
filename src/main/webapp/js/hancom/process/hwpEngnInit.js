@@ -116,7 +116,7 @@ var engnInit = {
 
         /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
-        var estMap = ests.result.estList[0];
+        var estMap = ests.result.estList[ests.result.estList.length - 1];
         var estSubList = ests.result.estSubList;
         const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");
@@ -175,7 +175,7 @@ var engnInit = {
 
         /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
-        var estMap = ests.result.estList[0];
+        var estMap = ests.result.estList[ests.result.estList.length - 1];
         var estSubList = ests.result.estSubList;
         const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");
@@ -456,7 +456,7 @@ var engnInit = {
 
         /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
-        var estMap = ests.result.estList[0];
+        var estMap = ests.result.estList[ests.result.estList.length - 1];
         var estSubList = ests.result.estSubList;
         const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");

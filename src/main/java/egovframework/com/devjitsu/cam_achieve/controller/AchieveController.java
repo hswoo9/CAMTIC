@@ -568,4 +568,48 @@ public class AchieveController {
         model.addAttribute("data", map);
         return "jsonView";
     }
+
+    /** 구매현황 */
+    @RequestMapping("/cam_achieve/purcManagement.do")
+    public String purcManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+        return "cam_achieve/purcManagement";
+    }
+
+    /** 구매거래협력업체 */
+    @RequestMapping("/cam_achieve/purcCrmManagement.do")
+    public String purcCrmManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+        return "cam_achieve/purcCrmManagement";
+    }
+
+    /** 구매자금관리 */
+    @RequestMapping("/cam_achieve/purcFundManagement.do")
+    public String purcFundManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+        return "cam_achieve/purcFundManagement";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcClaimList")
+    public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcClaimList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcClaimDetList")
+    public String getPurcClaimDetList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcClaimDetList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }
