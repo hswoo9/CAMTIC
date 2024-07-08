@@ -449,7 +449,8 @@ var bustripExnpReq = {
             var empSeq = bustripInfo.DRIVER_EMP_SEQ;
 
             const params = {
-                empSeq: empSeq
+                empSeq: empSeq,
+                endDt: bustripInfo.TRIP_DAY_TO
             }
             if(bustripInfo != null && bustripInfo.PJT_SN != null){
                 params.pjtSn = bustripInfo.PJT_SN;
