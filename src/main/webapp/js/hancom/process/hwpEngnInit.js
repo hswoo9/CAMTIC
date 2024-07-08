@@ -518,10 +518,10 @@ var engnInit = {
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(Math.floor(info.UNIT_AMT / 1.1)) +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(Math.floor(info.SUP_AMT / 1.1)) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(Math.floor(info.UNIT_AMT / 1.1) * info.PROD_CNT) +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
                 html += '               </tr>';
-                sum += Number(Math.floor(info.SUP_AMT / 1.1));
+                sum += Number(Math.floor(info.UNIT_AMT / 1.1) * info.PROD_CNT);
             }
         }
         html += '               <tr>';
