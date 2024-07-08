@@ -8,7 +8,7 @@ var purcManagement = {
     pageSet: function(){
         customKendo.fn_datePicker("year", "decade", "yyyy", new Date());
         $("#year").change(function(){
-            this.dataSet();
+            purcManagement.dataSet();
         });
     },
 
