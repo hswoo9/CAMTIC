@@ -495,35 +495,45 @@ var camPrj = {
 
         for(var i = 0; i < prml.length; i++){
             if(prml[i].PART_EMP_SEQ == uid){
-                flag = true
+                flag = true;
             }
         }
 
         for(var i = 0; i < pral.length; i++){
             if(pral[i].EMP_SEQ == uid){
-                flag = true
+                flag = true;
             }
         }
 
         for(var i = 0 ; i < pml.length ; i++){
             if(pml[i].PS_EMP_SEQ == uid){
-                flag = true
+                flag = true;
             }
         }
 
         for(var i = 0 ; i < aml.length ; i++){
             if(aml[i].EMP_SEQ == uid){
-                flag = true
+                flag = true;
             }
         }
 
         for(var i = 0 ; i < trl.length ; i++){
             if(trl[i].EMP_SEQ == uid){
-                flag = true
+                flag = true;
             }
         }
 
-        if(flag || $("#regEmpSeq").val() == "1"){
+        /** 마스터 체크 */
+        if($("#regEmpSeq").val() == "1"){
+            flag = true;
+        }
+
+        /** 팀장, 부서장 체크 */
+        if($("#regDutyCode").val() != ""){
+            flag = true;
+        }
+
+        if(flag){
             var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
             if(cs == "R"){

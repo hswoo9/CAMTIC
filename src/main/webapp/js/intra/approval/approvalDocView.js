@@ -108,9 +108,35 @@ var docView = {
             groupSeq : "camtic_new",
             docId : params.docId
         }
+        const result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
+        let flag = false;
 
-        var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
-        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M' && loginVO.uniqId != "1"){
+        /** 결재자, 열람자 체크 */
+        if(result.confirm){
+            flag = true;
+        }
+
+        /** 대결자 체크 */
+        if(docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL == "Y"){
+            flag = true;
+        }
+
+        /** 관리자페이지 체크 */
+        if(docView.global.params.vType == "M"){
+            flag = true;
+        }
+
+        /** 마스터 체크 */
+        if(loginVO.uniqId != "1"){
+            flag = true;
+        }
+
+        /** 경영지원실 체크 */
+        if(loginVO.deptId == "1219"){
+            flag = true;
+        }
+
+        if(!flag){
             alert("열람 권한이 없습니다.");
             window.close();
             return;

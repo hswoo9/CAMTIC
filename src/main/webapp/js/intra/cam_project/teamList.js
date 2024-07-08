@@ -226,6 +226,16 @@ var teamList = {
             }
         }
 
+        /** 마스터 체크 */
+        if($("#regEmpSeq").val() == "1"){
+            flag = true;
+        }
+
+        /** 팀장, 부서장 체크 */
+        if($("#regDutyCode").val() != ""){
+            flag = true;
+        }
+
         if(flag){
             var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
