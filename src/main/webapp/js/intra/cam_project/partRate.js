@@ -179,7 +179,7 @@ var partRate = {
                     memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary' + i +'" name="basicSalary" value="' + uncomma(bsSal) + '"/><span id="basicSalaryTxt' + i + '">' + comma(bsSal) + '</span></td>';
                 }
                 memHtml += '   <td>';
-                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+(rs.PAY_BUDGET + rs.ITEM_BUDGET)+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
+                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(bsSal)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+(rs.PAY_BUDGET + rs.ITEM_BUDGET)+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');" onchange="partRate.getPartStartBs(' + rs.PAY_BUDGET + ', this,' + i + ');" name="strDt" /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
@@ -231,6 +231,8 @@ var partRate = {
                 });
 
                 $("#gubun" + i).data("kendoDropDownList").value(mem[i].GUBUN);
+
+                partRate.getPartStartBs(rs.PAY_BUDGET, $("#memStrDt" + i), i);
 
                 if(mem[i].CHNG_SAL != null){
                     $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));
@@ -291,8 +293,6 @@ var partRate = {
                 if(mem[i].MON_SAL != null){
                     $("#memMonSal" + i).val(comma(mem[i].MON_SAL));
                 }
-
-                partRate.getPartStartBs(rs.PAY_BUDGET, $("#memStrDt" + i), i);
             }
         }
 
@@ -679,6 +679,7 @@ var partRate = {
             $("#basicSalary" + i).val(uncomma(totAmt));
             $("#basicSalaryTxt" + i).text(comma(totAmt));
             // $("#memChngSal" + i).val(comma(totAmt));
+            $("#memChngSal" + i).val(comma(totAmt));
 
             // partRate.fn_memMonChange(p, $("#memMon" + i), i);
             partRate.fn_memCalc(p, i);
