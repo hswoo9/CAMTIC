@@ -11,6 +11,7 @@
 <input type="hidden" id="step" value="S1" />
 <input type="hidden" id="devRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="loginDeptSeq" value="${loginVO.deptId}"/>
 
 <form id="unRndDevDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />

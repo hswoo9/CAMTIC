@@ -35,6 +35,11 @@ var unRndDP = {
             $("#devBtnDiv").show();
         }
 
+        if($("#loginDeptSeq").val() == "1219"){
+            console.log("map.EMP_SEQ", map.EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
         const partVerResult = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", {pjtSn : pjtSn});
         const partVerList = partVerResult.list;
         console.log("partVerList", partVerList);
