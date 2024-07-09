@@ -211,4 +211,8 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getNowEvalCount", params);
     }
 
+    public List<Map<String, Object>> getExcelDownloadData(Map<String, Object> params) {
+        return selectList("evaluation.getExcelDownloadData", params);
+    }
+
 }

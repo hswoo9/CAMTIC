@@ -339,4 +339,34 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getNowEvalCount(Map<String, Object> params) {
         return evaluationRepository.getNowEvalCount(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getExcelDownloadData(Map<String, Object> params) {
+        List<Map<String, Object>> resultMap = evaluationRepository.getExcelDownloadData(params);
+        List<Map<String, Object>> scoreList = evaluationRepository.getEvaluationScList(params);
+
+        for(Map<String, Object> map : resultMap){
+            String evalGrade = "";
+            String resEvalGrade = "";
+
+            for(Map<String, Object> temp : scoreList) {
+                // 평가등급
+                if((Float.parseFloat(temp.get("EVAL_SCORE_B").toString()) >= Float.parseFloat(map.get("EVAL_TOTAL").toString())) &&
+                        Float.parseFloat((map.get("EVAL_TOTAL").toString())) >= Float.parseFloat(temp.get("EVAL_SCORE_A").toString())) {
+                    evalGrade = (String) temp.get("EVAL_GRADE");
+                }
+
+                // 최종등급
+                if((Float.parseFloat(temp.get("EVAL_SCORE_B").toString()) >= Float.parseFloat(map.get("EVAL_FINAL_TOTAL").toString())) &&
+                        Float.parseFloat((map.get("EVAL_FINAL_TOTAL").toString())) >= Float.parseFloat(temp.get("EVAL_SCORE_A").toString())){
+                    resEvalGrade = (String) temp.get("EVAL_GRADE");
+                }
+            }
+
+            map.put("EVAL_GRADE", evalGrade);
+            map.put("EVAL_FINAL_GRADE", resEvalGrade);
+        }
+
+        return resultMap;
+    }
 }

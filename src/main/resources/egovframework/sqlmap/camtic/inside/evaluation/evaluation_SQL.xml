@@ -1206,4 +1206,122 @@
             EVAL_SN = #{evalSn}
         AND (EVAL_EMP_SEQ = #{regEmpSeq} OR EVAL_EVAL_F_SEQ = #{regEmpSeq} OR EVAL_EVAL_S_SEQ = #{regEmpSeq})
     </select>
+
+    <select id="getExcelDownloadData" parameterType="map" resultType="map">
+        /*getExcelDownloadData*/
+        SELECT
+            SUB.*,
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN CONCAT(DEPT_MANAGER_A,' %')
+                WHEN DUTY_CODE IN (4,5) THEN CONCAT(TEAM_MANAGER_A,' %')
+                ELSE CONCAT(TEAM_MEMBER_A,' %')
+            END AS EVAL_F_PERCENT,
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1)
+                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1)
+                ELSE ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1)
+            END AS EVAL_F_CONVERT,
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN CONCAT(DEPT_MANAGER_B,' %')
+                WHEN DUTY_CODE IN (4,5) THEN CONCAT(TEAM_MANAGER_B,' %')
+                ELSE CONCAT(TEAM_MEMBER_B,' %')
+            END AS EVAL_S_PERCENT,
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1)
+                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1)
+                ELSE ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1)
+            END AS EVAL_S_CONVERT,
+            '0' AS EVAL_T_SCORE,
+            '0 %' AS EVAL_T_PERCENT,
+            '0' AS EVAL_T_CONVERT,
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN FORMAT(ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1),1)
+                WHEN DUTY_CODE IN (4,5) THEN FORMAT(ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1),1)
+                ELSE FORMAT(ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1),1)
+                END AS EVAL_TOTAL,
+
+            CASE
+                WHEN DUTY_CODE IN (2,3,7) THEN FORMAT(ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
+                WHEN DUTY_CODE IN (4,5) THEN FORMAT(ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
+                ELSE FORMAT(ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
+                END AS EVAL_FINAL_TOTAL,
+            '' AS RMK
+        FROM
+            (SELECT
+                A.EVAL_SN,
+                A.EVAL_EVAL_F_SEQ,
+                CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE B.DEPT_NAME END AS DEPT_NAME,
+                CASE WHEN C.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE C.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END AS TEAM_NAME,
+                B.EMP_NAME_KR,
+                B.DUTY_CODE,
+                A.EVAL_SCORE,
+                A.EVAL_F_SCORE,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = EVAL_EVAL_S_SEQ) THEN 0
+                    ELSE D.DEPT_MANAGER_A
+                END AS DEPT_MANAGER_A,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 0
+                    ELSE D.TEAM_MANAGER_A
+                END AS TEAM_MANAGER_A,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 0
+                    ELSE D.TEAM_MEMBER_A
+                END AS TEAM_MEMBER_A,
+                A.EVAL_S_SCORE,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 100
+                    ELSE D.DEPT_MANAGER_A
+                END AS DEPT_MANAGER_B,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 100
+                    ELSE D.TEAM_MANAGER_B
+                END AS TEAM_MANAGER_B,
+                CASE
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    ELSE D.TEAM_MEMBER_B
+                END AS TEAM_MEMBER_B,
+                0 AS EVAL_T_SCORE,
+                D.DEPT_MANAGER_C,
+                D.TEAM_MANAGER_C,
+                D.TEAM_MEMBER_C,
+                A.EVAL_SCORE_MNG
+            FROM
+                CAM_INSIDE.DJ_EVALUATION_MEM A
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO B ON A.EVAL_EMP_SEQ = B.EMP_SEQ
+            LEFT JOIN
+                CAM_HR.DJ_DEPT_INFO C ON B.DEPT_SEQ = C.DEPT_SEQ
+            LEFT JOIN
+                CAM_INSIDE.DJ_EVALUATION_CAP D ON A.EVAL_SN = D.EVAL_SN
+            WHERE 1=1
+            <if test='dept != null and dept != ""'>
+                AND C.PARENT_DEPT_SEQ = #{dept}
+            </if>
+            <if test='team != null and team != ""'>
+                AND B.DEPT_SEQ = #{team}
+            </if>
+            <if test='position != null and position != ""'>
+                AND B.POSITION_CODE = #{position}
+            </if>
+            <if test='duty != null and duty != ""'>
+                AND B.DUTY_CODE = #{duty}
+            </if>
+            <if test='empSeq != null and empSeq != ""'>
+                AND B.EMP_SEQ = #{empSeq}
+            </if>
+        ) SUB
+    </select>
 </mapper>

@@ -42,4 +42,5 @@ public interface EvaluationService {
     Map<String, Object> getEvalMemDet(Map<String, Object> params);
     List<Map<String, Object>> getEvalResultList(Map<String, Object> params);
     List<Map<String, Object>> getNowEvalCount(Map<String, Object> params);
+    List<Map<String, Object>> getExcelDownloadData(Map<String, Object> params);
 }

@@ -525,6 +525,13 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/getExcelDownloadData")
+    public String getExcelDownloadData(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = evaluationService.getExcelDownloadData(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

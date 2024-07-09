@@ -30,6 +30,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">역량평가 결과</h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="fn_excelDownload()">엑셀 다운로드</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="saveMngScore()">평가점수 조정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
@@ -116,7 +117,7 @@
         </div>
     </div>
 </div>
-
+<div id="hiddenGrid" style="display: none;"></div>
 
 <script>
     evalResult.init();
@@ -141,6 +142,7 @@
             async : false,
             success : function(result){
                 fn_addTbody(result);
+                hiddenGrid();
             },
             error : function(e) {
                 console.log(e);
@@ -343,6 +345,113 @@
         var name = "evalResUserPop";
         var option = "width = 1400, height = 820, top = 100, left = 300, location = no";
         var popup = window.open(url, name, option);
+    }
+
+    function hiddenGrid() {
+        let url = "/evaluation/getExcelDownloadData";
+        let params = {
+            evalSn : $("#evalSn").val(),
+            dept : $("#dept").val(),
+            team : $("#team").val(),
+            position : $("#position").val(),
+            duty : $("#duty").val()
+        }
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "부서명",
+                    width: 120,
+                    field: "DEPT_NAME"
+                }, {
+                    title: "팀명",
+                    width: 120,
+                    field: "TEAM_NAME"
+                }, {
+                    title: "성명",
+                    width: 80,
+                    field: "EMP_NAME_KR"
+                }, {
+                    title: "본인평가",
+                    width: 80,
+                    field: "EVAL_SCORE"
+                }, {
+                    title: "1차_점수",
+                    width: 80,
+                    field: "EVAL_F_SCORE"
+                }, {
+                    title: "1차_가중치",
+                    width: 80,
+                    field: "EVAL_F_PERCENT"
+                }, {
+                    title: "1차_환산점수",
+                    width: 80,
+                    field: "EVAL_F_CONVERT"
+                }, {
+                    title: "2차_점수",
+                    width: 80,
+                    field: "EVAL_S_SCORE"
+                }, {
+                    title: "2차_가중치",
+                    width: 80,
+                    field: "EVAL_S_PERCENT"
+                }, {
+                    title: "2차_환산점수",
+                    width: 80,
+                    field: "EVAL_S_CONVERT"
+                }, {
+                    title: "3차_점수",
+                    width: 80,
+                    field: "EVAL_T_SCORE"
+                }, {
+                    title: "3차_가중치",
+                    width: 80,
+                    field: "EVAL_T_PERCENT"
+                }, {
+                    title: "3차_환산점수",
+                    width: 80,
+                    field: "EVAL_T_CONVERT"
+                }, {
+                    title: "평가점수",
+                    width: 80,
+                    field: "EVAL_TOTAL"
+                }, {
+                    title: "평가등급",
+                    width: 80,
+                    field: "EVAL_GRADE"
+                }, {
+                    title: "조정점수",
+                    width: 80,
+                    field: "EVAL_SCORE_MNG"
+                }, {
+                    title: "최종점수",
+                    width: 80,
+                    field: "EVAL_FINAL_TOTAL"
+                }, {
+                    title: "최종등급",
+                    width: 80,
+                    field: "EVAL_FINAL_GRADE"
+                }, {
+                    title: "점수조정사유",
+                    width: 120,
+                    field: "RMK"
+                },
+            ],
+        }).data("kendoGrid");
+    }
+
+    function fn_excelDownload (){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "역량평가결과.xlsx";
+        });
+        grid.saveAsExcel();
     }
 
 </script>
