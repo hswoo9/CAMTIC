@@ -1,7 +1,6 @@
 var costInfoGrid = {
 
     gridReload : function (pjtSn){
-
         costInfo.global.searchAjaxData2 = {
             empSeq : $("#loginEmpSeq").val(),
             pjtSn : pjtSn,
@@ -23,12 +22,18 @@ var costInfoGrid = {
         costInfoGrid.grid2("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
         costInfoGrid.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $(".grid4").show();
+            $("#grid4").show();
+            $("#grid4Div").show();
+            $("#grid4Span").show();
             costInfoGrid.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
         }else{
             $(".grid4").hide();
         }
 
+        costInfoGrid.sumTable();
+    },
+
+    sumTable: function(){
         const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
         const bustResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
         const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
@@ -118,6 +123,15 @@ var costInfoGrid = {
         $("#purcSumTemp").text(comma(Math.round(purcSum)));
         $("#bustSumTemp").text(comma(Math.round(bustSum)));
         $("#costSumTemp").text(comma(Math.round(paySum)));
+        $("#purcSumTemp2").text(comma(Math.round(purcSum)));
+        $("#bustSumTemp2").text(comma(Math.round(bustSum)));
+        $("#costSumTemp2").text(comma(Math.round(paySum)));
+    },
+
+    sumTable2: function(){
+        $("#purcSumTemp").text($("#purcSumTemp2").text());
+        $("#bustSumTemp").text($("#bustSumTemp2").text());
+        $("#costSumTemp").text($("#costSumTemp2").text());
     },
 
     grid2 : function (url, params){
@@ -133,6 +147,9 @@ var costInfoGrid = {
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
+            },
+            dataBound : function(e){
+                costInfoGrid.sumTable2();
             },
             columns: [
                 {
@@ -301,6 +318,7 @@ var costInfoGrid = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+                costInfoGrid.sumTable2();
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -311,8 +329,20 @@ var costInfoGrid = {
                     title: "출장자",
                     width: 80,
                     template: function(row){
-                        if(row.ORG_YN = 'N'){
-                            return row.EMP_NAME;
+                        if(row.ORG_YN == "N"){
+                            if(row.RS_STATUS != null){
+                                if(row.COMPANION2 != 0){
+                                    return row.EMP_NAME + " 외 "+row.COMPANION2+"명";
+                                }else{
+                                    return row.EMP_NAME;
+                                }
+                            }else{
+                                if(row.COMPANION != 0){
+                                    return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                                }else{
+                                    return row.EMP_NAME;
+                                }
+                            }
                         } else {
                             if(row.COMPANION == 0){
                                 return row.EMP_NAME;
@@ -421,6 +451,7 @@ var costInfoGrid = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+                costInfoGrid.sumTable2();
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -428,12 +459,17 @@ var costInfoGrid = {
             columns: [
                 {
                     field: "APP_DE",
+                    title: "지급신청일",
+                    width: 100
+                }, {
+                    field: "APP_TITLE",
                     title: "지급신청일"
                 }, {
                     title: "금액",
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.ITEM_SUM)+"</div>";
-                    }
+                    },
+                    width: 120
                 }, {
                     title: "구매/출장 문서번호",
                     template : function(row){
@@ -442,7 +478,8 @@ var costInfoGrid = {
                         } else {
                             return "-";
                         }
-                    }
+                    },
+                    width: 160
                 }, {
                     title: "비용처리",
                     template: function(row){
@@ -451,7 +488,8 @@ var costInfoGrid = {
                         } else {
                             return '<button type="button" class="k-button k-button-solid-info" onclick="costInfoPop.fn_reqRegPopup('+row.PAY_APP_SN+')">비용처리</button>';
                         }
-                    }
+                    },
+                    width: 100
                 }, {
                     title: "상태",
                     template: function(row){
@@ -461,12 +499,14 @@ var costInfoGrid = {
                             return "-";
                         }
                     },
+                    width: 100,
                     footerTemplate: "비용합계"
                 }, {
                     title: "비용",
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
                     },
+                    width: 120,
                     footerTemplate: function(){
                         return "<div id='costSumTemp' style='text-align: right'></div>";
                     }

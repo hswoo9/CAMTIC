@@ -13,6 +13,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="devRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="loginDeptSeq" value="${loginVO.deptId}"/>
 
 <form id="rndDevDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
