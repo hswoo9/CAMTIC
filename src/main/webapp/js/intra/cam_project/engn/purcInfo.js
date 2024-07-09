@@ -536,7 +536,11 @@ var purcInfo = {
                     headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
                     width: 40,
                     template : function (e){
-                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
+                        if(e.F_PAY_APP_SN == null){
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
+                        } else {
+                            return "";  
+                        }
                     }
                 }, {
                     title: "번호",
