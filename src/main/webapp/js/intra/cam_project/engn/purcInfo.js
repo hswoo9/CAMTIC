@@ -8,18 +8,6 @@ var purcInfo = {
 
     fn_defaultScript : function(){
         commonProject.setPjtStat();
-        this.gridReload();
-    },
-
-    gridReload: function (){
-        purcInfo.global.searchAjaxData = {
-            empSeq : $("#loginEmpSeq").val(),
-            pjtSn : $("#pjtSn").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            camProject: "Y",
-            busnClass: commonProject.global.busnClass
-        }
 
         $("#radioSelectPurcType").kendoRadioGroup({
             items: [
@@ -37,14 +25,84 @@ var purcInfo = {
                     $("#purcInfoMainGrid2").css("display", "none");
                     $("#purcTitleWrap").text("◎ 구매 리스트")
                     $("#mainGrid1Wrap").show();
+                    $("#purcBtnDiv2").hide();
                 } else if (idx == 2){
                     $("#purcInfoMainGrid").css("display", "none");
                     $("#purcInfoMainGrid2").css("display", "");
                     $("#purcTitleWrap").text("◎ 구매 지급 리스트");
                     $("#mainGrid1Wrap").hide();
+                    $("#purcBtnDiv2").show();
                 }
             }
         });
+
+        purcInfo.setAccount();
+        this.gridReload();
+    },
+
+    setAccount : function(){
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
+
+        let params = {
+            pjtSn: $("#pjtSn").val()
+        }
+        const result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", params);
+        const list = result.list;
+        let arr = [];
+        let firstValue = "";
+        for(let i=0; i<list.length; i++){
+            let label = "";
+            if(list[i].IS_TYPE == "1"){
+                label = "국비";
+            }else if(list[i].IS_TYPE == "2"){
+                label = "도비";
+            }else if(list[i].IS_TYPE == "3"){
+                label = "시비";
+            }else if(list[i].IS_TYPE == "4"){
+                label = "자부담";
+            }else if(list[i].IS_TYPE == "5"){
+                label = "업체부담";
+            }else if(list[i].IS_TYPE == "9"){
+                label = "기타";
+            }
+            let data = {
+                label: label,
+                value: $("#purcMgtCd").val().slice(0, -1) + list[i].IS_TYPE
+            };
+            arr.push(data);
+            if(i == 0){
+                firstValue = $("#purcMgtCd").val().slice(0, -1) + list[i].IS_TYPE;
+            }
+        }
+
+        if(list.length == 0){
+            arr = [
+                {
+                    label: "사업비",
+                    value: $("#purcMgtCd").val()
+                }
+            ];
+            firstValue = $("#purcMgtCd").val();
+        }
+        customKendo.fn_radioGroup("purcBudgetClass", arr, "horizontal");
+        $("#purcBudgetClass").data("kendoRadioGroup").value(firstValue);
+
+        $("#purcBudgetClass").data("kendoRadioGroup").bind("change", function(){
+            purcInfo.gridReload($("#purcBudgetClass").data("kendoRadioGroup").value());
+        })
+    },
+
+    gridReload: function (pjtCd){
+        purcInfo.global.searchAjaxData = {
+            pjtCd : $("#purcBudgetClass").data("kendoRadioGroup").value(),
+            empSeq : $("#loginEmpSeq").val(),
+            pjtSn : $("#pjtSn").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            camProject: "Y",
+            busnClass: commonProject.global.busnClass
+        }
 
         purcInfo.mainGrid("/purc/getPurcReqClaimList.do", purcInfo.global.searchAjaxData);
         purcInfo.mainGrid2("/purc/getUserPurcAppList", purcInfo.global.searchAjaxData);
