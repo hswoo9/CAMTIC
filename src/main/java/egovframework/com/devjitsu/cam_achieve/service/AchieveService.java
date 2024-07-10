@@ -74,4 +74,10 @@ public interface AchieveService {
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimDetList(Map<String, Object> params);
+
+    Map<String, Object> getPurcCrmAchieveData(Map<String, Object> params);
+
+    Map<String, Object> getPurcCrmLocAchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcCrmCKAchieveData(Map<String, Object> params);
 }

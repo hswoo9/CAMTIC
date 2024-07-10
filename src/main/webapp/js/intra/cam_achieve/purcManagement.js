@@ -23,10 +23,10 @@ var purcManagement = {
             countMonth = today.getMonth() + 1;
         }
 
-        const claimList = customKendo.fn_customAjax("/cam_achieve/getPurcClaimList", {year}).list;
+        const claimList = customKendo.fn_customAjax("/cam_achieve/getPurcClaimList", {year: year}).list;
         console.log("claimList", claimList);
 
-        const claimDetList = customKendo.fn_customAjax("/cam_achieve/getPurcClaimDetList", {year}).list;
+        const claimDetList = customKendo.fn_customAjax("/cam_achieve/getPurcClaimDetList", {year: year}).list;
         console.log("claimDetList", claimDetList);
 
         let totAmt = 0;

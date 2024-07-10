@@ -2,16 +2,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <jsp:useBean id="today" class="java.util.Date" />
-
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/purcManagement.js?v=${today}'/>"></script>
-
-
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-
 <style>
     .th-color{
         background-color: #00397f96 !important;
@@ -19,6 +10,8 @@
         padding: 5px 15px !important;
     }
 </style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/purcManagement.js?v=${today}'/>"></script>
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -86,11 +79,11 @@
 
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
+                    <col width="20%">
                     <col width="16%">
                     <col width="16%">
                     <col width="16%">
-                    <col width="24%">
-                    <col width="12%">
+                    <col width="16%">
                     <col width="16%">
                 </colgroup>
                 <thead id="tableC">
@@ -103,11 +96,11 @@
 
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
+                    <col width="20%">
                     <col width="16%">
                     <col width="16%">
                     <col width="16%">
-                    <col width="24%">
-                    <col width="12%">
+                    <col width="16%">
                     <col width="16%">
                 </colgroup>
                 <thead id="tableD">

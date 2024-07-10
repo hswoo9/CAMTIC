@@ -272,4 +272,16 @@ public class AchieveRepository extends AbstractDAO {
     public List<Map<String, Object>> getPurcClaimDetList(Map<String, Object> params) {
         return selectList("achieve.getPurcClaimDetList", params);
     }
+
+    public Map<String, Object> getPurcCrmAchieveData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("achieve.getPurcCrmAchieveData", params);
+    }
+
+    public Map<String, Object> getPurcCrmLocAchieveData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("achieve.getPurcCrmLocAchieveData", params);
+    }
+
+    public List<Map<String, Object>> getPurcCrmCKAchieveData(Map<String, Object> params) {
+        return selectList("achieve.getPurcCrmCKAchieveData", params);
+    }
 }
