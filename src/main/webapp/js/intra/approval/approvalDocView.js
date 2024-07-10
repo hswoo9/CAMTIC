@@ -111,29 +111,54 @@ var docView = {
         const result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
         let flag = false;
 
-        /** 결재자, 열람자 체크 */
-        if(result.confirm){
-            flag = true;
+        try{
+            /** 결재자, 열람자 체크 */
+            if(result.confirm){
+                flag = true;
+                console.log("결재자, 열람자 입니다.");
+            }
+        }catch{
+
         }
 
-        /** 대결자 체크 */
-        if(docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL == "Y"){
-            flag = true;
+        try{
+            /** 대결자 체크 */
+            if(docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL == "Y"){
+                flag = true;
+                console.log("대결자, 열람자 입니다.");
+            }
+        }catch{
+
         }
 
-        /** 관리자페이지 체크 */
-        if(docView.global.params.vType == "M"){
-            flag = true;
+        try{
+            /** 관리자페이지 체크 */
+            if(docView.global.params.vType == "M"){
+                flag = true;
+                console.log("관리자페이지 입니다.");
+            }
+        }catch{
+
         }
 
-        /** 마스터 체크 */
-        if(loginVO.uniqId != "1"){
-            flag = true;
+        try{
+            /** 마스터 체크 */
+            if(loginVO.uniqId == "1"){
+                flag = true;
+                console.log("마스터 입니다.");
+            }
+        }catch{
+
         }
 
-        /** 경영지원실 체크 */
-        if(loginVO.deptId == "1219"){
-            flag = true;
+        try{
+            /** 경영지원실 체크 */
+            if(loginVO.deptId == "1219"){
+                flag = true;
+                console.log("경영지원실 입니다.");
+            }
+        }catch{
+
         }
 
         if(!flag){
