@@ -3409,7 +3409,9 @@
         WHERE
             PJT_CD = #{pjtCd}
         AND
-            TEAM_STAT = 'N';
+            TEAM_STAT = 'N'
+        AND
+            PARENT_PJT_SN IS NULL
     </select>
 
     <select id="getProjectByPjtCd2" parameterType="map" resultType="map">
