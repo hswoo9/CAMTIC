@@ -439,6 +439,7 @@ public class ProjectController {
         model.addAttribute("params", params);
         Map<String, Object> map = projectService.getProjectData(params);
         model.addAttribute(map);
+        model.addAttribute("data", map);
 
         return "popup/cam_project/engineering/purcInfo";
     }

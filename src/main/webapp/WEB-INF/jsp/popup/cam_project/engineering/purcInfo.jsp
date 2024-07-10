@@ -36,6 +36,7 @@
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="purcMgtCd" value="${data.PJT_CD}" />
 
 <input type="hidden" id="searchKeyword" />
 <input type="hidden" id="searchValue" />
@@ -43,6 +44,10 @@
 <div style="padding: 10px">
     <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
         <span id="radioSelectPurcType"></span>
+    </div>
+
+    <div id="purcBtnDiv2" style="background-color: #eef6ff; padding: 10px; font-size: 13px; display: none;">
+        <span id="purcBudgetClass"></span>
     </div>
 
     <br>
