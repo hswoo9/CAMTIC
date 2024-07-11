@@ -21,6 +21,7 @@ var regPay = {
         attFiles : [],
         exnpFlag : false,
         result : "",
+        bgtArr : new Array()
     },
 
     fn_defaultScript : function (){
@@ -2536,6 +2537,17 @@ var regPay = {
 
             if($("#fileNo" + index).val() != undefined && $("#fileNo" + index).val() != null && $("#fileNo" + index).val() != "null" && $("#fileNo" + index).val() != "undefined" && $("#fileNo" + index).val() != ""){
                 data.fileNo = $("#fileNo" + index).val();
+            }
+
+            if(regPay.global.bgtArr.length != 0){
+                for(let j=0; j<regPay.global.bgtArr.length; j++){
+                    const jMap = regPay.global.bgtArr[j];
+
+                    /** 수익/비용 설정이 있고 선택한 비목이 수익이면 비용처리 유무 N */
+                    if(data.budgetSn == jMap.BGT_CD && jMap.BGT_AT == "1"){
+                        data.costStat = "N";
+                    }
+                }
             }
 
             if(type == "drafting"){

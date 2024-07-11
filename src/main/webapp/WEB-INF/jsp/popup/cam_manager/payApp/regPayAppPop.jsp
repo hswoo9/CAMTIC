@@ -546,6 +546,15 @@
                 }
             });
         }
+
+        data.pjtSn = cd;
+        const bgtInfo = customKendo.fn_customAjax("/mng/getProjectBgtList", data);
+        const bgtList = bgtInfo.list;
+
+        console.log("bgtList : ", bgtList);
+        if(bgtList.length != 0){
+            regPay.global.bgtArr = bgtList;
+        }
     }
 </script>
 </body>

@@ -257,6 +257,9 @@
                 <if test='!"".equals(payAmt)'>
                     PAY_AMT,
                 </if>
+                <if test='costStat != null and !"".equals(costStat)'>
+                    COST_STAT,
+                </if>
                 ADVANCES
             )
         VALUES
@@ -295,6 +298,9 @@
                 #{iss},
                 <if test='!"".equals(payAmt)'>
                     #{payAmt},
+                </if>
+                <if test='costStat != null and !"".equals(costStat)'>
+                    #{costStat},
                 </if>
                 #{advances}
             )
