@@ -312,6 +312,8 @@ public class G20ServiceImpl implements G20Service {
             for(Map<String, Object> map : budgetList){
                 if(params.get("temp").equals("1")) {     // 수입예산
                     if(!"0".equals(map.get("DIV_FG"))){
+
+                        int returnPaySum = 0;
                         if(map.get("DIV_FG").equals("3")){
 
                             String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
@@ -374,6 +376,28 @@ public class G20ServiceImpl implements G20Service {
                             }
                             result.add(map);
                         }
+
+                        for(int i=0; i< payReturnList.size(); i++){
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("BUDGET_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("JANG_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("GWAN_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+                        }
+
+                        map.put("RETURN_AMT", returnPaySum);
                     }
                 } else {    // 지출예산
                     if(!"0".equals(map.get("DIV_FG"))){

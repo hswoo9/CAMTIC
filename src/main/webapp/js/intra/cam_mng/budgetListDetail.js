@@ -141,6 +141,9 @@ var bld = {
                     title: "승인",
                     width: 150,
                     template: function(e){
+                        if(e.BGT_NM == "연구개발"){
+                            console.log("e", e);
+                        }
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
                             amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT);
@@ -159,9 +162,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 - e.RETURN_AMT);
+                            subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.RETURN_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - e.ACCT_AM_3 - e.RETURN_AMT))+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.RETURN_AMT))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";

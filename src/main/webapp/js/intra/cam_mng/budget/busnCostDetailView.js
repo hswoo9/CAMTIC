@@ -157,16 +157,16 @@ var bcd = {
                     template: function(e){
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT));
+                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT));
                         } else {
-                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.WAIT_CK - e.RETURN_AMT));
+                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.WAIT_CK + e.RETURN_AMT));
                         }
 
                         if(e.DIV_FG_NM == "장"){
                             if(e.FULL_WAIT_CK != null){
-                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT);
+                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT);
                             } else {
-                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT);
+                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT);
                             }
                         }
 

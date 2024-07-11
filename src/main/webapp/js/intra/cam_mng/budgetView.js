@@ -51,7 +51,6 @@ var bgView = {
                 parameterMap: function(data){
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
-
                     data.gisu = year;
                     data.fromDate = $("#g20FrDt").val();
                     data.toDate = $("#g20ToDt").val();
@@ -195,6 +194,7 @@ var bgView = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
+                        console.log("e", e);
                         var subAm = "";
                         if(e.DIV_FG_NM == "항"){
                             if($("#status").val() != "incp"){
@@ -203,7 +203,11 @@ var bgView = {
                                     subAmSum += Number(e.SUB_AM);
                                 } else {
                                     subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
-                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK||0)));
+                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
+                                    if($("#payAppType").val() == "3"){
+                                        subAm += Number(e.RETURN_AMT);
+                                        subAmSum += Number(e.RETURN_AMT);
+                                    }
                                 }
                             } else {
                                 subAmSum += Number(e.SUB_AM);

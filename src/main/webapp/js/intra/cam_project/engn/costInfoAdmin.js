@@ -115,8 +115,9 @@ var costInfo = {
         const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
         const data = result.data;
         const e = data;
+        console.log("e", e);
 
-        if(e.YEAR_CLASS = "M"){
+        if(e.YEAR_CLASS == "M"){
             $("#PJT_AMT2").text(comma(e.ALL_PJT_AMT));
         } else {
             $("#PJT_AMT2").text(comma(e.PJT_AMT));
