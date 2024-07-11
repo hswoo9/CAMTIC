@@ -51,18 +51,19 @@ var costInfo = {
         const pjtMap = result.map;
         console.log("pjtMap", pjtMap);
 
-        /** 사업정보 */
-        costInfo.step1(pjtMap);
-
-        /** 재무실적내역 */
-        costInfo.step2(pjtMap);
-
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
             const e = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn}).rs;
             if(e.YEAR_CLASS == "M" && e.PJT_CD != null && e.PARENT_PJT_SN == null){
                 $(".multiUi").show();
             }
+            $("#taxGubun").val(e.TAX_GUBUN);
         }
+
+        /** 사업정보 */
+        costInfo.step1(pjtMap);
+
+        /** 재무실적내역 */
+        costInfo.step2(pjtMap);
     },
 
     step1(pjtMap){
@@ -108,7 +109,7 @@ var costInfo = {
         $("#SBJ_SEP").text(sbjText);
     },
 
-    step2(){
+    step2(pjtMap){
         const pjtSn = $("#pjtSn").val();
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
@@ -123,7 +124,54 @@ var costInfo = {
             $("#PJT_AMT2").text(comma(e.PJT_AMT));
         }
 
-        $("#RES_AMT").text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
+        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
+            $("#RES_AMT").text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
+        }else{
+            const result2 = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {pjtSn: pjtSn});
+            const list = result2.list;
+            let arr = []
+            for(let i=0; i<list.length; i++){
+                arr.push($("#costMgtCd").val().slice(0, -1) + list[i].IS_TYPE);
+            }
+
+            if(list.length == 0){
+                arr.push($("#costMgtCd").val());
+            }
+            console.log("arr : ", arr);
+
+            let amt = 0;
+            for(let i=0; i<arr.length; i++){
+                const date = new Date();
+                const year = date.getFullYear().toString().substring(2, 4);
+                const result3 = customKendo.fn_customAjax("/g20/getSubjectList", {
+                    stat: "project",
+                    gisu: year,
+                    fromDate: $("#sbjStrDe").val().replace(/-/g, ""),
+                    toDate: $("#sbjEndDe").val().replace(/-/g, ""),
+                    mgtSeq: arr[i],
+                    opt01: "3",
+                    opt02: "1",
+                    opt03: "2",
+                    baseDate: date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, "0") + date.getDate().toString().padStart(2, "0"),
+                    pjtSn: pjtSn,
+                    temp: 2
+                });
+                const g20List = result3.list;
+                console.log("g20List : ", g20List);
+                for(let j=0; j<g20List.length; j++){
+                    const jMap = g20List[j];
+                    console.log("jMap : ", jMap);
+                    if(jMap.DIV_FG_NM == "장"){
+                        amt += Number(jMap.ACCT_AM_3);
+                    }
+                }
+            }
+            if($("#taxGubun").val() == "1"){
+                $("#RES_AMT").text(comma((amt * 10 / 11).toString().split(".")[0]));
+            }else{
+                $("#RES_AMT").text(comma(amt));
+            }
+        }
         $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
         $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
         $("#DEV_NOT_INV_AMT").text(comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
