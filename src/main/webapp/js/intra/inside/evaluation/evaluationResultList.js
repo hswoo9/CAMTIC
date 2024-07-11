@@ -145,22 +145,24 @@ var evaluationResultList = {
             /*dataBound: ,*/
             columns: [
                 {
-                    field:"deptNm",
-                    title:"부서명",
-                    width:"10%"
-                },
-                {
-                    field:"teamNm",
-                    title:"팀명",
-                    width:"10%"
-                },
-                {
+                    field: "deptNm",
+                    title: "부서명",
+                    width: 150
+                }, {
+                    field: "teamNm",
+                    title: "팀명",
+                    width: 150
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
-                    width: "10%"
+                    width: 80
+                }, {
+                    field: "EVAL_SCORE",
+                    title: "본인점수",
+                    width: 80
                 }, {
                     title: "최종점수",
-                    width: "10%",
+                    width: 80,
                     template: function (e) {
                         let aDeptPer = Number(e.DEPT_MANAGER_A);
                         let bDeptPer = Number(e.DEPT_MANAGER_B);
@@ -216,9 +218,9 @@ var evaluationResultList = {
 
                         return scoreTot;
                     }
-                },{
+                }, {
                     title: "최종등급",
-                    width: "10%",
+                    width: 80,
                     template: function (e) {
 
                         let aDeptPer = Number(e.DEPT_MANAGER_A);
@@ -284,17 +286,16 @@ var evaluationResultList = {
                     }
                 }, {
                     title: "1차 평가의견",
-                    width: "30%",
                     template: function (e) {
                         return e.EVAL_F_VIEW.replaceAll("\n", "<br>");
                     }
-                },{
+                }, {
                     title: "2차 평가의견",
-                    width: "30%",
                     template: function (e) {
                         return e.EVAL_S_VIEW.replaceAll("\n", "<br>");
                     }
-                }]
+                }
+            ]
         }).data("kendoGrid");
     },
 
