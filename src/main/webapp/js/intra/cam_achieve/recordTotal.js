@@ -235,7 +235,7 @@ var recordTotal = {
                     title: "수주금액",
                     width: 100,
                     template: function(e){
-                        if(e.YEAR_CLASS = 'M'){
+                        if(e.YEAR_CLASS == "M"){
                             return '<div style="text-align: right;">'+comma(e.ALL_PJT_AMT)+'</div>';
                         } else {
                             return '<div style="text-align: right;">'+comma(e.PJT_AMT)+'</div>';
