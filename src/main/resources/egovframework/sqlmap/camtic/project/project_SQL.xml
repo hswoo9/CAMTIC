@@ -33,7 +33,7 @@
             CASE
                 WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.END_DT, '%Y-%m-%d')
                 WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.END_DT, '%Y-%m-%d')
-                WHEN A.BUSN_CLASS IN ('D', 'V') AND DLP.STATUS = '100' THEN DATE_FORMAT(DLP.DELV_DE, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('D', 'V') AND DLP.STATUS = '100' THEN DATE_FORMAT(A.DELV_DE, '%Y-%m-%d')
             ELSE ''
             END AS LIST_END_EX_DE,
             CASE
