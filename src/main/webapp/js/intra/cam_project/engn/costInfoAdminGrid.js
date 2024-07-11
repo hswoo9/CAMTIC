@@ -375,9 +375,13 @@ var costInfoGrid = {
             },
             columns: [
                 {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
                     field: "EMP_NAME",
                     title: "출장자",
-                    width: 80,
+                    width: 200,
                     template: function(row){
                         if(row.ORG_YN == "N"){
                             if(row.RS_STATUS != null){
@@ -409,24 +413,23 @@ var costInfoGrid = {
                         }else{
                             return row.VISIT_CRM;
                         }
-                    },
-                    width: 160
+                    }
                 }, {
                     title: "출발일시",
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
-                    width: 100
+                    width: 140
                 }, {
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
                     },
-                    width: 100
+                    width: 140
                 }, {
                     field: "CAR_CLASS_NAME",
                     title: "차량",
-                    width: 80,
+                    width: 180,
                     template : function (e){
                         if(e.USE_TRSPT == 1){
                             return "카니발";
@@ -453,7 +456,7 @@ var costInfoGrid = {
                     footerTemplate: "출장완료 여비합계"
                 }, {
                     title : "여비금액",
-                    width: 50,
+                    width: 140,
                     template : function (e){
                         return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
                     },
@@ -461,7 +464,10 @@ var costInfoGrid = {
                         return "<div id='bustSumTemp' style='text-align: right'></div>";
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -532,6 +538,10 @@ var costInfoGrid = {
             },
             columns: [
                 {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
                     field: "APP_DE",
                     title: "지급신청일",
                     width: 100
@@ -585,7 +595,10 @@ var costInfoGrid = {
                         return "<div id='costSumTemp' style='text-align: right'></div>";
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
