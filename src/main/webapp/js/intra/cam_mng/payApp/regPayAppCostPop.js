@@ -152,7 +152,7 @@ var costProcess = {
                 '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" value="'+item.REG_NO+'" style="width: 100%">' +
+                '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" value="'+(item.REG_NO || "")+'" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
@@ -176,11 +176,11 @@ var costProcess = {
                 '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="'+costProcess.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" value="'+(item.CARD || "")+'" class="card">' +
                 '       <input type="hidden" id="cardNo' + regPayDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
+                '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" value="'+(item.ETC || "")+'" class="etc">' +
                 '   </td>';
 
             regPayDet.global.createHtmlStr += "" +
@@ -523,18 +523,10 @@ var regPayDet = {
             success : function(rs){
                 if(rs.code == 200){
                     alert(successText);
+                    try{
+                        opener.window.costInfoGrid.gridReload();
+                    }catch{
 
-                    if(opener.commonProject != null){
-                        const busnClass = opener.commonProject.global.busnClass;
-                        if(busnClass == "D"){
-                            opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=12";
-                        }else if(busnClass == "R"){
-                            opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
-                        }else if(busnClass == "S"){
-                            opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
-                        }else{
-                            opener.window.location.reload();
-                        }
                     }
                     window.close();
                 }
@@ -567,6 +559,11 @@ var regPayDet = {
             success : function(rs){
                 if(rs.code == 200){
                     alert(successText);
+                    try{
+                        opener.window.costInfoGrid.gridReload();
+                    }catch{
+
+                    }
                     location.reload();
                 }
             }

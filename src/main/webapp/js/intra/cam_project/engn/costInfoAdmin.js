@@ -11,7 +11,7 @@ var costInfo = {
         commonProject.setPjtStat();
         costInfo.pageSet();
         costInfo.dataSet(pjtSn);
-        costInfoGrid.gridReload(pjtSn);
+        costInfoGrid.mainGrid();
     },
 
     pageSet(){
@@ -41,7 +41,8 @@ var costInfo = {
 
             $("#costPjtClass").data("kendoRadioGroup").bind("change", function(){
                 costInfo.dataSet($("#costPjtClass").data("kendoRadioGroup").value());
-                costInfoGrid.gridReload($("#costPjtClass").data("kendoRadioGroup").value());
+                $("#searchPjtSn").val($("#costPjtClass").data("kendoRadioGroup").value());
+                costInfoGrid.gridReload();
             })
         }
     },

@@ -1,42 +1,41 @@
 var costInfoGrid = {
 
-    gridReload : function (pjtSn){
-        costInfo.global.searchAjaxData2 = {
-            empSeq : $("#loginEmpSeq").val(),
-            pjtSn : pjtSn,
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
-        }
-        costInfo.global.searchAjaxData3 = {
-            startDate : $("#start_date").val(),
-            endDate : $("#end_date").val(),
-            projectCd : pjtSn,
-            busnName : $("#busnName").val(),
-            empSeq : $("#regEmpSeq").val(),
-            pjtSn : pjtSn
-        }
-        costInfo.global.searchAjaxData4 = {
-            pjtSn : pjtSn
-        }
-
-        costInfoGrid.grid2("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
-        costInfoGrid.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
+    mainGrid: function(){
+        costInfoGrid.grid2();
+        costInfoGrid.grid3();
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
             $("#grid4").show();
             $("#grid4Div").show();
             $("#grid4Span").show();
-            costInfoGrid.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
+            costInfoGrid.grid4();
         }else{
             $(".grid4").hide();
         }
+        costInfoGrid.sumTable();
+    },
 
+    gridReload: function(){
+        $("#grid2").data("kendoGrid").dataSource.read();
+        $("#grid3").data("kendoGrid").dataSource.read();
+        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
+            $("#grid4").data("kendoGrid").dataSource.read();
+        }
         costInfoGrid.sumTable();
     },
 
     sumTable: function(){
-        const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
-        const bustResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
-        const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
+        const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {
+            empSeq : $("#loginEmpSeq").val(),
+            pjtSn : $("#searchPjtSn").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val()
+        });
+        const bustResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {
+            pjtSn : $("#searchPjtSn").val()
+        });
+        const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {
+            pjtSn : $("#searchPjtSn").val()
+        });
 
         const purcList = purcResult.list;
         const bustList = bustResult.list;
@@ -134,9 +133,36 @@ var costInfoGrid = {
         $("#costSumTemp").text($("#costSumTemp2").text());
     },
 
-    grid2 : function (url, params){
+    grid2: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/purc/getPurcReqClaimList.do",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.empSeq = $("#loginEmpSeq").val();
+                    data.pjtSn = $("#searchPjtSn").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#grid2").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             height : 525,
@@ -282,9 +308,33 @@ var costInfoGrid = {
         }).data("kendoGrid");
     },
 
-    grid3 : function (url, params){
+    grid3: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/bustrip/getProjectBustList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.pjtSn = $("#searchPjtSn").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#grid3").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -415,9 +465,33 @@ var costInfoGrid = {
         }).data("kendoGrid");
     },
 
-    grid4 : function (url, params){
+    grid4: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/payApp/getPjtExnpList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.pjtSn = $("#searchPjtSn").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#grid4").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",

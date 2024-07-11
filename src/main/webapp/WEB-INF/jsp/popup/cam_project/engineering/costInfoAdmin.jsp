@@ -34,6 +34,8 @@
 <input type="hidden" id="searchKeyword" />
 <input type="hidden" id="searchValue" />
 
+<input type="hidden" id="searchPjtSn" value="${params.pjtSn}"/>
+
 <div style="padding: 10px">
     <div id="costInfoDiv" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px;">
         <span id="costPjtClass"></span>
