@@ -108,7 +108,32 @@ var costInfo = {
         $("#SBJ_SEP").text(sbjText);
     },
 
-    step2(pjtMap){
+    step2(){
+        const pjtSn = $("#pjtSn").val();
+
+        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
+        const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
+        const data = result.data;
+        const e = data;
+
+        if(e.YEAR_CLASS = "M"){
+            $("#PJT_AMT2").text(comma(e.ALL_PJT_AMT));
+        } else {
+            $("#PJT_AMT2").text(comma(e.PJT_AMT));
+        }
+
+        $("#RES_AMT").text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
+        $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+        $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
+        $("#DEV_NOT_INV_AMT").text(comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+
+        console.log(Number(e.INV_AMT || 0));
+        console.log(Number(e.incpCompAmt || 0));
+        console.log(Number(e.befExpProfitAmt || 0));
+        console.log(Number(e.aftProfitAmt || 0));
+    },
+
+    step2Bak(pjtMap){
         const pjtSn = $("#pjtSn").val();
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */

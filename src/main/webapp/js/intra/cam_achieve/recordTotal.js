@@ -290,6 +290,10 @@ var recordTotal = {
                     title: "예상수익",
                     width: 100,
                     template: function(e){
+                        console.log(Number(e.INV_AMT || 0));
+                        console.log(Number(e.incpCompAmt || 0));
+                        console.log(Number(e.befExpProfitAmt || 0));
+                        console.log(Number(e.aftProfitAmt || 0));
                         tmpProfitAmtSum += Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0);
                         return '<div style="text-align: right;">'+comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0))+'</div>';
                     },

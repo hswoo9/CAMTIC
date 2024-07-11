@@ -2,9 +2,12 @@ package egovframework.com.devjitsu.cam_project.controller;
 
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
@@ -46,6 +49,15 @@ public class ProjectController {
 
     @Autowired
     private AssetService assetService;
+
+    @Autowired
+    private AchieveService achieveService;
+
+    @Autowired
+    private PurcService purcService;
+
+    @Autowired
+    private G20Service g20Service;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1760,6 +1772,117 @@ public class ProjectController {
     @RequestMapping("/project/getPjtYear")
     public String getPjtYear(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", projectService.getPjtYear(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getPjtCostData")
+    public String getPjtCostData(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> map = projectService.getProjectData(params);
+        params.put("pjtCd", map.get("PJT_CD"));
+        params.put("pjtSn", map.get("PJT_SN"));
+
+        if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
+            List<Map<String, Object>> exnpList = achieveService.getExnpCompAmt(params);
+            List<Map<String, Object>> incpList = achieveService.geincpCompAmt(params);
+
+            int aSum = 0;
+            int bSum = 0;
+            int cSum = 0;
+            int dSum = 0;
+
+            for(Map<String, Object> exnpMap : exnpList) {
+                if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
+                    bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                } else{
+                    aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                }
+            }
+
+            map.put("exnpCompAmt", aSum-bSum);
+
+            for(Map<String, Object> incpMap : incpList) {
+                if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
+                    dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                } else{
+                    cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                }
+            }
+
+            map.put("incpCompAmt", cSum-dSum);
+            List<Map<String, Object>> budgetAmtList = g20Service.getG20BudgetSum(params);
+            long budgetAmt = 0;
+
+            if(budgetAmtList.size() != 0){
+                for(Map<String, Object> budgetMap : budgetAmtList) {
+                    if("1".equals(budgetMap.get("DRCR_FG"))) {
+                        budgetAmt = Long.parseLong(budgetMap.get("TOT_COST").toString().split("\\.")[0]);
+                    }
+                }
+            }
+
+            map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
+            map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
+        } else {
+            Map<String, Object> resultStat = achieveService.getResultProject(params);
+            List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
+
+            if(resultStat != null){
+                int resInvSum = 0;
+                map.put("exnpCompAmt", map.get("PJT_AMT"));
+
+                for(Map<String, Object> purcMap : purcList) {
+                    if("CAYSY".equals(purcMap.get("CLAIM_STATUS"))){
+                        resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
+                    }
+                }
+
+                map.put("incpCompAmt", resInvSum);
+                map.put("tmpSaleAmt", 0);
+                map.put("tmpProfitAmt", 0);
+            } else {
+                map.put("exnpCompAmt", 0);
+                map.put("incpCompAmt", 0);
+
+                Map<String, Object> getPjtDevSn = achieveService.getPjtDevSn(params);
+
+                if(getPjtDevSn != null) {
+                    params.put("devSn", getPjtDevSn.get("DEV_SN"));
+                    List<Map<String, Object>> invList = projectService.getInvList(params);
+
+                    int invSum = 0;
+
+                    for(Map<String, Object> invMap : invList) {
+                        invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
+                    }
+
+                    map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                    map.put("tmpProfitAmt", Integer.parseInt(map.get("PJT_AMT").toString()) - invSum);
+                } else {
+                    map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                    map.put("tmpProfitAmt", 0);
+                }
+            }
+        }
+
+        Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
+
+        if(projectPaySetData != null) {
+            map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
+            map.put("befExpProfitAmt", projectPaySetData.get("BEF_EXP_PROFIT_AMT"));
+
+            map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
+            map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
+        } else {
+            map.put("befExpSaleAmt", 0);
+            map.put("befExpProfitAmt", 0);
+
+            map.put("aftSaleAmt", 0);
+            map.put("aftProfitAmt", 0);
+        }
+
+        model.addAttribute("data", map);
+
         return "jsonView";
     }
 }

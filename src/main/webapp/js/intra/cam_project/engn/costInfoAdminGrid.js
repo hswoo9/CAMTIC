@@ -466,32 +466,33 @@ var costInfoGrid = {
                     title: "지급신청일"
                 }, {
                     title: "금액",
+                    width: 120,
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.ITEM_SUM)+"</div>";
-                    },
-                    width: 120
+                    }
                 }, {
                     title: "구매/출장 문서번호",
+                    width: 160,
                     template : function(row){
                         if(row.PURC_DOC_NO != null){
                             return row.PURC_DOC_NO;
                         } else {
                             return "-";
                         }
-                    },
-                    width: 160
+                    }
                 }, {
                     title: "비용처리",
+                    width: 100,
                     template: function(row){
                         if(row.PURC_DOC_NO != null){
                             return "-";
                         } else {
                             return '<button type="button" class="k-button k-button-solid-info" onclick="costInfoPop.fn_reqRegPopup('+row.PAY_APP_SN+')">비용처리</button>';
                         }
-                    },
-                    width: 100
+                    }
                 }, {
                     title: "상태",
+                    width: 100,
                     template: function(row){
                         if (row.COST_YN == 'Y') {
                             return "처리완료";
@@ -499,14 +500,13 @@ var costInfoGrid = {
                             return "-";
                         }
                     },
-                    width: 100,
                     footerTemplate: "비용합계"
                 }, {
                     title: "비용",
+                    width: 120,
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
                     },
-                    width: 120,
                     footerTemplate: function(){
                         return "<div id='costSumTemp' style='text-align: right'></div>";
                     }
