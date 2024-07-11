@@ -286,12 +286,12 @@ var evaluationResultList = {
                     }
                 }, {
                     title: "1차 평가의견",
-                    template: function (e) {
+                    template: function(e){
                         return e.EVAL_F_VIEW.replaceAll("\n", "<br>");
                     }
                 }, {
                     title: "2차 평가의견",
-                    template: function (e) {
+                    template: function(e){
                         return e.EVAL_S_VIEW.replaceAll("\n", "<br>");
                     }
                 }
