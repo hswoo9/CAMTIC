@@ -13,7 +13,7 @@
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-
+<input type="hidden" id="cmmnCode" name="cmmnCode" value="" />
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
