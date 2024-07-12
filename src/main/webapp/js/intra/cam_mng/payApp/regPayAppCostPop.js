@@ -23,6 +23,12 @@ var costProcess = {
         costProcess.setPage();
         costProcess.setData();
         costProcess.fn_viewStat();
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(uncommaN($(this).val()));
+        });
+        $("#totalAllCost").text(comma(totAllCost));
     },
 
     setPage : function(){

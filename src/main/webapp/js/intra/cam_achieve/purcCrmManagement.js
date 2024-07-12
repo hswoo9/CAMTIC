@@ -224,9 +224,9 @@ var purcCrmManagement = {
 
         const list2 = customKendo.fn_customAjax("/cam_achieve/getPurcCrmCKAchieveDataDet", {year: year, type: "count"}).list;
         console.log("tableF List", list2);
-        $("#tableF").html("");
+        $("#tableE").html("");
         let html2 = purcCrmManagement.tableDEFMake(list2);
-        $("#tableF").html(html2);
+        $("#tableE").html(html2);
     },
 
     tableDEFMake: function(list){
@@ -250,7 +250,7 @@ var purcCrmManagement = {
         }
         if(list.length == 0){
             html += '<tr>';
-            html += '   <td cospan="5">해당하는 데이터가 없습니다.</td>';
+            html += '   <td colspan="5">해당하는 데이터가 없습니다.</td>';
             html += '</tr>';
         }
         return html;

@@ -278,6 +278,18 @@
                         </td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th id="footerLine" colspan="9" style="text-align: right; font-weight: bold">
+                            합계
+                        </th>
+                        <td style="text-align: right; font-weight: bold">
+                            <span id="totalAllCost">0</span> 원
+                        </td>
+                        <th colspan="5" style="text-align: right;">
+                        </th>
+                    </tr>
+                    </tfoot>
                 </table>
 
             </div>
