@@ -25,6 +25,9 @@ var purcUserAppList = {
                 break;
             }
         }
+        if("1" == $("#regEmpSeq").val()){
+            $("#searchDept").data("kendoDropDownList").enable(true);
+        }
 
         purcUserAppList.mainGrid("/purc/getUserPurcAppList");
     },

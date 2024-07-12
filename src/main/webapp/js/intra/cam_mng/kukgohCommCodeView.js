@@ -6,6 +6,7 @@ var kukgohCommCodeView = {
 
     fn_defaultScript: function () {
         kukgohCommCodeView.mainGrid();
+        customKendo.fn_textBox(["req"]);
     },
 
     mainGrid : function(){
@@ -13,15 +14,24 @@ var kukgohCommCodeView = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getCmmnCodeDetailList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
-
+                    data.cmmnCode = $("#cmmnCode").val();
                     return data;
                 }
 
+            },
+
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -55,46 +65,52 @@ var kukgohCommCodeView = {
             persistSelection : true,
             columns: [
                 {
-                    field : "",
+                    field : "CMMN_DETAIL_CODE",
                     title : "코드",
                     width : 100
                 },
                 {
-                    field : "",
+                    field : "CMMN_DETAIL_CODE_NM",
                     title : "코드명",
                     width : 150
                 },
                 {
                     field : "",
-                    title : "관리항목1"
+                    title : "관리항목1",
+                    template: function(e){
+                        return '<input type="text" class="k-input" />'
+                    }
                 },
                 {
                     field : "",
-                    title : "관리항목2"
+                    title : "관리항목2",
+                    template: function(e){
+                        return '<input type="text" class="k-input" />'
+                    }
                 },
                 {
-                    field : "",
+                    field : "CMMN_CODE_DC",
                     title : "코드설명",
                     width : 180
                 },
                 {
-                    field : "",
+                    field : "MANAGE_IEM_CN_1",
                     title : "e나라도움 관리항목1"
                 },
                 {
-                    field : "",
+                    field : "MANAGE_IEM_CN_2",
                     title : "e나라도움 관리항목2"
                 },
                 {
-                    field : "",
+                    field : "MANAGE_IEM_CN_3",
                     title : "e나라도움 관리항목3"
                 },
                 {
-                    field : "",
+                    field : "MANAGE_IEM_CN_4",
                     title : "e나라도움 관리항목4"
                 },
                 {
-                    field : "",
+                    field : "MANAGE_IEM_CN_5",
                     title : "e나라도움 관리항목5"
                 },
                 {

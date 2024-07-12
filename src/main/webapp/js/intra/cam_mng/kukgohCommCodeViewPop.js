@@ -5,7 +5,12 @@ var kukgohCommCodeViewPop = {
     },
 
     fn_defaultScript: function () {
+
+        customKendo.fn_textBox(["budgetGroup"])
+
         kukgohCommCodeViewPop.mainGrid();
+
+
     },
 
     mainGrid : function(){
@@ -13,17 +18,24 @@ var kukgohCommCodeViewPop = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getCmmnCodeList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
-
+                    data.cmmnCodeNm = $("#budgetGroup").val();
                     return data;
                 }
 
             },
-            pageSize: 10,
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
         });
 
         $("#codeView").kendoGrid({
@@ -32,28 +44,36 @@ var kukgohCommCodeViewPop = {
             scrollable: true,
             selectable: "row",
             height : 525,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            persistSelection : true,
+            dataBound : function(e){
+                console.log(this);
+                const grid = this;
+                grid.tbody.find("tr").dblclick(function (e) {
+                    const dataItem = grid.dataItem($(this));
+                    kukgohCommCodeViewPop.dataBound(dataItem);
+                });
+            },
             columns: [
                 {
-                    field : "",
+                    field : "CMMN_CODE",
                     title : "코드",
                     width : 100
                 },
                 {
-                    field : "",
+                    field : "CMMN_CODE_NM",
                     title : "코드명",
                     width : 150
                 }]
         }).data("kendoGrid");
     },
 
+
+    dataBound: function (m){
+        console.log(m)
+        opener.parent.$("#cmmnCode").val(m.CMMN_CODE);
+        opener.parent.kukgohCommCodeView.mainGrid();
+    }
 
 }

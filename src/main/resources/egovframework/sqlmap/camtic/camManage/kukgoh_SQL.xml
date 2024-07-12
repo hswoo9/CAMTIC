@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kukgoh">
+
+    <select id="getCmmnCodeList" parameterType="map" resultType="map">
+        /*getCmmnCodeList*/
+        SELECT *
+        FROM CAM_ERP.T_IFS_ERP_CMMN_CODE
+        WHERE 1 = 1
+        <if test='cmmnCodeNm != null and !"".equals(cmmnCodeNm)'>
+            AND CMMN_CODE_NM LIKE CONCAT('%', #{cmmnCodeNm}, '%')
+        </if>
+        ORDER BY CMMN_CODE
+    </select>
+
+    <select id="getCmmnCodeDetailList" parameterType="map" resultType="map">
+        /*getCmmnCodeDetailList*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL
+        WHERE
+            CMMN_CODE = #{cmmnCode}
+    </select>
+</mapper>

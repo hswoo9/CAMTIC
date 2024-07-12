@@ -16,9 +16,7 @@ var purcCrmManagement = {
         this.tableASet(year);
         this.tableBSet(year);
         this.tableCSet(year);
-        this.tableDSet();
-        this.tableESet();
-        this.tableFSet();
+        this.tableDEFSet(year);
     },
 
     tableASet: function(year){
@@ -217,48 +215,21 @@ var purcCrmManagement = {
         $("#tableC").html(html);
     },
 
-    tableDSet: function(){
+    tableDEFSet: function(year){
+        const list = customKendo.fn_customAjax("/cam_achieve/getPurcCrmCKAchieveDataDet", {year: year, type: "amt"}).list;
+        console.log("tableD List", list);
         $("#tableD").html("");
-        let html = '';
-        html += '<tr>';
-        html += '   <th class="th-color">연번</th>';
-        html += '   <th class="th-color">협력사명</th>';
-        html += '   <th class="th-color">거래금액 (백만원)</th>';
-        html += '   <th class="th-color">업종세부</th>';
-        html += '   <th class="th-color">소재지</th>';
-        html += '</tr>';
-        html += '<tr>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '</tr>';
+        let html = purcCrmManagement.tableDEFMake(list);
         $("#tableD").html(html);
-    },
 
-    tableESet: function(){
+        const list2 = customKendo.fn_customAjax("/cam_achieve/getPurcCrmCKAchieveDataDet", {year: year, type: "count"}).list;
+        console.log("tableF List", list2);
         $("#tableE").html("");
-        let html = '';
-        html += '<tr>';
-        html += '   <th class="th-color">연번</th>';
-        html += '   <th class="th-color">협력사명</th>';
-        html += '   <th class="th-color">거래금액 (백만원)</th>';
-        html += '   <th class="th-color">업종세부</th>';
-        html += '   <th class="th-color">소재지</th>';
-        html += '</tr>';
-        html += '<tr>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '</tr>';
-        $("#tableE").html(html);
+        let html2 = purcCrmManagement.tableDEFMake(list2);
+        $("#tableE").html(html2);
     },
 
-    tableFSet: function(){
-        $("#tableF").html("");
+    tableDEFMake: function(list){
         let html = '';
         html += '<tr>';
         html += '   <th class="th-color">연번</th>';
@@ -267,13 +238,21 @@ var purcCrmManagement = {
         html += '   <th class="th-color">업종세부</th>';
         html += '   <th class="th-color">소재지</th>';
         html += '</tr>';
-        html += '<tr>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '</tr>';
-        $("#tableF").html(html);
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            html += '<tr>';
+            html += '   <td>'+(i+1)+'</td>';
+            html += '   <td>'+map.CRM_NM+'</td>';
+            html += '   <td>'+Math.floor(Number(map.TOT_AMT) / 1000000)+'백만원</td>';
+            html += '   <td>'+map.CRM_EVENT+'</td>';
+            html += '   <td>'+map.CRM_LOC+'</td>';
+            html += '</tr>';
+        }
+        if(list.length == 0){
+            html += '<tr>';
+            html += '   <td colspan="5">해당하는 데이터가 없습니다.</td>';
+            html += '</tr>';
+        }
+        return html;
     }
 }
