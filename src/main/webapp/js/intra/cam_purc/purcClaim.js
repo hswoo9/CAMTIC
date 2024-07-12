@@ -243,7 +243,15 @@ var purcClaim = {
                                 }
                                 return html;
                             } else {
-                                return "검수미작성";
+                                if(e.INSPECT_STATUS != "100"){
+                                    if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                                    }
+                                }else{
+                                    return '<a onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')" style="font-weight: bold ">검수처리완료</a>'
+                                }
                             }
                         }else{
                             if((((e.GOODS_DT == null || e.GOODS_DT == "") && e.ORDER_YN == "N") || e.ORDER_YN == null) || e.ORDER_YN == "N"){
