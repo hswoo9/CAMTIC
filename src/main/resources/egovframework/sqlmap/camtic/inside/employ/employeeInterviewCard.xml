@@ -115,6 +115,7 @@
             AND
                 CAR.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
         </if>
+        ORDER BY DEIC.CARD_NUMBER DESC
     </select>
 
 <!--    상세(팝업)-->
