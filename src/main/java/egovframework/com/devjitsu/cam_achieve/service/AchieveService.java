@@ -80,4 +80,6 @@ public interface AchieveService {
     Map<String, Object> getPurcCrmLocAchieveData(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcCrmCKAchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcCrmCKAchieveDataDet(Map<String, Object> params);
 }

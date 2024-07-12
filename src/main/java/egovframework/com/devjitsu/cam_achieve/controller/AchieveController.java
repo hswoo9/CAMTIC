@@ -633,4 +633,11 @@ public class AchieveController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/getPurcCrmCKAchieveDataDet")
+    public String getPurcCrmCKAchieveDataDet(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcCrmCKAchieveDataDet(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

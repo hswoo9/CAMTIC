@@ -1474,4 +1474,32 @@
         ORDER BY A.CRM_NM
         ]]>
     </select>
+
+    <select id="getPurcCrmCKAchieveDataDet" parameterType="map" resultType="map">
+        /* getPurcCrmCKAchieveDataDet */
+        SELECT
+            A.CRM_NM,
+            SUM(A.TOT_AMT) AS TOT_AMT,
+            B.CRM_EVENT,
+            IFNULL(B.CRM_LOC, '') AS CRM_LOC
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        WHERE
+            DATE_FORMAT(A.CLAIM_DE, '%Y') = #{year}
+        GROUP BY A.CRM_SN
+        <if test='"amt".equals(type)'>
+            <![CDATA[
+            HAVING SUM(A.TOT_AMT) >= 10000000
+            ORDER BY SUM(A.TOT_AMT) DESC
+            ]]>
+        </if>
+        <if test='"count".equals(type)'>
+            <![CDATA[
+            HAVING COUNT(A.CRM_SN) >= 50
+            ORDER BY COUNT(A.CRM_SN) DESC
+            ]]>
+        </if>
+        LIMIT 10
+    </select>
 </mapper>
