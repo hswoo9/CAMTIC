@@ -15,6 +15,7 @@ var purcMngReqList = {
             { text: "문서번호", value: "DOC_NO" },
             { text: "목적", value: "PURC_REQ_PURPOSE" },
             { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "프로젝트", value: "PJT_NM" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcMngReqList.global.dropDownDataSource, "text", "value");
