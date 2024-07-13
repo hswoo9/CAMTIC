@@ -32,7 +32,7 @@
                     <tr>
                         <th class="text-center th-color">대분류</th>
                         <td>
-                            <input type="text" id="req" style="width: 150px;">
+                            <input type="text" id="req" disabled style="width: 150px;">
                             <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="kukgohCommCodeView.fn_reqPopOnen()">
                                 <span class="k-button-text">검색</span>
                             </button>

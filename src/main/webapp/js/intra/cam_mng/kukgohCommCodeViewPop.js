@@ -73,7 +73,15 @@ var kukgohCommCodeViewPop = {
     dataBound: function (m){
         console.log(m)
         opener.parent.$("#cmmnCode").val(m.CMMN_CODE);
+        opener.parent.$("#req").val(m.CMMN_CODE_NM);
         opener.parent.kukgohCommCodeView.mainGrid();
+        window.close();
+    },
+
+    enterKey : function (event){
+        if (event.keyCode === 13) {
+            kukgohCommCodeViewPop.mainGrid()
+        }
     }
 
 }

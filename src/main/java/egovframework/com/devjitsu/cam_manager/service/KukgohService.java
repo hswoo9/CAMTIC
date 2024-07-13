@@ -11,4 +11,6 @@ public interface KukgohService {
     List<Map<String, Object>> getCmmnCodeList(Map<String, Object> params);
 
     List<Map<String, Object>> getCmmnCodeDetailList(Map<String, Object> params);
+
+    void setCommCodeObject(Map<String, Object> params);
 }

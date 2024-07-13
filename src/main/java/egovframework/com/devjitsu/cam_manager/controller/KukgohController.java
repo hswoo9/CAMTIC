@@ -30,4 +30,19 @@ public class KukgohController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/kukgoh/setCommCodeObject")
+    public String setCommCodeObject(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            kukgohService.setCommCodeObject(params);
+
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
 }

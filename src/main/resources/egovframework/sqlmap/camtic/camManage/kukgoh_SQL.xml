@@ -17,10 +17,30 @@
     <select id="getCmmnCodeDetailList" parameterType="map" resultType="map">
         /*getCmmnCodeDetailList*/
         SELECT
-            *
+            A.*,
+            B.CMMN_OBJ_A,
+            B.CMMN_OBJ_B
         FROM
-            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL
+            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL A
+        LEFT JOIN CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CNTC_SN = B.CNTC_SN
         WHERE
             CMMN_CODE = #{cmmnCode}
     </select>
+
+    <delete id="delCommCodeObject" parameterType="map">
+        /*delCommCodeObject*/
+        DELETE FROM CAM_ERP.DJ_CMMN_CODE_OBJ WHERE CNTC_SN = #{cntcSn}
+    </delete>
+
+    <insert id="insCommCodeObject" parameterType="map">
+        /*insCommCodeObject*/
+        INSERT INTO CAM_ERP.DJ_CMMN_CODE_OBJ
+            (
+                CNTC_SN, CMMN_OBJ_A, CMMN_OBJ_B, REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{cntcSn}, #{cmmnObjA}, #{cmmnObjB}, #{regEmpSeq}
+            )
+    </insert>
 </mapper>

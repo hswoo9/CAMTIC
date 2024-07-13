@@ -25,4 +25,11 @@ public class KukgohServiceImpl implements KukgohService {
     public List<Map<String, Object>> getCmmnCodeDetailList(Map<String, Object> params) {
         return kukgohRepository.getCmmnCodeDetailList(params);
     }
+
+    @Override
+    public void setCommCodeObject(Map<String, Object> params) {
+
+        kukgohRepository.delCommCodeObject(params);
+        kukgohRepository.insCommCodeObject(params);
+    }
 }

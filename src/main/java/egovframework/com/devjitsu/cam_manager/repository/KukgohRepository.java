@@ -19,4 +19,14 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getCmmnCodeDetailList", params);
     }
+
+    public void delCommCodeObject(Map<String, Object> params) {
+
+        delete("kukgoh.delCommCodeObject", params);
+    }
+
+    public void insCommCodeObject(Map<String, Object> params) {
+
+        insert("kukgoh.insCommCodeObject", params);
+    }
 }
