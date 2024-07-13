@@ -1500,6 +1500,101 @@
             ORDER BY COUNT(A.CRM_SN) DESC
             ]]>
         </if>
+        <if test='"new".equals(type)'>
+            <![CDATA[
+            HAVING COUNT(A.CRM_SN) = 1
+            ORDER BY SUM(A.TOT_AMT) DESC
+            ]]>
+        </if>
         LIMIT 10
+    </select>
+
+    <select id="getPurcFundAchieveData" parameterType="map" resultType="map">
+        /* getPurcFundAchieveData */
+        SELECT
+            PURC_TYPE,
+            SUM(COUNT) AS COUNT,
+            SUM(TOT_AMT) AS TOT_AMT,
+            SUM(EXNP_AMT) AS EXNP_AMT,
+            SUM(TOT_AMT-EXNP_AMT) AS BALANCE_AMT,
+            PURC_ORDER
+        FROM (
+            SELECT
+                A.PURC_TYPE,
+                COUNT(-1) AS COUNT,
+                A.TOT_AMT,
+                IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
+                CASE WHEN PURC_TYPE = 'R' THEN 0 WHEN PURC_TYPE = 'S' THEN 1 WHEN PURC_TYPE = 'D' THEN 2 WHEN PURC_TYPE = 'V' THEN 3 ELSE '5' END AS PURC_ORDER
+            FROM
+                CAM_MNG.DJ_PURC_CLAIM A
+            WHERE
+                A.STATUS = 100 AND YEAR(A.EXP_DE) = #{year} AND A.PURC_TYPE IS NOT NULL
+            GROUP BY A.CLAIM_SN
+        ) RE
+        GROUP BY RE.PURC_TYPE
+        ORDER BY RE.PURC_ORDER
+    </select>
+
+    <select id="getPurcFund2AchieveData" parameterType="map" resultType="map">
+        /* getPurcFund2AchieveData */
+        SELECT
+            PURC_TYPE,
+            EXP_DE,
+            SUM(COUNT) AS COUNT,
+            SUM(EXNP_AMT) AS EXNP_AMT,
+            SUM(TOT_AMT) AS TOT_AMT
+        FROM (
+            SELECT
+                A.PURC_TYPE,
+                COUNT(-1) AS COUNT,
+                A.TOT_AMT,
+                IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
+                CASE WHEN PURC_TYPE = 'R' THEN 0 WHEN PURC_TYPE = 'S' THEN 1 WHEN PURC_TYPE = 'D' THEN 2 WHEN PURC_TYPE = 'V' THEN 3 ELSE '5' END AS PURC_ORDER,
+                A.EXP_DE
+            FROM
+                CAM_MNG.DJ_PURC_CLAIM A
+            WHERE
+                A.STATUS = 100 AND YEAR(A.EXP_DE) = #{year} AND A.PURC_TYPE IS NOT NULL
+            GROUP BY A.CLAIM_SN
+        ) RE
+        GROUP BY RE.EXP_DE, RE.PURC_TYPE
+        ORDER BY RE.EXP_DE DESC, RE.PURC_ORDER
+    </select>
+
+    <select id="getPurcAchieveMngList" parameterType="map" resultType="map">
+        /* getPurcAchieveMngList */
+        SELECT
+            A.*,
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
+            IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
+            DI.DOC_NO,
+            DI2.DOC_NO AS DOC_NO2,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING,
+            IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'C') AS RE_STAT,
+            PCI.PURC_ITEM_TYPE,
+            GROUP_CONCAT(
+                DISTINCT
+                CASE PCI.PURC_ITEM_TYPE
+                    WHEN 'P' THEN '구매'
+                    WHEN 'O' THEN '외주'
+                    WHEN 'C' THEN '시설/공사'
+                    ELSE '리스'
+                END SEPARATOR ', '
+            ) AS ITEM_TYPE_TEXT,
+            HEI.EMP_NAME_KR,
+            IFNULL(HEI2.EMP_NAME_KR, '') AS EMP_NAME_KR2
+        FROM CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = A.DOC_ID
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC MP ON MP.PURC_SN = A.PURC_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI2 ON DI2.DOC_ID = MP.DOC_ID
+        LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON A.CLAIM_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI2 ON A.PURC_EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            A.STATUS = 100
+        AND YEAR(A.EXP_DE) = #{year}
+        GROUP BY CLAIM_SN
+        ORDER BY CLAIM_SN DESC
     </select>
 </mapper>

@@ -640,4 +640,25 @@ public class AchieveController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/getPurcFundAchieveData")
+    public String getPurcFundAchieveData(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcFundAchieveData(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcFund2AchieveData")
+    public String getPurcFund2AchieveData(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcFund2AchieveData(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcAchieveMngList")
+    public String getPurcAchieveMngList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcAchieveMngList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

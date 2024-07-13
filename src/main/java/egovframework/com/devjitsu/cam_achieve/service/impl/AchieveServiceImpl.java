@@ -586,4 +586,19 @@ public class AchieveServiceImpl implements AchieveService {
     public List<Map<String, Object>> getPurcCrmCKAchieveDataDet(Map<String, Object> params) {
         return achieveRepository.getPurcCrmCKAchieveDataDet(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPurcFundAchieveData(Map<String, Object> params) {
+        return achieveRepository.getPurcFundAchieveData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcFund2AchieveData(Map<String, Object> params) {
+        return achieveRepository.getPurcFund2AchieveData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params) {
+        return achieveRepository.getPurcAchieveMngList(params);
+    }
 }

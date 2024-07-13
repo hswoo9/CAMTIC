@@ -82,4 +82,10 @@ public interface AchieveService {
     List<Map<String, Object>> getPurcCrmCKAchieveData(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcCrmCKAchieveDataDet(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcFundAchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcFund2AchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params);
 }
