@@ -555,7 +555,7 @@ public class AchieveController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("menuNm", request.getRequestURI());
+        session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_achieve/fundsManagement";
     }
@@ -566,6 +566,13 @@ public class AchieveController {
         Map<String, Object> map = achieveService.getCorpProjectData(params);
 
         model.addAttribute("data", map);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getIncpPayData")
+    public String getIncpPayData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", achieveService.getIncpPayData(params));
         return "jsonView";
     }
 

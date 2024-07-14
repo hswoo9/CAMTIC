@@ -71,6 +71,8 @@ public interface AchieveService {
 
     Map<String, Object> getCorpProjectData(Map<String, Object> params);
 
+    Map<String, Object> getIncpPayData(Map<String, Object> params);
+
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimDetList(Map<String, Object> params);
