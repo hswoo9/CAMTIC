@@ -32,10 +32,10 @@
                     <tr>
                         <th class="text-center th-color">예산그룹</th>
                         <td>
-                            <input type="text" id="budgetGroup" name="budgetGroup" style="width: 150px;">
-                            <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetConfigView.fn_reqPopOnen()">
-                                <span class="k-button-text">검색</span>
-                            </button>
+                            <input type="text" id="budgetGroup" disabled class="k-input" value="예산통합" name="budgetGroup" style="width: 150px;">
+<%--                            <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetConfigView.fn_reqPopOnen()">--%>
+<%--                                <span class="k-button-text">검색</span>--%>
+<%--                            </button>--%>
                         </td>
                     </tr>
                 </table>

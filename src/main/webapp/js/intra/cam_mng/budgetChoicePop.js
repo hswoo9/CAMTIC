@@ -15,58 +15,101 @@ var budgetChoicePop = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getEnaraBudgetCdList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
 
+                    data.fsYear = $("#fromMonth").val();
+                    data.bgNm = $("#bgNm").val();
+
                     return data;
                 }
 
             },
-            pageSize: 10,
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
         });
 
-        $("#budgetChoice").kendoGrid({
+        var mg = $("#budgetChoice").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
             height : 650,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             persistSelection : true,
             columns: [
                 {
-                    field : "",
+                    field : "ASSTN_EXPITM_TAXITM_CODE",
                     title : "보조비세목코드",
                     width : 80
                 },
                 {
-                    field : "",
+                    field : "ASSTN_EXPITM_NM",
                     title : "보조비목명",
                     width : 80
                 },
                 {
-                    field : "",
+                    field : "ASSTN_TAXITM_NM",
                     title : "보조세목명",
                     width : 80
                 },
                 {
-                    field : "",
                     title : "보조비목세목설명",
-                    width : 300
+                    width : 300,
+                    template: function(e){
+                        return (e.ASSTN_TAXITM_CODE_DC || "")
+                    }
+                },
+                {
+                    title : "설정",
+                    width : 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="budgetChoicePop.fn_setEnaraBudgetCode('+e.CNTC_SN+','+e.ASSTN_EXPITM_TAXITM_CODE+', \''+e.ASSTN_EXPITM_NM+'\', \''+e.ASSTN_TAXITM_NM+'\')">설정</button>'
+                    }
                 }
                 ]
         }).data("kendoGrid");
     },
+
+    fn_setEnaraBudgetCode : function(sn, cd, exp, tax){
+        if(!confirm("설정하시겠습니까?")){
+            return;
+        }
+
+
+        var data = {
+            fsyr : $("#fromMonth").val(),
+            budgetSn : $("#budgetSn").val(),
+            cntcSn : sn,
+            asstnExpitmTaxitmCode : cd,
+            asstnExpitmNm : exp,
+            asstnTaxitmNm : tax
+        };
+
+        $.ajax({
+            type : "post",
+            url : "/kukgoh/setEnaraBudgetCode",
+            data : data,
+            success : function(rs) {
+                if(rs.code == 200){
+                    alert(rs.message);
+                    opener.parent.budgetConfigView.mainGrid();
+                    window.close();
+                }
+            }
+        });
+    }
 
 
 }

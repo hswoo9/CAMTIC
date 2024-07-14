@@ -246,6 +246,8 @@ public class ManageController {
     @RequestMapping("/mng/budgetChoicePop.do")
     public String budgetChoicePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        model.addAttribute("params", params);
+        
         return "cam_manager/budgetChoicePop";
     }
 
@@ -331,7 +333,7 @@ public class ManageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
-
+        model.addAttribute("params", params);
         return "cam_manager/newResolutionSubmitPage";
     }
 

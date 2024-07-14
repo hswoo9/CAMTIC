@@ -13,38 +13,48 @@ var budgetConfigView = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getBudgetGroupList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function() {
-
-                    return ;
+                parameterMap: function(data) {
+                    data.groupCd = 'T000'
+                    data.grFg = '2'
+                    return data;
                 }
 
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
             },
             pageSize: 10
         });
 
         $("#budgetConfigViewGrid").kendoGrid({
             dataSource: dataSource,
-            sortable: true,
             scrollable: true,
-            selectable: "row",
+            resizable: true,
             height : 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
+                pageSize : 10,
+                pageSizes: [10, 20, 50, "ALL"],
+                buttonCount: 5,
+                messages: {
+                    display: "{0} - {1} of {2}",
+                    itemsPerPage: "",
+                    empty: "데이터가 없습니다.",
+                }
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
-                {
-                    name: 'excel',
-                    text: '엑셀다운로드'
-                },
                 {
                     name: 'button',
                     template: function(){
@@ -56,48 +66,43 @@ var budgetConfigView = {
             persistSelection : true,
             columns: [
                 {
-                    field : "",
+                    field : "BGT_CD",
                     title : "예산코드",
                     width : 100
                 },
                 {
-                    field : "",
+                    field : "BGT_NM",
                     title : "예산명",
                     width : 100
                 },
                 {
-                    field : "",
+                    field : "BGT01_NM",
                     title : "상위예산명",
                     width : 90
                 },
                 {
                     field : "",
                     title : "보조비목세목코드",
-                    width : 150,
+                    width : 80,
                     template : function(dataItem) {
-                        return "<input type='button' id='btnChoice' style='width: 45%;' value='' onclick='budgetConfigView.fn_budgetChoice(this)' class='btnChoice' width='100' />";
+                        return "<input type='button' id='btnChoice' class='k-input' style='text-align: center' key='"+dataItem.BGT_CD+"' value='"+(dataItem.ASSTN_EXPITM_TAXITM_CODE || "")+"' onclick='budgetConfigView.fn_budgetChoice(this)' class='btnChoice' width='100' />";
                     }
                 },
                 {
                     title : "설정취소",
-                    width : 90,
+                    width : 70,
                     template : function(dataItem) {
-                        return "<input type='button' class='btnChoice' value='설정취소' onclick='cnclSetting(this);'>";
+                        return "<input type='button' class='btnChoice k-button k-button-solid-base' value='설정취소' onclick='budgetConfigView.fn_cnclSetting("+(dataItem.BG_SN || "")+");'>";
                     },
                 },
                 {
-                    field : "",
+                    field : "ASSTN_EXPITM_NM",
                     title : "보조비목명",
                     width : 90
                 },
                 {
-                    field : "",
+                    field : "ASSTN_TAXITM_NM",
                     title : "보조세목명",
-                    width : 90
-                },
-                {
-                    field : "",
-                    title : "회계연도",
                     width : 90
                 }]
         }).data("kendoGrid");
@@ -110,11 +115,38 @@ var budgetConfigView = {
         var popup = window.open(url, name, option);
     },
 
-    fn_budgetChoice : function(){
-        var url = "/mng/budgetChoicePop.do";
+    fn_budgetChoice : function(e){
+        var url = "/mng/budgetChoicePop.do?budgetSn=" + $(e).attr("key");
         var name = "budgetChoicePop";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     },
+
+    fn_cnclSetting : function (e){
+        if(!confirm("설정취소하시겠습니까?")){
+            return;
+        }
+
+        if(e != "" && e != undefined && e != null){
+            var data = {
+                bgSn : e
+            }
+            $.ajax({
+                url : "/kukgoh/delBudgetCodeMatch",
+                data : data,
+                type : "post",
+                dataType:"json",
+                success : function (rs){
+                    if(rs.code == 200){
+                        alert(rs.message);
+
+                        budgetConfigView.mainGrid();
+                    }
+                }
+            });
+        } else {
+            alert("설정된 값이 없습니다.");
+        }
+    }
 
 }

@@ -15,6 +15,8 @@
 
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="budgetSn" value="${params.budgetSn}"/>
+
 <div class="col-lg-12 pop_sign_wrap" style="width:1200px; padding:0;">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">예산과목 선택</h3>
@@ -35,7 +37,7 @@
                 </td>
                 <th class="text-center th-color">보조비목세목명</th>
                 <td style="display: flex;justify-content: space-between;">
-                    <input type="text" id="budgetGroup" name="budgetGroup" style="width: 250px;">
+                    <input type="text" id="bgNm" class="k-input" name="bgNm" style="width: 250px;">
                     <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base">
                         <span class="k-button-text">검색</span>
                     </button>

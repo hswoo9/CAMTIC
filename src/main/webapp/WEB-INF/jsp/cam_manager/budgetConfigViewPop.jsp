@@ -29,7 +29,7 @@
             <tr>
                 <th class="text-center th-color">예산그룹</th>
                 <td style="display: flex;justify-content: space-between;">
-                    <input type="text" id="budgetGroup" name="budgetGroup" style="width: 250px;">
+                    <input type="text" id="budgetGroup" name="budgetGroup" disabled value="예산통합" style="width: 250px;">
                     <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base">
                         <span class="k-button-text">검색</span>
                     </button>
