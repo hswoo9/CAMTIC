@@ -201,12 +201,16 @@
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
                     AND MPI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
                 </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
+                    AND MP.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                </when>
                 <otherwise>
                     AND
                     (
                         DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                         MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                        MPI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
+                        MPI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%') OR
+                        MP.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
                     )
                 </otherwise>
             </choose>
@@ -2112,7 +2116,7 @@
         WHERE
             A.JState != 1
         AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})) RE
-        ORDER BY RE.REG_DATE DESC
+        ORDER BY RE.PURC_REQ_DATE DESC
     </select>
 
     <select id="getPurcReqClaimEmpList" parameterType="map" resultType="map">

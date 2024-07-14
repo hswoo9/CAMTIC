@@ -555,7 +555,7 @@ public class AchieveController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
-        model.addAttribute("menuNm", request.getRequestURI());
+        session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_achieve/fundsManagement";
     }
@@ -566,6 +566,13 @@ public class AchieveController {
         Map<String, Object> map = achieveService.getCorpProjectData(params);
 
         model.addAttribute("data", map);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getIncpPayData")
+    public String getIncpPayData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", achieveService.getIncpPayData(params));
         return "jsonView";
     }
 
@@ -637,6 +644,27 @@ public class AchieveController {
     @RequestMapping("/cam_achieve/getPurcCrmCKAchieveDataDet")
     public String getPurcCrmCKAchieveDataDet(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = achieveService.getPurcCrmCKAchieveDataDet(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcFundAchieveData")
+    public String getPurcFundAchieveData(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcFundAchieveData(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcFund2AchieveData")
+    public String getPurcFund2AchieveData(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcFund2AchieveData(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getPurcAchieveMngList")
+    public String getPurcAchieveMngList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = achieveService.getPurcAchieveMngList(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

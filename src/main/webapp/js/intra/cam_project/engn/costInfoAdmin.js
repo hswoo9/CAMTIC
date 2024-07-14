@@ -10,8 +10,8 @@ var costInfo = {
         const pjtSn = $("#pjtSn").val();
         commonProject.setPjtStat();
         costInfo.pageSet();
-        costInfo.dataSet(pjtSn);
         costInfoGrid.mainGrid();
+        costInfo.dataSet(pjtSn);
     },
 
     pageSet(){
@@ -118,13 +118,18 @@ var costInfo = {
         const data = result.data;
         const e = data;
         console.log("e", e);
+        let g20A = 0;
+        let g20B = 0;
+        let g20C = 0;
 
+        /** 수주금액 */
         if(e.YEAR_CLASS == "M"){
             $("#PJT_AMT2").text(comma(e.ALL_PJT_AMT));
         } else {
             $("#PJT_AMT2").text(comma(e.PJT_AMT));
         }
 
+        /** 달성매출액 */
         if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
             $("#RES_AMT").text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
         }else{
@@ -164,6 +169,13 @@ var costInfo = {
                     console.log("jMap : ", jMap);
                     if(jMap.DIV_FG_NM == "장"){
                         amt += Number(jMap.ACCT_AM_3);
+                        if(jMap.DISP_BGT_NM == "인건비"){
+                            g20A += Number(jMap.ACCT_AM_3);
+                        }else if(jMap.DISP_BGT_NM == "직접비"){
+                            g20B += Number(jMap.ACCT_AM_3);
+                        }
+                    }else if(jMap.DIV_FG_NM == "관" && jMap.BGT_NM == "간접비"){
+                        g20C += Number(jMap.ACCT_AM_3);
                     }
                 }
             }
@@ -173,7 +185,19 @@ var costInfo = {
                 $("#RES_AMT").text(comma(amt));
             }
         }
-        $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+
+        /** 달성운영수익 */
+        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V") {
+            $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+        }else{
+            let amt = 0;
+            console.log("g20A", g20A);
+            console.log("g20C", g20C);
+            console.log("g20B", g20B);
+            console.log("Number(uncomma($(\"#invSum\").text()))", Number(uncomma($("#invSum").text())));
+            amt = (g20A + g20C) + (g20B - Number(uncomma($("#invSum").text())));
+            $("#RES_NOT_INV_AMT").text(comma(amt));
+        }
         $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
         $("#DEV_NOT_INV_AMT").text(comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 

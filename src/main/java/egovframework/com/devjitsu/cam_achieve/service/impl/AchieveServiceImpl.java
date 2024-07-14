@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_achieve.repository.AchieveRepository;
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
+import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.inside.employee.repository.EmployRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +24,10 @@ public class AchieveServiceImpl implements AchieveService {
     private ProjectRepository projectRepository;
     @Autowired
     private G20Repository g20Repository;
+    @Autowired
+    private ManageRepository manageRepository;
+    @Autowired
+    private EmployRepository employRepository;
 
     @Override
     public Map<String, Object> getAllPjtCalc(Map<String, Object> params) {
@@ -554,7 +561,67 @@ public class AchieveServiceImpl implements AchieveService {
 
     @Override
     public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
-        return achieveRepository.getCorpProjectData(params);
+        Map<String, Object> map = achieveRepository.getCorpProjectData(params);
+        Map<String, Object> g20Map = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(map != null) {
+            params.put("pjtCd", map.get("CORP_PJT_CD"));
+            g20Map = g20Repository.getProjectInfo(params);
+
+            if(g20Map != null) {
+                params.put("bankNB", g20Map.get("BA_NB"));
+                resultMap = manageRepository.getCurrentAmountStatus(params);
+            }
+        }
+
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> getIncpPayData(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("privList", achieveRepository.getIncpPayData(params));    // 민간사업 수입예상
+
+        Long commPay = achieveRepository.getCommPayData(params);            // 기관공통지원경비
+        List<Map<String, Object>> commPayWaitList = achieveRepository.getCommPayWaitData(params);    // 지출대기
+        List<Map<String, Object>> commPayApprList = achieveRepository.getCommPayApprData(params);    // 지출완료
+        List<Map<String, Object>> partRateList = employRepository.getCalcPartRate(params);           // 참여율
+
+        Map<String, Object> commPayList = new HashMap<>();
+        Long exnpTotalPay = Long.valueOf(0);
+        for(int i=0; i<12; i++){
+
+            Long waitPay = Long.valueOf(0);
+            Long apprPay = Long.valueOf(0);
+            Long partRatePay = Long.valueOf(0);
+            Long totalPay = Long.valueOf(0);
+
+            for(Map<String, Object> map : commPayWaitList) {
+                for(int j=0; j<(i+1); j++){
+                    waitPay += Long.valueOf(map.get("EXNP_TOTAL_PAY_" + (j+1)).toString());
+                }
+            }
+
+            for(Map<String, Object> map : commPayApprList) {
+                for(int j=0; j<(i+1); j++){
+                    apprPay += Long.valueOf(map.get("EXNP_TOTAL_PAY_" + (j+1)).toString());
+                }
+            }
+
+            for(Map<String, Object> map : partRateList) {
+                partRatePay += Long.valueOf(map.get("SUM_MON_PAY_" + (i+1)).toString());
+            }
+
+            totalPay = (commPay - (waitPay + apprPay) + partRatePay);
+            exnpTotalPay += totalPay;
+            commPayList.put("EXNP_TOTAL_PAY_" + (i+1), totalPay);
+        }
+
+        commPayList.put("EXNP_TOTAL_PAY", exnpTotalPay);
+        resultMap.put("govrList", commPayList);    // 정부사업 수입예상
+
+        return resultMap;
     }
 
     @Override
@@ -585,5 +652,20 @@ public class AchieveServiceImpl implements AchieveService {
     @Override
     public List<Map<String, Object>> getPurcCrmCKAchieveDataDet(Map<String, Object> params) {
         return achieveRepository.getPurcCrmCKAchieveDataDet(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcFundAchieveData(Map<String, Object> params) {
+        return achieveRepository.getPurcFundAchieveData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcFund2AchieveData(Map<String, Object> params) {
+        return achieveRepository.getPurcFund2AchieveData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params) {
+        return achieveRepository.getPurcAchieveMngList(params);
     }
 }

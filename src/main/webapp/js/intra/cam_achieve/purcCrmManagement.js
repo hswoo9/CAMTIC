@@ -227,6 +227,12 @@ var purcCrmManagement = {
         $("#tableE").html("");
         let html2 = purcCrmManagement.tableDEFMake(list2);
         $("#tableE").html(html2);
+
+        const list3 = customKendo.fn_customAjax("/cam_achieve/getPurcCrmCKAchieveDataDet", {year: year, type: "new"}).list;
+        console.log("tableF List", list3);
+        $("#tableF").html("");
+        let html3 = purcCrmManagement.tableDEFMake(list3);
+        $("#tableF").html(html3);
     },
 
     tableDEFMake: function(list){

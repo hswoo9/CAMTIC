@@ -71,6 +71,8 @@ public interface AchieveService {
 
     Map<String, Object> getCorpProjectData(Map<String, Object> params);
 
+    Map<String, Object> getIncpPayData(Map<String, Object> params);
+
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimDetList(Map<String, Object> params);
@@ -82,4 +84,10 @@ public interface AchieveService {
     List<Map<String, Object>> getPurcCrmCKAchieveData(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcCrmCKAchieveDataDet(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcFundAchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcFund2AchieveData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params);
 }

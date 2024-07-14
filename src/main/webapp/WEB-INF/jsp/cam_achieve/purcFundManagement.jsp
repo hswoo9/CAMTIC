@@ -2,19 +2,26 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <jsp:useBean id="today" class="java.util.Date" />
-
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/purcFundManagement.js?v=${today}'/>"></script>
-
-
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-
 <style>
+    .th-color{
+        background-color: #00397f96 !important;
+        color: white !important;
+        padding: 5px 15px !important;
+    }
 
+    #tableB {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    #tableB td {
+        padding: 5px 15px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+    }
 </style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/purcFundManagement.js?v=${today}'/>"></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -41,6 +48,35 @@
                     </td>
                 </tr>
             </table>
+        </div>
+
+        <div class="panel-body">
+            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">1. 사업구분별 구매거래 건 수 및 금액</span></div>
+
+            <table class="searchTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                </colgroup>
+                <thead id="tableA">
+                </thead>
+            </table>
+        </div>
+
+        <div class="panel-body">
+            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">2. 사업구분별 지급예정일</span></div>
+
+            <div style="overflow-x: auto; margin-bottom: 17px">
+            <table id="tableB" class="searchTable table-bordered mb-0" style="magin-bottom: 0px !important">
+            </table>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

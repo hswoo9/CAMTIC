@@ -113,51 +113,51 @@
                 <tr>
                     <td class="text-center" style="text-align: center" rowspan="2">수입</td>
                     <td class="text-center" style="text-align: center">민간</td>
-                    <td id="inEn1"></td>
-                    <td id="inEn2"></td>
-                    <td id="inEn3"></td>
-                    <td id="inEn4"></td>
-                    <td id="inEn5"></td>
-                    <td id="inEn6"></td>
-                    <td id="inEn7"></td>
-                    <td id="inEn8"></td>
-                    <td id="inEn9"></td>
-                    <td id="inEn10"></td>
-                    <td id="inEn11"></td>
-                    <td id="inEn12"></td>
-                    <td id="inEnTot"></td>
+                    <td id="inEn1" style="text-align: right;"></td>
+                    <td id="inEn2" style="text-align: right;"></td>
+                    <td id="inEn3" style="text-align: right;"></td>
+                    <td id="inEn4" style="text-align: right;"></td>
+                    <td id="inEn5" style="text-align: right;"></td>
+                    <td id="inEn6" style="text-align: right;"></td>
+                    <td id="inEn7" style="text-align: right;"></td>
+                    <td id="inEn8" style="text-align: right;"></td>
+                    <td id="inEn9" style="text-align: right;"></td>
+                    <td id="inEn10" style="text-align: right;"></td>
+                    <td id="inEn11" style="text-align: right;"></td>
+                    <td id="inEn12" style="text-align: right;"></td>
+                    <td id="inEnTot" style="text-align: right;"></td>
                 </tr>
                 <tr>
                     <td class="text-center" style="text-align: center">정부사업</td>
-                    <td id="inRn1"></td>
-                    <td id="inRn2"></td>
-                    <td id="inRn3"></td>
-                    <td id="inRn4"></td>
-                    <td id="inRn5"></td>
-                    <td id="inRn6"></td>
-                    <td id="inRn7"></td>
-                    <td id="inRn8"></td>
-                    <td id="inRn9"></td>
-                    <td id="inRn10"></td>
-                    <td id="inRn11"></td>
-                    <td id="inRn12"></td>
-                    <td id="inRnTot"></td>
+                    <td id="inRn1" style="text-align: right;"></td>
+                    <td id="inRn2" style="text-align: right;"></td>
+                    <td id="inRn3" style="text-align: right;"></td>
+                    <td id="inRn4" style="text-align: right;"></td>
+                    <td id="inRn5" style="text-align: right;"></td>
+                    <td id="inRn6" style="text-align: right;"></td>
+                    <td id="inRn7" style="text-align: right;"></td>
+                    <td id="inRn8" style="text-align: right;"></td>
+                    <td id="inRn9" style="text-align: right;"></td>
+                    <td id="inRn10" style="text-align: right;"></td>
+                    <td id="inRn11" style="text-align: right;"></td>
+                    <td id="inRn12" style="text-align: right;"></td>
+                    <td id="inRnTot" style="text-align: right;"></td>
                 </tr>
                 <tr>
                     <td class="text-center" style="text-align: center"colspan="2">수입합계</td>
-                    <td id="inTo1"></td>
-                    <td id="inTo2"></td>
-                    <td id="inTo3"></td>
-                    <td id="inTo4"></td>
-                    <td id="inTo5"></td>
-                    <td id="inTo6"></td>
-                    <td id="inTo7"></td>
-                    <td id="inTo8"></td>
-                    <td id="inTo9"></td>
-                    <td id="inTo10"></td>
-                    <td id="inTo11"></td>
-                    <td id="inTo12"></td>
-                    <td id="inToTot"></td>
+                    <td id="inTo1" style="text-align: right;"></td>
+                    <td id="inTo2" style="text-align: right;"></td>
+                    <td id="inTo3" style="text-align: right;"></td>
+                    <td id="inTo4" style="text-align: right;"></td>
+                    <td id="inTo5" style="text-align: right;"></td>
+                    <td id="inTo6" style="text-align: right;"></td>
+                    <td id="inTo7" style="text-align: right;"></td>
+                    <td id="inTo8" style="text-align: right;"></td>
+                    <td id="inTo9" style="text-align: right;"></td>
+                    <td id="inTo10" style="text-align: right;"></td>
+                    <td id="inTo11" style="text-align: right;"></td>
+                    <td id="inTo12" style="text-align: right;"></td>
+                    <td id="inToTot" style="text-align: right;"></td>
                 </tr>
                 <tr>
                     <td class="text-center" style="text-align: center" rowspan="4">지출</td>
