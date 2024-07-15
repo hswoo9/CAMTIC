@@ -81,7 +81,7 @@
         </table>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 재무실적 내역</span>
-        <table class="popTable table table-bordered mb-0">
+        <table id="pjtInfoRow" class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="%">
                 <col width="%">
@@ -93,7 +93,7 @@
                 <col width="%">
                 <col width="%">
             </colgroup>
-            <thead id="pjtInfoRow">
+            <thead >
             <tr>
                 <th style="text-align: center">구분</th>
                 <th style="text-align: center">프로젝트 코드</th>
