@@ -114,9 +114,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum += Number(e.ACCT_AM_3 + e.RETURN_AMT);
+                            acctAm2Sum += Number(e.ACCT_AM_3 - e.RETURN_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3 + e.RETURN_AMT)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3 - e.RETURN_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -146,9 +146,9 @@ var bld = {
                         }
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT);
+                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT);
                         } else {
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK + e.RETURN_AMT)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK - e.RETURN_AMT)+"</div>";
                             amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
                         }
 
@@ -163,16 +163,16 @@ var bld = {
                     template: function(e){
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT)));
+                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT)));
                         } else {
-                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK + e.RETURN_AMT)));
+                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK - e.RETURN_AMT)));
                         }
 
                         if(e.DIV_FG_NM == "장"){
                             if(e.FULL_WAIT_CK != null){
-                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK + e.RETURN_AMT));
+                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT));
                             } else {
-                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK + e.RETURN_AMT));
+                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK - e.RETURN_AMT));
                             }
                         }
                         return "<div style='text-align: right'>"+comma(amtTxt)+"</div>";
