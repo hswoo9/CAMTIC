@@ -653,7 +653,6 @@ var regPay = {
                 var ls = rs.itemList;
 
                 for(let i = 0; i < 1; i++) {
-                    $("#eviType" + i).data("kendoDropDownList").value(6);
                     $("#crmNm" + i).val(ls[i].CRM_NM);
                     $("#crmSn" + i).val(ls[i].CRM_SN);
                     $("#regNo" + i).val(ls[i].CRM_NO_TMP);
@@ -2629,14 +2628,14 @@ var regPay = {
 
                     if(type != "drafting"){
                         if($("#reqType").val() != "business" && $("#reqType").val() != "bustrip") {
-                            if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
+                            if($("#reqType").val() == "claim") {
                                 console.log("d")
                                 opener.parent.purcUserAppList.gridReload();
                             }else if($("#apprMngStat").val() == "M"){
                                 opener.parent.paymentMngList.gridReload();
                             }else if($("#reqType").val() == "snack"){
                                opener.parent.snackList.mainGrid();
-                            }else if($("#reqType").val() == "partRate"){
+                            }else if($("#reqType").val() == "partRate" || $("#reqType").val() == "claimExnp"){
                             }else{
                                 opener.parent.paymentList.gridReload();
                             }

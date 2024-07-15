@@ -1378,60 +1378,370 @@
 
     <select id="getCommPayWaitData" parameterType="map" resultType="map">
         /*getCommPayWaitData*/
-        SELECT * FROM
-        (
-            SELECT
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-01') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_1,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-02') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_2,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-03') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_3,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-04') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_4,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-05') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_5,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-06') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_6,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-07') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_7,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-08') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_8,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-09') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_9,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-10') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_10,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-11') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_11,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-12') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_12
-            FROM
-                CAM_MNG.DJ_PAY_APP A
-            LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-            LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
-            WHERE 1=1
-              AND A.DOC_STATUS = 100
-              AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
-              AND B.BUDGET_SN = '581826'
-              AND DATE_FORMAT(A.PAY_EXNP_DE, '%Y') = #{year}
-        ) AA
+        SELECT
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-01') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_1,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-02') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_2,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-03') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_3,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-04') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_4,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-05') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_5,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-06') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_6,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-07') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_7,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-08') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_8,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-09') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_9,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-10') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_10,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-11') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_11,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = CONCAT(#{year},'-12') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_12
+        FROM
+            CAM_MNG.DJ_PAY_APP A
+        LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+        LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
+        WHERE 1=1
+          AND A.DOC_STATUS = 100
+          AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
+          AND B.BUDGET_SN = '581826'
+          AND DATE_FORMAT(A.PAY_EXNP_DE, '%Y') = #{year}
     </select>
 
     <select id="getCommPayApprData" parameterType="map" resultType="map">
         /*getCommPayApprData*/
+        SELECT
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-01') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_1,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-02') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_2,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-03') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_3,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-04') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_4,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-05') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_5,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-06') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_6,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-07') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_7,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-08') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_8,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-09') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_9,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-10') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_10,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-11') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_11,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-12') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_12
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+        WHERE 1=1
+          AND A.DOC_STATUS = 100
+          AND A.RE_STAT = 'Y'
+          AND B.BUDGET_SN = '581826'
+          AND DATE_FORMAT(A.EXNP_DE, '%Y') = #{year}
+    </select>
+
+    <select id="getExnpPersonnelData" resultType="map" parameterType="map">
+        /*getExnpPersonnelData*/
+        SELECT
+            *,
+            EXNP_TOTAL_PAY_1 + EXNP_TOTAL_PAY_2 + EXNP_TOTAL_PAY_3 + EXNP_TOTAL_PAY_4 + EXNP_TOTAL_PAY_5 + EXNP_TOTAL_PAY_6 +
+            EXNP_TOTAL_PAY_7 + EXNP_TOTAL_PAY_8 + EXNP_TOTAL_PAY_9 + EXNP_TOTAL_PAY_10 + EXNP_TOTAL_PAY_11 + EXNP_TOTAL_PAY_12 AS EXNP_TOTAL_PAY
+        FROM
+        (
+            SELECT
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-01') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_1,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-02') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_2,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-03') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_3,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-04') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_4,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-05') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_5,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-06') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_6,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-07') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_7,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-08') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_8,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-09') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_9,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-10') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_10,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-11') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_11,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-12') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_12
+            FROM CAM_MNG.DJ_PAY_APP A
+            LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year}
+              AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND B.BUDGET_SN LIKE '1%'
+              AND A.DOC_STATUS = 100
+              AND DATE_FORMAT(A.PAY_EXNP_DE, '%Y') =  #{year}
+        ) AA
+    </select>
+
+    <select id="getExnpOperationData" resultType="map" parameterType="map">
+        /*getExnpOperationData*/
+        SELECT
+            *,
+            EXNP_TOTAL_PAY_1 + EXNP_TOTAL_PAY_2 + EXNP_TOTAL_PAY_3 + EXNP_TOTAL_PAY_4 + EXNP_TOTAL_PAY_5 + EXNP_TOTAL_PAY_6 +
+            EXNP_TOTAL_PAY_7 + EXNP_TOTAL_PAY_8 + EXNP_TOTAL_PAY_9 + EXNP_TOTAL_PAY_10 + EXNP_TOTAL_PAY_11 + EXNP_TOTAL_PAY_12 AS EXNP_TOTAL_PAY
+        FROM
+            (
+                SELECT
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-01') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_1,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-02') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_2,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-03') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_3,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-04') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_4,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-05') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_5,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-06') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_6,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-07') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_7,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-08') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_8,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-09') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_9,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-10') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_10,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-11') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_11,
+                    IFNULL(SUM(CASE WHEN DATE_FORMAT(A.PAY_EXNP_DE, '%Y-%m') = CONCAT(#{year}, '-12') THEN IF(A.PAY_APP_TYPE = 2, (B.TOT_COST * -1), B.TOT_COST) END), 0) AS EXNP_TOTAL_PAY_12
+                FROM CAM_MNG.DJ_PAY_APP A
+                LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+                WHERE 1=1
+                  AND LEFT(C.STR_DT, 4) = #{year}
+                  AND C.CORP_PJT_NM LIKE '%법인운영%'
+                  AND B.BUDGET_SN LIKE '5%'
+                  AND A.DOC_STATUS = 100
+                  AND DATE_FORMAT(A.PAY_EXNP_DE, '%Y') =  #{year}
+        ) AA
+    </select>
+
+    <select id="getExnpPurcData" parameterType="map" resultType="map">
+        /*getExnpPurcData*/
+        SELECT
+            *,
+            EXNP_TOTAL_PAY_1 + EXNP_TOTAL_PAY_2 + EXNP_TOTAL_PAY_3 + EXNP_TOTAL_PAY_4 + EXNP_TOTAL_PAY_5 + EXNP_TOTAL_PAY_6 +
+            EXNP_TOTAL_PAY_7 + EXNP_TOTAL_PAY_8 + EXNP_TOTAL_PAY_9 + EXNP_TOTAL_PAY_10 + EXNP_TOTAL_PAY_11 + EXNP_TOTAL_PAY_12 AS EXNP_TOTAL_PAY
+        FROM
+        (
+            SELECT
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-01') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_1,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-02') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_2,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-03') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_3,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-04') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_4,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-05') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_5,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-06') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_6,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-07') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_7,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-08') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_8,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-09') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_9,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-10') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_10,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-11') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_11,
+                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXP_DE,'%Y-%m') = CONCAT(#{year},'-12') THEN B.REQ_AMT END),0) AS EXNP_TOTAL_PAY_12
+            FROM CAM_MNG.DJ_PURC_CLAIM A
+            LEFT JOIN CAM_MNG.DJ_CLAIM_EXNP B ON A.CLAIM_SN = B.CLAIM_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = B.PJT_CD
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM like '%법인운영%'
+              AND DATE_FORMAT(A.EXP_DE,'%Y') = #{year}
+              AND B.PAY_APP_SN IS NULL
+        ) AA
+    </select>
+
+    <select id="getIncpExpList" parameterType="map" resultType="map">
+        /*getIncpExpList*/
         SELECT * FROM
         (
             SELECT
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-01') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_1,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-02') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_2,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-03') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_3,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-04') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_4,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-05') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_5,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-06') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_6,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-07') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_7,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-08') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_8,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-09') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_9,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-10') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_10,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-11') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_11,
-                IFNULL(SUM(CASE WHEN DATE_FORMAT(A.EXNP_DE,'%Y-%m') = CONCAT(#{year},'-12') THEN IF(A.PAY_APP_TYPE = 2,(B.TOT_COST * -1), B.TOT_COST) END),0) AS EXNP_TOTAL_PAY_12
-            FROM
-                CAM_MNG.DJ_EXNP A
-            LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                '1' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
+                '민간사업' AS GUBUN,
+                B.BUSN_NM AS GUBUN_DETAIL,
+                'PAY_INCP_SN' AS F_KEY_TYPE,
+                C.PAY_INCP_SN AS F_KEY_SN,
+                B.PJT_NM,
+                A.CRM_NM,
+                A.DEPO_AMT,
+                A.PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_DEPO A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP C ON A.PAY_INCP_SN = C.PAY_INCP_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET D ON C.PAY_INCP_SN = D.PAY_INCP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = C.PAY_INCP_SN AND ES.F_KEY_TYPE = 'PAY_INCP_SN' AND ES.BUDGET_TYPE = 'incp'
             WHERE 1=1
-              AND A.DOC_STATUS = 100
-              AND A.RE_STAT = 'Y'
-              AND B.BUDGET_SN = '581826'
-              AND DATE_FORMAT(A.EXNP_DE, '%Y') = #{year}
+                AND B.BUSN_CLASS IN ('D', 'V')
+                AND LEFT(B.STR_DT, 4)  = #{year}
+                AND DATE_FORMAT(A.PAY_INCP_DE, '%Y-%m') = #{baseYear}
+                AND A.ORG_YN = 'N'
+                AND C.RE_STAT = 'N'
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            UNION ALL
+            SELECT
+                '2' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
+                '정부사업' AS GUBUN,
+                '인건비' AS GUBUN_DETAIL,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                D.PAY_APP_SN AS F_KEY_SN,
+                B.PJT_NM,
+                CASE
+                    WHEN (SELECT COUNT (CRM_NM) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN) > 1
+                        THEN CONCAT((SELECT CRM_NM FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN LIMIT 1), ' 외 ', (SELECT COUNT (CRM_NM) - 1 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN))
+                    ELSE (SELECT CRM_NM FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN LIMIT 1)
+                END AS CRM_NM,
+                CASE
+                    WHEN '01' = #{month} THEN IFNULL(SUM(A.MON_PAY_1), 0) WHEN '02' = #{month} THEN IFNULL(SUM(A.MON_PAY_2), 0)
+                    WHEN '03' = #{month} THEN IFNULL(SUM(A.MON_PAY_3), 0) WHEN '04' = #{month} THEN IFNULL(SUM(A.MON_PAY_4), 0)
+                    WHEN '05' = #{month} THEN IFNULL(SUM(A.MON_PAY_5), 0) WHEN '06' = #{month} THEN IFNULL(SUM(A.MON_PAY_6), 0)
+                    WHEN '07' = #{month} THEN IFNULL(SUM(A.MON_PAY_7), 0) WHEN '08' = #{month} THEN IFNULL(SUM(A.MON_PAY_8), 0)
+                    WHEN '09' = #{month} THEN IFNULL(SUM(A.MON_PAY_9), 0) WHEN '10' = #{month} THEN IFNULL(SUM(A.MON_PAY_10), 0)
+                    WHEN '11' = #{month} THEN IFNULL(SUM(A.MON_PAY_11), 0) WHEN '12' = #{month} THEN IFNULL(SUM(A.MON_PAY_12), 0)
+                END AS DEPO_AMT,
+                D.PAY_EXNP_DE AS PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_PJT_MNG.DJ_PART_PAY_MON A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_APP_BS_YM C ON A.PJT_SN = C.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_APP D ON C.PAY_APP_SN = D.PAY_APP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = D.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'incp'
+            WHERE 1=1
+                AND B.BUSN_CLASS IN ('R', 'S')
+                AND LEFT(B.STR_DT, 4) = #{year}
+                AND A.BS_YEAR = #{year}
+                AND DATE_FORMAT(D.PAY_EXNP_DE, '%Y-%m') = #{baseYear}
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            GROUP BY A.PJT_SN
+            UNION ALL
+            SELECT
+                '3' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
+                '정부사업' AS GUBUN,
+                '간접비' AS GUBUN_DETAIL,
+                'EXNP_SN' AS F_KEY_TYPE,
+                A.EXNP_SN AS F_KEY_SN,
+                A.PJT_NM,
+                CASE
+                    WHEN COUNT (C.CRM_NM) > 1 THEN CONCAT(C.CRM_NM, ' 외 ', COUNT (CRM_NM) - 1 )
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(C.TOT_COST) AS DEPO_AMT,
+                A.EXNP_DE AS PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_EXNP A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_CD = B.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXNP_DET C ON A.EXNP_SN = C.EXNP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.EXNP_SN AND ES.F_KEY_TYPE = 'EXNP_SN' AND ES.BUDGET_TYPE = 'incp'
+            WHERE 1=1
+                AND B.BUSN_CLASS IN ('R', 'S')
+                AND LEFT(B.STR_DT, 4) = #{year}
+                AND DATE_FORMAT(A.EXNP_DE, '%Y-%M') = #{baseYear}
+                AND C.BUDGET_SN = '581826'
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            GROUP BY A.EXNP_SN
         ) AA
+        ORDER BY AA.ORDER_SN, AA.PAY_INCP_DE, AA.F_KEY_SN
     </select>
+
+    <select id="getExnpExpList" parameterType="map" resultType="map">
+        /*getExnpExpList*/
+        SELECT * FROM
+        (
+            SELECT
+                '1' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '구매' AS GUBUN,
+                '직접비' AS GUBUN_DETAIL,
+                'CLAIM_EXNP_SN' AS F_KEY_TYPE,
+                B.CLAIM_EXNP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                A.CRM_NM,
+                B.REQ_AMT,
+                A.EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PURC_CLAIM A
+            LEFT JOIN CAM_MNG.DJ_CLAIM_EXNP B ON A.CLAIM_SN = B.CLAIM_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = B.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = B.CLAIM_EXNP_SN AND ES.F_KEY_TYPE = 'CLAIM_EXNP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND DATE_FORMAT(A.EXP_DE,'%Y-%m') = #{baseYear}
+              AND B.PAY_APP_SN IS NULL
+            UNION ALL
+            SELECT
+                '2' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '지급신청' AS GUBUN,
+                '일반운영비' AS GUBUN_DETAIL,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                A.PAY_APP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                CASE
+                    WHEN COUNT(B.CRM_NM) > 1 THEN CONCAT(B.CRM_NM, ' 외 ', COUNT(B.CRM_NM) - 1 )
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(B.TOT_COST) AS REQ_AMT,
+                A.PAY_EXNP_DE AS EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_APP A
+            LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND B.BUDGET_SN LIKE '5%'
+              AND A.DOC_STATUS = 100
+              AND DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = #{baseYear}
+            GROUP BY A.PAY_APP_SN
+            UNION ALL
+            SELECT
+                '3' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '지급신청' AS GUBUN,
+                '인건비' AS GUBUN_DETAIL,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                A.PAY_APP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                CASE
+                    WHEN COUNT (B.CRM_NM) > 1 THEN CONCAT(B.CRM_NM, ' 외 ', COUNT (B.CRM_NM) - 1)
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(B.TOT_COST) AS REQ_AMT,
+                A.PAY_EXNP_DE AS EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_APP A
+                LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+                LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND B.BUDGET_SN LIKE '1%'
+              AND A.DOC_STATUS = 100
+              AND DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = #{baseYear}
+            GROUP BY A.PAY_APP_SN
+        ) AA
+        ORDER BY AA.ORDER_SN, AA.EXP_DE, AA.F_KEY_SN
+    </select>
+
+    <insert id="insExpStatus" parameterType="map">
+        /*insExpStatus*/
+        INSERT INTO CAM_MNG.DJ_EXP_STATUS
+        (
+            BUDGET_TYPE,
+            GUBUN,
+            F_KEY_TYPE,
+            F_KEY_SN,
+            STATUS,
+            REG_EMP_SEQ,
+            REG_DT
+        )
+        VALUES
+        (
+            #{budgetType},
+            #{gubun},
+            #{fKeyType},
+            #{fKeySn},
+            #{status},
+            #{regEmpSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="updExpStatus" parameterType="map">
+        /*updExpStatus*/
+        UPDATE CAM_MNG.DJ_EXP_STATUS
+        SET
+            STATUS = #{status},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            EXP_SN = #{expSn}
+    </update>
 
     <select id="getPurcClaimList" parameterType="map" resultType="map">
         /* getPurcClaimList */

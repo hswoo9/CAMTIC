@@ -182,7 +182,12 @@ var bdv = {
                     width: 100,
                     template: function(e){
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            incpSum += e.TOT_COST;
+                            if(e.PAY_APP_TYPE == 3){
+                                incpSum -= e.TOT_COST;
+                                e.TOT_COST = e.TOT_COST * -1 ;
+                            } else {
+                                incpSum += e.TOT_COST;
+                            }
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
