@@ -13,17 +13,18 @@ var incmExpInfo = {
 
     fn_saveChk : function(){
         var url = "";
+        var url2 = "";
         if(incmExpInfo.global.params.chk == 0){
-            url = "/g20/getBudgetListDuplDel";
         } else if(incmExpInfo.global.params.chk > 0){
-            url = "/mng/getProjectBgtList";
             $("#setYn").val('Y');
         }
+        url = "/g20/getBudgetListDuplDel";
+        url2 = "/mng/getProjectBgtList";
 
-        incmExpInfo.fn_makeBudgetTable(url);
+        incmExpInfo.fn_makeBudgetTable(url, url2);
     },
 
-    fn_makeBudgetTable : function (url){
+    fn_makeBudgetTable : function (url, url2){
         var date = new Date();
         var baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
 
@@ -31,11 +32,18 @@ var incmExpInfo = {
             pjtSn : incmExpInfo.global.params.pjtCd,
             mgtSeq : incmExpInfo.global.params.pjtCd,
             baseDate : baseDate,
-            temp : "2"
+            temp : "2",
+            fromDate : $("#frDt").val().replace(/-/g, ""),
+            toDate : $("#toDt").val().replace(/-/g, "")
         }
         var result = customKendo.fn_customAjax(url, incmExpInfo.global.searchAjaxData);
+        var result2 = customKendo.fn_customAjax(url2, incmExpInfo.global.searchAjaxData);
         if(result.flag) {
             var rs = result.list;
+            console.log("rs", rs);
+
+            var rs2 = result2.list;
+            console.log("rs2", rs2);
             var tblHtml = "";
 
             $("#bgtTblBody").empty();
@@ -62,11 +70,14 @@ var incmExpInfo = {
 
             $("#bgtTblBody").append(tblHtml);
 
-            for(var i=0; i<rs.length; i++){
-                if(rs[i].BGT_AT == '1'){
-                    $("#BGT_AT_" + rs[i].BGT_CD + "_1").prop('checked', true);
-                } else if(rs[i].BGT_AT == '2'){
-                    $("#BGT_AT_" + rs[i].BGT_CD + "_2").prop('checked', true);
+            for(var i=0; i<rs2.length; i++){
+                try{
+                    if(rs2[i].BGT_AT == '1'){
+                        $("#BGT_AT_" + rs2[i].BGT_CD + "_1").prop('checked', true);
+                    } else if(rs[i].BGT_AT == '2'){
+                        $("#BGT_AT_" + rs2[i].BGT_CD + "_2").prop('checked', true);
+                    }
+                }catch{
                 }
             }
         }
