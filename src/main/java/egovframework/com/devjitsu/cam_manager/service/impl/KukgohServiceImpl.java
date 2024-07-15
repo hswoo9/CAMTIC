@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,5 +83,38 @@ public class KukgohServiceImpl implements KukgohService {
     public void delBudgetCodeMatch(Map<String, Object> params) {
 
         kukgohRepository.delBudgetCodeMatch(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
+        return kukgohRepository.getProjectList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEnaraPjtList(Map<String, Object> params) {
+        return kukgohRepository.getEnaraPjtList(params);
+    }
+
+    @Override
+    public void setEnaraProject(Map<String, Object> params) {
+
+        Map<String, Object> map = kukgohRepository.getEnaraPjtData(params);
+        map.put("PJT_SN", params.get("pjtSn"));
+
+        kukgohRepository.insEnaraProject(map);
+    }
+
+    @Override
+    public Map<String, Object> getExecutionInfo(Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
+        result.put("payAppData", payAppData);
+
+        Map<String, Object> projectInfo = kukgohRepository.getProjectDataByPayAppDetSn(payAppData);
+        result.put("projectInfo", projectInfo);
+
+        return result;
     }
 }

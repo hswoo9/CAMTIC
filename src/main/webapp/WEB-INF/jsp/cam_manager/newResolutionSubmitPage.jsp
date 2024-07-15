@@ -14,6 +14,7 @@
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="payAppDetSn" value="${params.payAppDetSn}" />
 <div class="col-lg-12" style="padding:0;">
 	<div class="table-responsive">
 		<div class="card-header pop-header">
@@ -55,7 +56,7 @@
 					<th>문서번호</th>
 					<td>
 						<input type="text" style="width:70%"  id="docNumber" value='${data.DOC_NUMBER}'  title="${data.DOC_NUMBER}" readonly name="DOC_NUMBER" disabled/>
-						<input type="button" id="docView" value='문서보기' />
+<%--						<input type="button" id="docView" value='문서보기' />--%>
 					</td>
 				</tr>
 

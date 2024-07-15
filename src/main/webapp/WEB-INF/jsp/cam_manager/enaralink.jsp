@@ -9,7 +9,11 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/enaralink.js?v=${today}'/>"></script>
 
 <style>
-
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">

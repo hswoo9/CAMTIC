@@ -15,15 +15,25 @@ var budgetPjtChoicePop = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getEnaraPjtList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
 
+                    data.year = $("#fromMonth").val();
+                    data.ddtlbzNm = $("#budgetGroup").val();
                     return data;
                 }
 
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -31,12 +41,12 @@ var budgetPjtChoicePop = {
         $("#budgetPjtChoice").kendoGrid({
             dataSource: dataSource,
             sortable: true,
-            scrollable: true,
             selectable: "row",
+            resizable : true,
             height : 650,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
@@ -45,33 +55,63 @@ var budgetPjtChoicePop = {
             persistSelection : true,
             columns: [
                 {
-                    field : "",
+                    field : "DDTLBZ_ID",
                     title : "사업코드",
                     width : 80
                 },
                 {
-                    field : "",
+                    field : "DDTLBZ_NM",
                     title : "사업명",
                     width : 150
                 },
                 {
-                    field : "",
+                    field : "UPPER_BSNS_ID",
                     title : "상위사업코드",
-                    width : 150
+                    width : 100
                 },
                 {
-                    field : "",
+                    field : "UPPER_BSNS_NM",
                     title : "상위사업명",
                     width : 150
                 },
                 {
-                    field : "",
+                    field : "REQST_DE",
                     title : "신청일자",
-                    width : 80
+                    width : 80,
+                    template : function(data){
+                        return data.REQST_DE.toString().substring(0,4) + "-" + data.REQST_DE.toString().substring(4,6) + "-" + data.REQST_DE.toString().substring(6,8);
+                    }
+                }, {
+                    title : "설정",
+                    width : 50,
+                    template : function(data){
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="budgetPjtChoicePop.setEnaraProject('+data.CNTC_SN+')">설정</button>';
+                    }
                 }
                 ]
         }).data("kendoGrid");
     },
+
+    setEnaraProject: function(sn) {
+        var data = {
+            cntcSn : sn,
+            pjtSn : $("#pjtSn").val()
+        }
+        $.ajax({
+            url : "/kukgoh/setEnaraProject",
+            data : data,
+            type : "post",
+            dataType: "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert(rs.message);
+
+                    opener.parent.projectConfigView.mainGrid()
+                    window.close();
+                }
+            }
+        })
+    }
 
 
 }

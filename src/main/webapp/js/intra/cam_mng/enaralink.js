@@ -130,9 +130,9 @@ var enaralink = {
                     width: 100,
                     template : function(dataItem) {
                         if (dataItem.KUKGO_STATE === "전송완료" || dataItem.KUKGO_STATE === '전송진행중' || dataItem.KUKGO_STATE === '전송실패') {
-                            return "<input type='button' class='btnChoice k-button k-button-solid-base' value='확인' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>";
+                            return "<button type='button' class='btnChoice k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>확인</button>";
                         } else {
-                            return "<input type='button' class='btnChoice k-button k-button-solid-base' value='전송' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>";
+                            return "<button type='button' class='btnChoice k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>전송</button>";
                         }
                     },
                     locked: true,
@@ -252,7 +252,7 @@ var enaralink = {
     },
 
     fn_openSubmitPage : function(e) {
-        var url = "/mng/newResolutionSubmitPage.do";
+        var url = "/mng/newResolutionSubmitPage.do?payAppDetSn=" + e;
         var name = "newResolutionSubmitPage";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

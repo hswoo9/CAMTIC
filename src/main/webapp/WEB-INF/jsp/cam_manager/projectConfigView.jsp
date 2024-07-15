@@ -9,7 +9,11 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/projectConfigView.js?v=${today}'/>"></script>
 
 <style>
-
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -32,7 +36,7 @@
                     <tr>
                         <th class="text-center th-color">사업년도</th>
                         <td>
-                            <input type="text" id="fromMonth" style="width: 200px;">
+                            <input type="text" id="fromMonth" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

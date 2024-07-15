@@ -15,15 +15,24 @@ var projectConfigView = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getProjectList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function() {
+                parameterMap: function(data) {
 
-                    return ;
+                    data.year = $("#fromMonth").val()
+                    return data;
                 }
 
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -31,12 +40,12 @@ var projectConfigView = {
         $("#kukgohPjtConfigGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
-            scrollable: true,
             selectable: "row",
+            resizable : true,
             height : 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
@@ -44,18 +53,13 @@ var projectConfigView = {
             },
             toolbar: [
                 {
-                    name: 'excel',
-                    text: '엑셀다운로드'
-                },
-                {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetConfigView.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="projectConfigView.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }],
-            persistSelection : true,
             columns: [
                 {
                     field : "PJT_CD",
@@ -65,52 +69,64 @@ var projectConfigView = {
                 {
                     field : "PJT_NM",
                     title : "프로젝트명",
-                    width : 100
+                    width : 250
                 },
                 {
-                    field : "",
                     title : "사업코드",
-                    width : 100,
+                    width : 50,
                     template : function(dataItem){
-                        return "<input type='button' class='btnChoice' value='선택' onclick='projectConfigView.fn_btnPjtChoice(this);'>";
+                        return "<button type='button' class='k-button k-button-solid-base' onclick='projectConfigView.fn_btnPjtChoice("+dataItem.PJT_SN+", \""+(dataItem.DDTLBZ_ID || "")+"\");'>선택</button>";
                     },
                 },
                 {
-                    field : "",
-                    title : "설젱취소",
-                    width : 100
+                    title : "설정취소",
+                    width : 50,
+                    template : function(e){
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="projectConfigView.fn_delEnaraProject('+e.PJT_SN+')">취소</button>'
+                    }
                 },
                 {
-                    field : "",
+                    field : "DDTLBZ_ID",
                     title : "상세사업ID",
                     width : 90
                 },
                 {
-                    field : "",
+                    field : "DDTLBZ_NM",
                     title : "상세사업명",
                     width : 90
                 },
                 {
-                    field : "",
+                    field : "UPPER_BSNS_NM",
                     title : "상위사업명",
                     width : 90
                 },
                 {
-                    field : "",
+                    field : "BSNSYEAR",
                     title : "회계연도",
-                    width : 90
+                    width : 70
                 },
                 {
                     field : "",
                     title : "신청일자",
-                    width : 90
+                    width : 90,
+                    template : function(data){
+                        if(data.REQST_DE != "" && data.REQST_DE != null){
+                            return data.REQST_DE.toString().substring(0,4) + "-" + data.REQST_DE.toString().substring(4,6) + "-" + data.REQST_DE.toString().substring(6,8);
+                        } else {
+                            return ""
+                        }
+                    }
                 }
                ]
         }).data("kendoGrid");
     },
 
-    fn_btnPjtChoice : function(){
-        var url = "/mng/budgetPjtChoicePop.do";
+    fn_btnPjtChoice : function(sn, cd){
+        if(cd != ""){
+            alert("설정이 완료된 프로젝트입니다.");
+            return;
+        }
+        var url = "/mng/budgetPjtChoicePop.do?pjtSn=" + sn;
         var name = "budgetChoicePop";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

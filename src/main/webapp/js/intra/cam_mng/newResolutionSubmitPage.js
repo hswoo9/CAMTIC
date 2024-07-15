@@ -21,6 +21,9 @@ var newResolutionSubmitPage = {
             index: 0
         });
 
+
+        newResolutionSubmitPage.fn_setData();
+
     },
 
     addrSearch : function(){
@@ -61,6 +64,67 @@ var newResolutionSubmitPage = {
         var name = "bankCodeViewPop";
         var option = "width=520, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
+    },
+
+
+    fn_setData: function(){
+        var data = {
+            payAppDetSn : $("#payAppDetSn").val()
+        };
+
+        $.ajax({
+            url : "/kukgoh/getExecutionInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                var rs = rs.rs;
+                var pad = rs.payAppData;
+                var pi = rs.projectInfo;
+                console.log(rs);
+                $("#korNm").val(pad.EMP_NAME);
+                $("#empSeq").val(pad.REG_EMP_SEQ);
+
+                $("#gisuDt").val(pad.APP_DE);
+                $("#docNumber").val(pad.DOC_NO);
+                $("#docTitle").val(pad.ACC_NM);
+
+                $("#kukgoPjtNm").val(pi.DDTLBZ_NM);
+                $("#pjtNm").val(pi.PJT_NM);
+
+                $("#abgtNm").val(pad.BUDGET_NM);
+
+                if(pad.EVID_TYPE == "1"){
+                    $("#setFgNm").val("세금계산서");
+                } else if(pad.EVID_TYPE == "2"){
+                    $("#setFgNm").val("계산서");
+                } else if(pad.EVID_TYPE == "3"){
+                    $("#setFgNm").val("신용카드");
+                } else if(pad.EVID_TYPE == "4"){
+                    $("#setFgNm").val("직원지급");
+                } else if(pad.EVID_TYPE == "5"){
+                    $("#setFgNm").val("사업소득자");
+                } else if(pad.EVID_TYPE == "6"){
+                    $("#setFgNm").val("기타");
+                } else if(pad.EVID_TYPE == "9"){
+                    $("#setFgNm").val("기타소득자");
+                }
+
+                $("#vatFgNm").val();
+                var taxGubun = (pi.TAX_GUBUN || "");
+
+                if(taxGubun == 1){
+                    $("#vatFgNm").val("과세");
+                } else if(taxGubun == 2){
+                    $("#vatFgNm").val("면세");
+                } else if(taxGubun == 3){
+                    $("#vatFgNm").val("비과세");
+                }
+
+                $("#unitAm").val(comma(pad.BUDGET_AMT));
+
+            }
+        });
     }
 
 

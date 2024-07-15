@@ -58,4 +58,33 @@ public class KukgohRepository extends AbstractDAO {
 
         delete("kukgoh.delBudgetCodeMatch", params);
     }
+
+    public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getProjectList", params);
+    }
+
+    public List<Map<String, Object>> getEnaraPjtList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getEnaraPjtList", params);
+    }
+
+    public void insEnaraProject(Map<String, Object> params) {
+
+        insert("kukgoh.insEnaraProject", params);
+    }
+
+    public Map<String, Object> getEnaraPjtData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEnaraPjtData", params);
+    }
+
+    public Map<String, Object> getProjectDataByPayAppDetSn(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("kukgoh.getProjectDataByPayAppDetSn", params);
+    }
+
+    public Map<String, Object> getPayAppDataByPayAppDetSn(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getPayAppDataByPayAppDetSn", params);
+    }
 }

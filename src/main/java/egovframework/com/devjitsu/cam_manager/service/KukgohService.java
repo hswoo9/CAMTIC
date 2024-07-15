@@ -23,4 +23,12 @@ public interface KukgohService {
     void setEnaraBudgetCode(Map<String, Object> params);
 
     void delBudgetCodeMatch(Map<String, Object> params);
+
+    List<Map<String, Object>> getProjectList(Map<String, Object> params);
+
+    List<Map<String, Object>> getEnaraPjtList(Map<String, Object> params);
+
+    void setEnaraProject(Map<String, Object> params);
+
+    Map<String, Object> getExecutionInfo(Map<String, Object> params);
 }

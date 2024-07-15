@@ -110,6 +110,44 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/getProjectList")
+    public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("list", kukgohService.getProjectList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/getEnaraPjtList")
+    public String getEnaraPjtList(@RequestParam Map<String, Object> params, Model model) {
+
+    	model.addAttribute("list", kukgohService.getEnaraPjtList(params));
+
+    	return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/setEnaraProject")
+    public String setEnaraProject(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            kukgohService.setEnaraProject(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("message", "설정되었습니다.");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    	return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/getExecutionInfo")
+    public String getExecutionInfo(@RequestParam Map<String, Object> params, Model model) {
+
+
+        model.addAttribute("rs", kukgohService.getExecutionInfo(params));
+
+        return "jsonView";
+    }
+
 //    private String makeCSVFile(Map<String, Object> params) {
 //        String fileName = "";
 //        String filepath = "/home/upload/kukgoh";

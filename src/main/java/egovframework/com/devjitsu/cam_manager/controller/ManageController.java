@@ -254,6 +254,7 @@ public class ManageController {
     @RequestMapping("/mng/budgetPjtChoicePop.do")
     public String budgetPjtChoicePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        model.addAttribute("params", params);
         return "cam_manager/budgetPjtChoicePop";
     }
 

@@ -113,4 +113,90 @@
         /*delBudgetCodeMatch*/
         DELETE FROM CAM_ERP.DJ_BUDGET_CODE WHERE BG_SN = #{bgSn}
     </delete>
+
+    <select id="getProjectList" parameterType="map" resultType="map">
+        /*getProjectList*/
+        SELECT
+            A.PJT_SN, B.*, A.PJT_CD, A.PJT_NM
+        FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_SN = B.PJT_SN
+        WHERE #{year} BETWEEN DATE_FORMAT(STR_DT, '%Y') AND DATE_FORMAT(END_DT, '%Y')
+    </select>
+
+    <select id="getEnaraPjtData" parameterType="map" resultType="map">
+        /*getEnaraPjtData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_BSRSLT_ERP
+        WHERE
+            CNTC_SN = #{cntcSn}
+    </select>
+
+    <select id="getEnaraPjtList" parameterType="map" resultType="map">
+        /*getEnaraPjtList*/
+        SELECT *
+        FROM
+            CAM_ERP.T_IFS_BSRSLT_ERP
+        WHERE
+            BSNSYEAR = #{year}
+        AND
+            DDTLBZ_NM LIKE CONCAT('%', #{ddtlbzNm}, '%')
+    </select>
+
+    <insert id="insEnaraProject" parameterType="map">
+        /*insEnaraProject*/
+        INSERT INTO CAM_ERP.DJ_PROJECT_LINK
+            (
+                PJT_SN,
+                CNTC_SN,
+                BSNSYEAR,
+                DDTLBZ_ID,
+                DDTLBZ_NM,
+                UPPER_BSNS_ID,
+                UPPER_BSNS_NM,
+                REQST_DE
+            )
+        VALUES
+            (
+                #{PJT_SN},
+                #{CNTC_SN},
+                #{BSNSYEAR},
+                #{DDTLBZ_ID},
+                #{DDTLBZ_NM},
+                #{UPPER_BSNS_ID},
+                #{UPPER_BSNS_NM},
+                #{REQST_DE}
+            )
+    </insert>
+
+    <select id="getPayAppDataByPayAppDetSn" parameterType="map" resultType="map">
+        /*getPayAppDataByPayAppDetSn*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
+            DATE_FORMAT(A.APPROVAL_DATE, '%Y-%m-%d') AS APP_DE,
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
+            B.BUDGET_NM AS BGT_NM,
+            B.EVID_TYPE,
+            B.BUDGET_AMT
+        FROM
+            CAM_MNG.DJ_PAY_APP A
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+        WHERE
+            B.PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
+    <select id="getProjectDataByPayAppDetSn" parameterType="map" resultType="map">
+        /*getProjectDataByPayAppDetSn*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_SN = B.PJT_SN
+        LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_CD = C.PJT_CD
+        WHERE
+            A.PJT_CD = #{PJT_CD}
+    </select>
 </mapper>
