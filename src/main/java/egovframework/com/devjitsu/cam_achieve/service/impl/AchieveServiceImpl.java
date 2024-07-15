@@ -625,6 +625,17 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public Map<String, Object> getExnpPayData (Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        resultMap.put("psList", achieveRepository.getExnpPersonnelData(params));
+        resultMap.put("opList", achieveRepository.getExnpOperationData(params));
+        resultMap.put("purcList", achieveRepository.getExnpPurcData(params));
+
+        return resultMap;
+    }
+
+    @Override
     public List<Map<String, Object>> getIncpExpList(Map<String, Object> params) {
         return achieveRepository.getIncpExpList(params);
     }

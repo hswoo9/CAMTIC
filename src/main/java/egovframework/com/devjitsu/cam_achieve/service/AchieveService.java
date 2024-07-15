@@ -73,6 +73,8 @@ public interface AchieveService {
 
     Map<String, Object> getIncpPayData(Map<String, Object> params);
 
+    Map<String, Object> getExnpPayData(Map<String, Object> params);
+
     List<Map<String, Object>> getIncpExpList(Map<String, Object> params);
 
     List<Map<String, Object>> getExnpExpList(Map<String, Object> params);

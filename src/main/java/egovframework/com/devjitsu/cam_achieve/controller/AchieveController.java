@@ -576,6 +576,12 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/getExnpPayData")
+    public String getExnpPayData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", achieveService.getExnpPayData(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/expManagement.do")
     public String expManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 

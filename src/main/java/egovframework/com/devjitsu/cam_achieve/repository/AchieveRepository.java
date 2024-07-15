@@ -281,6 +281,18 @@ public class AchieveRepository extends AbstractDAO {
         return selectList("achieve.getCommPayApprData", params);
     }
 
+    public Map<String, Object> getExnpPersonnelData(Map<String, Object> params) {
+        return  (Map<String, Object>) selectOne("achieve.getExnpPersonnelData", params);
+    }
+
+    public Map<String, Object> getExnpOperationData(Map<String, Object> params) {
+        return  (Map<String, Object>) selectOne("achieve.getExnpOperationData", params);
+    }
+
+    public Map<String, Object> getExnpPurcData(Map<String, Object> params) {
+        return  (Map<String, Object>) selectOne("achieve.getExnpPurcData", params);
+    }
+
     public List<Map<String, Object>> getIncpExpList(Map<String, Object> params) {
         return selectList("achieve.getIncpExpList", params);
     }
