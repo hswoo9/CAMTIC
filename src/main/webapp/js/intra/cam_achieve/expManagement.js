@@ -70,7 +70,7 @@ var expMn = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.mainGrid1();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.gridReload1();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -79,7 +79,7 @@ var expMn = {
             columns: [
                 {
                     title: "순번",
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     width: 40
                 }, {
                     title : "구분",
@@ -87,7 +87,7 @@ var expMn = {
                     width: 50
                 }, {
                     title : "세부",
-                    field : "BUSN_NM",
+                    field : "GUBUN_DETAIL",
                     width: 50
                 }, {
                     title : "프로젝트명",
@@ -114,7 +114,7 @@ var expMn = {
                     width: 80,
                     template: function(e){
                         return '<input type="text" name="expStat" value="'+ e.STATUS +'" style="width: 60%; margin-right: 5px;">' +
-                               '<button type="button" class="k-button k-button-solid-base" onclick="expMn.fn_insExpStatus(this)">저장</button>';
+                               '<button type="button" class="k-button k-button-solid-base" onclick="expMn.fn_insExpStatus(this, \'incp\')">저장</button>';
                     }
                 }, {
                     title : "비고",
@@ -123,7 +123,7 @@ var expMn = {
                 },
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
     },
@@ -133,13 +133,15 @@ var expMn = {
             serverPaging: false,
             transport: {
                 read : {
-                    url: '',
+                    url: '/cam_achieve/getExnpExpList',
                     dataType: "json",
                     type: "post",
                     async: false
                 },
                 parameterMap: function(data) {
-                    data.year = $("#year").val();
+                    data.year = $("#year").val().split("-")[0];
+                    data.month = $("#year").val().split("-")[1];
+                    data.baseYear = $("#year").val();
                     return data;
                 }
             },
@@ -172,7 +174,7 @@ var expMn = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.mainGrid2();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.gridReload2();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -181,36 +183,43 @@ var expMn = {
             columns: [
                 {
                     title: "순번",
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     width: 40
                 }, {
                     title : "구분",
-                    field : "",
-                    width: 80
+                    field : "GUBUN",
+                    width: 50
                 }, {
                     title : "세부",
-                    field : "",
-                    width: 80
+                    field : "GUBUN_DETAIL",
+                    width: 50
                 }, {
                     title : "예산프로젝트명",
-                    field : "",
-                    width: 80
+                    field : "CORP_PJT_NM",
+                    width: 150
                 }, {
                     title : "거래처",
-                    field : "",
-                    width: 80
+                    field : "CRM_NM",
+                    width: 100
                 }, {
-                    title : "입금예정액\n(vat포함)",
-                    field : "",
-                    width: 80
+                    title : "지출예정액<br>(vat포함)",
+                    field : "REQ_AMT",
+                    width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right;">'+ comma(e.REQ_AMT) +'</div>'
+                    }
                 }, {
                     title : "지출예정일",
-                    field : "",
-                    width: 80
+                    field : "EXP_DE",
+                    width: 50
                 }, {
                     title : "상태",
-                    field : "",
-                    width: 80
+                    field : "STATUS",
+                    width: 80,
+                    template: function(e){
+                        return '<input type="text" name="expStat" value="'+ e.STATUS +'" style="width: 60%; margin-right: 5px;">' +
+                            '<button type="button" class="k-button k-button-solid-base" onclick="expMn.fn_insExpStatus(this, \'exnp\')">저장</button>';
+                    }
                 }, {
                     title : "비고",
                     field : "",
@@ -218,7 +227,7 @@ var expMn = {
                 },
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
     },
@@ -239,14 +248,23 @@ var expMn = {
         });
     },
 
-    fn_insExpStatus : function(e) {
+    fn_insExpStatus : function(e, t) {
         let target = $(e).parent().find("input[name='expStat']");
-        let dataItem = $("#mainGrid1").data("kendoGrid").dataItem($(e).closest("tr"));
+        let grid = "";
+
+        if(t == "incp") {
+            grid = $("#mainGrid1").data("kendoGrid");
+        } else {
+            grid = $("#mainGrid2").data("kendoGrid");
+        }
+
+        let dataItem = grid.dataItem($(e).closest("tr"));
         let data = {
             expSn : dataItem.EXP_SN,
+            budgetType: dataItem.BUDGET_TYPE,
             gubun : dataItem.GUBUN,
             fKeyType : dataItem.F_KEY_TYPE,
-            fKeySn : dataItem.PAY_INCP_SN,
+            fKeySn : dataItem.F_KEY_SN,
             status : target.data("kendoDropDownList").value(),
             regEmpSeq : $("#regEmpSeq").val(),
         }
@@ -259,7 +277,13 @@ var expMn = {
             async: false,
             success: function(){
                 alert("저장되었습니다.");
-                $("#mainGrid1").data("kendoGrid").dataSource.read();
+
+                if(data.budgetType == "incp"){
+                    $("#mainGrid1").data("kendoGrid").dataSource.read();
+                } else {
+                    $("#mainGrid2").data("kendoGrid").dataSource.read();
+                }
+
                 expMn.fn_dropDownListSet();
             },
             error: function() {

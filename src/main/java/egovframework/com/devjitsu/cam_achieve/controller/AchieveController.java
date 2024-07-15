@@ -593,6 +593,12 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/getExnpExpList")
+    public String getExnpExpList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", achieveService.getExnpExpList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/cam_achieve/insExpStatus")
     public String insExpStatus(@RequestParam Map<String, Object> params, Model model){
         achieveService.insExpStatus(params);

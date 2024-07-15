@@ -630,6 +630,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpExpList(Map<String, Object> params) {
+        return achieveRepository.getExnpExpList(params);
+    }
+
+    @Override
     public void insExpStatus(Map<String, Object> params) {
         if(params.containsKey("expSn")) {
             achieveRepository.updExpStatus(params);

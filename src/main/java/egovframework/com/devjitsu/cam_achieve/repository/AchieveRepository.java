@@ -285,6 +285,10 @@ public class AchieveRepository extends AbstractDAO {
         return selectList("achieve.getIncpExpList", params);
     }
 
+    public List<Map<String, Object>> getExnpExpList(Map<String, Object> params) {
+        return selectList("achieve.getExnpExpList", params);
+    }
+
     public void insExpStatus(Map<String, Object> params) {
         insert("achieve.insExpStatus", params);
     }

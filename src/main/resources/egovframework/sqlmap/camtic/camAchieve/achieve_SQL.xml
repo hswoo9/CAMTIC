@@ -1439,10 +1439,11 @@
         (
             SELECT
                 '1' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
                 '민간사업' AS GUBUN,
-                B.BUSN_NM,
+                B.BUSN_NM AS GUBUN_DETAIL,
                 'PAY_INCP_SN' AS F_KEY_TYPE,
-                C.PAY_INCP_SN,
+                C.PAY_INCP_SN AS F_KEY_SN,
                 B.PJT_NM,
                 A.CRM_NM,
                 A.DEPO_AMT,
@@ -1453,9 +1454,10 @@
             LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
             LEFT JOIN CAM_MNG.DJ_PAY_INCP C ON A.PAY_INCP_SN = C.PAY_INCP_SN
             LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET D ON C.PAY_INCP_SN = D.PAY_INCP_SN
-            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = C.PAY_INCP_SN AND ES.F_KEY_TYPE = 'PAY_INCP_SN'
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = C.PAY_INCP_SN AND ES.F_KEY_TYPE = 'PAY_INCP_SN' AND ES.BUDGET_TYPE = 'incp'
             WHERE 1=1
                 AND B.BUSN_CLASS IN ('D', 'V')
+                AND LEFT(B.STR_DT, 4)  = #{year}
                 AND DATE_FORMAT(A.PAY_INCP_DE, '%Y-%m') = #{baseYear}
                 AND A.ORG_YN = 'N'
                 AND C.RE_STAT = 'N'
@@ -1464,10 +1466,11 @@
             UNION ALL
             SELECT
                 '2' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
                 '정부사업' AS GUBUN,
-                '인건비' AS BUSN_NM,
+                '인건비' AS GUBUN_DETAIL,
                 'PAY_APP_SN' AS F_KEY_TYPE,
-                D.PAY_APP_SN,
+                D.PAY_APP_SN AS F_KEY_SN,
                 B.PJT_NM,
                 CASE
                     WHEN (SELECT COUNT (CRM_NM) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN) > 1
@@ -1489,10 +1492,11 @@
             LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
             LEFT JOIN CAM_MNG.DJ_PAY_APP_BS_YM C ON A.PJT_SN = C.PJT_SN
             LEFT JOIN CAM_MNG.DJ_PAY_APP D ON C.PAY_APP_SN = D.PAY_APP_SN
-            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = D.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN'
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = D.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'incp'
             WHERE 1=1
                 AND B.BUSN_CLASS IN ('R', 'S')
-                AND A.BS_YEAR = '2024'
+                AND LEFT(B.STR_DT, 4) = #{year}
+                AND A.BS_YEAR = #{year}
                 AND DATE_FORMAT(D.PAY_EXNP_DE, '%Y-%m') = #{baseYear}
                 AND B.PARENT_PJT_SN IS NULL
                 AND B.TEAM_STAT = 'N'
@@ -1500,10 +1504,11 @@
             UNION ALL
             SELECT
                 '3' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
                 '정부사업' AS GUBUN,
-                '간접비' AS BUSN_NM,
+                '간접비' AS GUBUN_DETAIL,
                 'EXNP_SN' AS F_KEY_TYPE,
-                A.EXNP_SN,
+                A.EXNP_SN AS F_KEY_SN,
                 A.PJT_NM,
                 CASE
                     WHEN COUNT (C.CRM_NM) > 1 THEN CONCAT(C.CRM_NM, ' 외 ', COUNT (CRM_NM) - 1 )
@@ -1516,22 +1521,107 @@
             FROM CAM_MNG.DJ_EXNP A
             LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_CD = B.PJT_CD
             LEFT JOIN CAM_MNG.DJ_EXNP_DET C ON A.EXNP_SN = C.EXNP_SN
-            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.EXNP_SN AND ES.F_KEY_TYPE = 'EXNP_SN'
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.EXNP_SN AND ES.F_KEY_TYPE = 'EXNP_SN' AND ES.BUDGET_TYPE = 'incp'
             WHERE 1=1
                 AND B.BUSN_CLASS IN ('R', 'S')
+                AND LEFT(B.STR_DT, 4) = #{year}
                 AND DATE_FORMAT(A.EXNP_DE, '%Y-%M') = #{baseYear}
                 AND C.BUDGET_SN = '581826'
                 AND B.PARENT_PJT_SN IS NULL
                 AND B.TEAM_STAT = 'N'
             GROUP BY A.EXNP_SN
         ) AA
-        ORDER BY AA.ORDER_SN, AA.PAY_INCP_DE
+        ORDER BY AA.ORDER_SN, AA.PAY_INCP_DE, AA.F_KEY_SN
+    </select>
+
+    <select id="getExnpExpList" parameterType="map" resultType="map">
+        /*getExnpExpList*/
+        SELECT * FROM
+        (
+            SELECT
+                '1' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '구매' AS GUBUN,
+                '직접비' AS GUBUN_DETAIL,
+                'CLAIM_EXNP_SN' AS F_KEY_TYPE,
+                B.CLAIM_EXNP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                A.CRM_NM,
+                B.REQ_AMT,
+                A.EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PURC_CLAIM A
+            LEFT JOIN CAM_MNG.DJ_CLAIM_EXNP B ON A.CLAIM_SN = B.CLAIM_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = B.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = B.CLAIM_EXNP_SN AND ES.F_KEY_TYPE = 'CLAIM_EXNP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND DATE_FORMAT(A.EXP_DE,'%Y-%m') = #{baseYear}
+              AND B.PAY_APP_SN IS NULL
+            UNION ALL
+            SELECT
+                '2' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '지급신청' AS GUBUN,
+                '일반운영비' AS GUBUN_DETAIL,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                A.PAY_APP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                CASE
+                    WHEN COUNT(B.CRM_NM) > 1 THEN CONCAT(B.CRM_NM, ' 외 ', COUNT(B.CRM_NM) - 1 )
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(B.TOT_COST) AS REQ_AMT,
+                A.PAY_EXNP_DE AS EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_APP A
+            LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+            LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND B.BUDGET_SN LIKE '5%'
+              AND A.DOC_STATUS = 100
+              AND DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = #{baseYear}
+            GROUP BY A.PAY_APP_SN
+            UNION ALL
+            SELECT
+                '3' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                '지급신청' AS GUBUN,
+                '인건비' AS GUBUN_DETAIL,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                A.PAY_APP_SN AS F_KEY_SN,
+                C.CORP_PJT_NM,
+                CASE
+                    WHEN COUNT (B.CRM_NM) > 1 THEN CONCAT(B.CRM_NM, ' 외 ', COUNT (B.CRM_NM) - 1)
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(B.TOT_COST) AS REQ_AMT,
+                A.PAY_EXNP_DE AS EXP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_APP A
+                LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_CORP_PROJECT C ON C.CORP_PJT_CD = A.PJT_CD
+                LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN' AND ES.BUDGET_TYPE = 'exnp'
+            WHERE 1=1
+              AND LEFT(C.STR_DT, 4) = #{year} AND C.CORP_PJT_NM LIKE '%법인운영%'
+              AND B.BUDGET_SN LIKE '1%'
+              AND A.DOC_STATUS = 100
+              AND DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = #{baseYear}
+            GROUP BY A.PAY_APP_SN
+        ) AA
+        ORDER BY AA.ORDER_SN, AA.EXP_DE, AA.F_KEY_SN
     </select>
 
     <insert id="insExpStatus" parameterType="map">
         /*insExpStatus*/
         INSERT INTO CAM_MNG.DJ_EXP_STATUS
         (
+            BUDGET_TYPE,
             GUBUN,
             F_KEY_TYPE,
             F_KEY_SN,
@@ -1541,6 +1631,7 @@
         )
         VALUES
         (
+            #{budgetType},
             #{gubun},
             #{fKeyType},
             #{fKeySn},

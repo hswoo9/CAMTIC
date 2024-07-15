@@ -75,6 +75,8 @@ public interface AchieveService {
 
     List<Map<String, Object>> getIncpExpList(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpExpList(Map<String, Object> params);
+
     void insExpStatus(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
