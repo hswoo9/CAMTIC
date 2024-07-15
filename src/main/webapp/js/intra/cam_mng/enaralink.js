@@ -7,7 +7,7 @@ var enaralink = {
         selData: ""
     },
 
-    fn_defaultScript: function () {
+        fn_defaultScript: function () {
 
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
@@ -49,15 +49,25 @@ var enaralink = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getPayAppList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function() {
+                parameterMap: function(data) {
 
-                    return ;
+                    data.strDt = $("#fromMonth").val();
+                    data.endDt = $("#endMonth").val();
+
+                    return data;
                 }
-
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -70,9 +80,10 @@ var enaralink = {
             height : 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
+            resizable : true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -119,9 +130,9 @@ var enaralink = {
                     width: 100,
                     template : function(dataItem) {
                         if (dataItem.KUKGO_STATE === "전송완료" || dataItem.KUKGO_STATE === '전송진행중' || dataItem.KUKGO_STATE === '전송실패') {
-                            return "<input type='button' class='btnChoice' value='확인' onclick='enaralink.fn_openSubmitPage(this);'>";
+                            return "<input type='button' class='btnChoice k-button k-button-solid-base' value='확인' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>";
                         } else {
-                            return "<input type='button' class='btnChoice' value='전송' onclick='enaralink.fn_openSubmitPage(this);'>";
+                            return "<input type='button' class='btnChoice k-button k-button-solid-base' value='전송' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>";
                         }
                     },
                     locked: true,
@@ -133,35 +144,58 @@ var enaralink = {
                         {
                             field: "",
                             title: "상태",
-                            width: 70
+                            width: 70,
+                            template:function(e){
+                                return '미전송'
+                            }
                         }, {
-                            field: "",
+                            field: "EMP_NAME",
                             title: "결의자",
                             width: 70
                         }, {
-                            field: "",
+                            field: "DOC_NO",
                             title: "문서번호",
                             width: 150
                         }, {
-                            field: "",
+                            field: "DOC_TITLE",
                             title: "문서제목",
                             width: 300
                         },{
-                            field: "",
+                            field: "PJT_NM",
                             title: "프로젝트",
                             width: 150
                         },  {
-                            field: "",
+                            field: "BUDGET_NM",
                             title: "예산과목",
                             width: 150
                         }, {
-                            field: "",
+                            field: "EVID_TYPE",
                             title: "결재수단",
-                            width: 80
+                            width: 80,
+                            template : function (e){
+                                if(e.EVID_TYPE == 1){
+                                    return "세금계산서"
+                                } else if (e.EVID_TYPE == 2){
+                                    return "계산서"
+                                } else if(e.EVID_TYPE == 3){
+                                    return "신용카드"
+                                } else if(e.EVID_TYPE == 4){
+                                    return "직원지급"
+                                } else if(e.EVID_TYPE == 5){
+                                    return "사업소득자"
+                                } else if(e.EVID_TYPE == 6){
+                                    return "기타"
+                                } else if(e.EVID_TYPE == 9) {
+                                    return "기타소득자";
+                                }
+                            }
                         }, {
                             field: "",
                             title: "금액",
-                            width: 100
+                            width: 100,
+                            template : function (e){
+                                return '<div style="text-align: right">'+enaralink.comma(e.TOT_COST)+'</div>'
+                            }
                         }]
                 },
                 {
@@ -217,12 +251,17 @@ var enaralink = {
         }).data("kendoGrid");
     },
 
-   fn_openSubmitPage : function(e) {
+    fn_openSubmitPage : function(e) {
         var url = "/mng/newResolutionSubmitPage.do";
         var name = "newResolutionSubmitPage";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
-   }
+    },
+
+    comma : function(str){
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
 
 
 

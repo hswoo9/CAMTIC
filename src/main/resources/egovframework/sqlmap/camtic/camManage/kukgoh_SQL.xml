@@ -43,4 +43,74 @@
                 #{cntcSn}, #{cmmnObjA}, #{cmmnObjB}, #{regEmpSeq}
             )
     </insert>
+
+    <select id="getPayAppList" parameterType="map" resultType="map">
+        /*getPayAppList*/
+        SELECT
+            A.PAY_APP_DET_SN,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.REG_EMP_SEQ) AS EMP_NAME,
+            C.DOC_NO,
+            C.DOC_TITLE,
+            B.PJT_NM,
+            A.BUDGET_NM,
+            A.EVID_TYPE,
+            A.TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET A
+        LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO C ON B.DOC_ID = C.DOC_ID
+        WHERE
+            B.DOC_STATUS = 100
+        AND
+            DATE_FORMAT(B.REG_DT, '%Y-%m-%d') BETWEEN #{strDt} AND #{endDt}
+    </select>
+
+    <select id="getEnaraBudgetCdList" parameterType="map" resultType="map">
+        /*getEnaraBudgetCdList*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_ERP_ASSTN_EXPITM_TAXITM
+        WHERE
+            FSYR = #{fsYear}
+          AND
+            (ASSTN_EXPITM_NM LIKE CONCAT('%', #{bgNm}, '%') OR ASSTN_TAXITM_NM LIKE CONCAT('%', #{bgNm}, '%'))
+    </select>
+
+    <delete id="delEnaraBudgetCode" parameterType="map">
+        /*delEnaraBudgetCode*/
+        DELETE FROM CAM_ERP.DJ_BUDGET_CODE WHERE BUDGET_SN = #{budgetSn} AND FSYR = #{fsyr}
+    </delete>
+
+    <insert id="insEnaraBudgetCode" parameterType="map">
+        /*insEnaraBudgetCode*/
+        INSERT INTO CAM_ERP.DJ_BUDGET_CODE
+            (
+                BUDGET_SN,
+                FSYR,
+                CNTC_SN,
+                ASSTN_EXPITM_TAXITM_CODE,
+                ASSTN_EXPITM_NM,
+                ASSTN_TAXITM_NM
+            )
+        VALUES
+            (
+                #{budgetSn},
+                #{fsyr},
+                #{cntcSn},
+                #{asstnExpitmTaxitmCode},
+                #{asstnExpitmNm},
+                #{asstnTaxitmNm}
+            )
+    </insert>
+
+    <select id="getEnaraBudgetCdData" parameterType="map" resultType="map">
+        /*getEnaraBudgetCdData*/
+        SELECT * FROM CAM_ERP.DJ_BUDGET_CODE WHERE BUDGET_SN = #{BGT_CD}
+    </select>
+
+    <delete id="delBudgetCodeMatch" parameterType="map">
+        /*delBudgetCodeMatch*/
+        DELETE FROM CAM_ERP.DJ_BUDGET_CODE WHERE BG_SN = #{bgSn}
+    </delete>
 </mapper>

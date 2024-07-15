@@ -911,4 +911,13 @@
         /*getG20BudgetSum*/
         SELECT SUM(CF_AM) AS TOT_COST, DRCR_FG FROM DZICUBE.DBO.ABGT A LEFT JOIN DZICUBE.DBO.SBGTCD B ON A.BGT_CD = B.BGT_CD WHERE A.MGT_CD = #{pjtCd} GROUP BY B.DRCR_FG
     </select>
+
+    <select id="getBudgetGroupList" parameterType="map" resultType="map">
+        /*getBudgetGroupList*/
+        SELECT t.*
+        FROM dbo.VN_G20SBGTCD_INFO t
+        WHERE GROUP_CD = 'T000' AND GR_FG = 2
+    </select>
+
+
 </mapper>
