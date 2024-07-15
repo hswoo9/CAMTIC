@@ -663,7 +663,26 @@ var purcInfo = {
                     title: "상태",
                     width: 50,
                     template : function(e) {
-                        return "미지급";
+                        console.log(e);
+                        var stat = "";
+                        if(e.F_DOC_STATUS == "100"){
+                            stat = "결재완료"
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.RE_STAT == 'Y'){
+                                stat = "지출완료";
+                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
+                                stat = "부분지출";
+                            } else if (e.EXNP_STATUS != 0){
+                                stat = "지출대기";
+                            }
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            stat = "결재중"
+                        } else if(e.DOC_STATUS == "30"){
+                            stat = "반려"
+                        } else {
+                            stat = "작성중"
+                        }
+
+                        return stat;
                     }
                 }, {
                     field: "F_PAY_APP_SN",
