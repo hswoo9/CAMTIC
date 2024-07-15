@@ -6,7 +6,9 @@ var newResolutionSubmitPage = {
 
     fn_defaultScript: function () {
         customKendo.fn_datePicker("EXCUT_REQUST_DE", "depth", "yyyy-MM-dd", new Date());
-        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #PRUF_SE_NO, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_SE_CODE, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #TRANSFR_ACNUT_SE_CODE, #SBSACNT_TRFRSN_CODE, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE").kendoTextBox();
+        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #PRUF_SE_NO, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #TRANSFR_ACNUT_SE_CODE, #SBSACNT_TRFRSN_CODE, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE").kendoTextBox();
+
+        $("#EXCUT_TY_SE_CODE").val("20")
 
         $("#PRUF_SE_CODE").kendoDropDownList({
             dataTextField: "text",
@@ -18,8 +20,27 @@ var newResolutionSubmitPage = {
                 {text: "보조금전용카드", value: "3"},
                 {text: "기타", value: ""}
             ],
-            index: 0
+            index: 0,
+            change : function(e){
+                if(this.value() == "3"){
+                    $("#EXCUT_TY_SE_CODE").val("22")
+                } else {
+                    $("#EXCUT_TY_SE_CODE").val("20")
+                }
+            }
         });
+
+        $("#BCNC_SE_CODE").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "법인사업자", value: "001"},
+                {text: "개인사업자", value: "002"},
+                {text: "개인", value: "003"},
+                {text: "해외", value: "004"},
+            ],
+            index: 0,
+        })
 
 
         newResolutionSubmitPage.fn_setData();
@@ -81,6 +102,10 @@ var newResolutionSubmitPage = {
                 var rs = rs.rs;
                 var pad = rs.payAppData;
                 var pi = rs.projectInfo;
+                var ebd = rs.enaraBgtData;
+                var eed = rs.enaraExcData;
+
+                var ebi = rs.enaraBankInfo;
                 console.log(rs);
                 $("#korNm").val(pad.EMP_NAME);
                 $("#empSeq").val(pad.REG_EMP_SEQ);
@@ -92,7 +117,7 @@ var newResolutionSubmitPage = {
                 $("#kukgoPjtNm").val(pi.DDTLBZ_NM);
                 $("#pjtNm").val(pi.PJT_NM);
 
-                $("#abgtNm").val(pad.BUDGET_NM);
+                $("#abgtNm").val(pad.BGT_NM);
 
                 if(pad.EVID_TYPE == "1"){
                     $("#setFgNm").val("세금계산서");
@@ -121,7 +146,31 @@ var newResolutionSubmitPage = {
                     $("#vatFgNm").val("비과세");
                 }
 
-                $("#unitAm").val(comma(pad.BUDGET_AMT));
+                $("#unitAm").val(comma(pad.TOT_COST));
+                $("#ASSTN_TAXITM_CODE_NM").val((ebd.ASSTN_TAXITM_NM || ""))
+                $("#BSNSYEAR").val((pi.BSNSYEAR || ""));
+                $("#FILE_ID").val((ebd.FILE_ID || ""));
+                $("#DDTLBZ_ID").val((pi.DDTLBZ_ID || ""));
+                $("#EXC_INSTT_ID").val((eed.EXC_INSTT_ID || ""));
+                $("#BCNC_BANK_CODE").val((ebi.CMMN_DETAIL_CODE || ""));
+                $("#EXCUT_SPLPC").val(comma(pad.SUP_COST));
+                $("#EXCUT_VAT").val(comma(pad.VAT_COST));
+                $("#EXCUT_SUM_AMOUNT").val(comma(pad.TOT_COST));
+                $("#INTRFC_ID").val("IF-EXE-EFR-0074");
+                $("#PJT_CD").val(pi.PJT_CD);
+                $("#PREPAR").val("") // 예비
+                $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
+                $("#ASSTN_TAXITM_CODE").val(ebd.ASSTN_TAXITM_CODE) // IF-CMM-EFS-0062 인터페이스의 보조비목세목코드
+                $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
+                $("#FNRSC_SE_CODE").val("")// 재원구분코드
+                $("#ACNUT_OWNER_NM").val("");
+                $("#ETXBL_CONFM_NO").val("") // 전자세금계산서 승인번호
+                $("#TAXITM_FNRSC_CNT").val("") // 집행연계ID별 비목세목별 재원건수
+
+                $("#SUM_AMOUNT").val(comma(pad.TOT_COST));
+                $("#SPLPC").val(comma(pad.SUP_COST));
+                $("#VAT").val(comma(pad.VAT_COST));
+                $("#CO_CD").val(1212);
 
             }
         });

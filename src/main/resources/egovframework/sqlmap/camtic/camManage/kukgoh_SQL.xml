@@ -178,12 +178,22 @@
             DATE_FORMAT(A.APPROVAL_DATE, '%Y-%m-%d') AS APP_DE,
             (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
             B.BUDGET_NM AS BGT_NM,
+            B.BUDGET_SN AS BGT_SN,
             B.EVID_TYPE,
-            B.BUDGET_AMT
+            B.TOT_COST,
+            B.SUP_COST,
+            B.VAT_COST,
+            B.CRM_BNK_NM,
+            B.CRM_SN,
+            B.CRM_NM,
+            B.REG_NO,
+            B.TR_CD,
+            C.*
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
             CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON B.CRM_SN = C.CRM_SN
         WHERE
             B.PAY_APP_DET_SN = #{payAppDetSn}
     </select>
@@ -195,8 +205,48 @@
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_SN = B.PJT_SN
-        LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_CD = C.PJT_CD
+        LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
             A.PJT_CD = #{PJT_CD}
+    </select>
+
+    <select id="getEnaraBgtDataByPayAppData" parameterType="map" resultType="map">
+        /*getEnaraBgtDataByPayAppData*/
+        SELECT
+            T.*
+        FROM
+            CAM_ERP.DJ_BUDGET_CODE T
+        WHERE
+            BUDGET_SN = #{BGT_SN}
+    </select>
+
+    <select id="getEnaraExcDataByEnaraProjectData" parameterType="map" resultType="map">
+        /*getEnaraExcDataByEnaraProjectData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_BSRSLT_EXC_INSTT_ERP A
+        WHERE
+            DDTLBZ_ID = #{DDTLBZ_ID}
+    </select>
+
+    <select id="getEnaraBankInfoByPayAppData" parameterType="map" resultType="map">
+        /*getEnaraBankInfoByPayAppData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL
+        WHERE
+            CMMN_CODE = 1070 AND CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM}
+    </select>
+
+    <select id="getCrmDataByPayAppData" parameterType="map" resultType="map">
+        /*getCrmDataByPayAppData*/
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            CRM_SN = #{CRM_SN}
     </select>
 </mapper>

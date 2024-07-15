@@ -87,4 +87,24 @@ public class KukgohRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("kukgoh.getPayAppDataByPayAppDetSn", params);
     }
+
+    public Map<String, Object> getEnaraBgtDataByPayAppData(Map<String, Object> payAppData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEnaraBgtDataByPayAppData", payAppData);
+    }
+
+    public Map<String, Object> getEnaraExcDataByEnaraProjectData(Map<String, Object> projectInfo) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEnaraExcDataByEnaraProjectData", projectInfo);
+    }
+
+    public Map<String, Object> getEnaraBankInfoByPayAppData(Map<String, Object> payAppData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEnaraBankInfoByPayAppData", payAppData);
+    }
+
+    public Map<String, Object> getCrmDataByPayAppData(Map<String, Object> payAppData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getCrmDataByPayAppData", payAppData);
+    }
 }

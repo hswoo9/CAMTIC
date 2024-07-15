@@ -47,15 +47,15 @@
 					</td>
 				</tr>
 				<tr>
-					<th>발의번호</th>
-					<td>
-						<input type="text" id="gisuSeq" style="width:30%" value='${data.GISU_SQ}' title="${data.GISU_SQ}" readonly name = "GISU_SQ" disabled/> -
-						<input type="text" style="width:30%"  id="BG_SQ" value='${data.BG_SQ}' name = "BG_SQ" readonly disabled/>
-						<input type="hidden" id="stateYn" value="${data.KUKGO_STATE == '미전송' ? 'N' : 'Y'}"  name = "KUKGO_STATE_YN"/>
-					</td>
+<%--					<th>발의번호</th>--%>
+<%--					<td>--%>
+<%--						<input type="text" id="gisuSeq" style="width:30%" value='${data.GISU_SQ}' title="${data.GISU_SQ}" readonly name = "GISU_SQ" disabled/> ---%>
+<%--						<input type="text" style="width:30%"  id="BG_SQ" value='${data.BG_SQ}' name = "BG_SQ" readonly disabled/>--%>
+<%--						<input type="hidden" id="stateYn" value="${data.KUKGO_STATE == '미전송' ? 'N' : 'Y'}"  name = "KUKGO_STATE_YN"/>--%>
+<%--					</td>--%>
 					<th>문서번호</th>
-					<td>
-						<input type="text" style="width:70%"  id="docNumber" value='${data.DOC_NUMBER}'  title="${data.DOC_NUMBER}" readonly name="DOC_NUMBER" disabled/>
+					<td colspan="3">
+						<input type="text" style="width:35%"  id="docNumber" value='${data.DOC_NUMBER}'  title="${data.DOC_NUMBER}" readonly name="DOC_NUMBER" disabled/>
 <%--						<input type="button" id="docView" value='문서보기' />--%>
 					</td>
 				</tr>

@@ -109,11 +109,26 @@ public class KukgohServiceImpl implements KukgohService {
 
         Map<String, Object> result = new HashMap<>();
 
-        Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
+                Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
         result.put("payAppData", payAppData);
+
+        Map<String, Object> crmData = new HashMap<>();
+        if(!"".equals(payAppData.get("CRM_SN").toString()) && payAppData.get("CRM_SN") != null){
+            crmData = g20Repository.getTradeInfo(payAppData);
+            result.put("crmData", crmData);
+        }
+
+        Map<String, Object> enaraBankInfo = kukgohRepository.getEnaraBankInfoByPayAppData(payAppData);
+        result.put("enaraBankInfo", enaraBankInfo);
+
+        Map<String, Object> enaraBgtData = kukgohRepository.getEnaraBgtDataByPayAppData(payAppData);
+        result.put("enaraBgtData", enaraBgtData);
 
         Map<String, Object> projectInfo = kukgohRepository.getProjectDataByPayAppDetSn(payAppData);
         result.put("projectInfo", projectInfo);
+
+        Map<String, Object> enaraExcData = kukgohRepository.getEnaraExcDataByEnaraProjectData(projectInfo);
+        result.put("enaraExcData", enaraExcData);
 
         return result;
     }
