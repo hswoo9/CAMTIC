@@ -24,7 +24,6 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="regJobDetailName" value="${loginVO.jobDetailNm}"/>
 
-
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -162,9 +161,6 @@
 
         for(var i = 0 ; i < list.length ; i++) {
             const map = list[i];
-            if(map.EMP_NAME_KR == "김민정"){
-                console.log("map", map);
-            }
             var scoreF;
             var scoreS;
 
@@ -184,7 +180,6 @@
             let bMemPer = data.TEAM_MEMBER_B;
 
             if(map.EVAL_EVAL_F_SEQ == "undefined" || map.EVAL_EVAL_F_SEQ == ""){
-                console.log(map.EMP_NAME_KR+"님은 1차평가자가 없습니다.");
                 aDeptPer = 0;
                 bDeptPer = 100;
                 aTeamPer = 0;
@@ -192,7 +187,6 @@
                 aMemPer = 0;
                 bMemPer = 100;
             }else if(map.EVAL_EVAL_S_SEQ == "undefined" || map.EVAL_EVAL_S_SEQ == ""){
-                console.log(map.EMP_NAME_KR+"님은 2차평가자가 없습니다.");
                 aDeptPer = 100;
                 bDeptPer = 0;
                 aTeamPer = 100;
@@ -200,7 +194,6 @@
                 aMemPer = 100;
                 bMemPer = 0;
             }else if(map.EVAL_EVAL_F_SEQ == map.EVAL_EVAL_S_SEQ){
-                console.log(map.EMP_NAME_KR+"님은 1차평가자와 2차평가자가 같습니다.");
                 aDeptPer = 0;
                 bDeptPer = 100;
                 aTeamPer = 0;
@@ -262,11 +255,6 @@
 
                 if(Number(scItem.EVAL_SCORE_B) >= Number(totalScore) && Number(totalScore) >= Number(scItem.EVAL_SCORE_A)){
                     grade = scItem.EVAL_GRADE;
-                }
-
-                if(map.EMP_SEQ == "1160"){
-                    console.log("scItem", scItem);
-                    console.log("totalScore", totalScore);
                 }
             }
 
