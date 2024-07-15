@@ -1433,6 +1433,134 @@
         ) AA
     </select>
 
+    <select id="getIncpExpList" parameterType="map" resultType="map">
+        /*getIncpExpList*/
+        SELECT * FROM
+        (
+            SELECT
+                '1' AS ORDER_SN,
+                '민간사업' AS GUBUN,
+                B.BUSN_NM,
+                'PAY_INCP_SN' AS F_KEY_TYPE,
+                C.PAY_INCP_SN,
+                B.PJT_NM,
+                A.CRM_NM,
+                A.DEPO_AMT,
+                A.PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_PAY_DEPO A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP C ON A.PAY_INCP_SN = C.PAY_INCP_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET D ON C.PAY_INCP_SN = D.PAY_INCP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = C.PAY_INCP_SN AND ES.F_KEY_TYPE = 'PAY_INCP_SN'
+            WHERE 1=1
+                AND B.BUSN_CLASS IN ('D', 'V')
+                AND DATE_FORMAT(A.PAY_INCP_DE, '%Y-%m') = #{baseYear}
+                AND A.ORG_YN = 'N'
+                AND C.RE_STAT = 'N'
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            UNION ALL
+            SELECT
+                '2' AS ORDER_SN,
+                '정부사업' AS GUBUN,
+                '인건비' AS BUSN_NM,
+                'PAY_APP_SN' AS F_KEY_TYPE,
+                D.PAY_APP_SN,
+                B.PJT_NM,
+                CASE
+                    WHEN (SELECT COUNT (CRM_NM) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN) > 1
+                        THEN CONCAT((SELECT CRM_NM FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN LIMIT 1), ' 외 ', (SELECT COUNT (CRM_NM) - 1 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN))
+                    ELSE (SELECT CRM_NM FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = D.PAY_APP_SN LIMIT 1)
+                END AS CRM_NM,
+                CASE
+                    WHEN '01' = #{month} THEN IFNULL(SUM(A.MON_PAY_1), 0) WHEN '02' = #{month} THEN IFNULL(SUM(A.MON_PAY_2), 0)
+                    WHEN '03' = #{month} THEN IFNULL(SUM(A.MON_PAY_3), 0) WHEN '04' = #{month} THEN IFNULL(SUM(A.MON_PAY_4), 0)
+                    WHEN '05' = #{month} THEN IFNULL(SUM(A.MON_PAY_5), 0) WHEN '06' = #{month} THEN IFNULL(SUM(A.MON_PAY_6), 0)
+                    WHEN '07' = #{month} THEN IFNULL(SUM(A.MON_PAY_7), 0) WHEN '08' = #{month} THEN IFNULL(SUM(A.MON_PAY_8), 0)
+                    WHEN '09' = #{month} THEN IFNULL(SUM(A.MON_PAY_9), 0) WHEN '10' = #{month} THEN IFNULL(SUM(A.MON_PAY_10), 0)
+                    WHEN '11' = #{month} THEN IFNULL(SUM(A.MON_PAY_11), 0) WHEN '12' = #{month} THEN IFNULL(SUM(A.MON_PAY_12), 0)
+                END AS DEPO_AMT,
+                D.PAY_EXNP_DE AS PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_PJT_MNG.DJ_PART_PAY_MON A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_APP_BS_YM C ON A.PJT_SN = C.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_APP D ON C.PAY_APP_SN = D.PAY_APP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = D.PAY_APP_SN AND ES.F_KEY_TYPE = 'PAY_APP_SN'
+            WHERE 1=1
+                AND B.BUSN_CLASS IN ('R', 'S')
+                AND A.BS_YEAR = '2024'
+                AND DATE_FORMAT(D.PAY_EXNP_DE, '%Y-%m') = #{baseYear}
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            GROUP BY A.PJT_SN
+            UNION ALL
+            SELECT
+                '3' AS ORDER_SN,
+                '정부사업' AS GUBUN,
+                '간접비' AS BUSN_NM,
+                'EXNP_SN' AS F_KEY_TYPE,
+                A.EXNP_SN,
+                A.PJT_NM,
+                CASE
+                    WHEN COUNT (C.CRM_NM) > 1 THEN CONCAT(C.CRM_NM, ' 외 ', COUNT (CRM_NM) - 1 )
+                    ELSE CRM_NM
+                END AS CRM_NM,
+                SUM(C.TOT_COST) AS DEPO_AMT,
+                A.EXNP_DE AS PAY_INCP_DE,
+                ES.EXP_SN,
+                IFNULL(ES.STATUS, 'A') AS STATUS
+            FROM CAM_MNG.DJ_EXNP A
+            LEFT JOIN CAM_PJT_MNG.DJ_PROJECT B ON A.PJT_CD = B.PJT_CD
+            LEFT JOIN CAM_MNG.DJ_EXNP_DET C ON A.EXNP_SN = C.EXNP_SN
+            LEFT JOIN CAM_MNG.DJ_EXP_STATUS ES ON ES.F_KEY_SN = A.EXNP_SN AND ES.F_KEY_TYPE = 'EXNP_SN'
+            WHERE 1=1
+                AND B.BUSN_CLASS IN ('R', 'S')
+                AND DATE_FORMAT(A.EXNP_DE, '%Y-%M') = #{baseYear}
+                AND C.BUDGET_SN = '581826'
+                AND B.PARENT_PJT_SN IS NULL
+                AND B.TEAM_STAT = 'N'
+            GROUP BY A.EXNP_SN
+        ) AA
+        ORDER BY AA.ORDER_SN, AA.PAY_INCP_DE
+    </select>
+
+    <insert id="insExpStatus" parameterType="map">
+        /*insExpStatus*/
+        INSERT INTO CAM_MNG.DJ_EXP_STATUS
+        (
+            GUBUN,
+            F_KEY_TYPE,
+            F_KEY_SN,
+            STATUS,
+            REG_EMP_SEQ,
+            REG_DT
+        )
+        VALUES
+        (
+            #{gubun},
+            #{fKeyType},
+            #{fKeySn},
+            #{status},
+            #{regEmpSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="updExpStatus" parameterType="map">
+        /*updExpStatus*/
+        UPDATE CAM_MNG.DJ_EXP_STATUS
+        SET
+            STATUS = #{status},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            EXP_SN = #{expSn}
+    </update>
+
     <select id="getPurcClaimList" parameterType="map" resultType="map">
         /* getPurcClaimList */
         SELECT

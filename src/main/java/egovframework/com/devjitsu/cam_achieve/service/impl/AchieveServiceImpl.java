@@ -625,6 +625,20 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getIncpExpList(Map<String, Object> params) {
+        return achieveRepository.getIncpExpList(params);
+    }
+
+    @Override
+    public void insExpStatus(Map<String, Object> params) {
+        if(params.containsKey("expSn")) {
+            achieveRepository.updExpStatus(params);
+        } else {
+            achieveRepository.insExpStatus(params);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
         return achieveRepository.getPurcClaimList(params);
     }
