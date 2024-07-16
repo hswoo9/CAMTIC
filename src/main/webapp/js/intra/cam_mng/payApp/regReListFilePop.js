@@ -180,7 +180,9 @@ const regReListFilePop = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regReListFilePop.fn_delFile(' + fileArray[i].file_no + ')">'
+                    if(!fileArray[i].DOC_YN){
+                        html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regReListFilePop.fn_delFile(' + fileArray[i].file_no + ')">'
+                    }
                     html += '   </td>';
                 }
                 html += '</tr>';

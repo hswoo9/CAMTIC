@@ -2548,7 +2548,8 @@
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
         /*getPayAppDocFileList*/
         SELECT
-            *
+            *,
+            'Y' AS DOC_YN
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE 1=1
