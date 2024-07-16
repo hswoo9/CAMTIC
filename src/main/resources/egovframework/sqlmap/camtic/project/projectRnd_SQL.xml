@@ -366,7 +366,8 @@
         SELECT
             A.*, B.*,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            IFNULL((SELECT SUM(CB_BUDGET) FROM CAM_PJT_MNG.DJ_PJT_CB WHERE CARRYOVER_CK = 'Y' AND PJT_SN = A.PJT_SN), 0) AS CARRYOVER_COST
         FROM
             CAM_PJT_MNG.DJ_PJT_RND A
         LEFT JOIN
@@ -1096,5 +1097,16 @@
         /*delDevSch*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_DEV_SCH WHERE DEV_SCH_SN = #{devSchSn}
     </delete>
+
+    <update id="carryoverApp" parameterType="map">
+        /*carryoverApp*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_CB
+        SET
+            CARRYOVER_CK = #{stat}
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND CB_SN IN (${bgtList})
+    </update>
 
 </mapper>

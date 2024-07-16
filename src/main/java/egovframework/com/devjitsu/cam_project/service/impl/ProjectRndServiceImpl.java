@@ -818,6 +818,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         projectRndRepository.delDevSch(params);
     }
 
+    @Override
+    public void carryoverApp(Map<String, Object> params) {
+        projectRndRepository.carryoverApp(params);
+    }
+
     private void setPsCheck(Map<String, Object> params, String menuGroupId, String url, String type, String pk) {
         /** 승인함 */
         params.put("authorityGroupId", menuGroupId);
