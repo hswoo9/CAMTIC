@@ -344,13 +344,38 @@ public class PayAppServiceImpl implements PayAppService {
                 Map<String, Object> map = new HashMap<>();
                 params.put("payAppDetSn", payAppDetSn);
                 map = payAppRepository.getPayAppDetailInfo(params);
+
+                if(map.get("EVID_TYPE").equals("1") || map.get("EVID_TYPE").equals("2") || map.get("EVID_TYPE").equals("3")){
+                    Map<String, Object> tempMap = g20Repository.getClientInfoOne(map);
+
+                    if(tempMap != null){
+                        map.put("TR_CD", tempMap.get("TR_CD"));
+                    } else {
+                        map.put("TR_CD", "");
+                    }
+                }
+
                 list.add(map);
             }
 
 
             return list;
         } else {
-            return payAppRepository.getPayAppDetailData(params);
+            for(Map<String, Object> map : payAppRepository.getPayAppDetailData(params)){
+
+                if(map.get("EVID_TYPE").equals("1") || map.get("EVID_TYPE").equals("2") || map.get("EVID_TYPE").equals("3")){
+                    Map<String, Object> tempMap = g20Repository.getClientInfoOne(map);
+
+                    if(tempMap != null){
+                        map.put("TR_CD", tempMap.get("TR_CD"));
+                    } else {
+                        map.put("TR_CD", "");
+                    }
+                }
+
+                list.add(map);
+            }
+            return list;
         }
 
     }
