@@ -178,26 +178,44 @@ var costInfo = {
             $("#PJT_AMT2").text(comma(e.PJT_AMT));
         }
 
-        /** 달성매출액 */
         if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
+
+            /** 달성매출액 */
             $("#RES_AMT").text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
+
+            /** 달성운영수익 */
+            $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+
+            /** 예상매출잔액 */
+            $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
+
+            /** 예상운영수익 */
+            $("#DEV_NOT_INV_AMT").text(comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+
         }else{
+            /** 공통 변수 */
+            const date = new Date();
+            const year = date.getFullYear().toString().substring(2, 4);
+
+            /** 사업비 분리사용 유무 확인 */
             const result2 = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {pjtSn: pjtSn});
             const list = result2.list;
             let arr = []
             for(let i=0; i<list.length; i++){
                 arr.push($("#costMgtCd").val().slice(0, -1) + list[i].IS_TYPE);
             }
-
             if(list.length == 0){
                 arr.push($("#costMgtCd").val());
             }
             console.log("arr : ", arr);
 
+            /** g20 지출완료 금액 */
             let amt = 0;
+            /** g20 수익비용설정된 금액 */
+            let setAmt = 0;
+
+            /** 달성매출액 */
             for(let i=0; i<arr.length; i++){
-                const date = new Date();
-                const year = date.getFullYear().toString().substring(2, 4);
                 const result3 = customKendo.fn_customAjax("/g20/getSubjectList", {
                     stat: "project",
                     gisu: year,
@@ -213,18 +231,38 @@ var costInfo = {
                 });
                 const g20List = result3.list;
                 console.log("g20List : ", g20List);
+
+                const bgtInfo = customKendo.fn_customAjax("/mng/getProjectBgtList", {
+                    pjtSn: arr[i]
+                });
+                const bgtList = bgtInfo.list;
+                console.log("bgtList : ", bgtList);
+
                 for(let j=0; j<g20List.length; j++){
                     const jMap = g20List[j];
-                    console.log("jMap : ", jMap);
                     if(jMap.DIV_FG_NM == "장"){
                         amt += Number(jMap.ACCT_AM_3);
-                        if(jMap.DISP_BGT_NM == "인건비"){
+                        if(jMap.BGT_NM == "인건비"){
                             g20A += Number(jMap.ACCT_AM_3);
-                        }else if(jMap.DISP_BGT_NM == "직접비"){
+                        }else if(jMap.BGT_NM == "직접비"){
                             g20B += Number(jMap.ACCT_AM_3);
                         }
-                    }else if(jMap.DIV_FG_NM == "관" && jMap.BGT_NM == "간접비"){
-                        g20C += Number(jMap.ACCT_AM_3);
+                    }else if(jMap.DIV_FG_NM == "항"){
+                        for (let k=0; k<bgtList.length; k++){
+                            const kMap = bgtList[k];
+                            if (jMap.BGT_CD == kMap.BGT_CD){
+                                setAmt += Number(jMap.CALC_AM);
+                            }
+                        }
+
+                        if(jMap.BGT_CD != null && jMap.BGT_CD[0] == "5"){
+                            for (let k=0; k<bgtList.length; k++){
+                                const kMap = bgtList[k];
+                                if (jMap.BGT_CD == kMap.BGT_CD && kMap.BGT_AT == "1"){
+                                    g20C += Number(jMap.ACCT_AM_3);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -233,22 +271,27 @@ var costInfo = {
             }else{
                 $("#RES_AMT").text(comma(amt));
             }
-        }
 
-        /** 달성운영수익 */
-        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V") {
-            $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
-        }else{
-            let amt = 0;
+            /** 달성운영수익 */
+            let amt2 = 0;
             console.log("g20A", g20A);
             console.log("g20C", g20C);
             console.log("g20B", g20B);
             console.log("Number(uncomma($(\"#invSum\").text()))", Number(uncomma($("#invSum").text())));
-            amt = (g20A + g20C) + (g20B - Number(uncomma($("#invSum").text())));
-            $("#RES_NOT_INV_AMT").text(comma(amt));
+            amt2 = (g20A + g20C) + (g20B - Number(uncomma($("#invSum").text())));
+            $("#RES_NOT_INV_AMT").text(comma(amt2));
+
+            /** 예상매출잔액 */
+            let devAmt = 0;
+            devAmt = Number(e.PJT_AMT || 0) - amt;
+            $("#DEV_AMT").text(comma(devAmt));
+
+            /** 예상운영수익 */
+            console.log("setAmt", setAmt);
+            let devNotInvAmt = 0;
+            devNotInvAmt = setAmt - amt;
+            $("#DEV_NOT_INV_AMT").text(comma(devNotInvAmt));
         }
-        $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
-        $("#DEV_NOT_INV_AMT").text(comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
         console.log(Number(e.INV_AMT || 0));
         console.log(Number(e.incpCompAmt || 0));
