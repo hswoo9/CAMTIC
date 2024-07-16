@@ -2546,7 +2546,7 @@
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
-        /*getExnpDocFileList*/
+        /*getPayAppDocFileList*/
         SELECT
             *
         FROM
