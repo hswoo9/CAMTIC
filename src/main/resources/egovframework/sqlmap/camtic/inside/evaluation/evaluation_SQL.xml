@@ -1218,8 +1218,8 @@
                 ELSE CONCAT(TEAM_MEMBER_A,' %')
             END AS EVAL_F_PERCENT,
             CASE
-                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1)
-                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1)
+                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE) * 10) / 10
+                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE) * 10) / 10
                 ELSE ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1)
             END AS EVAL_F_CONVERT,
             CASE
@@ -1228,23 +1228,23 @@
                 ELSE CONCAT(TEAM_MEMBER_B,' %')
             END AS EVAL_S_PERCENT,
             CASE
-                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1)
-                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1)
-                ELSE ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1)
+                WHEN DUTY_CODE IN (2,3,7) THEN ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE) * 10) / 10
+                WHEN DUTY_CODE IN (4,5) THEN ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE) * 10) / 10
+                ELSE ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE) * 10) / 10
             END AS EVAL_S_CONVERT,
             '0' AS EVAL_T_SCORE,
             '0 %' AS EVAL_T_PERCENT,
             '0' AS EVAL_T_CONVERT,
             CASE
-                WHEN DUTY_CODE IN (2,3,7) THEN FORMAT(ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1),1)
-                WHEN DUTY_CODE IN (4,5) THEN FORMAT(ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1),1)
-                ELSE FORMAT(ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1),1)
+                WHEN DUTY_CODE IN (2,3,7) THEN FLOOR(((DEPT_MANAGER_A / 100 * EVAL_F_SCORE) + (DEPT_MANAGER_B / 100 * EVAL_S_SCORE)) * 100) / 100
+                WHEN DUTY_CODE IN (4,5) THEN FLOOR(((TEAM_MANAGER_A / 100 * EVAL_F_SCORE) + (TEAM_MANAGER_B / 100 * EVAL_S_SCORE)) * 100) / 100
+                ELSE FLOOR(((TEAM_MEMBER_A / 100 * EVAL_F_SCORE) + (TEAM_MEMBER_B / 100 * EVAL_S_SCORE)) * 100) / 100
                 END AS EVAL_TOTAL,
 
             CASE
-                WHEN DUTY_CODE IN (2,3,7) THEN FORMAT(ROUND((DEPT_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((DEPT_MANAGER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
-                WHEN DUTY_CODE IN (4,5) THEN FORMAT(ROUND((TEAM_MANAGER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MANAGER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
-                ELSE FORMAT(ROUND((TEAM_MEMBER_A / 100 * EVAL_F_SCORE),1) + ROUND((TEAM_MEMBER_B / 100 * EVAL_S_SCORE),1) + EVAL_SCORE_MNG,1)
+                WHEN DUTY_CODE IN (2,3,7) THEN FLOOR(((DEPT_MANAGER_A / 100 * EVAL_F_SCORE) + (DEPT_MANAGER_B / 100 * EVAL_S_SCORE)) * 100) / 100 + EVAL_SCORE_MNG
+                WHEN DUTY_CODE IN (4,5) THEN FLOOR(((TEAM_MANAGER_A / 100 * EVAL_F_SCORE) + (TEAM_MANAGER_B / 100 * EVAL_S_SCORE)) * 100) / 100 + EVAL_SCORE_MNG
+                ELSE FLOOR(((TEAM_MEMBER_A / 100 * EVAL_F_SCORE) + (TEAM_MEMBER_B / 100 * EVAL_S_SCORE)) * 100) / 100 + EVAL_SCORE_MNG
                 END AS EVAL_FINAL_TOTAL,
             '' AS RMK
         FROM
@@ -1258,40 +1258,40 @@
                 A.EVAL_SCORE,
                 A.EVAL_F_SCORE,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
                     WHEN (A.EVAL_EVAL_F_SEQ = EVAL_EVAL_S_SEQ) THEN 0
                     ELSE D.DEPT_MANAGER_A
                 END AS DEPT_MANAGER_A,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
                     WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 0
                     ELSE D.TEAM_MANAGER_A
                 END AS TEAM_MANAGER_A,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
                     WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 0
                     ELSE D.TEAM_MEMBER_A
                 END AS TEAM_MEMBER_A,
                 A.EVAL_S_SCORE,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
                     WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 100
                     ELSE D.DEPT_MANAGER_A
                 END AS DEPT_MANAGER_B,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
                     WHEN (A.EVAL_EVAL_F_SEQ = A.EVAL_EVAL_S_SEQ) THEN 100
                     ELSE D.TEAM_MANAGER_B
                 END AS TEAM_MANAGER_B,
                 CASE
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
-                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
-                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR  A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_F_SEQ IS NULL) THEN 100
+                    WHEN (A.EVAL_EVAL_S_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 0
+                    WHEN (A.EVAL_EVAL_F_SEQ = '' OR A.EVAL_EVAL_S_SEQ IS NULL) THEN 100
                     ELSE D.TEAM_MEMBER_B
                 END AS TEAM_MEMBER_B,
                 0 AS EVAL_T_SCORE,

@@ -621,3 +621,35 @@ function fileViewer(path, fid){
     const option = "width=1300, height=820, top=100, left=400, location=no";
     const popup = window.open(url, name, option);
 }
+
+/** 인사평가 점수 계산용 함수 : 계산오차를 최소화 시키기 위해 사용 */
+function calculateScore(weight, score) {
+    weight = Number(weight);
+    score = Number(score);
+
+    /** 환산 점수 계산 */
+    const calculatedScore = weight / 100 * score;
+
+    /** 소수점 첫째 자리에서 반올림 */
+    const roundedScore = Math.round(calculatedScore * 10) / 10;
+
+    return roundedScore;
+}
+
+function calculatePartScore(score, weight) {
+    score = Number(score);
+    weight = Number(weight);
+
+    const partScore = weight / 100 * score;
+
+    return partScore;
+}
+
+function calculateFinalScore(scoreA, weightA, scoreB, weightB) {
+    const partScoreA = calculatePartScore(scoreA, weightA);
+    const partScoreB = calculatePartScore(scoreB, weightB);
+
+    const totalScore = partScoreA + partScoreB;
+
+    return Math.floor(totalScore * 100) / 100;
+}

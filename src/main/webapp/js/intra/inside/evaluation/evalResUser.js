@@ -38,7 +38,6 @@ var evalResUser = {
         let bMemPer = evalMap.TEAM_MEMBER_B;
 
         if(evalMem.EVAL_EVAL_F_SEQ == "undefined" || evalMem.EVAL_EVAL_F_SEQ == ""){
-            console.log(empName+"님은 1차평가자가 없습니다.");
             aDeptPer = 0;
             bDeptPer = 100;
             aTeamPer = 0;
@@ -46,7 +45,6 @@ var evalResUser = {
             aMemPer = 0;
             bMemPer = 100;
         }else if(evalMem.EVAL_EVAL_S_SEQ == "undefined" || evalMem.EVAL_EVAL_S_SEQ == ""){
-            console.log(empName+"님은 2차평가자가 없습니다.");
             aDeptPer = 100;
             bDeptPer = 0;
             aTeamPer = 100;
@@ -54,7 +52,6 @@ var evalResUser = {
             aMemPer = 100;
             bMemPer = 0;
         }else if(evalMem.EVAL_EVAL_F_SEQ == evalMem.EVAL_EVAL_S_SEQ){
-            console.log(empName+"님은 1차평가자와 2차평가자가 같습니다.");
             aDeptPer = 0;
             bDeptPer = 100;
             aTeamPer = 0;
@@ -68,29 +65,29 @@ var evalResUser = {
         let scoreTot = 0;
 
         if(dutyCode == "2" || dutyCode == "3" || dutyCode == "7"){
-            scoreF = (parseFloat(aDeptPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            scoreF = calculateScore(aDeptPer, evalMem.EVAL_F_SCORE);
             $("#td1-6").text(aDeptPer+" %");
             $("#td1-7").text(scoreF);
         }else if(dutyCode == "4" || dutyCode == "5"){
-            scoreF = (parseFloat(aTeamPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            scoreF = calculateScore(aTeamPer, evalMem.EVAL_F_SCORE);
             $("#td1-6").text(aTeamPer+" %");
             $("#td1-7").text(scoreF);
         }else{
-            scoreF = (parseFloat(aMemPer / 100 * evalMem.EVAL_F_SCORE)).toFixed(1);
+            scoreF = calculateScore(aMemPer, evalMem.EVAL_F_SCORE);
             $("#td1-6").text(aMemPer+" %");
             $("#td1-7").text(scoreF);
         }
 
         if(dutyCode == "2" || dutyCode == "3" || dutyCode == "7"){
-            scoreS = (parseFloat(bDeptPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            scoreS = calculateScore(bDeptPer, evalMem.EVAL_S_SCORE);
             $("#td2-6").text(bDeptPer+" %");
             $("#td2-7").text(scoreS);
         }else if(dutyCode == "4" || dutyCode == "5"){
-            scoreS = (parseFloat(bTeamPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            scoreS = calculateScore(bTeamPer, evalMem.EVAL_S_SCORE);
             $("#td2-6").text(bTeamPer+" %");
             $("#td2-7").text(scoreS);
         }else{
-            scoreS = (parseFloat(bMemPer / 100 * evalMem.EVAL_S_SCORE)).toFixed(1);
+            scoreS = calculateScore(bMemPer, evalMem.EVAL_S_SCORE);
             $("#td2-6").text(bMemPer+" %");
             $("#td2-7").text(scoreS);
         }
@@ -98,7 +95,13 @@ var evalResUser = {
         for(let i=0; i<evalResList.length; i++){
             const map = evalResList[i];
             if(map.EMP_SEQ == evalMem.EVAL_EMP_SEQ){
-                scoreTot = (Number(scoreF) + Number(scoreS) + Number(map.EVAL_SCORE_MNG)).toFixed(1);
+                if(dutyCode == "2" || dutyCode == "3" || dutyCode == "7"){
+                    scoreTot = calculateFinalScore(aDeptPer, evalMem.EVAL_F_SCORE, bDeptPer, evalMem.EVAL_S_SCORE);
+                }else if(dutyCode == "4" || dutyCode == "5"){
+                    scoreTot = calculateFinalScore(aTeamPer, evalMem.EVAL_F_SCORE, bTeamPer, evalMem.EVAL_S_SCORE);
+                }else{
+                    scoreTot = calculateFinalScore(aMemPer, evalMem.EVAL_F_SCORE, bMemPer, evalMem.EVAL_S_SCORE);
+                }
             }
         }
 

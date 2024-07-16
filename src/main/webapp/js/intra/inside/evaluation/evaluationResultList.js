@@ -194,35 +194,21 @@ var evaluationResultList = {
                             bMemPer = 100;
                         }
 
-                        let scoreF = 0;
-                        let scoreS = 0;
                         let scoreTot = 0;
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aDeptPer, e.EVAL_F_SCORE, bDeptPer, e.EVAL_S_SCORE);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aTeamPer, e.EVAL_F_SCORE, bTeamPer, e.EVAL_S_SCORE);
                         }else{
-                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aMemPer, e.EVAL_F_SCORE, bMemPer, e.EVAL_S_SCORE);
                         }
-
-                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else{
-                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }
-
-                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
-
                         return scoreTot;
                     }
                 }, {
                     title: "최종등급",
                     width: 80,
                     template: function (e) {
-
                         let aDeptPer = Number(e.DEPT_MANAGER_A);
                         let bDeptPer = Number(e.DEPT_MANAGER_B);
                         let aTeamPer = Number(e.TEAM_MANAGER_A);
@@ -253,27 +239,15 @@ var evaluationResultList = {
                             bMemPer = 100;
                         }
 
-                        let scoreF = 0;
-                        let scoreS = 0;
                         let scoreTot = 0;
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aDeptPer, e.EVAL_F_SCORE, bDeptPer, e.EVAL_S_SCORE);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aTeamPer, e.EVAL_F_SCORE, bTeamPer, e.EVAL_S_SCORE);
                         }else{
-                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aMemPer, e.EVAL_F_SCORE, bMemPer, e.EVAL_S_SCORE);
                         }
-
-                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else{
-                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }
-
-                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
 
                         let resGrade = "-";
                         for (let j = 0; j < evaluationResultList.global.scoreList.length; j++) {
