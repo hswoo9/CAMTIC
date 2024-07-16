@@ -185,11 +185,13 @@ public class MailUtil {
         String recipient = params.get("receiveEml").toString();     // 수신자
         InternetAddress[] recipientArr = new InternetAddress[0];
 
-        List<Map<String, Object>> list = (List<Map<String, Object>>) params.get("recipientList");
+        /*List<Map<String, Object>> list = (List<Map<String, Object>>) params.get("recipientList");
         recipientArr = new InternetAddress[list.size()];
         for(int i=0; i<list.size(); i++){
             recipientArr[i] = new InternetAddress(list.get(i).get("EMAIL").toString());
-        }
+        }*/
+        recipientArr = new InternetAddress[1];
+        recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
 
         String sender = params.get("sendEml").toString();           // 발신자
         String subject = params.get("subject").toString();          // 제목

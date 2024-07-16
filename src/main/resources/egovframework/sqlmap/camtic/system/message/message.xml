@@ -220,14 +220,7 @@
             SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
         WHERE
             MAIL_HIST_SN = #{mailHistSn}
-        <choose>
-            <when test='mailArr != null and !"".equals(mailArr)'>
-                AND MAIL_HIST_DET_SN IN (${mailArr})
-            </when>
-            <otherwise>
-                AND SEND_YN = 'N' AND ACTIVE = 'Y'
-            </otherwise>
-        </choose>
+        AND MAIL_HIST_DET_SN = #{mailHistDetSn}
     </update>
 
     <delete id="setMailDetDel" parameterType="map">

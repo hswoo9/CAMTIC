@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.system.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -349,9 +351,6 @@ public class messageController {
         params.put("subject", data.get("MAIL_TILE"));
         params.put("contents", data.get("MAIL_CONTENT"));
 
-        List<Map<String, Object>> list = messageService.getMailDetList(params);
-        params.put("recipientList", list);
-
         /** 메일 */
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
@@ -363,10 +362,19 @@ public class messageController {
         MailUtil mailUtil = new MailUtil();
         params.put("mailType", "mailHist");
 
-        mailUtil.mailHistSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+        List<Map<String, Object>> list = messageService.getMailDetList(params);
+        for(Map<String, Object> map : list){
+            try{
+                params.put("receiveEml", map.get("EMAIL").toString());
+                mailUtil.mailHistSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+                params.put("mailHistDetSn", map.get("MAIL_HIST_DET_SN"));
+                messageService.setMailDetCom(params);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         model.addAttribute("rs", "SUCCESS");
 
-        messageService.setMailDetCom(params);
 
         return "jsonView";
     }
