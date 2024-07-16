@@ -90,22 +90,23 @@ var employeeList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employeeList.gridReload();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                },
-                {
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employeeList.contentPop();">' +
                             '	<span class="k-button-text">면담내용 설정</span>' +
                             '</button>';
                     }
-                },
-                {
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employeeList.contentWritePop();">' +
@@ -114,6 +115,11 @@ var employeeList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "직원면담카드 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -121,31 +127,32 @@ var employeeList = {
             columns: [
                 {
                     title: "순번",
-                    width: "5%",
-                    template: "#= --record #"
+                    template: "#= --record #",
+                    width: 80
                 }, {
+                    field: "DEPT_NAME",
                     title: "부서명",
-                    width: "15%",
                     template: function(e){
                         return '<input type="hidden" id="' + e.DEPT_SEQ + '_dept_seq">' + e.DEPT_NAME;
-                    }
+                    },
+                    width: 210
                 }, {
+                    field: "TEAM_NAME",
                     title: "팀명",
-                    width: "15%",
                     template: function(e){
                         return '<input type="hidden" id="' + e.TEAM_SEQ + '_team_seq">' + e.TEAM_NAME;
-                    }
+                    },
+                    width: 210
                 }, {
                     field: "EMP_NAME_KR",
                     title: "피면담자",
                     template: function (e) {
                         return "<a href='#' onclick='employeeList.contentDetailPop(" + e.CARD_NUMBER + ");' style='color: blue; cursor: pointer;'>" + e.EMP_NAME_KR + "</a>";
                     },
-                    width: "10%"
+                    width: 180
                 }, {
                     field: "CARD_INTERVIEW_DATE",
                     title: "면담일자",
-                    width: "20%",
                     template: function (dataItem) {
                         var unixTime = dataItem.CARD_INTERVIEW_DATE; // Unix 시간 데이터
                         var date = new Date(unixTime);
@@ -159,15 +166,15 @@ var employeeList = {
                 }, {
                     field: "STIME",
                     title: "시작시간",
-                    width: "10%"
+                    width: 180
                 }, {
                     field: "ETIME",
                     title: "종료시간",
-                    width: "10%"
+                    width: 180
                 }, {
                     field: "CARD_INTERVIEWER",
                     title: "면담자",
-                    width: "10%"
+                    width: 180
                 }
             ],
             dataBinding: function(){

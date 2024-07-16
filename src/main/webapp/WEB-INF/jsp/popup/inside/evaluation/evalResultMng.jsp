@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/evaluation/evalResultMng.js?v=${today}"/></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -203,15 +203,15 @@
             }
 
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
-                scoreF = (parseFloat(aDeptPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                scoreF = calculateScore(aDeptPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aDeptPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
-                scoreF = (parseFloat(aTeamPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                scoreF = calculateScore(aTeamPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aTeamPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }else{
-                scoreF = (parseFloat(aMemPer / 100 * map.EVAL_F_SCORE)).toFixed(1);
+                scoreF = calculateScore(aMemPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aMemPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }
@@ -220,15 +220,15 @@
             html += '   <td style="text-align: center">' + map.EVAL_S_SCORE + '</td>';
 
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
-                scoreS =  (parseFloat(bDeptPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                scoreS = calculateScore(bDeptPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bDeptPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
-                scoreS = (parseFloat(bTeamPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                scoreS = calculateScore(bTeamPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bTeamPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }else{
-                scoreS = (parseFloat(bMemPer / 100 * map.EVAL_S_SCORE)).toFixed(1);
+                scoreS = calculateScore(bMemPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bMemPer +' %</td>';
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
             }
@@ -245,7 +245,14 @@
                 html += '   <td style="text-align: center; background-color: #EFEFEF">0</td>';
             }
 
-            var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
+            var totalScore = 0;
+            if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
+                totalScore = calculateFinalScore(aDeptPer, map.EVAL_F_SCORE, bDeptPer, map.EVAL_S_SCORE);
+            }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
+                totalScore = calculateFinalScore(aTeamPer, map.EVAL_F_SCORE, bTeamPer, map.EVAL_S_SCORE);
+            }else{
+                totalScore = calculateFinalScore(aMemPer, map.EVAL_F_SCORE, bMemPer, map.EVAL_S_SCORE);
+            }
             html += '   <td style="text-align: center">'+ totalScore +'</td>';
 
             let grade = "-";

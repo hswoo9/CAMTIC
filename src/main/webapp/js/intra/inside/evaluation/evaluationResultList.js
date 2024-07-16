@@ -131,6 +131,9 @@ var evaluationResultList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="evaluationResultList.gridReload();">' +
@@ -139,6 +142,11 @@ var evaluationResultList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "역량평가결과 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -161,6 +169,7 @@ var evaluationResultList = {
                     title: "본인점수",
                     width: 80
                 }, {
+                    field: "FINAL_SCORE",
                     title: "최종점수",
                     width: 80,
                     template: function (e) {
@@ -194,35 +203,22 @@ var evaluationResultList = {
                             bMemPer = 100;
                         }
 
-                        let scoreF = 0;
-                        let scoreS = 0;
                         let scoreTot = 0;
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aDeptPer, e.EVAL_F_SCORE, bDeptPer, e.EVAL_S_SCORE);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aTeamPer, e.EVAL_F_SCORE, bTeamPer, e.EVAL_S_SCORE);
                         }else{
-                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aMemPer, e.EVAL_F_SCORE, bMemPer, e.EVAL_S_SCORE);
                         }
-
-                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else{
-                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }
-
-                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
-
                         return scoreTot;
                     }
                 }, {
+                    field: "FINAL_GRADE",
                     title: "최종등급",
                     width: 80,
                     template: function (e) {
-
                         let aDeptPer = Number(e.DEPT_MANAGER_A);
                         let bDeptPer = Number(e.DEPT_MANAGER_B);
                         let aTeamPer = Number(e.TEAM_MANAGER_A);
@@ -253,27 +249,15 @@ var evaluationResultList = {
                             bMemPer = 100;
                         }
 
-                        let scoreF = 0;
-                        let scoreS = 0;
                         let scoreTot = 0;
 
                         if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreF = (parseFloat(aDeptPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aDeptPer, e.EVAL_F_SCORE, bDeptPer, e.EVAL_S_SCORE);
                         }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreF = (parseFloat(aTeamPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aTeamPer, e.EVAL_F_SCORE, bTeamPer, e.EVAL_S_SCORE);
                         }else{
-                            scoreF = (parseFloat(aMemPer / 100 * Number(e.EVAL_F_SCORE))).toFixed(1);
+                            scoreTot = calculateFinalScore(aMemPer, e.EVAL_F_SCORE, bMemPer, e.EVAL_S_SCORE);
                         }
-
-                        if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
-                            scoreS =  (parseFloat(bDeptPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
-                            scoreS = (parseFloat(bTeamPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }else{
-                            scoreS = (parseFloat(bMemPer / 100 * Number(e.EVAL_S_SCORE))).toFixed(1);
-                        }
-
-                        scoreTot = (Number(scoreF) + Number(scoreS) + Number(e.EVAL_SCORE_MNG)).toFixed(1);
 
                         let resGrade = "-";
                         for (let j = 0; j < evaluationResultList.global.scoreList.length; j++) {
@@ -285,11 +269,13 @@ var evaluationResultList = {
                         return resGrade;
                     }
                 }, {
+                    field: "EVAL_F_VIEW",
                     title: "1차 평가의견",
                     template: function(e){
                         return e.EVAL_F_VIEW.replaceAll("\n", "<br>");
                     }
                 }, {
+                    field: "EVAL_S_VIEW",
                     title: "2차 평가의견",
                     template: function(e){
                         return e.EVAL_S_VIEW.replaceAll("\n", "<br>");

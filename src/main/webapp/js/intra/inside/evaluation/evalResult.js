@@ -53,11 +53,6 @@ var evalResult = {
             $("#dept").data("kendoDropDownList").trigger("change");
             $("#team").data("kendoDropDownList").value("");
         }
-    },
-
-
-
-
-
+    }
 }
 
