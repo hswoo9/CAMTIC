@@ -131,6 +131,9 @@ var evaluationResultList = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="evaluationResultList.gridReload();">' +
@@ -139,6 +142,11 @@ var evaluationResultList = {
                     }
                 }
             ],
+            excel : {
+                fileName : "역량평가결과 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -161,6 +169,7 @@ var evaluationResultList = {
                     title: "본인점수",
                     width: 80
                 }, {
+                    field: "FINAL_SCORE",
                     title: "최종점수",
                     width: 80,
                     template: function (e) {
@@ -206,6 +215,7 @@ var evaluationResultList = {
                         return scoreTot;
                     }
                 }, {
+                    field: "FINAL_GRADE",
                     title: "최종등급",
                     width: 80,
                     template: function (e) {
@@ -259,11 +269,13 @@ var evaluationResultList = {
                         return resGrade;
                     }
                 }, {
+                    field: "EVAL_F_VIEW",
                     title: "1차 평가의견",
                     template: function(e){
                         return e.EVAL_F_VIEW.replaceAll("\n", "<br>");
                     }
                 }, {
+                    field: "EVAL_S_VIEW",
                     title: "2차 평가의견",
                     template: function(e){
                         return e.EVAL_S_VIEW.replaceAll("\n", "<br>");
