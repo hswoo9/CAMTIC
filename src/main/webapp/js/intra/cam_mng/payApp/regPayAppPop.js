@@ -440,7 +440,6 @@ var regPay = {
                             regPayDet.addRow();
                         }
 
-                        $("#eviType" + idx).data("kendoDropDownList").value(6);
                         $("#crmNm" + idx).val(ls[i].CRM_NM);
                         $("#crmSn" + idx).val(ls[i].CRM_SN);
                         $("#regNo" + idx).val(ls[i].CRM_NO_TMP);
