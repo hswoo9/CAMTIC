@@ -309,6 +309,22 @@ public class AchieveRepository extends AbstractDAO {
         update("achieve.updExpStatus", params);
     }
 
+    public void insExpectPayData(Map<String, Object> params) {
+        insert("achieve.insExpectPayData", params);
+    }
+
+    public void updExpectPayData(Map<String, Object> params) {
+        update("achieve.updExpectPayData", params);
+    }
+
+    public void updExpectPayStatus(Map<String, Object> params) {
+        update("achieve.updExpectPayStatus", params);
+    }
+
+    public Map<String, Object> getExpertPayData(Map<String , Object> params) {
+        return (Map<String, Object>) selectOne("achieve.getExpertPayData", params);
+    }
+
     public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
         return selectList("achieve.getPurcClaimList", params);
     }

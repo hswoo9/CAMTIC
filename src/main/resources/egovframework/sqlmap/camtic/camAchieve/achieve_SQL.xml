@@ -1538,7 +1538,7 @@
                 B.PJT_NM,
                 A.CRM_NM,
                 A.DEPO_AMT,
-                A.PAY_INCP_DE,
+                A.PAY_INCP_DE AS EXP_DE,
                 ES.EXP_SN,
                 IFNULL(ES.STATUS, 'A') AS STATUS
             FROM CAM_MNG.DJ_PAY_DEPO A
@@ -1576,7 +1576,7 @@
                     WHEN '09' = #{month} THEN IFNULL(SUM(A.MON_PAY_9), 0) WHEN '10' = #{month} THEN IFNULL(SUM(A.MON_PAY_10), 0)
                     WHEN '11' = #{month} THEN IFNULL(SUM(A.MON_PAY_11), 0) WHEN '12' = #{month} THEN IFNULL(SUM(A.MON_PAY_12), 0)
                 END AS DEPO_AMT,
-                D.PAY_EXNP_DE AS PAY_INCP_DE,
+                D.PAY_EXNP_DE AS EXP_DE,
                 ES.EXP_SN,
                 IFNULL(ES.STATUS, 'A') AS STATUS
             FROM CAM_PJT_MNG.DJ_PART_PAY_MON A
@@ -1606,7 +1606,7 @@
                     ELSE CRM_NM
                 END AS CRM_NM,
                 SUM(C.TOT_COST) AS DEPO_AMT,
-                A.EXNP_DE AS PAY_INCP_DE,
+                A.EXNP_DE AS EXP_DE,
                 ES.EXP_SN,
                 IFNULL(ES.STATUS, 'A') AS STATUS
             FROM CAM_MNG.DJ_EXNP A
@@ -1616,13 +1616,31 @@
             WHERE 1=1
                 AND B.BUSN_CLASS IN ('R', 'S')
                 AND LEFT(B.STR_DT, 4) = #{year}
-                AND DATE_FORMAT(A.EXNP_DE, '%Y-%M') = #{baseYear}
+                AND DATE_FORMAT(A.EXNP_DE, '%Y-%m') = #{baseYear}
                 AND C.BUDGET_SN = '581826'
                 AND B.PARENT_PJT_SN IS NULL
                 AND B.TEAM_STAT = 'N'
             GROUP BY A.EXNP_SN
+            UNION ALL
+            SELECT
+                '4' AS ORDER_SN,
+                'incp' AS BUDGET_TYPE,
+                A.GUBUN,
+                A.GUBUN_DETAIL,
+                'EXP_PAY_SN' AS F_KEY_TYPE,
+                A.EXP_PAY_SN AS F_KEY_SN,
+                A.PJT_NM,
+                A.CRM_NM,
+                A.EXP_PAY,
+                A.EXP_DE AS EXP_DE,
+                '' AS EXP_SN,
+                A.STATUS AS STATUS
+            FROM CAM_MNG.DJ_EXP_PAY_DATA A
+            WHERE 1=1
+              AND DATE_FORMAT(A.EXP_DE, '%Y-%m') = #{baseYear}
+              AND A.BUDGET_TYPE = 'incp'
         ) AA
-        ORDER BY AA.ORDER_SN, AA.PAY_INCP_DE, AA.F_KEY_SN
+        ORDER BY AA.ORDER_SN, AA.EXP_DE, AA.F_KEY_SN
     </select>
 
     <select id="getExnpExpList" parameterType="map" resultType="map">
@@ -1704,6 +1722,24 @@
               AND A.DOC_STATUS = 100
               AND DATE_FORMAT(A.PAY_EXNP_DE,'%Y-%m') = #{baseYear}
             GROUP BY A.PAY_APP_SN
+            UNION ALL
+            SELECT
+                '4' AS ORDER_SN,
+                'exnp' AS BUDGET_TYPE,
+                A.GUBUN,
+                A.GUBUN_DETAIL,
+                'EXP_PAY_SN' AS F_KEY_TYPE,
+                A.EXP_PAY_SN AS F_KEY_SN,
+                A.PJT_NM,
+                A.CRM_NM,
+                A.EXP_PAY,
+                A.EXP_DE,
+                '' AS EXP_SN,
+                A.STATUS AS STATUS
+            FROM CAM_MNG.DJ_EXP_PAY_DATA A
+            WHERE 1=1
+              AND DATE_FORMAT(A.EXP_DE, '%Y-%m') = #{baseYear}
+              AND A.BUDGET_TYPE = 'exnp'
         ) AA
         ORDER BY AA.ORDER_SN, AA.EXP_DE, AA.F_KEY_SN
     </select>
@@ -1742,6 +1778,74 @@
         WHERE
             EXP_SN = #{expSn}
     </update>
+
+    <insert id="insExpectPayData" parameterType="map">
+        /*insExpectPayData*/
+        INSERT INTO CAM_MNG.DJ_EXP_PAY_DATA
+        (
+            BUDGET_TYPE,
+            GUBUN,
+            GUBUN_DETAIL,
+            PJT_NM,
+            CRM_NM,
+            EXP_PAY,
+            EXP_DE,
+            STATUS,
+            REG_DT
+        )
+        VALUES
+        (
+            #{budgetType},
+            #{gubun},
+            #{gubunDetail},
+            #{pjtNm},
+            #{crmNm},
+            #{expPay},
+            #{expDe},
+            #{status},
+            NOW()
+        )
+    </insert>
+
+    <update id="updExpectPayData" parameterType="map">
+        /*updExpectPayData*/
+        UPDATE CAM_MNG.DJ_EXP_PAY_DATA
+        SET
+            PJT_NM = #{pjtNm},
+            CRM_NM = #{crmNm},
+            EXP_PAY = #{expPay},
+            EXP_DE = #{expDe},
+            STATUS = #{status}
+        WHERE
+            EXP_PAY_SN = #{expPaySn}
+    </update>
+
+    <update id="updExpectPayStatus" parameterType="map">
+        /*updExpectPayStatus*/
+        UPDATE CAM_MNG.DJ_EXP_PAY_DATA
+        SET
+            STATUS = #{status}
+        WHERE
+            EXP_PAY_SN = #{fKeySn}
+    </update>
+
+    <select id="getExpertPayData" parameterType="map" resultType="map">
+        /*getExpertPayData*/
+        SELECT
+            EXP_PAY_SN,
+            BUDGET_TYPE,
+            GUBUN,
+            GUBUN_DETAIL,
+            PJT_NM,
+            CRM_NM,
+            EXP_PAY,
+            EXP_DE,
+            STATUS
+        FROM
+            CAM_MNG.DJ_EXP_PAY_DATA
+        WHERE
+            EXP_PAY_SN = #{expPaySn}
+    </select>
 
     <select id="getPurcClaimList" parameterType="map" resultType="map">
         /* getPurcClaimList */

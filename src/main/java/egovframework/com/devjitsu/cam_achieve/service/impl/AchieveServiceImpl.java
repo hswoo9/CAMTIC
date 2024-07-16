@@ -655,6 +655,25 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public void insExpectPayData(Map<String, Object> params) {
+        if(params.containsKey("expPaySn")){
+            achieveRepository.updExpectPayData(params);
+        } else {
+            achieveRepository.insExpectPayData(params);
+        }
+    }
+
+    @Override
+    public void updExpectPayStatus(Map<String, Object> params) {
+        achieveRepository.updExpectPayStatus(params);
+    }
+
+    @Override
+    public Map<String, Object> getExpertPayData(Map<String, Object> params) {
+        return achieveRepository.getExpertPayData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
         return achieveRepository.getPurcClaimList(params);
     }

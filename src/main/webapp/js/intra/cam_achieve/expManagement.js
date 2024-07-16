@@ -70,6 +70,13 @@ var expMn = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.fn_regExpData(\'incp\');">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.gridReload1();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -106,7 +113,7 @@ var expMn = {
                     }
                 }, {
                     title : "입금예정일",
-                    field : "PAY_INCP_DE",
+                    field : "EXP_DE",
                     width: 50
                 }, {
                     title : "상태",
@@ -119,7 +126,14 @@ var expMn = {
                 }, {
                     title : "비고",
                     field : "",
-                    width: 80
+                    width: 80,
+                    template: function(e) {
+                        if(e.F_KEY_TYPE == "EXP_PAY_SN") {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="expMn.fn_regExpData(\'incp\', '+ e.F_KEY_SN +');">수정</button>';
+                        } else  {
+                            return "";
+                        }
+                    }
                 },
             ],
             dataBinding: function(){
@@ -174,6 +188,13 @@ var expMn = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.fn_regExpData(\'exnp\');">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="expMn.gridReload2();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -223,7 +244,14 @@ var expMn = {
                 }, {
                     title : "비고",
                     field : "",
-                    width: 80
+                    width: 80,
+                    template: function(e) {
+                        if(e.F_KEY_TYPE == "EXP_PAY_SN") {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="expMn.fn_regExpData(\'exnp\', '+ e.F_KEY_SN +');">수정</button>';
+                        } else  {
+                            return "";
+                        }
+                    }
                 },
             ],
             dataBinding: function(){
@@ -269,8 +297,15 @@ var expMn = {
             regEmpSeq : $("#regEmpSeq").val(),
         }
 
+        let url = "";
+        if(dataItem.F_KEY_TYPE == "EXP_PAY_SN") {
+            url = "/cam_achieve/updExpectPayStatus";
+        } else {
+            url = "/cam_achieve/insExpStatus";
+        }
+
         $.ajax({
-            url: "/cam_achieve/insExpStatus",
+            url: url,
             data: data,
             type: "post",
             dataType: "json",
@@ -290,6 +325,18 @@ var expMn = {
 
             }
         });
+    },
+
+    fn_regExpData : function(e, k){
+        var url = "/cam_achieve/regExpData.do?budgetType=" + e;
+
+        if(k != null){
+            url += "&pk=" + k;
+        }
+
+        var name = "_blank";
+        var option = "width = 780, height = 630, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 
 

@@ -81,6 +81,12 @@ public interface AchieveService {
 
     void insExpStatus(Map<String, Object> params);
 
+    void insExpectPayData(Map<String, Object> params);
+
+    void updExpectPayStatus(Map<String, Object> params);
+
+    Map<String, Object> getExpertPayData(Map<String, Object> params);
+
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimDetList(Map<String, Object> params);

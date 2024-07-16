@@ -611,6 +611,34 @@ public class AchieveController {
         return "jsonView";
     }
 
+    @RequestMapping("/cam_achieve/regExpData.do")
+    public String regExpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "/popup/cam_achieve/popRegExpData";
+    }
+
+    @RequestMapping("/cam_achieve/insExpectPayData")
+    public String insExpectPayData(@RequestParam Map<String, Object> params, Model model){
+        achieveService.insExpectPayData(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/updExpectPayStatus")
+    public String updExpectPayStatus(@RequestParam Map<String, Object> params, Model model){
+        achieveService.updExpectPayStatus(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getExpertPayData")
+    public String getExpertPayData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", achieveService.getExpertPayData(params));
+        return "jsonView";
+    }
+
     /** 구매현황 */
     @RequestMapping("/cam_achieve/purcManagement.do")
     public String purcManagement(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
