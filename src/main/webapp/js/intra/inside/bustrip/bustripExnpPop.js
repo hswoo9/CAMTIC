@@ -490,6 +490,12 @@ var bustripExnpReq = {
                     $("#corpCarOilCost").val(fn_comma(amt));
                 }
             }
+
+            // 차량 기타일때 유류비 0원 고정
+            if(bustripInfo.USE_TRSPT == 11) {
+                $("#corpCarOilCost").val(fn_comma(0));
+            }
+
         // }
         bustripExnpReq.fn_setTableSum();
     },
