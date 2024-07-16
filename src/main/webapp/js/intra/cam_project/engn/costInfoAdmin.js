@@ -169,6 +169,7 @@ var costInfo = {
         let g20A = 0;
         let g20B = 0;
         let g20C = 0;
+        let g20CAll = 0;
 
         /** 수주금액 */
         if(e.YEAR_CLASS == "M"){
@@ -211,8 +212,6 @@ var costInfo = {
 
             /** g20 지출완료 금액 */
             let amt = 0;
-            /** g20 수익비용설정된 금액 */
-            let setAmt = 0;
 
             /** 달성매출액 */
             for(let i=0; i<arr.length; i++){
@@ -242,16 +241,17 @@ var costInfo = {
                     const jMap = g20List[j];
                     if(jMap.DIV_FG_NM == "장"){
                         amt += Number(jMap.ACCT_AM_3);
-                        if(jMap.BGT_NM == "인건비"){
-                            g20A += Number(jMap.ACCT_AM_3);
-                        }else if(jMap.BGT_NM == "직접비"){
+                        if(jMap.BGT_NM == "직접비"){
                             g20B += Number(jMap.ACCT_AM_3);
                         }
                     }else if(jMap.DIV_FG_NM == "항"){
-                        for (let k=0; k<bgtList.length; k++){
-                            const kMap = bgtList[k];
-                            if (jMap.BGT_CD == kMap.BGT_CD){
-                                setAmt += Number(jMap.CALC_AM);
+
+                        if(jMap.BGT_CD != null && jMap.BGT_CD[0] == "1"){
+                            for (let k=0; k<bgtList.length; k++){
+                                const kMap = bgtList[k];
+                                if (jMap.BGT_CD == kMap.BGT_CD && kMap.BGT_AT == "1"){
+                                    g20A += Number(jMap.ACCT_AM_3);
+                                }
                             }
                         }
 
@@ -259,6 +259,7 @@ var costInfo = {
                             for (let k=0; k<bgtList.length; k++){
                                 const kMap = bgtList[k];
                                 if (jMap.BGT_CD == kMap.BGT_CD && kMap.BGT_AT == "1"){
+                                    g20CAll += Number(jMap.CALC_AM);
                                     g20C += Number(jMap.ACCT_AM_3);
                                 }
                             }
@@ -277,19 +278,22 @@ var costInfo = {
             console.log("g20A", g20A);
             console.log("g20C", g20C);
             console.log("g20B", g20B);
-            console.log("Number(uncomma($(\"#invSum\").text()))", Number(uncomma($("#invSum").text())));
+            console.log("invSum", Number(uncomma($("#invSum").text())));
             amt2 = (g20A + g20C) + (g20B - Number(uncomma($("#invSum").text())));
             $("#RES_NOT_INV_AMT").text(comma(amt2));
 
             /** 예상매출잔액 */
             let devAmt = 0;
-            devAmt = Number(e.PJT_AMT || 0) - amt;
+            if($("#taxGubun").val() == "1"){
+                devAmt = Number(e.PJT_AMT || 0) - Number((amt * 10 / 11).toString().split(".")[0]);
+            }else{
+                devAmt = Number(e.PJT_AMT || 0) - amt;
+            }
             $("#DEV_AMT").text(comma(devAmt));
 
             /** 예상운영수익 */
-            console.log("setAmt", setAmt);
             let devNotInvAmt = 0;
-            devNotInvAmt = setAmt - amt;
+            devNotInvAmt = g20CAll - g20C;
             $("#DEV_NOT_INV_AMT").text(comma(devNotInvAmt));
         }
 
