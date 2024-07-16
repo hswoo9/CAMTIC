@@ -1012,6 +1012,17 @@ public class ProjectRndController {
         return "popup/cam_project/rnd/partRatePrintPop";
     }
 
+    @RequestMapping("/projectRnd/carryoverApp")
+    public String carryoverApp(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.carryoverApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

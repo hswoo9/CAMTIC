@@ -19,7 +19,7 @@ var rndDetail = {
     },
 
     fn_setPage : function (){
-        customKendo.fn_textBox(["peoResCost", "peoResItem", "totResCost"]);
+        customKendo.fn_textBox(["peoResCost", "carryoverCost", "peoResItem", "totResCost"]);
 
         $("#rndObj").kendoTextArea({
             rows : 7
@@ -112,6 +112,7 @@ var rndDetail = {
             $("#nowEndDe").val(rs.NOW_END_DE);
 
             if(rs.RND_OBJ != null) {
+                $("#carryoverCost").val(comma(rs.CARRYOVER_COST));
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
                 $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
                 if($("#taxGubun").val() == "1"){
@@ -590,6 +591,20 @@ var rndDetail = {
                     {
                         name: 'button',
                         template: function(){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_carryoverAppBtn()">' +
+                                '	<span class="k-button-text">이월잔액 변경</span>' +
+                                '</button>';
+                        }
+                    }, {
+                        name: 'button',
+                        template: function(){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_carryoverCanBtn('+i+')">' +
+                                '	<span class="k-button-text">이월잔액 취소</span>' +
+                                '</button>';
+                        }
+                    }, {
+                        name: 'button',
+                        template: function(){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_customBudgetPop('+i+')">' +
                                 '	<span class="k-button-text">추가</span>' +
                                 '</button>';
@@ -638,13 +653,25 @@ var rndDetail = {
                         field : "CB_BUDGET",
                         template : function(e){
                             sum += Number(e.CB_BUDGET);
-                            return fn_numberWithCommas(e.CB_BUDGET);
+                            return "<span style='text-align:right'>"+fn_numberWithCommas(e.CB_BUDGET)+"</span>";
                         },
                         footerTemplate : function (e) {
-                            return "<span id='total"+i+"'></span>";
+                            return "<span style='text-align:right' id='total"+i+"'></span>";
+                        }
+                    }, {
+                        title: "이월잔액여부",
+                        template : function(e){
+                            let text = "";
+                            if(e.CARRYOVER_CK == "Y"){
+                                text = "O";
+                            }
+                            return text;
                         },
-                        attributes: { style: "text-align: right" },
-                    },
+                        width: 100,
+                        editable: function(){
+                            return false;
+                        },
+                    }
 
                 ],
                 dataBinding: function(){
@@ -944,6 +971,53 @@ var rndDetail = {
         }
     },
 
+    fn_carryoverAppBtn: function(){
+        let bgtArr = [];
+        $("input.pCbPk:checked").each(function(i){
+            bgtArr.push($(this).val());
+        })
+        let data = {
+            pjtSn: $("#pjtSn").val(),
+            bgtList: bgtArr.join(),
+            stat: "Y"
+        }
+        if(bgtArr.length == 0) {
+            alert("비목이 선택되지 않았습니다.");
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/projectRnd/carryoverApp", data);
+
+        if(result.code != 200){
+            alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            location.reload();
+        }
+    },
+
+    fn_carryoverCanBtn: function(){
+        let bgtArr = [];
+        $("input.pCbPk:checked").each(function(i){
+            bgtArr.push($(this).val());
+        })
+        let data = {
+            pjtSn: $("#pjtSn").val(),
+            bgtList: bgtArr.join(),
+            stat: "N"
+        }
+        if(bgtArr.length == 0) {
+            alert("비목이 선택되지 않았습니다.");
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/projectRnd/carryoverApp", data);
+
+        if(result.code != 200){
+            alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            location.reload();
+        }
+    }
 }
 
 function fileDown(filePath, fileName, stat){

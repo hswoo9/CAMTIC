@@ -266,4 +266,7 @@ public class ProjectRndRepository extends AbstractDAO {
     public void delDevSch(Map<String, Object> params) {
         delete("projectRnd.delDevSch", params);
     }
+    public void carryoverApp(Map<String, Object> params) {
+        update("projectRnd.carryoverApp", params);
+    }
 }

@@ -90,4 +90,6 @@ public interface ProjectRndService {
     void updateRateDocState(Map<String, Object> bodyMap) throws Exception;
 
     void delDevSch(Map<String, Object> params);
+
+    void carryoverApp(Map<String, Object> params);
 }

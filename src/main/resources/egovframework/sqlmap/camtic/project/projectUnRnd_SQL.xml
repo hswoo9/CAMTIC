@@ -117,7 +117,8 @@
         SELECT
             A.*, B.*,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            IFNULL((SELECT SUM(CB_BUDGET) FROM CAM_PJT_MNG.DJ_PJT_CB WHERE CARRYOVER_CK = 'Y' AND PJT_SN = A.PJT_SN), 0) AS CARRYOVER_COST
         FROM
             CAM_PJT_MNG.DJ_PJT_UNRND A
         LEFT JOIN
