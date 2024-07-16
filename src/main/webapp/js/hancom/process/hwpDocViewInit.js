@@ -233,6 +233,7 @@ var docViewInit = {
     leaveInit: function(leaveSn){
         const leaveInfo = customKendo.fn_customAjax("/customDoc/getLeaveData", {leaveSn : leaveSn});
         const map = leaveInfo.data;
+        console.log("map : ", map)
         const file = leaveInfo.file;
 
         const userInfo = getUser(map.EMP_SEQ);
@@ -246,6 +247,16 @@ var docViewInit = {
         hwpDocCtrl.putFieldText("FILE_NM", file.file_org_name);
 
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        let holiTextBox = '';
+        if (map.LEAVE_TYPE == "A") {
+            holiTextBox = "■유아휴직□군휴직□일반휴직";
+        } else if (map.LEAVE_TYPE == "B") {
+            holiTextBox = "□유아휴직■군휴직□일반휴직";
+        } else if (map.LEAVE_TYPE == "C") {
+            holiTextBox = "□유아휴직□군휴직■일반휴직";
+        }
+        hwpDocCtrl.putFieldText("HOLI_TEXT_BOX", holiTextBox);
 
         /** 휴직사유 */
         setTimeout(function() {
