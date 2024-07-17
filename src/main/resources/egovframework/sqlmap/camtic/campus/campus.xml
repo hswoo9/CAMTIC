@@ -1890,6 +1890,7 @@
             TREA_USER = #{treaUser},
             BOOK_UNIT = #{bookUnit},
             COMP_TYPE = #{compType},
+            EDU_TEACHER_NAME = #{eduTeacherName},
             EDU_EVAL = #{eduEval},
             EDU_POINT = #{eduPoint},
             FBLIST = #{FBList}
