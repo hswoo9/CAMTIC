@@ -18,6 +18,7 @@ var purcClaim = {
             { text: "업체명", value: "CRM_NM" },
             { text: "품명", value: "PURC_ITEM_NAME" },
             { text: "요청자", value: "PURC_EMP_NAME" },
+            { text: "프로젝트", value: "PJT_NM" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcClaim.global.dropDownDataSource, "text", "value");

@@ -1225,6 +1225,11 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getPurcReqClaimList2(Map<String, Object> params) {
+        return purcRepository.getPurcReqClaimList2(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPurcReqClaimEmpList(Map<String, Object> params) {
         return purcRepository.getPurcReqClaimEmpList(params);
     }

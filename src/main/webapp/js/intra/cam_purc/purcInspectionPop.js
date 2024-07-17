@@ -200,6 +200,8 @@ var pri = {
                             pri.global.fileArray.push(data.inspectFile[i]);
                         }
                         pri.settingTempFileDataInit(data.inspectFile);
+
+                        $("#inspectCk").val("Y");
                     }
                 }
 
@@ -442,7 +444,7 @@ var pri = {
 
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspect.do", formData);
         if(result.flag){
-            if(fCommon.global.attFiles.length != 0){
+            if(fCommon.global.attFiles.length != 0 && $("#purcSn").val() != ""){
                 pri.setInspectApp('100');
             } else {
                 alert("저장되었습니다.");
@@ -464,6 +466,10 @@ var pri = {
             formData.append("claimSn", $("#claimSn").val())
         }
         formData.append("status", "100");
+
+        if($("#inspectCk").val() == "N"){
+            alert("검수사진이 등록되지 않았습니다."); return;
+        }
 
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspectStat.do", formData);
         if(result.flag){

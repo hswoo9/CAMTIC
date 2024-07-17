@@ -69,7 +69,7 @@
                 <tr>
                     <th>입사일자</th>
                     <td>
-                        <input type="text" id="joinDay" disabled name="joinDay" value="${data.JOIN_DAY}">
+                        <input type="text" id="joinDay" disabled name="joinDay" value="">
                     </td>
                     <th>퇴직예정일자</th>
                     <td>
@@ -132,6 +132,8 @@
 
 
         customKendo.fn_datePicker("joinDay", "depth", "yyyy-MM-dd", new Date());
+        $("#joinDay").val("${data.JOIN_DAY}");
+
         customKendo.fn_datePicker("resignDay", "depth", "yyyy-MM-dd", new Date());
 
         if($("#resignSn").val() != "") {
