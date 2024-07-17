@@ -662,16 +662,21 @@ function getGridSum(gridId, fieldName){
     let currentPageSize = 0;
 
     /** pageSize 가 All 일때 */
-    if (pageSize === undefined) {
+    if (pageSize === undefined){
         currentPageSize = totalSize;
-    } else {
+
+    /** 마지막 페이지 일때 */
+    }else if(dataSource.page() === dataSource.totalPages()){
         currentPageSize = totalSize % pageSize === 0 ? pageSize : totalSize % pageSize;
+
+    }else{
+        currentPageSize = pageSize;
     }
 
     let sum = 0;
-
     for (let i=0; i<currentPageSize; i++) {
-        sum += dataSource.view()[i][fieldName];
+        let value = dataSource.view()[i][fieldName];
+        sum += value;
     }
 
     return comma(sum);
