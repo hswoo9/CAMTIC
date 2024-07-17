@@ -901,7 +901,7 @@
                 (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_STATUS,
                 IFNULL((SELECT SUM(SPCI.PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_PURC_ITEM_AMT,
                 IFNULL((SELECT SUM(SPCI.DIF_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_DIF_AMT,
-                DI.DOC_NO AS CLAIM_DOC_NO, DI2.DOC_NO AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD
+                DI.DOC_NO AS CLAIM_DOC_NO, DI2.DOC_NO AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD, A.PJT_NM
             FROM
                 CAM_MNG.DJ_PURC_CLAIM A
             LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.CLAIM_EMP_SEQ = B.EMP_SEQ
@@ -922,7 +922,7 @@
                 '' AS INSPECT_YN, '' AS INSPECT_STATUS,
                 IFNULL((SELECT SUM(SPCI.PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_PURC_ITEM_AMT,
                 IFNULL((SELECT SUM(SPCI.DIF_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_DIF_AMT,
-                DI.DOC_NO AS CLAIM_DOC_NO, '' AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD
+                DI.DOC_NO AS CLAIM_DOC_NO, '' AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD, A.PJT_NM
             FROM
                 CAM_MNG.DJ_PURC_CLAIM A
             LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.CLAIM_EMP_SEQ = B.EMP_SEQ
@@ -931,37 +931,43 @@
             LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
         ) ABC
         WHERE 1=1
-        <choose>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
-                AND ABC.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "CLAIM_TITLE".equals(searchKeyword)'>
-                AND ABC.CLAIM_TITLE LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
-                AND ABC.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
-                AND ABC.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                AND ABC.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_EMP_NAME".equals(searchKeyword)'>
-                AND ABC.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <otherwise>
-                AND
-                (
-                    ABC.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
-                    ABC.CLAIM_TITLE LIKE CONCAT('%',#{searchValue},'%') OR
-                    ABC.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                    ABC.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    ABC.ITEM_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    ABC.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
-                )
-            </otherwise>
-        </choose>
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            <choose>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+                    AND ABC.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "CLAIM_TITLE".equals(searchKeyword)'>
+                    AND ABC.CLAIM_TITLE LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+                    AND ABC.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
+                    AND ABC.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+                    AND ABC.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_EMP_NAME".equals(searchKeyword)'>
+                    AND ABC.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
+                    AND ABC.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <otherwise>
+                    AND
+                        (
+                            ABC.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.CLAIM_TITLE LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.ITEM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%') OR
+                            ABC.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                        )
+                </otherwise>
+            </choose>
+        </if>
         <choose>
             <when test='"1".equals(inspectStat)'>
                 AND ABC.INSPECT_YN = 'N'
@@ -2302,24 +2308,30 @@
                 AND RE.PJT_SN = #{pjtSn}
             </if>
 
-            <choose>
-                <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
-                    AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
-                </when>
-                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
-                    AND RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
-                </when>
-                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                    AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
-                </when>
-                <otherwise>
-                    AND
-                    (
-                    RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
-                    RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
-                    )
-                </otherwise>
-            </choose>
+            <if test='searchValue != null and !"".equals(searchValue)'>
+                <choose>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+                        AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                    </when>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+                        AND RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
+                    </when>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+                        AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                    </when>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
+                        AND RE.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                    </when>
+                    <otherwise>
+                        AND
+                        (
+                            RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                            RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
+                            RE.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                        )
+                    </otherwise>
+                </choose>
+            </if>
 
             <choose>
                 <when test='"1".equals(inspectStat)'>
