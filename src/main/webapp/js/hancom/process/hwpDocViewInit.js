@@ -250,11 +250,11 @@ var docViewInit = {
 
         let holiTextBox = '';
         if (map.LEAVE_TYPE == "A") {
-            holiTextBox = "■유아휴직□군휴직□일반휴직";
+            holiTextBox = "■육아휴직□군휴직□일반휴직";
         } else if (map.LEAVE_TYPE == "B") {
-            holiTextBox = "□유아휴직■군휴직□일반휴직";
+            holiTextBox = "□육아휴직■군휴직□일반휴직";
         } else if (map.LEAVE_TYPE == "C") {
-            holiTextBox = "□유아휴직□군휴직■일반휴직";
+            holiTextBox = "□육아휴직□군휴직■일반휴직";
         }
         hwpDocCtrl.putFieldText("HOLI_TEXT_BOX", holiTextBox);
 

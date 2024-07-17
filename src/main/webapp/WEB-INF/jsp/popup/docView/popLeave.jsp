@@ -127,7 +127,7 @@
         customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
 
         const dropDownDataSource = [
-            { text : "유아휴직", value : "A" },
+            { text : "육아휴직", value : "A" },
             { text : "군휴직", value : "B" },
             { text : "일반휴직", value : "C" }
         ];
