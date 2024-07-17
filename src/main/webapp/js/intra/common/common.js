@@ -675,8 +675,12 @@ function getGridSum(gridId, fieldName){
 
     let sum = 0;
     for (let i=0; i<currentPageSize; i++) {
-        let value = dataSource.view()[i][fieldName];
-        sum += value;
+        const currentData = dataSource.view()[i];
+        if (currentData && currentData.hasOwnProperty(fieldName)) {
+            const value = parseFloat(currentData[fieldName]);
+            const amt = isNaN(value) ? 0 : value;
+            sum += amt;
+        }
     }
 
     return comma(sum);
