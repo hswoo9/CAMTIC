@@ -195,7 +195,7 @@ var purcClaim = {
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
                     },
-                    footerTemplate: function() {
+                    footerTemplate: function(){
                         return '<div style="text-align: right">'+getGridSum("mainGrid", "TOT_AMT")+'</div>'
                     }
                 }, {
