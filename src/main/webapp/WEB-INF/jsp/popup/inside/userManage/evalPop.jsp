@@ -17,6 +17,7 @@
     <input type="hidden" id="duty" name="duty" value="${empData.DUTY_CODE}"/>
     <input type="hidden" id="occupation" name="occupation" value="${empData.OCCUPATION_NM}"/>
     <input type="hidden" id="targetEmpSeq" name="targetEmpSeq" value="${loginVO.uniqId}"/>
+    <input type="hidden" id="result" name="result" value="${params.result}"/>
 </form>
 
 <div style="padding:0;">
@@ -101,7 +102,7 @@
                 empSeq : $("#empSeq").val(),
                 rType : "eval"
             });
-            console.log("result", result);
+            console.log("fn_addTbody result", result);
 
             if(result.data.EVAL == "N"){
                 html += '   <td><button id="self" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(0)">평가하기</button></td>';
@@ -112,8 +113,13 @@
             html += '<td>-</td>';
         }
 
-        html += '   <td><button id="first" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(1)">평가하기</button><span id="countF"></span></td>';
-        html += '   <td><button id="second" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(2)">평가하기</button><span id="countS"></span></td>';
+        if($("#result").val() == "Y"){
+            html += '   <td><button id="first" class="k-button k-button-solid-info" style="display: none;" onclick="fn_open_eval(1)">제출완료</button><span id="countF"></span></td>';
+            html += '   <td><button id="second" class="k-button k-button-solid-info" style="display: none;" onclick="fn_open_eval(2)">제출완료</button><span id="countS"></span></td>';
+        }else{
+            html += '   <td><button id="first" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(1)">평가하기</button><span id="countF"></span></td>';
+            html += '   <td><button id="second" class="k-button k-button-solid-base" style="display: none;" onclick="fn_open_eval(2)">평가하기</button><span id="countS"></span></td>';
+        }
         html += '   <td></td>';
         html += '</tr>';
 
