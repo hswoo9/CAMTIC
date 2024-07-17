@@ -138,7 +138,7 @@ var costInfoGrid = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/purc/getPurcReqClaimList.do",
+                    url: "/purc/getPurcReqClaimList2.do",
                     dataType: "json",
                     type: "post"
                 },
