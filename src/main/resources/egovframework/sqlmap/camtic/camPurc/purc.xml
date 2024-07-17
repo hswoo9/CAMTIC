@@ -2158,10 +2158,8 @@
                 CAM_MNG.DJ_MNG_PURC B ON A.PURC_SN = B.PURC_SN
             LEFT JOIN
                 DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
-            LEFT JOIN
-                CAM_MNG.DJ_CLAIM_EXNP CE ON CE.CLAIM_SN = A.CLAIM_SN
             WHERE
-                A.PJT_SN =  #{pjtSn}
+                A.PJT_SN = #{pjtSn}
 
             UNION ALL
 
