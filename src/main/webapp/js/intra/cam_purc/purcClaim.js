@@ -48,24 +48,43 @@ var purcClaim = {
 
         $("#busnClass").data("kendoDropDownList").bind("change", purcClaim.gridReload);
         $("#inspectStat").data("kendoDropDownList").bind("change", purcClaim.gridReload);
-        // $("#searchKeyword").data("kendoDropDownList").bind("change", purcClaim.gridReload);
 
-
-        purcClaim.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val()
-        }
-
-        purcClaim.mainGrid("/purc/getPurcClaimList", purcClaim.global.searchAjaxData);
+        purcClaim.mainGrid("/purc/getPurcClaimList");
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(url){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept =  $("#searchDept").val();
+                    data.searchKeyword =  $("#searchKeyword").val();
+                    data.searchValue =  $("#searchValue").val();
+                    data.inspectStat =  $("#inspectStat").data("kendoDropDownList").value();
+                    data.busnClass =  $("#busnClass").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                }
+            }
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             pageable: {
@@ -165,20 +184,25 @@ var purcClaim = {
                 }, {
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 160
+                    width: 160,
+                    footerTemplate: function(e){
+                        return '<div style="float: right;">합계</div>';
+                    }
                 }, {
                     field: "TOT_AMT",
                     title: "금액",
                     width: 100,
-                    template: function (e){
+                    template: function(e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
+                    },
+                    footerTemplate: function() {
+                        return '<div style="text-align: right">'+getGridSum("mainGrid", "TOT_AMT")+'</div>'
                     }
                 }, {
                     field: "STATUS",
                     title: "상태",
                     width: 100,
                     template: function (e){
-                        console.log(e)
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100 || e.STATUS == 101){
                                 return "구매청구완료";
@@ -223,8 +247,6 @@ var purcClaim = {
                     title: "검수여부",
                     width: 95,
                     template: function (e){
-                        console.log(e)
-
                         if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend") {
                             if(e.INSPECT_YN == "Y"){
                                 return '<a onclick="purcClaim.fn_inspectionPopup(\'\', \'mng\', '+e.CLAIM_SN+')" style="font-weight: bold ">검수처리완료</a>'
@@ -290,18 +312,7 @@ var purcClaim = {
     },
 
     gridReload: function (){
-        $("#mainGrid").data("kendoGrid").destroy();
-
-        purcClaim.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val()
-        }
-
-        purcClaim.mainGrid("/purc/getPurcClaimList", purcClaim.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_reqClaiming : function(key, subKey){

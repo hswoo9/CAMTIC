@@ -653,3 +653,26 @@ function calculateFinalScore(scoreA, weightA, scoreB, weightB) {
 
     return Math.floor(totalScore * 100) / 100;
 }
+
+/** 켄도그리드 현재 페이지의 합계 */
+function getGridSum(gridId, fieldName){
+    const dataSource = $("#"+gridId).getKendoGrid().dataSource;
+    const pageSize = dataSource.pageSize();
+    const totalSize = dataSource._data.length;
+    let currentPageSize = 0;
+
+    /** pageSize 가 All 일때 */
+    if (pageSize === undefined) {
+        currentPageSize = totalSize;
+    } else {
+        currentPageSize = totalSize % pageSize === 0 ? pageSize : totalSize % pageSize;
+    }
+
+    let sum = 0;
+
+    for (let i=0; i<currentPageSize; i++) {
+        sum += dataSource.view()[i][fieldName];
+    }
+
+    return comma(sum);
+}
