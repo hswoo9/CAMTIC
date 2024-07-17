@@ -474,6 +474,8 @@ var regPay = {
 
                         idx++;
                     }
+
+                    $("#appTitle").val("");
                 }
 
                 data.fileCtrl = "Y";
@@ -685,6 +687,8 @@ var regPay = {
                     $("#supCost" + i).val(regPay.comma(totalAmt));
                     $("#vatCost" + i).val(0);
                 }
+
+                $("#appTitle").val("");
             }
 
 
