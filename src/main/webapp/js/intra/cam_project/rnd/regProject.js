@@ -317,6 +317,7 @@ var regRnd = {
     },
 
     fn_setData: function(e){
+        console.log("fn_setData");
         $("#pjtTitle").text("프로젝트 - R&D");
 
         if(e != null){
@@ -410,6 +411,7 @@ var regRnd = {
             $("#yearClass").data("kendoDropDownList").value("M");
             $("#mYearCk").val("Y");
             $("#mYearTr").show();
+            $("#mYearTr2").show();
             $("#supDep").data("kendoDropDownList").trigger("change");
             $("#parentPjtSn").val($("#paramParentPjtSn").val());
 
