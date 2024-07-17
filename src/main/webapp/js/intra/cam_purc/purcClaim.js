@@ -272,7 +272,7 @@ var purcClaim = {
                 }, {
                     width: 60,
                     template: function (e){
-                        if(e.PURC_SN == null && e.STATUS == 0){
+                        if(e.PURC_SN == null && (e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40) && e.CLAIM_EMP_SEQ == $("#regEmpSeq").val()){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="purcClaim.fn_delete(' + e.CLAIM_SN + ')">' +
                                 '	<span class="k-button-text">삭제</span>' +
                                 '</button>';
@@ -347,7 +347,7 @@ var purcClaim = {
     fn_delete : function(key){
         if(!confirm("정말 삭제하시겠습니까?\n삭제 후 복구가 불가능합니다.")){return;}
 
-        const result = customKendo.fn_customAjax("/purc/delPurcClaimData.do", {claimSn: key});
+        const result = customKendo.fn_customAjax("/purc/delPurcClaimData.do", {claimSn: key, empSeq: $("#regEmpSeq").val()});
         if(result.flag){
             alert("삭제되었습니다.");
             purcClaim.gridReload();

@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class PurcServiceImpl implements PurcService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private ApprovalUserRepository approvalUserRepository;
 
     @Override
     public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) {
@@ -501,7 +505,13 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public void delPurcClaimData(Map<String, Object> params) {
+        Map<String, Object> result = purcRepository.getClaimData(params);
         purcRepository.delPurcClaimData(params);
+
+        if(result.get("DOC_ID") != null){
+            params.put("docId", result.get("DOC_ID"));
+            approvalUserRepository.setDocDel(params);
+        }
     }
 
     @Override
