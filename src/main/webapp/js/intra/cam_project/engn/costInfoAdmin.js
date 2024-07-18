@@ -166,10 +166,6 @@ var costInfo = {
         const data = result.data;
         const e = data;
         console.log("e", e);
-        let g20A = 0;
-        let g20B = 0;
-        let g20C = 0;
-        let g20CAll = 0;
 
         /** 수주금액 */
         if(e.YEAR_CLASS == "M"){
@@ -210,8 +206,21 @@ var costInfo = {
             }
             console.log("arr : ", arr);
 
-            /** g20 지출완료 금액 */
-            let amt = 0;
+            /** 지출완료금액 */
+            let usedBudget = 0;
+            /** 수익설정 예산액 */
+            let revenueBudget = 0;
+            /** 수익설정 지출완료금액 */
+            let usedRevenueBudget = 0;
+            /** 비용설정 지출완료금액 */
+            let usedCostBudget = 0;
+
+            /**
+             * ** 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
+             * ** 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
+             * ** 예상매출 = 당해년도 사업비 - 달성 매출액
+             * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
+             * */
 
             /** 달성매출액 */
             for(let i=0; i<arr.length; i++){
@@ -239,62 +248,49 @@ var costInfo = {
 
                 for(let j=0; j<g20List.length; j++){
                     const jMap = g20List[j];
-                    if(jMap.DIV_FG_NM == "장"){
-                        amt += Number(jMap.ACCT_AM_3);
-                        if(jMap.BGT_NM == "직접비"){
-                            g20B += Number(jMap.ACCT_AM_3);
-                        }
-                    }else if(jMap.DIV_FG_NM == "항"){
-
-                        if(jMap.BGT_CD != null && jMap.BGT_CD[0] == "1"){
-                            for (let k=0; k<bgtList.length; k++){
-                                const kMap = bgtList[k];
-                                if (jMap.BGT_CD == kMap.BGT_CD && kMap.BGT_AT == "1"){
-                                    g20A += Number(jMap.ACCT_AM_3);
-                                }
-                            }
-                        }
-
-                        if(jMap.BGT_CD != null && jMap.BGT_CD[0] == "5"){
-                            for (let k=0; k<bgtList.length; k++){
-                                const kMap = bgtList[k];
-                                if (jMap.BGT_CD == kMap.BGT_CD && kMap.BGT_AT == "1"){
-                                    g20CAll += Number(jMap.CALC_AM);
-                                    g20C += Number(jMap.ACCT_AM_3);
+                    if(jMap.DIV_FG_NM == "항"){
+                        for (let k=0; k<bgtList.length; k++){
+                            const kMap = bgtList[k];
+                            if(jMap.BGT_CD == kMap.BGT_CD){
+                                usedBudget += Number(jMap.ACCT_AM_3);
+                                if(kMap.BGT_AT == "1"){
+                                    revenueBudget += Number(jMap.CALC_AM);
+                                    usedRevenueBudget += Number(jMap.ACCT_AM_3);
+                                }else if(kMap.BGT_AT == "2"){
+                                    usedCostBudget += Number(jMap.ACCT_AM_3);
                                 }
                             }
                         }
                     }
                 }
             }
+            let asrAmt = 0;
             if($("#taxGubun").val() == "1"){
-                $("#RES_AMT").text(comma((amt * 10 / 11).toString().split(".")[0]));
+                asrAmt = Number((usedBudget * 10 / 11).toString().split(".")[0]);
             }else{
-                $("#RES_AMT").text(comma(amt));
+                asrAmt = usedBudget
             }
+            $("#RES_AMT").text(comma(asrAmt));
 
             /** 달성운영수익 */
-            let amt2 = 0;
-            console.log("g20A", g20A);
-            console.log("g20C", g20C);
-            console.log("g20B", g20B);
-            console.log("invSum", Number(uncomma($("#invSum").text())));
-            amt2 = (g20A + g20C) + (g20B - Number(uncomma($("#invSum").text())));
-            $("#RES_NOT_INV_AMT").text(comma(amt2));
+            let aopAmt = 0;
+            let invSum = Number(uncomma($("#invSum").text())) || 0;
+            aopAmt = usedRevenueBudget + (usedCostBudget - invSum);
+            console.log("usedRevenueBudget", usedRevenueBudget);
+            console.log("usedCostBudget", usedCostBudget);
+            console.log("invSum", invSum);
+            console.log("aopAmt", aopAmt);
+            $("#RES_NOT_INV_AMT").text(comma(aopAmt));
 
             /** 예상매출잔액 */
             let devAmt = 0;
-            if($("#taxGubun").val() == "1"){
-                devAmt = Number(e.PJT_AMT || 0) - Number((amt * 10 / 11).toString().split(".")[0]);
-            }else{
-                devAmt = Number(e.PJT_AMT || 0) - amt;
-            }
+            devAmt = Number(e.PJT_AMT || 0) - asrAmt;
             $("#DEV_AMT").text(comma(devAmt));
 
             /** 예상운영수익 */
-            let devNotInvAmt = 0;
-            devNotInvAmt = g20CAll - g20C;
-            $("#DEV_NOT_INV_AMT").text(comma(devNotInvAmt));
+            let eopAmt = 0;
+            eopAmt = revenueBudget - usedRevenueBudget;
+            $("#DEV_NOT_INV_AMT").text(comma(eopAmt));
         }
 
         console.log(Number(e.INV_AMT || 0));

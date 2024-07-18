@@ -24,7 +24,7 @@ var costInfoGrid = {
     },
 
     sumTable: function(){
-        const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {
+        const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {
             empSeq : $("#loginEmpSeq").val(),
             pjtSn : $("#searchPjtSn").val(),
             searchKeyword : $("#searchKeyword").val(),
@@ -568,11 +568,7 @@ var costInfoGrid = {
                     title: "비용처리",
                     width: 100,
                     template: function(row){
-                        if(row.PURC_DOC_NO != null){
-                            return "-";
-                        } else {
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="costInfoPop.fn_reqRegPopup('+row.PAY_APP_SN+')">비용처리</button>';
-                        }
+                        return '<button type="button" class="k-button k-button-solid-info" onclick="costInfoPop.fn_reqRegPopup('+row.PAY_APP_SN+')">비용처리</button>';
                     }
                 }, {
                     title: "상태",
