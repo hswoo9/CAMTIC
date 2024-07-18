@@ -411,16 +411,30 @@ var purcInfo = {
                         }
 
                         if(e.ORG_YN == 'N'){
-                            if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
-                                return '작성중';
-                            } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
-                                return '결재중';
-                            } else if(e.APPROVE_STAT_CODE == '30') {
-                                return '반려';
-                            } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
-                                return '결재완료';
+                            if(e.PURC_SN != null) {
+                                if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                                    return '작성중';
+                                } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                                    return '결재중';
+                                } else if(e.APPROVE_STAT_CODE == '30') {
+                                    return '반려';
+                                } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                                    return '결재완료';
+                                } else {
+                                    return '-';
+                                }
                             } else {
-                                return '-';
+                                if(e.CLAIM_DOC_STATUS == '0' || e.CLAIM_DOC_STATUS == '40' || e.CLAIM_DOC_STATUS == '60'){
+                                    return '작성중';
+                                } else if(e.CLAIM_DOC_STATUS == '10' || e.CLAIM_DOC_STATUS == '20' || e.CLAIM_DOC_STATUS == '50') {
+                                    return '결재중';
+                                } else if(e.CLAIM_DOC_STATUS == '30') {
+                                    return '반려';
+                                } else if(e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101') {
+                                    return '결재완료';
+                                } else {
+                                    return '-';
+                                }
                             }
                         } else {
                             return '-';
@@ -438,13 +452,56 @@ var purcInfo = {
                         var status = "";
                         if(e.ORG_YN == 'N'){
                             /** 구매요청서 */
-                            if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
-                                status = "구매요청작성중";
-                            }else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
-                                status = "구매요청결재중";
-                            }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                                status = "구매요청완료";
+                            if(e.PURC_SN != null) {
+                                if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
+                                    status = "구매요청작성중";
+                                }else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
+                                    status = "구매요청결재중";
+                                }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                                    status = "구매요청완료";
 
+                                    /** 구매청구서 */
+                                    if(e.CLAIM_STATUS == "CN"){
+                                        status = "구매요청완료";
+                                    }else if(e.CLAIM_STATUS == "CAN"){
+                                        status = "구매청구작성중";
+                                    }else if(e.CLAIM_STATUS == "CAYSN"){
+                                        status = "구매청구작성중";
+                                    }else if(e.CLAIM_STATUS == "CAYSY"){
+                                        if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
+                                            status = "구매청구완료";
+
+                                            if(e.PAYMENT_METHOD == "A"){
+                                                if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                                    if(e.INSPECT_YN == "Y"){
+                                                        if(e.INSPECT_STATUS != "100"){
+                                                            status = "검수요청중";
+                                                        }else{
+                                                            status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                                        }
+                                                    }
+                                                } else {
+                                                    status = "발주대기중";
+                                                }
+                                            } else {
+                                                if(e.INSPECT_YN == "Y"){
+                                                    if(e.INSPECT_STATUS != "100"){
+                                                        status = "검수요청중";
+                                                    }else{
+                                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                                    }
+                                                }
+                                            }
+                                        }else if(e.CLAIM_DOC_STATUS == "0" ||e.CLAIM_DOC_STATUS == "30" || e.CLAIM_DOC_STATUS == "40"){
+                                            status = "구매청구작성중";
+                                        } else if(e.CLAIM_DOC_STATUS == "10" || e.CLAIM_DOC_STATUS == "20" || e.CLAIM_DOC_STATUS == "50"){
+                                            status = "구매청구결재중";
+                                        } else {
+                                            status = '';
+                                        }
+                                    }
+                                }
+                            } else {
                                 /** 구매청구서 */
                                 if(e.CLAIM_STATUS == "CN"){
                                     status = "구매요청완료";
@@ -459,22 +516,14 @@ var purcInfo = {
                                         if(e.PAYMENT_METHOD == "A"){
                                             if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                                 if(e.INSPECT_YN == "Y"){
-                                                    if(e.INSPECT_STATUS != "100"){
-                                                        status = "검수요청중";
-                                                    }else{
-                                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
-                                                    }
+                                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
                                                 }
                                             } else {
                                                 status = "발주대기중";
                                             }
                                         } else {
                                             if(e.INSPECT_YN == "Y"){
-                                                if(e.INSPECT_STATUS != "100"){
-                                                    status = "검수요청중";
-                                                }else{
-                                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
-                                                }
+                                                status = "<div style='font-weight: bold'>검수승인완료</div>";
                                             }
                                         }
                                     }else if(e.CLAIM_DOC_STATUS == "0" ||e.CLAIM_DOC_STATUS == "30" || e.CLAIM_DOC_STATUS == "40"){

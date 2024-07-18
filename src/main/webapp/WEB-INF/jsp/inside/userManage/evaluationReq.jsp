@@ -166,12 +166,30 @@
         myForm.submit();
     }
 
-    function evalResultPop(){
+    function evalResultPopBak(){
         var url = "/evaluation/pop/evalResult.do?pk="+evalSn;
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    }
 
+    function evalResultPop(){
+        let url = "/Inside/pop/evalPop.do";
+        const option = "width=1000, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open("", "evalForm0", option);
+
+        const myForm = document.evalForm0;
+
+        const param = document.createElement("input");
+        param.setAttribute("name", "result");
+        param.setAttribute("value", "Y");
+        param.setAttribute("type", "hidden");
+        myForm.appendChild(param);
+
+        myForm.action = url;
+        myForm.target = "evalForm0";
+        myForm.method = "post";
+        myForm.submit();
     }
 
 

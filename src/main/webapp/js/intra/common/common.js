@@ -653,3 +653,52 @@ function calculateFinalScore(scoreA, weightA, scoreB, weightB) {
 
     return Math.floor(totalScore * 100) / 100;
 }
+
+/** 켄도그리드 현재 페이지의 합계 */
+function getGridSum(gridId, fieldName){
+    const dataSource = $("#"+gridId).getKendoGrid().dataSource;
+    const pageSize = dataSource.pageSize();
+    const totalSize = dataSource._data.length;
+    let currentPageSize = 0;
+
+    /** pageSize 가 All 일때 */
+    if (pageSize === undefined){
+        currentPageSize = totalSize;
+
+    /** 마지막 페이지 일때 */
+    }else if(dataSource.page() === dataSource.totalPages()){
+        currentPageSize = totalSize % pageSize === 0 ? pageSize : totalSize % pageSize;
+
+    }else{
+        currentPageSize = pageSize;
+    }
+
+    let sum = 0;
+    for (let i=0; i<currentPageSize; i++) {
+        const currentData = dataSource.view()[i];
+        if (currentData && currentData.hasOwnProperty(fieldName)) {
+            const value = parseFloat(currentData[fieldName]);
+            const amt = isNaN(value) ? 0 : value;
+            sum += amt;
+        }
+    }
+
+    return comma(sum);
+}
+
+function hancomTemplate(type){
+    let html = '';
+    if(type == 1){
+        html += '<table border="5" style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5" style="border-collapse: collapse; margin: 0px;">';
+        return html;
+    }else if(type == 2){
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+        return html;
+    }
+}

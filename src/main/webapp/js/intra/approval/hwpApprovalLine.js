@@ -446,7 +446,7 @@ var hwpApprovalLine = {
                     if(docInfo.DOC_GBN == "001"){
                         if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
                             const signInfo = getSign();
-                            const signUrl = "http://"+location.host+signInfo.FILE_NO;
+                            const signUrl = "https://new.camtic.or.kr"+signInfo.FILE_NO;
                             hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
                                 "SelectedCell",

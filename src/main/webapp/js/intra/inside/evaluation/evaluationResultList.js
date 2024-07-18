@@ -167,7 +167,14 @@ var evaluationResultList = {
                 }, {
                     field: "EVAL_SCORE",
                     title: "본인점수",
-                    width: 80
+                    width: 80,
+                    template: function(e){
+                        if(e.EVAL == "Y"){
+                            return e.EVAL_SCORE;
+                        }else{
+                            return "-";
+                        }
+                    }
                 }, {
                     field: "FINAL_SCORE",
                     title: "최종점수",

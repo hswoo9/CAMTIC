@@ -169,8 +169,11 @@
             html += '   <td>' + map.deptNm + '</td>';
             html += '   <td>' + map.teamNm + '</td>';
             html += '   <td><div style="cursor: pointer" onclick="evalResUserPop('+ map.EVAL_MEM_SN+');">' + map.EMP_NAME_KR + '</div></td>';
-            html += '   <td style="text-align: center; background-color: #EFEFEF">' + map.EVAL_SCORE + '</td>';
-            html += '   <td style="text-align: center">' + map.EVAL_F_SCORE + '</td>';
+            if(map.EVAL == "Y"){
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + map.EVAL_SCORE + '</td>';
+            }else{
+                html += '   <td style="text-align: center; background-color: #EFEFEF">-</td>';
+            }
 
             let aDeptPer = data.DEPT_MANAGER_A;
             let bDeptPer = data.DEPT_MANAGER_B;
@@ -202,6 +205,7 @@
                 bMemPer = 100;
             }
 
+            html += '   <td style="text-align: center">' + map.EVAL_F_SCORE + '</td>';
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
                 scoreF = calculateScore(aDeptPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aDeptPer +' %</td>';
@@ -216,9 +220,7 @@
                 html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
             }
 
-
             html += '   <td style="text-align: center">' + map.EVAL_S_SCORE + '</td>';
-
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
                 scoreS = calculateScore(bDeptPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bDeptPer +' %</td>';

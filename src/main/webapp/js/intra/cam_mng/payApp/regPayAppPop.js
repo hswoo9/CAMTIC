@@ -273,7 +273,7 @@ var regPay = {
                     selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
 
-                $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+                // $("#appTitle").val(rs.PURC_REQ_PURPOSE);
 
 
 
@@ -536,11 +536,11 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            if(cem.CNT > 1 ){
-                $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + Number(cem.CNT - 1) + "건");
-            } else {
-                $("#appTitle").val(rs.PURC_REQ_PURPOSE);
-            }
+            // if(cem.CNT > 1 ){
+            //     $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + Number(cem.CNT - 1) + "건");
+            // } else {
+            //     $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            // }
 
             if(cem.EVID_TYPE == 3){
                 var ls = claimExnpData.result.list;
