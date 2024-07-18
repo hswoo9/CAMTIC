@@ -107,4 +107,19 @@ public class KukgohRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("kukgoh.getCrmDataByPayAppData", payAppData);
     }
+
+    public List<Map<String, Object>> getEnaraBankList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getEnaraBankList", params);
+    }
+
+    public void insExcutRequstErp(Map<String, Object> params) {
+
+        insert("kukgoh.insExcutRequstErp", params);
+    }
+
+    public void insExcutExpItmErp(Map<String, Object> params) {
+
+        insert("kukgoh.insExcutExpItmErp", params);
+    }
 }

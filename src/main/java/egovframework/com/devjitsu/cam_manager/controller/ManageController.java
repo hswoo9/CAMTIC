@@ -341,6 +341,7 @@ public class ManageController {
     @RequestMapping("/mng/bankCodeViewPop")
     public String bankCodeViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        model.addAttribute("params", params);
         return "cam_manager/bankCodeViewPop";
     }
 

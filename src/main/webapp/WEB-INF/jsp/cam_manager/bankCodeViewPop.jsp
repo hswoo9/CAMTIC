@@ -15,6 +15,7 @@
 
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="tmpBankNm" value="${params.bankNm}" />
 <div class="col-lg-12 pop_sign_wrap" style="width:500px; padding:0;">
 	<div class="card-header pop-header">
 		<h3 class="card-title title_NM">금융기관 코드</h3>

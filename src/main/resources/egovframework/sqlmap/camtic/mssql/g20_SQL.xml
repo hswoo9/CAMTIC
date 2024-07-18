@@ -320,7 +320,7 @@
     <select id="getTradeInfo" parameterType="map" resultType="map">
         /*getTradeInfo*/
         SELECT
-            TR_NM, REG_NB, PPL_NB, CEO_NM, BUSINESS, JONGMOK, ZIP, DIV_ADDR1, ADDR2
+            TR_NM, REG_NB, PPL_NB, CEO_NM, BUSINESS, JONGMOK, ZIP, DIV_ADDR1, ADDR2, TEL, JIRO_NM, BA_NB
         FROM ZA_TRADE_DAIKIN
         WHERE TR_CD = #{TR_CD}
     </select>

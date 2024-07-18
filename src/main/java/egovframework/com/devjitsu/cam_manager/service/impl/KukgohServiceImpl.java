@@ -4,13 +4,19 @@ package egovframework.com.devjitsu.cam_manager.service.impl;
 import egovframework.com.devjitsu.cam_manager.repository.KukgohRepository;
 import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.devjitsu.common.utiles.CSVKeyUtil;
+import egovframework.devjitsu.common.utiles.EsbUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class KukgohServiceImpl implements KukgohService {
@@ -109,11 +115,11 @@ public class KukgohServiceImpl implements KukgohService {
 
         Map<String, Object> result = new HashMap<>();
 
-                Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
+        Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
         result.put("payAppData", payAppData);
 
         Map<String, Object> crmData = new HashMap<>();
-        if(!"".equals(payAppData.get("CRM_SN").toString()) && payAppData.get("CRM_SN") != null){
+        if(!"".equals(payAppData.get("TR_CD").toString()) && payAppData.containsKey("TR_CD")){
             crmData = g20Repository.getTradeInfo(payAppData);
             result.put("crmData", crmData);
         }
@@ -132,4 +138,160 @@ public class KukgohServiceImpl implements KukgohService {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getEnaraBankList(Map<String, Object> params) {
+        return kukgohRepository.getEnaraBankList(params);
+    }
+
+    @Override
+    public void sendEnara(Map<String, Object> params) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String formattedDate = LocalDateTime.now().format(formatter);
+
+        System.out.println(params);
+        params.put("CNTC_JOB_PROCESS_CODE", "C");
+        params.put("INTRFC_ID", "IF-EXE-EFR-0074");
+        params.put("TRANSFR_ACNUT_SE_CODE", String.format("%03d", params.get("TRANSFR_ACNUT_SE_CODE").toString()));
+        params.put("SBSACNT_TRFRSN_CODE", String.format("%03d", params.get("SBSACNT_TRFRSN_CODE").toString()));
+        params.put("CNTC_CREAT_DT", formattedDate);
+        params.put("CNTC_TRGET_SYS_CODE", "CTIC");
+
+        String trnscId = getTransactionId();
+        params.put("TRNSC_ID", trnscId);
+
+        long timestamp = Instant.now().toEpochMilli();
+
+        params.put("EXCUT_CNTC_ID", "CTIC" + String.format("%016d", timestamp));
+        params.put("EXCUT_TAXITM_CNTC_ID", "CTIC" + String.format("%016d", timestamp));
+        params.put("TAXITM_FNRSC_CNT", "1");
+        kukgohRepository.insExcutRequstErp(params);
+        kukgohRepository.insExcutExpItmErp(params);
+
+
+//        kukgohRepository.sendEnara(params);
+    }
+
+    public String getTransactionId(){
+        String mangGubunCode = "E"; // I : 행정망, E : 인터넷망
+        String systemCode = "CTI"; // 시스템 코드중 앞 3자리 CTIC
+
+        String agentNumber = "01"; // Agent 일련번호
+        String intrfcId = "IF-EXE-EFR-0074";
+        String threadNumber = "T00001";
+
+        long timestamp = Instant.now().toEpochMilli();
+
+        String timeStampNow = String.format("%013d", timestamp);
+
+        String trnscId = mangGubunCode + systemCode + agentNumber + "_" + intrfcId + "_" + threadNumber;
+
+        return trnscId;
+    }
+
+//    private String makeCSVFile(Map<String, Object> params) {
+//        String fileName = "";
+//        String filepath = "/home/upload/kukgoh";
+//
+//        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+//        String cntcCreateDt = sf.format(new Date());
+//
+//        String systemCode = "CTIC";
+//        int wasNum = 1;
+//        String intrfcId = "IF-EXE-EFR-0074";
+//        String trnscId = EsbUtils.getTransactionId(intrfcId, systemCode, wasNum);
+//
+//        params.put("TRNSC_ID", trnscId);
+//
+//        try {
+//            if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
+//                fileName = filepath + "/" + trnscId + "-data.csv";
+//                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
+//                Map<String, Object> map2 = new HashMap<String, Object>();
+//                int i = 0;
+//
+//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_REQUST_ERP]\"");
+//                fw.newLine();
+//
+//                List<Map<String, Object>> execRequestCsvList = kukgohService.getExecRequestCsvList(params);
+//
+//                for (Map<String, Object> dom : execRequestCsvList) {
+//
+//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
+//
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    } else {
+//
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    }
+//
+//                    fw.newLine();
+//                }
+//
+//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_EXPITM_ERP]\"");
+//                fw.newLine();
+//
+//                for (Map<String, Object> dom : execBimokCsvList) {
+//
+//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    } else {
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    }
+//                    fw.newLine();
+//                }
+//
+//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_FNRSC_ERP]\"");
+//                fw.newLine();
+//
+//                for (Map<String, Object> dom : execBimokDataCsvList) {
+//
+//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    } else {
+//                        for (int j = 0; j < (dom.size() - 1); j++) {
+//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j]) + "\"");
+//                            if (!(j == (dom.size() - 2))) {
+//                                fw.write(",");
+//                            }
+//                        }
+//                    }
+//                    fw.newLine();
+//                }
+//
+//                fw.flush();
+//                fw.close();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return fileName;
+//    }
+
 }

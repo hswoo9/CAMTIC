@@ -7,7 +7,7 @@ var enaralink = {
         selData: ""
     },
 
-        fn_defaultScript: function () {
+    fn_defaultScript: function () {
 
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
@@ -45,7 +45,7 @@ var enaralink = {
 
 
     mainGrid : function(){
-        let dataSource = new kendo.data.DataSource({
+        var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
@@ -76,7 +76,6 @@ var enaralink = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
-            selectable: "row",
             height : 525,
             pageable: {
                 refresh: true,
@@ -105,7 +104,7 @@ var enaralink = {
                             '	<span class="k-button-text">집행정보 일괄전송</span>' +
                             '</button>'+
 
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -117,26 +116,21 @@ var enaralink = {
                     field : "",
                     title: "전송가능여부",
                     width: 50,
-                    locked: true
                 },
                 {
                     title: "전송불가사유",
                     width: 150,
-                    locked: true,
-                    encoded: false
                 },
                 {
                     title: "전송/확인",
                     width: 100,
                     template : function(dataItem) {
                         if (dataItem.KUKGO_STATE === "전송완료" || dataItem.KUKGO_STATE === '전송진행중' || dataItem.KUKGO_STATE === '전송실패') {
-                            return "<button type='button' class='btnChoice k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>확인</button>";
+                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>확인</button>";
                         } else {
-                            return "<button type='button' class='btnChoice k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>전송</button>";
+                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>전송</button>";
                         }
                     },
-                    locked: true,
-                    encoded: false
                 },
                 {
                     title: "지출결의 정보",
@@ -262,7 +256,6 @@ var enaralink = {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
-
 
 
 }

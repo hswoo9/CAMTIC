@@ -13,17 +13,24 @@ var bankCodeViewPop = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getEnaraBankList',
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
-
+                    data.bankNm = $("#tmpBankNm").val()
                     return data;
                 }
 
             },
-            pageSize: 10,
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
         });
 
         $("#bankCodeView").kendoGrid({
@@ -31,25 +38,27 @@ var bankCodeViewPop = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height : 525,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
-            pageSize: 10,
+            height: 500,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            persistSelection : true,
+            dataBound : function(e){
+                const grid = this;
+                grid.tbody.find("tr").dblclick(function (e) {
+                    const dataItem = grid.dataItem($(this));
+                    opener.parent.$("#BCNC_BANK_CODE_NM").val(dataItem.CMMN_DETAIL_CODE_NM);
+                    opener.parent.$("#BCNC_BANK_CODE").val(dataItem.CMMN_DETAIL_CODE)
+                    window.close();
+                });
+            },
             columns: [
                 {
-                    field : "",
+                    field : "CMMN_DETAIL_CODE",
                     title : "은행코드",
                     width : 100
                 },
                 {
-                    field : "",
+                    field : "CMMN_DETAIL_CODE_NM",
                     title : "은행명",
                     width : 150
                 }]

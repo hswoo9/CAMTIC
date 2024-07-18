@@ -6,7 +6,7 @@ var newResolutionSubmitPage = {
 
     fn_defaultScript: function () {
         customKendo.fn_datePicker("EXCUT_REQUST_DE", "depth", "yyyy-MM-dd", new Date());
-        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #PRUF_SE_NO, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #TRANSFR_ACNUT_SE_CODE, #SBSACNT_TRFRSN_CODE, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE").kendoTextBox();
+        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE").kendoTextBox();
 
         $("#EXCUT_TY_SE_CODE").val("20")
 
@@ -15,10 +15,10 @@ var newResolutionSubmitPage = {
             dataValueField: "value",
             dataSource: [
                 {text: "선택", value: "0"},
-                {text: "전자세금계산서", value: "1"},
-                {text: "전자계산서", value: "2"},
-                {text: "보조금전용카드", value: "3"},
-                {text: "기타", value: ""}
+                {text: "전자세금계산서", value: "001"},
+                {text: "전자계산서", value: "002"},
+                {text: "보조금전용카드", value: "004"},
+                {text: "기타", value: "999"}
             ],
             index: 0,
             change : function(e){
@@ -30,6 +30,36 @@ var newResolutionSubmitPage = {
             }
         });
 
+        var ds = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : 1089});
+
+        $("#TRANSFR_ACNUT_SE_CODE").kendoDropDownList({
+            dataTextField: "CMMN_DETAIL_CODE_NM",
+            dataValueField: "CMMN_DETAIL_CODE",
+            dataSource: ds.list,
+            index: 0,
+            change: function(e){
+                if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "2"){
+                    $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").wrapper.show();
+                    $("#SBSACNT_TRFRSN_CN").data("kendoTextBox").wrapper.show();
+                } else {
+                    $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").wrapper.hide();
+                    $("#SBSACNT_TRFRSN_CN").data("kendoTextBox").wrapper.hide();
+                }
+            }
+        });
+
+        var ds2 = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : 665});
+
+        $("#SBSACNT_TRFRSN_CODE").kendoDropDownList({
+            dataTextField: "CMMN_DETAIL_CODE_NM",
+            dataValueField: "CMMN_DETAIL_CODE",
+            dataSource: ds2.list,
+            index: 0
+        });
+
+        $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").wrapper.hide();
+        $("#SBSACNT_TRFRSN_CN").data("kendoTextBox").wrapper.hide();
+
         $("#BCNC_SE_CODE").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -40,6 +70,15 @@ var newResolutionSubmitPage = {
                 {text: "해외", value: "004"},
             ],
             index: 0,
+            change : function (e){
+                if($("#BCNC_SE_CODE").data("kendoDropDownList").value() == "003"){
+                    $("#etcValue").css("display", "none");
+                    $("#etcValue2").css("display", "");
+                } else {
+                    $("#etcValue").css("display", "");
+                    $("#etcValue2").css("display", "none");
+                }
+            }
         })
 
 
@@ -81,7 +120,7 @@ var newResolutionSubmitPage = {
     },
 
     fn_backClick : function() {
-        var url = "/mng/bankCodeViewPop.do";
+        var url = "/mng/bankCodeViewPop.do?bankNm=" + $("#tmpBankNm").val();
         var name = "bankCodeViewPop";
         var option = "width=520, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
@@ -104,7 +143,7 @@ var newResolutionSubmitPage = {
                 var pi = rs.projectInfo;
                 var ebd = rs.enaraBgtData;
                 var eed = rs.enaraExcData;
-
+                var cd = rs.crmData;
                 var ebi = rs.enaraBankInfo;
                 console.log(rs);
                 $("#korNm").val(pad.EMP_NAME);
@@ -121,18 +160,25 @@ var newResolutionSubmitPage = {
 
                 if(pad.EVID_TYPE == "1"){
                     $("#setFgNm").val("세금계산서");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(1);
                 } else if(pad.EVID_TYPE == "2"){
                     $("#setFgNm").val("계산서");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "3"){
                     $("#setFgNm").val("신용카드");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(3);
                 } else if(pad.EVID_TYPE == "4"){
                     $("#setFgNm").val("직원지급");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 } else if(pad.EVID_TYPE == "5"){
                     $("#setFgNm").val("사업소득자");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 } else if(pad.EVID_TYPE == "6"){
                     $("#setFgNm").val("기타");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 } else if(pad.EVID_TYPE == "9"){
                     $("#setFgNm").val("기타소득자");
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 }
 
                 $("#vatFgNm").val();
@@ -146,21 +192,26 @@ var newResolutionSubmitPage = {
                     $("#vatFgNm").val("비과세");
                 }
 
+                if(ebd != null){
+                    $("#ASSTN_TAXITM_CODE_NM").val((ebd.ASSTN_TAXITM_NM || ""))
+                    $("#FILE_ID").val((ebd.FILE_ID || ""));
+                    $("#ASSTN_TAXITM_CODE").val(ebd.ASSTN_TAXITM_CODE) // IF-CMM-EFS-0062 인터페이스의 보조비목세목코드
+                }
+
+                if(ebi != null){
+                    $("#BCNC_BANK_CODE").val((ebi.CMMN_DETAIL_CODE || ""));
+                }
                 $("#unitAm").val(comma(pad.TOT_COST));
-                $("#ASSTN_TAXITM_CODE_NM").val((ebd.ASSTN_TAXITM_NM || ""))
                 $("#BSNSYEAR").val((pi.BSNSYEAR || ""));
-                $("#FILE_ID").val((ebd.FILE_ID || ""));
                 $("#DDTLBZ_ID").val((pi.DDTLBZ_ID || ""));
                 $("#EXC_INSTT_ID").val((eed.EXC_INSTT_ID || ""));
-                $("#BCNC_BANK_CODE").val((ebi.CMMN_DETAIL_CODE || ""));
-                $("#EXCUT_SPLPC").val(comma(pad.SUP_COST));
-                $("#EXCUT_VAT").val(comma(pad.VAT_COST));
-                $("#EXCUT_SUM_AMOUNT").val(comma(pad.TOT_COST));
+                $("#EXCUT_SPLPC").val(pad.SUP_COST);
+                $("#EXCUT_VAT").val(pad.VAT_COST);
+                $("#EXCUT_SUM_AMOUNT").val(pad.TOT_COST);
                 $("#INTRFC_ID").val("IF-EXE-EFR-0074");
                 $("#PJT_CD").val(pi.PJT_CD);
                 $("#PREPAR").val("") // 예비
                 $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
-                $("#ASSTN_TAXITM_CODE").val(ebd.ASSTN_TAXITM_CODE) // IF-CMM-EFS-0062 인터페이스의 보조비목세목코드
                 $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
                 $("#FNRSC_SE_CODE").val("")// 재원구분코드
                 $("#ACNUT_OWNER_NM").val("");
@@ -172,6 +223,50 @@ var newResolutionSubmitPage = {
                 $("#VAT").val(comma(pad.VAT_COST));
                 $("#CO_CD").val(1212);
 
+                $("#EXCUT_REQUST_DE").val(pad.TR_DE)
+                if(cd != null){
+                    $("#BCNC_CMPNY_NM").val(cd.TR_NM);
+                    $("#BCNC_LSFT_NO").val(cd.REG_NB);
+                    $("#BCNC_RPRSNTV_NM").val(cd.CEO_NM);
+                    $("#BCNC_TELNO").val(cd.TEL);
+                    $("#BCNC_BIZCND_NM").val(cd.BUSINESS);
+                    $("#BCNC_INDUTY_NM").val(cd.JONGMOK);
+                    $("#POST_CD").val(cd.ZIP);
+                    $("#BCNC_ADRES").val(cd.DIV_ADDR1);
+                    $("#tmpBankNm").val(cd.JIRO_NM);
+                    $("#BCNC_BANK_CODE_NM").val();
+                    $("#BCNC_ACNUT_NO").val(cd.BA_NB);
+
+                } else {
+                    $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
+                }
+
+
+                if(pad.EVID_TYPE == "1" || pad.EVID_TYPE == "2"){
+                    $("#PRUF_SE_NO").val(pad.ISS_NO || "");
+
+                } else if(pad.EVID_TYPE == "3"){
+                    $("#PRUF_SE_NO").val(pad.AUTH_NO || "");
+                }
+
+            }
+        });
+    },
+
+    fn_send: function(){
+        var formData = new FormData(document.querySelector('#sendForm'));
+
+        $.ajax({
+            url: '/kukgoh/sendEnara',
+            type: 'POST',
+            data: formData,
+            processData: false,  // important
+            contentType: false,  // important
+            success: function(result){
+                console.log(result);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error(textStatus, errorThrown);
             }
         });
     }

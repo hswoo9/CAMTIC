@@ -20,7 +20,7 @@
 		<div class="card-header pop-header">
 			<h3 class="card-title title_NM">지출결의서 집행전송</h3>
 			<div class="btn-st popButton">
-				<button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="">전송</button>
+				<button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="newResolutionSubmitPage.fn_send()">전송</button>
 				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="">전송취소</button>
 				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
 			</div>
@@ -63,23 +63,23 @@
 				<tr>
 					<th>제목</th>
 					<td colspan="3">
-						<input type="text"  style="width:50%" id="docTitle"  value="<c:out value='${data.DOC_TITLE}' />" value='${data.DOC_TITLE}' readonly name="DOC_TITLE" disabled/>
+						<input type="text"  style="width:75%" id="docTitle"  value="<c:out value='${data.DOC_TITLE}' />" value='${data.DOC_TITLE}' readonly name="DOC_TITLE" disabled/>
 					</td>
 				</tr>
 				<tr>
 					<th>e나라도움 사업명</th>
 					<td colspan="3">
-						<input type="text" style="width:50%"  id="kukgoPjtNm" value='${data.KUKGO_PJTNM}' title="${data.KUKGO_PJTNM}" readonly  name="KUKGO_PJTNM" disabled/>
+						<input type="text" style="width:75%"  id="kukgoPjtNm" value='${data.KUKGO_PJTNM}' title="${data.KUKGO_PJTNM}" readonly  name="KUKGO_PJTNM" disabled/>
 					</td>
 				</tr>
 				<tr>
-					<th>회계단위</th>
-					<td>
-						<input type="text" style="width:50%"  id="divNm"value='${data.DIV_NM}' title="${data.DIV_NM}" readonly name="DIV_NM" disabled/>
-					</td>
+<%--					<th>회계단위</th>--%>
+<%--					<td>--%>
+<%--						<input type="text" style="width:50%"  id="divNm"value='${data.DIV_NM}' title="${data.DIV_NM}" readonly name="DIV_NM" disabled/>--%>
+<%--					</td>--%>
 					<th>프로젝트</th>
-					<td>
-						<input type="text" id="pjtNm" style="width:50%"  value='${data.PJT_NM}'  title="${data.PJT_NM}" readonly  name="PJT_NM" disabled/>
+					<td colspan="3">
+						<input type="text" id="pjtNm" style="width:75%"  value='${data.PJT_NM}'  title="${data.PJT_NM}" readonly  name="PJT_NM" disabled/>
 					</td>
 				</tr>
 				<tr>
@@ -124,8 +124,9 @@
 						<input type="hidden" id="FILE_ID" name="FILE_ID"  value='${dataJson.FILE_ID }'/>
 						<input type="hidden" id="DDTLBZ_ID" name="DDTLBZ_ID"  value='${dataJson.DDTLBZ_ID }'/>
 						<input type="hidden" id="EXC_INSTT_ID" name="EXC_INSTT_ID"  value='${dataJson.EXC_INSTT_ID }'/>
-
+                        <input type="hidden" id="PRUF_SE_NO" name="PRUF_SE_NO" value="${dataJson.PRUF_SE_NO }" />
 						<!-- 집행정보 반영 -->
+                        <input type="hidden" id="EXCUT_CNTC_ID" name="EXCUT_CNTC_ID" value="${dataJson.EXCUT_CNTC_ID }" />
 						<input type="hidden" id="BCNC_ACNUT_NO_ENARA" name="BCNC_ACNUT_NO_ENARA" value="" />
 						<input type="hidden" id="PJT_CD" name="PJT_CD"  value="${dataJson.PJT_CD }"/>
 						<input type="hidden" id="APPLY_DIV" name="APPLY_DIV"  value="${dataJson.APPLY_DIV }"/>
@@ -161,7 +162,7 @@
 					</td>
 					<th>집행용도</th>
 					<td>
-						<input style="width: 80%" type="text" id="EXCUT_PRPOS_CN" name="EXCUT_PROPOS_CN" value="${dataJson.EXCUT_PRPOS_CN }"/>
+						<input style="width: 80%" type="text" id="EXCUT_PRPOS_CN" name="EXCUT_PRPOS_CN" value="${dataJson.EXCUT_PRPOS_CN }"/>
 					</td>
 				</tr>
 				<tr>
@@ -233,20 +234,19 @@
 					<td>
 						<input type="text" id="BCNC_SE_CODE" name="BCNC_SE_CODE" style="width: 50%;"  value="" />
 					</td>
-					<th>거래처명</th>
+					<th><span class="red-star">*</span>거래처명</th>
 					<td>
 						<input style="width: 50%;" type="text" id="BCNC_CMPNY_NM" name="BCNC_CMPNY_NM" value="${dataJson.BCNC_CMPNY_NM }"/>
 					</td>
 				</tr>
 				<tr>
-					<th>사업자등록번호</th>
-					<td>
-					<input style="width: 30%;margin-bottom: 3px;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
+					<th>사업자(주민)<br>등록번호</th>
+					<td id="etcValue" colspan="3">
+                        <input style="width: 30%;margin-bottom: 3px;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
 					</td>
-					<td colspan="2">
-					<input style="width: 30%;" type="text" id="PIN_NO_1" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 30%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value=""/>******
-					</td>
-
+                    <td id="etcValue2" style="display:none" colspan="3">
+                        <input style="width: 15%;" type="text" id="PIN_NO_1" style="" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 15%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value="******"/>
+                    </td>
 				</tr>
 
 				<tr>
@@ -282,7 +282,8 @@
 					</td>
 					<th>은행</th>
 					<td>
-						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img style="margin-left:5px;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
+						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" disabled name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img style="margin-left:5px; cursor: pointer;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
+                        <input type="hidden" id="tmpBankNm" value="" />
 					</td>
 				</tr>
 				<tr>
@@ -292,9 +293,9 @@
 					</td>
 					<th>이체구분</th>
 					<td>
-						<input type="text" style="width: 30%;" id="TRANSFR_ACNUT_SE_CODE" name="TRANSFR_ACNUT_SE_CODE" value="${dataJson.TRANSFR_ACNUT_SE_CODE }"/>
-						<input type="text" style="width: 30%;" id="SBSACNT_TRFRSN_CODE" name="SBSACNT_TRFRSN_CODE" value="${dataJson.SBSACNT_TRFRSN_CODE }"/>
-						<input type="text" style="width: 30%;" id="SBSACNT_TRFRSN_CN" name="SBSACNT_TRFRSN_CN" value="${dataJson.SBSACNT_TRFRSN_CN }"/>
+						<input type="text" style="width: 40%;" id="TRANSFR_ACNUT_SE_CODE" name="TRANSFR_ACNUT_SE_CODE" value="${dataJson.TRANSFR_ACNUT_SE_CODE }"/>
+						<input type="text" style="width: 25%;" id="SBSACNT_TRFRSN_CODE" name="SBSACNT_TRFRSN_CODE" value="${dataJson.SBSACNT_TRFRSN_CODE }"/>
+						<input type="text" style="width: 25%;" id="SBSACNT_TRFRSN_CN" name="SBSACNT_TRFRSN_CN" value="${dataJson.SBSACNT_TRFRSN_CN }"/>
 					</td>
 				</tr>
 				<tr>

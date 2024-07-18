@@ -52,6 +52,7 @@
             C.DOC_NO,
             C.DOC_TITLE,
             B.PJT_NM,
+            B.PJT_CD,
             A.BUDGET_NM,
             A.EVID_TYPE,
             A.TOT_COST
@@ -63,6 +64,8 @@
             B.DOC_STATUS = 100
         AND
             DATE_FORMAT(B.REG_DT, '%Y-%m-%d') BETWEEN #{strDt} AND #{endDt}
+        AND
+            LEFT(B.PJT_CD, 1) IN ('R', 'S', 'A')
     </select>
 
     <select id="getEnaraBudgetCdList" parameterType="map" resultType="map">
@@ -184,10 +187,13 @@
             B.SUP_COST,
             B.VAT_COST,
             B.CRM_BNK_NM,
-            B.CRM_SN,
+            IFNULL(B.CRM_SN, "") AS CRM_SN,
             B.CRM_NM,
             B.REG_NO,
-            B.TR_CD,
+            B.ISS_NO,
+            B.AUTH_NO,
+            B.TR_DE,
+            IFNULL(B.TR_CD, "") AS TR_CD,
             C.*
         FROM
             CAM_MNG.DJ_PAY_APP A
@@ -249,4 +255,40 @@
         WHERE
             CRM_SN = #{CRM_SN}
     </select>
+
+    <select id="getEnaraBankList" parameterType="map" resultType="map">
+        /*getEnaraBankList*/
+        SELECT * FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE CMMN_CODE = 1070
+    </select>
+
+    <insert id="insExcutRequstErp" parameterType="map">
+        /*insExcutRequstErp*/
+        INSERT INTO t_ifr_excut_requst_erp
+            (
+                CNTC_JOB_PROCESS_CODE, INTRFC_ID, TRNSC_ID, FILE_ID,
+                CNTC_CREAT_DT, CNTC_TRGET_SYS_CODE, BSNSYEAR, DDTLBZ_ID, EXC_INSTT_ID,
+                EXCUT_CNTC_ID, EXCUT_TY_SE_CODE, PRUF_SE_CODE, PRUF_SE_NO, EXCUT_REQUST_DE,
+                TRANSFR_ACNUT_SE_CODE, SBSACNT_TRFRSN_CODE, SBSACNT_TRFRSN_CN, BCNC_SE_CODE,
+                BCNC_LSFT_NO, BCNC_CMPNY_NM, BCNC_INDUTY_NM, BCNC_BIZCND_NM, BCNC_RPRSNTV_NM,
+                BCNC_ADRES, BCNC_TELNO, BCNC_BANK_CODE, BCNC_ACNUT_NO, EXCUT_SPLPC,
+                EXCUT_VAT, EXCUT_SUM_AMOUNT, EXCUT_PRPOS_CN, BCNC_BNKB_INDICT_CN,
+                SBSIDY_BNKB_INDICT_CN, PREPAR, EXCUT_EXPITM_TAXITM_CNT
+            )
+        VALUES
+            (
+                #{CNTC_JOB_PROCESS_CODE}, #{INTRFC_ID}, #{TRNSC_ID}, #{FILE_ID},
+                #{CNTC_CREAT_DT}, #{CNTC_TRGET_SYS_CODE}, #{BSNSYEAR}, #{DDTLBZ_ID}, #{EXC_INSTT_ID},
+                #{EXCUT_CNTC_ID}, #{EXCUT_TY_SE_CODE}, #{PRUF_SE_CODE}, #{PRUF_SE_NO}, #{EXCUT_REQUST_DE},
+                #{TRANSFR_ACNUT_SE_CODE}, #{SBSACNT_TRFRSN_CODE}, #{SBSACNT_TRFRSN_CN}, #{BCNC_SE_CODE},
+                #{BCNC_LSFT_NO}, #{BCNC_CMPNY_NM}, #{BCNC_INDUTY_NM}, #{BCNC_BIZCND_NM}, #{BCNC_RPRSNTV_NM},
+                #{BCNC_ADRES}, #{BCNC_TELNO}, #{BCNC_BANK_CODE}, #{BCNC_ACNUT_NO}, #{EXCUT_SPLPC},
+                #{EXCUT_VAT}, #{EXCUT_SUM_AMOUNT}, #{EXCUT_PRPOS_CN}, #{BCNC_BNKB_INDICT_CN},
+                #{SBSIDY_BNKB_INDICT_CN}, #{PREPAR}, #{EXCUT_EXPITM_TAXITM_CNT}
+            );
+    </insert>
+
+    <insert id="insExcutExpItmErp" parameterType="map">
+        /*insExcutExpItmErp*/
+
+    </insert>
 </mapper>
