@@ -209,6 +209,7 @@ var busnCostPreCon = {
         }
 
         $.ajax({
+            // url: "/mng/insProjectBudgetStatus",      // 예산동기화할때(10분정도 소요)
             url: "/mng/updProjectPayAsync",
             type: "POST",
             data: data,
