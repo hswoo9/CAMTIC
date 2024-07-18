@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
@@ -152,8 +153,8 @@ public class KukgohServiceImpl implements KukgohService {
         System.out.println(params);
         params.put("CNTC_JOB_PROCESS_CODE", "C");
         params.put("INTRFC_ID", "IF-EXE-EFR-0074");
-        params.put("TRANSFR_ACNUT_SE_CODE", String.format("%03d", params.get("TRANSFR_ACNUT_SE_CODE").toString()));
-        params.put("SBSACNT_TRFRSN_CODE", String.format("%03d", params.get("SBSACNT_TRFRSN_CODE").toString()));
+        params.put("TRANSFR_ACNUT_SE_CODE", String.format("%03d", Integer.parseInt(params.get("TRANSFR_ACNUT_SE_CODE").toString())));
+        params.put("SBSACNT_TRFRSN_CODE", String.format("%03d", Integer.parseInt(params.get("SBSACNT_TRFRSN_CODE").toString())));
         params.put("CNTC_CREAT_DT", formattedDate);
         params.put("CNTC_TRGET_SYS_CODE", "CTIC");
 
@@ -165,10 +166,16 @@ public class KukgohServiceImpl implements KukgohService {
         params.put("EXCUT_CNTC_ID", "CTIC" + String.format("%016d", timestamp));
         params.put("EXCUT_TAXITM_CNTC_ID", "CTIC" + String.format("%016d", timestamp));
         params.put("TAXITM_FNRSC_CNT", "1");
+        params.put("EXCUT_REQUST_DE", params.get("EXCUT_REQUST_DE").toString().replaceAll("-", ""));
+        params.put("SPLPC", params.get("EXCUT_SPLPC").toString().replaceAll(",", ""));
+        params.put("VAT", params.get("EXCUT_VAT").toString().replaceAll(",", ""));
+        params.put("SUM_AMOUNT", params.get("EXCUT_SUM_AMOUNT").toString().replaceAll(",", ""));
+
         kukgohRepository.insExcutRequstErp(params);
         kukgohRepository.insExcutExpItmErp(params);
+        kukgohRepository.insExcutFnrscErp(params);
 
-
+        makeCSVFile(params);
 //        kukgohRepository.sendEnara(params);
     }
 
@@ -189,109 +196,127 @@ public class KukgohServiceImpl implements KukgohService {
         return trnscId;
     }
 
-//    private String makeCSVFile(Map<String, Object> params) {
-//        String fileName = "";
-//        String filepath = "/home/upload/kukgoh";
-//
-//        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String cntcCreateDt = sf.format(new Date());
-//
-//        String systemCode = "CTIC";
-//        int wasNum = 1;
-//        String intrfcId = "IF-EXE-EFR-0074";
-//        String trnscId = EsbUtils.getTransactionId(intrfcId, systemCode, wasNum);
-//
-//        params.put("TRNSC_ID", trnscId);
-//
-//        try {
-//            if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
-//                fileName = filepath + "/" + trnscId + "-data.csv";
-//                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
-//                Map<String, Object> map2 = new HashMap<String, Object>();
-//                int i = 0;
-//
-//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_REQUST_ERP]\"");
-//                fw.newLine();
-//
-//                List<Map<String, Object>> execRequestCsvList = kukgohService.getExecRequestCsvList(params);
-//
-//                for (Map<String, Object> dom : execRequestCsvList) {
-//
-//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
-//
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    } else {
-//
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    }
-//
-//                    fw.newLine();
-//                }
-//
-//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_EXPITM_ERP]\"");
-//                fw.newLine();
-//
-//                for (Map<String, Object> dom : execBimokCsvList) {
-//
-//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    } else {
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    }
-//                    fw.newLine();
-//                }
-//
-//                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_FNRSC_ERP]\"");
-//                fw.newLine();
-//
-//                for (Map<String, Object> dom : execBimokDataCsvList) {
-//
-//                    if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    } else {
-//                        for (int j = 0; j < (dom.size() - 1); j++) {
-//                            fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j]) + "\"");
-//                            if (!(j == (dom.size() - 2))) {
-//                                fw.write(",");
-//                            }
-//                        }
-//                    }
-//                    fw.newLine();
-//                }
-//
-//                fw.flush();
-//                fw.close();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return fileName;
-//    }
+    private String makeCSVFile(Map<String, Object> params) {
+        String fileName = "";
+        String filepath = "/home/upload/kukgoh";
+
+        try {
+            if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
+                fileName = filepath + "/" + params.get("TRNSC_ID") + "-data.csv";
+                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                int i = 0;
+
+                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_REQUST_ERP]\"");
+                fw.newLine();
+
+                List<Map<String, Object>> execRequestCsvList = kukgohRepository.getExecRequestCsvList(params);
+
+                int cnt = 0;
+                for (Map<String, Object> dom : execRequestCsvList) {
+                    if (cnt == 0) {
+
+                        for (int j = 0; j < (CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP.length) ; j++) {
+
+                            fw.write("\"" + (String) CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j].toString() + "\"");
+                            if (!(j == (CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP.length - 1))) {
+                                fw.write(",");
+                            }
+                        }
+                        fw.newLine();
+                    }
+
+                    for (int j = 0; j < (dom.size()); j++) {
+                        fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_REQUST_ERP[j]).toString() + "\"");
+                        if (!(j == (dom.size() - 1))) {
+                            fw.write(",");
+                        }
+                    }
+
+                    cnt++;
+                    fw.newLine();
+                }
+
+                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_EXPITM_ERP]\"");
+                fw.newLine();
+
+                List<Map<String, Object>> execBimokCsvList = kukgohRepository.getExecBimokCsvList(params);
+
+                cnt = 0;
+                for (Map<String, Object> dom : execBimokCsvList) {
+
+                    if (cnt == 0) {
+                        for (int j = 0; j < (CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP.length) ; j++) {
+                            fw.write("\"" + (String) CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j].toString() + "\"");
+                            if (!(j == (CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP.length - 1))) {
+                                fw.write(",");
+                            }
+                        }
+                        fw.newLine();
+
+
+                    }
+                    for (int j = 0; j < (dom.size()); j++) {
+                        fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_EXPRITM_ERP[j]).toString() + "\"");
+                        if (!(j == (dom.size() - 1))) {
+                            fw.write(",");
+                        }
+                    }
+
+                    cnt++;
+                    fw.newLine();
+                }
+
+                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_FNRSC_ERP]\"");
+                fw.newLine();
+
+                List<Map<String, Object>> execBimokDataCsvList = kukgohRepository.getExecBimokDataCsvList(params);
+                cnt = 0;
+                for (Map<String, Object> dom : execBimokDataCsvList) {
+
+                    if (cnt == 0) {
+                        for (int j = 0; j < (CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP.length); j++) {
+                            fw.write("\"" + (String) CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j].toString() + "\"");
+                            if (!(j == (CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP.length - 1))) {
+                                fw.write(",");
+                            }
+                        }
+
+                        fw.newLine();
+
+                    }
+
+                    for (int j = 0; j < (dom.size()); j++) {
+                        fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_EXCUT_FNRSC_ERP[j]).toString() + "\"");
+                        if (!(j == (dom.size() - 1))) {
+                            fw.write(",");
+                        }
+                    }
+
+                    cnt++;
+                    fw.newLine();
+                }
+
+                fw.flush();
+                fw.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fileName;
+    }
+
+
+    public boolean directoryConfirmAndMake(String targetDir) {
+        boolean result = true;
+        File d = new File(targetDir);
+        if (!d.isDirectory()) {
+            if (!d.mkdirs()) {
+                System.out.println("생성 실패");
+                result = false;
+            }
+        }
+        return result;
+    }
 
 }

@@ -122,4 +122,24 @@ public class KukgohRepository extends AbstractDAO {
 
         insert("kukgoh.insExcutExpItmErp", params);
     }
+
+    public void insExcutFnrscErp(Map<String, Object> params) {
+
+        insert("kukgoh.insExcutFnrscErp", params);
+    }
+
+    public List<Map<String, Object>> getExecRequestCsvList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getExecRequestCsvList", params);
+    }
+
+    public List<Map<String, Object>> getExecBimokCsvList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getExecBimokCsvList", params);
+    }
+
+    public List<Map<String, Object>> getExecBimokDataCsvList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getExecBimokDataCsvList", params);
+    }
 }

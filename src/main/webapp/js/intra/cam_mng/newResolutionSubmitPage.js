@@ -213,7 +213,7 @@ var newResolutionSubmitPage = {
                 $("#PREPAR").val("") // 예비
                 $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
                 $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
-                $("#FNRSC_SE_CODE").val("")// 재원구분코드
+                $("#FNRSC_SE_CODE").val("001")// 재원구분코드
                 $("#ACNUT_OWNER_NM").val("");
                 $("#ETXBL_CONFM_NO").val("") // 전자세금계산서 승인번호
                 $("#TAXITM_FNRSC_CNT").val("") // 집행연계ID별 비목세목별 재원건수
