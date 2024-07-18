@@ -200,7 +200,7 @@ var hwpInit = {
         }
     },
 
-    payIncpInit: function(payIncpSn){
+    payIncpInit: function(payIncpSn, stat){
         let data = {
             payIncpSn: payIncpSn
         }
@@ -227,6 +227,53 @@ var hwpInit = {
 
         hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_CONT);
         hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
+
+        if(stat == null){
+            const htmlIncp = hwpInit.htmlIncp(ls, rs);
+            hwpDocCtrl.putFieldText("PAY_HTML", " ");
+            hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
+            hwpDocCtrl.setTextFile(htmlIncp, "html","insertfile");
+        }else if(stat == "mod" && ![5185, 5186, 5188, 5189, 5190, 5196, 5268, 5272, 5292, 5353, 5354, 5372, 5403, 5404, 5405, 5406,
+            5431, 5432, 5470, 5471, 5475, 5517, 5530, 5536, 5548, 5697, 5837, 5858, 5859, 5860].includes(payIncpSn)){
+            const htmlIncp = hwpInit.htmlIncp(ls, rs);
+            hwpDocCtrl.putFieldText("PAY_HTML", " ");
+            hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
+            hwpDocCtrl.setTextFile(htmlIncp, "html","insertfile");
+        }
+    },
+
+    htmlIncp: function(list){
+        let html = '';
+        html += hancomTemplate(1);
+        html += '<tr>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 106px;"><p style="font-size:12px;"><b>상   호</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 97px;"><p style="font-size:12px;"><b>사업자번호</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>대표자</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 125px;"><p style="font-size:12px;"><b>금   액</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 181px;"><p style="font-size:12px;"><b>품   명</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 71px;"><p style="font-size:12px;"><b>비 고</b></p></td>';
+        html += '</tr>';
+        let sum = 0;
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            html += '<tr>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.REG_NO +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CEO_NM +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
+            html += '</tr>';
+            sum += Number(map.TOT_COST);
+        }
+        html += '<tr>';
+        html += '    <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>';
+        html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+comma(sum)+'</b></p></td>';
+        html += '    <td></td>';
+        html += '    <td></td>';
+        html += '</tr>';
+        html += hancomTemplate(2);
+        return html.replaceAll("\n", "<br>");
     },
 
     pjtRateInit: function(partRateVerSn){

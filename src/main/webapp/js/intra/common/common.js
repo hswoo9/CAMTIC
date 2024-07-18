@@ -685,3 +685,20 @@ function getGridSum(gridId, fieldName){
 
     return comma(sum);
 }
+
+function hancomTemplate(type){
+    let html = '';
+    if(type == 1){
+        html += '<table border="5" style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5" style="border-collapse: collapse; margin: 0px;">';
+        return html;
+    }else if(type == 2){
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+        return html;
+    }
+}
