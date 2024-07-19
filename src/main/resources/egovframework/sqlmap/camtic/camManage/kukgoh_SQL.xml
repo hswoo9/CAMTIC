@@ -193,6 +193,7 @@
             B.ISS_NO,
             B.AUTH_NO,
             B.TR_DE,
+            B.FILE_NO,
             IFNULL(B.TR_CD, "") AS TR_CD,
             C.*
         FROM
@@ -355,5 +356,31 @@
             CAM_ERP.T_IFR_EXCUT_FNRSC_ERP
         WHERE
             EXCUT_CNTC_ID = #{EXCUT_CNTC_ID}
+    </select>
+
+    <insert id="insIntrfcFile" parameterType="map">
+        /*insIntrfcFile*/
+        INSERT INTO CAM_ERP.T_IF_INTRFC_FILE
+            (
+                INTRFC_ID, TRNSC_ID, FILE_ID, FILE_SN, CNTC_FILE_NM, CNTC_ORG_FILE_NM, CNTC_CREAT_DT
+            )
+        VALUES
+            (
+                #{INTRFC_ID}, #{TRNSC_ID}, #{FILE_ID}, #{FILE_SN}, #{CNTC_FILE_NM}, #{CNTC_ORG_FILE_NM}, #{CNTC_CREAT_DT}
+            )
+    </insert>
+
+    <select id="getIntrfcFileList" parameterType="map" resultType="map">
+        /*getIntrfcFileList*/
+        SELECT
+            INTRFC_ID, TRNSC_ID, FILE_ID, FILE_SN, CNTC_FILE_NM, CNTC_ORG_FILE_NM, CNTC_CREAT_DT
+        FROM
+            CAM_ERP.T_IF_INTRFC_FILE
+        WHERE
+            INTRFC_ID = #{INTRFC_ID}
+        AND
+            TRNSC_ID = #{TRNSC_ID}
+        AND
+            FILE_ID = #{FILE_ID}
     </select>
 </mapper>

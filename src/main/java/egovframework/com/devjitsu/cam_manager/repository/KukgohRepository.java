@@ -142,4 +142,14 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getExecBimokDataCsvList", params);
     }
+
+    public void insIntrfcFile(Map<String, Object> params) {
+
+        insert("kukgoh.insIntrfcFile", params);
+    }
+
+    public List<Map<String, Object>> getIntrfcFileList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getIntrfcFileList", params);
+    }
 }

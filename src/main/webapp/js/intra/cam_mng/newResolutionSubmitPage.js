@@ -145,7 +145,12 @@ var newResolutionSubmitPage = {
                 var eed = rs.enaraExcData;
                 var cd = rs.crmData;
                 var ebi = rs.enaraBankInfo;
+                var fl = rs.fileList;
                 console.log(rs);
+
+                $("#fileList").text(fl[0].file_org_name + "외 " + (fl.length - 1) + "개");
+
+                $("#payAppSn").val(pad.PAY_APP_SN);
                 $("#korNm").val(pad.EMP_NAME);
                 $("#empSeq").val(pad.REG_EMP_SEQ);
 
