@@ -64,6 +64,14 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/setEnaraSendExcept")
+    public String setEnaraSendExcept(@RequestParam Map<String, Object> params, Model model) {
+
+        kukgohService.setEnaraSendExcept(params);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/kukgoh/getBudgetGroupList")
     public String getBudgetGroupList(@RequestParam Map<String, Object> params, Model model) {
 

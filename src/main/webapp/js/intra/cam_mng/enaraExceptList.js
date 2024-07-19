@@ -13,15 +13,23 @@ var enaraExceptList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getPayAppList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function() {
-
-                    return ;
+                parameterMap: function(data) {
+                    data.exceptYn = "Y";
+                    return data;
                 }
 
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -31,10 +39,10 @@ var enaraExceptList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height : 700,
+            height : 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
@@ -44,37 +52,107 @@ var enaraExceptList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraExceptList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraExceptList.fn_enaraSendExcept()">' +
                             '	<span class="k-button-text">전송제외 해제</span>' +
+                            '</button>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraExceptList.mainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }],
             persistSelection : true,
             columns: [
                 {
-                    headerTemplate : function(e){
-                        return '<input type="checkbox" id = "checkboxAll">';
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'payAppDetChk\');"/>',
+                    template : function(e){
+                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"'>";
                     },
-                    template : function(e) {
-                        return '<input type="checkbox" class = "mainCheckBox">';
-                    },
-                    width : 25
+                    width: 30
                 },
-                {	field : "GISU_DT",				title : "결의일자",				width : 40 },
-                {	field : "RMK_DC",				title : "적요",						width : 160 },
-                {	field : "GISU_SQ",				title : "결의번호",				width : 40 },
-                {	field : "BG_SQ",				title : "예산순번",				width : 40 },
-                {	field : "LN_SQ",				title : "거래처순번",				width : 40 },
                 {
-                    template : function(data) {
-                        return Budget.fn_formatMoney(data.SUM_AMOUNT);
-                    },
-                    title : "금액",
-                    width : 40
+                    field: "EMP_NAME",
+                    title: "결의자",
+                    width: 70
+                }, {
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 120
+                }, {
+                    field: "DOC_TITLE",
+                    title: "문서제목",
+                    width: 220
+                },{
+                    field: "PJT_NM",
+                    title: "프로젝트",
+                    width: 300
+                },  {
+                    field: "BUDGET_NM",
+                    title: "예산과목",
+                    width: 180
+                }, {
+                    field: "EVID_TYPE",
+                    title: "결재수단",
+                    width: 100,
+                    template : function (e){
+                        if(e.EVID_TYPE == 1){
+                            return "세금계산서"
+                        } else if (e.EVID_TYPE == 2){
+                            return "계산서"
+                        } else if(e.EVID_TYPE == 3){
+                            return "신용카드"
+                        } else if(e.EVID_TYPE == 4){
+                            return "직원지급"
+                        } else if(e.EVID_TYPE == 5){
+                            return "사업소득자"
+                        } else if(e.EVID_TYPE == 6){
+                            return "기타"
+                        } else if(e.EVID_TYPE == 9) {
+                            return "기타소득자";
+                        }
+                    }
+                }, {
+                    field: "",
+                    title: "금액",
+                    width: 100,
+                    template : function (e){
+                        return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>'
+                    }
                 }
             ]
         }).data("kendoGrid");
     },
 
+    fn_enaraSendExcept : function(e) {
 
+        if($("input[name='payAppDetChk']:checked").length == 0){
+            alert("전송제외 해제할 항목을 선택해주세요.");
+            return
+        }
+
+        if(confirm("전송제외에서 해제하시겠습니까?")){
+            var payAppDetSn = "";
+
+            $.each($("input[name='payAppDetChk']:checked"), function(){
+                payAppDetSn += "," + $(this).val()
+            })
+
+            $.ajax({
+                url: "/kukgoh/setEnaraSendExcept",
+                data: {
+                    payAppDetSn : payAppDetSn.substring(1),
+                    exceptYn : "N"
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs) {
+                    alert("해제되었습니다.");
+                    enaraExceptList.mainGrid();
+                },
+                error: function (e) {
+                    console.log('error : ', e);
+                }
+            });
+        }
+    },
 }

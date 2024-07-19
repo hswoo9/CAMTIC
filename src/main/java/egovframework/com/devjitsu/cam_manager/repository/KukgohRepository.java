@@ -35,6 +35,10 @@ public class KukgohRepository extends AbstractDAO {
         return selectList("kukgoh.getPayAppList", params);
     }
 
+    public void setEnaraSendExcept(Map<String, Object> params) {
+        update("kukgoh.setEnaraSendExcept", params);
+    }
+
     public List<Map<String, Object>> getEnaraBudgetCdList(Map<String, Object> params) {
 
         return selectList("kukgoh.getEnaraBudgetCdList", params);
