@@ -37,16 +37,10 @@ var bustrip = {
                 business.fn_nationCodeSet();
                 $(".bustripTh").hide();
                 $(".businessTh").show();
-                $("#crmYn").prop("checked", false);
-                $("#visitCrm").data("kendoTextBox").enable(true);
-                $("#crmBtn").attr('disabled', true);
             } else {
                 $("#carLine").css("display", "");
                 $(".bustripTh").show();
                 $(".businessTh").hide();
-                $("#crmYn").prop("checked", true);
-                $("#visitCrm").data("kendoTextBox").enable(false);
-                $("#crmBtn").attr('disabled', false);
             }
 
             if($("#tripCode").data("kendoRadioGroup").value() == 1 || $("#carList").data("kendoDropDownList").text() == "기타"){
