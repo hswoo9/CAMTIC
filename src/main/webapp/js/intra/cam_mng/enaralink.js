@@ -204,39 +204,88 @@ var enaralink = {
                     title: "ENARA 집행 전송 정보",
                     columns: [
                         {
-                            field: "",
+                            field: "PRUF_SE_CODE",
                             title: "증빙선택",
-                            width: 100
+                            width: 120,
+                            template : function(e) {
+                                if(e.KUKGO_STATE === "전송완료") {
+                                    if(e.PRUF_SE_CODE == "001") {
+                                        return "전자세금계산서";
+                                    } else if(e.PRUF_SE_CODE == "002") {
+                                        return "전자계산서";
+                                    } else if(e.PRUF_SE_CODE == "004") {
+                                        return "보조금전용카드";
+                                    } else if(e.PRUF_SE_CODE == "999") {
+                                        return "기타"
+                                    } else {
+                                        return "";
+                                    }
+                                } else {
+                                    return "";
+                                }
+                            }
                         }, {
-                            field: "",
+                            field: "PRUF_SE_NO",
                             title: "승인번호",
-                            width: 300
+                            width: 250,
+                            template : function(e) {
+                                if(e.KUKGO_STATE === "전송완료") {
+                                    return e.PRUF_SE_NO;
+                                } else {
+                                    return "";
+                                }
+                            }
                         }, {
-                            field: "",
+                            field: "EXCUT_REQUST_DE",
                             title: "증빙일자",
-                            width: 100
+                            width: 100,
+                            template : function(e) {
+                                if(e.KUKGO_STATE === "전송완료") {
+                                    return e.EXCUT_REQUST_DE;
+                                } else {
+                                    return "";
+                                }
+                            }
                         }, {
-                            field: "",
+                            field: "EXCUT_SUM_AMOUNT",
                             title: "합계금액",
-                            width: 100
+                            width: 100,
+                            template : function (e){
+                                if(e.EXCUT_SUM_AMOUNT != null) {
+                                    return '<div style="text-align: right">'+enaralink.comma(e.EXCUT_SUM_AMOUNT)+'</div>'
+                                } else {
+                                    return "";
+                                }
+                            }
                         }, {
-                            field: "",
+                            field: "BCNC_CMPNY_NM",
                             title: "거래처명",
                             width: 300
                         }, {
-                            field: "",
+                            field: "BCNC_LSFT_NO",
                             title: "사업자등록번호<br>(주민등록번호)",
-                            width: 300
-                        }, {
-                            field: "",
-                            title: "이체구분",
                             width: 150
                         }, {
-                            field: "",
+                            field: "TRANSFR_ACNUT_SE_CODE",
+                            title: "이체구분",
+                            width: 180,
+                            template : function(e) {
+                                if(e.TRANSFR_ACNUT_SE_CODE == "001") {
+                                    return "거래처계좌로이체"
+                                } else if(e.TRANSFR_ACNUT_SE_CODE == "002") {
+                                    return "보조금계좌로이체"
+                                } else if(e.TRANSFR_ACNUT_SE_CODE == "003") {
+                                    return "보조금전용카드결제계좌로 이체"
+                                } else {
+                                    return "";
+                                }
+                            }
+                        }, {
+                            field: "SBSACNT_TRFRSN_CN",
                             title: "은행명",
                             width: 100
                         }, {
-                            field: "",
+                            field: "BCNC_ACNUT_NO",
                             title: "계좌번호",
                             width: 150
                         }, {

@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="payAppDetSn" value="${params.payAppDetSn}" />
+
 <div class="col-lg-12" style="padding:0;">
 	<div class="table-responsive">
 		<div class="card-header pop-header">
@@ -26,6 +26,7 @@
 			</div>
 		</div>
 		<form id="sendForm" style="padding: 20px 30px;">
+			<input type="hidden" id="payAppDetSn" name="payAppDetSn" value="${params.payAppDetSn}" />
 			<input type="hidden" name="C_DIKEYCODE" id="C_DIKEYCODE" value="${data.C_DIKEYCODE}" />
 			<table class="popTable table table-bordered mb-0">
 				<colgroup>

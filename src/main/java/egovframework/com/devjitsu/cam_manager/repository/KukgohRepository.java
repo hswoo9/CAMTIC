@@ -117,6 +117,11 @@ public class KukgohRepository extends AbstractDAO {
         return selectList("kukgoh.getEnaraBankList", params);
     }
 
+    public void setRequestKeyPayAppDet(Map<String, Object> params) {
+
+        update("kukgoh.setRequestKeyPayAppDet", params);
+    }
+
     public void insExcutRequstErp(Map<String, Object> params) {
 
         insert("kukgoh.insExcutRequstErp", params);

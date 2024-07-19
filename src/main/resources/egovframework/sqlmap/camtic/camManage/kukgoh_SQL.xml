@@ -55,11 +55,21 @@
             B.PJT_CD,
             A.BUDGET_NM,
             A.EVID_TYPE,
-            A.TOT_COST
+            A.TOT_COST,
+            E.PRUF_SE_CODE,
+            E.PRUF_SE_NO,
+            DATE_FORMAT(E.EXCUT_REQUST_DE, '%Y-%m-%d') AS EXCUT_REQUST_DE,
+            E.EXCUT_SUM_AMOUNT,
+            E.BCNC_CMPNY_NM,
+            E.BCNC_LSFT_NO,
+            E.TRANSFR_ACNUT_SE_CODE,
+            E.SBSACNT_TRFRSN_CN,
+            E.BCNC_ACNUT_NO
         FROM
             CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO C ON B.DOC_ID = C.DOC_ID
+        LEFT JOIN CAM_ERP.T_IFR_EXCUT_REQUST_ERP E ON E.CNTC_SN = A.REQUST_CNTC_SN
         WHERE
             B.DOC_STATUS = 100
         <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
@@ -274,6 +284,15 @@
         SELECT * FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE CMMN_CODE = 1070
     </select>
 
+    <update id="setRequestKeyPayAppDet" parameterType="map">
+        /*setRequestKeyPayAppDet*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            REQUST_CNTC_SN = #{requstCntcSn}
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </update>
+
     <insert id="insExcutRequstErp" parameterType="map">
         /*insExcutRequstErp*/
         INSERT INTO CAM_ERP.T_IFR_EXCUT_REQUST_ERP
@@ -297,7 +316,11 @@
                 #{BCNC_ADRES}, #{BCNC_TELNO}, #{BCNC_BANK_CODE}, #{BCNC_ACNUT_NO}, #{EXCUT_SPLPC},
                 #{EXCUT_VAT}, #{EXCUT_SUM_AMOUNT}, #{EXCUT_PRPOS_CN}, #{BCNC_BNKB_INDICT_CN},
                 #{SBSIDY_BNKB_INDICT_CN}, #{PREPAR}, #{EXCUT_EXPITM_TAXITM_CNT}
-            );
+            )
+
+        <selectKey keyProperty="requstCntcSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ERP' AND TABLE_NAME = 'T_IFR_EXCUT_REQUST_ERP'
+        </selectKey>
     </insert>
 
     <insert id="insExcutExpItmErp" parameterType="map">

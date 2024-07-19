@@ -180,6 +180,9 @@ public class KukgohServiceImpl implements KukgohService {
         kukgohRepository.insExcutExpItmErp(params);
         kukgohRepository.insExcutFnrscErp(params);
 
+        // T_IFR_EXCUT_REQUST_ERP PK DJ_PAY_APP_DET에 저장
+        kukgohRepository.setRequestKeyPayAppDet(params);
+
         makeCSVFile(params);
 //        kukgohRepository.sendEnara(params);
     }
