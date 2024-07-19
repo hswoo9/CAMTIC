@@ -242,8 +242,8 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     private void fileCp(Map<String, Object> fileMap) {
-        Path source = Paths.get("/home" + fileMap.get("file_path").toString() + "/" + fileMap.get("file_uuid").toString());
-        Path destination = Paths.get("/home/upload/kukgoh/" + fileMap.get("TRNSC_ID") + "/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+        Path source = Paths.get("" + fileMap.get("file_path").toString() + "/" + fileMap.get("file_uuid").toString());
+        Path destination = Paths.get("/upload/kukgoh/" + fileMap.get("TRNSC_ID") + "/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
 
         try {
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
@@ -255,7 +255,7 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     private void SFTPFileMove(Map<String, Object> params, String csvFile, String csvAttachFile) {
-        String remoteHost = "remoteHost";
+        String remoteHost = "218.158.231.92";
         int remotePort =20022;
         String username = "root";
         String password = "Camtic13!#";
