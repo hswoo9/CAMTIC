@@ -188,47 +188,6 @@ public class Utils {
 		result.put("INTFC_ID", str[1]);
 		return result;
 	}
-	public String createAttachFile(List<Map<String, Object>> list, String title, String filepath) {
-		String fileName = "";
-		try {
-			if (directoryConfirmAndMake(filepath)) {
-				// new File(filepath+"/"+title+"-data.csv");
-				fileName = filepath + "/" + title + "-attach.csv";
-				BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
-
-
-				Map<String, Object> map2 = new HashMap<String, Object>();
-				int i = 0;
-
-				fw.write("\"[TABLE_NAME:T_IF_INTRFC_FILE]\"");
-				fw.newLine();
-				for (Map<String, Object> dom : list) {
-
-					if (dom.get("DIV").toString().equals("0") || Integer.parseInt(dom.get("DIV").toString()) == 0) {
-						for (int j = 0; j < (dom.size() - 1); j++) {
-							fw.write("\"" + (String) dom.get(CSVKeyUtil.TPF_KUKGOH_ATTACH_SELECT2[j]) + "\"");
-							if (!(j == (dom.size() - 2))) {
-								fw.write(",");
-							}
-						}
-					} else {
-						for (int j = 0; j < (dom.size() - 1); j++) {
-							fw.write("\"" + (String) dom.get(CSVKeyUtil.TPF_KUKGOH_ATTACH_SELECT2[j]) + "\"");
-							if (!(j == (dom.size() - 2))) {
-								fw.write(",");
-							}
-						}
-					}
-					fw.newLine();
-				}
-				fw.flush();
-				fw.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return fileName;
-	}
 	
 	public String makeFileName(String trnscId, String fileNm, String fileExtension) {
 		

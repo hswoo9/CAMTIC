@@ -1,7 +1,9 @@
 package egovframework.com.devjitsu.cam_manager.service.impl;
 
 
+import com.jcraft.jsch.*;
 import egovframework.com.devjitsu.cam_manager.repository.KukgohRepository;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.devjitsu.common.utiles.CSVKeyUtil;
@@ -13,6 +15,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -27,6 +33,9 @@ public class KukgohServiceImpl implements KukgohService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private PayAppRepository payAppRepository;
 
 
     @Override
@@ -124,6 +133,17 @@ public class KukgohServiceImpl implements KukgohService {
         Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
         result.put("payAppData", payAppData);
 
+
+        String[] fileNoAr = new String[1];
+
+        fileNoAr[0] = payAppData.get("FILE_NO").toString();
+
+        params.put("fileNoAr", fileNoAr);
+
+        params.put("payAppSn", payAppData.get("PAY_APP_SN"));
+        List<Map<String,Object>> fileList = payAppRepository.getPayAppFileList(params);
+        result.put("fileList", fileList);
+
         Map<String, Object> crmData = new HashMap<>();
         if(!"".equals(payAppData.get("TR_CD").toString()) && payAppData.containsKey("TR_CD")){
             crmData = g20Repository.getTradeInfo(payAppData);
@@ -183,8 +203,134 @@ public class KukgohServiceImpl implements KukgohService {
         // T_IFR_EXCUT_REQUST_ERP PK DJ_PAY_APP_DET에 저장
         kukgohRepository.setRequestKeyPayAppDet(params);
 
-        makeCSVFile(params);
+        Map<String, Object> payAppData = kukgohRepository.getPayAppDataByPayAppDetSn(params);
+
+        String[] fileNoAr = new String[1];
+
+        fileNoAr[0] = payAppData.get("FILE_NO").toString();
+
+        params.put("fileNoAr", fileNoAr);
+
+        params.put("payAppSn", payAppData.get("PAY_APP_SN"));
+        List<Map<String,Object>> fileList = payAppRepository.getPayAppFileList(params);
+
+        int fileCnt = 1;
+        params.put("FILE_ID", "FILE_" + params.get("CNTC_CREAT_DT"));
+
+        for(Map<String, Object> fileMap : fileList){
+            fileMap.put("INTRFC_ID", params.get("INTRFC_ID"));
+            fileMap.put("TRNSC_ID", params.get("TRNSC_ID"));
+            fileMap.put("FILE_SN", fileCnt);
+            fileMap.put("FILE_ID", params.get("FILE_ID"));
+            fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("FILE_SN") + "_" + fileMap.get("file_org_name").toString() + "-" + fileMap.get("file_ext").toString());
+            fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileMap.get("file_org_name").toString() + "-" + fileMap.get("file_ext").toString());
+            fileMap.put("CNTC_CREAT_DT", params.get("CNTC_CREAT_DT"));
+
+            fileCp(fileMap);
+            kukgohRepository.insIntrfcFile(fileMap);
+            fileCnt++;
+        }
+
+        params.put("fileList", fileList);
+
+        String csvFile = makeCSVFile(params);
+
+        String csvAttachFile = makeCSVAttachFile(params);
+
+        SFTPFileMove(params, csvFile, csvAttachFile);
 //        kukgohRepository.sendEnara(params);
+    }
+
+    private void fileCp(Map<String, Object> fileMap) {
+        Path source = Paths.get("/home" + fileMap.get("file_path").toString() + "/" + fileMap.get("file_uuid").toString());
+        Path destination = Paths.get("/home/upload/kukgoh/" + fileMap.get("TRNSC_ID") + "/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+
+        try {
+            Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File copied successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while copying file: " + e.getMessage());
+        }
+    }
+
+    private void SFTPFileMove(Map<String, Object> params, String csvFile, String csvAttachFile) {
+        String remoteHost = "remoteHost";
+        int remotePort =20022;
+        String username = "root";
+        String password = "Camtic13!#";
+        String fromDirectory = "/home/upload/kukgoh/" + params.get("TRNSC_ID");
+        String toDirectory = "/home/hk/";
+
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession(username, remoteHost, remotePort);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setPassword(password);
+            session.connect();
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftpChannel = (ChannelSftp) channel;
+
+            sftpChannel.put(fromDirectory, toDirectory, ChannelSftp.OVERWRITE);
+
+            sftpChannel.disconnect();
+            session.disconnect();
+        } catch (JSchException | SftpException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String makeCSVAttachFile(Map<String, Object> params) {
+        String fileName = "";
+        String filepath = "/upload/kukgoh/" + params.get("TRNSC_ID");
+
+        try {
+            if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
+                fileName = filepath + "/" + params.get("TRNSC_ID") + "-attach.csv";
+                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                int i = 0;
+
+                fw.write("\"[TABLE_NAME:T_IF_INTRFC_FILE]\"");
+                fw.newLine();
+
+                List<Map<String, Object>> intrfcFileList = kukgohRepository.getIntrfcFileList(params);
+
+                int cnt = 0;
+                for (Map<String, Object> dom : intrfcFileList) {
+                    if (cnt == 0) {
+
+                        for (int j = 0; j < (CSVKeyUtil.T_IF_INTRFC_FILE.length) ; j++) {
+
+                            fw.write("\"" + (String) CSVKeyUtil.T_IF_INTRFC_FILE[j].toString() + "\"");
+                            if (!(j == (CSVKeyUtil.T_IF_INTRFC_FILE.length - 1))) {
+                                fw.write(",");
+                            }
+                        }
+                        fw.newLine();
+                    }
+
+                    for (int j = 0; j < (dom.size()); j++) {
+                        fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IF_INTRFC_FILE[j]).toString() + "\"");
+                        if (!(j == (dom.size() - 1))) {
+                            fw.write(",");
+                        }
+                    }
+
+                    cnt++;
+                    fw.newLine();
+                }
+
+                fw.flush();
+                fw.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fileName;
     }
 
     public String getTransactionId(){
@@ -199,14 +345,14 @@ public class KukgohServiceImpl implements KukgohService {
 
         String timeStampNow = String.format("%013d", timestamp);
 
-        String trnscId = mangGubunCode + systemCode + agentNumber + "_" + intrfcId + "_" + threadNumber;
+        String trnscId = mangGubunCode + systemCode + agentNumber + "_" + intrfcId + "_" + threadNumber + "_" + timeStampNow;
 
         return trnscId;
     }
 
     private String makeCSVFile(Map<String, Object> params) {
         String fileName = "";
-        String filepath = "/home/upload/kukgoh";
+        String filepath = "/upload/kukgoh/" + params.get("TRNSC_ID");
 
         try {
             if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )

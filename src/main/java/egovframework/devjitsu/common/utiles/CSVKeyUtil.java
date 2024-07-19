@@ -88,13 +88,13 @@ public class CSVKeyUtil {
 			,"SUM_AMOUNT"
 	};
 	//집행등록 요청_첨부파일
-	public static final String TPF_KUKGOH_ATTACH_SELECT2[] = {
+	public static final String T_IF_INTRFC_FILE[] = {
 			"INTRFC_ID"
 			,"TRNSC_ID"
 			,"FILE_ID"
-			,"CNTC_SN"
+			,"FILE_SN"
 			,"CNTC_FILE_NM"
 			,"CNTC_ORG_FILE_NM"
 			,"CNTC_CREAT_DT"
-	};		
+	};
 }

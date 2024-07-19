@@ -14,7 +14,6 @@
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
-
 <div class="col-lg-12" style="padding:0;">
 	<div class="table-responsive">
 		<div class="card-header pop-header">
@@ -26,7 +25,6 @@
 			</div>
 		</div>
 		<form id="sendForm" style="padding: 20px 30px;">
-			<input type="hidden" id="payAppDetSn" name="payAppDetSn" value="${params.payAppDetSn}" />
 			<input type="hidden" name="C_DIKEYCODE" id="C_DIKEYCODE" value="${data.C_DIKEYCODE}" />
 			<table class="popTable table table-bordered mb-0">
 				<colgroup>
@@ -121,6 +119,8 @@
 					<th>보조세목</th>
 					<td>
 						<input type="text" id="ASSTN_TAXITM_CODE_NM" name="ASSTN_TAXITM_CODE_NM" value="${dataJson.ASSTN_TAXITM_CODE_NM }" style="width: 80%" readonly value=""  />
+                        <input type="hidden" id="payAppDetSn" name="payAppDetSn" value="${params.payAppDetSn }" />
+                        <input type="hidden" id="payAppSn" name="payAppSn" value="" />
 						<input type="hidden" id="BSNSYEAR" name="BSNSYEAR" value='${dataJson.BSNSYEAR }'/>
 						<input type="hidden" id="FILE_ID" name="FILE_ID"  value='${dataJson.FILE_ID }'/>
 						<input type="hidden" id="DDTLBZ_ID" name="DDTLBZ_ID"  value='${dataJson.DDTLBZ_ID }'/>
@@ -179,7 +179,8 @@
 				<tr>
 					<th>정산서류 등록</th>
 					<td>
-						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />
+<%--						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />--%>
+                        <span id="fileList">첨부파일이 없습니다.</span>
 					</td>
 					<th>증빙일자</th>
 					<td colspan="3">
