@@ -35,8 +35,8 @@ var enaralink = {
             index: 0
         });
         $("#fromMonth, #endMonth").attr("readonly", true);
-        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
-        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
+        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.mainGrid);
+        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.mainGrid);
 
 
         enaralink.mainGrid();
@@ -57,6 +57,7 @@ var enaralink = {
 
                     data.strDt = $("#fromMonth").val();
                     data.endDt = $("#endMonth").val();
+                    data.exceptYn = "N";
 
                     return data;
                 }
@@ -76,13 +77,13 @@ var enaralink = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
+            selectable: "row",
             height : 525,
             pageable: {
                 refresh: true,
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
-            resizable : true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -97,7 +98,7 @@ var enaralink = {
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
                             '	<span class="k-button-text">전송취소</span>' +
                             '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
                             '	<span class="k-button-text">전송제외</span>' +
                             '</button>'+
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
@@ -113,9 +114,16 @@ var enaralink = {
             persistSelection : true,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'payAppDetChk\');"/>',
+                    template : function(e){
+                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"'>";
+                    },
+                    width: 50
+                },
+                {
                     field : "",
                     title: "전송가능여부",
-                    width: 50,
+                    width: 80,
                 },
                 {
                     title: "전송불가사유",
@@ -225,10 +233,6 @@ var enaralink = {
                             width: 150
                         }, {
                             field: "",
-                            title: "이체구분",
-                            width: 150
-                        }, {
-                            field: "",
                             title: "은행명",
                             width: 100
                         }, {
@@ -250,6 +254,40 @@ var enaralink = {
         var name = "newResolutionSubmitPage";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_enaraSendExcept : function() {
+
+        if($("input[name='payAppDetChk']:checked").length == 0){
+            alert("전송 제외할 항목을 선택해주세요.");
+            return
+        }
+
+        if(confirm("제외하시겠습니까?")){
+            var payAppDetSn = "";
+
+            $.each($("input[name='payAppDetChk']:checked"), function(){
+                payAppDetSn += "," + $(this).val()
+            })
+
+            $.ajax({
+                url: "/kukgoh/setEnaraSendExcept",
+                data: {
+                    payAppDetSn : payAppDetSn.substring(1),
+                    exceptYn : "Y"
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs) {
+                    alert("제외되었습니다.");
+                    enaralink.mainGrid();
+                },
+                error: function (e) {
+                    console.log('error : ', e);
+                }
+            });
+        }
     },
 
     comma : function(str){

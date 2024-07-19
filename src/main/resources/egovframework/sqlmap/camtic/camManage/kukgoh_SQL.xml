@@ -62,11 +62,24 @@
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO C ON B.DOC_ID = C.DOC_ID
         WHERE
             B.DOC_STATUS = 100
-        AND
-            DATE_FORMAT(B.REG_DT, '%Y-%m-%d') BETWEEN #{strDt} AND #{endDt}
+        <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
+            AND
+                DATE_FORMAT(B.REG_DT, '%Y-%m-%d') BETWEEN #{strDt} AND #{endDt}
+        </if>
         AND
             LEFT(B.PJT_CD, 1) IN ('R', 'S', 'A')
+        AND
+            A.ENARA_SEND_EXCEPT = #{exceptYn}
     </select>
+
+    <update id="setEnaraSendExcept" parameterType="map">
+        /*setEnaraSendExcept*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            ENARA_SEND_EXCEPT = #{exceptYn}
+        WHERE
+            PAY_APP_DET_SN IN (${payAppDetSn})
+    </update>
 
     <select id="getEnaraBudgetCdList" parameterType="map" resultType="map">
         /*getEnaraBudgetCdList*/

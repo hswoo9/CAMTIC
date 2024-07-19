@@ -16,6 +16,8 @@ public interface KukgohService {
 
     List<Map<String, Object>> getPayAppList(Map<String, Object> params);
 
+    void setEnaraSendExcept(Map<String, Object> params);
+
     List<Map<String, Object>> getBudgetGroupList(Map<String, Object> params);
 
     List<Map<String, Object>> getEnaraBudgetCdList(Map<String, Object> params);
