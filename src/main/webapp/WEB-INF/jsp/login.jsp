@@ -13,7 +13,7 @@
     <!--<link rel="shortcut icon" href="/images/favicon.png" type="image/png">-->
 
     <title>CAM'S POT</title>
-
+    <link rel="icon" href="/images/cam_favicon.png" type="image/png">
     <link rel="stylesheet" href="/lib/fontawesome/css/font-awesome.css">
 
     <link rel="stylesheet" href="/css/quirk.css">
