@@ -453,7 +453,7 @@ var costInfoGrid = {
                             return "-";
                         }
                     },
-                    footerTemplate: "출장완료 여비합계"
+                    footerTemplate: "출장여비 합계"
                 }, {
                     title : "여비금액",
                     width: 140,

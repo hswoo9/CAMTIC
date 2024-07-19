@@ -151,7 +151,7 @@ var appView = {
             data.USER_NAME_CN+
             '</td>' +
             '          <td rowspan="4">' +
-            '            <img id="imgPerson" src="http://218.158.231.189' + data.photoFile.file_path + data.photoFile.file_uuid+
+            '            <img id="imgPerson" src="https://www.camtic.or.kr' + data.photoFile.file_path + data.photoFile.file_uuid+
             '" border="0" style="height:110px;width:85px;">' +
             '          </td>' +
             '        </tr>' +

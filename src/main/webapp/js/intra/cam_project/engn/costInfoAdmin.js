@@ -101,7 +101,7 @@ var costInfo = {
                 '                <th style="text-align: center">당해년도 사업비</th>\n' +
                 '                <th style="text-align: center">달성 매출액</th>\n' +
                 '                <th style="text-align: center">달성 운영수익</th>\n' +
-                '                <th style="text-align: center">예상매출 잔액</th>\n' +
+                '                <th style="text-align: center">예상 매출액</th>\n' +
                 '                <th style="text-align: center">예상 운영수익</th>\n' +
                 '            </tr>\n' +
                 '            <tr>\n' +
@@ -183,7 +183,7 @@ var costInfo = {
             /** 달성운영수익 */
             $("#RES_NOT_INV_AMT").text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
-            /** 예상매출잔액 */
+            /** 예상매출액 */
             $("#DEV_AMT").text(comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
 
             /** 예상운영수익 */
@@ -282,7 +282,7 @@ var costInfo = {
             console.log("aopAmt", aopAmt);
             $("#RES_NOT_INV_AMT").text(comma(aopAmt));
 
-            /** 예상매출잔액 */
+            /** 예상매출액 */
             let devAmt = 0;
             devAmt = Number(e.PJT_AMT || 0) - asrAmt;
             $("#DEV_AMT").text(comma(devAmt));

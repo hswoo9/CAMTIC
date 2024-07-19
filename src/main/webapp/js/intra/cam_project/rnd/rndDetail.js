@@ -1022,7 +1022,7 @@ var rndDetail = {
 
 function fileDown(filePath, fileName, stat){
     if(stat == "recruit"){
-        filePath = "http://218.158.231.189" + filePath;
+        filePath = "https://www.camtic.or.kr" + filePath;
     }
     kendo.saveAs({
         dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),

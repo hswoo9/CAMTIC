@@ -55,7 +55,7 @@ const applicationPrintPop = {
         applicationPrintPop.global.hwpCtrl.MoveToField("IMG", true, true, false);
         applicationPrintPop.global.hwpCtrl.InsertBackgroundPicture(
             "SelectedCell",
-            "http://218.158.231.189" + data.photoFile.file_path + data.photoFile.file_uuid,
+            "https://www.camtic.or.kr" + data.photoFile.file_path + data.photoFile.file_uuid,
             1, 6, 0, 0, 0, 0
         );
 
