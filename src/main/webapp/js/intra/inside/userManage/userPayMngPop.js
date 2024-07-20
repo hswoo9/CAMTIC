@@ -3,23 +3,23 @@ var popUserPay = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", null);
+        customKendo.fn_datePicker("startDt0", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDt0", '', "yyyy-MM-dd", null);
 
-        customKendo.fn_textBox(["basicSalary", "foodPay", "extraPay", "bonus",
-                                "nationalPay", "healthPay", "longCarePay", "employPay",
-                                "accPay", "busnPay", "retirePay", "bsPay"]);
+        customKendo.fn_textBox(["basicSalary0", "foodPay0", "extraPay0", "bonus0",
+                                "nationalPay0", "healthPay0", "longCarePay0", "employPay0",
+                                "accPay0", "busnPay0", "retirePay0", "bsPay0"]);
 
         var data = {
 
         }
         var rs = customKendo.fn_customAjax("/salaryManage/getSocialRateManageList.do", data);
-        customKendo.fn_dropDownList("socialRateSn", rs.list, "DT_RNG", "SOCIAL_RATE_SN", 2)
+        customKendo.fn_dropDownList("socialRateSn0", rs.list, "DT_RNG", "SOCIAL_RATE_SN", 2)
 
-        var ddl = $("#socialRateSn").data("kendoDropDownList");
+        var ddl = $("#socialRateSn0").data("kendoDropDownList");
         ddl.list.width(200);
 
-        $("#socialRateSn").data("kendoDropDownList").bind("change", function(){
+        $("#socialRateSn0").data("kendoDropDownList").bind("change", function(){
             var data = {
                 socialRateSn : $("#socialRateSn").val()
             }
@@ -65,7 +65,7 @@ var popUserPay = {
         var list = rs.list;
 
         var dataSource = customKendo.fn_customAjax("/salaryManage/getSocialRateManageList.do", data);
-        for (var i = 0 ; i < list.length ; i++){
+        for (var i = 1 ; i < list.length+1 ; i++){
             var html = "";
 
             var count = i;
@@ -138,6 +138,8 @@ var popUserPay = {
     },
 
     socialRateChange : function(count, auto){
+        console.log("count", count);
+        console.log("auto", auto);
         var data = {
             socialRateSn : $("#socialRateSn" + count).val()
         }
