@@ -764,7 +764,7 @@ var reqCl = {
         }
 
         if($("#crmMonCheck").val() == "Y"){
-            if(!confirm("월마감 할인 적용 업체입니다. 할인율을 확인하세요.")){
+            if(!confirm("월마감업체입니다. 할인율을 확인하세요.")){
                 return;
             }
         }

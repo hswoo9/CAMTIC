@@ -13,7 +13,7 @@ const orderSendMail = {
         customKendo.fn_textBox(["receiveEml" ,"sendEml", "subject", "contents", "fileList"]);
         $("#contents").kendoTextArea({
             rows : 10,
-            value : "당 법인 발주서를 첨부합니다.\n확인 후 납품 진행 부탁드립니다."
+            value : "당 법인 발주서를 첨부합니다.\n확인 후 납품 진행 부탁드립니다.\n납품완료 후 세금계산서, 거래명세서 발행해주세요."
         });
     },
 
