@@ -306,6 +306,7 @@ public class PurcServiceImpl implements PurcService {
                 purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
                 purcReqMap.put("ceGwIdx", ceGwIdx + 1);
                 purcReqMap.put("evidType", null);
+                purcReqMap.put("mngReqStat", "N");
 
                 if(orderFlag){
                     purcReqMap.put("orderDt", orderDt);
@@ -346,6 +347,7 @@ public class PurcServiceImpl implements PurcService {
                 purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
                 purcReqMap.put("ceGwIdx", ceGwIdx + 1);
                 purcReqMap.put("evidType", null);
+                purcReqMap.put("mngReqStat", "N");
 
                 if(orderFlag){
                     purcReqMap.put("orderDt", orderDt);

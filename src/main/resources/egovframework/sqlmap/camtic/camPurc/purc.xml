@@ -1559,7 +1559,8 @@
                 PJT_CD,
                 CE_GW_IDX,
                 EVID_TYPE,
-                EMP_SEQ
+                EMP_SEQ,
+                MNG_REQ_STAT
             )
         VALUES
             (
@@ -1569,7 +1570,8 @@
                 (SELECT PJT_CD FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
                 #{ceGwIdx},
                 #{evidType},
-                #{empSeq}
+                #{empSeq},
+                #{mngReqStat}
             )
     </insert>
 
@@ -1592,6 +1594,7 @@
         SELECT
             B.*,
             A.CLAIM_EXNP_SN,
+            A.MNG_REQ_STAT,
             A.EMP_SEQ AS F_EMP_SEQ,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
             A.PAY_APP_SN AS F_PAY_APP_SN,

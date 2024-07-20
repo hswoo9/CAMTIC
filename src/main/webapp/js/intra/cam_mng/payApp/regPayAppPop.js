@@ -435,23 +435,26 @@ var regPay = {
                 } else {
                     var ls = rs.itemList;
 
-                    for(let i = 0; i <ls.length; i++) {
+                    // for(let i = 0; i <ls.length; i++) {
                         if(idx > 0){
                             regPayDet.addRow();
                         }
 
-                        $("#crmNm" + idx).val(ls[i].CRM_NM);
-                        $("#crmSn" + idx).val(ls[i].CRM_SN);
-                        $("#regNo" + idx).val(ls[i].CRM_NO_TMP);
-                        $("#crmBnkNm" + idx).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
-                        $("#crmAccNo" + idx).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
-                        $("#crmAccHolder" + idx).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
+                        if(cem.MNG_REQ_STAT == "Y") {
+                            $("#crmNm" + idx).val(ls[idx].CRM_NM);
+                            $("#crmSn" + idx).val(ls[idx].CRM_SN);
+                            $("#regNo" + idx).val(ls[idx].CRM_NO_TMP);
+                            $("#crmBnkNm" + idx).val(ls[idx].CRM_BN == "undefined" ? "" : ls[idx].CRM_BN);
+                            $("#crmAccNo" + idx).val(ls[idx].CRM_BN_NUM == "undefined" ? "" : ls[idx].CRM_BN_NUM);
+                            $("#crmAccHolder" + idx).val(ls[idx].BN_DEPO == "undefined" ? "" : ls[idx].BN_DEPO);
+                            $("#trCd" + idx).val(ls[idx].TR_CD);
+                        }
+
                         // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
                         // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                         $("#budgetNm" + idx).val(cem.BUDGET_NM);
                         $("#budgetSn" + idx).val(cem.BUDGET_SN);
                         $("#budgetAmt" + idx).val(9999999999);
-                        $("#trCd" + idx).val(ls[i].TR_CD);
 
                         var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
                         // if (rs.VAT == "N") {
@@ -473,7 +476,7 @@ var regPay = {
                         $("#vatCost" + idx).val(0);
 
                         idx++;
-                    }
+                    // }
                 }
 
                 data.fileCtrl = "Y";
@@ -652,18 +655,21 @@ var regPay = {
                 var ls = rs.itemList;
 
                 for(let i = 0; i < 1; i++) {
-                    $("#crmNm" + i).val(ls[i].CRM_NM);
-                    $("#crmSn" + i).val(ls[i].CRM_SN);
-                    $("#regNo" + i).val(ls[i].CRM_NO_TMP);
-                    $("#crmBnkNm" + i).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
-                    $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
-                    $("#crmAccHolder" + i).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
+                    if(cem.MNG_REQ_STAT == "Y") {
+                        $("#crmNm" + i).val(ls[i].CRM_NM);
+                        $("#crmSn" + i).val(ls[i].CRM_SN);
+                        $("#regNo" + i).val(ls[i].CRM_NO_TMP);
+                        $("#crmBnkNm" + i).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
+                        $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
+                        $("#crmAccHolder" + i).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
+                        $("#trCd" + i).val(ls[i].TR_CD);
+                    }
+
                     // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
                     // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                     $("#budgetNm" + i).val(cem.BUDGET_NM);
                     $("#budgetSn" + i).val(cem.BUDGET_SN);
                     $("#budgetAmt" + i).val(9999999999);
-                    $("#trCd" + i).val(ls[i].TR_CD);
 
                     var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
                     console.log(rs.VAT)

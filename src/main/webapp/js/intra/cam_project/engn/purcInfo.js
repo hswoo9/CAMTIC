@@ -540,7 +540,7 @@ var purcInfo = {
                         }
                         return status
                     }
-                }, {
+                }, /*{
                     field: "EXNP_STATUS",
                     title: "지출상태",
                     width: 80,
@@ -574,7 +574,7 @@ var purcInfo = {
 
                         return stat;
                     }
-                }
+                }*/
                 // , {
                 //     title: "현장(카드)결제 청구",
                 //     width: 130,
@@ -681,7 +681,15 @@ var purcInfo = {
                 }, {
                     field: "F_EMP_NAME",
                     title: "담당자",
-                    width: 60
+                    width: 60,
+                    template : function(e) {
+                        if(e.MNG_REQ_STAT == "Y") {
+                            return e.F_EMP_NAME;
+                        } else {
+                            return e.PURC_EMP_NAME;
+                        }
+                    }
+
                 }, {
                     field: "CLAIM_TITLE",
                     title: "제목",
@@ -712,7 +720,6 @@ var purcInfo = {
                     title: "상태",
                     width: 50,
                     template : function(e) {
-                        console.log(e);
                         var stat = "";
                         if(e.F_DOC_STATUS == "100"){
                             stat = "결재완료"
@@ -723,12 +730,14 @@ var purcInfo = {
                             } else if (e.EXNP_STATUS != 0){
                                 stat = "지출대기";
                             }
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                        } else if(e.F_DOC_STATUS == "10" || e.F_DOC_STATUS == "50"){
                             stat = "결재중"
-                        } else if(e.DOC_STATUS == "30"){
+                        } else if(e.F_DOC_STATUS == "30"){
                             stat = "반려"
-                        } else {
+                        } else if(e.F_DOC_STATUS == "0") {
                             stat = "작성중"
+                        } else {
+                            stat = "미작성"
                         }
 
                         return stat;
@@ -739,7 +748,7 @@ var purcInfo = {
                     width : 70,
                     template: function(e){
                         let buttonClass = "k-button k-button-solid-base";
-                        if(e.F_PAY_APP_SN != null){
+                        if(e.F_PAY_APP_SN != null && e.F_DOC_STATUS != 0){
                             buttonClass = "k-button k-button-solid-info";
                         }
                         return '<button type="button" class="'+buttonClass+'" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';

@@ -176,7 +176,8 @@ const appUserPaySetting = {
                 var itemParameters = {
                     claimSn : $("#claimSn" + $(this).attr("index")).val(),
                     reqAmt : appUserPaySetting.uncomma(this.value),
-                    empSeq : $("#empSeq").val()
+                    empSeq : $("#empSeq").val(),
+                    mngReqStat : "Y"
                 }
 
                 if(Number(appUserPaySetting.uncomma(this.value)) > Number($("#totAmt" + $(this).attr("index")).val())){
