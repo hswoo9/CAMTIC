@@ -136,7 +136,8 @@ public class KukgohServiceImpl implements KukgohService {
 
         String[] fileNoAr = new String[1];
 
-        fileNoAr[0] = payAppData.get("FILE_NO").toString();
+        if(payAppData.containsKey("FILE_NO") && payAppData.get("FILE_NO") != null)
+            fileNoAr[0] = payAppData.get("FILE_NO").toString();
 
         params.put("fileNoAr", fileNoAr);
 
@@ -171,7 +172,7 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     @Override
-    public void sendEnara(Map<String, Object> params) {
+    public Map<String, Object> sendEnara(Map<String, Object> params) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String formattedDate = LocalDateTime.now().format(formatter);
 
@@ -195,6 +196,7 @@ public class KukgohServiceImpl implements KukgohService {
         params.put("SPLPC", params.get("EXCUT_SPLPC").toString().replaceAll(",", ""));
         params.put("VAT", params.get("EXCUT_VAT").toString().replaceAll(",", ""));
         params.put("SUM_AMOUNT", params.get("EXCUT_SUM_AMOUNT").toString().replaceAll(",", ""));
+        params.put("FILE_ID", "FILE_" + params.get("CNTC_CREAT_DT"));
 
         kukgohRepository.insExcutRequstErp(params);
         kukgohRepository.insExcutExpItmErp(params);
@@ -215,7 +217,6 @@ public class KukgohServiceImpl implements KukgohService {
         List<Map<String,Object>> fileList = payAppRepository.getPayAppFileList(params);
 
         int fileCnt = 1;
-        params.put("FILE_ID", "FILE_" + params.get("CNTC_CREAT_DT"));
 
         for(Map<String, Object> fileMap : fileList){
             fileMap.put("INTRFC_ID", params.get("INTRFC_ID"));
@@ -238,7 +239,10 @@ public class KukgohServiceImpl implements KukgohService {
         String csvAttachFile = makeCSVAttachFile(params);
 
         SFTPFileMove(params, csvFile, csvAttachFile);
+
 //        kukgohRepository.sendEnara(params);
+
+        return params;
     }
 
     private void fileCp(Map<String, Object> fileMap) {

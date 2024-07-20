@@ -168,7 +168,11 @@ public class KukgohController {
     public String sendEnara(@RequestParam Map<String, Object> params, Model model) {
 
         try{
-            kukgohService.sendEnara(params);
+            Map<String, Object> rsParams = kukgohService.sendEnara(params);
+
+
+            model.addAttribute("rs", rsParams);
+            model.addAttribute("code", 200);
         }catch(Exception e){
             e.printStackTrace();
         }

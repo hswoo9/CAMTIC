@@ -326,7 +326,7 @@
 				</tr>
 				<tr>
 					<td colspan="4" style="text-align: center;">
-						<input style="width: 50%;" type="text" id="PROCESS_RESULT_MSSAGE" name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
+						<input style="width: 50%;" type="text" id="PROCESS_RESULT_MSSAGE" disabled name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
 					</td>
 				</tr>
 				</thead>
