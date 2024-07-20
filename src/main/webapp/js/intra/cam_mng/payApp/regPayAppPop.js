@@ -1193,7 +1193,6 @@ var regPay = {
             $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
             $("#bList").val(resultBlist);
 
-            $("#appDe").val(busInfo.TRIP_DAY_FR);
             $(".trDe").val(busInfo.TRIP_DAY_FR);
         }
 

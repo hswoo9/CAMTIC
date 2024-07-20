@@ -2775,6 +2775,7 @@
             AND
                 PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
+            AND B.ACTIVE = 'Y' AND B.PJT_STOP = 'N'
         ORDER BY PART_RATE_VER_SN DESC
     </select>
 

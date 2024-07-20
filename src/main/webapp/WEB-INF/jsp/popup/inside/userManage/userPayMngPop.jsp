@@ -174,21 +174,21 @@
             </thead>
             <tbody id="userPayMngBody">
                 <tr id="tr">
-                    <td><input type="text" style="font-size: 11px;" id="startDt" name="startDt" /></td>
-                    <td><input type="text" style="font-size: 11px" id="endDt" name="endDt" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary" name="basicSalary" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay" name="foodPay" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="extraPay" name="extraPay" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="bonus" name="bonus" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                    <td><input type="text" style="font-size: 11px" id="socialRateSn" name="socialRateSn" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="nationalPay" name="nationalPay" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="healthPay" name="healthPay" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="longCarePay" name="longCarePay" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="employPay" name="employPay" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="accPay" name="accPay" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="busnPay" name="busnPay" /></td>
-                    <td><input type="text" style="text-align: right;font-size: 11px" id="retirePay" name="retirePay" /></td>
-                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay" name="bsPay" /></td>
+                    <td><input type="text" style="font-size: 11px;" id="startDt0" name="startDt" /></td>
+                    <td><input type="text" style="font-size: 11px" id="endDt0" name="endDt" /></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary0" name="basicSalary" value="0" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay0" name="foodPay" value="0" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="extraPay0" name="extraPay" value="0" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="bonus0" name="bonus" value="0" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                    <td><input type="text" style="font-size: 11px" id="socialRateSn0" name="socialRateSn" /></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="nationalPay0" name="nationalPay" /></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="healthPay0" name="healthPay" /></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="longCarePay0" name="longCarePay" /></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="employPay0" name="employPay" /></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="accPay0" name="accPay" /></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="busnPay0" name="busnPay" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')"/></td>
+                    <td><input type="text" style="text-align: right;font-size: 11px" id="retirePay0" name="retirePay" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(0, 'Y')"/></td>
+                    <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay0" name="bsPay" /></td>
                     <td style="text-align: center;">
                         <button type="button" class="k-button k-button-solid-info" onclick="popUserPay.fn_save(this)">저장</button>
                     </td>
