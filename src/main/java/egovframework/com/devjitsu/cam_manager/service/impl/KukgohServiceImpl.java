@@ -209,7 +209,8 @@ public class KukgohServiceImpl implements KukgohService {
 
         String[] fileNoAr = new String[1];
 
-        fileNoAr[0] = payAppData.get("FILE_NO").toString();
+        if(payAppData.containsKey("FILE_NO") && payAppData.get("FILE_NO") != null)
+            fileNoAr[0] = payAppData.get("FILE_NO").toString();
 
         params.put("fileNoAr", fileNoAr);
 
@@ -246,8 +247,10 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     private void fileCp(Map<String, Object> fileMap) {
-        Path source = Paths.get("" + fileMap.get("file_path").toString() + "/" + fileMap.get("file_uuid").toString());
-        Path destination = Paths.get("/upload/kukgoh/" + fileMap.get("TRNSC_ID") + "/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+        directoryConfirmAndMake("/upload/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/");
+
+        Path source = Paths.get("/home" + fileMap.get("file_path").toString().replaceAll("http://218.158.231.184", "") + "/" + fileMap.get("file_uuid").toString());
+        Path destination = Paths.get("/upload/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
 
         try {
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
@@ -263,7 +266,7 @@ public class KukgohServiceImpl implements KukgohService {
         int remotePort =20022;
         String username = "root";
         String password = "Camtic13!#";
-        String fromDirectory = "/home/upload/kukgoh/" + params.get("TRNSC_ID");
+        String fromDirectory = "/upload/kukgoh/" + params.get("TRNSC_ID");
         String toDirectory = "/home/hk/";
 
         try {
@@ -288,7 +291,7 @@ public class KukgohServiceImpl implements KukgohService {
 
     private String makeCSVAttachFile(Map<String, Object> params) {
         String fileName = "";
-        String filepath = "/upload/kukgoh/" + params.get("TRNSC_ID");
+        String filepath = "/upload/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
 
         try {
             if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
@@ -356,7 +359,7 @@ public class KukgohServiceImpl implements KukgohService {
 
     private String makeCSVFile(Map<String, Object> params) {
         String fileName = "";
-        String filepath = "/upload/kukgoh/" + params.get("TRNSC_ID");
+        String filepath = "/upload/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
 
         try {
             if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
