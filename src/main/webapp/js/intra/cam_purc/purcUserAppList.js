@@ -131,7 +131,7 @@ var purcUserAppList = {
                 }, {
                     field: "PURC_TYPE",
                     title: "구매구분",
-                    width: 80,
+                    width: 50,
                     template: function(e){
                         var result = "";
 
@@ -150,6 +150,17 @@ var purcUserAppList = {
                         return result
                     }
                 }, {
+                    field: "F_EMP_NAME",
+                    title: "담당자",
+                    width: 60,
+                    template: function(e){
+                        if(e.MNG_REQ_STAT == "Y"){
+                            return e.F_EMP_NAME;
+                        } else {
+                            return e.PURC_EMP_NAME;
+                        }
+                    }
+                }, {
                     field: "CLAIM_TITLE",
                     title: "제목",
                     width: 100
@@ -162,8 +173,8 @@ var purcUserAppList = {
                     }
                 }, {
                     field: "CRM_NM",
-                    title: "업체명",
-                    width: 100
+                    title: "업체",
+                    width: 120
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
@@ -207,13 +218,33 @@ var purcUserAppList = {
                 //         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
                 //     }
                 // },
-                // , {
-                //     title: "상태",
-                //     width: 100,
-                //     template : function(e){
-                //         return "";
-                //     }
-                // },
+                {
+                    title: "상태",
+                    width: 50,
+                    template : function(e){
+                        var stat = "";
+                        if(e.F_DOC_STATUS == "100"){
+                            stat = "결재완료"
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.RE_STAT == 'Y'){
+                                stat = "지출완료";
+                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
+                                stat = "부분지출";
+                            } else if (e.EXNP_STATUS != 0){
+                                stat = "지출대기";
+                            }
+                        } else if(e.F_DOC_STATUS == "10" || e.F_DOC_STATUS == "50"){
+                            stat = "결재중"
+                        } else if(e.F_DOC_STATUS == "30"){
+                            stat = "반려"
+                        } else if(e.F_DOC_STATUS == "0") {
+                            stat = "작성중"
+                        } else {
+                            stat = "미작성"
+                        }
+
+                        return stat;
+                    }
+                },
                 // {
                 //     title: "첨부",
                 //     width: 50,
@@ -223,7 +254,7 @@ var purcUserAppList = {
                 // },
                 {
                     title : "지급신청",
-                    width : 80,
+                    width : 70,
                     template: function(e){
 
                         if(e.F_DOC_STATUS != 0 && e.F_DOC_STATUS != 30 && e.F_DOC_STATUS != 40 && e.F_DOC_STATUS != null){
@@ -232,18 +263,7 @@ var purcUserAppList = {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                         }
                     }
-                }, {
-                    field: "F_EMP_NAME",
-                    title: "신청자",
-                    width: 50,
-                    template: function(e){
-                        if(e.F_EMP_NAME != null){
-                            return e.F_EMP_NAME;
-                        } else {
-                            return e.PURC_EMP_NAME;
-                        }
-                    }
-                }, {
+                },  /*{
                     field: "REQ_AMT",
                     title: "지출상태",
                     width: 60,
@@ -255,7 +275,7 @@ var purcUserAppList = {
                             return "미승인"
                         }
                     }
-                },
+                },*/
             ],
             dataBinding: function () {
                 record = fn_getRowNum(this, 2);
