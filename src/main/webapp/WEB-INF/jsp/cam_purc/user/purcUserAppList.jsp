@@ -34,19 +34,32 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="30%">
+                        <col width="5%">
+                        <col width="8%">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="8%">
+                        <col width="5%">
+                        <col width="25%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회유형</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">기간</th>
+                        <td>
+                            <input type="text" id="strDt" style="width: 45%;"> ~ <input type="text" id="endDt" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="sBusnClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){purcUserAppList.gridReload();}"/>
                         </td>
                     </tr>
                 </table>
