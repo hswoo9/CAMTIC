@@ -29,6 +29,44 @@ var purcUserAppList = {
             $("#searchDept").data("kendoDropDownList").enable(true);
         }
 
+        purcUserAppList.global.dropDownDataSource = [
+            { text: "문서번호", value: "A" },
+            { text: "프로젝트명", value: "B" },
+            { text: "목적", value: "C" },
+            { text: "업체명", value: "D" },
+            { text: "구매요청자", value: "E" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", purcUserAppList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+
+        $("#sBusnClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
+                {text: "R&D", value: "R"},
+                {text: "비R&D", value: "S"},
+                {text: "엔지니어링", value: "D"},
+                {text: "기타/용역", value: "V"},
+            ],
+        });
+
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() + 1)));
+
+        $("#strDt").change(function (){
+            if($("#strDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#strDt").val());
+            }
+        });
+        $("#endDt").change(function (){
+            if($("#strDt").val() > $("#endDt").val()){
+                $("#strDt").val($("#endDt").val());
+            }
+        });
+
         purcUserAppList.mainGrid("/purc/getUserPurcAppList");
     },
 
@@ -49,6 +87,11 @@ var purcUserAppList = {
                 parameterMap: function(data) {
                     data.empSeq = $("#myEmpSeq").val();
                     data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.sBusnClass = $("#sBusnClass").val();
+                    data.strDt = $("#strDt").val();
+                    data.endDt = $("#endDt").val();
 
                     return data;
                 }

@@ -1591,85 +1591,135 @@
 
     <select id="getUserPurcAppList" parameterType="map" resultType="map">
         /*getUserPurcAppList*/
-        SELECT
-            B.*,
-            A.CLAIM_EXNP_SN,
-            A.MNG_REQ_STAT,
-            A.EMP_SEQ AS F_EMP_SEQ,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
-            A.PAY_APP_SN AS F_PAY_APP_SN,
-            (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE A.PAY_APP_SN = PAY_APP_SN) AS F_DOC_STATUS,
-            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS REQ_AMT,
-            IFNULL((SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_CNT,
-            IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_AMT,
-            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
-            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = B.DOC_ID) AS DOC_NO,
-            (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) AS REG_EMP_SEQ,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN)) AS REG_EMP_NAME,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ) AS PURC_EMP_NAME,
-            C.ITEM_COUNT,
-            (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS RE_STAT,
-            D.EXNP_STATUS,
-            IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS
-        FROM
-            CAM_MNG.DJ_CLAIM_EXNP A
-        LEFT JOIN
-            CAM_MNG.DJ_PURC_CLAIM B
-        ON A.CLAIM_SN = B.CLAIM_SN
-        LEFT JOIN
-            (SELECT
-                PAY_APP_SN,
-                SUM(TOT_COST) AS TOT_COST,
-                GROUP_CONCAT(CRM_NM) AS CRM_NM,
-                COUNT(*) AS ITEM_COUNT
-            FROM CAM_MNG.DJ_PAY_APP_DET
-            WHERE TOT_COST != 0
-            GROUP BY PAY_APP_SN) C
-        ON
-            A.PAY_APP_SN = C.PAY_APP_SN
+        SELECT * FROM (
+            SELECT
+                B.*,
+                A.CLAIM_EXNP_SN,
+                A.MNG_REQ_STAT,
+                A.EMP_SEQ AS F_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
+                A.PAY_APP_SN AS F_PAY_APP_SN,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE A.PAY_APP_SN = PAY_APP_SN) AS F_DOC_STATUS,
+                IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS REQ_AMT,
+                IFNULL((SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_CNT,
+                IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_AMT,
+                REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
+                (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = B.DOC_ID) AS DOC_NO,
+                (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) AS REG_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN)) AS REG_EMP_NAME,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ) AS PURC_EMP_NAME,
+                C.ITEM_COUNT,
+                (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS RE_STAT,
+                D.EXNP_STATUS,
+                IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS
+            FROM
+                CAM_MNG.DJ_CLAIM_EXNP A
+            LEFT JOIN
+                CAM_MNG.DJ_PURC_CLAIM B
+            ON A.CLAIM_SN = B.CLAIM_SN
+            LEFT JOIN
+                (SELECT
+                    PAY_APP_SN,
+                    SUM(TOT_COST) AS TOT_COST,
+                    GROUP_CONCAT(CRM_NM) AS CRM_NM,
+                    COUNT(*) AS ITEM_COUNT
+                FROM CAM_MNG.DJ_PAY_APP_DET
+                WHERE TOT_COST != 0
+                GROUP BY PAY_APP_SN) C
+            ON
+                A.PAY_APP_SN = C.PAY_APP_SN
 
-        LEFT JOIN
-            (SELECT
-                PAY_APP_SN,
-                EVID_TYPE,
-                COUNT(*) AS EXNP_STATUS
-            FROM CAM_MNG.DJ_PAY_APP_DET
-            WHERE EXNP_SAVE = 'Y'
-            GROUP BY PAY_APP_SN ) D
-        ON
-            A.PAY_APP_SN = D.PAY_APP_SN
+            LEFT JOIN
+                (SELECT
+                    PAY_APP_SN,
+                    EVID_TYPE,
+                    COUNT(*) AS EXNP_STATUS
+                FROM CAM_MNG.DJ_PAY_APP_DET
+                WHERE EXNP_SAVE = 'Y'
+                GROUP BY PAY_APP_SN ) D
+            ON
+                A.PAY_APP_SN = D.PAY_APP_SN
 
-        LEFT JOIN
-            (SELECT
-                Y.PAY_APP_SN,
-                Y.DT1, Y.DT3,
-                COUNT(*) AS EXNP_DOC_STATUS
-            FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
-            WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
-            GROUP BY Y.PAY_APP_SN ) E
-        ON
-            A.PAY_APP_SN = E.PAY_APP_SN
-        WHERE
-            B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100 OR PURC_SN IS NULL)
-        AND
-            CASE
-                WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
-                ELSE 1=1
-            END
-        <if test='(camProject == null or "".equals(camProject)) and (searchDept != null and !"".equals(searchDept))'>
+            LEFT JOIN
+                (SELECT
+                    Y.PAY_APP_SN,
+                    Y.DT1, Y.DT3,
+                    COUNT(*) AS EXNP_DOC_STATUS
+                FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
+                WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
+                GROUP BY Y.PAY_APP_SN ) E
+            ON
+                A.PAY_APP_SN = E.PAY_APP_SN
+            WHERE
+                B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100 OR PURC_SN IS NULL)
             AND
-                ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
+                CASE
+                    WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
+                    ELSE 1=1
+                END
+            <if test='(camProject == null or "".equals(camProject)) and (searchDept != null and !"".equals(searchDept))'>
+                AND
+                    ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
+            </if>
+            <if test='pjtCd != null and "R".equals(busnClass) or "S".equals(busnClass)'>
+                AND
+                    A.PJT_CD = #{pjtCd}
+            </if>
+            <if test='"D".equals(busnClass) or "V".equals(busnClass)'>
+                AND
+                    LEFT(A.PJT_CD, 1) = 'M' AND B.PJT_SN = #{pjtSn}
+            </if>
+            GROUP BY A.CE_GW_IDX
+            ORDER BY A.CLAIM_EXNP_SN DESC
+        ) AA
+        WHERE 1=1
+        <choose>
+            <when test='sBusnClass != null and !"".equals(sBusnClass) and "C".equals(sBusnClass)'>
+                AND AA.PURC_TYPE = ''
+            </when>
+            <when test='sBusnClass != null and !"".equals(sBusnClass) and "R".equals(sBusnClass)'>
+                AND AA.PURC_TYPE = 'R'
+            </when>
+            <when test='sBusnClass != null and !"".equals(sBusnClass) and "S".equals(sBusnClass)'>
+                AND AA.PURC_TYPE = 'S'
+            </when>
+            <when test='sBusnClass != null and !"".equals(sBusnClass) and "D".equals(sBusnClass)'>
+                AND AA.PURC_TYPE = 'D'
+            </when>
+            <when test='sBusnClass != null and !"".equals(sBusnClass) and "V".equals(sBusnClass)'>
+                AND AA.PURC_TYPE = 'V'
+            </when>
+        </choose>
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "A".equals(searchKeyword)'>
+                AND AA.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "B".equals(searchKeyword)'>
+                AND AA.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "C".equals(searchKeyword)'>
+                AND AA.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "D".equals(searchKeyword)'>
+                AND AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "E".equals(searchKeyword)'>
+                AND AA.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    AA.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    AA.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                    AA.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
+                    AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                    AA.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
+        <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
+            AND AA.EXP_DE BETWEEN #{strDt} AND #{endDt}
         </if>
-        <if test='pjtCd != null and "R".equals(busnClass) or "S".equals(busnClass)'>
-            AND
-                A.PJT_CD = #{pjtCd}
-        </if>
-        <if test='"D".equals(busnClass) or "V".equals(busnClass)'>
-            AND
-                LEFT(A.PJT_CD, 1) = 'M' AND B.PJT_SN = #{pjtSn}
-        </if>
-        GROUP BY A.CE_GW_IDX
-        ORDER BY A.CLAIM_EXNP_SN DESC
     </select>
 
     <select id="getClaimExnpData" parameterType="map" resultType="map">
