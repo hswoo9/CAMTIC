@@ -419,4 +419,22 @@
         AND
             FILE_ID = #{FILE_ID}
     </select>
+
+    <insert id="insEnaraData" parameterType="map">
+        /*insEnaraData*/
+        INSERT INTO CAM_ERP.DJ_ERP_REQ_STAT
+            (
+                PAY_APP_DET_SN,
+                TRNSC_ID,
+                REQ_STAT,
+                REQ_ISS
+            )
+        VALUES
+            (
+                #{payAppDetSn},
+                #{TRNSC_ID},
+                #{REQ_STAT},
+                #{REQ_ISS}
+            )
+    </insert>
 </mapper>

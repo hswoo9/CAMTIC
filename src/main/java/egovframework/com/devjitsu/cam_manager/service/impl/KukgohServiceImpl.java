@@ -11,10 +11,7 @@ import egovframework.devjitsu.common.utiles.EsbUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -177,6 +174,8 @@ public class KukgohServiceImpl implements KukgohService {
         String formattedDate = LocalDateTime.now().format(formatter);
 
         System.out.println(params);
+        params.put("REQ_ISS", "E-CrossAgent 전송 성공");
+        params.put("REQ_STAT", "Y");
         params.put("CNTC_JOB_PROCESS_CODE", "C");
         params.put("INTRFC_ID", "IF-EXE-EFR-0074");
         params.put("TRANSFR_ACNUT_SE_CODE", String.format("%03d", Integer.parseInt(params.get("TRANSFR_ACNUT_SE_CODE").toString())));
@@ -235,22 +234,50 @@ public class KukgohServiceImpl implements KukgohService {
 
         params.put("fileList", fileList);
 
-        String csvFile = makeCSVFile(params);
+        Map<String, Object> csvMap = makeCSVFile(params);
 
-        String csvAttachFile = makeCSVAttachFile(params);
+        if(csvMap.containsKey("REQ_ISS") && csvMap.get("REQ_ISS") != null){
+            params.put("REQ_ISS", csvMap.get("REQ_ISS").toString());
+            params.put("REQ_STAT", csvMap.get("REQ_STAT").toString());
+        }
 
-        SFTPFileMove(params, csvFile, csvAttachFile);
+        Map<String, Object> csvAttachMap = makeCSVAttachFile(params);
 
-//        kukgohRepository.sendEnara(params);
+        if(csvAttachMap.containsKey("REQ_ISS") && csvAttachMap.get("REQ_ISS") != null){
+            params.put("REQ_ISS", csvAttachMap.get("REQ_ISS").toString());
+            params.put("REQ_STAT", csvAttachMap.get("REQ_STAT").toString());
+        }
+
+        if(params.get("REQ_STAT") != "N" || !"N".equals(params.get("REQ_STAT"))){
+            try {
+                File myFile = new File("/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID") + "/" + params.get("TRNSC_ID") + ".eof");
+                if (myFile.createNewFile()){
+                    System.out.println("File is created!");
+                }else{
+                    System.out.println("File already exists.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String message = SFTPFileMove(params, csvMap.get("fileName").toString(), csvAttachMap.get("fileName").toString());
+
+            if(message != ""){
+                params.put("REQ_ISS", message);
+                params.put("REQ_STAT", "N");
+            }
+        }
+
+        kukgohRepository.insEnaraData(params);
 
         return params;
     }
 
     private void fileCp(Map<String, Object> fileMap) {
-        directoryConfirmAndMake("/upload/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/");
+        directoryConfirmAndMake("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/");
 
         Path source = Paths.get("/home" + fileMap.get("file_path").toString().replaceAll("http://218.158.231.184", "") + "/" + fileMap.get("file_uuid").toString());
-        Path destination = Paths.get("/upload/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+        Path destination = Paths.get("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
 
         try {
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
@@ -261,13 +288,15 @@ public class KukgohServiceImpl implements KukgohService {
         }
     }
 
-    private void SFTPFileMove(Map<String, Object> params, String csvFile, String csvAttachFile) {
+    private String SFTPFileMove(Map<String, Object> params, String csvFile, String csvAttachFile) {
+        String message = "";
+
         String remoteHost = "218.158.231.92";
         int remotePort =20022;
         String username = "root";
         String password = "Camtic13!#";
-        String fromDirectory = "/upload/kukgoh/" + params.get("TRNSC_ID");
-        String toDirectory = "/home/hk/";
+        String fromDirectory = "/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
+        String toDirectory = "/home/hk/" + params.get("INTRFC_ID") + "/";
 
         try {
             JSch jsch = new JSch();
@@ -276,22 +305,29 @@ public class KukgohServiceImpl implements KukgohService {
             session.setPassword(password);
             session.connect();
 
-            Channel channel = session.openChannel("sftp");
+            ChannelExec channel = (ChannelExec) session.openChannel("exec");
+
+            channel.setCommand("cp -r " + fromDirectory + " " + toDirectory);
+
+            channel.setErrStream(System.err);
+
+            // Execute the command
             channel.connect();
-            ChannelSftp sftpChannel = (ChannelSftp) channel;
 
-            sftpChannel.put(fromDirectory, toDirectory, ChannelSftp.OVERWRITE);
-
-            sftpChannel.disconnect();
             session.disconnect();
-        } catch (JSchException | SftpException e) {
+        } catch (JSchException e) {
             e.printStackTrace();
+            message = "SFTP file movement failed.";
         }
+
+        return message;
     }
 
-    private String makeCSVAttachFile(Map<String, Object> params) {
+    private Map<String, Object> makeCSVAttachFile(Map<String, Object> params) {
         String fileName = "";
-        String filepath = "/upload/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
+        String filepath = "/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
+
+        Map<String, Object> map = new HashMap<>();
 
         try {
             if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
@@ -335,9 +371,14 @@ public class KukgohServiceImpl implements KukgohService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            map.put("REQ_ISS", "csv file(attach) creation error.");
+            map.put("REQ_STAT", "N");
         }
 
-        return fileName;
+        map.put("fileName", fileName);
+        map.put("REQ_STAT", "Y");
+
+        return map;
     }
 
     public String getTransactionId(){
@@ -357,10 +398,10 @@ public class KukgohServiceImpl implements KukgohService {
         return trnscId;
     }
 
-    private String makeCSVFile(Map<String, Object> params) {
+    private Map<String, Object> makeCSVFile(Map<String, Object> params) {
         String fileName = "";
-        String filepath = "/upload/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
-
+        String filepath = "/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
+        Map<String, Object> map = new HashMap<>();
         try {
             if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
                 fileName = filepath + "/" + params.get("TRNSC_ID") + "-data.csv";
@@ -463,8 +504,14 @@ public class KukgohServiceImpl implements KukgohService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            map.put("REQ_ISS", "csv file creation error.");
+            map.put("REQ_STAT", "N");
+
         }
-        return fileName;
+
+        map.put("REQ_STAT", "Y");
+        map.put("fileName", fileName);
+        return map;
     }
 
 

@@ -161,4 +161,9 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getIntrfcFileList", params);
     }
+
+    public void insEnaraData(Map<String, Object> params) {
+
+        insert("kukgoh.insEnaraData", params);
+    }
 }

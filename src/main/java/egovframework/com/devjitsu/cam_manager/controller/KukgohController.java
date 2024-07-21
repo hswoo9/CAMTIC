@@ -10,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +166,6 @@ public class KukgohController {
 
         try{
             Map<String, Object> rsParams = kukgohService.sendEnara(params);
-
 
             model.addAttribute("rs", rsParams);
             model.addAttribute("code", 200);
