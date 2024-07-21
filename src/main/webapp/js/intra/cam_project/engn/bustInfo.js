@@ -418,7 +418,7 @@ var bustInfo = {
                             return '-';
                         }
                     },
-                    footerTemplate: "출장완료 여비합계"
+                    footerTemplate: "출장여비 합계"
                 }, {
                     field: "EXNP_DOC_STATUS",
                     title: "지출일자",
@@ -439,10 +439,13 @@ var bustInfo = {
                     title: "여비금액",
                     width: 50,
                     template : function (e){
-                        if(e.RS_STATUS == "100"){
+                        if(e.TRIP_CODE != "4"){
                             bustSum  += Number(e.RES_EXNP_SUM);
+                            return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                        } else {
+                            bustSum  += Number(e.OVER_TOT_COST);
+                            return "<div style='text-align: right'>"+comma(e.OVER_TOT_COST)+"</div>";
                         }
-                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
