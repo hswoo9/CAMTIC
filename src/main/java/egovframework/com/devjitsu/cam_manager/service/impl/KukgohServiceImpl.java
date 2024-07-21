@@ -224,7 +224,7 @@ public class KukgohServiceImpl implements KukgohService {
             fileMap.put("FILE_SN", fileCnt);
             fileMap.put("FILE_ID", params.get("FILE_ID"));
             fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("FILE_SN") + "_" + fileMap.get("file_org_name").toString() + "-" + fileMap.get("file_ext").toString());
-            fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileMap.get("file_org_name").toString() + "-" + fileMap.get("file_ext").toString());
+            fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileMap.get("file_org_name").toString() + "." + fileMap.get("file_ext").toString());
             fileMap.put("CNTC_CREAT_DT", params.get("CNTC_CREAT_DT"));
 
             fileCp(fileMap);
@@ -296,7 +296,7 @@ public class KukgohServiceImpl implements KukgohService {
         String username = "root";
         String password = "Camtic13!#";
         String fromDirectory = "/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
-        String toDirectory = "/home/hk/" + params.get("INTRFC_ID") + "/";
+        String toDirectory = "/home/hk/mtDir/snd/" + params.get("INTRFC_ID") + "/";
 
         try {
             JSch jsch = new JSch();
