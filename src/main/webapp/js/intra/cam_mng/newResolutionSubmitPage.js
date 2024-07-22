@@ -284,8 +284,4 @@ var newResolutionSubmitPage = {
     }
 
 
-
-
-
-
 }
