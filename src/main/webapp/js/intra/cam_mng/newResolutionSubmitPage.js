@@ -274,7 +274,20 @@ var newResolutionSubmitPage = {
                 console.log(result);
                 if(result.code == 200){
                     alert("전송이 완료되었습니다.");
-                    $("#my-spinner").hide();
+
+                    $.ajax({
+                        url: '/kukgoh/test',
+                        type: 'POST',
+                        data: result.rs,
+                        dataType : "json",
+                        success: function(result){
+                            console.log(result);
+                            $("#my-spinner").hide();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error(textStatus, errorThrown);
+                        }
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -287,18 +300,7 @@ var newResolutionSubmitPage = {
         var data = {
 
         }
-        $.ajax({
-            url: '/kukgoh/test',
-            type: 'POST',
-            data: data,
-            dataType : "json",
-            success: function(result){
-                console.log(result);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error(textStatus, errorThrown);
-            }
-        });
+
     }
 
 
