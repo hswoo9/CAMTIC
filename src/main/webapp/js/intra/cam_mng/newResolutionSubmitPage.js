@@ -281,6 +281,24 @@ var newResolutionSubmitPage = {
                 console.error(textStatus, errorThrown);
             }
         });
+    },
+
+    fn_test : function(){
+        var data = {
+
+        }
+        $.ajax({
+            url: '/kukgoh/test',
+            type: 'POST',
+            data: data,
+            dataType : "json",
+            success: function(result){
+                console.log(result);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error(textStatus, errorThrown);
+            }
+        });
     }
 
 
