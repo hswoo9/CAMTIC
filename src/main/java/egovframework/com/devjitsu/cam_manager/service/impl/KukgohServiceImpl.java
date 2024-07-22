@@ -308,7 +308,7 @@ public class KukgohServiceImpl implements KukgohService {
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
 
             channel.setCommand("cp -r " + fromDirectory + " " + toDirectory);
-
+            channel.setCommand("chmod -R 777 " + toDirectory + params.get("TRNSC_ID") + "/*");
             channel.setErrStream(System.err);
 
             // Execute the command
