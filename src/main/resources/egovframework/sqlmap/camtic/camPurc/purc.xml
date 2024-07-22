@@ -897,8 +897,7 @@
                 A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.ORDER_YN, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, A.CLAIM_EMP_SEQ, B.EMP_NAME_KR AS CLAIM_EMP_NAME, A.ORDER_DT,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = CLAIM_EMP_SEQ) AS CLAIM_DEPT_NAME, D.EMP_NAME_KR AS PURC_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = PURC_EMP_SEQ) AS PURC_DEPT_NAME, C.DELV_DE, DI.DOC_NO, A.STATUS,
-                IFNULL((SELECT INSPECT_YN FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN), A.INSPECT_YN) AS INSPECT_YN,
-                (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_STATUS,
+                A.INSPECT_YN, A.INSPECT_STATUS,
                 IFNULL((SELECT SUM(SPCI.PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_PURC_ITEM_AMT,
                 IFNULL((SELECT SUM(SPCI.DIF_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_DIF_AMT,
                 DI.DOC_NO AS CLAIM_DOC_NO, DI2.DOC_NO AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD, A.PJT_NM
@@ -919,7 +918,7 @@
                 A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.ORDER_YN, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, A.CLAIM_EMP_SEQ, B.EMP_NAME_KR AS CLAIM_EMP_NAME, A.ORDER_DT,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = CLAIM_EMP_SEQ) AS CLAIM_DEPT_NAME, D.EMP_NAME_KR AS PURC_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = PURC_EMP_SEQ) AS PURC_DEPT_NAME, '' AS DELV_DE, DI.DOC_NO, A.STATUS,
-                '' AS INSPECT_YN, '' AS INSPECT_STATUS,
+                A.INSPECT_YN, A.INSPECT_STATUS,
                 IFNULL((SELECT SUM(SPCI.PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_PURC_ITEM_AMT,
                 IFNULL((SELECT SUM(SPCI.DIF_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM SPCI WHERE SPCI.CLAIM_SN = A.CLAIM_SN), 0) AS TOT_DIF_AMT,
                 DI.DOC_NO AS CLAIM_DOC_NO, '' AS PURC_DOC_NO, A.PURC_REQ_PURPOSE, PCI.ITEM_NM, A.PAYMENT_METHOD, A.PJT_NM
@@ -951,6 +950,9 @@
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_EMP_NAME".equals(searchKeyword)'>
                     AND ABC.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
                 </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "CLAIM_EMP_NAME".equals(searchKeyword)'>
+                    AND ABC.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                </when>
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
                     AND ABC.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
                 </when>
@@ -970,7 +972,7 @@
         </if>
         <choose>
             <when test='"1".equals(inspectStat)'>
-                AND ABC.INSPECT_YN = 'N'
+                AND ABC.INSPECT_YN = 'N' AND INSPECT_STATUS != '100'
             </when>
             <when test='"2".equals(inspectStat)'>
                 AND ABC.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
@@ -1092,6 +1094,18 @@
             INSPECT_YN = 'Y'
         WHERE
             PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updPurcClaimInspect" parameterType="map">
+        /* updPurcClaimInspect */
+        UPDATE
+            CAM_MNG.DJ_PURC_CLAIM
+        SET
+            INSPECT_EMP_NAME = #{inspectEmpName},
+            INSPECT_DT = #{inspectDt},
+            INSPECT_YN = 'Y'
+        WHERE
+            CLAIM_SN = #{claimSn}
     </update>
 
     <update id="updPurcInspectStat" parameterType="map">
@@ -1817,6 +1831,25 @@
             B.STATUS = 'C'
     </select>
 
+    <select id="getClaimInsYList" parameterType="map" resultType="map">
+        /*getClaimInsYList*/
+        SELECT
+            A.CRM_SN,
+            B.PRODUCT_A,
+            REPLACE(B.ITEM_EA, ',', '') AS PURC_ITEM_QTY_UNCOMMA,
+            B.ITEM_UNIT_AMT AS PURC_ITEM_UNIT_PRICE,
+            B.ITEM_AMT AS PURC_ITEM_AMT,
+            B.ITEM_ETC AS RMK,
+            A.CLAIM_EMP_SEQ AS REG_EMP_SEQ
+        FROM CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM_ITEM B
+        ON
+            A.CLAIM_SN = B.CLAIM_SN
+        WHERE
+            B.CLAIM_SN = #{claimSn}
+    </select>
+
     <insert id="insItemMaster" parameterType="map">
         /*insItemMaster*/
         INSERT INTO CAM_ITEM.DJ_ITEM_MASTER
@@ -2073,8 +2106,8 @@
                 A.STATUS AS CLAIM_DOC_STATUS,
                 A.DOC_ID AS CLAIM_DOC_ID,
                 (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY,
-                IFNULL(B.INSPECT_YN, A.INSPECT_YN) AS INSPECT_YN,
-                B.INSPECT_STATUS,
+                A.INSPECT_YN,
+                A.INSPECT_STATUS,
                 IFNULL(B.PAYMENT_METHOD, A.PAYMENT_METHOD) AS PAYMENT_METHOD,
                 A.ORDER_DT,
                 (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
@@ -2119,8 +2152,8 @@
                 '',
                 '',
                 '',
-                B.INSPECT_YN,
-                B.INSPECT_STATUS,
+                '' AS INSPECT_YN,
+                '' AS INSPECT_STATUS,
                 B.PAYMENT_METHOD,
                 null,
                 (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
@@ -2276,11 +2309,12 @@
             IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
             'CAYSY' AS CLAIM_STATUS,
             A.CLAIM_SN,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.CLAIM_EMP_SEQ) AS CLAIM_EMP_NAME,
             A.STATUS AS CLAIM_DOC_STATUS,
             A.DOC_ID AS CLAIM_DOC_ID,
             (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY,
-            B.INSPECT_YN,
-            B.INSPECT_STATUS,
+            A.INSPECT_YN,
+            A.INSPECT_STATUS,
             B.PAYMENT_METHOD,
             A.ORDER_DT,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
@@ -2318,23 +2352,24 @@
             B.PURC_SN,
             B.STATUS,
             B.DOC_STATUS,
-            0,
+            0 AS PURC_ITEM_AMT_SUM,
             IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
             '' AS CLAIM_STATUS,
-            '',
-            '',
-            '',
-            '',
-            B.INSPECT_YN,
-            B.INSPECT_STATUS,
+            '' AS CLAIM_SN,
+            '' AS CLAIM_EMP_NAME,
+            '' AS CLAIM_DOC_STATUS,
+            '' AS CLAIM_DOC_ID,
+            '' AS APPRO_KEY,
+            '' AS INSPECT_YN,
+            '' AS INSPECT_STATUS,
             B.PAYMENT_METHOD,
-            null,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
-            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            NULL AS ORDER_DT,
+            '' AS EXNP_STATUS,
+            '' AS EXNP_DOC_STATUS,
+            '' AS PAY_DOC_STATUS,
             B.REG_DATE,
-            '',
-            '',
+            '' AS CRM_NM,
+            B.PJT_NM,
             (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC B
@@ -2342,9 +2377,6 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             B.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_APP PA
-        ON PA.LINK_KEY = B.PURC_SN AND PA.LINK_KEY_TYPE = '구매'
         WHERE
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0
 
@@ -2369,20 +2401,29 @@
                         AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
                     </when>
                     <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
-                        AND RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
+                        AND RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
                     </when>
-                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                        AND RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
+                        AND RE.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
                     </when>
                     <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
                         AND RE.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                    </when>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_EMP_NAME".equals(searchKeyword)'>
+                        AND RE.EMP_NAME_KR LIKE CONCAT('%',#{searchValue},'%')
+                    </when>
+                    <when test='searchKeyword != null and !"".equals(searchKeyword) and "CLAIM_EMP_NAME".equals(searchKeyword)'>
+                        AND RE.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
                     </when>
                     <otherwise>
                         AND
                         (
                             RE.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                             RE.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                            RE.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+                            RE.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                            RE.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                            RE.EMP_NAME_KR LIKE CONCAT('%',#{searchValue},'%') OR
+                            RE.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
                         )
                     </otherwise>
                 </choose>
@@ -2390,7 +2431,7 @@
 
             <choose>
                 <when test='"1".equals(inspectStat)'>
-                    AND RE.INSPECT_YN = 'N'
+                    AND RE.INSPECT_YN = 'N' AND INSPECT_STATUS != '100'
                 </when>
                 <when test='"2".equals(inspectStat)'>
                     AND RE.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
@@ -2469,7 +2510,8 @@
         /*updClaimInspectStat*/
         UPDATE CAM_MNG.DJ_PURC_CLAIM
         SET
-            INSPECT_YN = 'Y'
+            INSPECT_YN = 'Y',
+            INSPECT_STATUS = #{status}
         WHERE
             CLAIM_SN = #{claimSn}
     </update>

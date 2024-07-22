@@ -659,9 +659,22 @@ public class PurcController {
         return "jsonView";
     }
 
-
     /**
      * 구매검수처리 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/updPurcClaimInspect.do")
+    public String updPurcClaimInspect(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        MultipartFile[] file = request.getFiles("file1").toArray(new MultipartFile[0]);
+        purcService.updPurcClaimInspect(params, file, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+
+    /**
+     * 구매검수처리
      * @param params
      * @return
      */

@@ -98,6 +98,10 @@ public class PurcRepository extends AbstractDAO {
         update("purc.updPurcInspect", params);
     }
 
+    public void updPurcClaimInspect(Map<String, Object> params) {
+        update("purc.updPurcClaimInspect", params);
+    }
+
     public void updPurcInspectStat(Map<String, Object> params) {
         update("purc.updPurcInspectStat", params);
     }
@@ -232,6 +236,10 @@ public class PurcRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getInsYList(Map<String, Object> params) {
         return selectList("purc.getInsYList", params);
+    }
+
+    public List<Map<String, Object>> getClaimInsYList(Map<String, Object> params) {
+        return selectList("purc.getClaimInsYList", params);
     }
 
     public void insItemWhInfo(Map<String, Object> map) {

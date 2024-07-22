@@ -18,7 +18,9 @@ var prm = {
         prm.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
             { text: "목적", value: "PURC_REQ_PURPOSE" },
-            { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "업체명", value: "CRM_NM" },
+            { text: "구매요청자", value: "PURC_EMP_NAME" },
+            { text: "구매청구자", value: "CLAIM_EMP_NAME" },
             { text: "프로젝트", value: "PJT_NM" },
         ]
 
@@ -328,7 +330,7 @@ var prm = {
                     field: "PURC_REQ_PURPOSE",
                     title: "목적",
                     template : function(e){
-                        return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />' + e.PURC_REQ_PURPOSE
+                        return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />' + e.PURC_REQ_PURPOSE + '</div>';
                     }
                 }, {
                     title: "구매요청서",
@@ -378,17 +380,17 @@ var prm = {
                         if (e.CLAIM_STATUS == "CAYSY") {
                             if (e.ORDER_DT != "" && e.ORDER_DT != null && e.ORDER_DT != undefined) {
                                 if (e.INSPECT_STATUS != "100") {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                 } else {
-                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                 }
                             } else {
                                 if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
                                     if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
                                         if (e.INSPECT_STATUS != "100") {
-                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                         } else {
-                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                         }
                                     }
                                 }
@@ -577,7 +579,7 @@ var prm = {
     fn_inspectionPopup : function(key){
         var url = "/purc/pop/purcInspectionPop.do";
         if(key != null && key != ""){
-            url = "/purc/pop/purcInspectionPop.do?purcSn=" + key;
+            url = "/purc/pop/purcInspectionPop.do?claimSn=" + key;
         }
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no";

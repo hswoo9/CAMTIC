@@ -44,6 +44,8 @@ public interface PurcService {
 
     void updPurcInspect(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
 
+    void updPurcClaimInspect(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
+
     void updPurcInspectStat(Map<String, Object> params);
 
     void updItemUnAssetStat(Map<String, Object> params);

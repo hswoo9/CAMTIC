@@ -178,7 +178,7 @@ var purcInfo = {
                     field: "PURC_REQ_PURPOSE",
                     title: "목적",
                     template : function(e){
-                        return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE
+                        return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE + '</div>';
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
@@ -317,11 +317,6 @@ var purcInfo = {
                         /** 구매청구서 작성시 검수 버튼 생성*/
                         let html = "";
                         if(e.ORG_YN == 'N'){
-                            if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend") {
-                                if(e.INSPECT_YN == "Y"){
-                                    return '<a onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', '+e.CLAIM_SN+')" style="font-weight: bold ">검수처리완료</a>'
-                                }
-                            }
                             if(e.PAYMENT_METHOD == "A"){
                                 if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                     if(e.CLAIM_STATUS == "CAYSY"){
