@@ -140,7 +140,7 @@ var busnPartRate = {
                                 }
                             });
 
-                            console.log(rs.list[i]);
+                            console.log("rs.list["+i+"]", rs.list[i]);
                             var item = rs.list[i];
 
                             busnPartRate.global.onData.partEmpSeq = item.PART_EMP_SEQ;
@@ -165,6 +165,10 @@ var busnPartRate = {
 
                             //input부분 반복
                             for(var j = 0 ; j < 3 ; j++){
+                                var payTotal = 0;
+                                var itemTotal = 0;
+                                var totTotal = 0;
+
                                 tdHtml += '<tr>';
                                 if(j == 0){
                                     tdHtml += '    <td>현금</td>';
@@ -215,6 +219,7 @@ var busnPartRate = {
                                             tdHtml += '<td style="text-align: right">';
                                             tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(itemMon[monPayStr+(colMonth)]) + '" '+disabledText+' />';
                                             tdHtml += '</td>';
+                                            payTotal += Number(itemMon[monPayStr+(colMonth)]);
 
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 aTot += tot;
@@ -228,6 +233,7 @@ var busnPartRate = {
                                             tdHtml += '<td style="text-align: right">'
                                             tdHtml += '    <input type="text" name="l' + x + j + i + '" class="b' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(itemMon[monItemStr+(colMonth)]) + '" '+disabledText+' />';
                                             tdHtml += '</td>';
+                                            itemTotal += Number(itemMon[monItemStr+(colMonth)]);
 
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 aTot += (Number(item.MON_SAL) - Number(tot));
@@ -239,6 +245,8 @@ var busnPartRate = {
                                             tdHtml += '<td style="text-align: right">'
                                             tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(Number(itemMon[monPayStr+(colMonth)])+Number(itemMon[monItemStr+(colMonth)]))) + '"/>';
                                             tdHtml += '</td>';
+                                            console.log("itemMon[monItemStr+(colMonth)])", itemMon[monItemStr+(colMonth)]);
+                                            totTotal += Number(itemMon[monPayStr+(colMonth)]) + Number(itemMon[monItemStr+(colMonth)]);
 
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 aTot += Number(item.MON_SAL);
@@ -262,6 +270,7 @@ var busnPartRate = {
                                                 tdHtml += '</td>';
                                                 aTot += tot;
                                                 bTot += tot;
+                                                payTotal += Number(tot);
                                             } else {
                                                 tdHtml += '<td style="text-align: right">';
                                                 tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0" '+disabledText+' />';
@@ -277,6 +286,7 @@ var busnPartRate = {
                                                 tdHtml += '</td>';
                                                 aTot += (Number(item.MON_SAL) - Number(tot));
                                                 bTot += (Number(item.MON_SAL) - Number(tot));
+                                                itemTotal += Number(Number(item.MON_SAL) - Number(tot));
                                             } else {
                                                 tdHtml += '<td style="text-align: right">'
                                                 tdHtml += '    <input type="text" name="l' + x + j + i + '" class="b' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0" '+disabledText+' />';
@@ -291,6 +301,7 @@ var busnPartRate = {
                                                 tdHtml += '</td>';
                                                 aTot += Number(item.MON_SAL);
                                                 bTot += Number(item.MON_SAL);
+                                                totTotal += Number(item.MON_SAL);
                                             } else {
                                                 tdHtml += '<td style="text-align: right">'
                                                 tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0"/>';
@@ -309,34 +320,24 @@ var busnPartRate = {
 
                                 }
 
-                                var payTotal = 0;
-                                var itemTotal = 0;
-                                var totTotal = 0;
-
-                                if(item.TOT_PAY_BUDG >= 0 && item.TOT_PAY_BUDG >= 0) {
-                                        totTotal += (Number(item.TOT_PAY_BUDG) + Number(item.TOT_ITEM_BUDG));
-                                }
-
                                 tdHtml += '<td style="text-align: right">';
                                 if(j == 0) {
                                     if (item.TOT_PAY_BUDG >= 0) {
-                                        payTotal = Number(item.TOT_PAY_BUDG);
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(payTotal) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d0 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(payTotal) + '"/>';
                                     } else {
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(bTot) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d0 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(bTot) + '"/>';
                                     }
                                 }else if(j == 1) {
                                     if (item.TOT_ITEM_BUDG >= 0) {
-                                        itemTotal = Number(item.TOT_ITEM_BUDG);
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(itemTotal) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d1 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(itemTotal) + '"/>';
                                     } else {
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(bTot) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d1 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(bTot) + '"/>';
                                     }
                                 }else{
                                     if(totTotal >= 0) {
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(totTotal) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(totTotal) + '"/>';
                                     }else{
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(aTot) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(aTot) + '"/>';
                                     }
                                 }
                                 tdHtml += '</td>';
