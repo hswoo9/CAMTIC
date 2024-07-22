@@ -183,6 +183,8 @@ public class KukgohServiceImpl implements KukgohService {
         params.put("CNTC_CREAT_DT", formattedDate);
         params.put("CNTC_TRGET_SYS_CODE", "CTIC");
 
+        params.put("ASSTN_TAXITM_CODE", params.get("ASSTN_TAXITM_CODE"));
+
         String trnscId = getTransactionId();
         params.put("TRNSC_ID", trnscId);
 
