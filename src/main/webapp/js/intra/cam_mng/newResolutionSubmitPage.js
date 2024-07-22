@@ -146,10 +146,20 @@ var newResolutionSubmitPage = {
                 var cd = rs.crmData;
                 var ebi = rs.enaraBankInfo;
                 var fl = rs.fileList;
+
+                var esd = rs.enaraSendData;
+                var ered = rs.excutReqErpData;
+                var eeied = rs.excutExpItmErpData;
+                if(esd != null && esd != undefined){
+                    $("#reqStatSn").val(esd.REQ_STAT_SN);
+                }
+
                 console.log(rs);
 
                 $("#fileList").text(fl[0].file_org_name + "외 " + (fl.length - 1) + "개");
 
+                $("#EXCUT_PRPOS_CN").val(ered != null ? ered.EXCUT_PRPOS_CN : pad.APP_TITLE)
+                $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : "");
                 $("#payAppSn").val(pad.PAY_APP_SN);
                 $("#korNm").val(pad.EMP_NAME);
                 $("#empSeq").val(pad.REG_EMP_SEQ);
@@ -200,12 +210,10 @@ var newResolutionSubmitPage = {
                 if(ebd != null){
                     $("#ASSTN_TAXITM_CODE_NM").val((ebd.ASSTN_TAXITM_NM || ""))
                     $("#FILE_ID").val((ebd.FILE_ID || ""));
-                    $("#ASSTN_TAXITM_CODE").val(ebd.ASSTN_TAXITM_CODE) // IF-CMM-EFS-0062 인터페이스의 보조비목세목코드
+                    $("#ASSTN_TAXITM_CODE").val(ebd.ASSTN_EXPITM_TAXITM_CODE) // IF-CMM-EFS-0062 인터페이스의 보조비목세목코드
                 }
 
-                if(ebi != null){
-                    $("#BCNC_BANK_CODE").val((ebi.CMMN_DETAIL_CODE || ""));
-                }
+                $("#BCNC_BANK_CODE").val((ered != null ? ered.BCNC_BANK_CODE : (ebi != null ? ebi.CMMN_DETAIL_CODE : "")));
                 $("#unitAm").val(comma(pad.TOT_COST));
                 $("#BSNSYEAR").val((pi.BSNSYEAR || ""));
                 $("#DDTLBZ_ID").val((pi.DDTLBZ_ID || ""));
@@ -228,20 +236,19 @@ var newResolutionSubmitPage = {
                 $("#VAT").val(comma(pad.VAT_COST));
                 $("#CO_CD").val(1212);
 
-                $("#EXCUT_REQUST_DE").val(pad.TR_DE)
+                $("#EXCUT_REQUST_DE").val(ered != null ? (ered.EXCUT_REQUST_DE.toString().substring(0, 4) + "-" + ered.EXCUT_REQUST_DE.toString().substring(4, 6) + "-" + ered.EXCUT_REQUST_DE.toString().substring(6)) : pad.TR_DE)
                 if(cd != null){
                     $("#BCNC_CMPNY_NM").val(cd.TR_NM);
-                    $("#BCNC_LSFT_NO").val(cd.REG_NB);
-                    $("#BCNC_RPRSNTV_NM").val(cd.CEO_NM);
-                    $("#BCNC_TELNO").val(cd.TEL);
-                    $("#BCNC_BIZCND_NM").val(cd.BUSINESS);
-                    $("#BCNC_INDUTY_NM").val(cd.JONGMOK);
+                    $("#BCNC_LSFT_NO").val(ered != null ? ered.BCNC_LSFT_NO : cd.REG_NB);
+                    $("#BCNC_RPRSNTV_NM").val(ered != null ? ered.BCNC_RPRSNTV_NM : cd.CEO_NM);
+                    $("#BCNC_TELNO").val(ered != null ? ered.BCNC_TELNO : cd.TEL);
+                    $("#BCNC_BIZCND_NM").val(ered != null ? ered.BCNC_BIZCND_NM : cd.BUSINESS);
+                    $("#BCNC_INDUTY_NM").val(ered != null ? ered.BCNC_INDUTY_NM : cd.JONGMOK);
                     $("#POST_CD").val(cd.ZIP);
-                    $("#BCNC_ADRES").val(cd.DIV_ADDR1);
+                    $("#BCNC_ADRES").val(ered != null ? ered.BCNC_ADRES : cd.DIV_ADDR1);
                     $("#tmpBankNm").val(cd.JIRO_NM);
                     $("#BCNC_BANK_CODE_NM").val();
-                    $("#BCNC_ACNUT_NO").val(cd.BA_NB);
-
+                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : cd.BA_NB);
                 } else {
                     $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
                 }
@@ -259,6 +266,12 @@ var newResolutionSubmitPage = {
     },
 
     fn_send: function(){
+
+        if($("#BCNC_BANK_CODE_NM").val() == ""){
+            alert("은행을 선택해주세요.");
+            return;
+        }
+
         var formData = new FormData(document.querySelector('#sendForm'));
 
         $.ajax({

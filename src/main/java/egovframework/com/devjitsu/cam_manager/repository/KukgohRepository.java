@@ -166,4 +166,49 @@ public class KukgohRepository extends AbstractDAO {
 
         insert("kukgoh.insEnaraData", params);
     }
+
+    public Map<String, Object> getErpReqData(Map<String, Object> payAppData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getErpReqData", payAppData);
+    }
+
+    public Map<String, Object> getReqStatData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getReqStatData", params);
+    }
+
+    public void delExcutRequstErp(Map<String, Object> params) {
+
+        delete("kukgoh.delExcutRequstErp", params);
+    }
+
+    public void delExcutExpItmErp(Map<String, Object> params) {
+
+        delete("kukgoh.delExcutExpItmErp", params);
+    }
+
+    public void delExcutFnrscErp(Map<String, Object> params) {
+
+        delete("kukgoh.delExcutFnrscErp", params);
+    }
+
+    public void delIntrfcFile(Map<String, Object> reqStatData) {
+
+        delete("kukgoh.delIntrfcFile", reqStatData);
+    }
+
+    public Map<String, Object> getExcutRequestErp(Map<String, Object> enaraSendData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getExcutRequestErp", enaraSendData);
+    }
+
+    public Map<String, Object> getExcutExpItmErp(Map<String, Object> enaraSendData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getExcutExpItmErp", enaraSendData);
+    }
+
+    public Map<String, Object> getExcutFnrscErp(Map<String, Object> enaraSendData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getExcutFnrscErp", enaraSendData);
+    }
 }

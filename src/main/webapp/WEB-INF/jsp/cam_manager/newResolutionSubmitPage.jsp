@@ -132,7 +132,8 @@
 				<tr>
 					<th>보조세목</th>
 					<td>
-						<input type="text" id="ASSTN_TAXITM_CODE_NM" name="ASSTN_TAXITM_CODE_NM" value="${dataJson.ASSTN_TAXITM_CODE_NM }" style="width: 80%" readonly value=""  />
+                        <input type="hidden" id="reqStatSn" />
+						<input type="text" id="ASSTN_TAXITM_CODE_NM" name="ASSTN_TAXITM_CODE_NM" value="${dataJson.ASSTN_TAXITM_CODE_NM }" style="width: 80%" disabled value=""  />
                         <input type="hidden" id="payAppDetSn" name="payAppDetSn" value="${params.payAppDetSn }" />
                         <input type="hidden" id="payAppSn" name="payAppSn" value="" />
 						<input type="hidden" id="BSNSYEAR" name="BSNSYEAR" value='${dataJson.BSNSYEAR }'/>

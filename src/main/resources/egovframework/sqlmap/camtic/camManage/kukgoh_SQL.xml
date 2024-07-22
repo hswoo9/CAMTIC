@@ -437,4 +437,74 @@
                 #{REQ_ISS}
             )
     </insert>
+
+    <select id="getErpReqData" parameterType="map" resultType="map">
+        /*getErpReqData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_ERP_REQ_STAT
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
+    <select id="getReqStatData" parameterType="map" resultType="map">
+        /*getReqStatData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_ERP_REQ_STAT
+        WHERE
+            REQ_STAT_SN = #{reqStatSn}
+    </select>
+
+    <delete id="delExcutRequstErp" parameterType="map">
+        /*delExcutRequstErp*/
+        DELETE FROM CAM_ERP.T_IFR_EXCUT_REQUST_ERP WHERE TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
+    <delete id="delExcutExpItmErp" parameterType="map">
+        /*delExcutExpItmErp*/
+        DELETE FROM CAM_ERP.T_IFR_EXCUT_EXPITM_ERP WHERE TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
+    <delete id="delExcutFnrscErp" parameterType="map">
+        /*delExcutFnrscErp*/
+        DELETE FROM CAM_ERP.T_IFR_EXCUT_FNRSC_ERP WHERE TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
+    <delete id="delIntrfcFile" parameterType="map">
+        /*delIntrfcFile*/
+        DELETE FROM CAM_ERP.T_IF_INTRFC_FILE WHERE TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
+    <select id="getExcutRequestErp" parameterType="map" resultType="map">
+        /*getExcutRequestErp*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFR_EXCUT_REQUST_ERP
+        WHERE
+            TRNSC_ID = #{TRNSC_ID}
+    </select>
+
+    <select id="getExcutExpItmErp" parameterType="map" resultType="map">
+        /*getExcutExpItmErp*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFR_EXCUT_EXPITM_ERP
+        WHERE
+            TRNSC_ID = #{TRNSC_ID}
+    </select>
+
+    <select id="getExcutFnrscErp" parameterType="map" resultType="map">
+        /*getExcutFnrscErp*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFR_EXCUT_FNRSC_ERP
+        WHERE
+            TRNSC_ID = #{TRNSC_ID}
+    </select>
 </mapper>

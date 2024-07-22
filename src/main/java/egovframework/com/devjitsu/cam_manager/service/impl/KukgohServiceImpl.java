@@ -160,6 +160,20 @@ public class KukgohServiceImpl implements KukgohService {
         Map<String, Object> enaraExcData = kukgohRepository.getEnaraExcDataByEnaraProjectData(projectInfo);
         result.put("enaraExcData", enaraExcData);
 
+        Map<String, Object> enaraSendData = kukgohRepository.getErpReqData(params);
+        result.put("enaraSendData", enaraSendData);
+
+        if(enaraSendData != null){
+            Map<String, Object> excutReqErpData = kukgohRepository.getExcutRequestErp(enaraSendData);
+            result.put("excutReqErpData", excutReqErpData);
+
+            Map<String, Object> excutExpItmErpData =kukgohRepository.getExcutExpItmErp(enaraSendData);
+            result.put("excutExpItmErpData", excutExpItmErpData);
+
+            Map<String, Object> excutFnrscErpData = kukgohRepository.getExcutFnrscErp(enaraSendData);
+            result.put("excutFnrscErpData", excutFnrscErpData);
+        }
+
         return result;
     }
 
@@ -170,6 +184,22 @@ public class KukgohServiceImpl implements KukgohService {
 
     @Override
     public Map<String, Object> sendEnara(Map<String, Object> params) {
+
+        if(params.containsKey("reqStatSn") && params.get("reqStatSn") != null){
+            Map<String, Object> reqStatData = kukgohRepository.getReqStatData(params);
+
+            kukgohRepository.delExcutRequstErp(reqStatData);
+            kukgohRepository.delExcutExpItmErp(reqStatData);
+            kukgohRepository.delExcutFnrscErp(reqStatData);
+
+            kukgohRepository.delIntrfcFile(reqStatData);
+
+            reqStatData.put("INTRFC_ID", params.get("INTRFC_ID"));
+            SFTPFileRemove(reqStatData);
+
+        }
+
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String formattedDate = LocalDateTime.now().format(formatter);
 
@@ -288,6 +318,39 @@ public class KukgohServiceImpl implements KukgohService {
             e.printStackTrace();
             System.out.println("Error occurred while copying file: " + e.getMessage());
         }
+    }
+
+    private String SFTPFileRemove(Map<String, Object> params) {
+        String message = "";
+
+        String remoteHost = "218.158.231.92";
+        int remotePort =20022;
+        String username = "root";
+        String password = "Camtic13!#";
+        String toDirectory = "/home/hk/mtDir/snd/" + params.get("INTRFC_ID") + "/";
+
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession(username, remoteHost, remotePort);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setPassword(password);
+            session.connect();
+
+            ChannelExec channel = (ChannelExec) session.openChannel("exec");
+
+            channel.setCommand("rm -rf " + toDirectory + params.get("TRNSC_ID"));
+            channel.setErrStream(System.err);
+
+            // Execute the command
+            channel.connect();
+
+            session.disconnect();
+        } catch (JSchException e) {
+            e.printStackTrace();
+            message = "SFTP file remove failed.";
+        }
+
+        return message;
     }
 
     private String SFTPFileMove(Map<String, Object> params, String csvFile, String csvAttachFile) {
