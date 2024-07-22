@@ -18,7 +18,7 @@ var rndInit = {
         }
     },
 
-    delvSet: function(){
+    delvSet: function(type){
         const pjtInfo = rndInit.global.pjtInfo;
         const rndInfo = rndInit.global.rndInfo;
 
@@ -111,10 +111,15 @@ var rndInit = {
         /** 총사업비 */
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));
         /** 법인사업비(수주금액) */
-        if(map.TAX_GUBUN == "1"){
-            hwpDocCtrl.putFieldText('PJT_AMT', comma((map.PJT_EXP_AMT / 1.1).toString().split(".")[0]));
+
+        if(type == "delv"){
+            if(map.TAX_GUBUN == "1"){
+                hwpDocCtrl.putFieldText('PJT_AMT', comma((map.PJT_EXP_AMT / 1.1).toString().split(".")[0]));
+            }else{
+                hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_EXP_AMT));
+            }
         }else{
-            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_EXP_AMT));
+            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
         }
 
         /** 사업책임자 */
@@ -138,7 +143,7 @@ var rndInit = {
         const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
 
         /** 1. 사업정보 */
-        rndInit.delvSet();
+        rndInit.delvSet("delv");
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
@@ -216,7 +221,7 @@ var rndInit = {
         const purcList = purcResult.list;
 
         /** 1. 사업정보 */
-        rndInit.delvSet();
+        rndInit.delvSet("dev");
 
         /** 1-1. 협업사항 */
         if(map.TM_YN == "Y"){
@@ -364,7 +369,7 @@ var rndInit = {
         const resMap = resResult.result.map;
 
         /** 1. 사업정보 */
-        rndInit.delvSet();
+        rndInit.delvSet("result");
         /** 결과보고는 결과보고 탭에 작성한 날짜 */
         hwpDocCtrl.putFieldText("PJT_DT_NOW", resMap.RS_STR_DT + " ~ " + resMap.RS_END_DT);
 
