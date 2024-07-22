@@ -17,6 +17,8 @@ public interface InterviewCardService {
 
     void setInterviewContent(Map<String, Object> params);
 
+    void delInterviewContent(Map<String, Object> params);
+
     void setInterviewContent2(Map<String, Object> params);
 
     List<Map<String, Object>> getInterviewCardList(Map<String, Object> params);

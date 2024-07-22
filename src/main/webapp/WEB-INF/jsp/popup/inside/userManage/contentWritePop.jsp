@@ -21,7 +21,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="documentSn" value="${data.documentSn}"/>
+<input type="hidden" id="cardNumber" value="${params.cardNumber}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -199,24 +199,35 @@
     });
 
     function saveData2() {
+        const data = {
+            cardDate: $("#cardDate").val(),
+            sTime: $("#sTime").val(),
+            eTime: $("#eTime").val(),
+            empSeq: $("#empSeq").val(),
+            cardInterviewer: $("#cardInterviewer").val(),
+            interviewContent1: $("#interviewContent1").val(),
+            interviewContent2: $("#interviewContent2").val(),
+            interviewContent3: $("#interviewContent3").val(),
+            interviewContent4: $("#interviewContent4").val(),
+            interviewContent5: $("#interviewContent5").val(),
+            regEmpSeq: $("#regEmpSeq").val()
+        }
+
+        if($("#cardNumber").val() != ""){
+            data.cardNumber = $("#cardNumber").val();
+        }
+
         $.ajax({
             type: "POST",
             url: "/Inside/setInterviewContent.do",  // 실제 데이터 저장 처리를 담당하는 컨트롤러 메서드의 URL
-            data: {
-                cardDate: $("#cardDate").val(),
-                sTime: $("#sTime").val(),
-                eTime: $("#eTime").val(),
-                empSeq: $("#empSeq").val(),
-                cardInterviewer: $("#cardInterviewer").val(),
-                interviewContent1: $("#interviewContent1").val(),
-                interviewContent2: $("#interviewContent2").val(),
-                interviewContent3: $("#interviewContent3").val(),
-                interviewContent4: $("#interviewContent4").val(),
-                interviewContent5: $("#interviewContent5").val()
-                // ... 나머지 필드들도 동일한 방식으로 추가 ...
-            },
+            data: data,
             success: function(response) {
                 alert("저장이 완료되었습니다.");
+                try{
+                    opener.employeeList.gridReload();
+                }catch{
+                }
+                window.close();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert("다시 시도해주세요.", textStatus);
