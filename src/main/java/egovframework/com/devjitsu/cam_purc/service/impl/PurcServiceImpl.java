@@ -292,6 +292,7 @@ public class PurcServiceImpl implements PurcService {
             ceGwIdx = purcRepository.getMaxCeGwIdx(claimData);
             if(claimData.get("PAYMENT_METHOD").equals("C")){
                 paramMap.put("purcSn", claimData.get("PURC_SN"));
+                paramMap.put("claimSn", params.get("claimSn"));
                 paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
                 paramMap.put("status", "100");
 
@@ -300,39 +301,40 @@ public class PurcServiceImpl implements PurcService {
                 String fmtNow = now.format(fmt);
                 paramMap.put("inspectDt", fmtNow);
 
-                // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
-                Map<String, Object> purcReqMap = new HashMap<>();
-                purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
-                purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
-                purcReqMap.put("ceGwIdx", ceGwIdx + 1);
-                purcReqMap.put("evidType", null);
-                purcReqMap.put("mngReqStat", "N");
+                // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리
+//                Map<String, Object> purcReqMap = new HashMap<>();
+//                purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
+//                purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
+//                purcReqMap.put("ceGwIdx", ceGwIdx + 1);
+//                purcReqMap.put("evidType", null);
+//                purcReqMap.put("mngReqStat", "N");
 
-                if(orderFlag){
-                    purcReqMap.put("orderDt", orderDt);
-                    purcReqMap.put("goodsDt", goodsDt);
-                    purcReqMap.put("orderYn", 'Y');
-                } else {
-                    purcReqMap.put("orderDt", null);
-                    purcReqMap.put("goodsDt", null);
-                    purcReqMap.put("orderYn", 'N');
-                }
+//                if(orderFlag){
+//                    purcReqMap.put("orderDt", orderDt);
+//                    purcReqMap.put("goodsDt", goodsDt);
+//                    purcReqMap.put("orderYn", 'Y');
+//                } else {
+//                    purcReqMap.put("orderDt", null);
+//                    purcReqMap.put("goodsDt", null);
+//                    purcReqMap.put("orderYn", 'N');
+//                }
 
-                purcRepository.insPayAppPurcReq(purcReqMap);
-                purcRepository.insClaimExnpGroupIdx(purcReqMap);
-                purcRepository.updClaimPurcOrder(purcReqMap);
-                purcRepository.updPurcInspect(paramMap);
-                purcRepository.updPurcInspectStat(paramMap);
-            } else if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
-                paramMap.put("purcSn", claimData.get("PURC_SN"));
-                paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
-                paramMap.put("status", "100");
+//                purcRepository.insPayAppPurcReq(purcReqMap);
+//                purcRepository.insClaimExnpGroupIdx(purcReqMap);
+//                purcRepository.updClaimPurcOrder(purcReqMap);
+                purcRepository.updPurcClaimInspect(paramMap);
+                purcRepository.updClaimInspectStat(paramMap);
+            }
 
-                LocalDate now = LocalDate.now();
-                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String fmtNow = now.format(fmt);
-                paramMap.put("inspectDt", fmtNow);
+            if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
+//                paramMap.put("purcSn", claimData.get("PURC_SN"));
+//                paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
+//                paramMap.put("status", "100");
 
+//                LocalDate now = LocalDate.now();
+//                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                String fmtNow = now.format(fmt);
+//                paramMap.put("inspectDt", fmtNow);
 
                 Map<String, Object> claimSettingMap = new HashMap<>();
                 claimSettingMap.put("pjtNm", claimData.get("PJT_NM"));
@@ -341,7 +343,7 @@ public class PurcServiceImpl implements PurcService {
                 claimSettingMap.put("empSeq", claimData.get("EMP_SEQ"));
                 purcRepository.insPurcBasicSetting(claimSettingMap);
 
-                // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
+                // PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
                 Map<String, Object> purcReqMap = new HashMap<>();
                 purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
                 purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
@@ -454,6 +456,7 @@ public class PurcServiceImpl implements PurcService {
 
                 Map<String, Object> map = purcRepository.getPurcClaimData(params);
                 List<Map<String, Object>> purcFile = new ArrayList<>();
+                List<Map<String, Object>> inspectFile = new ArrayList<>();
                 Map<String, Object> searchMap = new HashMap<>();
 
                 searchMap.put("contentId", "purcReq_" + map.get("PURC_SN"));
@@ -486,6 +489,14 @@ public class PurcServiceImpl implements PurcService {
                 }
 
                 result.put("purcFile", purcFile);
+
+                searchMap.put("contentId", "inspect_" + params.get("claimSn"));
+                if(purcRepository.getPurcReqFileList(searchMap) != null){
+                    for(Map<String, Object> tempMap : purcRepository.getPurcReqFileList(searchMap)){
+                        inspectFile.add(tempMap);
+                    }
+                }
+                result.put("inspectFile", inspectFile);
             }
         } else {
             result = null;
@@ -667,22 +678,154 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
-    public void updPurcInspectStat(Map<String, Object> params) {
-        if(params.containsKey("purcSn")){
-            purcRepository.updPurcInspectStat(params);
+    public void updPurcClaimInspect(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        /** 검수 파일 */
+        String strWText = "Camtic";
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "inspect_" + params.get("claimSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
 
-            List<Map<String, Object>> insList = purcRepository.getInsYList(params);
+                if("jpg".equals(list.get(i).get("fileExt")) || "JPG".equals(list.get(i).get("fileExt")) || "png".equals(list.get(i).get("fileExt")) || "PNG".equals(list.get(i).get("fileExt"))) {
+                    System.out.println("=============================== Image WaterMark Start ===============================");
+                    String fileExt = list.get(i).get("fileExt").toString();
+                    try{
+                        File sourceImageFile = new File("/home" + list.get(i).get("filePath").toString() + list.get(i).get("fileUUID").toString());
+                        File destImageFile = sourceImageFile;
 
-            for(Map<String, Object> map : insList){
-                if(map.get("PRODUCT_A").equals("3")){
-//                purcRepository.insItemMaster(map);
-                    purcRepository.insItemWhInfo(map);
 
-                    purcRepository.insItemMasterHist(map);
+                        BufferedImage sourceImage = ImageIO.read(sourceImageFile);
+
+                        Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+
+                        g2d.scale(1, 1);
+                        g2d.addRenderingHints(
+                                new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+                        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+                        Font font = new Font("나눔고딕", Font.PLAIN, 18);
+
+                        GlyphVector fontGV = font.createGlyphVector(g2d.getFontRenderContext(), strWText);
+
+                        Rectangle size = fontGV.getPixelBounds(g2d.getFontRenderContext(),0,0);
+
+                        Shape textShape = fontGV.getOutline();
+
+                        //double textWidth = size.getWidth();
+
+                        double textWidth = size.getWidth();
+
+
+
+                        //double textHeight = size.getHeight();
+
+                        double textHeight = size.getHeight()*3; // 텍스트 간격이다.
+
+                        //AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 4d);
+
+                        AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 5d);
+
+                        Shape rotatedText = rotate45.createTransformedShape(textShape);
+
+
+
+                        // use a gradient that repeats 4 times
+
+                        g2d.setPaint(new GradientPaint(0, 0,
+
+                                new Color(0f, 0f, 0f, 0.1f),
+
+                                sourceImage.getWidth() / 2, sourceImage.getHeight() / 2,
+
+                                new Color(0f, 0f, 0f, 0.1f)));
+
+                        //new Color(1f, 1f, 1f, 0.1f)));
+
+                        //g2d.setStroke(new BasicStroke(0.5f));
+
+                        g2d.setStroke(new BasicStroke(1f));
+
+
+
+                        // step in y direction is calc'ed using pythagoras + 5 pixel padding
+
+                        //double yStep = Math.sqrt(textWidth * textWidth / 2) + 2;
+
+                        double yStep = Math.sqrt(textWidth * textWidth / 2); //
+
+
+
+                        System.out.println("yStep : " + yStep);
+
+
+
+                        // step over image rendering watermark text
+
+                        //for (double x = -textHeight * 3; x < sourceImage.getWidth(); x += (textHeight * 3)) {
+
+
+
+                        for (double x = -textHeight; x < sourceImage.getWidth()/2; x += textHeight) {
+
+
+
+                            double y = -yStep;
+
+
+
+                            for (; y < sourceImage.getHeight(); y += yStep) {
+
+                                g2d.draw(rotatedText);
+
+                                g2d.fill(rotatedText);
+
+                                g2d.translate(0, yStep);
+
+                            }
+
+
+
+                            g2d.translate(textHeight * 3, -(y + yStep));
+
+                        }
+
+
+
+                        ImageIO.write(sourceImage, fileExt, destImageFile);
+
+                        g2d.dispose();
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
-        } else {
-            purcRepository.updClaimInspectStat(params);
+            commonRepository.insFileInfo(list);
+        }
+        purcRepository.updPurcClaimInspect(params);
+
+    }
+
+    @Override
+    public void updPurcInspectStat(Map<String, Object> params) {
+
+        purcRepository.updClaimInspectStat(params);
+
+        List<Map<String, Object>> insList = purcRepository.getClaimInsYList(params);
+
+        for(Map<String, Object> map : insList){
+            if(map.get("PRODUCT_A").equals("3")){
+//                purcRepository.insItemMaster(map);
+                purcRepository.insItemWhInfo(map);
+
+                purcRepository.insItemMasterHist(map);
+            }
         }
     }
 

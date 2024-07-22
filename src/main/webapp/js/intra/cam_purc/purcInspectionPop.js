@@ -80,142 +80,73 @@ var pri = {
     },
     
     purcDataSet : function(){
-        if($("#purcSn").val() == ""){
-            if($("#claimSn").val() != ""){
-                pri.global.searchAjaxData = {
-                    claimSn : $("#claimSn").val()
-                }
-
-                var result = customKendo.fn_customAjax("/purc/getPurcClaimData.do", pri.global.searchAjaxData);
-
-                console.log(result);
-                var data = result.data;
-                $("#docNo").text(data.DOC_NO);
-                $("#purcReqDate").text(data.PURC_REQ_DATE);
-                $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
-                $("#purcReqEmpName").text(data.EMP_NAME_KR);
-                $("#purcReqDeptSeq").val(data.DEPT_SEQ);
-                $("#purcReqDeptName").text(data.DEPT_NAME);
-                $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
-                $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-                $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
-
-                if($("#mode").val() == "mng"){
-                    $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
-                    $("#file1Label").hide();
-                }else{
-                    if(data.INSPECT_DT != null){
-                        $("#inspectDt").val(data.INSPECT_DT);
-                    }
-                }
-
-                if($("input[name='purcType']:checked").val() != ""){
-                    $("#project").css("display", "");
-                    $("#pjtSn").val(data.PJT_SN);
-                    $("#pjtNm").val(data.PJT_NM);
-                } else {
-                    $("#project").css("display", "none");
-                }
-
-                console.log(data.inspectFile);
-                if(data.PAYMENT_METHOD == "C"){
-                    if(data.purcFile != null){
-                        console.log(data.purcFile)
-
-                        for(var i = 0; i < data.purcFile.length; i++){
-                            pri.global.fileArray.push(data.purcFile[i]);
-                        }
-                        pri.settingTempFileDataInit(data.purcFile);
-                    }
-                } else {
-                    if(data.inspectFile != undefined){
-                        if(data.inspectFile.length != 0){
-                            for(var i = 0; i < data.inspectFile.length; i++){
-                                pri.global.fileArray.push(data.inspectFile[i]);
-                            }
-                            pri.settingTempFileDataInit(data.inspectFile);
-                        }
-                    }
-                }
-
-
-                if(data.INSPECT_STATUS == "100"){
-                    // $("#saveBtn").hide();
-                    $("#inspectBtn").hide();
-                }
-
-                pri.purcItemDataSet(data);
-            } else {
-                return;
-            }
-        } else {
+        if($("#claimSn").val() != ""){
             pri.global.searchAjaxData = {
-                purcSn : $("#purcSn").val()
+                claimSn : $("#claimSn").val()
             }
 
-            var result = customKendo.fn_customAjax("/purc/getPurcReq.do", pri.global.searchAjaxData);
-            if(result.flag){
-                console.log(result);
-                var data = result.data;
-                $("#docNo").text(data.DOC_NO);
-                $("#purcReqDate").text(data.PURC_REQ_DATE);
-                $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
-                $("#purcReqEmpName").text(data.EMP_NAME_KR);
-                $("#purcReqDeptSeq").val(data.DEPT_SEQ);
-                $("#purcReqDeptName").text(data.DEPT_NAME);
-                $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
-                $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-                $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
+            var result = customKendo.fn_customAjax("/purc/getPurcClaimData", pri.global.searchAjaxData);
 
-                if($("#mode").val() == "mng"){
-                    $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
-                    $("#file1Label").hide();
-                }else{
-                    if(data.INSPECT_DT != null){
-                        $("#inspectDt").val(data.INSPECT_DT);
-                    }
+            console.log(result);
+            var data = result.data;
+            $("#docNo").text(data.DOC_NO);
+            $("#purcReqDate").text(data.CLAIM_DE);
+            $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
+            $("#purcReqEmpName").text(data.EMP_NAME_KR);
+            $("#purcReqDeptSeq").val(data.DEPT_SEQ);
+            $("#purcReqDeptName").text(data.DEPT_NAME);
+            $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
+            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+            $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
+
+            if($("#mode").val() == "mng"){
+                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
+                $("#file1Label").hide();
+            }else{
+                if(data.INSPECT_DT != null){
+                    $("#inspectDt").val(data.INSPECT_DT);
                 }
+            }
 
-                if($("input[name='purcType']:checked").val() != ""){
-                    $("#project").css("display", "");
-                    $("#pjtSn").val(data.PJT_SN);
-                    $("#pjtNm").val(data.PJT_NM);
-                } else {
-                    $("#project").css("display", "none");
-                }
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+                $("#pjtSn").val(data.PJT_SN);
+                $("#pjtNm").val(data.PJT_NM);
+            } else {
+                $("#project").css("display", "none");
+            }
 
-                console.log(data.inspectFile);
-                if(data.PAYMENT_METHOD == "C"){
-                    if(data.purcFile != null){
-                        console.log(data.purcFile)
-
-                        for(var i = 0; i < data.purcFile.length; i++){
-                            pri.global.fileArray.push(data.purcFile[i]);
-                        }
-                        pri.settingTempFileDataInit(data.purcFile);
-                    }
-                } else {
+            console.log(data.inspectFile);
+            // if(data.PAYMENT_METHOD == "C"){
+            //     if(data.purcFile != null){
+            //         console.log(data.purcFile)
+            //
+            //         for(var i = 0; i < data.purcFile.length; i++){
+            //             pri.global.fileArray.push(data.purcFile[i]);
+            //         }
+            //         pri.settingTempFileDataInit(data.purcFile);
+            //     }
+            // } else {
+                if(data.inspectFile != undefined){
                     if(data.inspectFile.length != 0){
                         for(var i = 0; i < data.inspectFile.length; i++){
                             pri.global.fileArray.push(data.inspectFile[i]);
                         }
                         pri.settingTempFileDataInit(data.inspectFile);
-
-                        $("#inspectCk").val("Y");
                     }
                 }
+            // }
 
 
-                if(data.INSPECT_STATUS == "100"){
-                    // $("#saveBtn").hide();
-                    $("#inspectBtn").hide();
-                }
-
-                pri.purcItemDataSet(data);
+            if(data.INSPECT_STATUS == "100"){
+                // $("#saveBtn").hide();
+                $("#inspectBtn").hide();
             }
+
+            pri.purcItemDataSet(data);
+        } else {
+            return;
         }
-
-
     },
 
     purcItemDataSet: function(e){
@@ -427,7 +358,7 @@ var pri = {
 
     setPurcReq : function(e){
         var formData = new FormData()
-        formData.append("purcSn", $("#purcSn").val());
+        formData.append("claimSn", $("#claimSn").val());
         formData.append("inspectEmpName", $("#purcReqEmpName").text());
         formData.append("inspectDt", $("#inspectDt").val() == undefined ? $("#INSPECT_DT_MNG").text() : $("#inspectDt").val());
         formData.append("menuCd", "inspect");
@@ -442,9 +373,9 @@ var pri = {
 
         if($("#inspectDt").val() == ""){ alert("검수날짜가 작성되지 않았습니다"); return; }
 
-        var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspect.do", formData);
+        var result = customKendo.fn_customFormDataAjax("/purc/updPurcClaimInspect.do", formData);
         if(result.flag){
-            if(fCommon.global.attFiles.length != 0 && $("#purcSn").val() != ""){
+            if(fCommon.global.attFiles.length != 0){
                 pri.setInspectApp('100');
             } else {
                 alert("저장되었습니다.");
@@ -460,14 +391,10 @@ var pri = {
 
     setInspectApp : function(status){
         var formData = new FormData()
-        if($("#purcSn").val() != ""){
-            formData.append("purcSn", $("#purcSn").val())
-        } else {
-            formData.append("claimSn", $("#claimSn").val())
-        }
+        formData.append("claimSn", $("#claimSn").val())
         formData.append("status", "100");
 
-        if($("#inspectCk").val() == "N"){
+        if(pri.global.fileArray == 0){
             alert("검수사진이 등록되지 않았습니다."); return;
         }
 
