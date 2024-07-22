@@ -47,6 +47,19 @@ public class InterviewCardController {
         return "jsonView";
     }
 
+    @RequestMapping(value= "/Inside/delInterviewContent.do", method = RequestMethod.POST)
+    public String delInterviewContent(@RequestParam Map<String, Object> params, Model model){
+        try {
+            interviewCardService.delInterviewContent(params);
+            params.put("code", "200");
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+            params.put("code", "500");
+        }
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
     @RequestMapping(value= "/Inside/setInterviewContent2.do", method = RequestMethod.POST)
     public String setInterviewContent2(@RequestParam Map<String, Object> params){
         interviewCardService.setInterviewContent2(params);

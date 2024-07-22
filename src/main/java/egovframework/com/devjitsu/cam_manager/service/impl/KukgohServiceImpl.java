@@ -183,6 +183,8 @@ public class KukgohServiceImpl implements KukgohService {
         params.put("CNTC_CREAT_DT", formattedDate);
         params.put("CNTC_TRGET_SYS_CODE", "CTIC");
 
+        params.put("ASSTN_TAXITM_CODE", params.get("ASSTN_TAXITM_CODE"));
+
         String trnscId = getTransactionId();
         params.put("TRNSC_ID", trnscId);
 
@@ -308,7 +310,7 @@ public class KukgohServiceImpl implements KukgohService {
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
 
             channel.setCommand("cp -r " + fromDirectory + " " + toDirectory);
-
+            channel.setCommand("chmod -R 777 " + toDirectory + params.get("TRNSC_ID") + "/*");
             channel.setErrStream(System.err);
 
             // Execute the command

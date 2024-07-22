@@ -24,6 +24,7 @@
 
 <!--    면담카드등록-->
     <insert id="setInterviewContent" parameterType="Map">
+        /* setInterviewContent */
         INSERT INTO cam_inside.dj_employee_interview_card
             (
                 card_interview_date,
@@ -35,7 +36,8 @@
                 interview_content3,
                 interview_content4,
                 interview_content5,
-                EMP_SEQ
+                EMP_SEQ,
+                REG_EMP_SEQ
             )
         VALUES
             (
@@ -48,9 +50,36 @@
                 #{interviewContent3},
                 #{interviewContent4},
                 #{interviewContent5},
-                #{empSeq}
+                #{empSeq},
+                #{regEmpSeq}
             )
     </insert>
+
+    <update id="updInterviewContent" parameterType="Map">
+        /* updInterviewContent */
+        UPDATE CAM_INSIDE.DJ_EMPLOYEE_INTERVIEW_CARD
+        SET
+            CARD_INTERVIEW_DATE = #{cardDate},
+            STIME = #{sTime},
+            ETIME = #{eTime},
+            INTERVIEW_CONTENT1 = #{interviewContent1},
+            INTERVIEW_CONTENT2 = #{interviewContent2},
+            INTERVIEW_CONTENT3 = #{interviewContent3},
+            INTERVIEW_CONTENT4 = #{interviewContent4},
+            INTERVIEW_CONTENT5 = #{interviewContent5},
+            EMP_SEQ = #{empSeq}
+        WHERE
+            CARD_NUMBER = #{cardNumber}
+    </update>
+
+    <update id="delInterviewContent" parameterType="Map">
+        /* delInterviewContent */
+        UPDATE CAM_INSIDE.DJ_EMPLOYEE_INTERVIEW_CARD
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CARD_NUMBER = #{cardNumber}
+    </update>
 
     <!--    면담카드등록-->
     <insert id="setInterviewContent2" parameterType="Map">
@@ -115,18 +144,25 @@
             AND
                 CAR.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
         </if>
+            AND
+                DEIC.ACTIVE = 'Y'
         ORDER BY DEIC.CARD_NUMBER DESC
     </select>
 
 <!--    상세(팝업)-->
     <select id="getInterviewDetail" parameterType="map" resultType="map">
-        SELECT dei.emp_name_kr,
-               dei.dept_name,
-               dei.dept_team_name,
-               deic.*
-        FROM cam_hr.dj_emp_info dei
-                 LEFT JOIN cam_inside.dj_employee_interview_card deic ON deic.EMP_SEQ = dei.EMP_SEQ
-        WHERE deic.card_number = #{cardNumber}
+        SELECT
+            deic.*,
+            DATE_FORMAT(deic.CARD_INTERVIEW_DATE, '%Y-%m-%d') AS CARD_INTERVIEW_DT,
+            dei.EMP_NAME_KR,
+            dei.DEPT_NAME,
+            dei.DEPT_TEAM_NAME
+        FROM
+            CAM_INSIDE.DJ_EMPLOYEE_INTERVIEW_CARD deic
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO dei ON deic.EMP_SEQ = dei.EMP_SEQ
+        WHERE
+            deic.CARD_NUMBER = #{cardNumber}
     </select>
 
 <!--    인사기록카드 - 직원면담카드 리스트 -->
