@@ -267,8 +267,15 @@ var newResolutionSubmitPage = {
             data: formData,
             processData: false,  // important
             contentType: false,  // important
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
             success: function(result){
                 console.log(result);
+                if(result.code == 200){
+                    alert("전송이 완료되었습니다.");
+                    $("#my-spinner").hide();
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus, errorThrown);
