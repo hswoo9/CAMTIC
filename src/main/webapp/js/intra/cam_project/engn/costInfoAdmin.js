@@ -275,7 +275,12 @@ var costInfo = {
             /** 달성운영수익 */
             let aopAmt = 0;
             let invSum = Number(uncomma($("#invSum").text())) || 0;
-            aopAmt = usedRevenueBudget + (usedCostBudget - invSum);
+            if($("#taxGubun").val() == "1"){
+                let tmpAmt = Number(((usedCostBudget - invSum) * 10 / 11).toString().split(".")[0]);
+                aopAmt = usedRevenueBudget + tmpAmt;
+            }else{
+                aopAmt = usedRevenueBudget + (usedCostBudget - invSum);
+            }
             console.log("usedRevenueBudget", usedRevenueBudget);
             console.log("usedCostBudget", usedCostBudget);
             console.log("invSum", invSum);

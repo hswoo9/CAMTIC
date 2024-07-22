@@ -72,8 +72,10 @@ var costInfoGrid = {
         let bustSum = 0;
         for(let i=0; i<bustList.length; i++){
             const bustMap = bustList[i];
-            if(bustMap.RS_STATUS == "100"){
+            if(bustMap.TRIP_CODE != "4"){
                 bustSum  += Number(bustMap.RES_EXNP_SUM);
+            } else {
+                bustSum  += Number(bustMap.OVER_TOT_COST);
             }
         }
 
@@ -458,7 +460,11 @@ var costInfoGrid = {
                     title : "여비금액",
                     width: 140,
                     template : function (e){
-                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                        if(e.TRIP_CODE != "4"){
+                            return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>"+comma(e.OVER_TOT_COST)+"</div>";
+                        }
                     },
                     footerTemplate: function(){
                         return "<div id='bustSumTemp' style='text-align: right'></div>";
@@ -547,7 +553,7 @@ var costInfoGrid = {
                     width: 100
                 }, {
                     field: "APP_TITLE",
-                    title: "지급신청일"
+                    title: "신청건명"
                 }, {
                     title: "금액",
                     width: 120,
