@@ -102,7 +102,7 @@
                 <th style="text-align: center">수주금액</th>
                 <th style="text-align: center">달성 매출액</th>
                 <th style="text-align: center">달성 운영수익</th>
-                <th style="text-align: center">예상매출 잔액</th>
+                <th style="text-align: center">예상 매출액</th>
                 <th style="text-align: center">예상 운영수익</th>
             </tr>
             <tr>
