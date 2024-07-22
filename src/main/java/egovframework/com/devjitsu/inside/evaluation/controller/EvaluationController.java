@@ -493,11 +493,12 @@ public class EvaluationController {
 
     //직원 면담 카드 - 직원 면담카드 작성 팝업창
     @RequestMapping("/Inside/pop/contentWritePop.do")
-    public String contentWritePop(HttpServletRequest request, Model model) {
+    public String contentWritePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/userManage/contentWritePop";
     }
 

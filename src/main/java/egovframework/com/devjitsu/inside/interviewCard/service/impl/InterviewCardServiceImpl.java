@@ -26,7 +26,16 @@ public class InterviewCardServiceImpl implements InterviewCardService {
 
     @Override
     public void setInterviewContent(Map<String, Object> params){
-        interviewCardRepository.setInterviewContent(params);
+        if(!params.containsKey("cardNumber")){
+            interviewCardRepository.setInterviewContent(params);
+        }else{
+            interviewCardRepository.updInterviewContent(params);
+        }
+    }
+
+    @Override
+    public void delInterviewContent(Map<String, Object> params){
+        interviewCardRepository.delInterviewContent(params);
     }
 
     @Override

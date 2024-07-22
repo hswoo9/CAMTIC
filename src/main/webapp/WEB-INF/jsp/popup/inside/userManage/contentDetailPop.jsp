@@ -28,6 +28,8 @@
                 <h3 class="card-title title_NM">직원 면담 카드 </h3>
                 <div class="btn-st popButton">
                     <button type="button" id="adminBtn" class="k-button k-button-solid-info" style="display: none" onclick="saveData3()">차상급자 COMMENT 저장</button>
+                    <button type="button" id="modBtn" class="k-button k-button-solid-info" style="display: none" onclick="modPop()">수정</button>
+                    <button type="button" id="delBtn" class="k-button k-button-solid-error" style="display: none" onclick="deleteData()">삭제</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </div>
@@ -233,6 +235,10 @@
 
                 // 정보를 템플릿에 표시
                 if (response.list && response.list.length > 0) {
+                    if(response.list[0].REG_EMP_SEQ == $("#regEmpSeq").val()){
+                        $("#modBtn").show();
+                        $("#delBtn").show();
+                    }
                     $("#card_number").text(response.list[0].card_number);
                     $("#dept_name").text(response.list[0].dept_name);
                     $("#dept_team_name").text(response.list[0].dept_team_name);
@@ -302,6 +308,30 @@
                 alert("저장이 완료되었습니다.");
             }
         });
+    }
+
+    function modPop(){
+        var url = "/Inside/pop/contentWritePop.do?cardNumber="+$("#cardNumber").val();
+        var name = "_self";
+        var option = "width = 850, height = 800, top = 100, left = 200, location = no"
+        var popup = window.open(url, name, option);
+    }
+
+    function deleteData(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var result = customKendo.fn_customAjax("/Inside/delInterviewContent.do", {cardNumber: $("#cardNumber").val()});
+
+        if(result.flag){
+            alert("삭제 되었습니다.");
+            try{
+                opener.employeeList.gridReload();
+            }catch{
+            }
+            window.close();
+        }
     }
 
 </script>

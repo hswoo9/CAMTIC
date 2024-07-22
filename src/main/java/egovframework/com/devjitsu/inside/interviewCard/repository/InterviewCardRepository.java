@@ -16,6 +16,10 @@ public class InterviewCardRepository extends AbstractDAO {
 
     public void setInterviewContent(Map<String, Object> params) {insert("employInterviewCard.setInterviewContent", params);}
 
+    public void updInterviewContent(Map<String, Object> params) {update("employInterviewCard.updInterviewContent", params);}
+
+    public void delInterviewContent(Map<String, Object> params) {update("employInterviewCard.delInterviewContent", params);}
+
     public void setInterviewContent2(Map<String, Object> params) {update("employInterviewCard.setInterviewContent2", params);}
 
     public List<Map<String, Object>> getInterviewCardList(Map<String, Object> params){
