@@ -519,7 +519,6 @@
             (
                 INTRFC_ID,
                 RSP_MSG,
-                BIZ_DATA,
                 RSP_CD,
                 TRNSC_ID
             )
@@ -527,9 +526,21 @@
             (
                 #{intfId},
                 #{rspMsg},
-                #{bizData},
                 #{rspCd},
                 #{intfTrscId}
             )
     </insert>
+
+    <select id="getEtaxInfo" parameterType="map" resultType="map">
+        /*getEtaxInfo*/
+        SELECT
+            A.PAY_APP_DET_SN, A.ISS_NO,
+            B.TR_NM, B.TRCEO_NM, B.SUM_AM,
+            B.SUP_AM, B.VAT_AM, B.TRREG_NB,
+            C.*
+        FROM CAM_MNG.DJ_PAY_APP_DET A
+        LEFT JOIN CAM_MNG.DJ_ETAX_INFO B ON A.ISS_NO = B.ISS_NO
+        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK C ON C.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = (SELECT PJT_CD FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = A.PAY_APP_SN))
+        WHERE PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
 </mapper>

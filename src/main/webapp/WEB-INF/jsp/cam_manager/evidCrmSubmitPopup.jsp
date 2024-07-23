@@ -29,6 +29,11 @@
     </span>
     </div>
 </div>
+<input type="hidden" id="payAppDetSn" value="${params.payAppDetSn}" />
+
+<input type="hidden" id="BSNSYEAR" />
+<input type="hidden" id="DDTLBZ_ID" />
+<input type="hidden" id="EXC_INSTT_ID" />
 <div class="col-lg-12" style="padding:0;">
 	<div class="table-responsive">
 		<div class="card-header pop-header">
@@ -63,24 +68,24 @@
 					<th class="thTop">전송결과</th>
 				</tr>
 				<tr>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="trNm">
 
 					</td>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="regNo">
 
 					</td>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="sumAm">
 
 					</td>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="supAm">
 
 					</td>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="vatAm">
 
 					</td>
 					<td style="text-align: center;display: flex;">
-						<input style="width: 80%;" type="text" id="crmNm" name="crmNm" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-						<input type="button" style="margin-left:5px;width: 20%;"onclick="" value="전송">
+						<input style="width: 80%;" type="text" class="k-input" id="issNo" name="issNo" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+						<input type="button" style="margin-left:5px;width: 20%;" class="k-button k-button-solid-base" onclick="fn_etaxSend()" value="전송">
 					</td>
 					<td style="text-align: center;">
 
@@ -95,6 +100,64 @@
 
 <script>
 
+    $(function(){
+
+        var data = {
+            payAppDetSn : $("#payAppDetSn").val()
+        }
+
+
+        $.ajax({
+            url : "/kukgoh/getEtaxInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                var ed = rs.result;
+                $("#trNm").text(ed.TR_NM);
+                $("#regNo").text(ed.TRREG_NB);
+                $("#sumAm").text(ed.SUM_AM.toString().split(".")[0]);
+                $("#supAm").text(ed.SUP_AM.toString().split(".")[0]);
+                $("#vatAm").text(ed.VAT_AM.toString().split(".")[0]);
+                $("#issNo").val(ed.ISS_NO);
+
+                $("#BSNSYEAR").val(ed.BSNSYEAR);
+                $("#DDTLBZ_ID").val(ed.DDTLBZ_ID);
+                $("#EXC_INSTT_ID").val(ed.EXC_INSTT_ID);
+            }, error : function (e){
+                console.log(e);
+            }
+        });
+    });
+
+    function fn_etaxSend(){
+        var data = {
+            payAppDetSn : $("#payAppDetSn").val(),
+            issNo : $("#issNo").val(),
+            BSNSYEAR : $("#BSNSYEAR").val(),
+            DDTLBZ_ID : $("#DDTLBZ_ID").val(),
+            EXC_INSTT_ID : $("#EXC_INSTT_ID").val()
+        }
+
+        if(data.BSNSYEAR == ""){
+            alert("사업 프로젝트를 설정해주세요.");
+
+            return;
+        }
+
+        $.ajax({
+            url : "/kukgoh/sendEtaxData",
+            data : data,
+            dataType : "json",
+            type : "post",
+            success : function (rs){
+
+            }, error : function (e){
+                console.log(e);
+            }
+        })
+    }
 
 
 </script>

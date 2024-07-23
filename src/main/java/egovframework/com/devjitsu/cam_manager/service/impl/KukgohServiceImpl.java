@@ -217,7 +217,7 @@ public class KukgohServiceImpl implements KukgohService {
 
         params.put("ASSTN_TAXITM_CODE", params.get("ASSTN_TAXITM_CODE"));
 
-        String trnscId = getTransactionId();
+        String trnscId = getTransactionId("INTRFC_ID");
         params.put("TRNSC_ID", trnscId);
 
         long timestamp = Instant.now().toEpochMilli();
@@ -449,12 +449,12 @@ public class KukgohServiceImpl implements KukgohService {
         return map;
     }
 
-    public String getTransactionId(){
+    public String getTransactionId(String interfaceId){
         String mangGubunCode = "E"; // I : 행정망, E : 인터넷망
         String systemCode = "CTI"; // 시스템 코드중 앞 3자리 CTIC
 
         String agentNumber = "01"; // Agent 일련번호
-        String intrfcId = "IF-EXE-EFR-0074";
+        String intrfcId = interfaceId;
         String threadNumber = "T00001";
 
         long timestamp = Instant.now().toEpochMilli();
@@ -598,5 +598,29 @@ public class KukgohServiceImpl implements KukgohService {
     @Override
     public void insDjErpSend(Map<String, Object> resutMap) {
         kukgohRepository.insDjErpSend(resutMap);
+    }
+
+    @Override
+    public Map<String, Object> getEtaxInfo(Map<String, Object> params) {
+        return kukgohRepository.getEtaxInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> sendEtaxData(Map<String, Object> params) {
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("CNTC_JOB_PROCESS_CODE", "C");
+        parameters.put("INTRFC_ID", "IF-EXE-EFR-0071");
+        parameters.put("TRNSC_ID", getTransactionId("IF-EXE-EFR-0071"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String formattedDate = LocalDateTime.now().format(formatter);
+        parameters.put("CNTC_CREAT_DT", formattedDate);
+        parameters.put("CNTC_TRGET_SYS_CODE", "CTIC");
+        parameters.put("BSNSYEAR", params.get("BSNSYEAR"));
+        parameters.put("DDTLBZ_ID", params.get("DDTLBZ_ID"));
+        parameters.put("EXC_INSTT_ID", params.get("EXC_INSTT_ID"));
+        parameters.put("ETXBL_CONFM_NO", params.get("issNo"));
+
+        return Collections.emptyMap();
     }
 }

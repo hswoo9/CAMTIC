@@ -39,4 +39,8 @@ public interface KukgohService {
     Map<String, Object> sendEnara(Map<String, Object> params);
 
     void insDjErpSend(Map<String, Object> resutMap);
+
+    Map<String, Object> getEtaxInfo(Map<String, Object> params);
+
+    Map<String, Object> sendEtaxData(Map<String, Object> params);
 }

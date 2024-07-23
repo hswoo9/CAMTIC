@@ -175,7 +175,7 @@ public class KukgohController {
         try{
             Map<String, Object> rsParams = kukgohService.sendEnara(params);
 
-            EnaraCall(rsParams);
+//            EnaraCall(rsParams);
 
             model.addAttribute("rs", rsParams);
             model.addAttribute("code", 200);
@@ -326,6 +326,24 @@ public class KukgohController {
         dataStream.put("intfTrscId", params.get("TRNSC_ID"));
 
         return dataStream;
+    }
+
+    @RequestMapping("/kukgoh/getEtaxInfo")
+    public String getEtaxInfo(@RequestParam Map<String ,Object> params, Model model){
+
+        Map<String, Object> result = kukgohService.getEtaxInfo(params);
+        model.addAttribute("result", result);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/sendEtaxData")
+    public String sendEtaxData(@RequestParam Map<String ,Object> params, Model model){
+
+        Map<String, Object> reParams = kukgohService.sendEtaxData(params);
+        model.addAttribute("reParams", reParams);
+
+        return "jsonView";
     }
 
 }

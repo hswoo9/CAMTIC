@@ -221,4 +221,9 @@ public class KukgohRepository extends AbstractDAO {
 
         insert("kukgoh.insDjErpSend", resutMap);
     }
+
+    public Map<String, Object> getEtaxInfo(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEtaxInfo", params);
+    }
 }
