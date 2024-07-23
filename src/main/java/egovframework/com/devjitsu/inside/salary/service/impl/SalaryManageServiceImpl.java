@@ -358,42 +358,42 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     map.put("empType", hCellValueToString(row.getCell(0), workbook));                    // 부서
                     map.put("erpEmpCd", hCellValueToString(row.getCell(1), workbook));                   // 사원코드
                     map.put("empName", hCellValueToString(row.getCell(2), workbook).trim());             // 사원명
-                    map.put("deptCode", hCellValueToString(row.getCell(3), workbook));                   // 부서코드
-                    map.put("basicSalary", hCellValueToString(row.getCell(4), workbook));                // 기본급
-                    map.put("foodPay", removeCommas(hCellValueToString(row.getCell(5), workbook)));      // 식대
-                    map.put("dutyPay", removeCommas(hCellValueToString(row.getCell(6), workbook)));      // 직책수당
-                    map.put("dispPay", removeCommas(hCellValueToString(row.getCell(7), workbook)));      // 파견수당
-                    map.put("jobPay", removeCommas(hCellValueToString(row.getCell(8), workbook)));       // 직무수당
-                    map.put("mstPay", removeCommas(hCellValueToString(row.getCell(9), workbook)));       // 관리감독
-                    map.put("ccrPay", removeCommas(hCellValueToString(row.getCell(10), workbook)));      // 겸직수당
-                    map.put("annPay", removeCommas(hCellValueToString(row.getCell(11), workbook)));      // 연차수당
-                    map.put("overPay", removeCommas(hCellValueToString(row.getCell(12), workbook)));     // 연장근무수당
-                    map.put("rdPay", removeCommas(hCellValueToString(row.getCell(13), workbook)));       // 포상금
-                    map.put("vacPay", removeCommas(hCellValueToString(row.getCell(14), workbook)));      // 휴가비
-                    map.put("qfPay", removeCommas(hCellValueToString(row.getCell(15), workbook)));       // 자격수당
-                    map.put("wfPay", removeCommas(hCellValueToString(row.getCell(16), workbook)));       // 복지수당
-                    map.put("itPay", removeCommas(hCellValueToString(row.getCell(17), workbook)));       // 지식재산권포상
-                    map.put("resPay", removeCommas(hCellValueToString(row.getCell(18), workbook)));      // 연구수당
-                    map.put("perfPay", removeCommas(hCellValueToString(row.getCell(19), workbook)));     // 성과금
-                    map.put("cbPay", removeCommas(hCellValueToString(row.getCell(20), workbook)));       // 산전후휴가급여
-                    map.put("siPay", removeCommas(hCellValueToString(row.getCell(21), workbook)));       // 사회보험사업자부담금
-                    map.put("totalPay", removeCommas(hCellValueToString(row.getCell(22), workbook)));    // 지급합계
-                    map.put("salTotPay", removeCommas(hCellValueToString(row.getCell(23), workbook)));   // 급여합계
-                    map.put("natPay", removeCommas(hCellValueToString(row.getCell(24), workbook)));      // 국민연금
-                    map.put("hethPay", removeCommas(hCellValueToString(row.getCell(25), workbook)));     // 건강보험
-                    map.put("emplPay", removeCommas(hCellValueToString(row.getCell(26), workbook)));     // 고용보험
-                    map.put("socPay", removeCommas(hCellValueToString(row.getCell(27), workbook)));      // 사우회비
-                    map.put("socTripPay", removeCommas(hCellValueToString(row.getCell(28), workbook)));  // 사우회여행기금
-                    map.put("carePay", removeCommas(hCellValueToString(row.getCell(29), workbook)));     // 장기요양보험료
-                    map.put("incPay", removeCommas(hCellValueToString(row.getCell(30), workbook)));      // 소득세
-                    map.put("locIncPay", removeCommas(hCellValueToString(row.getCell(31), workbook)));   // 지방소득세
-                    map.put("endTaxPay", removeCommas(hCellValueToString(row.getCell(32), workbook)));   // 연말정산소득세
-                    map.put("endTaxLocPay", removeCommas(hCellValueToString(row.getCell(33), workbook)));// 연말정산 지방소득세
-                    map.put("finsPay", removeCommas(hCellValueToString(row.getCell(34), workbook)));     // 4대보험 연말정산
-                    map.put("socEngnPay", removeCommas(hCellValueToString(row.getCell(35), workbook)));  // 과학기술인공제
-                    map.put("dormPay", removeCommas(hCellValueToString(row.getCell(36), workbook)));     // 기숙사비
-                    map.put("insTotPay", removeCommas(hCellValueToString(row.getCell(37), workbook)));   // 공제합계
-                    map.put("supPay", removeCommas(hCellValueToString(row.getCell(38), workbook)));      // 차인지급액
+                    //map.put("deptCode", hCellValueToString(row.getCell(3), workbook));                   // 부서코드
+                    map.put("basicSalary", hCellValueToString(row.getCell(3), workbook));                // 기본급
+                    map.put("foodPay", removeCommas(hCellValueToString(row.getCell(4), workbook)));      // 식대
+                    map.put("dutyPay", removeCommas(hCellValueToString(row.getCell(5), workbook)));      // 직책수당
+                    map.put("dispPay", removeCommas(hCellValueToString(row.getCell(6), workbook)));      // 파견수당
+                    map.put("jobPay", removeCommas(hCellValueToString(row.getCell(7), workbook)));       // 직무수당
+                    map.put("mstPay", removeCommas(hCellValueToString(row.getCell(8), workbook)));       // 관리감독
+                    map.put("ccrPay", removeCommas(hCellValueToString(row.getCell(9), workbook)));      // 겸직수당
+                    map.put("annPay", removeCommas(hCellValueToString(row.getCell(10), workbook)));      // 연차수당
+                    map.put("overPay", removeCommas(hCellValueToString(row.getCell(11), workbook)));     // 연장근무수당
+                    map.put("rdPay", removeCommas(hCellValueToString(row.getCell(12), workbook)));       // 포상금
+                    map.put("vacPay", removeCommas(hCellValueToString(row.getCell(13), workbook)));      // 휴가비
+                    map.put("qfPay", removeCommas(hCellValueToString(row.getCell(14), workbook)));       // 자격수당
+                    map.put("wfPay", removeCommas(hCellValueToString(row.getCell(15), workbook)));       // 복지수당
+                    map.put("itPay", removeCommas(hCellValueToString(row.getCell(16), workbook)));       // 지식재산권포상
+                    map.put("resPay", removeCommas(hCellValueToString(row.getCell(17), workbook)));      // 연구수당
+                    map.put("perfPay", removeCommas(hCellValueToString(row.getCell(18), workbook)));     // 성과금
+                    map.put("cbPay", removeCommas(hCellValueToString(row.getCell(19), workbook)));       // 산전후휴가급여
+                    map.put("siPay", removeCommas(hCellValueToString(row.getCell(20), workbook)));       // 사회보험사업자부담금
+                    map.put("totalPay", removeCommas(hCellValueToString(row.getCell(21), workbook)));    // 지급합계
+                    map.put("salTotPay", removeCommas(hCellValueToString(row.getCell(22), workbook)));   // 급여합계
+                    map.put("natPay", removeCommas(hCellValueToString(row.getCell(23), workbook)));      // 국민연금
+                    map.put("hethPay", removeCommas(hCellValueToString(row.getCell(24), workbook)));     // 건강보험
+                    map.put("emplPay", removeCommas(hCellValueToString(row.getCell(25), workbook)));     // 고용보험
+                    map.put("socPay", removeCommas(hCellValueToString(row.getCell(26), workbook)));      // 사우회비
+                    map.put("socTripPay", removeCommas(hCellValueToString(row.getCell(27), workbook)));  // 사우회여행기금
+                    map.put("carePay", removeCommas(hCellValueToString(row.getCell(28), workbook)));     // 장기요양보험료
+                    map.put("incPay", removeCommas(hCellValueToString(row.getCell(29), workbook)));      // 소득세
+                    map.put("locIncPay", removeCommas(hCellValueToString(row.getCell(30), workbook)));   // 지방소득세
+                    map.put("endTaxPay", removeCommas(hCellValueToString(row.getCell(31), workbook)));   // 연말정산소득세
+                    map.put("endTaxLocPay", removeCommas(hCellValueToString(row.getCell(32), workbook)));// 연말정산 지방소득세
+                    map.put("finsPay", removeCommas(hCellValueToString(row.getCell(33), workbook)));     // 4대보험 연말정산
+                    map.put("socEngnPay", removeCommas(hCellValueToString(row.getCell(34), workbook)));  // 과학기술인공제
+                    map.put("dormPay", removeCommas(hCellValueToString(row.getCell(35), workbook)));     // 기숙사비
+                    map.put("insTotPay", removeCommas(hCellValueToString(row.getCell(36), workbook)));   // 공제합계
+                    map.put("supPay", removeCommas(hCellValueToString(row.getCell(37), workbook)));      // 차인지급액
 
                     map.put("regEmpSeq", params.get("loginEmpSeq"));
 
