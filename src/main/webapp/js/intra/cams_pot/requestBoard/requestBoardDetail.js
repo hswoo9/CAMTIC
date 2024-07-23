@@ -34,6 +34,24 @@ var rbd = {
 				}
 			}
 
+			let authorList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "1"}).rs;
+			for(let i=0; i<authorList.length; i++){
+				const map = authorList[i];
+				if(map.EMP_SEQ == $("#empSeq").val()){
+					$("#articleDelBtn").show();
+					$("#returnBtn").show();
+
+					if(rbd.global.articleDetailInfo.STATUS == "1"){
+						$("#processAccBtn").show();
+					}else if(rbd.global.articleDetailInfo.STATUS == "2"){
+						$("#processComBtn").show();
+						$("#cancelBtn").show();
+					}else if(rbd.global.articleDetailInfo.STATUS == "-1" || rbd.global.articleDetailInfo.STATUS == "99"){
+						$("#returnBtn").hide();
+					}
+				}
+			}
+
 			var requestTitle = "";
 			if(rbd.global.articleDetailInfo.REQUEST_TITLE != null && rbd.global.articleDetailInfo.REQUEST_TITLE != ""){
 				requestTitle = rbd.global.articleDetailInfo.REQUEST_TITLE;

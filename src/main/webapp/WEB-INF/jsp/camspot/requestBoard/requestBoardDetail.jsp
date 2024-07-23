@@ -3,7 +3,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=4'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/requestBoard/requestBoardDetail.js?v=5'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/requestBoard/requestBoardDetail.js?v=${today}'/>"></script>
 <style>
 	.k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar {
 		background-color: #f0f0f0 !important;
