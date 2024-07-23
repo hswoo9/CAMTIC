@@ -322,13 +322,9 @@ var purcInfo = {
                                     if(e.CLAIM_STATUS == "CAYSY"){
                                         if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101") {
                                             if(e.INSPECT_YN != "Y"){
-                                                if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend"){
-                                                    return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
-                                                } else {
-                                                    return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
-                                                }
+                                                html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
                                             }else{
-                                                html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                                html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
 
                                             }
                                         } else {
@@ -345,13 +341,9 @@ var purcInfo = {
                                 if(e.CLAIM_STATUS == "CAYSY"){
                                     if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
                                         if(e.INSPECT_YN != "Y"){
-                                            if(e.PURC_SN == undefined || e.PURC_SN == null || e.PURC_SN == "undefiend"){
-                                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
-                                            } else {
-                                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
-                                            }
+                                            html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
                                         }else{
-                                            html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                            html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(\'\', \'mng\', ' + e.CLAIM_SN + ')">검수</button>';
                                         }
                                     } else {
                                         html = '-';

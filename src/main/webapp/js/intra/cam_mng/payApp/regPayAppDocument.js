@@ -14,7 +14,7 @@ var payAppDoc = {
         payAppDoc.global.document3 = [];
 
          $.each($(".payDestInfo"), function(i, v){
-            var index = $(this).find(".budgetSn").attr("id").slice(-1);
+            var index = $(this).find(".budgetSn").attr("id").replace(/[^0-9]/g, '');
 
             // 증빙유형 신용카드일때 & 증빙 이미지 있을때
             if($("#eviType" + index).val() == "3" && $("#fileNo" + index).val() != undefined && $("#fileNo" + index).val() != null && $("#fileNo" + index).val() != "null" && $("#fileNo" + index).val() != "undefined" && $("#fileNo" + index).val() != ""){
@@ -167,9 +167,9 @@ var payAppDoc = {
 
         var hostUrl = "";
         if(window.location.host.indexOf("218.158.231.184") > -1 || window.location.host.indexOf("new.camtic.or.kr") > -1){
-            hostUrl = "http://218.158.231.184";
+            hostUrl = "https://218.158.231.184";
         } else {
-            hostUrl = "http://218.158.231.186";
+            hostUrl = "https://218.158.231.186";
         }
 
         var html = "";

@@ -496,7 +496,6 @@
         INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER (
             BASE_YEAR_MONTH,
             EMP_TYPE,
-            DEPT_CODE,
             ERP_EMP_CD,
             EMP_NAME,
             BASIC_SALARY,
@@ -540,7 +539,6 @@
         (
             #{item.baseYearMonth},
             #{item.empType},
-            #{item.deptCode},
             #{item.erpEmpCd},
             #{item.empName},
             #{item.basicSalary},
