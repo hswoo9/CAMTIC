@@ -299,6 +299,7 @@
         /*getBusinessParticipationData*/
         SELECT
             C.PJT_SN,
+            A.PART_RATE_DET,
             A.CHNG_SAL,
             A.MON_SAL,
             A.PAY_RATE,
@@ -474,6 +475,10 @@
         AND
             MON_SAL = #{monSal}
         </if>
+        <if test='partRateDet != null and !"".equals(partRateDet)'>
+        AND
+            PART_RATE_DET = #{partRateDet}
+        </if>
         ORDER BY BS_YEAR
     </select>
 
@@ -486,6 +491,7 @@
                 ,EMP_SEQ
                 ,BS_SAL
                 ,MON_SAL
+                ,PART_RATE_DET
                 ,MON_PAY_1
                 ,MON_PAY_2
                 ,MON_PAY_3
@@ -519,6 +525,7 @@
                 ,#{empSeq}
                 ,#{empSal}
                 ,#{monSal}
+                ,#{partRateDet}
                 ,#{monPay1}
                 ,#{monPay2}
                 ,#{monPay3}

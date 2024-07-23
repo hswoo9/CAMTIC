@@ -123,6 +123,7 @@ var busnPartRate = {
                             var itemMonMap;
                             data.empSeq = rs.list[i].PART_EMP_SEQ;
                             data.monSal = rs.list[i].MON_SAL;
+                            data.partRateDet = rs.list[i].PART_RATE_DET;
 
                             $.ajax({
                                 url : "/inside/getBusnPartRatePayData",
@@ -140,9 +141,9 @@ var busnPartRate = {
                                 }
                             });
 
-                            console.log("rs.list["+i+"]", rs.list[i]);
                             var item = rs.list[i];
 
+                            busnPartRate.global.onData.partRateDet = rs.list[i].PART_RATE_DET;
                             busnPartRate.global.onData.partEmpSeq = item.PART_EMP_SEQ;
                             busnPartRate.global.onData.empSal = item.EMP_SAL;
                             busnPartRate.global.onData.monSal =  item.MON_SAL;
@@ -215,6 +216,7 @@ var busnPartRate = {
                                         }
 
                                         var itemMon = itemMonMap[colYear]; // 년 선택
+
                                         if (j == 0) {
                                             tdHtml += '<td style="text-align: right">';
                                             tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(itemMon[monPayStr+(colMonth)]) + '" '+disabledText+' />';
@@ -245,7 +247,6 @@ var busnPartRate = {
                                             tdHtml += '<td style="text-align: right">'
                                             tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(Number(itemMon[monPayStr+(colMonth)])+Number(itemMon[monItemStr+(colMonth)]))) + '"/>';
                                             tdHtml += '</td>';
-                                            console.log("itemMon[monItemStr+(colMonth)])", itemMon[monItemStr+(colMonth)]);
                                             totTotal += Number(itemMon[monPayStr+(colMonth)]) + Number(itemMon[monItemStr+(colMonth)]);
 
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
@@ -563,9 +564,8 @@ var busnPartRate = {
 
         // 사용자 분리 --> 년도 분리
         for (var x = 0; x < payInfo.length; x++) {
-            var itemX = payInfo[x];
 
-            console.log("payInfo :: ", itemX);
+            var itemX = payInfo[x];
 
             var salArr = [];
 
@@ -598,6 +598,9 @@ var busnPartRate = {
                     salArr[cnt] = [];
                 }
 
+                console.log("itemX.pay", itemX.pay);
+                console.log("itemX.pay.type[y]", itemX.pay.type[y]);
+
                 mapX_pay["monPay" + (bsMonX)] = parseInt(Object.values(itemX.pay.type[y])[0]);
                 mapX_item["monItem" + (bsMonX)] = parseInt(Object.values(itemX.item.type[y])[0]);
 
@@ -608,6 +611,7 @@ var busnPartRate = {
 
                 salArr[cnt].push(type);
 
+                console.log();
                 salArr[cnt].monYear = bsYearX;
             }
 
@@ -615,6 +619,7 @@ var busnPartRate = {
 
             if(!monSalFlag){alert("[" + itemX.empName + "] 인건비 예산합계와 맞지않습니다."); break;}
 
+            console.log("salArr", salArr);
             groupArr.push(salArr);
         }
 
@@ -648,6 +653,7 @@ var busnPartRate = {
             map.empSal = itemI.empSal;
             map.monSal = itemI.monSal;
             map.salArr = salArr;
+            map.partRateDet = String(busnPartRate.global.partRateAr.payInfo[i].partRateDet);
 
             paramArr.push(map);
         }
