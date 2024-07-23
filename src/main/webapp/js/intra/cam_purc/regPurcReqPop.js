@@ -185,35 +185,6 @@ var prp = {
     },
 
     vatCalcN : function(){
-        // var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
-        let sum = 0;
-        $.each($(".purcItemAmt"), function(){
-            sum += Number(uncommaN(this.value));
-        });
-
-        // sum = Number(sum) - Number(disAmt);
-
-        /** 견적가 500*/
-        /** 미포함 500 50 550*/
-        const sum2 = Math.round(sum/10);
-
-        /** 포함 455 45 500*/
-        const sum3 = Math.round(sum / 1.1);
-        const sum4 = sum - sum3;
-
-        // if($("#vat").data("kendoRadioGroup").value() == "N"){
-        //     $("#estAmt").val(comma(sum));
-        //     $("#vatAmt").val(comma(sum2));
-        //     $("#totAmt").val(comma(sum+sum2));
-        // }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
-        //     $("#estAmt").val(comma(sum3));
-        //     $("#vatAmt").val(comma(sum4));
-        //     $("#totAmt").val(comma(sum));
-        // }else if($("#vat").data("kendoRadioGroup").value() == "D"){
-        //     $("#estAmt").val(comma(sum));
-        //     $("#vatAmt").val("0");
-        //     $("#totAmt").val(comma(sum));
-        // }
 
         $.each($(".purcItemInfo"), function(i, v) {
             var idx = $(this).attr("id").replace(/[^0-9]/g, '');
@@ -243,6 +214,13 @@ var prp = {
                 $("#purcItemAmt" + idx).val(comma(amount));
             }
         });
+
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncommaN(this.value));
+        });
+
+        $("#sum").text(comma(sum) + "원")
     },
 
     crmInfoChange : function(){
