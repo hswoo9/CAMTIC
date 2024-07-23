@@ -666,7 +666,7 @@
             ${userKind} like concat('%', #{kindContent} ,'%')
         <if test='deptComp != null and !"".equals(deptComp)'>
             AND
-            HEI.DEPT_SEQ = #{deptComp}
+            (HEI.DEPT_SEQ = #{deptComp}
             <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
                 OR
                 HEI.DEPT_SEQ IN (
@@ -680,6 +680,7 @@
                                         PARENT_DEPT_SEQ = #{deptComp}
                                     )
             </if>
+            )
         </if>
         <if test='userGender != null and !"".equals(userGender)'>
             AND
