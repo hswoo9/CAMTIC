@@ -2605,7 +2605,7 @@
           AND
             AUTH_DD = #{AUTH_DD}
           AND
-            CARD_NO = #{CARD_NO}
+            REPLACE(CARD_NO,'-','') = REPLACE(#{CARD_NO},'-','')
           AND
             PAY_APP_SN IS NULL
     </select>
@@ -2668,7 +2668,7 @@
           AND
             AUTH_DD = #{AUTH_DD}
           AND
-            CARD_NO = #{CARD_NO}
+            REPLACE(CARD_NO,'-','') = REPLACE(#{CARD_NO},'-','')
           AND
             BUY_STS = #{BUY_STS}
           AND

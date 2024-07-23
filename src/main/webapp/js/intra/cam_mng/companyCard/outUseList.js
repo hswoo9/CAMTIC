@@ -161,11 +161,11 @@ var outUseList = {
                             field: "PAY_APP_SN",
                             title: "전표처리",
                             template: function(e){
-                                if(e.PAY_APP_SN != null){
+                                if(e.USE_PAY_APP_SN != null){
                                     return '지급신청';
-                                } else if(e.SNACK_INFO_SN != null){
+                                } else if(e.USE_SNACK_INFO_SN != null){
                                     return '식대';
-                                } else if(e.HR_BIZ_REQ_ID != null || e.HR_BIZ_REQ_RESULT_ID != null){
+                                } else if(e.USE_HR_BIZ_REQ_ID != null || e.USE_HR_BIZ_REQ_RESULT_ID != null){
                                     return '출장';
                                 } else {
                                     return '';
