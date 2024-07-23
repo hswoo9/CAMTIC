@@ -138,7 +138,18 @@ var enaralink = {
                         } else {
                             return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>전송</button>";
                         }
-                    },
+                    }
+                },
+                {
+                    title: "전자(세금)계산서",
+                    width: 100,
+                    template : function(dataItem) {
+                        if (dataItem.EVID_TYPE == 1) {
+                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_evidCrmPopup("+dataItem.PAY_APP_DET_SN+");'>설정</button>";
+                        } else {
+                            return "";
+                        }
+                    }
                 },
                 {
                     title: "지출결의 정보",
@@ -148,7 +159,7 @@ var enaralink = {
                             title: "상태",
                             width: 70,
                             template:function(e){
-                                return '미전송'
+                                return '미전송';
                             }
                         }, {
                             field: "EMP_NAME",
@@ -309,7 +320,7 @@ var enaralink = {
 
         if($("input[name='payAppDetChk']:checked").length == 0){
             alert("전송 제외할 항목을 선택해주세요.");
-            return
+            return;
         }
 
         if(confirm("제외하시겠습니까?")){
@@ -343,6 +354,13 @@ var enaralink = {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
+
+    fn_evidCrmPopup : function (e) {
+        var url = "/mng/evidCrmSubmitPopup.do?payAppDetSn=" + e;
+        var name = "evidPopup";
+        var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
 
 
 }

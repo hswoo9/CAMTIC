@@ -328,7 +328,7 @@ public class ManageController {
         return "cam_manager/enaraExceptList";
     }
 
-    @RequestMapping("/mng/newResolutionSubmitPage")
+    @RequestMapping("/mng/newResolutionSubmitPage.do")
     public String newResolutionSubmitPage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
@@ -336,6 +336,18 @@ public class ManageController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "cam_manager/newResolutionSubmitPage";
+    }
+
+
+    @RequestMapping("/mng/evidCrmSubmitPopup.do")
+    public String evidCrmSubmitPopup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_manager/evidCrmSubmitPopup";
     }
 
     @RequestMapping("/mng/bankCodeViewPop")
