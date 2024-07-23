@@ -500,6 +500,7 @@ var costInfoGrid = {
                 },
             },
             pageSize: 10,
+            aggregate: [{ field: "ITEM_SUM", aggregate: "sum" }]
         });
 
         $("#grid4").kendoGrid({
@@ -553,12 +554,19 @@ var costInfoGrid = {
                     width: 100
                 }, {
                     field: "APP_TITLE",
-                    title: "신청건명"
+                    title: "신청건명",
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>금액합계</div>";
+                    }
                 }, {
                     title: "금액",
                     width: 120,
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.ITEM_SUM)+"</div>";
+                    },
+                    footerTemplate: function(data){
+                        console.log(data);
+                        return "<div style='text-align: right'>"+ comma(data.ITEM_SUM.sum) +"</div>";
                     }
                 }, {
                     title: "구매/출장 문서번호",
