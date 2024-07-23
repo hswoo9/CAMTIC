@@ -358,7 +358,7 @@ var enaralink = {
     fn_evidCrmPopup : function (e) {
         var url = "/mng/evidCrmSubmitPopup.do?payAppDetSn=" + e;
         var name = "evidPopup";
-        var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var option = "width=1200, height=300, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     }
 
