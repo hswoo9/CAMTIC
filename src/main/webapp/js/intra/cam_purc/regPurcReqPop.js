@@ -71,9 +71,10 @@ var prp = {
                 $("#project").css("display", "");
             } else {
                 $("#project").css("display", "none");
-                $("#pjtSn").val("");
-                $("#pjtNm").val("");
             }
+
+            $("#pjtSn").val("");
+            $("#pjtNm").val("");
         });
 
         prp.global.dropDownDataSource = [
@@ -278,6 +279,10 @@ var prp = {
             for(var i = 0; i < fCommon.global.attFiles.length; i++){
                 formData.append("file1", fCommon.global.attFiles[i]);
             }
+        }
+
+        if($("#purcType").data("kendoRadioGroup").value() != "" && $("#pjtSn").val() == "" && $("#pjtNm").val() == ""){
+            alert("프로젝트를 선택해주세요."); return;
         }
 
         if($("#paymentMethod").data("kendoRadioGroup").value() == "" || $("#paymentMethod").data("kendoRadioGroup").value() == undefined){
