@@ -512,4 +512,24 @@
         /*delEnaraData*/
         DELETE FROM CAM_ERP.DJ_ERP_REQ_STAT WHERE PAY_APP_DET_SN = #{payAppDetSn}
     </delete>
+
+    <insert id="insDjErpSend" parameterType="map">
+        /*insDjErpSend*/
+        INSERT INTO CAM_ERP.DJ_ERP_SEND
+            (
+                INTRFC_ID,
+                RSP_MSG,
+                BIZ_DATA,
+                RSP_CD,
+                TRNSC_ID
+            )
+        VALUES
+            (
+                #{intfId},
+                #{rspMsg},
+                #{bizData},
+                #{rspCd},
+                #{intfTrscId}
+            )
+    </insert>
 </mapper>

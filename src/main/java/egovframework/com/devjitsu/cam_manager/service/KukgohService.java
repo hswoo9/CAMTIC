@@ -37,4 +37,6 @@ public interface KukgohService {
     List<Map<String, Object>> getEnaraBankList(Map<String, Object> params);
 
     Map<String, Object> sendEnara(Map<String, Object> params);
+
+    void insDjErpSend(Map<String, Object> resutMap);
 }
