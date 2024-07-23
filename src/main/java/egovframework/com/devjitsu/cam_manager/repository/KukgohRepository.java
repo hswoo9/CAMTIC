@@ -216,4 +216,9 @@ public class KukgohRepository extends AbstractDAO {
 
         delete("kukgoh.delEnaraData", params);
     }
+
+    public void insDjErpSend(Map<String, Object> resutMap) {
+
+        insert("kukgoh.insDjErpSend", resutMap);
+    }
 }

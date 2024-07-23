@@ -263,6 +263,7 @@ public class KukgohController {
                 Map<String, Object> resutMap = EsbUtils.json2Map(result);
                 // log
                 System.out.println("result data: " + resutMap);
+                kukgohService.insDjErpSend(resutMap);
                 if ("SUCC".equals(resutMap.get("rspCd"))) { // 연계 성공
                     // 연계 성공시 실행할 로직 작성
                 } else { // 연계 실패공공/민간기관 ERP 연계 개발가이드

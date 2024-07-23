@@ -195,7 +195,7 @@ public class KukgohServiceImpl implements KukgohService {
             kukgohRepository.delIntrfcFile(reqStatData);
 
             reqStatData.put("INTRFC_ID", params.get("INTRFC_ID"));
-            SFTPFileRemove(reqStatData);
+//            SFTPFileRemove(reqStatData);
 
 
             kukgohRepository.delEnaraData(params);
@@ -374,10 +374,11 @@ public class KukgohServiceImpl implements KukgohService {
 
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
 
-            channel.setCommand("cp -r " + fromDirectory + " " + toDirectory);
-            channel.setCommand("chmod -R 777 " + toDirectory + params.get("TRNSC_ID") + "/*");
-            channel.setErrStream(System.err);
+            String command = "cp -r " + fromDirectory + " " + toDirectory;
+            String command2 = "chmod -R 777 " + toDirectory + params.get("TRNSC_ID") + "/*";
+            channel.setCommand(command + ";" + command2);
 
+            channel.setErrStream(System.err);
             // Execute the command
             channel.connect();
 
@@ -403,7 +404,7 @@ public class KukgohServiceImpl implements KukgohService {
                 Map<String, Object> map2 = new HashMap<String, Object>();
                 int i = 0;
 
-                fw.write("\"[TABLE_NAME:T_IF_INTRFC_FILE]\"");
+                fw.write("\"[TABLE_NAME: T_IF_INTRFC_FILE ]\"");
                 fw.newLine();
 
                 List<Map<String, Object>> intrfcFileList = kukgohRepository.getIntrfcFileList(params);
@@ -476,7 +477,7 @@ public class KukgohServiceImpl implements KukgohService {
                 Map<String, Object> map2 = new HashMap<String, Object>();
                 int i = 0;
 
-                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_REQUST_ERP]\"");
+                fw.write("\"[TABLE_NAME: T_IFR_EXCUT_REQUST_ERP ]\"");
                 fw.newLine();
 
                 List<Map<String, Object>> execRequestCsvList = kukgohRepository.getExecRequestCsvList(params);
@@ -506,7 +507,7 @@ public class KukgohServiceImpl implements KukgohService {
                     fw.newLine();
                 }
 
-                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_EXPITM_ERP]\"");
+                fw.write("\"[TABLE_NAME: T_IFR_EXCUT_EXPITM_ERP ]\"");
                 fw.newLine();
 
                 List<Map<String, Object>> execBimokCsvList = kukgohRepository.getExecBimokCsvList(params);
@@ -536,7 +537,7 @@ public class KukgohServiceImpl implements KukgohService {
                     fw.newLine();
                 }
 
-                fw.write("\"[TABLE_NAME:T_IFR_EXCUT_FNRSC_ERP]\"");
+                fw.write("\"[TABLE_NAME: T_IFR_EXCUT_FNRSC_ERP ]\"");
                 fw.newLine();
 
                 List<Map<String, Object>> execBimokDataCsvList = kukgohRepository.getExecBimokDataCsvList(params);
@@ -594,4 +595,8 @@ public class KukgohServiceImpl implements KukgohService {
         return result;
     }
 
+    @Override
+    public void insDjErpSend(Map<String, Object> resutMap) {
+        kukgohRepository.insDjErpSend(resutMap);
+    }
 }
