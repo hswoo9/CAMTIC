@@ -197,6 +197,8 @@ public class KukgohServiceImpl implements KukgohService {
             reqStatData.put("INTRFC_ID", params.get("INTRFC_ID"));
             SFTPFileRemove(reqStatData);
 
+
+            kukgohRepository.delEnaraData(params);
         }
 
 

@@ -267,7 +267,7 @@ var newResolutionSubmitPage = {
 
     fn_send: function(){
 
-        if($("#BCNC_BANK_CODE_NM").val() == ""){
+        if($("#BCNC_BANK_CODE").val() == ""){
             alert("은행을 선택해주세요.");
             return;
         }
