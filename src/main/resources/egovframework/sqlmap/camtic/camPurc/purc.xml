@@ -112,8 +112,8 @@
             CI.CRM_NM,
             PCI.ITEM_ETC,
             DI.DOC_NO,
-            MP.INSPECT_STATUS,
-            MP.INSPECT_YN
+            PC.INSPECT_STATUS,
+            PC.INSPECT_YN
         FROM
             CAM_MNG.DJ_PURC_CLAIM PC
         LEFT JOIN
@@ -146,8 +146,8 @@
                 MC.DOC_ID AS MC_DOC_ID,
                 MDI.APPRO_KEY AS MC_APPRO_KEY,
                 MDI.DOC_MENU_CD AS MC_DOC_MENU_CD,
-                MP.INSPECT_YN,
-                MP.INSPECT_STATUS
+                MC.INSPECT_YN,
+                MC.INSPECT_STATUS
             FROM
                 CAM_MNG.DJ_MNG_PURC MP
             JOIN
@@ -216,13 +216,13 @@
             </choose>
             <choose>
                 <when test='"1".equals(inspectStat)'>
-                    AND MP.INSPECT_YN = 'N'
+                    AND MC.INSPECT_YN = 'N'
                 </when>
                 <when test='"2".equals(inspectStat)'>
-                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+                    AND MC.INSPECT_YN = 'Y' AND MC.INSPECT_STATUS = '0'
                 </when>
                 <when test='"3".equals(inspectStat)'>
-                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                    AND MC.INSPECT_YN = 'Y' AND MC.INSPECT_STATUS = '100'
                 </when>
             </choose>
             GROUP BY MP.PURC_SN
@@ -1011,7 +1011,7 @@
     <select id="getPurcAssetList" parameterType="map" resultType="map">
         /*getPurcAssetList*/
         SELECT
-            MP.INSPECT_STATUS,
+            PC.INSPECT_STATUS,
             PC.CLAIM_DE,
             PCI.*
         FROM
@@ -1021,7 +1021,7 @@
         LEFT JOIN
             CAM_MNG.DJ_MNG_PURC MP ON PC.PURC_SN = MP.PURC_SN
         WHERE
-            MP.INSPECT_STATUS = '100'
+            PC.INSPECT_STATUS = '100'
         AND PCI.PRODUCT_A = '1'
         AND PCI.PROD_CD IS NULL
         ORDER BY CLAIM_SN DESC, CLAIM_ITEM_SN
@@ -1342,25 +1342,25 @@
                 AND A.ORDER_YN = 'N'
             </when>
             <when test='"2".equals(inspectStat)'>
-                AND A.ORDER_YN = 'Y' AND INSPECT_STATUS = '0'
+                AND A.ORDER_YN = 'Y' AND A.INSPECT_STATUS = '0'
             </when>
             <when test='"3".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) IS NULL
             </when>
             <when test='"4".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                     (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) != 100
             </when>
             <when test='"5".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                     (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
                 AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'N'
             </when>
             <when test='"6".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                     (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
                 AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'Y'
@@ -1467,25 +1467,25 @@
                 AND A.ORDER_YN = 'N'
             </when>
             <when test='"2".equals(inspectStat)'>
-                AND A.ORDER_YN = 'Y' AND INSPECT_STATUS = '0'
+                AND A.ORDER_YN = 'Y' AND A.INSPECT_STATUS = '0'
             </when>
             <when test='"3".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) IS NULL
             </when>
             <when test='"4".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) != 100
             </when>
             <when test='"5".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
                 AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'N'
             </when>
             <when test='"6".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
                 AND
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
                 AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'Y'
@@ -1544,7 +1544,7 @@
         SELECT
             A.*,
             B.CLAIM_EXNP_SN,
-            (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = A.PURC_SN) AS INSPECT_STATUS,
+            A.INSPECT_STATUS,
             IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
             IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
@@ -1665,7 +1665,7 @@
             ON
                 A.PAY_APP_SN = E.PAY_APP_SN
             WHERE
-                B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100 OR PURC_SN IS NULL)
+                B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR B.INSPECT_STATUS = 100 OR PURC_SN IS NULL)
             AND
                 CASE
                     WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
@@ -2239,7 +2239,7 @@
                 A.DOC_ID AS CLAIM_DOC_ID,
                 (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY,
                 IFNULL(B.INSPECT_YN, A.INSPECT_YN) AS INSPECT_YN,
-                B.INSPECT_STATUS,
+                A.INSPECT_STATUS,
                 IFNULL(B.PAYMENT_METHOD, A.PAYMENT_METHOD) AS PAYMENT_METHOD,
                 A.ORDER_DT,
                 B.REG_DATE,
