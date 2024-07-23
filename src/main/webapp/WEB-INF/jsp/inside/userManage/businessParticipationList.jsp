@@ -54,7 +54,7 @@
                         </td>
                         <th class="text-center th-color">프로젝트명</th>
                         <td>
-                            <input type="text" id="pjtNm">
+                            <input type="text" id="pjtNm" onkeypress="if(window.event.keyCode==13){busnPartList.gridReload();}">
                         </td>
                     </tr>
                 </table>
