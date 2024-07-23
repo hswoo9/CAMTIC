@@ -198,14 +198,23 @@
             type : "post",
             dataType : "json",
             success : function(rs){
-                var strDe = "";
-                if(rs.list[0].MIN_DT != null){
-                    strDe = rs.list[0].MIN_DT.split("-");
-                }else{
-                    strDe = rs.list[0].PART_DET_STR_DT.split("-");
-                }
+                var arr = rs.list;
 
-                var endDe = rs.list[0].PART_DET_END_DT.split("-");
+                var strDe = arr[0].PART_DET_STR_DT;
+                var endDe = arr[0].PART_DET_END_DT;
+
+                for (var i=1; i<arr.length; i++) {
+                    if (arr[i].PART_DET_STR_DT < strDe) {
+                        strDe = arr[i].PART_DET_STR_DT;
+                    }
+                    if (arr[i].PART_DET_END_DT > endDe) {
+                        endDe = arr[i].PART_DET_END_DT;
+                    }
+                }
+                strDe = strDe.split("-");
+                endDe = endDe.split("-");
+
+
                 var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
                 const projectStartMonth = strDe[0] + "-" + strDe[1];
                 var date = new Date(projectStartMonth);

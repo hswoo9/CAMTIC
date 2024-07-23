@@ -73,6 +73,7 @@ public class EmployeServiceImpl implements EmployService {
                 map2.put("empSeq", empSeq);
                 map2.put("empSal", map.get("empSal"));
                 map2.put("monSal", map.get("monSal"));
+                map2.put("partRateDet", map.get("partRateDet"));
                 map2.put("pjtSn", params.get("pjtSn"));
 
                 map2.put("monPay1", map2.get("monPay1") != null ? map2.get("monPay1") : 0);
