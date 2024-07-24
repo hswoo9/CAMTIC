@@ -63,6 +63,8 @@
             E.BCNC_CMPNY_NM,
             E.BCNC_LSFT_NO,
             E.TRANSFR_ACNUT_SE_CODE,
+            E.BCNC_BANK_CODE,
+            (SELECT CMMN_DETAIL_CODE_NM FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE E.BCNC_BANK_CODE = CMMN_DETAIL_CODE AND CMMN_CODE = 1070) AS BCNC_BANK_CODE_NM,
             E.SBSACNT_TRFRSN_CN,
             E.BCNC_ACNUT_NO,
             F.TRNSC_ID,
@@ -487,7 +489,7 @@
         /*getExcutRequestErp*/
         SELECT
             A.*,
-            B.CMMN_DETAIL_CODE_NM
+            B.CMMN_DETAIL_CODE_NM AS BCNC_BANK_CODE_NM
         FROM
             CAM_ERP.T_IFR_EXCUT_REQUST_ERP A
         LEFT JOIN

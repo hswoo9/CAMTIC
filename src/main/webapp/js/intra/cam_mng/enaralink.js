@@ -302,7 +302,7 @@ var enaralink = {
                                 }
                             }
                         }, {
-                            field: "SBSACNT_TRFRSN_CN",
+                            field: "BCNC_BANK_CODE_NM",
                             title: "은행명",
                             width: 100
                         }, {
