@@ -26,10 +26,9 @@ var purcClaim = {
         customKendo.fn_textBox(["searchValue"]);
 
         purcClaim.global.dropDownDataSource = [
-            { text: "검수 미작성", value: "1" },
-            { text: "검수 작성 및 미승인", value: "2" },
-            { text: "검수 작성 및 승인", value: "3" },
-            { text: "발주대기", value: "4" }
+            { text: "발주처리", value: "1" },
+            { text: "검수처리", value: "2" },
+            { text: "지급처리", value: "3" },
         ]
 
         customKendo.fn_dropDownList("inspectStat", purcClaim.global.dropDownDataSource, "text", "value");
