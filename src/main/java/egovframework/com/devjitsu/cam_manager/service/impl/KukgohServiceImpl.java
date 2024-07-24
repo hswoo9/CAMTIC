@@ -625,6 +625,17 @@ public class KukgohServiceImpl implements KukgohService {
 
         String fileName = makeEtaxCsvFile(parameters);
 
+        try {
+            File myFile = new File("/fs_data/kukgoh/" + parameters.get("INTRFC_ID") + "/" + parameters.get("TRNSC_ID") + "/" + parameters.get("TRNSC_ID") + ".eof");
+            if (myFile.createNewFile()){
+                System.out.println("File is created!");
+            }else{
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         SFTPFileMove(parameters, fileName, "");
         return Collections.emptyMap();
