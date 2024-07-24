@@ -114,6 +114,7 @@
             dataType : "json",
             async : false,
             success : function(rs){
+                console.log(rs)
                 var ed = rs.result;
                 $("#trNm").text(ed.TR_NM);
                 $("#regNo").text(ed.TRREG_NB);

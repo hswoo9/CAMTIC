@@ -560,10 +560,50 @@
             A.PAY_APP_DET_SN, A.ISS_NO,
             B.TR_NM, B.TRCEO_NM, B.SUM_AM,
             B.SUP_AM, B.VAT_AM, B.TRREG_NB,
-            C.*
+            C.*,
+            (SELECT EXC_INSTT_ID FROM CAM_ERP.T_IFS_BSRSLT_EXC_INSTT_ERP WHERE DDTLBZ_ID = C.DDTLBZ_ID) AS EXC_INSTT_ID
         FROM CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_ETAX_INFO B ON A.ISS_NO = B.ISS_NO
         LEFT JOIN CAM_ERP.DJ_PROJECT_LINK C ON C.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = (SELECT PJT_CD FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = A.PAY_APP_SN))
         WHERE PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
+    <insert id="insEtaxData" parameterType="map">
+        /*insEtaxData*/
+        INSERT INTO CAM_ERP.T_IFR_ETXBL_REQUST_ERP
+            (
+                CNTC_JOB_PROCESS_CODE,
+                INTRFC_ID,
+                TRNSC_ID,
+                FILE_ID,
+                CNTC_CREAT_DT,
+                CNTC_TRGET_SYS_CODE,
+                BSNSYEAR,
+                DDTLBZ_ID,
+                EXC_INSTT_ID,
+                ETXBL_CONFM_NO
+            )
+        VALUES
+            (
+                #{CNTC_JOB_PROCESS_CODE},
+                #{INTRFC_ID},
+                #{TRNSC_ID},
+                '',
+                #{CNTC_CREAT_DT},
+                #{CNTC_TRGET_SYS_CODE},
+                #{BSNSYEAR},
+                #{DDTLBZ_ID},
+                #{EXC_INSTT_ID},
+                #{ETXBL_CONFM_NO}
+            )
+    </insert>
+
+    <select id="getEtaxList" parameterType="map" resultType="map">
+        /*getEtaxList*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFR_ETXBL_REQUST_ERP
+        WHERE TRNSC_ID = #{TRNSC_ID}
     </select>
 </mapper>

@@ -62,7 +62,7 @@
                     </td>
                     <th>경조일</th>
                     <td>
-                        <input type="text" id="condDe" disabled name="condDe" value="">
+                        <input type="text" id="condDe" name="condDe" value="">
                     </td>
                 </tr>
                 <tr>
