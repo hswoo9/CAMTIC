@@ -33,8 +33,8 @@
 		<div class="card-header pop-header">
 			<h3 class="card-title title_NM">지출결의서 집행전송</h3>
 			<div class="btn-st popButton">
-				<button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="newResolutionSubmitPage.fn_send()">전송</button>
-				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="">전송취소</button>
+				<button type="button" id="sendBtn" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="newResolutionSubmitPage.fn_send()">전송</button>
+<%--				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="">전송취소</button>--%>
 				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
 			</div>
 		</div>

@@ -137,6 +137,9 @@ var newResolutionSubmitPage = {
             data : data,
             type : "post",
             dataType : "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
             success : function(rs){
                 var rs = rs.rs;
                 var pad = rs.payAppData;
@@ -150,6 +153,7 @@ var newResolutionSubmitPage = {
                 var esd = rs.enaraSendData;
                 var ered = rs.excutReqErpData;
                 var eeied = rs.excutExpItmErpData;
+                var erpSend = rs.erpSendData;
                 if(esd != null && esd != undefined){
                     $("#reqStatSn").val(esd.REQ_STAT_SN);
                 }
@@ -247,7 +251,7 @@ var newResolutionSubmitPage = {
                     $("#POST_CD").val(cd.ZIP);
                     $("#BCNC_ADRES").val(ered != null ? ered.BCNC_ADRES : cd.DIV_ADDR1);
                     $("#tmpBankNm").val(cd.JIRO_NM);
-                    $("#BCNC_BANK_CODE_NM").val();
+                    $("#BCNC_BANK_CODE_NM").val(ered != null ? ered.CMMN_DETAIL_CODE_NM : cd.JIRO_NM);
                     $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : cd.BA_NB);
                 } else {
                     $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
@@ -261,6 +265,15 @@ var newResolutionSubmitPage = {
                     $("#PRUF_SE_NO").val(pad.AUTH_NO || "");
                 }
 
+                if(erpSend != null && erpSend != undefined){
+                    $("#PROCESS_RESULT_MSSAGE").val(erpSend.RSP_MSG);
+
+                    if(erpSend.RSP_CD == "SUCC") {
+                        $("#sendBtn").hide();
+                    }
+                }
+
+                $("#my-spinner").hide();
             }
         });
     },
@@ -269,6 +282,11 @@ var newResolutionSubmitPage = {
 
         if($("#BCNC_BANK_CODE").val() == ""){
             alert("은행을 선택해주세요.");
+            return;
+        }
+
+        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "2" && $("#SBSACNT_TRFRSN_CN").val() == ""){
+            alert("이체 사유를 입력해주세요.");
             return;
         }
 

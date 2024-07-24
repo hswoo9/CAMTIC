@@ -120,23 +120,23 @@ var enaralink = {
                     },
                     width: 50
                 },
-                {
-                    field : "",
-                    title: "전송가능여부",
-                    width: 80,
-                },
-                {
-                    title: "전송불가사유",
-                    width: 150,
-                },
+                // {
+                //     field : "",
+                //     title: "전송가능여부",
+                //     width: 80,
+                // },
+                // {
+                //     title: "전송불가사유",
+                //     width: 150,
+                // },
                 {
                     title: "전송/확인",
                     width: 100,
-                    template : function(dataItem) {
-                        if (dataItem.KUKGO_STATE === "전송완료" || dataItem.KUKGO_STATE === '전송진행중' || dataItem.KUKGO_STATE === '전송실패') {
-                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>확인</button>";
+                    template : function(e) {
+                        if (e.TRNSC_ID != null) {
+                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
                         } else {
-                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+dataItem.PAY_APP_DET_SN+");'>전송</button>";
+                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
                         }
                     }
                 },
@@ -159,7 +159,17 @@ var enaralink = {
                             title: "상태",
                             width: 70,
                             template:function(e){
-                                return '미전송';
+                                if(e.TRNSC_ID == null) {
+                                    return "미전송";
+                                } else {
+                                    if(e.RSP_CD == "SUCC") {
+                                        return "전송완료";
+                                    } else if(e.RSP_CD.indexOf("ER") > -1) {
+                                        return "전송실패";
+                                    } else {
+                                        return "전송진행중";
+                                    }
+                                }
                             }
                         }, {
                             field: "EMP_NAME",
@@ -219,7 +229,7 @@ var enaralink = {
                             title: "증빙선택",
                             width: 120,
                             template : function(e) {
-                                if(e.KUKGO_STATE === "전송완료") {
+                                if(e.RSP_CD === "SUCC") {
                                     if(e.PRUF_SE_CODE == "001") {
                                         return "전자세금계산서";
                                     } else if(e.PRUF_SE_CODE == "002") {
@@ -240,7 +250,7 @@ var enaralink = {
                             title: "승인번호",
                             width: 250,
                             template : function(e) {
-                                if(e.KUKGO_STATE === "전송완료") {
+                                if(e.RSP_CD === "SUCC") {
                                     return e.PRUF_SE_NO;
                                 } else {
                                     return "";
@@ -251,7 +261,7 @@ var enaralink = {
                             title: "증빙일자",
                             width: 100,
                             template : function(e) {
-                                if(e.KUKGO_STATE === "전송완료") {
+                                if(e.RSP_CD === "SUCC") {
                                     return e.EXCUT_REQUST_DE;
                                 } else {
                                     return "";
