@@ -125,7 +125,7 @@
                         </th>
                         <td>
                             <input type="text" id="useAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원
-                            <input type="hidden" id="hourlyUsageFee" value="" />
+<%--                            <input type="hidden" id="hourlyUsageFee" value="" />--%>
                         </td>
                         <th scope="row" class="text-center th-color">
                             할인금액
