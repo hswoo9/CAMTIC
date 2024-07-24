@@ -1,6 +1,27 @@
 package egovframework.devjitsu.common.utiles;
 
 public class CSVKeyUtil {
+
+    // 공통코드 정보(ERP)
+    public static final String T_IFS_ERP_CMMN_CODE[] = {
+            "CNTC_SN",
+            "CNTC_JOB_PROCESS_CODE",
+            "INTRFC_ID",
+            "TRNSC_ID",
+            "FILE_ID",
+            "CNTC_CREAT_DT",
+            "CNTC_TRGET_SYS_CODE",
+            "SYS_SE_CODE",
+            "CMMN_CODE",
+            "CMMN_CODE_NM",
+            "CMMN_CODE_DC",
+            "MANAGE_IEM_CN_1",
+            "MANAGE_IEM_CN_2",
+            "MANAGE_IEM_CN_3",
+            "MANAGE_IEM_CN_4",
+            "MANAGE_IEM_CN_5"
+    };
+
 	//전자세금계산서 조회(송신)
 	public static final String T_IFR_ETXBL_REQUEST_ERP[] = {
 			"CNTC_SN" 
