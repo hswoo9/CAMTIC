@@ -621,6 +621,69 @@ public class KukgohServiceImpl implements KukgohService {
         parameters.put("EXC_INSTT_ID", params.get("EXC_INSTT_ID"));
         parameters.put("ETXBL_CONFM_NO", params.get("issNo"));
 
+        kukgohRepository.insEtaxData(parameters);
+
+        String fileName = makeEtaxCsvFile(parameters);
+
+
+        SFTPFileMove(parameters, fileName, "");
         return Collections.emptyMap();
+    }
+
+    /**
+     * 전자세금계산서 CSV 파일 생성
+     * @param params
+     */
+    private String makeEtaxCsvFile(Map<String, Object> params) {
+        String fileName = "";
+        String filepath = "/fs_data/kukgoh/" + params.get("INTRFC_ID") + "/" + params.get("TRNSC_ID");
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            if (directoryConfirmAndMake(filepath)) { // 로컬경로 폴더 없으면 생성 ( 로컬에 csv파일 생성 로직 )
+                fileName = filepath + "/" + params.get("TRNSC_ID") + "-data.csv";
+                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "EUC-KR"));
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                int i = 0;
+
+                fw.write("\"[TABLE_NAME: T_IFR_ETXBL_REQUST_ERP ]\"");
+                fw.newLine();
+
+                List<Map<String, Object>> etaxList = kukgohRepository.getEtaxList(params);
+
+                int cnt = 0;
+                for (Map<String, Object> dom : etaxList) {
+                    if (cnt == 0) {
+
+                        for (int j = 0; j < (CSVKeyUtil.T_IFR_ETXBL_REQUEST_ERP.length) ; j++) {
+
+                            fw.write("\"" + (String) CSVKeyUtil.T_IFR_ETXBL_REQUEST_ERP[j].toString() + "\"");
+                            if (!(j == (CSVKeyUtil.T_IFR_ETXBL_REQUEST_ERP.length - 1))) {
+                                fw.write(",");
+                            }
+                        }
+                        fw.newLine();
+                    }
+
+                    for (int j = 0; j < (dom.size()); j++) {
+                        fw.write("\"" + (String) dom.get(CSVKeyUtil.T_IFR_ETXBL_REQUEST_ERP[j]).toString() + "\"");
+                        if (!(j == (dom.size() - 1))) {
+                            fw.write(",");
+                        }
+                    }
+
+                    cnt++;
+                    fw.newLine();
+                }
+
+                fw.flush();
+                fw.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fileName;
     }
 }

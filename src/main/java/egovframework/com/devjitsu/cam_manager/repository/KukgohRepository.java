@@ -226,4 +226,14 @@ public class KukgohRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("kukgoh.getEtaxInfo", params);
     }
+
+    public void insEtaxData(Map<String, Object> parameters) {
+
+        insert("kukgoh.insEtaxData", parameters);
+    }
+
+    public List<Map<String, Object>> getEtaxList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getEtaxList", params);
+    }
 }
