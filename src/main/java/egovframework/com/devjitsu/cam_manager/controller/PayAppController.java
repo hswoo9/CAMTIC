@@ -1344,4 +1344,18 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    /**
+     * parameter
+     * exnpSn, type (app, resolution)
+     *
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/payApp/g20ExnpManage")
+    public String g20ExnpManage(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("map", payAppService.g20ExnpManage(params)) ;
+        return "jsonView";
+    }
 }

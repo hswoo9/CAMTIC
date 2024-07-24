@@ -641,7 +641,7 @@ public class KukgohServiceImpl implements KukgohService {
 
 
         SFTPFileMove(parameters, fileName, "");
-        return Collections.emptyMap();
+        return parameters;
     }
 
     /**

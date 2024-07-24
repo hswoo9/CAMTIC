@@ -2151,4 +2151,11 @@ public class PayAppServiceImpl implements PayAppService {
     public Map<String, Object> getWaitIncp(Map<String, Object> params) {
         return payAppRepository.getWaitIncp(params);
     }
+
+    @Override
+    public Map<String, Object> g20ExnpManage(Map<String, Object> params) {
+
+        updateG20ExnpFinalAppr(params, params.get("type").toString());
+        return params;
+    }
 }

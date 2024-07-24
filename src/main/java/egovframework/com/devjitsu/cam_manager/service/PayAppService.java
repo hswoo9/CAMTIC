@@ -146,4 +146,6 @@ public interface PayAppService {
     Map<String, Object> getReturnPayAmt(Map<String, Object> params);
 
     Map<String, Object> getWaitIncp(Map<String, Object> params);
+
+    Map<String, Object> g20ExnpManage(Map<String, Object> params);
 }
