@@ -435,7 +435,7 @@ var addAssetPop = {
             $("#modelSize").val(result.data.MODEL_SIZE);
             $("#modelName").val(result.data.MODEL_NAME);
             $("#purcCompanyId").val(result.data.PURC_COMPANY_ID);
-            $("#purcCompanyName").val();
+            $("#purcCompanyName").val(result.data2.PURC_COMPANY_NAME);
             $("#mfCompany").val(result.data.MF_COMPANY);
             $("#astStsCode").data("kendoDropDownList").value(result.data.AST_STS_CODE);
             $("#orgCountry").val(result.data.ORG_COUNTRY);
