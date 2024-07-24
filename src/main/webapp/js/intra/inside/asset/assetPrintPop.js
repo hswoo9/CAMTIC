@@ -72,18 +72,36 @@ const assetPrint = {
         assetPrint.global.hwpCtrl.PutFieldText("QTY", astMap.map.QTY);
         assetPrint.global.hwpCtrl.PutFieldText("PURC_COMPANY_ID", astMap.map.PURC_COMPANY_NAME);
         assetPrint.global.hwpCtrl.PutFieldText("EXP_ACCOUNT", astMap.map.FUNDING_SOURCE_TXT);
+        assetPrint.global.hwpCtrl.PutFieldText("OGR_COUNTRY", astMap.map.ORG_COUNTRY);
 
         assetPrint.global.hwpCtrl.PutFieldText("MANAGE_MAIN_EMP_NAME", result.manage.MANAGE_MAIN_EMP_NAME);
         assetPrint.global.hwpCtrl.PutFieldText("MANAGE_SUB_EMP_NAME", result.manage.MANAGE_SUB_EMP_NAME);
 
-        const astFile = assetMap.astFile;
-        if(astFile != null){
+        // const astFile = assetMap.astFile;
+        if(assetMap.oldAstFile.length > 0){
             if(assetPrint.global.hwpCtrl.FieldExist('AST_FILE_NO')){
                 assetPrint.global.hwpCtrl.PutFieldText('AST_FILE_NO', " ");
                 assetPrint.global.hwpCtrl.MoveToField('AST_FILE_NO', true, true, false);
                 assetPrint.global.hwpCtrl.InsertBackgroundPicture(
                     "SelectedCell",
-                    "http://218.158.231.184/" + astFile.file_path+astFile.file_uuid,
+                    "http://218.158.231.184" + assetMap.oldAstFile[0].file_path+assetMap.oldAstFile[0].file_uuid,
+                    1,
+                    5,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
+
+        if(assetMap.astFile.length > 0){
+            if(assetPrint.global.hwpCtrl.FieldExist('AST_FILE_NO')){
+                assetPrint.global.hwpCtrl.PutFieldText('AST_FILE_NO', " ");
+                assetPrint.global.hwpCtrl.MoveToField('AST_FILE_NO', true, true, false);
+                assetPrint.global.hwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    "http://218.158.231.184" + assetMap.astFile[0].file_path+assetMap.astFile[0].file_uuid,
                     1,
                     5,
                     0,
