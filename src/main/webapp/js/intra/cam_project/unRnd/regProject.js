@@ -257,6 +257,7 @@ var regUnRnd = {
                 $("#mYearTr2").show();
             }else{
                 $("#mYearTr").hide();
+                $("#mYearTr2").hide();
             }
         });
 
