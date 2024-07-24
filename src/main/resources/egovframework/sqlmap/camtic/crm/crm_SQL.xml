@@ -1504,7 +1504,7 @@
             1=1
         AND
             M.ACTIVE = 'Y'
-        ORDER BY M.MOU_AGR_SN DESC
+        ORDER BY M.MOU_AGR_ST_DT DESC
     </select>
 
     <update id="setMouAgrSnDel" parameterType="map">

@@ -43,7 +43,7 @@ var mouAgr = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mouAgr.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mouAgr.fn_mainGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
