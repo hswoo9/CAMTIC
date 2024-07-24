@@ -143,7 +143,6 @@
 
         if(data.BSNSYEAR == ""){
             alert("사업 프로젝트를 설정해주세요.");
-
             return;
         }
 
@@ -154,6 +153,15 @@
             type : "post",
             success : function (rs){
 
+                $.ajax({
+                    url : "/kukgoh/test",
+                    data: rs.reParams,
+                    type : "post",
+                    dataType : "json",
+                    success : function (rs){
+                        alert("전송이 완료되었습니다.");
+                    }
+                })
             }, error : function (e){
                 console.log(e);
             }
