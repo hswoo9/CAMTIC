@@ -189,51 +189,6 @@ public class KukgohController {
     @RequestMapping("/kukgoh/test")
     public String kukgohTest (@RequestParam Map<String, Object> params) throws IOException{
         EnaraCall(params);
-//        try {
-//            Reader reader = new FileReader("/fs_data/mtDir/rcv/IF-CMM-EFS-0062/IBTC00_IF-CMM-EFS-0062_T00001_1720066721897-data.csv");
-//
-//            CSVParser csvParser = CSVParser.parse(reader, CSVFormat.DEFAULT);
-//
-//            for (CSVRecord csvRecord : csvParser) {
-//                // Accessing values by the names assigned to each column
-//                String CNTC_SN = csvRecord.get("CNTC_SN");
-//                String CNTC_JOB_PROCESS_CODE = csvRecord.get("CNTC_JOB_PROCESS_CODE");
-//                String INTRFC_ID = csvRecord.get("INTRFC_ID");
-//                String TRNSC_ID = csvRecord.get("TRNSC_ID");
-//                String FILE_ID = csvRecord.get("FILE_ID");
-//                String CNTC_CREAT_DT = csvRecord.get("CNTC_CREAT_DT");
-//                String CNTC_TRGET_SYS_CODE = csvRecord.get("CNTC_TRGET_SYS_CODE");
-//                String FSYR = csvRecord.get("FSYR");
-//                String ASSTN_EXPITM_TAXITM_CODE = csvRecord.get("ASSTN_EXPITM_TAXITM_CODE");
-//                String ASSTN_EXPITM_NM = csvRecord.get("ASSTN_EXPITM_NM");
-//                String ASSTN_TAXITM_NM = csvRecord.get("ASSTN_TAXITM_NM");
-//                String ASSTN_TAXITM_CODE_DC = csvRecord.get("ASSTN_TAXITM_CODE_DC");
-//                String ASSTN_EXPITM_TAXITM_SE_CODE = csvRecord.get("ASSTN_EXPITM_TAXITM_SE_CODE");
-//                String DELVRY_TRGET_AT = csvRecord.get("DELVRY_TRGET_AT");
-//
-//
-//                System.out.println("Record No - " + csvRecord.getRecordNumber());
-//                System.out.println("---------------");
-//                System.out.println("CNTC_SN : " + CNTC_SN);
-//                System.out.println("CNTC_JOB_PROCESS_CODE : " + CNTC_JOB_PROCESS_CODE);
-//                System.out.println("INTRFC_ID : " + INTRFC_ID);
-//                System.out.println("TRNSC_ID : " + TRNSC_ID);
-//                System.out.println("FILE_ID : " + FILE_ID);
-//                System.out.println("CNTC_CREAT_DT : " + CNTC_CREAT_DT);
-//                System.out.println("CNTC_TRGET_SYS_CODE : " + CNTC_TRGET_SYS_CODE);
-//                System.out.println("FSYR : " + FSYR);
-//                System.out.println("ASSTN_EXPITM_TAXITM_CODE : " + ASSTN_EXPITM_TAXITM_CODE);
-//                System.out.println("ASSTN_EXPITM_NM : " + ASSTN_EXPITM_NM);
-//                System.out.println("ASSTN_TAXITM_NM : " + ASSTN_TAXITM_NM);
-//                System.out.println("ASSTN_TAXITM_CODE_DC : " + ASSTN_TAXITM_CODE_DC);
-//                System.out.println("ASSTN_EXPITM_TAXITM_SE_CODE : " + ASSTN_EXPITM_TAXITM_SE_CODE);
-//                System.out.println("DELVRY_TRGET_AT : " + DELVRY_TRGET_AT);
-//                System.out.println("---------------\n\n");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         return "jsonView";
     }
 
