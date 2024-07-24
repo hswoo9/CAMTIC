@@ -64,12 +64,17 @@
             E.BCNC_LSFT_NO,
             E.TRANSFR_ACNUT_SE_CODE,
             E.SBSACNT_TRFRSN_CN,
-            E.BCNC_ACNUT_NO
+            E.BCNC_ACNUT_NO,
+            F.TRNSC_ID,
+            F.RSP_MSG,
+            F.RSP_CD
         FROM
             CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO C ON B.DOC_ID = C.DOC_ID
-        LEFT JOIN CAM_ERP.T_IFR_EXCUT_REQUST_ERP E ON E.CNTC_SN = A.REQUST_CNTC_SN
+        LEFT JOIN CAM_ERP.DJ_ERP_REQ_STAT D ON D.PAY_APP_DET_SN = A.PAY_APP_DET_SN
+        LEFT JOIN CAM_ERP.T_IFR_EXCUT_REQUST_ERP E ON E.TRNSC_ID = D.TRNSC_ID
+        LEFT JOIN CAM_ERP.DJ_ERP_SEND F on E.TRNSC_ID = F.TRNSC_ID
         WHERE
             B.DOC_STATUS = 100
         <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
@@ -481,11 +486,17 @@
     <select id="getExcutRequestErp" parameterType="map" resultType="map">
         /*getExcutRequestErp*/
         SELECT
-            *
+            A.*,
+            B.CMMN_DETAIL_CODE_NM
         FROM
-            CAM_ERP.T_IFR_EXCUT_REQUST_ERP
+            CAM_ERP.T_IFR_EXCUT_REQUST_ERP A
+        LEFT JOIN
+            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL B
+        ON A.BCNC_BANK_CODE = B.CMMN_DETAIL_CODE
         WHERE
-            TRNSC_ID = #{TRNSC_ID}
+            A.TRNSC_ID = #{TRNSC_ID}
+          AND
+            B.CMMN_CODE = 1070
     </select>
 
     <select id="getExcutExpItmErp" parameterType="map" resultType="map">
@@ -504,6 +515,16 @@
             *
         FROM
             CAM_ERP.T_IFR_EXCUT_FNRSC_ERP
+        WHERE
+            TRNSC_ID = #{TRNSC_ID}
+    </select>
+
+    <select id="getErpSend" parameterType="map" resultType="map">
+        /*getErpSend*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_ERP_SEND
         WHERE
             TRNSC_ID = #{TRNSC_ID}
     </select>

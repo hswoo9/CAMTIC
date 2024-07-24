@@ -212,6 +212,11 @@ public class KukgohRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("kukgoh.getExcutFnrscErp", enaraSendData);
     }
 
+    public Map<String, Object> getErpSend(Map<String, Object> enaraSendData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getErpSend", enaraSendData);
+    }
+
     public void delEnaraData(Map<String, Object> params) {
 
         delete("kukgoh.delEnaraData", params);

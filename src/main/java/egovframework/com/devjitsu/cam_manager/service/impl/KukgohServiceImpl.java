@@ -172,6 +172,9 @@ public class KukgohServiceImpl implements KukgohService {
 
             Map<String, Object> excutFnrscErpData = kukgohRepository.getExcutFnrscErp(enaraSendData);
             result.put("excutFnrscErpData", excutFnrscErpData);
+
+            Map<String, Object> erpSendData = kukgohRepository.getErpSend(enaraSendData);
+            result.put("erpSendData", erpSendData);
         }
 
         return result;

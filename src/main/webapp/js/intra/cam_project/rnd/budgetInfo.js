@@ -570,7 +570,11 @@ var rndBg = {
                     width: 80,
                     field: "REQ_END_DE",
                     template : function(e){
-                        return (e.R_DT || e.REQ_END_DE || "");
+                        if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
+                            return (e.R_DT || e.REQ_END_DE || "");
+                        } else {
+                            return "";
+                        }
                     }
                 },{
                     title: "지출금액",
