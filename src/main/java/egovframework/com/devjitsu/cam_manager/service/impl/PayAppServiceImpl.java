@@ -141,13 +141,14 @@ public class PayAppServiceImpl implements PayAppService {
 
         if(params.containsKey("claimExnpSn")){
             String [] claimExnpSnArr = params.get("claimExnpSn").toString().split(",");
+            Map<String, Object> tempParams = new HashMap<>();
             for(int i = 0 ; i < claimExnpSnArr.length ; i++){
-                params.put("claimExnpSn", claimExnpSnArr[i]);
-                List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);
+                tempParams.put("claimExnpSn", claimExnpSnArr[i]);
+                List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(tempParams);
 
                 for(Map<String, Object> map : lsMap){
-                    params.put("claimExnpSn", map.get("CLAIM_EXNP_SN"));
-                    payAppRepository.updClaimExnpSn(params);
+                    tempParams.put("claimExnpSn", map.get("CLAIM_EXNP_SN"));
+                    payAppRepository.updClaimExnpSn(tempParams);
                 }
             }
         } else if(params.containsKey("claimSn")){
@@ -234,7 +235,17 @@ public class PayAppServiceImpl implements PayAppService {
                 params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
                 storedFileArr = documentRepository.getFileList(params);
             } else if(params.containsKey("claimExnpSn")){
-                storedFileArr = purcService.purcFileList(params);
+//                storedFileArr = purcService.purcFileList(params);
+                String [] claimExnpSnArr = params.get("claimExnpSn").toString().split(",");
+                Map<String, Object> tempParams = new HashMap<>();
+                for(int i = 0 ; i < claimExnpSnArr.length ; i++){
+                    tempParams.put("claimExnpSn", claimExnpSnArr[i]);
+                    List<Map<String, Object>> lsMap = purcService.purcFileList(tempParams);
+
+                    for(Map<String, Object> map : lsMap){
+                        storedFileArr.add(map);
+                    }
+                }
             } else {
                 storedFileArr = payAppRepository.getPayAppFileList(params);
             }

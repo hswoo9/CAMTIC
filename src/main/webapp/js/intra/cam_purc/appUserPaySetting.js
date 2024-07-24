@@ -130,6 +130,53 @@ const appUserPaySetting = {
         } else {
             $("#histGridDiv").css("display", "none");
         }
+
+        appUserPaySetting.settingTempFileDataInit(array);
+    },
+
+    settingTempFileDataInit : function(array){
+        var data = {};
+        var html = '';
+
+        array.forEach(function(item){
+
+            data.claimSn = item;
+
+            $.ajax({
+                url : "/purc/purcUserPayFileList",
+                data: data,
+                type : "post",
+                dataType : "json",
+                success : function(rs){
+                    var rs = rs.list;
+
+                    if(rs.length > 0){
+                        for(var i = 0; i < rs.length; i++){
+                            html += '<tr style="text-align: center">';
+                            html += '   <td>'+ rs[i].file_org_name +'</td>';
+                            html += '   <td>'+ rs[i].file_ext +'</td>';
+                            html += '   <td>'+ fCommon.bytesToKB(rs[i].file_size) +'</td>';
+                            html += '   <td>';
+                            html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ rs[i].file_path +'\', \''+ rs[i].file_uuid +'\')">';
+                            html += '   </td>';
+                            html += '   <td>';
+                            // if(status != 100){
+                            //     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ rs[i].file_no +', this)">' +
+                            //         '			    <span class="k-button-text">삭제</span>' +
+                            //         '		    </button>';
+                            // }
+                            html += '   </td>';
+                            html += '</tr>';
+                        }
+                        $("#fileGrid").html(html);
+                    }else{
+                        $("#fileGrid").html('<tr class="defultTr">' +
+                            '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                            '</tr>');
+                    }
+                }
+            })
+        });
     },
 
     fn_delRow : function(idx){

@@ -878,6 +878,16 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/purcUserPayFileList")
+    public String purcUserPayFileList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = purcService.purcUserPayFileList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/setPurcFileAdd")
     public String setPurcFileAdd(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{

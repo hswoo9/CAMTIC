@@ -273,7 +273,8 @@ var equipmentUsePop = {
 
                 console.log(result);
 
-                $("#hourlyUsageFee").val("");
+                // $("#hourlyUsageFee").val("");
+                $("#useAmt").val("0");
 
                 if(result != null) {
                     $("#eqipmnGbnName").data("kendoDropDownList").value(result.eqipmn_gbn_cmmn_cd_sn);
@@ -281,7 +282,7 @@ var equipmentUsePop = {
 
                     $("#eqipmnName").data("kendoDropDownList").value(result.eqipmn_mst_sn);
 
-                    $("#hourlyUsageFee").val(result.hourly_usage_fee);
+                    $("#useAmt").val(comma(result.hourly_usage_fee));
                 }
             }
         });
@@ -289,7 +290,7 @@ var equipmentUsePop = {
 
     // 시간당 사용대금 계산
     fn_EqipmnHUF : function (time){
-        $("#useAmt").val(comma(time * $("#hourlyUsageFee").val()));
+        $("#useAmt").val(comma(time * $("#useAmt").val()));
     },
 
     fn_projectPop : function (){
@@ -370,7 +371,7 @@ var equipmentUsePop = {
         startData.time1 = $("#time1").val();
         startData.time2 = $("#time2").val();
         startData.useTime = Math.ceil(diffSec / 1000 / 60 / 60);
-        startData.useAmt = startData.useTime * $("#hourlyUsageFee").val()
+        startData.useAmt = startData.useTime * uncomma($("#useAmt").val());
         arr.push(startData);
 
         if(!$("#oneDay").is(":checked")){
@@ -387,7 +388,7 @@ var equipmentUsePop = {
             endData.time1 = $("#endTime1").val(); //사용기간 시작시간
             endData.time2 = $("#endTime2").val(); //사용기간 종료시간
             endData.useTime = Math.ceil(diffSec / 1000 / 60 / 60)
-            endData.useAmt = endData.useTime * $("#hourlyUsageFee").val()
+            endData.useAmt = endData.useTime * uncomma($("#useAmt").val())
             arr.push(endData);
 
             const diffDate = Math.abs((startDt.getTime() - endDt.getTime())/(1000 * 60 * 60 * 24));
@@ -400,7 +401,7 @@ var equipmentUsePop = {
                     data.time1 = "00:00"; //사용기간 시작시간
                     data.time2 = "23:50"; //사용기간 종료시간
                     data.useTime = 24;
-                    data.useAmt = data.useTime * $("#hourlyUsageFee").val()
+                    data.useAmt = data.useTime * uncomma($("#useAmt").val())
                     arr.push(data);
                 }
             }

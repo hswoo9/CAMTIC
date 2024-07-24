@@ -178,7 +178,7 @@ var pri = {
             $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME || e[i].ITEM_NM);
             $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD || e[i].ITEM_STD);
             $("#item" + i).find("#purcItemUnitPrice" + i).val(comma(e[i].PURC_ITEM_UNIT_PRICE || e[i].ITEM_UNIT_AMT));
-            $("#item" + i).find("#purcItemQty" + i).val(e[i].PURC_ITEM_QTY || e[i].ITEM_STD);
+            $("#item" + i).find("#purcItemQty" + i).val(e[i].PURC_ITEM_QTY || e[i].ITEM_EA);
             $("#item" + i).find("#purcItemUnit" + i).val(e[i].PURC_ITEM_UNIT || e[i].ITEM_UNIT);
             $("#item" + i).find("#purcItemAmt" + i).val(comma(e[i].PURC_ITEM_AMT || e[i].ITEM_AMT));
             $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
