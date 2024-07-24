@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
 import com.ibm.icu.text.SimpleDateFormat;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.devjitsu.common.utiles.CSVKeyUtil;
 import egovframework.devjitsu.common.utiles.EsbUtils;
@@ -19,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Controller
 public class KukgohController {
@@ -297,6 +297,46 @@ public class KukgohController {
 
         Map<String, Object> reParams = kukgohService.sendEtaxData(params);
         model.addAttribute("reParams", reParams);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/getCmmnCode")
+    public String getCmmnCode(@RequestParam Map<String ,Object> params, Model model){
+
+        String csvFile = "/fs_data/mtDir/rcv/"+params.get("INTRFC_ID").toString()+"/IBTC00_IF-CMM-EFS-0061_T00001_1720066723134-data.csv";
+        String line = "";
+        String csvSplitBy = ",";
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(csvFile), "EUC-KR"))) {
+            String[] data;
+            while ((data = reader.readNext()) != null) {
+                if(data[0].contains("T_IFS_ERP_CMMN_CODE_DETAIL")) {
+                    break;
+                }
+
+                if(data[0].contains("T_IFS_ERP_CMMN_CODE") || data[0].contains("CNTC_SN")) {
+                    System.out.println(data[0]);
+                    continue;
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    for(int i = 0; i < CSVKeyUtil.T_IFS_ERP_CMMN_CODE.length; i++) {
+                        System.out.print(data[i] + " ");
+                        map.put(CSVKeyUtil.T_IFS_ERP_CMMN_CODE[i].toString(), data[i].replaceAll("\"", ""));
+                    }
+
+                    list.add(map);
+                }
+            }
+
+            System.out.println(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
 
         return "jsonView";
     }
