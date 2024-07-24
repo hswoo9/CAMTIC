@@ -148,7 +148,7 @@ var addAssetPop = {
             formData.append("unit", $("#unitText").val());
             formData.append("pjtNm", $("#pjtNm").val());
             formData.append("regType", $("#regType").val());
-            formData.append("barcodeType", $("#barcodeType").val());
+            formData.append("barcodeType", '');
             formData.append("fundingSource", $("#fundingSource").data("kendoRadioGroup").value());
             formData.append("fundingSourceText", '[' + $("#fundingSource").data("kendoRadioGroup")._items.find(element => element.value === $("#fundingSource").data("kendoRadioGroup").value()).label + ']');
             formData.append("expAccount", $("#expAccount").val());
@@ -431,7 +431,7 @@ var addAssetPop = {
             $("#astCodeId3").data("kendoDropDownList").value(result.data.AST_CODE_ID_3);
             $("#astName").val(result.data.AST_NAME);
             $("#purcDate").val(result.data.PURC_DATE);
-            $("#purcPrice").val(result.data.PURC_PRICE);
+            $("#purcPrice").val(comma(result.data.PURC_PRICE));
             $("#modelSize").val(result.data.MODEL_SIZE);
             $("#modelName").val(result.data.MODEL_NAME);
             $("#purcCompanyId").val(result.data.PURC_COMPANY_ID);
@@ -449,9 +449,9 @@ var addAssetPop = {
                 $("#unitText").val(result.data.UNIT);
             }
             $("#regType").data("kendoDropDownList").value(result.data.REG_TYPE);
-            if(result.data.BARCODE_TYPE != null){
-                $("#barcodeType").data("kendoDropDownList").value(result.data.BARCODE_TYPE);
-            }
+            // if(result.data.BARCODE_TYPE != null){
+            //     $("#barcodeType").data("kendoDropDownList").value(result.data.BARCODE_TYPE);
+            // }
             $("#fundingSource").data("kendoRadioGroup").value(result.data.FUNDING_SOURCE);
             $("#expAccount").val(result.data.EXP_ACCOUNT);
             $("#astPlaceSn").data("kendoDropDownList").value(result.data.AST_PLACE_SN);
