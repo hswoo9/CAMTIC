@@ -8,8 +8,8 @@ var incomeList = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().getFullYear(), new Date().getMonth() - 2, 1));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0));
 
         $("#startDt").change(function (){
             if($("#startDt").val() > $("#endDt").val()){
