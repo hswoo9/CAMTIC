@@ -312,7 +312,11 @@ var exnpReList = {
                     title: "상태",
                     field: "RE_STAT_TXT",
                     width: 80
-                },
+                }, {
+                    title: "예산정보",
+                    field: "BUDGET_TEXT",
+                    width: 80
+                }
             ],
         }).data("kendoGrid");
     },
