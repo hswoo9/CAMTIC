@@ -111,7 +111,7 @@ var enaralink = {
                     }
                 }
             ],
-            persistSelection : true,
+            // persistSelection : true,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'payAppDetChk\');"/>',

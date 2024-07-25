@@ -160,7 +160,14 @@ var newResolutionSubmitPage = {
 
                 console.log(rs);
 
-                $("#fileList").text(fl[0].file_org_name + "외 " + (fl.length - 1) + "개");
+                if(fl.length > 0) {
+                    let text = fl[0].file_org_name;
+
+                    if(fl.length > 1) {
+                        text += "외 " + (fl.length - 1) + "개"
+                    }
+                    $("#fileList").text(text);
+                }
 
                 $("#EXCUT_PRPOS_CN").val(ered != null ? ered.EXCUT_PRPOS_CN : pad.APP_TITLE)
                 $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : "");
@@ -279,6 +286,16 @@ var newResolutionSubmitPage = {
     },
 
     fn_send: function(){
+
+        if($("#kukgoPjtNm").val() == ""){
+            alert("E나라도움 사업명이 입력되지 않았습니다.");
+            return;
+        }
+
+        if($("#ASSTN_TAXITM_CODE_NM").val() == ""){
+            alert("보조세목이 입력되지 않았습니다.");
+            return;
+        }
 
         if($("#BCNC_BANK_CODE").val() == ""){
             alert("은행을 선택해주세요.");

@@ -80,7 +80,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th>e나라도움 사업명</th>
+					<th><span class="red-star">*</span>e나라도움 사업명</th>
 					<td colspan="3">
 						<input type="text" style="width:75%"  id="kukgoPjtNm" value='${data.KUKGO_PJTNM}' title="${data.KUKGO_PJTNM}" readonly  name="KUKGO_PJTNM" disabled/>
 					</td>
@@ -130,7 +130,7 @@
 					<th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">집행 정보</th>
 				</tr>
 				<tr>
-					<th>보조세목</th>
+					<th><span class="red-star">*</span>보조세목</th>
 					<td>
                         <input type="hidden" id="reqStatSn" name="reqStatSn" />
 						<input type="text" id="ASSTN_TAXITM_CODE_NM" name="ASSTN_TAXITM_CODE_NM" value="${dataJson.ASSTN_TAXITM_CODE_NM }" style="width: 80%" disabled value=""  />
@@ -297,7 +297,7 @@
 							<input type="hidden"  id="ADDR_D" name="ADDR_D" />
 						</div>
 					</td>
-					<th>은행</th>
+					<th><span class="red-star">*</span>은행</th>
 					<td>
 						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" disabled name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img style="margin-left:5px; cursor: pointer;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
                         <input type="hidden" id="tmpBankNm" value="" />
