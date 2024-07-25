@@ -993,7 +993,7 @@ public class PayAppServiceImpl implements PayAppService {
                     if(type.equals("resolution") || (data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))
                             || "2".equals(pkMap.get("PAY_APP_TYPE")) || "3".equals(pkMap.get("PAY_APP_TYPE")) || "4".equals(pkMap.get("PAY_APP_TYPE"))) {
                         if(list.size() == i) {
-                            data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
+                            data.put("LOGIN_EMP_CD", loginMap.get("DUZON_CODE"));
                             g20Repository.execUspAncj080Insert00(data);
                         }
                     }
