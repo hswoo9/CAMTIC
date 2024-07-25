@@ -148,6 +148,7 @@ public class PayAppServiceImpl implements PayAppService {
 
                 for(Map<String, Object> map : lsMap){
                     tempParams.put("claimExnpSn", map.get("CLAIM_EXNP_SN"));
+                    tempParams.put("payAppSn", params.get("payAppSn"));
                     payAppRepository.updClaimExnpSn(tempParams);
                 }
             }

@@ -197,7 +197,7 @@
             AND A.BUY_STS NOT IN ('01','03')
             GROUP BY A.AUTH_NO
         ) AA
-        ORDER BY A.AUTH_DD DESC
+        ORDER BY AA.AUTH_DD DESC
     </select>
 
     <select id="cardUseList" parameterType="map" resultType="map">
