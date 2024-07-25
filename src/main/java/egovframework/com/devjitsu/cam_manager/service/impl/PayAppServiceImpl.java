@@ -890,6 +890,9 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("TR_FG", "3");
                         data.put("CTR_NM", "");
                         data.put("CTR_NB", "");
+                        data.put("REG_NB", "");
+                        data.put("PPL_NB", "");
+                        data.put("CRT_NG", "");
 
                     } else if(data.get("EVID_TYPE").toString().equals("5")){
                         data.put("SET_FG", "1");
@@ -898,6 +901,9 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("TAX_DT", data.get("IN_DT"));
                         data.put("CTR_NM", "");
                         data.put("CTR_NB", "");
+                        data.put("REG_NB", "");
+                        data.put("PPL_NB", "");
+                        data.put("CRT_NG", "");
                         int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
                         int ndepAm = (int) (totAmt * 0.6);
                         data.put("NDEP_AM", 0);
@@ -921,6 +927,9 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("ETCDUMMY1", "76");
                         data.put("CTR_NM", "");
                         data.put("CTR_NB", "");
+                        data.put("REG_NB", "");
+                        data.put("PPL_NB", "");
+                        data.put("CRT_NG", "");
                         int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
                         int ndepAm = (int) (totAmt * 0.6);
                         data.put("NDEP_AM", ndepAm);
@@ -950,6 +959,9 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("TR_FG", "3");
                         data.put("CTR_NM", "");
                         data.put("CTR_NB", "");
+                        data.put("REG_NB", "");
+                        data.put("PPL_NB", "");
+                        data.put("CRT_NG", "");
                     }
 
                     if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {

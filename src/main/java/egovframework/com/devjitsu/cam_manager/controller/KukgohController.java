@@ -1,14 +1,10 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
-import com.ibm.icu.text.SimpleDateFormat;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.devjitsu.common.utiles.CSVKeyUtil;
 import egovframework.devjitsu.common.utiles.EsbUtils;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpVersion;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -21,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class KukgohController {
@@ -304,11 +302,30 @@ public class KukgohController {
     @RequestMapping("/kukgoh/getCmmnCode")
     public String getCmmnCode(@RequestParam Map<String ,Object> params, Model model){
 
-        String csvFile = "/fs_data/mtDir/rcv/"+params.get("INTRFC_ID").toString()+"/IBTC00_IF-CMM-EFS-0061_T00001_1720066723134-data.csv";
-        String line = "";
-        String csvSplitBy = ",";
+        String csvFile = "/fs_data/mtDir/rcv/"+params.get("INTRFC_ID").toString();
 
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Map<String, Object>> cmmnCodeList = new ArrayList<>();
+        List<Map<String, Object>> cmmnCodeDetList = new ArrayList<>();
+
+        File dir = new File(csvFile);
+        FilenameFilter filter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".csv");
+            }
+        };
+
+        String[] children = dir.list(filter);
+        String filename = "";
+        if (children == null) {
+            System.out.println("That directory does not exist.");
+        } else {
+            for (int i=0; i< children.length; i++) {
+                filename = children[i];
+                System.out.println(filename);
+            }
+        }
+
+        csvFile += "/" + filename;
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(csvFile), "EUC-KR"))) {
             String[] data;
@@ -327,11 +344,31 @@ public class KukgohController {
                         map.put(CSVKeyUtil.T_IFS_ERP_CMMN_CODE[i].toString(), data[i].replaceAll("\"", ""));
                     }
 
-                    list.add(map);
+                    cmmnCodeList.add(map);
                 }
             }
 
-            System.out.println(list);
+            while ((data = reader.readNext()) != null) {
+                if(data[0].contains("T_IFS_ERP_CMMN_CODE")) {
+                    break;
+                }
+
+                if(data[0].contains("T_IFS_ERP_CMMN_CODE_DETAIL") || data[0].contains("CNTC_SN")) {
+                    System.out.println(data[0]);
+                    continue;
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    for(int i = 0; i < CSVKeyUtil.T_IFS_ERP_CMMN_CODE_DETAIL.length; i++) {
+                        System.out.print(data[i] + " ");
+                        map.put(CSVKeyUtil.T_IFS_ERP_CMMN_CODE_DETAIL[i].toString(), data[i].replaceAll("\"", ""));
+                    }
+
+                    cmmnCodeDetList.add(map);
+                }
+            }
+
+            model.addAttribute("cmmnCodeList", cmmnCodeList);
+            model.addAttribute("cmmnCodeDetList", cmmnCodeDetList);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CsvValidationException e) {
