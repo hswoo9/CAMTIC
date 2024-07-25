@@ -1,14 +1,10 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
-import com.ibm.icu.text.SimpleDateFormat;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.devjitsu.common.utiles.CSVKeyUtil;
 import egovframework.devjitsu.common.utiles.EsbUtils;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpVersion;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -21,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class KukgohController {
