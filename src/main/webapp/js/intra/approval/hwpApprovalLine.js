@@ -54,9 +54,33 @@ var hwpApprovalLine = {
                 }else if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "실장"){
                     const approveDutyName = draft.global.approversArr[0].approveDutyName;
                     if(approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "실장"){
-                        appArr = ["공란", "전결", ""];
+                        /** 본인이 본부장이면서 결재선에 팀장, 본부장이 있을경우 공란, 전결 문구 삭제 */
+                        const teamCkArr = ["센터장", "팀장"];
+                        const teamCk = draft.global.approversArr.find(
+                            obj => teamCkArr.includes(obj.approveDutyName) && obj.approveType == "0"
+                        ) ? true : false;
+                        const dutyCkArr = ["본부장", "사업부장", "실장"];
+                        const dutyCk = draft.global.approversArr.find(
+                            obj => dutyCkArr.includes(obj.approveDutyName) && obj.approveType == "0"
+                        ) ? true : false;
+
+                        if(!teamCk && !dutyCk){
+                            appArr = ["공란", "전결", ""];
+                        }else{
+                            appArr = ["", "전결", ""];
+                        }
+
                     }else if(approveDutyName == "센터장" || approveDutyName == "팀장"){
-                        appArr = ["공란", "전결", ""];
+                        /** 본인이 팀장이면서 결재선에 팀장이 있을경우 공란 문구 삭제 */
+                        const teamCkArr = ["센터장", "팀장"];
+                        const teamCk = draft.global.approversArr.find(
+                            obj => teamCkArr.includes(obj.approveDutyName) && obj.approveType == "0"
+                        ) ? true : false;
+                        if(!teamCk){
+                            appArr = ["공란", "전결", ""];
+                        }else{
+                            appArr = ["", "전결", ""];
+                        }
                     }else{
                         appArr = ["", "전결", ""];
                     }
