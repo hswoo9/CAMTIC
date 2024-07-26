@@ -376,9 +376,20 @@ const regReListFilePop = {
         var fileArray = regReListFilePop.global.fileArray;
 
         if(fileArray.length > 0){
-            for(let i=0; i<fileArray.length; i++){
-                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            // for(let i=0; i<fileArray.length; i++){
+            //     setTimeout(function(){fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);}, 1500);
+                // fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            // }
+
+            let i = 0;
+            function download() {
+                if (i < fileArray.length) {
+                    fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+                    i++;
+                    setTimeout(download, 1000);
+                }
             }
+            download();
         }
     }
 
