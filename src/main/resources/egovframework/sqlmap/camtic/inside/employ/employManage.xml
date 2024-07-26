@@ -720,7 +720,7 @@
             LEFT JOIN CAM_HR.DJ_EMP_INFO C
                 ON A.PART_EMP_SEQ = C.EMP_SEQ
             LEFT JOIN CAM_INSIDE.DJ_PAY_ROLL_LEGER D
-                ON C.ERP_EMP_SEQ = D.ERP_EMP_CD AND D.BASE_YEAR_MONTH = #{bsYm}
+                ON C.DUZON_CODE = D.ERP_EMP_CD AND D.BASE_YEAR_MONTH = #{bsYm}
             WHERE
                 A.PJT_SN = #{pjtSn}
               AND
