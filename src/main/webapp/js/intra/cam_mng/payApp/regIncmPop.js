@@ -96,6 +96,7 @@ var regIncm = {
                 }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
+                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncm.fn_delBtn()">삭제</button>';
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
