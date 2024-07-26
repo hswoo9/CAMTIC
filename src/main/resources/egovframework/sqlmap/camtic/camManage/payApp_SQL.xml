@@ -1027,6 +1027,9 @@
                 AND A.RE_STAT = 'Y'
                 AND A.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
             </when>
+            <when test='"4".equals(searchDate)'>
+                AND A.DT3 BETWEEN #{strDe} AND #{endDe}
+            </when>
             <otherwise>
                 AND A.REQ_DE BETWEEN #{strDe} AND #{endDe}
             </otherwise>

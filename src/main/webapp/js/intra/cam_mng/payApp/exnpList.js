@@ -11,7 +11,8 @@ var exnpList = {
         exnpList.global.dropDownDataSource2 = [
             { text: "결의일자", value: "1" },
             { text: "지출요청일", value: "" },
-            { text: "지출완료일", value: "3" }
+            { text: "지출완료일", value: "3" },
+            { text: "지출예정일", value: "4" }
         ]
 
         exnpList.global.dropDownDataSource = [
@@ -180,7 +181,7 @@ var exnpList = {
                     title: "지출요청일",
                     width: 70
                 }, {
-                    field: "PAY_EXNP_DE",
+                    field: "DT3",
                     title: "지출예정일",
                     width: 70
                 }, {
