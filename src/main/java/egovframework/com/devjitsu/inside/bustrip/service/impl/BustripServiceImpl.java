@@ -6,6 +6,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
@@ -41,6 +42,9 @@ public class BustripServiceImpl implements BustripService {
 
     @Autowired
     private InsideCodeRepository insideCodeRepository;
+
+    @Autowired
+    private ApprovalUserRepository approvalUserRepository;
 
     @Override
     public List<Map<String, Object>> getBustripList(Map<String, Object> params) {
@@ -257,6 +261,11 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> bustripMap = bustripRepository.getBustripReqInfo(params);
         params.put("carReqSn", bustripMap.get("CAR_REQ_SN"));
         insideCodeRepository.setCarRequestDelete(params);
+
+        if(bustripMap.get("DOC_ID") != null){
+            params.put("docId", bustripMap.get("DOC_ID"));
+            approvalUserRepository.setDocDel(params);
+        }
 
         bustripRepository.delBustripReq(params);
     }

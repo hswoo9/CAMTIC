@@ -415,8 +415,12 @@ var prm = {
                     title: "처리",
                     width: 70,
                     template: function(e){
-                        if(e.DOC_STATUS == "0"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='prm.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
+                        if(e.REG_EMP_SEQ == $("#regEmpSeq").val()) {
+                            if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='prm.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
+                            } else {
+                                return "";
+                            }
                         } else {
                             return "";
                         }
@@ -638,7 +642,7 @@ var prm = {
 
         if(result.flag){
             alert("삭제 되었습니다.");
-            purcInfo.gridReload();
+            prm.gridReload();
         }
     },
 

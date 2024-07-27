@@ -461,11 +461,7 @@
                 IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-                CASE
-                    WHEN D.EVID_TYPE IN (1,2,3)
-                    THEN E.DT1
-                    ELSE E.DT3
-                END AS R_DT
+                E.DT3 AS R_DT
             FROM
                 CAM_MNG.DJ_PAY_APP A
 
@@ -1026,6 +1022,9 @@
             <when test='"3".equals(searchDate)'>
                 AND A.RE_STAT = 'Y'
                 AND A.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <when test='"4".equals(searchDate)'>
+                AND A.DT3 BETWEEN #{strDe} AND #{endDe}
             </when>
             <otherwise>
                 AND A.REQ_DE BETWEEN #{strDe} AND #{endDe}
@@ -1970,7 +1969,7 @@
         SELECT
             A.*,
             FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA,
-            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_DET_SN = A.PAY_INCP_DET_SN), 0) AS PAY_TOT_COST
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y'), 0) AS PAY_TOT_COST
         FROM CAM_MNG.DJ_PAY_INCP_DET A
 
         WHERE A.PAY_INCP_SN = #{payIncpSn}

@@ -1713,6 +1713,17 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public void delPayApp(int[] params) {
         for(int i = 0 ; i < params.length ; i++){
+
+            Map<String, Object> paraMap = new HashMap<>();
+            paraMap.put("payAppSn", params[i]);
+            paraMap.put("PAY_APP_SN", params[i]);
+            Map<String, Object> tempMap = payAppRepository.getPayAppInfo(paraMap);
+
+            if(tempMap.get("DOC_ID") != null){
+                paraMap.put("docId", tempMap.get("DOC_ID"));
+                approvalUserRepository.setDocDel(paraMap);
+            }
+
             payAppRepository.delPayApp(params[i]);
 
             // 출장연결된 지급신청 건 삭제
@@ -1724,9 +1735,6 @@ public class PayAppServiceImpl implements PayAppService {
             // 식대 지급신청건 삭제
             payAppRepository.updSnackByPayAppSnEqNull(params[i]);
 
-            Map<String, Object> paraMap = new HashMap<>();
-            paraMap.put("payAppSn", params[i]);
-            paraMap.put("PAY_APP_SN", params[i]);
             List<Map<String, Object>> useEtaxList = payAppRepository.getUseEtaxInfoList(paraMap);
             // dj_use_etax_info 테이블의 CE_GW_IDX값이 있으면 update, 없으면 delete
             for(Map<String, Object> subMap : useEtaxList){
@@ -2041,6 +2049,11 @@ public class PayAppServiceImpl implements PayAppService {
             }
         }
 
+        if(map.get("DOC_ID") != null){
+            params.put("docId", map.get("DOC_ID"));
+            approvalUserRepository.setDocDel(params);
+        }
+
         payAppRepository.delExnpData(params);
         payAppRepository.delExnpDetData(params);
     }
@@ -2131,6 +2144,14 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public void delIncpData(Map<String, Object> params) {
+
+        Map<String, Object> tempMap = payAppRepository.getIncpData(params);
+
+        if(tempMap.get("DOC_ID") != null){
+            params.put("docId", tempMap.get("DOC_ID"));
+            approvalUserRepository.setDocDel(params);
+        }
+
         payAppRepository.delIncpData(params);
         payAppRepository.delIncpDetData(params);
     }

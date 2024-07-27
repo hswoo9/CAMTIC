@@ -245,13 +245,13 @@ var paymentMngList = {
                     title: "지출예정일",
                     width: 80
                 }, {
-                    field: "REQ_END_DE",
+                    field: "R_DT",
                     title: "지출완료일",
                     width: 80,
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
                             if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
-                                return e.REQ_END_DE;
+                                return e.R_DT;
                             } else {
                                 return "";
                             }

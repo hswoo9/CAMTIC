@@ -871,6 +871,14 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public void delPurcReq(Map<String, Object> params) {
+
+        Map<String, Object> tempMap = purcRepository.getPurcReq(params);
+
+        if(tempMap.get("DOC_ID") != null){
+            params.put("docId", tempMap.get("DOC_ID"));
+            approvalUserRepository.setDocDel(params);
+        }
+
         purcRepository.delPurcReq(params);
         purcRepository.delPurcItem(params);
     }
