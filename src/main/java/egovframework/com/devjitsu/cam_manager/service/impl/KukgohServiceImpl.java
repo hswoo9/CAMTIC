@@ -188,7 +188,7 @@ public class KukgohServiceImpl implements KukgohService {
     @Override
     public Map<String, Object> sendEnara(Map<String, Object> params) {
 
-        if(params.containsKey("reqStatSn") && params.get("reqStatSn") != null){
+        if(params.containsKey("reqStatSn") && params.get("reqStatSn") != null && !"".equals(params.get("reqStatSn").toString())) {
             Map<String, Object> reqStatData = kukgohRepository.getReqStatData(params);
 
             kukgohRepository.delExcutRequstErp(reqStatData);
@@ -220,7 +220,7 @@ public class KukgohServiceImpl implements KukgohService {
 
         params.put("ASSTN_TAXITM_CODE", params.get("ASSTN_TAXITM_CODE"));
 
-        String trnscId = getTransactionId("INTRFC_ID");
+        String trnscId = getTransactionId(params.get("INTRFC_ID").toString());
         params.put("TRNSC_ID", trnscId);
 
         long timestamp = Instant.now().toEpochMilli();
