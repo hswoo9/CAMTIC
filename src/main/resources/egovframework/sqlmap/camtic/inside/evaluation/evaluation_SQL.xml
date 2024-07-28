@@ -678,9 +678,14 @@
                 A.EVAL_SN = #{evalSn}
             </otherwise>
         </choose>
-        <if test='dept != null and dept != ""'>
-            AND C.PARENT_DEPT_SEQ = #{dept}
-        </if>
+        <choose>
+            <when test='dept != null and !"".equals(dept) and "".equals(team)'>
+                AND (C.PARENT_DEPT_SEQ = #{dept} OR C.DEPT_SEQ = #{dept} )
+            </when>
+            <when test='dept != null and !"".equals(dept)'>
+                AND C.PARENT_DEPT_SEQ = #{dept}
+            </when>
+        </choose>
         <if test='team != null and team != ""'>
             AND B.DEPT_SEQ = #{team}
         </if>
