@@ -156,6 +156,7 @@ public class DocumentController {
         params.put("hwpUrl", hwpUrl);
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
         return "popup/inside/document/docuPop";
     }
 
@@ -313,6 +314,14 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //계약대장 데이터 조회
+    @RequestMapping("/inside/getDocuContractOne")
+    public String getDocuContractOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = documentService.getDocuContractOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //식대대장 리스트 조회
     @RequestMapping("/inside/getSnackList")
     public String getSnackList(@RequestParam Map<String, Object> params, Model model) {
@@ -378,8 +387,9 @@ public class DocumentController {
 
     //계약대장 등록
     @RequestMapping("/inside/setDocuContractInsert")
-    public String setDocuContractInsert(@RequestParam Map<String, Object> params) {
-        documentService.setDocuContractInsert(params, BASE_DIR);
+    public String setDocuContractInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        MultipartFile[] file = request.getFiles("reqFile").toArray(new MultipartFile[0]);
+        documentService.setDocuContractInsert(params, file, SERVER_DIR, BASE_DIR);
 
         return "jsonView";
     }
@@ -582,6 +592,12 @@ public class DocumentController {
         return "jsonView";
     }
 */
+     @RequestMapping("/contract/getFileListC")
+     public String getFileListC(@RequestParam Map<String, Object> params, Model model) {
+         List<Map<String, Object>> list = documentService.getFileListC(params);
+         model.addAttribute("fileList", list);
+         return "jsonView";
+     }
 
     @RequestMapping("/snack/getFileList")
     public String getFileList(@RequestParam Map<String, Object> params, Model model) {

@@ -258,6 +258,10 @@ public class PurcRepository extends AbstractDAO {
         insert("purc.setOrderSendMailInfo", params);
     }
 
+    public void insContractPurcReq(Map<String, Object> params) {
+        insert("purc.insContractPurcReq", params);
+    }
+
     public List<Map<String, Object>> getOrderSendFileList(Map<String, Object> params) {
         return selectList("purc.getOrderSendFileList", params);
     }

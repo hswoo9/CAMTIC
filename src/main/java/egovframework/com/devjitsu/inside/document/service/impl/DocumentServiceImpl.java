@@ -61,6 +61,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public Map<String, Object> getDocuContractOne(Map<String, Object> params){
+        return documentRepository.getDocuContractOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getSnackList(Map<String, Object> params){
         return documentRepository.getSnackList(params);
     }
@@ -229,23 +234,41 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void setDocuContractInsert(Map<String, Object> params, String base_dir) {
+    public void setDocuContractInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         try{
-            documentRepository.setDocuContractInsert(params);
-            //
-            Gson gson = new Gson();
-            List<Map<String, Object>> area = gson.fromJson((String) params.get("productArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            if(!area.isEmpty()) {
-                params.put("area", area);
-                documentRepository.setProductInsert(params);
+            if(!params.containsKey("documentContractSn")){
+                documentRepository.setDocuContractInsert(params);
+                //
+                Gson gson = new Gson();
+                List<Map<String, Object>> area = gson.fromJson((String) params.get("productArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+                if(!area.isEmpty()) {
+                    params.put("area", area);
+                    documentRepository.setProductInsert(params);
+                }
+                ConvertUtil convertUtil = new ConvertUtil();
+                Map<String, Object> fileSaveMap = new HashMap<>();
+                fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
+                fileSaveMap.put("frKey", params.get("documentContractSn"));
+                documentRepository.insOneFileInfo(fileSaveMap);
+                params.put("fileNo", fileSaveMap.get("fileNo"));
+                documentRepository.setDocuContractFileKey(params);
+            }else{
+                documentRepository.setDocuContractUpd(params);
             }
-            ConvertUtil convertUtil = new ConvertUtil();
-            Map<String, Object> fileSaveMap = new HashMap<>();
-            fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
-            fileSaveMap.put("frKey", params.get("documentContractSn"));
-            documentRepository.insOneFileInfo(fileSaveMap);
-            params.put("fileNo", fileSaveMap.get("fileNo"));
-            documentRepository.setDocuContractFileKey(params);
+
+            if(file.length > 0){
+                MainLib mainLib = new MainLib();
+                List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+                for(int i = 0 ; i < list.size() ; i++){
+                    list.get(i).put("contentId", params.get("documentContractSn"));
+                    list.get(i).put("empSeq", params.get("empSeq"));
+                    list.get(i).put("fileCd", params.get("menuCd"));
+                    list.get(i).put("filePath", filePath(params, base_dir));
+                    list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                    list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+                }
+                commonRepository.insFileInfo(list);
+            }
         }catch (Exception e){
             System.out.println(e);
         }
@@ -526,6 +549,10 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         return resultMap;
+    }
+    @Override
+    public List<Map<String, Object>> getFileListC(Map<String, Object> params) {
+        return documentRepository.getFileListC(params);
     }
     @Override
     public List<Map<String, Object>> getFileList(Map<String, Object> params) {

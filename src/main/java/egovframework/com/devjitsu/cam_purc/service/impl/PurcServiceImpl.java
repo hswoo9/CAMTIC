@@ -368,6 +368,11 @@ public class PurcServiceImpl implements PurcService {
 //                purcRepository.updPurcInspect(paramMap);
 //                purcRepository.updPurcInspectStat(paramMap);
             }
+
+            /** 계약건이고 청구 결재 완료시 계약대장 작성 */
+            if (Objects.equals(claimData.get("CONT_YN"), "Y")) {
+                purcRepository.insContractPurcReq(params);
+            }
         }
     }
 

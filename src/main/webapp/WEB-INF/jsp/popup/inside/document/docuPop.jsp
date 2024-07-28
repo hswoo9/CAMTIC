@@ -24,7 +24,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="documentSn" value="${data.documentContractSn}"/>
+<input type="hidden" id="documentContractSn" value="${data.documentContractSn}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -220,6 +220,44 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <form style="padding: 0px 30px;">
+                <div class="card-header" style="padding: 5px;">
+                    <h3 class="card-title">문서</h3>
+                    <div class="card-options">
+                        <div class="filebox">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                <span class="k-button-text">파일첨부</span>
+                            </button>
+                            <input type="file" id="fileList" name="fileList" onchange="docuContractReq.addFileInfoTable();" multiple style="display: none"/>
+                            <button type="button" class="k-button k-button-solid-base" onclick="docuContractReq.fn_multiDownload();" style="margin-left: 5px;">일괄 다운로드</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="popTable table table-bordered mb-0">
+                        <colgroup>
+                            <col width="50%">
+                        </colgroup>
+                        <thead>
+                        <tr class="text-center th-color">
+                            <th>파일명</th>
+                            <th>확장자</th>
+                            <th>용량</th>
+                            <th>뷰어</th>
+                            <th class="resultTh">기타</th>
+                        </tr>
+                        </thead>
+                        <tbody id="fileGrid">
+                        <tr class="defultTr">
+                            <td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <div id="docEditor" style="width: 960px;display: none; margin-top: 300px;"></div>
@@ -228,7 +266,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script>
-    docuContractReq.init(JSON.parse('${params}'));
+    docuContractReq.fn_defaultScript(JSON.parse('${params}'));
 </script>
 </body>
 </html>

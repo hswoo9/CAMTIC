@@ -153,7 +153,18 @@
             ) RE
             LEFT JOIN
                 CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_CONTRACT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'contract'
+        GROUP BY RE.DOCUMENT_CONTRACT_SN
         ORDER BY RE.ROW_NUM DESC
+    </select>
+
+    <select id="getDocuContractOne" resultType="map" parameterType="map">
+        /* getDocuContractOne */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        WHERE
+            DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </select>
 
     <select id="getSnackList" resultType="map" parameterType="map">
@@ -614,6 +625,39 @@
         <selectKey keyProperty="documentContractSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_DOCUMENT_CONTRACT'
         </selectKey>
+    </insert>
+
+    <insert id="setDocuContractUpd" parameterType="map">
+        /* setDocuContractUpd */
+        UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        SET
+            MAIN_CLASS_SN = #{mainClassSn},
+            MAIN_CLASS_NAME = #{mainClassName},
+            CLASS_SN = #{classSn},
+            CLASS_NAME = #{className},
+            DOCU_DE = #{docuDe},
+            PROJECT_NAME = #{projectName},
+            PROJECT_MONEY = #{contractAmount},
+            START_DE = #{startDe},
+            END_DE = #{endDe},
+            CO_SN = #{coSn},
+            CO_NAME = #{coName},
+            REMARK_CN = #{remarkCn},
+
+            PROJECT_NUMBER = #{projectNumber},
+            REPRESENTATIVE = #{representative},
+            BUSINESS_NUMBER = #{businessNumber},
+            ZIP_CODE = #{zipCode},
+            ADDR = #{addr},
+            ADDR_DETAIL = #{addrDetail},
+            RENTAL_EA = #{rentalEa},
+            RENTAL_INFO = #{rentalInfo},
+            TOTAL_MONTH = #{totalMonth},
+            PAYMENT = #{payment},
+            SURT_INSR = #{surtInsr},
+            DLV_LOC = #{dlvLoc}
+        WHERE
+            DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </insert>
 
     <insert id="setSnackInsert" parameterType="map">
@@ -1120,6 +1164,16 @@
           ON
               A.SNACK_INFO_SN = B.SNACK_INFO_SN
         WHERE A.SNACK_INFO_SN = #{snackInfoSn}
+    </select>
+
+    <select id="getFileListC" parameterType="map" resultType="map">
+        /* getFileListC */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{documentContractSn} AND FILE_CD = 'contract'
     </select>
 
     <select id="getFileList" parameterType="map" resultType="map">

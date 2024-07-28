@@ -28,6 +28,7 @@ public interface DocumentService {
      * @return
      */
     List<Map<String, Object>> getDocuContractList(Map<String, Object> params);
+    Map<String, Object> getDocuContractOne(Map<String, Object> params);
 
     /**
      * 식대대장 리스트 조회
@@ -86,7 +87,7 @@ public interface DocumentService {
      * 계약대장 등록
      * @param params
      */
-    void setDocuContractInsert(Map<String, Object> params, String base_dir);
+    void setDocuContractInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String base_dir);
 
     /**
      * 식대대장 신청
@@ -177,6 +178,7 @@ public interface DocumentService {
 
     /*List<Map<String, Object>> getInComeUpdateFileList(Map<String, Object> params);*/
     List<Map<String, Object>> getCardList(Map<String, Object> params);
+    List<Map<String, Object>> getFileListC(Map<String, Object> params);
     List<Map<String, Object>> getFileList(Map<String, Object> params);
 
     void updateInComeDocState(Map<String, Object> bodyMap) throws Exception;

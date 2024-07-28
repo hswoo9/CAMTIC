@@ -3,14 +3,20 @@ var docuContractReq = {
     global : {
         hwpCtrl : "",
         params : "",
+        attFiles : new Array(),
+        addAttFiles : new Array(),
+        cardList : new Array(),
+        fileNoArr : new Array(),
+        fileArray : new Array()
     },
 
-    init: function(parameters){
+    fn_defaultScript: function(parameters){
         docuContractReq.global.params = parameters;
+        docuContractReq.pageSet();
         docuContractReq.dataSet();
     },
 
-    dataSet: function(){
+    pageSet: function(){
         customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
         customKendo.fn_datePicker("docuDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("startDe", 'month', "yyyy-MM-dd", new Date());
@@ -144,6 +150,89 @@ var docuContractReq = {
         });
     },
 
+    dataSet: function(){
+        const documentContractSn = $("#documentContractSn").val();
+        if(documentContractSn == ""){
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/inside/getDocuContractOne", { documentContractSn: documentContractSn });
+        const data = result.data;
+        if(data == null){
+            return;
+        }
+        console.log("data", data);
+
+        $("#mainClass").val(data.CLASS_SN);
+        $("#class").data("kendoDropDownList").value(data.CLASS_SN);
+        $("#docuDe").val(data.DOCU_DE);
+        $("#projectName").val(data.PROJECT_NAME);
+        $("#contractAmount").val(comma(data.PROJECT_MONEY));
+        $("#startDe").val(data.START_DE);
+        $("#endDe").val(data.END_DE);
+        $("#coSn").val(data.CO_SN);
+        $("#coName").val(data.CO_NAME);
+        $("#remarkCn").val(data.REMARK_CN);
+
+        var returnData = customKendo.fn_customAjax("/contract/getFileListC", { documentContractSn: documentContractSn });
+        var returnFileArr = returnData.fileList;
+        docuContractReq.global.fileArray = returnFileArr;
+
+        for(let x=0; x < returnFileArr.length; x++){
+            docuContractReq.settingTempFileDataInit(returnFileArr[x], 'mod');
+        }
+    },
+
+    settingTempFileDataInit : function(e, p){
+        var html = '';
+        fCommon.global.attFiles.push(e);
+
+        if(p == "result"){
+            if(e.file_no > 0){
+                $(".defultTr").hide();
+                $(".resultTh").hide();
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '   <td>';
+                /*if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e.file_path +'\', \''+ e.file_uuid +'\')">'
+                html += '   </td>';
+                html += '</tr>';
+                $("#fileGrid").append(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        } else {
+            if(e.file_no > 0){
+                $(".defultTr").hide();
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
+                html += '   <td>'+ e.file_ext +'</td>';
+                html += '   <td>'+ e.file_size +'</td>';
+                html += '   <td>';
+                /*if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                }*/
+                html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e.file_path +'\', \''+ e.file_uuid +'\')">'
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
+                    '			<span class="k-button-text">삭제</span>' +
+                    '		</button>';
+                html += '   </td>';
+                html += '</tr>';
+                $("#fileGrid").append(html);
+            }else{
+                $("#fileGrid").html('<tr>' +
+                    '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+    },
+
     fn_rentalTotalAmt : function(){
         if($("#class").val() == 4){
             var rentalInfo = docuContractReq.uncomma($("#rentalInfo").val());
@@ -269,6 +358,11 @@ var docuContractReq = {
             dlvLoc : dlvLoc
         }
 
+        const documentContractSn = $("#documentContractSn").val();
+        if(documentContractSn != ""){
+            data.documentContractSn = documentContractSn;
+        }
+
         if(data.surtInsr == "" || data.surtInsr == null){
             data.surtInsr = 0;
         }
@@ -298,7 +392,8 @@ var docuContractReq = {
 
 
         $("#docEditor").show();
-        if($("#documentSn").val() == "") {
+
+        if(documentContractSn == "") {
             if(!confirm("문서를 등록하시겠습니까?")){
                 return;
             }
@@ -306,24 +401,44 @@ var docuContractReq = {
             docuContractReq.fn_SetHtml(data, "insert");
             //docuContractReq.setDocuContractInsert(data);
         }else {
-            if(!confirm("문서를 수정하시겠습니까?")){
+            if(!confirm("수정하시겠습니까?")){
                 return;
             }
-            docuContractReq.loading();
-            docuContractReq.fn_SetHtml(data, "update");
-            //docuContractReq.setDocuContractUpdate(data);
+            docuContractReq.setDocuContractInsert(data);
         }
     },
 
     setDocuContractInsert: function(data){
-        let result = customKendo.fn_customAjax("/inside/setDocuContractInsert", data);
-        if(result.flag) {
-            alert("문서 등록이 완료되었습니다.");
-            opener.docuContractList.gridReload();
-            window.close();
-        }else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
+        var formData = new FormData();
+        for (var key in data) {
+            formData.append(key, data[key]);
         }
+
+        if(docuContractReq.global.addAttFiles != null){
+            for(var i = 0; i < docuContractReq.global.addAttFiles.length; i++){
+                formData.append("reqFile", docuContractReq.global.addAttFiles[i]);
+            }
+        }
+
+        $.ajax({
+            url : "/inside/setDocuContractInsert",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function(result){
+                alert("문서 등록이 완료되었습니다.");
+                opener.docuContractList.gridReload();
+                window.close();
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+                //window.close();
+            }
+        });
     },
 
     setDocuContractUpdate: function(data){
@@ -576,5 +691,115 @@ var docuContractReq = {
         customKendo.fn_textBox(["productName" + rowNumber, "productCount" + rowNumber, "productOneMoney" + rowNumber, "productTotalMoney" + rowNumber]);
         $("#bmk" + rowNumber).kendoTextArea({ rows: 2, maxLength:50, placeholder: "" });
     },
+
+    addFileInfoTable : function(){
+        var diffSize = docuContractReq.global.attFiles.length;
+        let size = 0;
+        for(var x = 0; x < $("input[name='fileList']")[0].files.length; x++){
+            docuContractReq.global.addAttFiles.push($("input[name='fileList']")[0].files[x]);
+        }
+
+        if(docuContractReq.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < docuContractReq.global.attFiles.length; i++) {
+
+                if(docuContractReq.global.attFiles[i].fileOrgName != null) {
+                    size = docuContractReq.bytesToKB(docuContractReq.global.attFiles[i].fileSize);
+                    html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                    html += '   <td>' + docuContractReq.global.attFiles[i].fileOrgName + '</td>';
+                    html += '   <td>' + docuContractReq.global.attFiles[i].fileExt + '</td>';
+                    html += '   <td>' + size + '</td>';
+                    html += '   <td>';
+                    /*if(snackReq.global.attFiles[i].fileExt.toLowerCase() == "pdf" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpg" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "png" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpeg"){
+                    }*/
+                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ docuContractReq.global.attFiles[i].filePath +'\', \''+ docuContractReq.global.attFiles[i].fileUuid +'\')">'
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="docuContractReq.commonFileDel(' + docuContractReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+            }
+
+            $("#fileGrid").append(html);
+        }
+
+        if(docuContractReq.global.addAttFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+
+            var html = '';
+            for (var j = 0; j < docuContractReq.global.addAttFiles.length; j++) {
+                size = docuContractReq.bytesToKB(docuContractReq.global.addAttFiles[j].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile'+ (diffSize + j)+'">';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.split(".")[0] + '</td>';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.split(".")[1] + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td></td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="docuContractReq.fnUploadFile(' + (diffSize + j) + ', this, '+ j +')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    fnUploadFile : function(e, v, inx) {
+        $(v).closest("tr").remove();
+        docuContractReq.global.addAttFiles.splice(inx, 1);
+
+        if($("#fileGrid").find("tr").length == 0){
+            $("#fileGrid").html('<tr class="defultTr">' +
+                '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
+    },
+
+    commonFileDel: function(e, v, inx){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("tr").remove();
+                        docuContractReq.global.attFiles.splice(inx, 1);
+                        if($("#fileGrid").find("tr").length == 0){
+                            $("#fileGrid").html('<tr class="defultTr">' +
+                                '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                                '</tr>');
+                        }
+                    }
+                }
+            });
+        }
+    },
+
+    bytesToKB : function (bytes) {
+        const sizes = ['KB'];
+        if (bytes === 0) return '0 KB';
+
+        const kilobytes = bytes / 1024;
+        return `${kilobytes.toFixed(2)} KB`;
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = docuContractReq.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
+    }
 
 }

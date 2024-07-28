@@ -120,10 +120,10 @@ var docuContractList = {
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약건명",
-                    width: "29%",
-                    template : function(row) {
-                        return titleCut(row.PROJECT_NAME, 36);
-                    }
+                    template : function(e){
+                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                    },
+                    width: "29%"
                 }, {
                     field: "PROJECT_MONEY",
                     title: "계약 금액",
@@ -134,7 +134,7 @@ var docuContractList = {
                             var originalNumber = e.PROJECT_MONEY;
                             var convertedNumber = Math.round(originalNumber / 1000);
 
-                           return convertedNumber.toString().toMoney() + " " +"원";
+                           return convertedNumber.toString().toMoney() + " " +"천원";
                         }else{
                             return "";
                         }
@@ -189,8 +189,11 @@ var docuContractList = {
         console.log("outo");
     },
 
-    docuPopup: function(){
+    docuPopup: function(documentContractSn){
         var url = "/Inside/Pop/docuPop.do";
+        if(documentContractSn != null){
+            url += "?documentContractSn="+documentContractSn;
+        }
         var name = "popup test";
         var option = "width = 1000, height = 550, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
