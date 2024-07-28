@@ -1933,6 +1933,7 @@ public class PayAppServiceImpl implements PayAppService {
             paramsMap.put("ETC", list.get(0).get("ETC"));
             paramsMap.put("ISS", list.get(0).get("ISS"));
             paramsMap.put("RE_APP_DE", map.get("reAppDe"));
+            paramsMap.put("regEmpSeq", params.get("regEmpSeq"));
 
             if(map.containsKey("payIncpReSn")){
                 paramsMap.put("PAY_INCP_RE_SN", map.get("payIncpReSn"));

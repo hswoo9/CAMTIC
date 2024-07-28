@@ -159,7 +159,7 @@ var regIncpRe = {
                     inDt : $("#inDt" + index).val(),
                     totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
                     supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
-                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
+                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val())
                 }
 
                 if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
@@ -185,7 +185,7 @@ var regIncpRe = {
                     inDt : $("#inDt" + index).val(),
                     totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
                     supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
-                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
+                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val())
                 }
 
                 // if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
@@ -211,7 +211,8 @@ var regIncpRe = {
         }
 
         var data = {
-            itemArr : JSON.stringify(itemArr)
+            itemArr : JSON.stringify(itemArr),
+            regEmpSeq : $("#regEmpSeq").val()
         }
 
         $.ajax({

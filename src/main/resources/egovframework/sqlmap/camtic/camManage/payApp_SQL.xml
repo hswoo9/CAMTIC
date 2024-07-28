@@ -1542,7 +1542,7 @@
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
             ON A.DOC_ID = DI.DOC_ID
             LEFT JOIN CAM_HR.DJ_EMP_INFO HEI
-                ON HEI.EMP_SEQ = A.EXNP_EMP_SEQ
+                ON HEI.EMP_SEQ = IFNULL(B.REG_EMP_SEQ, A.EXNP_EMP_SEQ)
             WHERE GROUP_KEY IS NULL) AB
         WHERE
         <![CDATA[
@@ -3068,7 +3068,8 @@
                 CARD_NO,
                 ETC,
                 ISS,
-                GROUP_KEY
+                GROUP_KEY,
+                REG_EMP_SEQ
             )
         VALUES
             (
@@ -3092,7 +3093,8 @@
                 #{CARD_NO},
                 #{ETC},
                 #{ISS},
-                #{groupKey}
+                #{groupKey},
+                #{regEmpSeq}
             )
         <selectKey keyProperty="payIncpReSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_INCP_RE'
