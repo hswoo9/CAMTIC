@@ -99,14 +99,14 @@ var pri = {
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
             $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
 
-            if($("#mode").val() == "mng"){
-                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
-                $("#file1Label").hide();
-            }else{
+            // if($("#mode").val() == "mng"){
+            //     $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
+            //     $("#file1Label").hide();
+            // }else{
                 if(data.INSPECT_DT != null){
                     $("#inspectDt").val(data.INSPECT_DT);
                 }
-            }
+            // }
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -360,7 +360,7 @@ var pri = {
         var formData = new FormData()
         formData.append("claimSn", $("#claimSn").val());
         formData.append("inspectEmpName", $("#purcReqEmpName").text());
-        formData.append("inspectDt", $("#inspectDt").val() == undefined ? $("#INSPECT_DT_MNG").text() : $("#inspectDt").val());
+        formData.append("inspectDt", $("#inspectDt").val());
         formData.append("menuCd", "inspect");
         formData.append("empSeq", $("#purcReqEmpName").text());
 
