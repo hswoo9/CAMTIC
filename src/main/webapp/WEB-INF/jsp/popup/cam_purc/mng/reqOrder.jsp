@@ -4,13 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+
 <body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
-<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/reqOrder.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
+
 <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
 <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -134,6 +135,32 @@
                     <th scope="row" class="text-center th-color">부가세</th>
                     <td>
                         <span id="vat"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">발주일</th>
+                    <td>
+                        <input id="orderDt" style="width: 180px"/>
+                    </td>
+                    <th scope="row" class="text-center th-color">납품 요청일</th>
+                    <td>
+                        <input id="goodsDt" style="width: 180px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">전화번호</th>
+                    <td>
+                        <input id="PHNum" style="width: 300px"/>
+                    </td>
+                    <th scope="row" class="text-center th-color">팩스번호</th>
+                    <td>
+                        <input id="FaxNum" style="width: 300px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">특이사항</th>
+                    <td colspan="3">
+                        <textarea id="significant" style="width: 1080px; height: 100px"></textarea>
                     </td>
                 </tr>
                 </thead>
