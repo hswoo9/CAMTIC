@@ -27,6 +27,7 @@ var bustInfo = {
 
     fn_setData : function (){
         bustInfo.bustripMainGrid();
+        bustInfo.stateMainHistGrid();
     },
 
     bustripMainGrid : function(){
@@ -35,6 +36,7 @@ var bustInfo = {
             items: [
                 { label : "출장 정보", value : "1" },
                 { label : "일정", value : "2" },
+                { label : "회의비사용사전승인신청서", value : "3" },
             ],
             layout : "horizontal",
             labelPosition : "after",
@@ -45,9 +47,15 @@ var bustInfo = {
                 if(idx == 1){
                     $("#selectType1").css("display", "");
                     $("#selectType2").css("display", "none");
+                    $("#selectType3").css("display", "none");
                 } else if (idx == 2){
                     $("#selectType1").css("display", "none");
                     $("#selectType2").css("display", "");
+                    $("#selectType3").css("display", "none");
+                } else if (idx == 3){
+                    $("#selectType1").css("display", "none");
+                    $("#selectType2").css("display", "none");
+                    $("#selectType3").css("display", "");
                 }
             }
         });
@@ -465,6 +473,175 @@ var bustInfo = {
         }).data("kendoGrid");
     },
 
+    stateMainHistGrid : function(){
+        var mainGrid = $("#mainGrid").data("kendoGrid");
+
+        if(mainGrid != null){
+            mainGrid.destroy();
+        }
+
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/card/getCardTOData',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.regHistYn = "";
+                    data.searchKeyword = "";
+                    data.searchValue = "";
+                    data.startDt = $("#sbjStrDe").val();
+                    data.endDt = $("#sbjEndDe").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#stateMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 50, "ALL" ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 50
+                }, /*{
+                    field: "",
+                    title: "카드구분",
+                    width: 100
+                },*/ {
+                    field: "LAST_CARD_NUM",
+                    title: "카드번호",
+                    width: 80
+                }, {
+                    field: "CARD_TO_DE",
+                    title: "반출일자",
+                    width: 80,
+                    template: function(e){
+                        return e.CARD_TO_DE;
+                    }
+                }, {
+                    field: "USE_EMP_NAME",
+                    title: "반출자",
+                    width: 80
+                }, {
+                    field: "CARD_TO_PURPOSE",
+                    title: "반출목적",
+                    width: 100
+                }, {
+                    field: "",
+                    title: "사용내역등록",
+                    width: 100,
+                    template: function(e){
+                        if(e.REG_HISTORY > 0){
+                            return "등록";
+                        } else {
+                            return "미등록";
+                        }
+                    }
+                }, {
+                    field: "",
+                    title: "사용내역",
+                    width: 300,
+                    template: function(e){
+                        if(e.REG_HISTORY > 0){
+                            if(e.REG_HISTORY == 1){
+                                return e.LAST_MER_NM;
+                            } else {
+                                return e.LAST_MER_NM + "외 " + Number(e.REG_HISTORY - 1) + "건";
+                            }
+                        } else {
+                            return "미등록";
+                        }
+                    }
+                }, {
+                    field: "",
+                    title: "사용금액",
+                    width: 100,
+                    template: function(e){
+                        return '<div style="text-align: right;">' + comma(e.SUM_AMT) + '</div>';
+                    }
+                }, {
+                    field: "",
+                    title: "반납일시",
+                    width: 100,
+                    template: function(e){
+                        var cardFromTime = "";
+                        if(e.CARD_FROM_TIME != null && e.CARD_FROM_TIME != "" && e.CARD_FROM_TIME != undefined){
+                            cardFromTime = " " + e.CARD_FROM_TIME
+                        }
+                        if(e.REG_HISTORY > 0 && e.RT_YN == 'Y'){
+                            return e.CARD_FROM_DE + cardFromTime
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 120,
+                    template: function(e){
+                        if(e.REG_HISTORY == 0 && e.CARD_TO_PURPOSE != "회의"){
+                            return "";
+                        }
+
+                        if(e.USE_EMP_SEQ == $("#regEmpSeq").val()){
+                            if(e.RT_YN == 'Y'){
+                                if(e.CARD_TO_PURPOSE == "출장"){
+                                    return "";
+                                } else if (e.CARD_TO_PURPOSE == "구매"){
+                                    return "";
+                                } else if (e.CARD_TO_PURPOSE == "영업"){
+                                    return "";
+                                } else if (e.CARD_TO_PURPOSE == "식대"){
+                                    return "";
+                                } else {
+                                    return "";
+                                }
+                            } else {
+                                if(e.CARD_TO_PURPOSE == "회의"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop('+e.CARD_TO_SN+','+e.FR_KEY+')">사전승인신청서</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop('+e.CARD_TO_SN+')">사전승인신청서 작성</button>'
+                                    }
+                                } else {
+                                    return "";
+                                }
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
     fn_delPjtBustrip : function (key, reqKey){
         if(!confirm("해당 출장내역을 제외하시겠습니까?")){
             return ;
@@ -662,21 +839,21 @@ var bustInfo = {
         return scheduleData;
     },
 
-    fn_regMeetingPop: function (key, frKey){
-        var url = "/card/pop/regMeeting.do?cardToSn=" + key + "&metSn=" + frKey;
-
-        if(frKey == null || frKey == "" || frKey == undefined){
-            url = "/card/pop/regMeeting.do?cardToSn=" + key;
-        }
-        var name = "_blank";
-        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
-        var popup = window.open(url, name, option);
-    },
-
     refresh: function(){
         $("#calendar").html("");
         bustInfo.global.cal.$calendar.fullCalendar("destroy");
         bustInfo.global.cal.init();
+    },
+
+    fn_regMeetingPop: function (key, frKey){
+        var url = "/card/pop/regMeeting.do?cardToSn=" + key + "&metSn=" + frKey + "&type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
+
+        if(frKey == null || frKey == "" || frKey == undefined){
+            url = "/card/pop/regMeeting.do?cardToSn=" + key + "&type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
+        }
+        var name = "_blank";
+        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 
