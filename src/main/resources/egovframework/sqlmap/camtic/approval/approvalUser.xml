@@ -421,6 +421,25 @@
         </foreach>
     </update>
 
+    <update id="setDocIdNull" parameterType="map">
+        /* setDocIdNull */
+        UPDATE ${dbSchema}.${dbTable}
+        SET
+            DOC_ID = NULL,
+            <if test='docMenuCd != null and !"".equals(docMenuCd)'>
+                <choose>
+                    <when test='"payApp".equals(docMenuCd) or "exnp".equals(docMenuCd) or "payIncp".equals(docMenuCd)'>
+                        DOC_STATUS = 0
+                    </when>
+                    <otherwise>
+                        STATUS = 0
+                    </otherwise>
+                </choose>
+            </if>
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
     <update id="setDocDel" parameterType="map">
         /* setDocDel */
         UPDATE
