@@ -93,11 +93,16 @@ var cupm = {
                     field: "UNIT_PRICE",
                     width: 100,
                     template : function (e){
-                        if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return cupm.comma(e.UNIT_PRICE);
+                        if(e.CIU_UNIT_PRICE != null && e.CIU_UNIT_PRICE != ""){
+                            return cupm.comma(e.CIU_UNIT_PRICE);
                         }else{
-                            return "";
+                            if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
+                                return cupm.comma(e.UNIT_PRICE);
+                            }else{
+                                return "";
+                            }
                         }
+
                     },
                     attributes : {
                         style : "text-align : right;"

@@ -52,26 +52,26 @@
                     <th>업체</th>
                     <td colspan="3">
                         <input type="hidden" id="crmSn" class="crmSn">
-                        <input type="text" id="crmNm" class="k-input k-textbox crmNm" readonly style="width: 90%" onclick="oorm.fn_popCamCrmList()"/>
-                        <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oorm.fn_popCamCrmList()">선택</button>
+                        <input type="text" id="crmNm" class="k-input k-textbox crmNm" disabled style="width: 90%" onclick="oorm.fn_popCamCrmList()" />
+<%--                        <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oorm.fn_popCamCrmList()">선택</button>--%>
                     </td>
                 </tr>
                 <tr>
                     <th>품번</th>
                     <td>
                         <input type="hidden" id="masterSn" class="masterSn">
-                        <input type="text" id="itemNo" class="k-input k-textbox itemNo" readonly style="width: 78%" onclick="oorm.fn_popItemNoList();"/>
-                        <button type="button" id="itemSelBtn" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oorm.fn_popItemNoList();">선택</button>
+                        <input type="text" id="itemNo" class="k-input k-textbox itemNo" disabled style="width: 78%" onclick="oorm.fn_popItemNoList();"/>
+<%--                        <button type="button" id="itemSelBtn" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oorm.fn_popItemNoList();">선택</button>--%>
                     </td>
                     <th>품명</th>
                     <td>
-                        <input type="text" id="itemName" class="itemName k-input k-textbox" onclick="oorm.fn_popItemNoList();" readonly name="itemName">
+                        <input type="text" id="itemName" class="itemName k-input k-textbox" disabled onclick="oorm.fn_popItemNoList();" name="itemName">
                     </td>
                 </tr>
                 <tr>
                     <th>규격</th>
                     <td>
-                        <input type="text" id="standard" class="standard k-input k-textbox" onclick="oorm.fn_popItemNoList();" readonly>
+                        <input type="text" id="standard" class="standard k-input k-textbox" onclick="oorm.fn_popItemNoList();" disabled>
                     </td>
                     <th>납기일자</th>
                     <td>
@@ -85,13 +85,13 @@
                     </td>
                     <th>단가</th>
                     <td>
-                        <input type="text" id="unitPrice" class="numberInput unitPrice" style="text-align: right;" value="0">
+                        <input type="text" id="unitPrice" class="numberInput unitPrice" style="text-align: right;" value="0" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th>금액</th>
                     <td colspan="3">
-                        <input type="text" id="amt" name="amt" class="amt numberInput" style="text-align: right" readonly>
+                        <input type="text" id="amt" name="amt" class="amt numberInput" style="text-align: right" disabled>
                     </td>
                 <tr>
                     <th>비고</th>

@@ -387,6 +387,17 @@
             MASTER_SN = #{masterSn}
     </update>
 
+    <update id="setItemMasterUnitPriceUpd" parameterType="map">
+        /* setItemMasterUnitPriceUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            UNIT_PRICE = #{unitPrice},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn}
+    </update>
     <delete id="setItemMasterDel" parameterType="map">
         /* setItemMasterDel */
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN IN (${masterSn})

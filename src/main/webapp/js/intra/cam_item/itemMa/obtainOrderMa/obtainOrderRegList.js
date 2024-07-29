@@ -27,6 +27,96 @@ var oorl = {
 
         customKendo.fn_textBox(["searchValue"]);
 
+        oorl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "A"}).list;
+        oorl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+        $("#categoryA").kendoDropDownList({
+            dataSource : oorl.global.dropDownDataSource,
+            dataTextField: "CATEGORY_CODE_NM",
+            dataValueField: "ITEM_CATEGORY_SN",
+            change : function(){
+                oorl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "B", parentCode: $("#categoryA").val()}).list;
+                oorl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+
+                if($("#categoryA").val() != ""){
+                    $("#categoryC").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+
+                    $("#categoryB").kendoDropDownList({
+                        dataSource : oorl.global.dropDownDataSource,
+                        dataTextField: "CATEGORY_CODE_NM",
+                        dataValueField: "ITEM_CATEGORY_SN",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        change : function(){
+                            oorl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "C", parentCode: $("#categoryB").val()}).list;
+                            oorl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+
+                            if($("#categoryA").val() != "" && $("#categoryB").val() != ""){
+                                $("#categoryC").kendoDropDownList({
+                                    dataSource : oorl.global.dropDownDataSource,
+                                    dataTextField: "CATEGORY_CODE_NM",
+                                    dataValueField: "ITEM_CATEGORY_SN",
+                                    CATEGORY_CODE : "CATEGORY_CODE",
+                                    change : function(){
+                                        oorl.gridReload();
+                                    }
+                                });
+                            }
+
+                            oorl.gridReload();
+                        }
+                    });
+                } else {
+                    $("#categoryB").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+                    $("#categoryC").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+                }
+
+                oorl.gridReload();
+            }
+        });
+
+        $("#categoryB").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            CATEGORY_CODE : "CATEGORY_CODE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+            ],
+            index: 0,
+        });
+
+        $("#categoryC").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            CATEGORY_CODE : "CATEGORY_CODE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+            ],
+            index: 0,
+        });
+        
         oorl.gridReload();
     },
 
@@ -63,8 +153,8 @@ var oorl = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.setDepositUpd()">' +
-                            '	<span class="k-button-text">입금완료</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.fn_reqRegPopupChk()">' +
+                            '	<span class="k-button-text">입금처리요청서</span>' +
                             '</button>';
                     }
                 }, {
@@ -94,8 +184,8 @@ var oorl = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        if((e.OBTAIN_ORDER_TYPE == "Y" && e.DEADLINE == "N") || e.DEPOSIT == "N") {
-                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" />"
+                        if(e.OBTAIN_ORDER_TYPE == "Y" && e.PAY_DEPO_SN == null) {
+                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
                         }else{
                             return ""
                         }
@@ -132,14 +222,10 @@ var oorl = {
                     field: "ITEM_NO",
                     width: 120,
                     template : function(e){
-                        if(e.DEADLINE == "N"){
-                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
                         }else {
-                            if(e.OBTAIN_ORDER_TYPE == "N"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
-                            }else {
-                                return e.ITEM_NO
-                            }
+                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
                         }
                     }
                 }, {
@@ -147,14 +233,10 @@ var oorl = {
                     field: "ITEM_NAME",
                     width: 120,
                     template : function(e){
-                        if(e.DEADLINE == "N"){
-                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
                         }else {
-                            if(e.OBTAIN_ORDER_TYPE == "N"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
-                            }else {
-                                return e.ITEM_NAME
-                            }
+                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
                         }
                     }
                 }, {
@@ -303,16 +385,21 @@ var oorl = {
                         }
                     },
                 }, {
-                    title: "입금구분",
-                    field: "DEPOSIT",
-                    width: 80,
-                    template : function (e){
-                        if(e.DEPOSIT == "Y"){
-                            return "입금"
+                    title: "입금처리요청서",
+                    field: "PAY_DEPO_SN",
+                    width: 120,
+                    template : function(e){
+                        if(e.PAY_DEPO_SN != null){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + (e.APPR_STAT == "Y" ? "k-button-solid-info" : "k-button-solid-base") + '"' +
+                                ' onclick="oorl.fn_reqRegPopup(' + e.PAY_DEPO_SN + ')">' + (e.APPR_STAT == "Y" ? "요청완료" : "작성") + '</button>'
                         }else{
-                            return "미입금";
+                            return '미작성'
                         }
-                    },
+                    }
+                }, {
+                    title: "입금구분",
+                    field: "DOC_STATUS_TEXT",
+                    width: 80,
                 }, {
                     title: "마감구분",
                     field: "DEADLINE",
@@ -358,6 +445,10 @@ var oorl = {
     },
 
     gridReload: function (){
+        var categoryA = $("#categoryA").data("kendoDropDownList");
+        var categoryB = $("#categoryB").data("kendoDropDownList");
+        var categoryC = $("#categoryC").data("kendoDropDownList");
+
         oorl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             startDt : $("#startDt").val(),
@@ -365,6 +456,9 @@ var oorl = {
             deadLine : $("#deadLine").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
+            category :  categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
+                categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
+                categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE
             // regEmpSeq : $("#regEmpSeq").val()
         }
 
@@ -400,6 +494,49 @@ var oorl = {
                 oorl.gridReload();
             }
         }
+    },
+
+    fn_reqRegPopupChk : function(key, status, auth){
+        var crmSn = [];
+        var obtainOrderSn = "";
+        if($("input[name=ooSn]:checked").length == 0){
+            alert("항목을 선택해주세요.");
+            return;
+        }
+
+        $.each($("input[name=ooSn]:checked"), function(){
+            crmSn.push($(this).attr("crmSn"))
+            obtainOrderSn += "," + $(this).val();
+        })
+
+        const uniqueArr = crmSn.filter((element, index) => {
+            return crmSn.indexOf(element) === index;
+        });
+
+        if(uniqueArr.length > 1){
+            alert("입금처리요청은 거래처가 같아야 합니다.");
+            return;
+        }
+
+        oorl.fn_reqRegPopup(key, status, auth, crmSn, obtainOrderSn.substr(1));
+    },
+
+    fn_reqRegPopup : function(key, status, auth, crmSn, obtainOrderSn){
+        var url = "/pay/pop/itemRegPayDepoPop.do";
+        if(key != null && key != ""){
+            url = "/pay/pop/itemRegPayDepoPop.do?payDepoSn=" + key;
+        }else{
+            url += "?crmSn=" + crmSn[0] + "&obtainOrderSn=" + obtainOrderSn;
+        }
+        if(status != null && status != ""){
+            url += "&status=" + status;
+        }
+        if(auth != null && auth != ""){
+            url += "&auth=" + auth;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     setDepositUpd: function(){

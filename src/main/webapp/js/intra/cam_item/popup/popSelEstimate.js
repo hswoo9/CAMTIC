@@ -211,6 +211,11 @@ var popSelEstimate = {
     },
 
     estPrintPop: function(){
+        if($("input[name='ooSn']:checked").length == 0){
+            alert("출력할 견적을 체크해주세요.");
+            return;
+        }
+
         var ooSnArr = "";
         $.each($("input[name='ooSn']:checked"), function(){
             ooSnArr += "," + $(this).val()

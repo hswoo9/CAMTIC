@@ -17,8 +17,10 @@ public interface ItemManageService {
     List<Map<String, Object>> getObtainOrderList(Map<String, Object> params);
     Map<String, Object> getObtainOrder(Map<String, Object> params);
     void setDeadlineUpd(Map<String, Object> params);
+    void setPayDepoSnUpd(Map<String, Object> params);
     void setDepositUpd(Map<String, Object> params);
     void setObtainOrder(Map<String, Object> params);
+    boolean getOrderDeliveryAmtChk(Map<String, Object> params);
     void setObtainOrderUpd(Map<String, Object> params);
     void setObtainOrderCancel(Map<String, Object> params);
     void setItemEstPrint(Map<String, Object> params);

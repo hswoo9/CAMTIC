@@ -30,6 +30,7 @@
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
         <input type="hidden" id="masterSn" name="masterSn" value="${item.MASTER_SN}">
+        <input type="hidden" id="unitPrice" name="unitPrice" value="${item.UNIT_PRICE}">
         <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">

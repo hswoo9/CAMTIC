@@ -156,8 +156,15 @@
             IM.ITEM_NO,
             IM.ITEM_NAME,
             IUC.ITEM_CD_NM AS UNIT,
-            (SELECT SUM(CURRENT_INVEN) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = OO.MASTER_SN) AS OVERALL_INVEN,
-            CI.CRM_NM
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
+            CI.CRM_SN,
+            CI.CRM_NM,
+            PD.APPR_STAT,
+            CASE
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) = PI.TOT_COST THEN '입금완료'
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'
+                ELSE '미입금'
+            END AS DOC_STATUS_TEXT
         FROM
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
         JOIN
@@ -172,6 +179,41 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_DEPO PD
+        ON PD.PAY_DEPO_SN = OO.PAY_DEPO_SN
+        LEFT JOIN (
+            SELECT
+                PI.PAY_INCP_SN,
+                PI.DOC_STATUS,
+                E.RE_CNT,
+                E.RE_TOT_COST,
+                C.TOT_COST
+            FROM
+                CAM_MNG.DJ_PAY_INCP PI
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS TOT_COST
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_DET
+                GROUP BY PAY_INCP_SN
+            )C
+            ON PI.PAY_INCP_SN = C.PAY_INCP_SN
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS RE_TOT_COST,
+                    COUNT(PAY_INCP_RE_SN) AS RE_CNT
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_RE
+                WHERE
+                    RE_STAT = 'Y'
+                GROUP BY PAY_INCP_SN
+            ) E
+            ON PI.PAY_INCP_SN = E.PAY_INCP_SN
+        )PI
+        ON PD.PAY_INCP_SN = PI.PAY_INCP_SN
         WHERE 1=1
 
         <if test='obtainOrderType != null and !"".equals(obtainOrderType)'>
@@ -225,8 +267,13 @@
             </otherwise>
         </choose>
 
+
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND OO.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
+        <if test='category != null and !"".equals(category)'>
+            AND IM.ITEM_NO LIKE CONCAT(#{category}, '%')
         </if>
 
         ORDER BY
@@ -319,6 +366,23 @@
             #{empSeq}
         )
     </insert>
+
+    <select id="getOrderDeliveryAmtChk" parameterType="map" resultType="boolean">
+        /* getOrderDeliveryAmtChk */
+        SELECT
+            <![CDATA[
+            CASE WHEN IFNULL(SR.DELIVERY_AMT, '0') > #{orderVolume}  THEN 1
+                 ELSE 0
+            END
+            ]]>
+        FROM
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_SM_RECORD SR
+        ON OO.OBTAIN_ORDER_SN = SR.OBTAIN_ORDER_SN
+        WHERE
+            OO.OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </select>
 
     <update id="setObtainOrderUpd" parameterType="map">
         /* setObtainOrderUpd */
@@ -587,6 +651,18 @@
             MOD_DT = NOW()
         WHERE
             SM_RECORD_SN = #{smRecordSn}
+    </update>
+
+    <update id="setPayDepoSnUpd" parameterType="map">
+        /* setPayDepoSnUpd*/
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            PAY_DEPO_SN = #{payDepoSn},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN IN (${obtainOrderSn})
     </update>
 
     <select id="getShipmentTrendList" parameterType="map" resultType="map">
@@ -1102,6 +1178,7 @@
             IFNULL(CIM.CRM_ITEM_NAME, '') AS CRM_ITEM_NAME,
             IFNULL(CIM.BUS_CLASS, '') AS BUS_CLASS,
             CIU.*,
+            CIU.UNIT_PRICE AS CIU_UNIT_PRICE,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
         FROM

@@ -225,6 +225,12 @@ public class ItemManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/item/setPayDepoSnUpd.do")
+    public String setPayDepoSnUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setPayDepoSnUpd(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/item/setDepositUpd.do")
     public String setDepositUpd(@RequestParam Map<String, Object> params){
         itemManageService.setDepositUpd(params);
@@ -297,6 +303,17 @@ public class ItemManageController {
     @RequestMapping("/item/getObtainOrder.do")
     public String getObtainOrder(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("rs", itemManageService.getObtainOrder(params));
+        return "jsonView";
+    }
+
+    /**
+     * 수주 업데이트 전 출고량 체크
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getOrderDeliveryAmtChk.do")
+    public String getOrderDeliveryAmtChk(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getOrderDeliveryAmtChk(params));
         return "jsonView";
     }
 
