@@ -15,13 +15,13 @@
     const rs = result.map;
     let docTitle = "";
     if(rs.PAY_APP_TYPE == 1){
-        docTitle = "[지출결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[지출결의서] "+rs.EXNP_BRIEFS;
     }else if(rs.PAY_APP_TYPE == 2){
-        docTitle = "[여입결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[여입결의서] "+rs.EXNP_BRIEFS;
     }else if(rs.PAY_APP_TYPE == 3){
-        docTitle = "[반납결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[반납결의서] "+rs.EXNP_BRIEFS;
     }else if(rs.PAY_APP_TYPE == 4){
-        docTitle = "[대체결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[대체결의서] "+rs.EXNP_BRIEFS;
     }
 
     approvalDataInit();

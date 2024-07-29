@@ -1148,7 +1148,16 @@ public class PurcServiceImpl implements PurcService {
 
         /*params.put("docIdArr", docIdArr);*/
 
-        return list;
+        List<Map<String, Object>> returnList = new ArrayList<>();
+        for (Map<String, Object> map : list) {
+            boolean flag = returnList.stream().anyMatch(detailMap -> detailMap.get("file_no").equals(map.get("file_no")));
+
+            if (!flag) {
+                returnList.add(map);
+            }
+        }
+
+        return returnList;
     }
 
     @Override
