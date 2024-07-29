@@ -476,11 +476,9 @@ var bustripExnpReq = {
                     $("#oilCost"+String(empSeq)).val(fn_comma(10000));
                 }
             }else if(bustripInfo.TRIP_CODE == 1 && bustripInfo.USE_TRSPT != 10){ //도내(시내) 자가X + 10km 이상일 때 유류비 10,000원 고정
-                // if(bustripInfo.MOVE_DST >= 10) {
-                //     $("#corpCarOilCost").val(fn_comma(10000));
-                // }
-
-                if(bustripInfo.USE_TRSPT != 0 || bustripInfo.USE_TRSPT != 10){
+                if(bustripInfo.MOVE_DST >= 10 && bustripInfo.USE_TRSPT != 0 && bustripInfo.USE_TRSPT != 10 && bustripInfo.USE_TRSPT != 11) {
+                    $("#corpCarOilCost").val(fn_comma(10000));
+                }else if(bustripInfo.USE_TRSPT != 0 && bustripInfo.USE_TRSPT != 10){
                     $("#corpCarOilCost").val(fn_comma(0));
                 }
             }else{

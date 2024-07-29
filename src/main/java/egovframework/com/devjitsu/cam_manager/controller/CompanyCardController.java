@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -209,9 +210,12 @@ public class CompanyCardController {
         model.addAttribute("params", params);
 
         Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
-        params.put("PJT_CD", cardMap.get("PJT_CD"));
 
-        Map<String, Object> pjtInfo = projectService.getProjectCodeData(params);
+        Map<String, Object> pjtInfo = new HashMap<String, Object>();
+        if(cardMap.get("PJT_CD") != null){
+            params.put("PJT_CD", cardMap.get("PJT_CD"));
+        }
+        pjtInfo = projectService.getProjectCodeData(params);
 
         model.addAttribute("cardMap", cardMap);
         model.addAttribute("pjtInfo", pjtInfo);

@@ -33,6 +33,8 @@
 <input type="hidden" id="pmEmpSeq" value="${pjtInfo.PM_EMP_SEQ}" />
 <input type="hidden" id="pm" value="${pjtInfo.PM}" />
 
+<input type="hidden" id="regType" name="regType" value="${params.type}"/>
+
 <form id="meetingDraftFrm" method="post">
     <input type="hidden" id="menuCd" name="menuCd" value="meeting">
     <input type="hidden" id="type" name="type" value="drafting">
@@ -427,7 +429,36 @@
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    if($("#regType").val() == ""){
+                        alert("저장되었습니다.");
+                    }else{
+                        alert("저장되었습니다.");
+                        const pjtSn = opener.commonProject.global.pjtSn;
+                        const busnClass = opener.commonProject.global.busnClass;
+                        if(opener.commonProject.global.teamStat == "Y"){
+                            if(busnClass == "D"){
+                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab=5";
+                            }else if(busnClass == "R"){
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab=3";
+                            }else if(busnClass == "S"){
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab=3";
+                            }else{
+                                opener.window.location.reload();
+                            }
+                            /** 협업이 아닐때 */
+                        }else{
+                            if(busnClass == "D"){
+                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab=9";
+                            }else if(busnClass == "R"){
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab=9";
+                            }else if(busnClass == "S"){
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab=9";
+                            }else{
+                                opener.window.location.reload();
+                            }
+                        }
+                        window.close();
+                    }
                 }
             }
         })

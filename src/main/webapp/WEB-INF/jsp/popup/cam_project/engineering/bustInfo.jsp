@@ -107,6 +107,14 @@
     <div id="selectType2" style="display: none;">
         <div id="calendar" class="app-fullcalendar"></div>
     </div>
+
+    <div id="selectType3" style="display: none;">
+        <div>
+            <div id="stateMainGrid" style="margin:20px 0;"></div>
+
+            <div id="stateMainHistGrid" style="margin:20px 0;"></div>
+        </div>
+    </div>
 </div>
 
 <link href="/css/schedule/fullcalendar.min.css" rel="stylesheet" />

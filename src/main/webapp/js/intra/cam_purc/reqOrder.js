@@ -77,37 +77,8 @@ const reqOr = {
 
         reqOr.fn_kendoUIEnableSet();
 
-        let html = ''
-        html += '<tr>';
-        html += '   <th scope="row" class="text-center th-color">발주일</th>';
-        html += '   <td>';
-        html += '       <input id="orderDt" style="width: 150px"/>';
-        html += '   </td>';
-        html += '   <th scope="row" class="text-center th-color">납품 요청일</th>';
-        html += '   <td>';
-        html += '       <input id="goodsDt" style="width: 150px"/>';
-        html += '   </td>';
-        html += '</tr>';
-        html += '<tr>';
-        html += '   <th scope="row" class="text-center th-color">전화번호</th>';
-        html += '   <td>';
-        html += '       <input id="PHNum" style="width: 300px"/>';
-        html += '   </td>';
-        html += '   <th scope="row" class="text-center th-color">팩스번호</th>';
-        html += '   <td>';
-        html += '       <input id="FaxNum" style="width: 300px"/>';
-        html += '   </td>';
-        html += '</tr>';
-        html += '<tr>';
-        html += '   <th scope="row" class="text-center th-color">특이사항</th>';
-        html += '   <td colspan="3">';
-        html += '       <textarea id="significant" style="width: 1080px; height: 100px"></textarea>';
-        html += '   </td>';
-        html += '</tr>';
-        $("#order").append(html);
-
-        customKendo.fn_datePicker("orderDt", '', "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("goodsDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("orderDt", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("goodsDt", "month", "yyyy-MM-dd", new Date());
         $("#orderDt, #goodsDt").attr("readonly", true);
         customKendo.fn_textBox(["PHNum", "FaxNum"]);
         customKendo.fn_textArea(["significant"]);
@@ -500,11 +471,11 @@ const reqOr = {
     },
 
     fn_kendoUIEnableSet : function(){
-        $(':radio').attr('disabled', true);
-        $('.k-input-inner').attr('disabled', true);
+        $(":radio:not(#orderDt, #goodsDt, #PHNum, #FaxNum, #significant)").attr('disabled', true);
+        $(".k-input-inner:not(#orderDt, #goodsDt, #PHNum, #FaxNum, #significant)").attr('disabled', true);
         $("#pjtSelBtn").css("display", "none");
         $("#crmSelBtn").css("display", "none");
-        $(".listDelBtn").text("-");
+        $(".listDelBtn:not(#orderDt, #goodsDt, #PHNum, #FaxNum, #significant)").text("-");
     },
 
     fn_kendoUIEnableSet2 : function(e){
