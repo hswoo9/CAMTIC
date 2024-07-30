@@ -20,6 +20,7 @@ public interface CustomBoardService {
     List<Map<String, Object>> getTodayScheduleList(Map<String, Object> params);
     List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params);
     void setScheduleReg(Map<String, Object> params);
+    void setScheduleDel(Map<String, Object> params);
     Map<String, Object> getSchedule(Map<String, Object> params);
     PagingResponse<PostResponse> getRequestBoardList(ArticlePage articlePage);
     void setRequestBoard(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);

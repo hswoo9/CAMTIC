@@ -503,13 +503,13 @@
             b.MENU_NAME,
             b.MENU_PATH,
             b.MENU_NAME_PATH,
-            ${empSeq} AS REG_EMP_SEQ,
+            #{empSeq} AS REG_EMP_SEQ,
             NOW() AS REG_DATE,
             NOW() AS MOD_DATE
         FROM
             CAM_COMMON.DJ_MENU_INFO b
         WHERE
-            b.MENU_ID in (${menuID})
+            b.MENU_ID = #{menuID}
     </insert>
 
     <select id="getSearchMenuCnt"  parameterType="map" resultType="int">
@@ -549,7 +549,7 @@
 
     <delete id="setDelFvMenu" parameterType="map">
         /*fvMenuDelete*/
-        DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and FV_MENU_ID = #{menuID}
+        DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and MENU_ID = #{menuID}
     </delete>
 
     <select id="getDept" parameterType="map" resultType="map">

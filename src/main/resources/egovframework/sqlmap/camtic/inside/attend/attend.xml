@@ -139,7 +139,7 @@
                 SELECT
                     CapsNum,
                     InDate,
-                    MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                    MIN(CASE WHEN CD.IsType = 1 THEN CD.InTime ELSE NULL END) AS START_TIME,
                     MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
                 FROM CAM_HR.V_CAPS_DATA CD
                 GROUP BY InDate, CapsNum
@@ -427,7 +427,7 @@
                 SELECT
                     CapsNum,
                     InDate,
-                    MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                    MIN(CASE WHEN CD.IsType = 1 THEN CD.InTime ELSE NULL END) AS START_TIME,
                     MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
                 FROM CAM_HR.V_CAPS_DATA CD
                 GROUP BY InDate, CapsNum
@@ -632,7 +632,7 @@
             SELECT
             CapsNum,
             InDate,
-            MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+            MIN(CASE WHEN CD.IsType = 1 THEN CD.InTime ELSE NULL END) AS START_TIME,
             MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
             FROM CAM_HR.V_CAPS_DATA CD
             GROUP BY InDate, CapsNum
@@ -717,7 +717,7 @@
                         SELECT
                             CapsNum,
                             InDate,
-                            MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                            MIN(CASE WHEN CD.IsType = 1 THEN CD.InTime ELSE NULL END) AS START_TIME,
                             MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
                         FROM CAM_HR.V_CAPS_DATA CD
                         GROUP BY InDate, CapsNum
@@ -788,7 +788,7 @@
                     SELECT
                         CapsNum,
                         InDate,
-                        MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                        MIN(CASE WHEN CD.IsType = 1 THEN CD.InTime ELSE NULL END) AS START_TIME,
                         MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
                     FROM CAM_HR.V_CAPS_DATA CD
                     GROUP BY InDate, CapsNum

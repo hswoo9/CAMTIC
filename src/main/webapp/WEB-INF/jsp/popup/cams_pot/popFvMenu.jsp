@@ -116,7 +116,7 @@
                 type : "GET",
                 data : {
                     empSeq : $("#empSeq").val(),
-                    menuID : menuID
+                    menuID : imgId.split("_")[1]
                 },
                 success : function (data){
                     $("#" + imgId).attr("src", "/images/ico/ico_book01.png").removeClass("favorite");
@@ -124,19 +124,19 @@
             });
         } else {
             $.ajax({
-                url : "/main/getSearchMenuCnt",
+                url : "/main/setFavoriteMenuInsert",
                 type : "GET",
                 data : {
                     empSeq : $("#empSeq").val(),
-                    menuID : menuID
+                    menuID : imgId.split("_")[1]
                 },
                 success : function (data){
-                    if(data.rs.status == 500){
+                    /*if(data.rs.status == 500){
                         alert("최대 9개까지만 선택 가능합니다.");
                         return;
-                    }else if(data.rs.status ==200){
+                    }else if(data.rs.status ==200){*/
                         $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");
-                    }
+                    // }
                 },
             });
         }

@@ -316,7 +316,12 @@ public class MainController {
      * 즐겨찾기 팝업
      * */
     @RequestMapping("/pop/popFvMenu.do")
-    public String popupTest(@RequestParam Map<String, Object> params, Model model){
+    public String popupTest(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
         return "popup/cams_pot/popFvMenu";
     }
 

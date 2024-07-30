@@ -174,7 +174,7 @@ var purcUserAppList = {
                 }, {
                     field: "PURC_TYPE",
                     title: "구매구분",
-                    width: 50,
+                    width: 80,
                     template: function(e){
                         var result = "";
 
@@ -204,9 +204,20 @@ var purcUserAppList = {
                         }
                     }
                 }, {
+                    field: "PJT_NM",
+                    title: "프로젝트명",
+                    width: 160,
+                    template : function (e) {
+                        if(e.PJT_NM == "") {
+                            return "법인운영";
+                        } else {
+                            return e.PJT_NM;
+                        }
+                    }
+                }, {
                     field: "CLAIM_TITLE",
                     title: "제목",
-                    width: 100
+                    width: 160
                 }, {
                     field: "PURC_PURPOSE",
                     title: "목적",
@@ -263,7 +274,7 @@ var purcUserAppList = {
                 // },
                 {
                     title: "상태",
-                    width: 50,
+                    width: 80,
                     template : function(e){
                         var stat = "";
                         if(e.F_DOC_STATUS == "100"){

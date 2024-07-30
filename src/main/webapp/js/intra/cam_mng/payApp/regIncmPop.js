@@ -562,6 +562,23 @@ var regIncm = {
             return ;
         }
 
+        var flag2 = true;
+        var tempArr = [];
+        for(var i = 0; i < itemArr.length; i++){
+            if(tempArr.indexOf(itemArr[i].evidType) == -1) {
+                tempArr.push(itemArr[i].evidType);
+            }
+        }
+
+        if(tempArr.length > 1){
+            flag2 = false;
+        }
+
+        if(!flag2) {
+            alert("선택된 증빙유형이 다르므로 저장할 수 없습니다.\n다시 확인해주세요.");
+            return;
+        }
+
         parameters.itemArr = JSON.stringify(itemArr);
 
         console.log(parameters);

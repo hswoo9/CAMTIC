@@ -78,11 +78,14 @@ var regIncmRe = {
 
     payAppBtnSet: function (data){
         console.log(data);
+
         let buttonHtml = "";
-        if(data.RE_STAT == "N"){
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncmRe.fn_save()">반제결의서 승인</button>';
-        } else {
-            buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncmRe.fn_regExnpCancel('+data.PAY_INCP_SN+')">반제결의서 승인 취소</button>';
+        if(data.EVID_CNT > 0) {
+            if(data.RE_STAT == "N"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncmRe.fn_save()">반제결의서 승인</button>';
+            } else {
+                buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncmRe.fn_regExnpCancel('+data.PAY_INCP_SN+')">반제결의서 승인 취소</button>';
+            }
         }
 
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';

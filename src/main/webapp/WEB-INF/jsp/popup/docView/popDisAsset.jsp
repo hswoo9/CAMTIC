@@ -48,28 +48,30 @@
                 <tr>
                     <th>자산명</th>
                     <td colspan="3">
-                        <input type="text" id="assetNm" name="assetNm" value="">
+                        <input type="text" id="assetNm" name="assetNm" value="" style="width: 94.2%;" readonly>
                         <input type="hidden" id="deptName" disabled name="deptName" value="${loginVO.orgnztNm}">
+                        <input type="hidden" id="astInfoSn" name="astInfoSn" value="">
+                        <button type="button" id="crmSelBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onClick="fn_popDisAssetList();">선택</button>
                     </td>
                 </tr>
                 <tr>
                     <th>자산관리번호</th>
                     <td>
-                        <input type="text" id="assetNo" name="assetNo" value="">
+                        <input type="text" id="assetNo" name="assetNo" value="" readonly>
                     </td>
                     <th>모델</th>
                     <td>
-                        <input type="text" id="model" name="model" value="">
+                        <input type="text" id="model" name="model" value="" readonly>
                     </td>
                 </tr>
                 <tr>
                     <th>취득일자</th>
                     <td>
-                        <input type="text" id="insDe" name="insDe" style="" value="">
+                        <input type="text" id="insDe" name="insDe" style="" value="" readonly>
                     </td>
                     <th>취득금액</th>
                     <td>
-                        <input type="text" id="insAmt" style="text-align: right" name="insAmt"  onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        <input type="text" id="insAmt" style="text-align: right" name="insAmt"  onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
                     </td>
                 </tr>
                 <tr>
@@ -221,7 +223,22 @@
         return str.replace(/[^\d]+/g, '');
     }
 
+    function fn_popDisAssetList(){
+        var url = "/customDoc/pop/popAssetList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 
+    function selectAsset(key, astNo, astNm, modelNm, date, price, compName){
+        $("#astInfoSn").val(key || ''); //기본키
+        $("#assetNo").val(astNo || ''); //자산관리번호
+        $("#assetNm").val(astNm || ''); //자산명
+        $("#model").val(modelNm || ''); //모델명
+        $("#insDe").val(date || ''); //취득일자
+        $("#insAmt").val(price || ''); //취득금액
+        $("#purcLoc").val(compName || ''); //구입처
+    }
 </script>
 </body>
 </html>
