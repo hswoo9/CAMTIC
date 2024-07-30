@@ -213,6 +213,12 @@ var draft = {
                 hwpDocCtrl.putFieldText('doc_receive', receiverDeptName[0]);
                 hwpDocCtrl.putFieldText('doc_receivelist_txt', "")
                 hwpDocCtrl.putFieldText('doc_receivelist', "")
+
+                //쉼표없는 단일 수신자도 receiverArr에 담아줌
+                draft.global.receiversArr.push({
+                    seqType : "d",
+                    receiverDeptName : receiverDeptName[0].trim()
+                });
             }
         });
 

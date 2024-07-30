@@ -245,16 +245,17 @@ var equipmentList = {
                     var totalUsageTime = dataItem.USE_TIME; // 총 사용시간
                     var usageFee = dataItem.USE_AMT; // 사용대금
 
+                    var usageDate = dataItem.USE_PD_STR_DE;
+                    var formattedDate = usageDate.substring(4, 6) + '/' + usageDate.substring(6, 8); // 사용기간 -> MM/DD 형식으로 변경
+
                     var calculatedData = [
                         dataItem.EQIPMN_NAME, // 장비명
-                        dataItem.USE_PD_STR_DE, // 사용기간
+                        formattedDate, // 사용기간 (MM/DD 형식)
                         dataItem.USER_NAME, // 사용자
                         dataItem.OPER_CN, // 작업내용
                         totalUsageTime, // 총 사용시간
                         dataItem.CLIENT_PRTPCO_NAME, // 의뢰업체
                         dataItem.PRTPCO_GBN_NAME, // 업체구분
-                        dataItem.USE_PD_STR_DE.substring(0, 4), // 연도
-                        dataItem.USE_PD_STR_DE.substring(4, 6), // 월
                         totalUsageTime * usageFee, // 장비사용료 (총 사용시간 * 사용대금)
                         dataItem.DEPT_NAME // 부서
                     ];
