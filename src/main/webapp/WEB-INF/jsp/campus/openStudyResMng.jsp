@@ -25,7 +25,7 @@
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td colspan="3">
-                            <input type="text" id="eduYear" style="width: 140px;">
+                            <input type="text" id="eduYear" style="width: 10%;">
                         </td>
                     </tr>
                 </table>

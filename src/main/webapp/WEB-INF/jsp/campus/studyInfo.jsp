@@ -26,7 +26,7 @@
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="applyYear" style="width: 140px;">
+                            <input type="text" id="applyYear" style="width: 20%;">
                         </td>
                         <th class="text-center th-color">학습구분</th>
                         <td>

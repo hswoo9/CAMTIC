@@ -26,7 +26,7 @@
                     </colgroup>
                     <tr>
                         <td colspan="2" class="text-center th-color">
-                            <text style="color: #b94a48"><b id="userName" style="color: #000000"></b> 님의 <input id="applyYear" style="width: 100px"/> <b id="totalTime">총 교육시간은 41시간</b> 입니다.</text>
+                            <text style="color: #b94a48"><b id="userName" style="color: #000000"></b> 님의 <input id="applyYear" style="width: 8%"/> <b id="totalTime">총 교육시간은 41시간</b> 입니다.</text>
                         </td>
                     </tr>
                 </table>
