@@ -220,6 +220,18 @@ public class CustomBoardController {
     }
 
     /**
+     * 일정 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/setScheduleDel")
+    public String setScheduleDel(@RequestParam Map<String, Object> params, Model model){
+        customBoardService.setScheduleDel(params);
+        return "jsonView";
+    }
+
+    /**
      * 캠스팟 > 일정상세보기
      * @param params
      * @param model

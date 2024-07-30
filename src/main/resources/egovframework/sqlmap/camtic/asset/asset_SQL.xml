@@ -7,19 +7,18 @@
     <select id="getAssetList" resultType="map">
         /* getAssetList */
         SELECT
-        AI.*,
-        AP.AST_PLACE_NAME,
-        IC.INSIDE_DT_CODE_NM
+            AI.*,
+            AP.AST_PLACE_NAME,
+            IC.INSIDE_DT_CODE_NM,
+            IFNULL((SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE AI.PURC_COMPANY_ID = CRM_SN), '-') AS PURC_COMPANY_NAME
         FROM
-        CAM_INSIDE.DJ_ASSET_INFO AI
+            CAM_INSIDE.DJ_ASSET_INFO AI
         LEFT JOIN
-        CAM_INSIDE.DJ_ASSET_PLACE AP
-        ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+            CAM_INSIDE.DJ_ASSET_PLACE AP ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
         LEFT JOIN
-        CAM_INSIDE.DJ_INSIDE_CODE IC
-        ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+            CAM_INSIDE.DJ_INSIDE_CODE IC ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
-        AI.ACTIVE = 'Y'
+            AI.ACTIVE = 'Y'
 
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[

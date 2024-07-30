@@ -462,6 +462,16 @@
             SCHEDULE_BOARD_ID = #{scheduleBoardId}
     </update>
 
+    <update id="setScheduleDel" parameterType="map">
+        /*setScheduleDel*/
+        UPDATE
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        SET
+            ACTIVE = 'N'
+        WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </update>
+
     <select id="getSchedule" parameterType="map" resultType="map">
         /* getSchedule */
         SELECT

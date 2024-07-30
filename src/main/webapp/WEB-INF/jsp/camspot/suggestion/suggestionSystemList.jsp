@@ -127,7 +127,7 @@
                     </table>
                 </div>
                 <div class="btn-st" style="text-align:right;margin:15px 0 0 0;">
-                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="ssl.writePageMove()" id="writeBtn" style="display: none">
+                    <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="ssl.writePageMove()" id="writeBtn">
                         <span clas s="k-button-text">글쓰기</span>
                     </button>
                 </div>

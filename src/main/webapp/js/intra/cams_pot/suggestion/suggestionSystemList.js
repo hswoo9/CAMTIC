@@ -67,9 +67,9 @@ var ssl = {
 			ssl.global.articleList = result.boardArticleList;
             ssl.global.params = result.params;
 
-			if(isAdmin) {
+			/*if(isAdmin) {
 				$("#writeBtn").show()
-			}
+			}*/
 
 			var articleListStr = "";
 			$("#articleListTb tbody *").remove();

@@ -39,6 +39,7 @@
             <div class="btn-st popButton">
                 <c:if test="${rs.REG_EMP_SEQ eq loginVO.uniqId}">
                 <button type="button" class="k-button k-button-solid-info" onclick="moveToScheduleReg()">수정</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="moveToScheduleDel()">삭제</button>
                 </c:if>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
@@ -147,6 +148,30 @@
     function moveToScheduleReg (){
         location.href = "/spot/pop/popScheduleReg.do?scheduleBoardId=" +$("#scheduleBoardId").val();
     }
+
+    function moveToScheduleDel(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        $.ajax({
+            url : "/spot/setScheduleDel",
+            type : "post",
+            data : {
+                scheduleBoardId : $("#scheduleBoardId").val()
+            },
+            dataType : "json",
+            async : false,
+            success : function(result){
+                alert("삭제되었습니다.");
+                window.opener.parent.location.reload();
+                window.close();
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

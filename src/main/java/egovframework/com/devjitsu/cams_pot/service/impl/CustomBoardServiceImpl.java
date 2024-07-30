@@ -138,6 +138,11 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
+    public void setScheduleDel(Map<String, Object> params) {
+        customBoardRepository.setScheduleDel(params);
+    }
+
+    @Override
     public Map<String, Object> getSchedule(Map<String, Object> params) {
         return customBoardRepository.getSchedule(params);
     }

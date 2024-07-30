@@ -200,7 +200,7 @@ var equipmentListAdminView = {
                     field : "USE_PD_STR_DE",
                     title : "사용일자",
                     template : function(e){
-                        return e.USE_PD_STR_DE.substring(0,4) + "년 " + e.USE_PD_STR_DE.substring(4,6) + "월 " + e.USE_PD_STR_DE.substring(6,8) + "일";
+                        return e.USE_PD_STR_DE.substring(0,4) + "년 " + e.USE_PD_STR_DE.substring(4,6) + "월 " + e.USE_PD_STR_DE.substring(6,8) + "일";
                     }
                 }, {
                     field: "USER_NAME",
