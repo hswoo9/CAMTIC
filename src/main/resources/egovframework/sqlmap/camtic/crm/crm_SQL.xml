@@ -342,6 +342,10 @@
         ON A.REG_EMP_SEQ = B.EMP_SEQ
         WHERE
             CRM_SN = #{crmSn}
+        <if test='crmMemNm != null and !"".equals(crmMemNm)'>
+        AND
+            A.CRM_MEM_NM LIKE CONCAT('%', #{crmMemNm}, '%')
+        </if>
     </select>
 
     <delete id="delCrmMemInfo" parameterType="map">

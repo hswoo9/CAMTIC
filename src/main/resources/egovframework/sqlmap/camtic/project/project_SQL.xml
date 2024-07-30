@@ -535,7 +535,13 @@
             CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN,
             DS.BUDGET_SN,
             (SELECT IFNULL(SUM(DEPO_AMT),0) FROM CAM_MNG.DJ_PAY_DEPO WHERE A.PJT_SN = PJT_SN ) AS TOT_DEPO_AMT,
-            (SELECT INV_AMT FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE PJT_SN = A.PJT_SN ORDER BY DEV_SN DESC LIMIT 1) AS INV_AMT
+            (SELECT INV_AMT FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE PJT_SN = A.PJT_SN ORDER BY DEV_SN DESC LIMIT 1) AS INV_AMT,
+            CASE
+                WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('D', 'V') AND DE.STATUS = '100' THEN DATE_FORMAT(DE.DELV_EST_DE, '%Y-%m-%d')
+                ELSE ''
+            END AS LIST_STR_DE
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         /*LEFT JOIN
@@ -546,6 +552,14 @@
             CAM_PJT_MNG.DJ_PJT_DELV DE
         ON
             A.PJT_SN = DE.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RND RND
+        ON
+            A.PJT_SN = RND.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_UNRND UNRND
+        ON
+            A.PJT_SN = UNRND.PJT_SN
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON
