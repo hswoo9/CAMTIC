@@ -44,9 +44,9 @@
                     <tr>
                         <th class="text-center th-color">반출일자</th>
                         <td>
-                            <input type="text" id="startDt" class="searchInput" style="width: 110px;" onchange="dateValidationCheck('startDt', this.value)">
+                            <input type="text" id="startDt" class="searchInput" style="width: 40%;" onchange="dateValidationCheck('startDt', this.value)">
                             ~
-                            <input type="text" id="endDt" class="searchInput" style="width: 110px;" onchange="dateValidationCheck('endDt', this.value)">
+                            <input type="text" id="endDt" class="searchInput" style="width: 40%;" onchange="dateValidationCheck('endDt', this.value)">
                         </td>
                         <th class="text-center th-color">사용내역등록여부</th>
                         <td>

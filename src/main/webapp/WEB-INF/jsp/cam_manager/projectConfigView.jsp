@@ -36,7 +36,7 @@
                     <tr>
                         <th class="text-center th-color">사업년도</th>
                         <td>
-                            <input type="text" id="fromMonth" style="width: 150px;">
+                            <input type="text" id="fromMonth" style="width: 10%;">
                         </td>
                     </tr>
                 </table>

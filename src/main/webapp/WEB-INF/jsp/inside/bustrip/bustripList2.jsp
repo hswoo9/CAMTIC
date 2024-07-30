@@ -61,9 +61,9 @@
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 120px;">
+                            <input type="text" id="start_date" style="width: 40%;">
                             ~
-                            <input type="text" id="end_date" style="width: 120px;">
+                            <input type="text" id="end_date" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
