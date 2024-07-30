@@ -23,7 +23,7 @@
         <div class="panel-body">
             <div>
                 <span style="bottom: 3px; position: relative;">
-                    <input type="text" id="year" style="width: 130px;" />
+                    <input type="text" id="year" style="width: 10%;" />
                 </span>
 <%--                <span style="bottom: 3px; position: relative;">--%>
 <%--                    <input type="text" id="dept" style="width: 250px;" />--%>

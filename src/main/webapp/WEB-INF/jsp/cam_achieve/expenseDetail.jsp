@@ -40,7 +40,7 @@
                 <tr>
                     <th class="text-center th-color">날짜</th>
                     <td>
-                        <input type="text" id="startDt" style="width: 150px;"> ~ <input type="text" id="endDt" style="width: 150px;">
+                        <input type="text" id="startDt" style="width: 45%;"> ~ <input type="text" id="endDt" style="width: 45%">
                     </td>
                     <th class="text-center th-color">사업장</th>
                     <td>

@@ -40,7 +40,7 @@
             <div>
                 <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
                 <span style="bottom: 3px; position: relative;">
-                    <input type="text" id="year" style="width: 130px;" />
+                    <input type="text" id="year" style="width: 10%;" />
                 </span>
                 <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="monMeet.fn_dataReset();" style="margin-bottom: 5px; float: right">조회</button>
 

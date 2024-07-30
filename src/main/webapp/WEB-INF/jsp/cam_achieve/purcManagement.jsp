@@ -34,7 +34,7 @@
                 <tr>
                     <th class="text-center th-color">연도선택</th>
                     <td colspan="6">
-                        <input type="text" id="year" style="width: 150px;">
+                        <input type="text" id="year" style="width: 10%;">
                     </td>
                 </tr>
             </table>

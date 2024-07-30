@@ -37,7 +37,7 @@
                 <tr>
                     <th class="text-center th-color">연도선택</th>
                     <td>
-                        <input type="text" id="year" style="width: 150px;">
+                        <input type="text" id="year" style="width: 30%;">
                     </td>
                     <th class="text-center th-color">검색</th>
                     <td>
