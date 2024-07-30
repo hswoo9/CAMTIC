@@ -2832,8 +2832,12 @@
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO MDI ON MP.DOC_ID = MDI.DOC_ID
 
-        WHERE PA.PJT_SN = #{pjtSn}
-           OR PA.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+        WHERE
+            (
+                PA.PJT_SN = #{pjtSn}
+                OR PA.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+            )
+        AND PA.DOC_STATUS NOT IN (0, 30, 40)
     </select>
 
     <insert id="insProjectTaxInfo" parameterType="map">
