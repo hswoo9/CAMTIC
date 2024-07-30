@@ -21,36 +21,38 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="5%">
                         <col width="8%">
-                        <col>
-                        <col width="8%">
-                        <col>
-                        <col width="8%">
-                        <col>
-                        <col width="8%">
-                        <col>
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회연도</th>
                         <td>
-                            <input type="text" id="docuYearDe" style="width: 110px;">
+                            <input type="text" id="docuYearDe" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">발급구분</th>
                         <td>
-                            <input type="text" id="proofType" style="width: 150px;">
+                            <input type="text" id="proofType" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">용도</th>
                         <td>
-                            <input type="text" id="purpose" style="width: 150px;">
+                            <input type="text" id="purpose" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">처리상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 150px;">
+                            <input type="text" id="status" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 80px;">
-                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){certificateList.mainGrid();}" style="width: 100px;">
+                            <input type="text" id="searchType" style="width: 30%;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){certificateList.mainGrid();}" style="width: 50%">
                         </td>
                     </tr>
                 </table>

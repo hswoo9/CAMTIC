@@ -20,46 +20,40 @@
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="requestYear" class="searchInput" style="width: 110px;">
+                            <input type="text" id="requestYear" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
-                            <input type="text" id="team" class="searchInput" style="width: 150px;">
+                            <input type="text" id="dept" class="searchInput" style="width: 45%;">
+                            <input type="text" id="team" class="searchInput" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
-                            <input id="searchValue" onkeypress="if(window.event.keyCode==13){gridReload()}" style="width: 150px;">
+                            <input id="searchValue" onkeypress="if(window.event.keyCode==13){gridReload()}" style="width: 80%;">
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">목표기술서</th>
                         <td>
-                            <input type="text" id="status" class="searchInput" style="width: 100px;">
+                            <input type="text" id="status" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">직무기술서</th>
                         <td>
-                            <input type="text" id="status2" class="searchInput" style="width: 100px;">
+                            <input type="text" id="status2" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">퇴사자</th>
                         <td>
-                            <input type="text" id="active" class="searchInput" style="width: 100px;">
+                            <input type="text" id="active" class="searchInput" style="width: 50%;">
                         </td>
                     </tr>
                 </table>

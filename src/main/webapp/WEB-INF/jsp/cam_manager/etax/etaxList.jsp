@@ -60,8 +60,8 @@
                             <input type="text" id="dtGubun" style="width: 100%;">
                         </td>
                         <td>
-                            <input type="text" id="strDt" style="width: 120px;"> ~
-                            <input type="text" id="endDt" style="width: 120px;">
+                            <input type="text" id="strDt" style="width: 40%;"> ~
+                            <input type="text" id="endDt" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>

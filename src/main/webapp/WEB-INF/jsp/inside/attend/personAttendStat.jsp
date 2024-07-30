@@ -39,8 +39,8 @@
                         <tr>
                             <th class="text-center th-color">조회 기간</th>
                             <td>
-                                <input type="text" id="startDt" style="width: 130px;"> ~
-                                <input type="text" id="endDt" style="width: 130px;">
+                                <input type="text" id="startDt" style="width: 45%;"> ~
+                                <input type="text" id="endDt" style="width: 45%;">
                             </td>
                             <th class="text-center th-color">부서</th>
                             <td>

@@ -20,40 +20,34 @@
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="startDt" class="searchInput" style="width: 45%;">
                             ~
-                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="endDt" class="searchInput" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
-                            <input type="text" id="team" class="searchInput" style="width: 150px;">
+                            <input type="text" id="dept" class="searchInput" style="width: 40%">
+                            <input type="text" id="team" class="searchInput" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="sEmpName" class="searchInput" style="width: 180px;">
+                            <input type="text" id="sEmpName" class="searchInput" style="width: 80%;">
                         </td>
                         <th class="text-center th-color">퇴사자</th>
                         <td>
-                            <input type="text" id="active" class="searchInput" style="width: 100px;">
+                            <input type="text" id="active" class="searchInput" style="width: 50%;">
                         </td>
                     </tr>
                 </table>

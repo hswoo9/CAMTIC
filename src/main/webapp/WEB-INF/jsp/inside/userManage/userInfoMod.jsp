@@ -19,45 +19,41 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 40%;">
                             ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="end_date" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 150px;">
+                            <input type="text" id="dept" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="team" style="width: 180px;">
+                            <input type="text" id="team" style="width: 50%;">
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">신청 항목</th>
                         <td>
-                            <input type="text" id="drop1" style="width: 100px;">
+                            <input type="text" id="drop1" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 70px;">
+                            <input type="text" id="status" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
-                            <input type="text" id="name" style="width: 150px;">
+                            <input type="text" id="name" style="width: 50%;">
                         </td>
                     </tr>
                     <%--<tr>

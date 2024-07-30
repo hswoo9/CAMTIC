@@ -50,7 +50,7 @@
                         </td>
                         <th class="text-center th-color">조회기준일</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td colspan="3">

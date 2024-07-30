@@ -28,47 +28,41 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
+                        <col width="20%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="startDt" class="searchInput" style="width: 45%;">
                             ~
-                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="endDt" class="searchInput" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
+                            <input type="text" id="dept" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="team" class="searchInput" style="width: 180px;">
+                            <input type="text" id="team" class="searchInput" style="width: 50%;">
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">식대 구분</th>
                         <td>
-                            <input type="text" id="mealsDivision" class="searchInput" style="width: 100px;">
+                            <input type="text" id="mealsDivision" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">결제 구분</th>
                         <td>
-                            <input type="text" id="payDivision" class="searchInput" style="width: 70px;">
+                            <input type="text" id="payDivision" class="searchInput" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">결재</th>
                         <td>
-                            <input type="text" id="approval" class="searchInput" style="width: 80px;">
+                            <input type="text" id="approval" class="searchInput" style="width: 50%;">
                         </td>
                     </tr>
                 </table>

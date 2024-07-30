@@ -18,23 +18,19 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">출장 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 40%;">
                             ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="end_date" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
@@ -45,13 +41,15 @@
                         <td>
                             <input type="text" id="tripCode" style="width: 90%"/>
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">관련사업</th>
                         <td>
                             <input type="text" id="project" style="width: 90%"/>
                         </td>
                         <th class="text-center th-color">사업명</th>
-                        <td>
-                            <input type="text" id="busnName" style="width: 110px;">
+                        <td colspan="3">
+                            <input type="text" id="busnName" style="width: 100%;">
                         </td>
                     </tr>
                 </table>

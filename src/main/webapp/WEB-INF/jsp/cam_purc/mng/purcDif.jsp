@@ -69,8 +69,8 @@
                     <tr>
                         <th class="text-center th-color">청구일자</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 150px;"> ~
-                            <input type="text" id="endDt" style="width: 150px;">
+                            <input type="text" id="startDt" style="width: 40%;"> ~
+                            <input type="text" id="endDt" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>

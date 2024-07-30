@@ -28,27 +28,27 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="8%">
                         <col width="10%">
-                        <col>
+                        <col width="8%">
                         <col width="10%">
-                        <col>
-                        <col width="10%">
-                        <col>
+                        <col width="8%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="searchDate" style="width:110px;">
+                            <input type="text" id="searchDate" style="width: 80%;">
                         </td>
                         <th class="text-center th-color">차수</th>
                         <td>
-                            <input type="text" id="searchNum" style="width:110px;">
+                            <input type="text" id="searchNum" style="width:80%;">
                         </td>
                         <th class="text-center th-color">부서/팀</th>
                         <td>
-                            <input type="text" id="dept" style="width:160px;">
+                            <input type="text" id="dept" style="width:45%">
                             <input type="hidden" id="dept_seq">
-                            <input type="text" id="team" style="width:165px;">
+                            <input type="text" id="team" style="width:45%;">
                             <input type="hidden" id="team_seq">
                         </td>
                     </tr>

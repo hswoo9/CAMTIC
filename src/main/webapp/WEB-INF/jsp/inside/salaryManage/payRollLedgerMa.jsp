@@ -41,7 +41,7 @@
                     <tr>
                         <th class="text-center th-color">년월</th>
                         <td>
-                            <input type="text" id="searchYear" style="width: 150px;">
+                            <input type="text" id="searchYear" style="width: 20%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

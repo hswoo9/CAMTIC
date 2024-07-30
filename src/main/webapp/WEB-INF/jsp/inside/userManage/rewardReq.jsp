@@ -22,23 +22,19 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td style="border-bottom:0; background-color: white">
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 45%;">
                             ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="end_date" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">내/외부</th>
                         <td>
@@ -48,6 +44,8 @@
                         <td>
                             <input type="text" id="rewardName" style="width: 140px;">
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">부서</th>
                         <td>
                             <input type="text" id="dept" style="width: 150px;">
@@ -57,8 +55,8 @@
                             검색어
                         </th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 90px;">
-                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.gridReload()}" style="width: 110px;">
+                            <input type="text" id="searchType" style="width: 15%;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.gridReload()}" style="width: 25%;">
                         </td>
                     </tr>
                 </table>

@@ -44,8 +44,8 @@
                         <th class="text-center th-color">신청일자</th>
                         <td>
                             <input type="text" id="searchDate" style="width: 120px;"/>
-                            <input type="text" id="startDt" style="width: 120px;"> ~
-                            <input type="text" id="endDt" style="width: 120px;">
+                            <input type="text" id="startDt" style="width: 30%;"> ~
+                            <input type="text" id="endDt" style="width: 30%;">
                         </td>
                         <th class="text-center th-color">문서유형</th>
                         <td>

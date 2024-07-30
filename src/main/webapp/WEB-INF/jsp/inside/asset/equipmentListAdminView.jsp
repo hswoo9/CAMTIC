@@ -5,10 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/equipmentListAdminView.js?v=${today}"/></script>
 <style>
-    .table-bordered > tbody > tr > td {
-        padding-left: 50px;
-        padding-right: 10px;
-    }
+
 </style>
 <div class= "mainCard">
     <div class="panel">
@@ -23,36 +20,36 @@
             <div>
                 <table class="searchTable table table-bordered">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="usePdStrDe" style="width: 110px;">
+                            <input type="text" id="usePdStrDe" style="width: 45%;">
                             ~
-                            <input type="text" id="usePdEndDe" style="width: 110px;">
+                            <input type="text" id="usePdEndDe" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="mainEqipmnGbnName" style="width: 130px;">
+                            <input type="text" id="mainEqipmnGbnName" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">업체구분</th>
                         <td>
-                            <input type="text" id="mainPrtpcoGbnName" style="width:120px;">
+                            <input type="text" id="mainPrtpcoGbnName" style="width:100%;">
                         </td>
                         <th class="text-center th-color">
                             검색어
                         </th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 140px;">
+                            <input type="text" id="searchType" style="width: 30%;">
+                            <input type="text" id="searchVal" style="width: 60%;">
                         </td>
                     </tr>
                 </table>

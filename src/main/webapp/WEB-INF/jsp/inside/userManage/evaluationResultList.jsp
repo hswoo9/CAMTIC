@@ -21,19 +21,19 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="8%">
                         <col width="10%">
-                        <col>
+                        <col width="8%">
                         <col width="10%">
-                        <col>
-                        <col width="10%">
-                        <col width="30%">
-                        <col width="10%">
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
                         <col width="30%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="searchDate" style="width:110px;">
+                            <input type="text" id="searchDate" style="width:100%;">
                         </td>
                         <th class="text-center th-color">차수</th>
                         <td>
@@ -41,13 +41,13 @@
                         </td>
                         <th class="text-center th-color adminInput">부서/팀</th>
                         <td>
-                            <input type="text" id="dept" class="searchInput" style="width: 150px;">
-                            <input type="text" id="team" class="searchInput" style="width: 150px;">
+                            <input type="text" id="dept" class="searchInput" style="width: 45%;">
+                            <input type="text" id="team" class="searchInput" style="width: 45%;">
                         </td>
                         <th class="text-center th-color adminInput">직책/직급</th>
                         <td>
-                            <input type="text" id="position" style="width: 160px;">
-                            <input type="text" id="duty" style="width: 160px;">
+                            <input type="text" id="position" style="width: 45%;">
+                            <input type="text" id="duty" style="width: 45%;">
                         </td>
                     </tr>
                 </table>

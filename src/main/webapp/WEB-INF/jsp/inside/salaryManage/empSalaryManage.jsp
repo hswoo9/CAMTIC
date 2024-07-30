@@ -29,6 +29,9 @@
                         <col style="width: 6%">
                         <col style="width: 6%">
                         <col style="width: 6%">
+                        <col style="width: 8%">
+                        <col style="width: 6%">
+                        <col style="width: 15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">재직여부</th>
@@ -39,8 +42,8 @@
                             <input type="text" id="searchDateType" style="width: 150px;">
                         </td>
                         <td>
-                            <input type="text" id="startDt" style="width: 110px" onkeypress="if(window.event.keyCode==13){esm.gridReload();}"> ~
-                            <input type="text" id="endDt" style="width: 110px" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                            <input type="text" id="startDt" style="width: 45%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}"> ~
+                            <input type="text" id="endDt" style="width: 45%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
                         </td>
                         <th class="text-center th-color">직원구분</th>
                         <td class="text-center th-color">
@@ -48,13 +51,13 @@
                         </td>
                         <th class="text-center th-color">적용연도</th>
                         <td>
-                            <input type="text" id="year" style="width: 110px" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                            <input type="text" id="year" style="width: 100%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
                         </td>
 
                         <th class="text-center th-color">검색어</th>
-                        <td class="text-center th-color">
-                            <input type="text" id="searchKeyWord" style="width: 80px">
-                            <input type="text" id="searchText" style="width: 60%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                        <td>
+                            <input type="text" id="searchKeyWord" style="width: 40%">
+                            <input type="text" id="searchText" style="width: 50%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
                         </td>
                     </tr>
                 </table>

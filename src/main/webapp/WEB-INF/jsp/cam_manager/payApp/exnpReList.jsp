@@ -49,8 +49,8 @@
                     <tr>
                         <th class="text-center th-color">결의일자</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 150px;"> ~
-                            <input type="text" id="endDt" style="width: 150px;">
+                            <input type="text" id="startDt" style="width: 35%;"> ~
+                            <input type="text" id="endDt" style="width: 35%;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>

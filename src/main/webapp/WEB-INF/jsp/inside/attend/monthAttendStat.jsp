@@ -21,7 +21,7 @@
                             <div style="display:flex; justify-content: space-between;">
                                 <div>
                                     <span>조회 기간</span>
-                                    <input id="applyMonth" style="width: 120px; margin-left: 10px;">
+                                    <input id="applyMonth" style="width: 45%;">
                                 </div>
                                 <div>
                                     <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="monthAttendStat.attendPrintPop();">

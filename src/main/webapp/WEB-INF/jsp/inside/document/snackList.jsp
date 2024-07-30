@@ -28,39 +28,33 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
-                        <col width="%">
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
+                        <col width="15%">
+                        <col width="8%">
+                        <col width="15%">
+                        <col width="8%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="startDt" class="searchInput" style="width: 45%;">
                             ~
-                            <input type="text" id="endDt" class="searchInput" style="width: 110px;">
+                            <input type="text" id="endDt" class="searchInput" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">식대 구분</th>
                         <td>
-                            <input type="text" id="mealsDivision" class="searchInput" style="width: 100px;">
+                            <input type="text" id="mealsDivision" class="searchInput" style="width: 80%;">
                         </td>
                         <th class="text-center th-color">결제 구분</th>
                         <td>
-                            <input type="text" id="payDivision" class="searchInput" style="width: 70px;">
+                            <input type="text" id="payDivision" class="searchInput" style="width: 80%;">
                         </td>
                         <th class="text-center th-color">결재</th>
                         <td>
-                            <input type="text" id="approval" class="searchInput" style="width: 80px;">
+                            <input type="text" id="approval" class="searchInput" style="width: 80%;">
                         </td>
                     </tr>
                 </table>

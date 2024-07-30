@@ -83,8 +83,8 @@
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="frDt" style="width: 120px;" onchange="prjBgtMng.dateValidationCheck('frDt', this.value)"> ~
-                            <input type="text" id="toDt" style="width: 120px;" onchange="prjBgtMng.dateValidationCheck('enDt', this.value)">
+                            <input type="text" id="frDt" style="width: 40%;" onchange="prjBgtMng.dateValidationCheck('frDt', this.value)"> ~
+                            <input type="text" id="toDt" style="width: 40%;" onchange="prjBgtMng.dateValidationCheck('enDt', this.value)">
                         </td>
                         <th class="text-center th-color">사업구분</th>
                         <td>

@@ -29,7 +29,7 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
-                        <col width="5%">
+                        <col width="10%">
                         <col width="7%">
                         <col width="10%">
                         <col width="7%">
@@ -40,7 +40,7 @@
                     <tr>
                         <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="year" style="width: 90px;">
+                            <input type="text" id="year" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">사업구분</th>
                         <td>

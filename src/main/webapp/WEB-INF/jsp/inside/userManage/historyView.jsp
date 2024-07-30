@@ -23,7 +23,7 @@
                     <tr>
                         <th class="text-center th-color">조회연도</th>
                         <td>
-                            <input type="text" id="applyDt" style="width: 150px;">
+                            <input type="text" id="applyDt" style="width: 10%;">
                         </td>
                     </tr>
                 </table>

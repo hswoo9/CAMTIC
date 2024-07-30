@@ -44,7 +44,7 @@
                     <tr>
                         <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="baseYear" style="width: 150px;">
+                            <input type="text" id="baseYear" style="width: 50%;">
                         </td>
                         <td colspan="3">
 
