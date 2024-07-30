@@ -169,6 +169,8 @@ var regExnp = {
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
                     $("#addBtn").hide();
+                }else if(data.DOC_STATUS == "111"){
+                    buttonHtml += "<button type=\"button\" id=\"tempBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+data.DOC_ID+"', 'exnp', 'camticExnp_"+data.EXNP_SN+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                 }

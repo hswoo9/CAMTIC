@@ -368,6 +368,8 @@ var bustripResultPop = {
                         "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                         "<span class='k-button-text'>열람</span>" +
                         "</button>";
+                }else if(resInfo.STATUS == "111"){
+                    apprBtnBoxHtml = "<button type=\"button\" id=\"tempBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+resInfo.DOC_ID+"', '"+resInfo.DOC_MENU_CD+"', '"+resInfo.DOC_APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                 } else{
                     apprBtnBoxHtml = "";
                 }

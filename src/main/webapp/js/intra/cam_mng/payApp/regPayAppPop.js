@@ -1798,6 +1798,8 @@ var regPay = {
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
+            }else if(data.DOC_STATUS == "111"){
+                buttonHtml += "<button type=\"button\" id=\"tempBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+data.DOC_ID+"', 'payApp', 'camticPayApp_"+data.PAY_APP_SN+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
             }

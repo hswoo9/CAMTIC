@@ -111,6 +111,8 @@ const bustripReq = {
                 if(busInfo.TRIP_CODE == "4"){
                     apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' style='margin-left: 10px' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
                 }
+            }else if(busInfo.STATUS == "111"){
+                apprBtnBoxHtml = "<button type=\"button\" id=\"tempBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+busInfo.DOC_ID+"', '"+busInfo.DOC_MENU_CD+"', '"+busInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             } else{
                 apprBtnBoxHtml = "";
             }

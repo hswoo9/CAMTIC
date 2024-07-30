@@ -239,6 +239,8 @@ public class PurcServiceImpl implements PurcService {
                     purcRepository.setPurcFileDocNm(data);
                 }
             }
+        }else if("111".equals(docSts)){ // 임시저장
+            purcRepository.updatePurcApprStat(params);
         }
     }
 
@@ -373,6 +375,8 @@ public class PurcServiceImpl implements PurcService {
             if (Objects.equals(claimData.get("CONT_YN"), "Y")) {
                 purcRepository.insContractPurcReq(params);
             }
+        }else if("111".equals(docSts)){ // 임시저장
+            purcRepository.updateClaimApprStat(params);
         }
     }
 

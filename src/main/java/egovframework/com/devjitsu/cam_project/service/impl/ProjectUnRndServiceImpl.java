@@ -325,6 +325,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getLectureStat(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureStat(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getConsultingList(Map<String, Object> params) {
         return projectUnRndRepository.getConsultingList(params);
     }

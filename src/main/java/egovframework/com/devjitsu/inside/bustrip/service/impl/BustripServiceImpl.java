@@ -315,7 +315,8 @@ public class BustripServiceImpl implements BustripService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("approveStatCode", 100);
             bustripRepository.updateFinalApprStat(params);
-
+        }else if("111".equals(docSts)){ // 임시저장
+            bustripRepository.updateApprStat(params);
         }
     }
 
@@ -359,6 +360,8 @@ public class BustripServiceImpl implements BustripService {
             params.put("approveStatCode", 100);
             bustripRepository.updateResFinalApprStat(params);
             crmRepository.insCrmBustHist(histMap);
+        }else if("111".equals(docSts)){ // 임시저장
+            bustripRepository.updateResApprStat(params);
         }
 
         if("10".equals(docSts)){
