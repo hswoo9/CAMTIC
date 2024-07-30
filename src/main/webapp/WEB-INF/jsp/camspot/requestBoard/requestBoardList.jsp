@@ -86,8 +86,8 @@
                     </td>
                     <th class="text-center th-color">요청일</th>
                     <td>
-                        <input type="text" id="startDt" style="width: 110px;"> ~
-                        <input type="text" id="endDt" style="width: 110px;">
+                        <input type="text" id="startDt" style="width: 45%;"> ~
+                        <input type="text" id="endDt" style="width: 45%;">
                     </td>
                     <th class="text-center th-color">요청자</th>
                     <td>
