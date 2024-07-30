@@ -8,6 +8,16 @@ var mouAgr = {
     },
 
     fn_defaultScript : function (){
+
+        customKendo.fn_datePicker("baseYear", 'decade', "yyyy", new Date());
+
+        mouAgr.global.dropDownDataSource = [
+            { text: "체결목적", value: "A" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", mouAgr.global.dropDownDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+
         mouAgr.fn_mainGridReload();
         mouAgr.fn_subGridReload();
 
@@ -19,7 +29,9 @@ var mouAgr = {
 
     fn_mainGridReload: function (){
         mouAgr.global.searchAjaxData = {
-
+            baseYear : $("#baseYear").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
         }
 
         mouAgr.mainGrid("/crm/getMouAgrList", mouAgr.global.searchAjaxData);
