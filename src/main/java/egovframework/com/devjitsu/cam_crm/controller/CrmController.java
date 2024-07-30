@@ -897,4 +897,10 @@ public class CrmController {
 
         return "/cam_crm/variousCondition";
     }
+
+    @RequestMapping("/crm/pop/crmMemSel.do")
+    public String crmMemSel(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/cam_crm/crmMemSel";
+    }
 }

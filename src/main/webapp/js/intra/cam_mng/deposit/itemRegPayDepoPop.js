@@ -424,6 +424,13 @@ var itemRegPayDepo = {
         $("#regNo").val(rs.CRM_NO);
     },
 
+    fn_crmMemSelPop : function(){
+        var url = "/crm/pop/crmMemSel.do?crmSn=" + $("#crmSnSel").val();
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     setPayDepoSnUpd : function(e){
         $.ajax({
             url : "/item/setPayDepoSnUpd.do",

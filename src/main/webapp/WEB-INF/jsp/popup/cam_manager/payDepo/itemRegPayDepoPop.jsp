@@ -137,6 +137,9 @@
                     <th scope="row" class="text-center th-color">담당자</th>
                     <td colspan="2">
                         <input type="text" id="depoManager" style="width: 90%;">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="itemRegPayDepo.fn_crmMemSelPop()">
+                            <span class="k-icon k-i-search k-button-icon"></span>
+                        </button>
                     </td>
                 </tr>
                 <tr>

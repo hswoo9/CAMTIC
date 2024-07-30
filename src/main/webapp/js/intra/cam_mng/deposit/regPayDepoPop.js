@@ -250,18 +250,20 @@ var regPayDepo = {
                 var rs = rs.data;
                 console.log(rs);
 
+                $("#depoTitle").val(rs.PJT_NM);
                 if(rs.BUDGET_SN){
                     $("#pjtSn").val($("#pjtSn").val() != "" ? $("#pjtSn").val() : rs.PJT_SN);
                     $("#pjtNm").val($("#pjtNm").val() != "" ? $("#pjtNm").val() : rs.PJT_NM);
                     $("#pjtCd").val($("#pjtCd").val() != "" ? $("#pjtCd").val() : rs.PJT_CD);
-                    $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
-                } else {
-                    $("#depoTitle").val("입금신청 - ");
                 }
 
                 if(rs.PJT_STEP.substring(0, 1) == "E"){
                     $("#crmNm").val($("#crmNm").val() != "" ? $("#crmNm").val() : rs.CRM_NM);
                     $("#crmSn").val($("#crmSn").val() != "" ? $("#crmSn").val() : rs.CRM_SN);
+                }
+
+                if(rs.LIST_STR_DE != null){
+                    $("#appDe").val(rs.LIST_STR_DE)
                 }
 
                 if($("#crmSn").val() != null && $("#crmSn").val() != ""){
@@ -429,6 +431,18 @@ var regPayDepo = {
         }
 
         regPayDepo.inputNumberFormat(obj);
+    },
+
+    fn_crmMemSelPop : function(){
+        if(!$("#crmSn").val()){
+            alert("업체를 선택해주세요.");
+            return;
+        }
+
+        var url = "/crm/pop/crmMemSel.do?crmSn=" + $("#crmSn").val();
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     inputNumberFormat : function (obj){

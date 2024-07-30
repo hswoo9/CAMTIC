@@ -141,6 +141,9 @@
                     <th scope="row" class="text-center th-color">담당자</th>
                     <td colspan="2">
                         <input type="text" id="depoManager" style="width: 90%;">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDepo.fn_crmMemSelPop()">
+                            <span class="k-icon k-i-search k-button-icon"></span>
+                        </button>
                     </td>
                 </tr>
                 <tr>
@@ -198,7 +201,7 @@
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
 
-        $("#depoTitle").val("입금신청 - " + nm);
+        // $("#depoTitle").val("입금신청 - " + nm);
         var data = {
             pjtCd : cd
         }
