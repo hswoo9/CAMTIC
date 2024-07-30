@@ -96,8 +96,8 @@ var cupm = {
                         if(e.CIU_UNIT_PRICE != null && e.CIU_UNIT_PRICE != ""){
                             return cupm.comma(e.CIU_UNIT_PRICE);
                         }else{
-                            if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                                return cupm.comma(e.UNIT_PRICE);
+                            if(e.MSU_UNIT_PRICE != null && e.MSU_UNIT_PRICE != ""){
+                                return cupm.comma(e.MSU_UNIT_PRICE);
                             }else{
                                 return "";
                             }

@@ -450,6 +450,9 @@ var itemRegPayDepo = {
 
         if(result.flag){
             alert("요청되었습니다.");
+            if(opener.parent.oorl != null){
+                opener.parent.oorl.gridReload();
+            }
             location.href="/pay/pop/itemRegPayDepoPop.do?payDepoSn=" + key  + "&apprStat=Y";
         }
     }

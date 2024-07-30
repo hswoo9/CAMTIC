@@ -81,8 +81,8 @@ var supM = {
                     width: 100,
                     field: "UNIT_PRICE",
                     template : function (e){
-                        if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return supM.comma(e.UNIT_PRICE) + "원";
+                        if(e.MSU_UNIT_PRICE != null && e.MSU_UNIT_PRICE != ""){
+                            return supM.comma(e.MSU_UNIT_PRICE) + "원";
                         }else{
                             return "0원";
                         }

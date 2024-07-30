@@ -93,10 +93,14 @@ var mup = {
                     field: "UNIT_PRICE",
                     width: 100,
                     template : function (e){
-                        if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return mup.comma(e.UNIT_PRICE);
+                        if(e.CIU_UNIT_PRICE != null && e.CIU_UNIT_PRICE != ""){
+                            return mup.comma(e.CIU_UNIT_PRICE);
                         }else{
-                            return "";
+                            if(e.MSU_UNIT_PRICE != null && e.MSU_UNIT_PRICE != ""){
+                                return mup.comma(e.MSU_UNIT_PRICE);
+                            }else{
+                                return "";
+                            }
                         }
                     },
                     attributes : {

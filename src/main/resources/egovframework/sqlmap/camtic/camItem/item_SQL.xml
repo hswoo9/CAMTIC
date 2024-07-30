@@ -8,7 +8,7 @@
         SELECT
             IM.*,
             MSU.MASTER_SD_UP_SN,
-            MSU.UNIT_PRICE,
+            MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
             MSU.START_DT,
             MSU.END_DT,
             MSU.CHANGE_NUM,
@@ -28,9 +28,10 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
-        LEFT JOIN
+        JOIN
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
-        ON MSU.MASTER_SN = IM.MASTER_SN AND MSU.ACTIVE = 'Y'
+        ON MSU.MASTER_SN = IM.MASTER_SN
+        AND <![CDATA[ MSU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND MSU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
 
         WHERE 1=1
         <if test='masterSn != null and !"".equals(masterSn)'>
@@ -1172,6 +1173,7 @@
         /* getMaterialUnitPriceList */
         SELECT
             IM.*,
+            MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
             IFNULL(CIM.CRM_ITEM_SN, '') AS CRM_ITEM_SN,
             IFNULL(CIM.CRM_SN, '') AS CRM_SN,
             IFNULL(CIM.CRM_ITEM_NO, '') AS CRM_ITEM_NO,
@@ -1183,12 +1185,17 @@
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
+        ON MSU.MASTER_SN = IM.MASTER_SN
+        AND <![CDATA[ MSU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND MSU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
         LEFT JOIN
             CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
         ON IM.MASTER_SN = CIM.MASTER_SN AND CIM.BUS_CLASS = #{busClass} AND CIM.CRM_SN = #{crmSn}
         LEFT JOIN
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIU
-        ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
+        ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN
+            AND <![CDATA[ CIU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND CIU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d')]]>
         WHERE
             1=1
         <choose>
@@ -1310,7 +1317,8 @@
             CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
         JOIN
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIUP
-        ON CIM.CRM_ITEM_SN = CIUP.CRM_ITEM_SN AND CIUP.ACTIVE = 'Y'
+        ON CIM.CRM_ITEM_SN = CIUP.CRM_ITEM_SN
+               AND <![CDATA[ CIUP.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND CIUP.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
         WHERE
             CIM.CRM_SN = #{crmSn}
         AND
@@ -1326,9 +1334,9 @@
         FROM
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP
         WHERE
-            ACTIVE = 'Y'
-        AND
             MASTER_SN = #{masterSn}
+        AND
+            <![CDATA[ START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
     </select>
 
     <update id="setCrmItemManageUpd" parameterType="map">
