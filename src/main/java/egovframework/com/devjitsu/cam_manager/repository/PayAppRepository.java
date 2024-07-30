@@ -563,6 +563,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getCompleteIncpList", params);
     }
 
+    public void updPayIncpNull(Map<String, Object> params) {
+        update("payApp.updPayIncpNull", params);
+    }
+
     public void delIncpData(Map<String, Object> params) {
         delete("payApp.delIncpData", params);
     }

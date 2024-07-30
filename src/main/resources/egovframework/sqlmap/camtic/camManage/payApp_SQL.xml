@@ -3413,6 +3413,15 @@
         AND A.DOC_STATUS = 100 AND C.PMR_NO IS NOT NULL AND EVID_TYPE IN (2,4,6,7)
     </select>
 
+    <update id="updPayIncpNull" parameterType="map">
+        /*updPayIncpNull*/
+        UPDATE CAM_MNG.DJ_PAY_DEPO
+        SET
+            PAY_INCP_SN = NULL
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </update>
+
     <delete id="delIncpData" parameterType="map">
         /*delIncpData*/
         DELETE FROM CAM_MNG.DJ_PAY_INCP

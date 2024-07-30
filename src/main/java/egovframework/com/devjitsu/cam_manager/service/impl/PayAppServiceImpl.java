@@ -2153,6 +2153,8 @@ public class PayAppServiceImpl implements PayAppService {
             approvalUserRepository.setDocDel(params);
         }
 
+        payAppRepository.updPayIncpNull(params);
+
         payAppRepository.delIncpData(params);
         payAppRepository.delIncpDetData(params);
     }
