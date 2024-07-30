@@ -278,12 +278,17 @@
         /* getItemMaster */
         SELECT
             IM.*,
+            MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             (SELECT IFNULL(MAX(UNIT_PRICE), 0) FROM CAM_ITEM.DJ_ITEM_INVENTORY WHERE MASTER_SN = IM.MASTER_SN) AS MAX_UNIT_PRICE
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
+        ON MSU.MASTER_SN = IM.MASTER_SN
+        AND <![CDATA[ MSU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND MSU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
         ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
@@ -359,6 +364,10 @@
             #{active},
             #{empSeq}
         )
+
+        <selectKey keyProperty="masterSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_MASTER'
+        </selectKey>
     </insert>
 
     <update id="setItemMasterRegUpd" parameterType="map">

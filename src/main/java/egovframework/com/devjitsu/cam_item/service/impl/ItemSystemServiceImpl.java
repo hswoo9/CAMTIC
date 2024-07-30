@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_item.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_item.repository.ItemManageRepository;
 import egovframework.com.devjitsu.cam_item.repository.ItemSystemRepository;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -25,6 +26,9 @@ public class ItemSystemServiceImpl implements ItemSystemService {
 
     @Autowired
     private ItemSystemRepository itemSystemRepository;
+
+    @Autowired
+    private ItemManageRepository itemManageRepository;
 
     @Override
     public List<Map<String, Object>> getCrmItemManageList(Map<String, Object> params) {
@@ -108,6 +112,10 @@ public class ItemSystemServiceImpl implements ItemSystemService {
     public void setItemMasterReg(Map<String, Object> params) {
         if(StringUtils.isEmpty(params.get("masterSn"))){
             itemSystemRepository.setItemMasterReg(params);
+
+            params.put("changeNum", itemManageRepository.getMaxChangeNum(params));
+            params.put("startDt", params.get("nowHyphen"));
+            itemManageRepository.setSdUnitPriceReg(params);
         }else{
             itemSystemRepository.setItemMasterRegUpd(params);
         }

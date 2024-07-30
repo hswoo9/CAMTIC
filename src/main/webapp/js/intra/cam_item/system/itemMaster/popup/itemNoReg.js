@@ -202,10 +202,12 @@ var inr = {
                 itemType : $("#itemType").val(),
                 active : $("#active").val(),
                 empSeq : $("#empSeq").val(),
+                empName : $("#empName").val(),
                 unitPrice : uncomma($("#unitPrice").val()),
                 costPrice : uncomma($("#costPrice").val()),
                 b2bPrice : uncomma($("#b2bPrice").val()),
-                consumerPrice : uncomma($("#consumerPrice").val())
+                consumerPrice : uncomma($("#consumerPrice").val()),
+                nowHyphen : $("#nowHyphen").val(),
             }
 
             if($("#whCd").val()){

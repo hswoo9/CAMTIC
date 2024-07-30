@@ -34,7 +34,7 @@
         <input type="hidden" id="busClass" name="busClass" value="${params.busClass}">
         <input type="hidden" id="crmItemSn" name="crmItemSn" value="${params.crmItemSn}">
         <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
-        <input type="hidden" id="unitPrice" name="unitPrice" value="${item.UNIT_PRICE}">
+        <input type="hidden" id="unitPrice" name="unitPrice" value="${item.MSU_UNIT_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="popTitle">

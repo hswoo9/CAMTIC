@@ -80,7 +80,6 @@
             <input type="hidden" id="crmSn" onchange="oor.crmInfoChange()">
             <input type="hidden" id="crmNm">
             <input type="hidden" id="unitPrice" onchange="oor.unitPriceChange()">
-
             <input type="hidden" id="masterSn" onchange="oor.masterSnChange()">
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">

@@ -1062,7 +1062,7 @@ public class ItemManageController {
     }
 
     /**
-     * 입고등록 데이터 저장
+     * 입고단가조회
      * @param params
      * @return
      */

@@ -19,12 +19,13 @@ var oor = {
                     '<input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
                     '<input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
                     '<input type="hidden" id="crmSn' + oor.global.oorIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\');"/>' +
-                    '<button type="button" id="crmSelBtn' + oor.global.oorIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\');">선택</button>' +
+                    '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');"/>' +
+                    '<button type="button" id="crmSelBtn' + oor.global.oorIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
-                    '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +                '</td>' +
+                    '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
+                '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
                 '</td>' +
@@ -159,9 +160,10 @@ var oor = {
         }
     },
 
-    fn_popCamCrmList : function (crmSnId, crmNmId){
+    fn_popCamCrmList : function (crmSnId, crmNmId, crmIndex){
         oor.global.crmSnId = crmSnId;
         oor.global.crmNmId = crmNmId;
+        oor.global.crmIndex = crmIndex;
 
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
@@ -175,7 +177,6 @@ var oor = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
-
         oor.getItemUnitPrice(oor.global.crmIndex);
     },
 
@@ -253,9 +254,9 @@ var oor = {
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.crmSn").attr("id", "crmSn" + i);
             $(this).find("input.crmNm").attr("id", "crmNm" + i);
-            $(this).find("input.crmNm").attr("onClick", "oor.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("input.crmNm").attr("onClick", "oor.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"'," + i + ")");
             $(this).find("button.crmSelBtn").attr("id", "crmSelBtn" + i);
-            $(this).find("button.crmSelBtn").attr("onClick", "oor.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("button.crmSelBtn").attr("onClick", "oor.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"'," + i + ")");
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
             $(this).find("input.itemNo").attr("onClick", "oor.fn_popItemNoList(" + i + ")");
             $(this).find("button.itemSelBtn").attr("id", "itemSelBtn" + i);

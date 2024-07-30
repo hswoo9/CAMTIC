@@ -499,6 +499,8 @@ var oorl = {
     fn_reqRegPopupChk : function(key, status, auth){
         var crmSn = [];
         var obtainOrderSn = "";
+        var depositAmt = 0;
+
         if($("input[name=ooSn]:checked").length == 0){
             alert("항목을 선택해주세요.");
             return;
@@ -507,6 +509,7 @@ var oorl = {
         $.each($("input[name=ooSn]:checked"), function(){
             crmSn.push($(this).attr("crmSn"))
             obtainOrderSn += "," + $(this).val();
+            depositAmt += Number($("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr")).AMT);
         })
 
         const uniqueArr = crmSn.filter((element, index) => {
@@ -518,10 +521,10 @@ var oorl = {
             return;
         }
 
-        oorl.fn_reqRegPopup(key, status, auth, crmSn, obtainOrderSn.substr(1));
+        oorl.fn_reqRegPopup(key, status, auth, crmSn, obtainOrderSn.substr(1), depositAmt);
     },
 
-    fn_reqRegPopup : function(key, status, auth, crmSn, obtainOrderSn){
+    fn_reqRegPopup : function(key, status, auth, crmSn, obtainOrderSn, depositAmt){
         var url = "/pay/pop/itemRegPayDepoPop.do";
         if(key != null && key != ""){
             url = "/pay/pop/itemRegPayDepoPop.do?payDepoSn=" + key;
@@ -534,6 +537,10 @@ var oorl = {
         if(auth != null && auth != ""){
             url += "&auth=" + auth;
         }
+        if(depositAmt != null && depositAmt != ""){
+            url += "&depositAmt=" + depositAmt;
+        }
+
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
