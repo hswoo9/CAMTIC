@@ -62,15 +62,21 @@ var oorm = {
             return;
         }
 
+
+        if(!oorm.getOrderDeliveryAmtChk()){
+            alert("납품량은 수주량을 초과할 수 없습니다.");
+            return;
+        }
+
         if(confirm("저장하시겠습니까?")){
             oorm.global.saveAjaxData = {
                 obtainOrderSn : $("#obtainOrderSn").val(),
                 crmSn : $("#crmSn").val(),
                 masterSn : $("#masterSn").val(),
-                orderVolume : $("#orderVolume").val(),
+                orderVolume : oorm.uncomma($("#orderVolume").val()),
                 dueDt : $("#dueDt").val(),
-                unitPrice : $("#unitPrice").val(),
-                amt : $("#amt").val(),
+                unitPrice : oorm.uncomma($("#unitPrice").val()),
+                amt : oorm.uncomma($("#amt").val()),
                 rmk : $("#rmk").val(),
                 empSeq : $("#empSeq").val()
             }
@@ -123,4 +129,27 @@ var oorm = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    getOrderDeliveryAmtChk : function(){
+        var result;
+
+        $.ajax({
+            url: "/item/getOrderDeliveryAmtChk.do",
+            data: {
+                obtainOrderSn : $("#obtainOrderSn").val(),
+                orderVolume : oorm.uncomma($("#orderVolume").val()),
+            },
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(rs) {
+                result = rs.rs;
+            },
+            error: function (e) {
+                console.log('error : ', e);
+            }
+        });
+
+        return result;
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -93,6 +94,27 @@ public class PayAppController {
         }
 
         return "popup/cam_manager/payApp/regPayAppPop";
+    }
+
+    @RequestMapping("/pay/pop/itemRegPayDepoPop.do")
+    public String itemRegPayDepoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(!StringUtils.isEmpty(params.get("pjtSn"))){
+            Map<String, Object> map = projectService.getProjectData(params);
+            model.addAttribute(map);
+        }
+
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
+        return "popup/cam_manager/payDepo/itemRegPayDepoPop";
     }
 
     @RequestMapping("/pay/pop/regPayDepoPop.do")

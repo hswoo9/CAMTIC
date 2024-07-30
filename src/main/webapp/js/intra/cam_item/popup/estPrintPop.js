@@ -70,7 +70,6 @@ const estPrintPop = {
         if(rs.rs.FAX != null){
             estPrintPop.global.hwpCtrl.PutFieldText("FAX_NUM", rs.rs.FAX);
         }
-        console.log(rs.rs.RMK);
         estPrintPop.global.hwpCtrl.PutFieldText("EST_CONTENT", rs.rs.RMK);
         estPrintPop.global.hwpCtrl.PutFieldText("ITEM_NAME_ALL", itemNameAll);
 

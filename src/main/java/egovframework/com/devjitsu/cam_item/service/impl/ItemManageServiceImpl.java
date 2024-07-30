@@ -79,6 +79,14 @@ public class ItemManageServiceImpl implements ItemManageService {
                 itemManageRepository.setSdUnitPriceRegUpd(map);
             }
         }
+
+        if(!StringUtils.isEmpty(params.get("lastUnitPrice"))){
+            Map<String, Object> updateMap = new HashMap<>();
+            updateMap.put("unitPrice", params.get("lastUnitPrice"));
+            updateMap.put("empSeq", params.get("empSeq"));
+            updateMap.put("masterSn", params.get("masterSn"));
+            itemSystemRepository.setItemMasterUnitPriceUpd(updateMap);
+        }
     }
 
     @Override
@@ -109,6 +117,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public void setPayDepoSnUpd(Map<String, Object> params) {
+        itemManageRepository.setPayDepoSnUpd(params);
+    }
+
+    @Override
     public void setDepositUpd(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> oorlArr = gson.fromJson((String) params.get("oorlArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
@@ -128,6 +141,11 @@ public class ItemManageServiceImpl implements ItemManageService {
                 itemManageRepository.setObtainOrder(map);
             }
         }
+    }
+
+    @Override
+    public boolean getOrderDeliveryAmtChk(Map<String, Object> params) {
+        return itemManageRepository.getOrderDeliveryAmtChk(params);
     }
 
     @Override

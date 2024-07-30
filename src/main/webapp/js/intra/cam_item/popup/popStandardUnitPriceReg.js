@@ -64,7 +64,7 @@ var sdupR = {
                     '<span id="costPrice' + sdupR.global.sdUpIndex + '">' + comma($("#costPrice").val()) + '</span>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput" style="text-align: right"/>' +
+                    '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput unitPrice" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="startDt' + sdupR.global.sdUpIndex + '" name="startDt' + sdupR.global.sdUpIndex + '">' +
@@ -149,13 +149,22 @@ var sdupR = {
                 }
             })
 
+            $.each($("input.unitPrice"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastUnitPrice = uncomma($(this).val())
+                }
+            })
+
             sdupR.global.saveAjaxData.oldArr = JSON.stringify(oldArr)
+            sdupR.global.saveAjaxData.empSeq = $("#empSeq").val();
+            sdupR.global.saveAjaxData.masterSn = $("#masterSn").val();
 
             var result = customKendo.fn_customAjax("/item/setSdUnitPriceReg.do", sdupR.global.saveAjaxData)
             if(result.flag){
                 alert("저장되었습니다.");
-                sdupR.global.sdUpIndex = 0;
-                sdupR.setMakeTable();
+                // sdupR.global.sdUpIndex = 0;
+                // sdupR.setMakeTable();
+                location.reload();
             }
         }
     },

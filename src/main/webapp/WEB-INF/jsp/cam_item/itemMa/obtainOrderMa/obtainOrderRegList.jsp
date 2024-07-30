@@ -60,6 +60,14 @@
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oorl.gridReload()}"/>
                         </td>
                     </tr>
+                    <tr>
+                        <th class="text-center th-color">품번</th>
+                        <td colspan="7">
+                            <input type="text" id="categoryA" name="categoryA" style="width: 120px">
+                            <input type="text" id="categoryB" name="categoryB" style="width: 120px">
+                            <input type="text" id="categoryC" name="categoryC" style="width: 120px">
+                        </td>
+                    </tr>
                 </table>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>

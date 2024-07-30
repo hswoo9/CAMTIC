@@ -232,6 +232,7 @@ var commonProject = {
         const pjtMap = pjtResult.map;
 
         commonProject.global.pjtSn = pjtMap.PJT_SN;
+        commonProject.global.pjtCd = pjtMap.PJT_CD;
         commonProject.global.teamStat = pjtMap.TEAM_STAT;
         commonProject.global.teamYn = pjtMap.TM_YN;
         commonProject.global.busnClass = pjtMap.BUSN_CLASS;

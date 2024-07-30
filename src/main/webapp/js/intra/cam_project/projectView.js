@@ -274,6 +274,11 @@ var projectView = {
                     if($("#openType").val() == "regRnd"){
                         data.tmStat = "N";
                     }
+
+                    if($("#pageType").val() == "item"){
+                        data.pjtNm = "법인";
+                    }
+
                     return data;
                 }
             },
@@ -306,7 +311,7 @@ var projectView = {
                     name : 'text',
                     template : function (e){
                         return '<label for="pjtNm" class="k-label">프로젝트 명</label> ' +
-                            '<input type="text" class="k-input" id="pjtNm" style="width: 250px; margin-right: 5px;" onkeyup="projectView.fn_enterKey();"/>';
+                            '<input type="text" class="k-input" id="pjtNm" style="width: 250px; margin-right: 5px;" onkeyup="projectView.fn_enterKey();" ' + ($("#pageType").val() == "item" ? 'disabled' : "") + '/>';
                     }
                 }, {
                     name : 'button',

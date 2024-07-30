@@ -58,7 +58,7 @@ var ciupR = {
                     '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#costPrice").val()) + '</span>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right"/>' +
+                    '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '">' +
