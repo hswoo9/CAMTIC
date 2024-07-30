@@ -861,4 +861,16 @@ public class DocViewController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/customDoc/pop/popAssetList.do")
+    public String popAssetList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/docView/popAssetList";
+    }
 }

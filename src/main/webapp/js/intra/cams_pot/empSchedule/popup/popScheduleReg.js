@@ -95,6 +95,7 @@ var sr = {
             var result = customKendo.fn_customAjax("/spot/setScheduleReg.do", sr.global.saveAjaxData)
             if(result.flag){
                 alert("등록되었습니다.");
+                window.opener.parent.location.reload();
                 window.close();
             }
         }
