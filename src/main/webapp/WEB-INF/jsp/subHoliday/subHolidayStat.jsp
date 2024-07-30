@@ -48,7 +48,7 @@
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="holidayYear" style="width: 110px;">
+                            <input type="text" id="holidayYear" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>

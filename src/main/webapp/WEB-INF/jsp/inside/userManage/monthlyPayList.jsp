@@ -32,7 +32,7 @@
                     <tr>
                         <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="baseYear" style="width: 150px;">
+                            <input type="text" id="baseYear" style="width: 50%;">
                             <button class="k-button k-button-solid-base" onclick="monPayList.fn_calcReset();">조회</button>
                         </td>
                         <td colspan="4">

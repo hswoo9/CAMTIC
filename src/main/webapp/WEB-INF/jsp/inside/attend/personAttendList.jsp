@@ -16,30 +16,34 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                    </colgroup>
                     <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회 기간</span>
-                                    <input type="text" id="startDt" style="width: 130px;">
-                                    ~
-                                    <input type="text" id="endDt" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>상태</span>
-                                    <input type="text" id="situation" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>근태 항목</span>
-                                    <input type="text" id="attendanceItems" style="width: 200px;">
-                                </div>
-                                <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="personAttend.gridReload();">
-                                        <span>검색</span>
-                                    </button>
-                                </div>
-                            </div>
+                        <th class="text-center th-color">조회 기간</th>
+                        <td>
+                            <input type="text" id="startDt" style="width: 45%;">
+                            ~
+                            <input type="text" id="endDt" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="situation" style="width: 100%;">
+                        </td>
+                        <th class="text-center th-color">근태 항목</th>
+                        <td>
+                            <input type="text" id="attendanceItems" style="width: 100%;">
+                        </td>
+                        <td>
+                            <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="personAttend.gridReload();">
+                                <span>검색</span>
+                            </button>
                         </td>
                     </tr>
                 </table>

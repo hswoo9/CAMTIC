@@ -33,7 +33,7 @@
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="searchDate" style="width:110px;">
+                            <input type="text" id="searchDate" style="width:20%;">
                         </td>
                         <th class="text-center th-color">차수</th>
                         <td>

@@ -30,8 +30,8 @@
                     <tr>
                         <th class="text-center th-color">조회기간</th>
                         <td colspan="3">
-                            <input type="text" id="startDate" style="width: 110px;"> ~
-                            <input type="text" id="endDate" style="width: 110px;">
+                            <input type="text" id="startDate" style="width: 25%;"> ~
+                            <input type="text" id="endDate" style="width: 25%;">
                         </td>
                         <th class="text-center th-color">자산소속</th>
                         <td>

@@ -69,7 +69,7 @@
                         </td>
                         <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="bsYear" style="width: 100px;">
+                            <input type="text" id="bsYear" style="width: 100%">
                         </td>
                     </tr>
                     <tr>

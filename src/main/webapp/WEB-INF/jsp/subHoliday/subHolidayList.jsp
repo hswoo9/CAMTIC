@@ -41,7 +41,7 @@
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td style="border-right: none">
-                            <input id="datePicker" style="width:110px;">
+                            <input id="datePicker" style="width:10%;">
                         </td>
                         <td style="border: none; float: right">
                             <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidayList.subHolidayReqPop();">신청</button>

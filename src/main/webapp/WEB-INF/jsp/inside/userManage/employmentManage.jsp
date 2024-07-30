@@ -22,41 +22,39 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="7%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="12%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="startDate" style="width: 110px;">
+                            <input type="text" id="startDate" style="width: 45%;">
                             ~
-                            <input type="text" id="endDate" style="width: 110px;">
+                            <input type="text" id="endDate" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="deptSeq" style="width: 150px;">
+                            <input type="text" id="deptSeq" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="team" style="width: 180px;" onchange="employmentManage.gridReload()">
+                            <input type="text" id="team" style="width: 100%;" onchange="employmentManage.gridReload()">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 85px;">
+                            <input type="text" id="status" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>
-                            <input type="text" id="name" style="width: 150px;" onkeypress="if(window.event.keyCode==13){employmentManage.gridReload()}">
+                            <input type="text" id="name" style="width: 100%;" onkeypress="if(window.event.keyCode==13){employmentManage.gridReload()}">
                         </td>
                     </tr>
                 </table>

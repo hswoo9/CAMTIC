@@ -28,58 +28,43 @@
             <div>
                 <table class="searchTable table table-bordered">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <%--<col width="5">
-                        <col width="5">
-                        <col width="5">
-                        <col width="5">
-                        <col width="15px">
-                        <col width="5">
-                        <col width="15px">
-                        <col width="5">
-                        <col width="5">
-                        <col width="5">
-                        <col width="15px">--%>
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="30%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">발령 구분</th>
                         <td>
-                            <input type="text" id="historyType" style="width: 140px;">
+                            <input type="text" id="historyType" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">발령 기준</th>
                         <td>
-                            <input type="text" id="appointmentType" style="width: 80px;">
+                            <input type="text" id="appointmentType" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="dept" style="width: 150px;">
-                            <input type="text" id="team" style="width: 180px;">
+                            <input type="text" id="dept" style="width: 45%;">
+                            <input type="text" id="team" style="width: 45%;">
                         </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="start_date" style="width: 110px;">
+                            <input type="text" id="start_date" style="width: 45%;">
                             ~
-                            <input type="text" id="end_date" style="width: 110px;">
+                            <input type="text" id="end_date" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">성별</th>
                         <td>
-                            <input type="text" id="gender" style="width: 70px;">
+                            <input type="text" id="gender" style="width: 50%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 70px;">
-                            <input type="text" id="searchText"  onkeypress="if(window.event.keyCode==13){historyList.gridReload()}"style="width: 130px;">
+                            <input type="text" id="searchType" style="width: 30%">
+                            <input type="text" id="searchText"  onkeypress="if(window.event.keyCode==13){historyList.gridReload()}"style="width: 60%;">
                         </td>
                     </tr>
                 </table>

@@ -32,7 +32,7 @@
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="recruitYear" style="width: 110px;">
+                            <input type="text" id="recruitYear" style="width: 30%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

@@ -33,8 +33,8 @@
                     <tr>
                         <th class="text-center th-color">조회기간</th>
                         <td>
-                            <input type="text" id="startDate" style="width: 110px;"> ~
-                            <input type="text" id="endDate" style="width: 110px;">
+                            <input type="text" id="startDate" style="width: 45%;"> ~
+                            <input type="text" id="endDate" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">기존위치</th>
                         <td colspan="3">

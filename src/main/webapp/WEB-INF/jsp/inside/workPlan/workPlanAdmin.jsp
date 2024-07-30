@@ -31,8 +31,8 @@
                     <tr>
                         <th class="text-center th-color">일자</th>
                         <td>
-                            <input type="text" id="strDt" style="width: 110px;"> ~
-                            <input type="text" id="endDt" style="width: 110px;">
+                            <input type="text" id="strDt" style="width: 45%;"> ~
+                            <input type="text" id="endDt" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">신청구분</th>
                         <td>

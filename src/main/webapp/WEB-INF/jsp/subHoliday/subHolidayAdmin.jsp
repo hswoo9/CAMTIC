@@ -29,32 +29,32 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="8%">
-                        <col>
+                        <col width="20%">
                         <col width="8%">
-                        <col>
+                        <col width="10%">
                         <col width="8%">
-                        <col>
+                        <col width="10%">
                         <col width="8%">
-                        <col>
+                        <col width="20%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
-                            <input type="text" id="startDate" style="width: 110px;"> ~
-                            <input type="text" id="endDate" style="width: 110px;">
+                            <input type="text" id="startDate" style="width: 40%;"> ~
+                            <input type="text" id="endDate" style="width: 40%;">
                         </td>
                         <th class="text-center th-color">휴가 구분</th>
                         <td>
-                            <input type="text" id="edtHolidayKindTop" style="width: 200px;">
+                            <input type="text" id="edtHolidayKindTop" style="width: 100%">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 200px;">
+                            <input type="text" id="status" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchType" style="width:80px;">
-                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
+                            <input type="text" id="searchType" style="width:30%;">
+                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 50%">
                         </td>
                     </tr>
                 </table>
