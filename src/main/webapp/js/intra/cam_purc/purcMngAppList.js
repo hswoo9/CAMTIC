@@ -159,15 +159,16 @@ var purcMngAppList = {
                     }
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
                     title: "요청부서",
                     field: "DEPT_NAME",
-                    width: 120,
+                    width: 180,
                 }, {
+                    field: "PURC_TYPE",
                     title: "구매구분",
-                    width: 60,
+                    width: 80,
                     template: function(e){
                         var result = "";
 
@@ -186,32 +187,43 @@ var purcMngAppList = {
                         return result
                     }
                 }, {
+                    title: "프로젝트명",
+                    field: "PJT_NM",
+                    width: 200,
+                    template : function (e) {
+                        if(e.PJT_NM == "") {
+                            return "법인운영";
+                        } else {
+                            return e.PJT_NM;
+                        }
+                    }
+                }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
-                    width: 180,
+                    width: 200,
                     template : function (e) {
                         return '<div style="font-weight: bold; text-align: left; cursor: pointer" onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.CLAIM_TITLE + '</div>'
                     }
                 }, {
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 100
+                    width: 120
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 100
+                    width: 120
                 }, {
                     field: "GOODS_DT",
                     title: "납품예정일",
-                    width: 70
+                    width: 80
                 }, {
                     field: "ORDER_DT",
                     title: "발주일",
-                    width: 70
+                    width: 80
                 }, {
                     field: "EXP_DE",
                     title: "지급예정일",
-                    width: 70
+                    width: 80
                 }
                 // , {
                 //     field: "EXNP_DE",
@@ -219,8 +231,9 @@ var purcMngAppList = {
                 //     width: 100
                 // }
                 , {
+                    field: "PAYMENT_METHOD",
                     title: "비용지급방식",
-                    width: 62,
+                    width: 80,
                     template: function(e){
                         let paymentMethod = "";
                         if(e.PAYMENT_METHOD == "A"){
@@ -234,8 +247,9 @@ var purcMngAppList = {
                     },
                     footerTemplate: "합계"
                 }, {
+                    field: "TOT_AMT",
                     title: "금액",
-                    width: 62,
+                    width: 80,
                     template: function(e){
                         amt1 += Number(e.TOT_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
@@ -244,8 +258,9 @@ var purcMngAppList = {
                         return "<div style='text-align: right'>"+comma(amt1)+"</div>";
                     }
                 }, {
+                    field: "REQ_AMT",
                     title: "지출요청액",
-                    width: 62,
+                    width: 80,
                     template: function(e){
                         amt2 += Number(e.REQ_AMT);
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
@@ -254,8 +269,9 @@ var purcMngAppList = {
                         return "<div style='text-align: right'>"+comma(amt2)+"</div>";
                     }
                 }, {
+                    field: "EXNP_AMT",
                     title: "지출액",
-                    width: 62,
+                    width: 80,
                     template: function(e){
                         amt3 += Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
@@ -264,8 +280,9 @@ var purcMngAppList = {
                         return "<div style='text-align: right'>"+comma(amt3)+"</div>";
                     }
                 }, {
+                    field: "NON_EXNP_AMT",
                     title: "미지급액",
-                    width: 62,
+                    width: 80,
                     template: function(e){
                         amt4 += Number(e.TOT_AMT) - Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
@@ -274,8 +291,9 @@ var purcMngAppList = {
                         return "<div style='text-align: right'>"+comma(amt4)+"</div>";
                     }
                 }, {
+                    field: "SETTING",
                     title: "지급설정",
-                    width: 60,
+                    width: 80,
                     template : function(e){
                         var stat = "미설정"
 
@@ -285,8 +303,9 @@ var purcMngAppList = {
                         return stat;
                     }
                 }, {
+                    field: "REQ_STAT",
                     title: "지출요청",
-                    width: 65,
+                    width: 90,
                     template : function(e){
                         var amt = (Number(e.TOT_AMT) - Number(e.EXNP_AMT));
                         if(amt == 0){
@@ -304,8 +323,9 @@ var purcMngAppList = {
                 //     }
                 // }
                 {
+                    field: "STAT",
                     title: "상태",
-                    width: 70,
+                    width: 100,
                     template: function (e) {
                         var stat = "지급설정대기";
 
