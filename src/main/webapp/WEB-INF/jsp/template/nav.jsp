@@ -276,7 +276,7 @@
                     type : "GET",
                     data : {
                         empSeq : $("#regEmpSeq").val(),
-                        menuID : menuID
+                        menuID : imgId.split("_")[1]
                     },
                     success : function (data){
                         $("#" + imgId).attr("src", "/images/ico/ico_book01.png").removeClass("favorite");
@@ -289,7 +289,7 @@
                     type : "GET",
                     data : {
                         empSeq : $("#regEmpSeq").val(),
-                        menuID : menuID
+                        menuID : imgId.split("_")[1]
                     },
                     success : function (data){
                         $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");
