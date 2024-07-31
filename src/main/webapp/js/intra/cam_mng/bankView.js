@@ -87,7 +87,8 @@ var bnkView = {
                     width: 50,
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bnkView.fn_selBankInfo(' + e.TR_CD + ', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\')">선택</button>';
+                        var trNm = e.TR_NM.replaceAll("'", "\\'");
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bnkView.fn_selBankInfo(' + e.TR_CD + ', \'' + trNm + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\')">선택</button>';
                     }
                 }
             ],
