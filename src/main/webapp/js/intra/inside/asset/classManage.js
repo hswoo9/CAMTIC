@@ -86,6 +86,13 @@ var classManage = {
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.positionGridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -184,6 +191,13 @@ var classManage = {
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.divisionGridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -276,6 +290,13 @@ var classManage = {
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(3)">' +
                             '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.placeGridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }

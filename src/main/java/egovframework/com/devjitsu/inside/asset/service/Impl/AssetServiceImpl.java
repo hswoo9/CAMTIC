@@ -749,7 +749,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public void setClassDivision(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("astTypeCode"))){
+        if(params.get("astCodeTypeId").equals("")){
             assetRepository.setClassDivision(params);
         }else{
             assetRepository.setClassDivisionUpd(params);
