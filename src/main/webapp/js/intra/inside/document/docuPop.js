@@ -156,6 +156,8 @@ var docuContractReq = {
             return;
         }
 
+        $("#delBtn").show();
+
         const result = customKendo.fn_customAjax("/inside/getDocuContractOne", { documentContractSn: documentContractSn });
         const data = result.data;
         if(data == null){
@@ -405,6 +407,19 @@ var docuContractReq = {
                 return;
             }
             docuContractReq.setDocuContractInsert(data);
+        }
+    },
+
+    delBtn: function(){
+        const documentContractSn = $("#documentContractSn").val();
+
+        if(!confirm("정말 삭제하시겠습니까?\n삭제 후 복구가 불가능합니다.")){return;}
+
+        const result = customKendo.fn_customAjax("/inside/setDocuContractDel", {documentContractSn: documentContractSn});
+        if(result.flag){
+            alert("삭제되었습니다.");
+            opener.docuContractList.gridReload();
+            window.close();
         }
     },
 

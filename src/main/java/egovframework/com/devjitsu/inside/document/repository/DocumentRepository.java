@@ -66,7 +66,11 @@ public class DocumentRepository extends AbstractDAO {
     }
 
     public void setDocuContractUpd(Map<String, Object> params) {
-        insert("document.setDocuContractUpd", params);
+        update("document.setDocuContractUpd", params);
+    }
+
+    public void setDocuContractDel(Map<String, Object> params) {
+        update("document.setDocuContractDel", params);
     }
 
     public int setSnackInsert(Map<String, Object> params) { int result = (int)insert("document.setSnackInsert", params); return result;}

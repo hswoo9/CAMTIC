@@ -394,6 +394,14 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //계약대장 등록
+    @RequestMapping("/inside/setDocuContractDel")
+    public String setDocuContractDelete(@RequestParam Map<String, Object> params) {
+        documentService.setDocuContractDel(params);
+
+        return "jsonView";
+    }
+
     //식대대장 신청
     @RequestMapping("/inside/setSnackInsert")
     public String setSnackInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {

@@ -37,6 +37,7 @@
             <h3 class="card-title title_NM">계약대장</h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="docuContractReq.saveBtn()">저장</button>
+                <button type="button" id="delBtn" class="k-button k-button-solid-error" style="display:none" onclick="docuContractReq.delBtn()">삭제</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>

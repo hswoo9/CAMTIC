@@ -135,6 +135,7 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                    AND IDC.ACTIVE = 'Y'
                     <if test='classType != null and !"".equals(classType)'>
                         AND IDC.CLASS_SN = #{classType}
                     </if>
@@ -656,6 +657,15 @@
             PAYMENT = #{payment},
             SURT_INSR = #{surtInsr},
             DLV_LOC = #{dlvLoc}
+        WHERE
+            DOCUMENT_CONTRACT_SN = #{documentContractSn}
+    </insert>
+
+    <insert id="setDocuContractDel" parameterType="map">
+        /* setDocuContractDel */
+        UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        SET
+            ACTIVE = 'N'
         WHERE
             DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </insert>
