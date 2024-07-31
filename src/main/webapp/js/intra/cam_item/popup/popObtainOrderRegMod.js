@@ -63,7 +63,7 @@ var oorm = {
         }
 
 
-        if(!oorm.getOrderDeliveryAmtChk()){
+        if(oorm.getOrderDeliveryAmtChk()){
             alert("납품량은 수주량을 초과할 수 없습니다.");
             return;
         }
