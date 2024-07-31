@@ -1508,6 +1508,21 @@
             1=1
         AND
             M.ACTIVE = 'Y'
+            <if test='baseYear != null and !"".equals(baseYear)'>
+                AND DATE_FORMAT(M.MOU_AGR_ST_DT, '%Y') = #{baseYear}
+            </if>
+            <choose>
+                <when test='"A".equals(searchKeyword)'>
+                    AND
+                        M.MOU_AGR_PURPOSE LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <otherwise>
+                    AND
+                    (
+                        M.MOU_AGR_PURPOSE LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </otherwise>
+            </choose>
         ORDER BY M.MOU_AGR_ST_DT DESC
     </select>
 

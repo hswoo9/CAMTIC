@@ -102,7 +102,7 @@
             <div>
                 <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
                 <span style="bottom: 3px; position: relative;">
-                    <input type="text" id="year" style="width: 130px;" />
+                    <input type="text" id="year" style="width: 10%;" />
                 </span>
                 <span style="bottom: 3px; position: relative;">
                     <input type="text" id="dept" style="width: 250px;" />

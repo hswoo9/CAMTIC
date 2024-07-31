@@ -478,6 +478,12 @@ function makeApprBtnHtml(dataInfo, onClick, type, target){
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>열람</span>" +
             "</button>";
+    }else if(status == "111"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"tempDrafting\");'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>전자결재 임시저장 중</span>" +
+            "</button>";
     }else{
         html = "";
     }

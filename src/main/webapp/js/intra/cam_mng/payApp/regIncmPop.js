@@ -105,6 +105,8 @@ var regIncm = {
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpAltPop('+data.PAY_INCP_SN+')">대체결의서 작성</button>';
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                     $("#addBtn").hide();
+                }else if(data.DOC_STATUS == "111"){
+                    buttonHtml += "<button type=\"button\" id=\"tempBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+data.DOC_ID+"', '"+data.DOC_MENU_CD+"', '"+data.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                 }

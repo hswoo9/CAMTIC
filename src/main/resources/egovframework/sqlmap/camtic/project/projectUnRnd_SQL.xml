@@ -511,6 +511,63 @@
         ORDER BY LEC_STR_DE DESC, LEC_SN DESC
     </select>
 
+    <select id="getLectureStat" parameterType="map" resultType="map">
+        /*getLectureStat*/
+        SELECT
+            L.LEC_SN, LPR.PERSON_REQ_SN, LP.PERSON_SN, LP.NAME, LP.BIRTH, LP.HP_NUM, LP.EMAIL, LP.CO_NAME, LP.PART, LP.PLACE, LP.ADDRESS,
+            L.LEC_FIELD_NAME, L.LEC_TITLE_BS, L.LEC_STR_DE, L.LEC_END_DE, COALESCE(CAST(L.LEC_TIME AS UNSIGNED), 0) AS LEC_TIME, P.BS_TITLE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ LPR
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON LP ON LPR.PERSON_SN = LP.PERSON_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_LECTURE L ON LPR.LEC_SN = L.LEC_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON L.PJT_SN = P.PJT_SN
+        WHERE
+            LPR.REQ_STATUS = 'O'
+        AND LPR.ACTIVE = 'Y'
+        AND L.LEC_STR_DE BETWEEN #{strDt} AND #{endDt}
+        AND L.LEC_END_DE BETWEEN #{strDt} AND #{endDt}
+        <if test='searchField != null and !"".equals(searchField)'>
+            AND L.LEC_FIELD_NAME LIKE CONCAT('%', #{searchField},'%')
+        </if>
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            <choose>
+                <when test='"1".equals(searchKeyword)'>
+                    AND LP.CO_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"2".equals(searchKeyword)'>
+                    AND LP.PLACE LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"3".equals(searchKeyword)'>
+                    AND LP.PART LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"4".equals(searchKeyword)'>
+                    AND LP.ADDRESS LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"5".equals(searchKeyword)'>
+                    AND LP.NAME LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"6".equals(searchKeyword)'>
+                    AND LP.LEC_TITLE_BS LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"7".equals(searchKeyword)'>
+                    AND P.BS_TITLE LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <otherwise>
+                    AND
+                    (
+                        LP.CO_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        LP.PLACE LIKE CONCAT('%', #{searchValue}, '%') OR
+                        LP.PART LIKE CONCAT('%', #{searchValue}, '%') OR
+                        LP.ADDRESS LIKE CONCAT('%', #{searchValue}, '%') OR
+                        LP.NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        LP.LEC_TITLE_BS LIKE CONCAT('%', #{searchValue}, '%') OR
+                        P.BS_TITLE LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
     <select id="getConsultingList" parameterType="map" resultType="map">
         /*getConsultingList*/
         SELECT

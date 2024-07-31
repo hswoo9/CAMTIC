@@ -1976,13 +1976,13 @@
         SELECT
             A.CRM_NM,
             IF(COUNT(A.CRM_SN) >= 50, 'O', 'X') AS A_CK,
-            IF(SUM(A.TOT_AMT) >= 10000000, 'O', 'X') AS B_CK
+            IF(SUM(A.TOT_AMT) >= 100000000, 'O', 'X') AS B_CK
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         WHERE
             DATE_FORMAT(A.CLAIM_DE, '%Y') = #{year}
         GROUP BY A.CRM_SN
-        HAVING COUNT(A.CRM_SN) >= 50 OR SUM(A.TOT_AMT) >= 10000000
+        HAVING COUNT(A.CRM_SN) >= 50 OR SUM(A.TOT_AMT) >= 100000000
         ORDER BY A.CRM_NM
         ]]>
     </select>

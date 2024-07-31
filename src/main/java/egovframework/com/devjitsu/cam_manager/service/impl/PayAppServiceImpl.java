@@ -481,6 +481,8 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("approveStatCode", 100);
             payAppRepository.updatePayAppFinalApprStat(params);
 //            payAppRepository.updatePurcListFinalApprStat(params);
+        }else if("111".equals(docSts)){ // 임시저장
+            payAppRepository.updatePayAppApprStat(params);
         }
     }
 
@@ -516,6 +518,8 @@ public class PayAppServiceImpl implements PayAppService {
                 updateG20ExnpFinalAppr(params, "app");
             }
             //payAppRepository.updatePurcListFinalApprStat(params);
+        }else if("111".equals(docSts)){ // 임시저장
+            payAppRepository.updateExnpApprStat(params);
         }
     }
 
@@ -546,6 +550,8 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("approveStatCode", 100);
             payAppRepository.updateIncpFinalApprStat(params);
             updateG20IncpFinalAppr(params, "app");
+        }else if("111".equals(docSts)){ // 임시저장
+            payAppRepository.updateIncpApprStat(params);
         }
     }
 
@@ -2152,6 +2158,8 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("docId", tempMap.get("DOC_ID"));
             approvalUserRepository.setDocDel(params);
         }
+
+        payAppRepository.updPayIncpNull(params);
 
         payAppRepository.delIncpData(params);
         payAppRepository.delIncpDetData(params);
