@@ -114,7 +114,7 @@
                 </tr>
                 <tr>
                     <th rowspan="2" scope="row" class="text-center th-color">
-                        이월잔액
+                        이월금액
                     </th>
                     <th scope="row" class="text-center th-color">
                         현금

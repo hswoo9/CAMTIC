@@ -475,7 +475,7 @@ public class ManageServiceImpl implements ManageService {
             paramMap.put("incpBudgetAmt", incpAmt);                                 // 수입예산
             paramMap.put("incpBudgetSubAmt", incpAmt - compPaySum + incpPaySum);    // 수입예산잔액
 
-            // 이월잔액
+            // 이월금액
             Map<String, Object> corpPjtInfo = manageRepository.getExistProject(params);
 
             if(corpPjtInfo != null) {

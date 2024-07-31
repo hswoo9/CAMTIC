@@ -592,14 +592,14 @@ var rndDetail = {
                         name: 'button',
                         template: function(){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_carryoverAppBtn()">' +
-                                '	<span class="k-button-text">이월잔액 변경</span>' +
+                                '	<span class="k-button-text">이월금액 변경</span>' +
                                 '</button>';
                         }
                     }, {
                         name: 'button',
                         template: function(){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_carryoverCanBtn('+i+')">' +
-                                '	<span class="k-button-text">이월잔액 취소</span>' +
+                                '	<span class="k-button-text">이월금액 취소</span>' +
                                 '</button>';
                         }
                     }, {
@@ -659,7 +659,7 @@ var rndDetail = {
                             return "<span style='text-align:right' id='total"+i+"'></span>";
                         }
                     }, {
-                        title: "이월잔액여부",
+                        title: "이월금액여부",
                         template : function(e){
                             let text = "";
                             if(e.CARRYOVER_CK == "Y"){
