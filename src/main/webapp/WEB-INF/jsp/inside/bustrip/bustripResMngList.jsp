@@ -54,9 +54,10 @@
                         <td>
                             <input type="text" id="project" style="width: 90%"/>
                         </td>
-                        <th class="text-center th-color">사업명</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="busnName" style="width: 100%;">
+                            <input type="text" id="searchValue" style="width: 140px;">
+                            <input type="text" id="busnName" style="width: 58%;">
                         </td>
                         <th class="text-center th-color">입금상태</th>
                         <td>

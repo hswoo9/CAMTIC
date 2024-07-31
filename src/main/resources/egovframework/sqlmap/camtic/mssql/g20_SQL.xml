@@ -75,6 +75,7 @@
     </select>
 
     <select id="getProjectViewList" resultType="java.util.Map" parameterType="java.util.Map">
+            /*getProjectViewList*/
         <![CDATA[
         SELECT
             A.*,
@@ -85,8 +86,13 @@
         FROM DZICUBE.dbo.SPJT A
         LEFT JOIN DZICUBE.dbo.SEMP C WITH(NOLOCK) ON (C.CO_CD = '1212' AND A.EMP_CD = C.EMP_CD)
         WHERE 1=1
-        AND ((A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}) OR (A.TO_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}))
         ]]>
+        <if test='dtGubun == "a" or "a".equals(dtGubun)'>
+            AND A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+        </if>
+        <if test='dtGubun == "b" or "b".equals(dtGubun)'>
+            AND A.TO_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+        </if>
         <choose>
             <when test='searchValue2 != null and !"".equals(searchValue2)'>
                 <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>

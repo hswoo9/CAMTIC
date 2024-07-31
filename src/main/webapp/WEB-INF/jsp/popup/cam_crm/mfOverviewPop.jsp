@@ -139,7 +139,7 @@
                 <div id="tabstrip">
                     <ul style="font-size: 12px;">
                         <li>
-                            전북특별자치도
+                            제조업총조사
                         </li>
                         <li>
                             완주군

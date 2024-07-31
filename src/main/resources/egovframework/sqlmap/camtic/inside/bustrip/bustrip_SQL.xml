@@ -94,17 +94,13 @@
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
-        ON
-            A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
         LEFT JOIN
-            CAM_MNG.DJ_PAY_APP C
-        ON
-            B.PAY_APP_SN = C.PAY_APP_SN
+            CAM_MNG.DJ_PAY_APP C ON B.PAY_APP_SN = C.PAY_APP_SN
         LEFT JOIN
-            CAM_MNG.DJ_PAY_APP D
-        ON
-            A.BF_PAY_APP_SN = D.PAY_APP_SN
+            CAM_MNG.DJ_PAY_APP D ON A.BF_PAY_APP_SN = D.PAY_APP_SN
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON HBC.HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NULL
         WHERE
         <![CDATA[
             A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
@@ -121,9 +117,19 @@
         <if test='"2".equals(project)'>
             AND (A.BUSN_NAME IS NOT NULL AND A.BUSN_NAME != "")
         </if>
-        <if test="busnName != null and busnName != ''">
-            AND A.BUSN_NAME like concat('%', #{busnName}, '%')
-        </if>
+        <choose>
+            <when test='searchValue == "a"'>
+                AND A.BUSN_NAME like concat('%', #{busnName}, '%')
+            </when>
+            <when test='searchValue == "b"'>
+                AND (A.EMP_NAME like concat('%', #{busnName}, '%') OR HBC.EMP_NAME like concat('%', #{busnName}, '%'))
+            </when>
+            <otherwise>
+                <if test="busnName != null and busnName != ''">
+                    AND A.BUSN_NAME like concat('%', #{busnName}, '%')
+                </if>
+            </otherwise>
+        </choose>
         <if test="empSeq != null and !''.equals(empSeq)">
             AND (A.REG_EMP_SEQ = #{empSeq} OR A.EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq}) IS NOT NULL)
         </if>
@@ -706,7 +712,7 @@
             LEFT JOIN
                 CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
             LEFT JOIN
-                CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON IHBR.HR_BIZ_REQ_ID = HBC.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NULL
+                CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON IHBR.HR_BIZ_REQ_ID = HBC.HR_BIZ_REQ_ID
             WHERE
                 IHBR.STATUS IN ('100') AND
             <![CDATA[
@@ -730,8 +736,11 @@
                 AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
                 AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%m%d') <![CDATA[>]]> DATE_FORMAT(P.END_DT, '%Y%m%d')
             </if>
-            <if test="busnName != null and busnName != ''">
+            <if test='searchValue == "a" or "a".equals(searchValue)'>
                 AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
+            </if>
+            <if test='searchValue == "b" or "b".equals(searchValue)'>
+                AND (IHBR.EMP_NAME like concat('%', #{busnName}, '%') OR HBC.EMP_NAME like concat('%', #{busnName}, '%'))
             </if>
             <if test="empSeq != null and !''.equals(empSeq)">
                 AND (IHBR.REG_EMP_SEQ = #{empSeq} OR HBC.EMP_SEQ = #{empSeq})

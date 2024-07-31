@@ -144,7 +144,8 @@ var budgetList = {
     },
 
     fn_popBudgetDetail: function (pjtCd){
-        var url = "/mng/pop/budgetListDetail.do?pjtCd=" + pjtCd;
+        //var url = "/mng/pop/budgetListDetail.do?pjtCd=" + pjtCd;
+        var url = "/budget/pop/busnCostDetailView.do?pjtCd=" + pjtCd;
 
         var name = "_blank";
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";

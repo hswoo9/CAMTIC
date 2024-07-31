@@ -31,6 +31,7 @@ var busiList = {
             endDate : $("#end_date").val(),
             tripCode : $("#tripCode").data("kendoDropDownList").value(),
             project : $("#project").val(),
+            searchValue : $("#searchValue").val(),
             busnName : $("#busnName").val(),
             empSeq : $("#regEmpSeq").val()
         }

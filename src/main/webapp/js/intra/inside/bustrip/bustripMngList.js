@@ -18,6 +18,15 @@ var bustripMngList = {
         bustrip.fn_projectSearchSet();
 
         customKendo.fn_textBox(["busnName"]);
+
+        $("#searchValue").kendoDropDownList({
+            dataSource : [
+                {text : "사업명", value : "a"},
+                {text : "출장자", value : "b"}
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
     },
 
     mainGrid: function(){
@@ -35,6 +44,7 @@ var bustripMngList = {
                     data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val();
                     data.tripCode = $("#tripCode").data("kendoDropDownList").value();
                     data.project = $("#project").val();
+                    data.searchValue = $("#searchValue").val();
                     data.busnName = $("#busnName").val();
                     data.depositStat = $("#depositStat").val();
                     return data;

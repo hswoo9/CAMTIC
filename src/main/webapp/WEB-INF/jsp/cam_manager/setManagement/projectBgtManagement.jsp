@@ -74,25 +74,29 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="7%">
+                        <col width="23%">
                         <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="auto">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
                         <td>
+                            <input type="text" id="dtGubun" style="width: 100%;">
+                        </td>
+                        <td>
                             <input type="text" id="frDt" style="width: 40%;" onchange="prjBgtMng.dateValidationCheck('frDt', this.value)"> ~
                             <input type="text" id="toDt" style="width: 40%;" onchange="prjBgtMng.dateValidationCheck('enDt', this.value)">
                         </td>
                         <th class="text-center th-color">사업구분</th>
                         <td>
-                            <input type="text" id="busnClass" style="width: 150px;">
+                            <input type="text" id="busnClass" style="width: 140px;">
                         </td>
                         <th class="text-center th-color">검색</th>
                         <td colspan="4">
-                            <input type="text" id="searchValue2" style="width: 150px;">
+                            <input type="text" id="searchValue2" style="width: 140px;">
                             <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjBgtMng.gridReload(); }" style="width: 200px;">
                         </td>
                     </tr>

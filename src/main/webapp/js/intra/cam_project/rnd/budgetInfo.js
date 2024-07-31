@@ -4,6 +4,10 @@ let acctAm1Sum = 0;
 let acctAm3Sum = 0;
 let subAmSum = 0;
 
+let paySum = 0; //지급 신청 리스트 합계
+let expSum = 0; //지출 리스트 합계
+
+
 let aSum = 0;
 let bSum = 0;
 
@@ -459,6 +463,7 @@ var rndBg = {
         $("#budgetMainGrid3").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
+            dataBound: rndBg.onDataBound2,
             selectable: "row",
             height: 525,
             pageable: {
@@ -575,17 +580,24 @@ var rndBg = {
                         } else {
                             return "";
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>합계</div>";
                     }
                 },{
                     title: "지출금액",
                     width: 110,
                     template: function(e){
                         var cost = e.TOT_COST;
+                        paySum  += Number(e.TOT_COST);
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(paySum)+"</div>";
                     }
                 }, {
                     title: "상태",
@@ -663,6 +675,7 @@ var rndBg = {
         $("#budgetMainGrid4").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
+            dataBound: rndBg.onDataBound3,
             selectable: "row",
             height : 525,
             pageable: {
@@ -731,12 +744,16 @@ var rndBg = {
                 }, {
                     title: "작성자",
                     field: "REG_EMP_NAME",
-                    width: 80
+                    width: 80,
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>합계</div>";
+                    }
                 }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
+                        expSum  += Number(e.TOT_COST);
                         return '<div style="text-align: right">'+comma(cost)+'</div>';
 
                         // if(e.RE_STAT == "Y"){
@@ -744,7 +761,11 @@ var rndBg = {
                         // } else {
                         //     return '<div style="text-align: right">'+0+'</div>';
                         // }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(expSum)+"</div>";
                     }
+
                 }, {
                     title: "상태",
                     width: 60,
@@ -848,6 +869,13 @@ var rndBg = {
         });
     },
 
+    onDataBound2 : function(){
+        paySum = 0;
+    },
+
+    onDataBound3 : function(){
+        expSum = 0;
+    },
     // 삭제 function
     fn_delReqReg : function (key, owner){
         if(!confirm("삭제하시겠습니까?")){

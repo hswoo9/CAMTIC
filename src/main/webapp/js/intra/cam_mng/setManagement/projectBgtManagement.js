@@ -31,6 +31,15 @@ var prjBgtMng = {
             index: 0
         });
 
+        $("#dtGubun").kendoDropDownList({
+            dataSource : [
+                {text : "시작일", value : "a"},
+                {text : "종료일", value : "b"}
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
         prjBgtMng.gridReload();
     },
 
@@ -48,6 +57,7 @@ var prjBgtMng = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.dtGubun = $("#dtGubun").val();
                     data.pjtFromDate = $("#frDt").val();
                     data.pjtToDate = $("#toDt").val();
 

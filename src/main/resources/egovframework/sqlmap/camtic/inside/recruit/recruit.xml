@@ -324,6 +324,7 @@
         UPDATE
             CAM_INSIDE.DJ_RECRUIT_INFO
         SET
+            RECRUIT_NUM = #{recruitNum},
             RECRUIT_TITLE = #{recruitTitle},
             RECRUIT_DETAIL = #{recruitDetail},
             UPLOAD_DT = #{uploadDt},
