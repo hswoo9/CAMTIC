@@ -256,6 +256,8 @@ var equipmentList = {
                         totalUsageTime, // 총 사용시간
                         dataItem.CLIENT_PRTPCO_NAME, // 의뢰업체
                         dataItem.PRTPCO_GBN_NAME, // 업체구분
+                        dataItem.USE_PD_STR_DE.substring(0, 4), // 연도
+                        dataItem.USE_PD_STR_DE.substring(4, 6), // 월
                         totalUsageTime * usageFee, // 장비사용료 (총 사용시간 * 사용대금)
                         dataItem.DEPT_NAME // 부서
                     ];
