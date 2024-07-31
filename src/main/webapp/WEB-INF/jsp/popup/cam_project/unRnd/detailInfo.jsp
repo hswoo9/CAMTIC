@@ -164,7 +164,7 @@
             </tr>
             <tr class="budgetExDiv" style="display: none">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>이월잔액<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
+                    <span class="red-star"></span>이월금액<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
                 </th>
                 <td colspan="3">
                     <input type="text" id="carryoverCost" value="0" name="carryoverCost" style="width: 15%;text-align: right" disabled/>

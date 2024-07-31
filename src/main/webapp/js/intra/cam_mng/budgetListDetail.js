@@ -408,7 +408,7 @@ var bld = {
                 return;
             }
 
-            if(!confirm("이월잔액(현금)을 저장 하시겠습니까?")){
+            if(!confirm("이월금액(현금)을 저장 하시겠습니까?")){
                 return;
             }
 
@@ -419,7 +419,7 @@ var bld = {
                 return;
             }
 
-            if(!confirm("이월잔액(포인트)을 저장 하시겠습니까?")){
+            if(!confirm("이월금액(포인트)을 저장 하시겠습니까?")){
                 return;
             }
 
