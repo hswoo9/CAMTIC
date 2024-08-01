@@ -74,7 +74,7 @@
             pageable: {
                 refresh: true,
                 pageSize : 5,
-                pageSizes: [10, 20, 30, 50, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
