@@ -41,7 +41,10 @@
         </div>
     </div>
     <div id="checkboxDiv" style="margin:20px 0;">
-        <p style="font-size: 13px; font-weight: bold; margin-left: 20px; margin-bottom: 5px;">◎ 급여대장 연월 선택</p>
+        <p style="font-size: 13px; font-weight: bold; margin-left: 20px; margin-bottom: 5px;">
+            ◎ 급여대장 연월 선택
+            <span style="margin-right: 20px; font-weight: normal;">( 지급년월일 : <input type="text" id="exnpDe" style="width: 10%"> )</span>
+        </p>
         <div style="text-align: center">
             <table id="bsYmTbl" style="margin: 0 auto;">
 
@@ -63,6 +66,8 @@
 
     mainGrid();
     fn_getPartRateDate();
+
+    customKendo.fn_datePicker("exnpDe", '', 'yyyy-MM-dd', new Date());
 
     if($("#sbjSep").val() == "Y"){
         fn_drawSbjSepTable();
@@ -287,7 +292,7 @@
                     html += '    <tbody>';
                     html += '        <tr>';
                     html += '            <th colspan="5" style="font-size: 14px; padding: 0 0 5px 0; text-align: left;">(사)캠틱종합기술원</th>';
-                    html += '            <th colspan="9" style="font-size: 14px; padding: 0 0 5px 0; text-align: right;">지급년월일 : '+ now.getFullYear() + '년 ' + (now.getMonth() + 1) +'월 ' + now.getDate() +'일</th>';
+                    html += '            <th colspan="9" style="font-size: 14px; padding: 0 0 5px 0; text-align: right;">지급년월일 : '+ $("#exnpDe").val().split("-")[0] + '년 ' + $("#exnpDe").val().split("-")[1] +'월 ' + $("#exnpDe").val().split("-")[2] +'일</th>';
                     html += '        </tr>';
                     html += '        <tr>';
                     html += '            <th style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #FCF5E7;">사원정보</th>';
