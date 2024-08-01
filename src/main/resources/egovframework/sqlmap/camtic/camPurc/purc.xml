@@ -2281,6 +2281,7 @@
                 A.JState != 1
             AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
         ) RE
+        GROUP BY RE.CLAIM_SN
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>
 
@@ -2384,6 +2385,7 @@
             A.INSPECT_STATUS,
             B.PAYMENT_METHOD,
             A.ORDER_DT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND TOT_COST != 0) AS ITEM_COUNT,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
             PA.DOC_STATUS AS PAY_DOC_STATUS,
@@ -2432,6 +2434,7 @@
             '' AS INSPECT_STATUS,
             B.PAYMENT_METHOD,
             NULL AS ORDER_DT,
+            '' AS ITEM_COUNT,
             '' AS EXNP_STATUS,
             '' AS EXNP_DOC_STATUS,
             '' AS PAY_DOC_STATUS,
@@ -2509,6 +2512,7 @@
                     AND RE.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
                 </when>
             </choose>
+        GROUP BY RE.CLAIM_SN
         ORDER BY RE.REG_DATE DESC
     </select>
 
