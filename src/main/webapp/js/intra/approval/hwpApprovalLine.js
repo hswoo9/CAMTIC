@@ -595,6 +595,14 @@ var hwpApprovalLine = {
     },
 
     setTranscript : function(fieldName, empSeq, empName, type){
+        /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
+        if(type == "view"){
+            if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                empSeq = $("#approveEmpSeq").val();
+                empName = "대결 "+$("#approveEmpName").val();
+            }
+        }
+
         let ip = "";
         if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
             ip = "https://new.camtic.or.kr";
@@ -607,9 +615,9 @@ var hwpApprovalLine = {
             const imgMap = result.data.sign2Img;
 
             if(type == "view"){
-                /*if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
-                    hwpDocCtrl.putFieldText(fieldName, "대결");
-                }*/
+                if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                    hwpDocCtrl.putFieldText(fieldName+"sub", "대결");
+                }
             }
             hwpDocCtrl.moveToField(fieldName, true, true, false);
 
