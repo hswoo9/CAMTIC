@@ -141,7 +141,8 @@
                         <span class="red-star"></span>계약 번호
                     </th>
                     <td>
-                        <input type="text" id="projectNumber" style="width: 90%; text-align: right;">
+                        <input type="text" id="projectNumber" style="width: 48%; text-align: right;" readonly>
+                        <input type="text" id="projectNumber2" style="width: 48%; text-align: right;" readonly>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 업체(자)
