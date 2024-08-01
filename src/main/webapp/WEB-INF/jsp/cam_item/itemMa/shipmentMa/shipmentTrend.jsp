@@ -40,7 +40,7 @@
                         </td>
                         <th class="text-center th-color">년월</th>
                         <td>
-                            <input type="text" id="year" style="width: 110px;">
+                            <input type="text" id="year" style="width: 15%;">
                         </td>
                     </tr>
                 </table>

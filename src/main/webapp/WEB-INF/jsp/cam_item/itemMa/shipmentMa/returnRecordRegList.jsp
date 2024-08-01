@@ -40,8 +40,8 @@
                         </td>
                         <th class="text-center th-color">납품일자</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 110px;"> ~
-                            <input type="text" id="endDt" style="width: 110px;">
+                            <input type="text" id="startDt" style="width: 45%;"> ~
+                            <input type="text" id="endDt" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

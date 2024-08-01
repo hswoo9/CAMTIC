@@ -33,7 +33,7 @@
                     <tr>
                         <th class="text-center th-color">일자</th>
                         <td>
-                            <input type="text" id="searchDt" style="width: 150px;">
+                            <input type="text" id="searchDt" style="width: 10%;">
                         </td>
                     </tr>
                 </table>

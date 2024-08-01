@@ -47,8 +47,8 @@
                         </td>
                         <th class="text-center th-color">수주일</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 110px;"> ~
-                            <input type="text" id="endDt" style="width: 110px;">
+                            <input type="text" id="startDt" style="width: 45%;"> ~
+                            <input type="text" id="endDt" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">마감구분</th>
                         <td>
