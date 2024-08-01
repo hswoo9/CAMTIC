@@ -673,6 +673,12 @@ var lineSettingPop = {
         }
 
         opener.draft.global.approversArr = lineSettingPop.global.approversArr;
+
+        if(opener.draft.global.params.formId != null && opener.draft.global.params.formId == "194" && opener.$("#mySignCk").val() == "N"){
+            opener.$("#mySignLoadingCk").val("N");
+            opener.$("#loadingDiv").show();
+        }
+
         opener.hwpApprovalLine.setHwpApprovalLinePut();
         window.close();
     },

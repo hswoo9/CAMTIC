@@ -519,6 +519,7 @@ var hwpApprovalLine = {
     },
 
     setSign : function(fieldName, empSeq, empName, type){
+
         /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
         if(type == "view"){
             if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
@@ -553,6 +554,11 @@ var hwpApprovalLine = {
                         console.log('성공');
                         hwpApprovalLine.global.checkSign = "Y";
 
+                        if($("#mySignLoadingCk").val() == "N"){
+                            setTimeout(function() {
+                                $("#loadingDiv").hide();
+                            }, 2000);
+                        }
                         hwpApprovalLine.setPjtPayApp();
                     }else{
                         console.log('실패');

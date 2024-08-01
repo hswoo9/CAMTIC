@@ -103,6 +103,7 @@
             <input type="hidden" id="reqContentId" name="reqContentId">
 
             <input type="hidden" id="mySignCk" name="mySignCk" value="N">
+            <input type="hidden" id="mySignLoadingCk" name="mySignLoadingCk" value="Y">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
             <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
