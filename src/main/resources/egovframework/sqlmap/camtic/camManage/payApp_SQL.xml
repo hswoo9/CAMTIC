@@ -3041,6 +3041,15 @@
         </if>
     </select>
 
+    <update id="updExnpReFileDeadLine" parameterType="map">
+        /*updExnpReFileDeadLine*/
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            FILE_DEADLINE = 'Y'
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
     <select id="getRegIncmReData" parameterType="map" resultType="map">
         /*getRegIncmReData*/
         SELECT

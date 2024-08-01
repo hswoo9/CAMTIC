@@ -349,6 +349,27 @@ const regReListFilePop = {
         });
     },
 
+    fn_deadLine : function(){
+        if(!confirm("마감하시겠습니까?")){
+            return;
+        }
+
+        $.ajax({
+            url : "/payApp/updExnpReFileDeadLine.do",
+            data : {
+                exnpSn : $("#exnpSn").val()
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("마감되었습니다.");
+                    opener.parent.exnpReList.gridReload();
+                }
+            }
+        });
+    },
+
     fn_delFile: function (key){
         if(!confirm("삭제하시겠습니까?")){
             return;

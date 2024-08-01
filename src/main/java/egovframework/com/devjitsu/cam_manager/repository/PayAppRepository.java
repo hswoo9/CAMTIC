@@ -450,6 +450,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getPayExnpFileList", params);
     }
 
+    public void updExnpReFileDeadLine(Map<String, Object> params) {
+        update("payApp.updExnpReFileDeadLine", params);
+    }
+
     public List<Map<String, Object>> getRegIncmReData(Map<String, Object> params) {
         return selectList("payApp.getRegIncmReData", params);
     }

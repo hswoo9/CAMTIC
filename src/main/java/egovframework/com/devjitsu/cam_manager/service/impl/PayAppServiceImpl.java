@@ -1902,6 +1902,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void updExnpReFileDeadLine(Map<String, Object> params) {
+        payAppRepository.updExnpReFileDeadLine(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getRegIncmReData(Map<String, Object> params) {
         return payAppRepository.getRegIncmReData(params);
     }

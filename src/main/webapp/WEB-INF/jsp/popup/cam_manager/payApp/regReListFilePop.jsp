@@ -30,6 +30,7 @@
 
             <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 13px;">
                 <c:if test="${params.type != 'exnp'}">
+                    <button type="button" class="k-button k-button-solid-info" onclick="regReListFilePop.fn_deadLine();">마감</button>
                     <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regReListFilePop.fn_regist();">등록</button>
                 </c:if>
                 <button type="button" class="k-button k-button-solid-error" onclick="fn_close();">닫기</button>

@@ -288,6 +288,18 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/updExnpReFileDeadLine")
+    public String updExnpReFileDeadLine(@RequestParam Map<String, Object> params, Model model){
+        try{
+            payAppService.updExnpReFileDeadLine(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/regIncmAttPop.do")
     public String regIncmAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

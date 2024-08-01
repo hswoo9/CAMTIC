@@ -187,10 +187,16 @@ var exnpReList = {
                     title: "첨부",
                     width: 60,
                     template: function(e){
+                        let btn = "";
+                        if (e.FILE_DEADLINE == "N") {
+                            btn = "k-button-solid-base";
+                        } else {
+                            btn = "k-button-solid-info";
+                        }
                         // if(e.RE_STAT == "N"){
                         //     return ""
                         // } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="exnpReList.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
+                            return '<button type="button" class="k-button '+ btn +'" onclick="exnpReList.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
                         // }
                     }
                 }

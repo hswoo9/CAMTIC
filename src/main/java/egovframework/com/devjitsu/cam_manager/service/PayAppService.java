@@ -109,6 +109,8 @@ public interface PayAppService {
 
     void regReListFile(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
 
+    void updExnpReFileDeadLine(Map<String, Object> params);
+
     List<Map<String, Object>> getRegIncmReData(Map<String, Object> params);
 
     Map<String, Object> setIncpRe(Map<String, Object> params);
