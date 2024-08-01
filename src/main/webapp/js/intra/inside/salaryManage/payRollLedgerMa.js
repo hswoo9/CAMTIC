@@ -45,7 +45,7 @@ var payRollLedgerMa = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, 100],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
@@ -291,7 +291,7 @@ var payRollLedgerMa = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, 100],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [

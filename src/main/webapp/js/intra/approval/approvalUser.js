@@ -77,7 +77,7 @@ var appUser = {
             pageable: {
                 refresh: true,
                 pageSize : 10,
-                pageSizes: [10, 20, 50, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5,
                 messages: {
                     display: "{0} - {1} of {2}",
