@@ -75,7 +75,7 @@
             <tr>
                 <th id="subjectDe"><span class="red-star">*</span>학습기간</th>
                 <td>
-                    <div style="float: left"><input type="text" id="startDt" style="width: 150px"> ~ <input type="text" id="endDt" style="width: 150px"></div>
+                    <div style="float: left"><input type="text" id="startDt" style="width: 30%"> ~ <input type="text" id="endDt" style="width: 30%"></div>
 
                     <div class="study" style="float: left; display: none">
                         &nbsp<input type="text" id="dateVal" style="width: 200px"> ex)매주 목요일 오후5시

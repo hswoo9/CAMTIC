@@ -50,7 +50,7 @@
             <tr>
                 <th>학습일시</th>
                 <td>
-                    <input type="text" id="journalDt" style="width: 150px"> <input type="text" id="journalStartTime" style="width: 100px"> ~ <input type="text" id="journalEndTime" style="width: 100px">
+                    <input type="text" id="journalDt" style="width: 20%"> <input type="text" id="journalStartTime" style="width: 15%"> ~ <input type="text" id="journalEndTime" style="width: 15%">
                 </td>
             </tr>
             <tr>

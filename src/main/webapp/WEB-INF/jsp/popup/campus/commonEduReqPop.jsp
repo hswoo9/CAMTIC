@@ -53,7 +53,7 @@
                         <span class="red-star">*</span>학습기간
                     </th>
                     <td>
-                        <input id="startDt" type="text" style="width: 120px;"> ~ <input id="endDt" type="text" style="width: 120px;">
+                        <input id="startDt" type="text" style="width: 40%"> ~ <input id="endDt" type="text" style="width: 40%">
                     </td>
                 </tr>
                 <tr>

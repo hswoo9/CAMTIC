@@ -61,7 +61,7 @@
             <tr>
                 <th>지도기간</th>
                 <td>
-                    <input type="text" id="START_DT" style="width: 150px"> ~ <input type="text" id="END_DT" style="width: 150px">
+                    <input type="text" id="START_DT" style="width: 20%"> ~ <input type="text" id="END_DT" style="width: 20%">
                 </td>
             </tr>
             <tr>
@@ -95,7 +95,7 @@
             <tr>
                 <th>결과보고일</th>
                 <td>
-                    <input type="text" id="regDateTd" style="width: 150px">
+                    <input type="text" id="regDateTd" style="width: 20%">
                 </td>
             </tr>
             </thead>

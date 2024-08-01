@@ -66,7 +66,7 @@
                         <span class="red-star">*</span>일시
                     </th>
                     <td>
-                        <input id="openStudyDt" type="text" style="width: 150px;"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
+                        <input id="openStudyDt" type="text" style="width: 20%"> <input type="text" id="startTime" style="width: 15%"> ~ <input type="text" id="endTime" style="width: 15%">
                     </td>
                 </tr>
                 <tr>

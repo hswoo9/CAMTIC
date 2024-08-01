@@ -68,7 +68,7 @@
                     <tr>
                         <th>연봉근로계약서 작성일</th>
                         <td colspan="3">
-                            <input type="text" id="regDt" name="regDt" style="width: 150px" >
+                            <input type="text" id="regDt" name="regDt" style="width: 20%" >
                         </td>
                     </tr>
                     <tr>

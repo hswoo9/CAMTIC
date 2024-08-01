@@ -169,7 +169,7 @@
                       <td colspan="3">
                     </c:otherwise>
                   </c:choose>
-                        <input type="text" id="startDt" style="width: 130px;" /> ~ <input type="text" id="endDt" style="width: 130px;" />
+                        <input type="text" id="startDt" style="width: 30%;" /> ~ <input type="text" id="endDt" style="width: 30%;" />
                   <c:if test="${eduFormType != 7 && eduFormType != 8}">
                         <br><div style="margin-top: 5px;">(총 <input type="text" id="termDay" style="width: 40px" />일 <input type="text" id="termTime" style="width: 40px;" />시간)</div>
                   </c:if>

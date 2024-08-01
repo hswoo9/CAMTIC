@@ -144,17 +144,17 @@
                 <tr style="display: none;">
                     <th scope="row" class="text-center th-color">지출 날짜 설정</th>
                     <td colspan="4">
-                        지출요청일 : <input id="reqDe" style="width: 150px">&nbsp;
-                        지출예정일 : <input id="reqExDe" style="width: 150px">&nbsp;
-                        지출완료일 : <input id="reqEndDe" style="width: 150px">&nbsp;
+                        지출요청일 : <input id="reqDe" style="width: 10%">&nbsp;
+                        지출예정일 : <input id="reqExDe" style="width: 10%">&nbsp;
+                        지출완료일 : <input id="reqEndDe" style="width: 10%">&nbsp;
                     </td>
                 </tr>
                 <tr id="dtTr">
                     <th scope="row" class="text-center th-color">결의서 날짜 설정</th>
                     <td colspan="4">
-                        회계발의일 : <input id="DT1" style="width: 150px">&nbsp;
-                        등기일자 : <input id="DT2" style="width: 150px">&nbsp;
-                        지출부기재 일자 : <input id="DT3" style="width: 150px">&nbsp;
+                        회계발의일 : <input id="DT1" style="width: 10%">&nbsp;
+                        등기일자 : <input id="DT2" style="width: 10%">&nbsp;
+                        지출부기재 일자 : <input id="DT3" style="width: 10%">&nbsp;
                     </td>
                 </tr>
                 <tr>

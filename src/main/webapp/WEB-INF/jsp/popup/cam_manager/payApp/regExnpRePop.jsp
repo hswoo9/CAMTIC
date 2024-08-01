@@ -61,7 +61,7 @@
                     </td>
                     <th scope="row" class="text-center th-color">지출일자</th>
                     <td>
-                        <input type="text" id="inDt" style="width: 120px;">
+                        <input type="text" id="inDt" style="width: 60%;">
                     </td>
                 </tr>
                 <tr id="project">
