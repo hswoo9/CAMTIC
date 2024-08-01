@@ -1988,6 +1988,10 @@
             CO_SN,
             CO_NAME,
             REMARK_CN,
+            REPRESENTATIVE,
+            BUSINESS_NUMBER,
+            ZIP_CODE,
+            ADDR,
             REG_EMP_SEQ,
             REG_DT
         )
@@ -2000,19 +2004,25 @@
             '구매',
             CONCAT('TIC', DATE_FORMAT(NOW(), '%y')),
             (SELECT LPAD(CAST(MAX(CAST(DOCU_NO AS UNSIGNED)) AS CHAR) + 1, 3, '0') FROM CAM_INSIDE.DJ_DOCUMENT_CONTRACT SIDC WHERE SIDC.DOCU_YEAR_SN = CONCAT('TIC', DATE_FORMAT(NOW(), '%y')) AND SIDC.ACTIVE = 'Y'),
-            CLAIM_DE,
-            CLAIM_TITLE,
-            TOT_AMT,
-            CLAIM_DE,
-            EXP_DE,
-            CRM_SN,
-            CRM_NM,
-            CLAIM_ETC,
-            CLAIM_EMP_SEQ,
+            PC.CLAIM_DE,
+            PC.CLAIM_TITLE,
+            PC.TOT_AMT,
+            PC.CLAIM_DE,
+            PC.EXP_DE,
+            PC.CRM_SN,
+            PC.CRM_NM,
+            PC.CLAIM_ETC,
+            CI.CRM_CEO,
+            CI.CRM_NO,
+            CI.POST,
+            CI.ADDR,
+            PC.CLAIM_EMP_SEQ,
             NOW()
         FROM
-            CAM_MNG.DJ_PURC_CLAIM
-        WHERE CLAIM_SN = #{claimSn}
+            CAM_MNG.DJ_PURC_CLAIM PC
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI ON CI.CRM_SN = PC.CRM_SN
+        WHERE PC.CLAIM_SN = #{claimSn}
     </insert>
 
     <select id="getOrderSendFileList" parameterType="map" resultType="map">

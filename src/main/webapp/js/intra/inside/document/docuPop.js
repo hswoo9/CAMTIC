@@ -17,7 +17,7 @@ var docuContractReq = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
+        customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "projectNumber2", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
         customKendo.fn_datePicker("docuDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("startDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDe", 'month', "yyyy-MM-dd", new Date());
@@ -175,6 +175,13 @@ var docuContractReq = {
         $("#coSn").val(data.CO_SN);
         $("#coName").val(data.CO_NAME);
         $("#remarkCn").val(data.REMARK_CN);
+
+        $("#projectNumber").val(data.DOCU_YEAR_SN);
+        $("#projectNumber2").val(data.DOCU_NO);
+        $("#representative").val(data.REPRESENTATIVE);
+        $("#businessNumber").val(data.BUSINESS_NUMBER);
+        $("#zipCode").val(data.ZIP_CODE);
+        $("#addr").val(data.ADDR);
 
         var returnData = customKendo.fn_customAjax("/contract/getFileListC", { documentContractSn: documentContractSn });
         var returnFileArr = returnData.fileList;
