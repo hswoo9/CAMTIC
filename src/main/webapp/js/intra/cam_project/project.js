@@ -35,7 +35,7 @@ var camPrj = {
             dataSource: [
                 { text: "전체", value: "" },
                 { text: "미수주", value: "Y" },
-                { text: "예상", value: "'Y', 'E', 'E1', 'E2', 'R', 'S'" },
+                { text: "예상", value: "'Y', 'E', 'E0', 'E1', 'E2', 'R', 'S'" },
                 { text: "진행", value: "'E3', 'E4', 'E5', 'E6', 'E7', 'R2', 'R2', 'S2', 'R3', 'S3'" },
                 { text: "완료", value: "res" }
             ],
