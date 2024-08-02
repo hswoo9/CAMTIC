@@ -1710,9 +1710,9 @@ public class ProjectController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
-        if(loginVO == null){
+        /*if(loginVO == null){
             return "error/error";
-        }
+        }*/
 
         return "cam_project/hist/projectHistEngn";
     }
@@ -1724,9 +1724,9 @@ public class ProjectController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
-        if(loginVO == null){
+        /*if(loginVO == null){
             return "error/error";
-        }
+        }*/
 
         return "cam_project/hist/projectHistRnd";
     }
@@ -1738,9 +1738,9 @@ public class ProjectController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
-        if(loginVO == null){
+        /*if(loginVO == null){
             return "error/error";
-        }
+        }*/
         
         return "cam_project/hist/projectHistEdu";
     }
