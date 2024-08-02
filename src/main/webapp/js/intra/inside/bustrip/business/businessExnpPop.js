@@ -198,7 +198,7 @@ const busiExnp = {
         let myData = {
             empName : busInfo.EMP_NAME,
             empSeq : busInfo.EMP_SEQ,
-            dutyName : userInfo.dutyName
+            dutyName : userInfo.DUTY_NAME
         }
         companion.push(myData);
 
