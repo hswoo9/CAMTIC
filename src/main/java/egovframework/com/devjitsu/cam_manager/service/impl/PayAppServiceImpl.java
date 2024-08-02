@@ -1891,7 +1891,7 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
-        return payAppRepository.getExnpFileList(params);
+        return payAppRepository.getPayExnpFileList(params);
     }
 
     @Override

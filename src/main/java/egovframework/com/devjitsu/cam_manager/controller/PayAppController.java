@@ -17,6 +17,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -686,18 +689,31 @@ public class PayAppController {
         List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
         List<Map<String, Object>> list2 = payAppService.getExnpDetailDataDupl(params);
 
-//        String[] fileNoAr = new String[list.size()];
-//        for(int i = 0; i < list.size(); i++){
-//            if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
-//                fileNoAr[i] = "";
-//            } else {
-//                fileNoAr[i] = list.get(i).get("FILE_NO").toString();
-//            }
-//        }
-//
-//        params.put("fileNoAr", fileNoAr);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        List<Map<String, Object>> fileList = payAppService.getExnpFileList(params);
+        LocalDate baseDate = LocalDate.of(2024, 8, 03);
+        LocalDate regDate = LocalDate.parse(simpleDateFormat.format(map.get("REG_DT")));
+
+        // 두 날짜를 비교합니다. from이 to보다 이전이면 음수, 같으면 0, 이후이면 양수를 반환합니다.
+        // int compare = from.compareTo(to);
+        List<Map<String, Object>> fileList = new ArrayList<>();
+        int compare = regDate.compareTo(baseDate);
+        if(compare < 0) {
+            String[] fileNoAr = new String[list.size()];
+            for(int i = 0; i < list.size(); i++){
+                if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                    fileNoAr[i] = "";
+                } else {
+                    fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+                }
+            }
+
+            params.put("fileNoAr", fileNoAr);
+
+            fileList = payAppService.getPayAppFileList(params);
+        } else {
+            fileList = payAppService.getExnpFileList(params);
+        }
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);
@@ -1209,7 +1225,35 @@ public class PayAppController {
 
     @RequestMapping("/pay/payExnpFileList")
     public String payExnpFileList(@RequestParam Map<String, Object> params, Model model){
-        List<Map<String, Object>> listMap = payAppService.getPayExnpFileList(params);
+
+        Map<String, Object> map = payAppService.getExnpData(params);
+        List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        LocalDate baseDate = LocalDate.of(2024, 8, 03);
+        LocalDate regDate = LocalDate.parse(simpleDateFormat.format(map.get("REG_DT")));
+
+        // 두 날짜를 비교합니다. from이 to보다 이전이면 음수, 같으면 0, 이후이면 양수를 반환합니다.
+        // int compare = from.compareTo(to);
+        List<Map<String, Object>> listMap = new ArrayList<>();
+        int compare = regDate.compareTo(baseDate);
+        if(compare < 0) {
+            String[] fileNoAr = new String[list.size()];
+            for(int i = 0; i < list.size(); i++){
+                if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                    fileNoAr[i] = "";
+                } else {
+                    fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+                }
+            }
+
+            params.put("fileNoAr", fileNoAr);
+
+            listMap = payAppService.getPayExnpFileList(params);
+        } else {
+            listMap = payAppService.getExnpFileList(params);
+        }
 
         model.addAttribute("listMap", listMap);
         return "jsonView";
