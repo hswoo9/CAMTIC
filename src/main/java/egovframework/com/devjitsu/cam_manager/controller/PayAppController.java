@@ -686,18 +686,18 @@ public class PayAppController {
         List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
         List<Map<String, Object>> list2 = payAppService.getExnpDetailDataDupl(params);
 
-        String[] fileNoAr = new String[list.size()];
-        for(int i = 0; i < list.size(); i++){
-            if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
-                fileNoAr[i] = "";
-            } else {
-                fileNoAr[i] = list.get(i).get("FILE_NO").toString();
-            }
-        }
+//        String[] fileNoAr = new String[list.size()];
+//        for(int i = 0; i < list.size(); i++){
+//            if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+//                fileNoAr[i] = "";
+//            } else {
+//                fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+//            }
+//        }
+//
+//        params.put("fileNoAr", fileNoAr);
 
-        params.put("fileNoAr", fileNoAr);
-
-        List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
+        List<Map<String, Object>> fileList = payAppService.getExnpFileList(params);
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);

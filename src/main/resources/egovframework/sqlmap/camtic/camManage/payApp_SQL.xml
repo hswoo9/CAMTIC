@@ -2495,6 +2495,39 @@
         WHERE FILE_NO in (${sList})
     </update>
 
+    <insert id="insPayAppFileCopy" parameterType="map">
+        /*insPayAppFileCopy*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            'exnp',
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            #{exnpSn},
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE FILE_NO = #{fileNo}
+    </insert>
+
     <update id="updPurcSnackByPayAppSn" parameterType="map">
         /*updPurcSnackByPayAppSn*/
         UPDATE CAM_INSIDE.DJ_SNACK_INFO
@@ -2593,6 +2626,24 @@
         /* delPayAppFileList */
         DELETE FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}
     </delete>
+
+    <select id="getExnpFileList" parameterType="map" resultType="map">
+        /*getExnpFileList*/
+        SELECT
+            SUB.*
+        FROM
+            (
+                SELECT
+                    *,
+                    ROW_NUMBER() OVER (PARTITION BY CONCAT(FILE_ORG_NAME,'.',FILE_EXT), FILE_CD, FILE_PATH ORDER BY FILE_NO DESC) AS row_num
+                FROM
+                    CAM_COMMON.DJ_FILE_INFO
+                WHERE
+                    CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp'
+            ) SUB
+        WHERE SUB.row_num = 1
+        GROUP BY FILE_UUID, FILE_PATH;
+    </select>
 
     <select id="getPayAppInfo" parameterType="map" resultType="map">
         /*getPayAppInfo*/

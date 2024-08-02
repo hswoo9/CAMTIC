@@ -583,6 +583,29 @@ public class PayAppServiceImpl implements PayAppService {
                 params.put("payAppDetSn", null);
             }
             payAppRepository.insExnpData(params);
+
+            // 지급신청서 첨부파일 복제
+            if(params.containsKey("payAppSn")){
+                List<Map<String, Object>> list = payAppRepository.getPayAppDetailData(params);
+
+                String[] fileNoAr = new String[list.size()];
+                for(int i = 0; i < list.size(); i++){
+                    if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                        fileNoAr[i] = "";
+                    } else {
+                        fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+                    }
+                }
+                params.put("fileNoAr", fileNoAr);
+
+                for(Map<String, Object> map : payAppRepository.getPayAppFileList(params)){
+                    Map<String, Object> tempParams = new HashMap<String, Object>();
+                    tempParams.put("fileNo", map.get("file_no"));
+                    tempParams.put("exnpSn", params.get("exnpSn"));
+                    payAppRepository.insPayAppFileCopy(tempParams);
+                }
+            }
+
         } else {
             payAppRepository.updExnpData(params);
             payAppRepository.delExnpDetailData(params);
@@ -1783,6 +1806,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpFileList(Map<String, Object> params) {
+        return payAppRepository.getExnpFileList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params) {
         List<Map<String, Object>> list = payAppRepository.getExnpDetailData(params);
         List<Map<String, Object>> fileList = payAppRepository.getApprovalExnpCommonFileData(params);
@@ -1863,7 +1891,7 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
-        return payAppRepository.getPayExnpFileList(params);
+        return payAppRepository.getExnpFileList(params);
     }
 
     @Override

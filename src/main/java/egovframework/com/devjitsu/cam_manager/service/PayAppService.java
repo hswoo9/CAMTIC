@@ -87,6 +87,8 @@ public interface PayAppService {
     List<Map<String, Object>> getPayAppFileList(Map<String, Object> params);
     List<Map<String, Object>> getPayAppDocFileList(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpFileList(Map<String, Object> params);
+
     List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
 
     List<Map<String, Object>> getPjtExnpList(Map<String, Object> params);
