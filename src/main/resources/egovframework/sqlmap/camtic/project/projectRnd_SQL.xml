@@ -81,7 +81,7 @@
 
     <update id="updSubjectInfo" parameterType="map">
         /*updSubjectInfo*/
-        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        UPDATE CAM_PJT_MNG.DJ_PROJECT A
         SET
             BS_TITLE = #{bsTitle},
             YEAR_CLASS = #{yearClass},
@@ -103,10 +103,11 @@
             ALL_BUSN_COST = #{allBusnCost},
             ALL_PJT_AMT = #{allPjtAmt},
             SECURITY = #{security},
-            PARENT_PJT_SN = #{parentPjtSn},
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}
+         OR PARENT_PJT_SN = #{pjtSn}
+         OR PJT_SN IN (SELECT PARENT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </update>
 
     <insert id="insAccountInfo" parameterType="map">

@@ -219,7 +219,11 @@ var camPrj = {
                     width: 100,
                     template: function(e){
                         if(e.DELV_APPROVE_STAT == "100"){
-                            return e.PJT_CD;
+                            if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
+                                return e.PJT_CD.substring(0, e.PJT_CD.length - 1);
+                            }else{
+                                return e.PJT_CD;
+                            }
                         }else{
                             return "";
                         }

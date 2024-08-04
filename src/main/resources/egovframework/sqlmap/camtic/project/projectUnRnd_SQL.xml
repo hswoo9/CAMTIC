@@ -110,6 +110,8 @@
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}
+         OR PARENT_PJT_SN = #{pjtSn}
+         OR PJT_SN IN (SELECT PARENT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </update>
 
     <select id="getUnRndDetail" parameterType="map" resultType="map">

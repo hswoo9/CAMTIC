@@ -58,8 +58,8 @@ var prjBgtMng = {
                 },
                 parameterMap: function(data) {
                     data.dtGubun = $("#dtGubun").val();
-                    data.pjtFromDate = $("#frDt").val();
-                    data.pjtToDate = $("#toDt").val();
+                    data.pjtFromDate = $("#frDt").val().replace(/-/g, "");
+                    data.pjtToDate = $("#toDt").val().replace(/-/g, "");
 
                     data.busnClass = $("#busnClass").val();
 
