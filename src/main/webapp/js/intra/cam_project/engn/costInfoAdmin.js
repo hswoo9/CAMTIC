@@ -6,18 +6,25 @@ var costInfo = {
         searchAjaxData4 : ""
     },
 
-    fn_defaultScript : function (){
-        const pjtSn = $("#pjtSn").val();
+    fn_defaultScript: function(){
+        /** 탭별 프로젝트 global 데이터 세팅 */
         commonProject.setPjtStat();
-        costInfo.pageSet();
+
+        /** UI 세팅 */
+        costInfo.pageSet()
+
+        /** 켄도그리드 세팅 */
         costInfoGrid.mainGrid();
-        costInfo.dataSet(pjtSn);
+        
+        /** 데이터 세팅 */
+        costInfo.dataSet();
     },
 
-    pageSet(){
+    pageSet: function(){
         if(commonProject.global.teamYn == null || commonProject.global.teamYn != "N"){
             return;
         }
+
         const pjtSn = $("#pjtSn").val();
         const result = customKendo.fn_customAjax("/project/getTeamPjtList", {pjtSn: pjtSn});
         const list = result.list;
@@ -47,7 +54,8 @@ var costInfo = {
         }
     },
 
-    dataSet(pjtSn){
+    dataSet: function(){
+        const pjtSn = $("#pjtSn").val();
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const pjtMap = result.map;
         console.log("pjtMap", pjtMap);

@@ -1885,4 +1885,33 @@ public class ProjectController {
 
         return "jsonView";
     }
+    
+    /** 지출내역 - 지급신청서 선택 팝업 */
+    @RequestMapping("/project/payAppChoosePop.do")
+    public String lecturePersonReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/engineering/payAppChoosePop";
+    }
+
+    @RequestMapping("/project/payAppChooseList")
+    public String payAppChooseList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectService.payAppChooseList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 단위사업(교육) 수강자 청강 처리 */
+    @RequestMapping("/project/updPayAppChoose")
+    public String updPayAppChoose(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.updPayAppChoose(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

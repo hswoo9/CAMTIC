@@ -1790,6 +1790,16 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getPjtYear(Map<String, Object> params) {
         return projectRepository.getPjtYear(params);
     }
+
+    @Override
+    public List<Map<String, Object>> payAppChooseList(Map<String, Object> params) {
+        return projectRepository.payAppChooseList(params);
+    }
+
+    @Override
+    public void updPayAppChoose(Map<String, Object> params) {
+        projectRepository.updPayAppChoose(params);
+    }
 }
 
 

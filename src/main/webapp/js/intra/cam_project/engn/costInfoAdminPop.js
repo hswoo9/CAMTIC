@@ -22,5 +22,12 @@ var costInfoPop = {
         const name = "lectureReqPop";
         const option = "width = 1250, height = 650, top = 100, left = 300, location = no";
         window.open(url, name, option);
+    },
+
+    payAppChoosePop: function(){
+        let url = "/project/payAppChoosePop.do?pjtSn="+$("#pjtSn").val();
+        const name = "payAppChoosePop";
+        const option = "width = 1450, height = 650, top = 150, left = 400, location = no";
+        window.open(url, name, option);
     }
 }

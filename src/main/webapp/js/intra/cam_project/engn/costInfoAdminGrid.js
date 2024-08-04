@@ -3,23 +3,22 @@ var costInfoGrid = {
     mainGrid: function(){
         costInfoGrid.grid2();
         costInfoGrid.grid3();
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $("#grid4").show();
-            $("#grid4Div").show();
-            $("#grid4Span").show();
-            costInfoGrid.grid4();
+        costInfoGrid.grid4();
+
+        if(commonProject.global.busnClass == "D" || commonProject.global.busnClass == "V"){
+            $("#engnSelBtn").show();
         }else{
-            $(".grid4").hide();
+            $("#engnSelBtn").hide();
         }
+
+        /** 총 합계 */
         costInfoGrid.sumTable();
     },
 
     gridReload: function(){
         $("#grid2").data("kendoGrid").dataSource.read();
         $("#grid3").data("kendoGrid").dataSource.read();
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $("#grid4").data("kendoGrid").dataSource.read();
-        }
+        $("#grid4").data("kendoGrid").dataSource.read();
         costInfoGrid.sumTable();
     },
 
@@ -516,6 +515,13 @@ var costInfoGrid = {
             },
             toolbar : [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="engnSelBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display:none" onclick="costInfoPop.payAppChoosePop()">' +
+                            '	<span class="k-button-text">지급신청서 선택</span>' +
+                            '</button>';
+                    }
+                },{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="costInfoGrid.gridReload()">' +

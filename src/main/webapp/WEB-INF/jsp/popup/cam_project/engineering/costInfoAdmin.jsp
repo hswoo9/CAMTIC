@@ -155,8 +155,8 @@
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 출장내역</span>
         <div id="grid3"></div>
 
-        <div clsss="grid4" id="grid4Div" style="display: none; margin-top:10px;"></div><span clsss="grid4" id="grid4Span" style="display: none; font-size: 12px;">◎ 지출내역</span>
-        <div clsss="grid4" id="grid4" style="display: none;"></div>
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
+        <div id="grid4"></div>
     </div>
 
     <input type="hidden" id="purcSumTemp2"/>

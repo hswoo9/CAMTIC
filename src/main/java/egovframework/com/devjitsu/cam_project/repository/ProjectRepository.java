@@ -824,4 +824,12 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getPjtYear(Map<String, Object> params) {
         return selectList("project.getPjtYear", params);
     }
+
+    public List<Map<String, Object>> payAppChooseList(Map<String, Object> params) {
+        return selectList("project.payAppChooseList", params);
+    }
+
+    public void updPayAppChoose(Map<String, Object> params) {
+        update("project.updPayAppChoose", params);
+    }
 }
