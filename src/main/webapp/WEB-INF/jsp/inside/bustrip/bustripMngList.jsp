@@ -5,6 +5,8 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripMngList.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPop.js?v=${today}"/></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -50,7 +52,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td colspan="3">
                             <input type="text" id="searchValue" style="width: 140px;">
-                            <input type="text" id="busnName" style="width: 80%;">
+                            <input type="text" id="busnName" style="width: 80%;" onkeypress="if(window.event.keyCode==13){bustripMngList.mainGrid();}">
                         </td>
                     </tr>
                 </table>
