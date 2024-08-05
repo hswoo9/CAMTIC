@@ -1436,4 +1436,18 @@ public class PayAppController {
         model.addAttribute("map", payAppService.g20ExnpManage(params)) ;
         return "jsonView";
     }
+
+    /**
+     * parameter
+     * (payIncpSn/payIncpReSn), type (app, resolution)
+     *
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/payApp/g20IncpManage")
+    public String g20IncpManage(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("map", payAppService.g20IncpManage(params)) ;
+        return "jsonView";
+    }
 }
