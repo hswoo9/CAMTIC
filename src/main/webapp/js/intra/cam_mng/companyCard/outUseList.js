@@ -100,13 +100,17 @@ var outUseList = {
                     title: "I-branch<br>법인카드 사용내역(실시간)",
                     columns: [
                         {
+                            field: "BUY_STS_TXT",
+                            title: "구분",
+                            width: 40,
+                        }, {
                             field: "TR_NM",
                             title: "카드명",
                             width: 200,
                         }, {
                             field: "CARD_BA_NB",
                             title: "카드번호",
-                            width: 100,
+                            width: 120,
                         }, {
                             field: "AUTH_DD",
                             title: "결제일자",
@@ -125,7 +129,7 @@ var outUseList = {
                         }, {
                             field: "AUTH_AMT",
                             title: "금액",
-                            width: 100,
+                            width: 80,
                             template : function (e){
                                 calcAmSum  += Number(e.AUTH_AMT);
 

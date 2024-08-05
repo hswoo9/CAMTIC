@@ -312,6 +312,22 @@ var payCardHist = {
                     template : "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>",
                     width: 50
                 }, {
+                    title: "구분",
+                    width: 80,
+                    template : function(e) {
+                        if(e.BUY_STS == "01") {
+                            return "매입";
+                        } else if(e.BUY_STS == "02") {
+                            return "매입취소";
+                        } else if(e.BUY_STS == "03") {
+                            return "승인";
+                        } else if(e.BUY_STS == "04") {
+                            return "승인취소";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
                     title: "승인일자",
                     width: 130,
                     template : function (e){
