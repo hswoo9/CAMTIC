@@ -160,7 +160,7 @@ var bustripResultPop = {
         $("#busnName").val(busInfo.BUSN_NAME);
         $("#pjtSn").val(busInfo.PJT_SN);
 
-        $("#project").data("kendoRadioGroup").enable(false);
+        $("#project").data("kendoRadioGroup").enable(true);
 
         /** 차량 */
         $("#carReqSn").val(busInfo.CAR_REQ_SN);
@@ -1179,6 +1179,15 @@ var bustripResultPop = {
         }
 
     },
+
+    fn_projectPop : function (){
+
+        var url = "/project/pop/projectView.do";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
 
 function userDataSet(userArr){
@@ -1309,4 +1318,9 @@ function generateCanvas(i, doc, deferred, curList, contW){ //페이지를 이미
             $("#pdfDiv").css("display", "none");
         }
     );
+}
+
+function selectProject(key, name){
+    $("#busnName").val(name);
+    $("#pjtSn").val(key);
 }
