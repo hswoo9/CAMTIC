@@ -31,9 +31,9 @@
                 <tr>
                     <th class="text-center th-color">출장 기간</th>
                     <td colspan="2">
-                        <input type="text" id="start_date" style="width: 150px;">
+                        <input type="text" id="start_date" style="width: 30%;">
                         ~
-                        <input type="text" id="end_date" style="width: 150px;">
+                        <input type="text" id="end_date" style="width: 30%;">
                     </td>
                     <th class="text-center th-color">출장지</th>
                     <td colspan="2">
