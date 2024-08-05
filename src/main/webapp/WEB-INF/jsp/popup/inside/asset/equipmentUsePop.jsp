@@ -75,14 +75,14 @@
                             <span class="red-star">*</span>사용일자
                         </th>
                         <td>
-                            <input id="usePdStrDe" type="date" style="width: 110px;" onchange="equipmentUsePop.fn_calTime()">
-                            <input id="time1" style="width: 80px" onchange="equipmentUsePop.fn_calTime()"> ~
-                            <input id="time2" style="width: 80px" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="usePdStrDe" type="date" style="width: 40%;" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="time1" style="width: 25%" onchange="equipmentUsePop.fn_calTime()"> ~
+                            <input id="time2" style="width: 25%" onchange="equipmentUsePop.fn_calTime()">
                         </td>
                         <td colspan="2">
-                            <input id="usePdEndDe" type="date" style="width: 110px;" onchange="equipmentUsePop.fn_calTime()">
-                            <input id="endTime1" style="width: 80px" onchange="equipmentUsePop.fn_calTime()"> ~
-                            <input id="endTime2" style="width: 80px" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="usePdEndDe" type="date" style="width: 25%;" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="endTime1" style="width: 20%" onchange="equipmentUsePop.fn_calTime()"> ~
+                            <input id="endTime2" style="width: 20%" onchange="equipmentUsePop.fn_calTime()">
                             <input type="checkbox" id="oneDay" onchange="equipmentUsePop.oneDay()" checked>
                             <label class="__lab" for="oneDay" style="vertical-align: middle;">당일</label>
                         </td>
