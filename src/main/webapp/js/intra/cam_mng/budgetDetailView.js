@@ -113,7 +113,7 @@ var bdv = {
                 record = fn_getRowNum(this, 2);
             },
             dataBound: function(){
-                incpSum = 0;
+                exnpSum = 0;
             }
         }).data("kendoGrid");
     },
