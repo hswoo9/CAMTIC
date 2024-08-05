@@ -5,7 +5,53 @@
 
     <select id="cardAllList" parameterType="map" resultType="map">
         /*cardAllList*/
-        SELECT * FROM
+        SELECT
+            AA.*,
+            CASE
+                WHEN AA.USE_PAY_APP_SN IS NOT NULL THEN '지급신청'
+                WHEN AA.USE_SNACK_INFO_SN IS NOT NULL THEN '식대'
+                WHEN AA.USE_HR_BIZ_REQ_ID IS NOT NULL OR AA.USE_HR_BIZ_REQ_RESULT_ID IS NOT NULL THEN '출장'
+                ELSE ''
+            END EXCEL_PAY_APP_SN,
+            CASE
+                WHEN AA.PAY_EMP_SEQ IS NOT NULL THEN AA.PAY_EMP_SEQ
+                WHEN AA.SNACK_EMP_SEQ IS NOT NULL THEN AA.SNACK_EMP_SEQ
+                WHEN AA.HR_BIZ_EMP_SEQ IS NOT NULL THEN AA.HR_BIZ_EMP_SEQ
+                WHEN AA.HR_BIZ_RES_EMP_SEQ IS NOT NULL THEN AA.HR_BIZ_RES_EMP_SEQ
+                ELSE ''
+            END EXCEL_PAY_EMP_SEQ,
+            CASE
+                WHEN AA.PAY_REG_DT IS NOT NULL THEN AA.PAY_REG_DT
+                WHEN AA.SNACK_REG_DT IS NOT NULL THEN AA.SNACK_REG_DT
+                WHEN AA.HR_BIZ_REG_DT IS NOT NULL THEN AA.HR_BIZ_REG_DT
+                WHEN AA.HR_BIZ_RES_REG_DT IS NOT NULL THEN AA.HR_BIZ_RES_REG_DT
+                ELSE ''
+            END EXCEL_PAY_REG_DT,
+            CASE
+                WHEN PAY_EXNP_STAT IS NOT NULL THEN
+                    CASE
+                        WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NOT NULL THEN '승인'
+                        WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NULL AND PAY_APP_TYPE IN (1,2,3) THEN '승인'
+                        WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NULL AND PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+                        WHEN PAY_EXNP_STAT != 100 THEN '미결'
+                    END
+                WHEN SNACK_EXNP_STAT IS NOT NULL THEN
+                    CASE
+                        WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NOT NULL THEN '승인'
+                        WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NULL AND SNACK_PAY_APP_TYPE IN (1,2,3) THEN '승인'
+                        WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NULL AND SNACK_PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+                        WHEN SNACK_EXNP_STAT != 100 THEN '미결'
+                    END
+                WHEN HR_EXNP_STAT IS NOT NULL THEN
+                    CASE
+                        WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NOT NULL THEN '승인'
+                        WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NULL AND HR_PAY_APP_TYPE IN (1,2,3) THEN '승인'
+                        WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NULL AND HR_PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+                        WHEN HR_EXNP_STAT != 100 THEN '미결'
+                    END
+                ELSE '미작성'
+            END EXCEL_PAY_EXNP_STAT
+        FROM
         (
             SELECT
                 A.*,

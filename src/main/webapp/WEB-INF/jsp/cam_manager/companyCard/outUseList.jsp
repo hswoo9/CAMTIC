@@ -41,11 +41,11 @@
                         </td>
                         <th class="text-center th-color">사용내역등록여부</th>
                         <td>
-                            <input type="text" id="regHistYn" style="width: 160px;" onchange="outUseList.mainGrid();"/>
+                            <input type="text" id="regHistYn" style="width: 160px;" onchange="outUseList.gridReload();"/>
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){outUseList.mainGrid();}"/>
+                            <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){outUseList.gridReload();}"/>
                             <br>* 명칭, 카드번호(ex. 끝4자리), 거래처 검색가능
                         </td>
                     </tr>

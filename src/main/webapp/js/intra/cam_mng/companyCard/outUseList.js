@@ -158,7 +158,7 @@ var outUseList = {
                     title: "전표처리현황",
                     columns: [
                         {
-                            field: "PAY_APP_SN",
+                            field: "EXCEL_PAY_APP_SN",
                             title: "전표처리",
                             template: function(e){
                                 if(e.USE_PAY_APP_SN != null){
@@ -173,7 +173,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
-                            field: "PAY_EMP_SEQ",
+                            field: "EXCEL_PAY_EMP_SEQ",
                             title: "처리자",
                             template: function(e){
                                 if(e.PAY_EMP_SEQ != null){
@@ -188,7 +188,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
-                            field: "PAY_REG_DT",
+                            field: "EXCEL_PAY_REG_DT",
                             title: "처리일자",
                             width: 80,
                             template: function(e){
@@ -203,7 +203,7 @@ var outUseList = {
                                 }
                             },
                         }, {
-                            field: "PAY_EXNP_STAT",
+                            field: "EXCEL_PAY_EXNP_STAT",
                             title: "지출결의서",
                             width: 80,
                             template: function(e){
