@@ -97,7 +97,7 @@
                             <tr style="background-color:#d8dce36b;">
                                 <th>근로일자</th>
                                 <th>근로시간</th>
-                                <th>대채휴가일자</th>
+                                <th>대체휴가일자</th>
                                 <th>비고</th>
                             </tr>
                             <tr class="addData" style="background-color:#fff; text-align:center;">

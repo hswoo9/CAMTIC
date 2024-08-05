@@ -245,7 +245,7 @@ const subHolidayReqPop2 = {
             }
 
             if($("#edtHolidayAlternativeDate_"+i).val() == ""){
-                alert($("#edtHolidayWorkDay_"+i).val()+" 해당 일자에 대채휴가일자가 작정되지 않았습니다");
+                alert($("#edtHolidayWorkDay_"+i).val()+" 해당 일자에 대체휴가일자가 작정되지 않았습니다");
                 flag = false;
                 break;
             }
