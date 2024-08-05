@@ -68,9 +68,9 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업기간</th>
                     <td colspan="3">
-                        <input id="unitBusnStrDt" style="width: 110px;">
+                        <input id="unitBusnStrDt" style="width: 20%;">
                         ~
-                        <input id="unitBusnEndDt" style="width: 110px;">
+                        <input id="unitBusnEndDt" style="width: 20%;">
                     </td>
                 </tr>
                 <tr>
