@@ -180,6 +180,16 @@ var crmReg = {
             return;
         }
 
+        if($("#crmEvent").val().length > 15){
+            alert("종목은 띄어쓰기 포함 15자 이내로 입력 가능합니다.");
+            return;
+        }
+
+        if($("#crmOcc").val().length > 15){
+            alert("업태는 띄어쓰기 포함 15자 이내로 입력 가능합니다.");
+            return;
+        }
+
         // if($("email").val() == ""){
         //     alert("이메일을 입력해주세요.");
         //     return false;
