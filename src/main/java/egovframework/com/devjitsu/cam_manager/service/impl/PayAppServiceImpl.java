@@ -2245,4 +2245,11 @@ public class PayAppServiceImpl implements PayAppService {
         updateG20ExnpFinalAppr(params, params.get("type").toString());
         return params;
     }
+
+    @Override
+    public Map<String, Object> g20IncpManage(Map<String, Object> params) {
+        updateG20IncpFinalAppr(params, params.get("type").toString());
+        return params;
+    }
+
 }

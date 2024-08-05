@@ -152,4 +152,6 @@ public interface PayAppService {
     Map<String, Object> getWaitIncp(Map<String, Object> params);
 
     Map<String, Object> g20ExnpManage(Map<String, Object> params);
+
+    Map<String, Object> g20IncpManage(Map<String, Object> params);
 }
