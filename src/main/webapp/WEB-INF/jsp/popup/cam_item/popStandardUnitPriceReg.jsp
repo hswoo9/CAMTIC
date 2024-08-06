@@ -31,6 +31,7 @@
         <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
         <input type="hidden" id="masterSn" name="masterSn" value="${item.MASTER_SN}">
         <input type="hidden" id="unitPrice" name="unitPrice" value="${item.UNIT_PRICE}">
+        <input type="hidden" id="b2bPrice" name="b2bPrice" value="${item.B2B_PRICE}">
         <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
@@ -65,8 +66,9 @@
                     <col style="width: 7%">
                     <col style="width: 15%">
                     <col style="width: 15%">
-                    <col style="width: 18%">
-                    <col style="width: 18%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
                     <col>
                 </colgroup>
                 <thead>
@@ -77,6 +79,7 @@
                     <th>순번</th>
                     <th>원가</th>
                     <th>단가</th>
+                    <th>B2B 단가</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
                     <th>비고</th>

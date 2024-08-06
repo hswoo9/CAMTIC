@@ -83,6 +83,7 @@ public class ItemManageServiceImpl implements ItemManageService {
         if(!StringUtils.isEmpty(params.get("lastUnitPrice"))){
             Map<String, Object> updateMap = new HashMap<>();
             updateMap.put("unitPrice", params.get("lastUnitPrice"));
+            updateMap.put("b2bPrice", params.get("lastB2bPrice"));
             updateMap.put("empSeq", params.get("empSeq"));
             updateMap.put("masterSn", params.get("masterSn"));
             itemSystemRepository.setItemMasterUnitPriceUpd(updateMap);

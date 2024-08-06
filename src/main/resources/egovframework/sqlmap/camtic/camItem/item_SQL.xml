@@ -9,6 +9,7 @@
             IM.*,
             MSU.MASTER_SD_UP_SN,
             MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
+            MSU.B2B_PRICE AS MSU_B2B_PRICE,
             MSU.START_DT,
             MSU.END_DT,
             MSU.CHANGE_NUM,
@@ -82,6 +83,7 @@
         (
             MASTER_SN,
             UNIT_PRICE,
+            B2B_PRICE,
             START_DT,
             END_DT,
             RMK,
@@ -93,6 +95,7 @@
         (
             #{masterSn},
             #{unitPrice},
+            #{b2bPrice},
             #{startDt},
             '9999-12-31',
             #{rmk},
@@ -133,6 +136,7 @@
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP
         SET
             UNIT_PRICE = #{unitPrice},
+            B2B_PRICE = #{b2bPrice},
             START_DT = #{startDt},
             RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},
@@ -1174,6 +1178,7 @@
         SELECT
             IM.*,
             MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
+            MSU.B2B_PRICE AS MSU_B2B_PRICE,
             IFNULL(CIM.CRM_ITEM_SN, '') AS CRM_ITEM_SN,
             IFNULL(CIM.CRM_SN, '') AS CRM_SN,
             IFNULL(CIM.CRM_ITEM_NO, '') AS CRM_ITEM_NO,
@@ -1181,6 +1186,7 @@
             IFNULL(CIM.BUS_CLASS, '') AS BUS_CLASS,
             CIU.*,
             CIU.UNIT_PRICE AS CIU_UNIT_PRICE,
+            CIU.B2B_PRICE AS CIU_B2B_PRICE,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
         FROM
@@ -1242,6 +1248,7 @@
         (
             CRM_ITEM_SN,
             UNIT_PRICE,
+            B2B_PRICE,
             START_DT,
             END_DT,
             RMK,
@@ -1253,6 +1260,7 @@
         (
             #{crmItemSn},
             #{unitPrice},
+            #{b2bPrice},
             #{startDt},
             '9999-12-31',
             #{rmk},
@@ -1293,6 +1301,7 @@
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
         SET
             UNIT_PRICE = #{unitPrice},
+            B2B_PRICE = #{b2bPrice},
             START_DT = #{startDt},
             RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},

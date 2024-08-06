@@ -24,7 +24,7 @@ var oor = {
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
-                    '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
+                    '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
@@ -39,7 +39,8 @@ var oor = {
                     '<input type="text" id="orderVolume' + oor.global.oorIndex + '" class="numberInput orderVolume" style="text-align: right;" value="0">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;" value="0">' +
+                    '<input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange()">' +
+                    '<input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="amt' + oor.global.oorIndex + '" class="amt numberInput" style="text-align: right" readonly value="0">' +
@@ -58,6 +59,16 @@ var oor = {
             "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex])
 
         customKendo.fn_datePicker("dueDt" + oor.global.oorIndex, '', "yyyy-MM-dd", '');
+
+        $("#priceSel"+ oor.global.oorIndex).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "기본단가", value: "0"},
+                {text: "b2b단가", value: "1"}
+            ],
+            index: 0,
+        });
 
         $(".numberInput").keyup(function(){
             $(this).val(oor.comma(oor.uncomma($(this).val())));
@@ -177,7 +188,18 @@ var oor = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
-        oor.getItemUnitPrice(oor.global.crmIndex);
+
+        if(oor.global.crmSnId != "allModCrmSn"){
+            oor.getItemUnitPrice(oor.global.crmIndex);
+        }
+    },
+
+    allModCrmSn : function(){
+        $.each($(".orInfo"), function(i, v){
+            $(this).find("#crmSn" + i).val($("#allModCrmSn").val());
+            $(this).find("#crmNm" + i).val($("#allModCrmNm").val());
+            oor.getItemUnitPrice(i);
+        })
     },
 
     fn_popItemNoList : function (masterSnIndex){
@@ -203,6 +225,10 @@ var oor = {
         oor.getItemUnitPrice(oor.global.masterSnIndex);
     },
 
+    priceChange : function(){
+        oor.getItemUnitPrice(oor.global.masterSnIndex);
+    },
+
     getItemUnitPrice : function(e){
         if(!$("#masterSn" + e).val()){
             return;
@@ -218,7 +244,11 @@ var oor = {
         if(result.flag){
             if(result.rs != null){
                 oor.global.unitPriceId = "unitPrice" + e;
-                $("#unitPrice").val(result.rs.UNIT_PRICE);
+                if($("#priceSel" + e).val() == "0"){
+                    $("#unitPrice").val(result.rs.UNIT_PRICE);
+                }else{
+                    $("#unitPrice").val(result.rs.B2B_PRICE);
+                }
                 oor.unitPriceChange();
             }else{
                 $("#unitPrice").val(0);
@@ -266,6 +296,7 @@ var oor = {
             $(this).find("input.standard").attr("id", "standard" + i);
             $(this).find("input.standard").attr("onClick", "oor.fn_popItemNoList(" + i + ")");
             $(this).find("input.orderVolume").attr("id", "orderVolume" + i);
+            $(this).find("input.priceSel").attr("id", "priceSel" + i);
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
             $(this).find("input.amt").attr("id", "amt" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);

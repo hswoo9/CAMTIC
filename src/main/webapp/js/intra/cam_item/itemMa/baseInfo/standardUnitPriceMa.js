@@ -91,6 +91,20 @@ var supM = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "B2B단가",
+                    width: 100,
+                    field: "UNIT_PRICE",
+                    template : function (e){
+                        if(e.MSU_B2B_PRICE != null && e.MSU_B2B_PRICE != ""){
+                            return supM.comma(e.MSU_B2B_PRICE) + "원";
+                        }else{
+                            return "0원";
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "등록자",
                     width: 100,
                     field: "REG_EMP_NAME",

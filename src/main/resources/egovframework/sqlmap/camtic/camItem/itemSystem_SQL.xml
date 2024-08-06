@@ -279,6 +279,7 @@
         SELECT
             IM.*,
             MSU.UNIT_PRICE AS MSU_UNIT_PRICE,
+            MSU.B2B_PRICE AS MSU_B2B_PRICE,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
@@ -402,6 +403,7 @@
             CAM_ITEM.DJ_ITEM_MASTER
         SET
             UNIT_PRICE = #{unitPrice},
+            B2B_PRICE = #{b2bPrice},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
