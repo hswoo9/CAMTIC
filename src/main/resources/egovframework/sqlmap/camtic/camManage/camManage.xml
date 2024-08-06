@@ -987,20 +987,30 @@
             B.PAY_APP_TYPE,
             B.EXNP_BRIEFS,
             B.REQ_DE,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN) AS TOT_COST,
+            CASE
+                WHEN B.PAY_APP_TYPE = 2 THEN (SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
+                ELSE (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
+                END AS TOT_COST,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = B.REG_EMP_SEQ) AS EMP_NAME,
             B.DOC_STATUS,
             B.RE_STAT,
             B.INFO_CODE
-        FROM CAM_MNG.DJ_EXNP_DET A
-             LEFT JOIN CAM_MNG.DJ_EXNP B ON A.EXNP_SN = B.EXNP_SN
-        WHERE 1=1
-        AND
-            B.DOC_STATUS = 100
-        AND
+        FROM
+            CAM_MNG.DJ_EXNP_DET A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP B ON A.EXNP_SN = B.EXNP_SN
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP C ON C.PAY_APP_SN = B.PAY_APP_SN
+        WHERE
             B.PJT_CD = #{pjtCd}
-        AND
-            A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+        AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+        AND A.BUDGET_SN IS NOT NULL
+          AND
+            (
+                (C.DOC_STATUS = 100 AND ((A.EVID_TYPE IN (4, 5, 6) AND B.DOC_STATUS != 100) OR (A.EVID_TYPE IN (1, 2, 3) AND B.RE_STAT != 'Y') OR A.EVID_TYPE IS NULL))
+                    OR
+                (B.DOC_STATUS IN (100, 101) AND B.RE_STAT = 'Y')
+            )
         GROUP BY A.EXNP_SN
         ORDER BY B.REQ_DE DESC
     </select>
