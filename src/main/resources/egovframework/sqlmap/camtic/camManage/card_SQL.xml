@@ -62,7 +62,14 @@
         (
             SELECT
                 A.*,
-                B.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                B.CARD_BA_NB,
+                B.CVC,
                 C.AUTH_NO AS USE_AUTH_NO,
                 C.AUTH_HH AS USE_AUTH_HH,
                 C.AUTH_DD AS USE_AUTH_DD,
@@ -157,7 +164,14 @@
             UNION ALL
             SELECT
                 A.*,
-                B.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                B.CARD_BA_NB,
+                B.CVC,
                 C.AUTH_NO AS USE_AUTH_NO,
                 C.AUTH_HH AS USE_AUTH_HH,
                 C.AUTH_DD AS USE_AUTH_DD,
@@ -259,7 +273,14 @@
         (
             SELECT
                 A.*,
-                B.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                B.CARD_BA_NB,
+                B.CVC,
                 C.AUTH_NO AS USE_AUTH_NO,
                 C.AUTH_HH AS USE_AUTH_HH,
                 C.AUTH_DD AS USE_AUTH_DD,
@@ -337,7 +358,14 @@
             UNION ALL
             SELECT
                 A.*,
-                B.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                B.CARD_BA_NB,
+                B.CVC,
                 C.AUTH_NO AS USE_AUTH_NO,
                 C.AUTH_HH AS USE_AUTH_HH,
                 C.AUTH_DD AS USE_AUTH_DD,
@@ -419,7 +447,16 @@
     <select id="cardToUseList" parameterType="map" resultType="map">
         /*cardToUseList*/
         SELECT
-            *
+            A.*,
+            B.CLTTR_CD,
+            B.TR_CD,
+            B.JIRO_NM,
+            B.BA_NB,
+            B.DEPOSITOR,
+            B.TR_NM,
+            B.CARD_BA_NB,
+            B.CVC,
+            C.*
         FROM
             CAM_HR.ERP_HIST_CORPCD_USE A
         LEFT JOIN
@@ -875,7 +912,14 @@
     <select id="getCardList" parameterType="map" resultType="map">
         /*getCardList*/
         SELECT
-            A.*,
+            A.CLTTR_CD,
+            A.TR_CD,
+            A.JIRO_NM,
+            A.BA_NB,
+            A.DEPOSITOR,
+            A.TR_NM,
+            A.CARD_BA_NB,
+            A.CVC,
             IFNULL(B.TR_CD, 'Y') as USE_YN,
             C.USE_EMP_SEQ,
             C.USE_EMP_NAME,
@@ -972,7 +1016,14 @@
     <select id="getUserCardList" parameterType="map" resultType="map">
         /*getUserCardList*/
         SELECT
-            A.*,
+            A.CLTTR_CD,
+            A.TR_CD,
+            A.JIRO_NM,
+            A.BA_NB,
+            A.DEPOSITOR,
+            A.TR_NM,
+            A.CARD_BA_NB,
+            A.CVC,
             IFNULL(B.TR_CD, 'Y') as USE_YN,
             C.USE_EMP_SEQ,
             C.USE_EMP_NAME,
@@ -1045,7 +1096,14 @@
     <select id="getCorpCardList" parameterType="map" resultType="map">
         /*getCorpCardList*/
         SELECT
-            A.*,
+            A.CLTTR_CD,
+            A.TR_CD,
+            A.JIRO_NM,
+            A.BA_NB,
+            A.DEPOSITOR,
+            A.TR_NM,
+            A.CARD_BA_NB,
+            A.CVC,
             IFNULL(B.TR_CD, 'Y') as USE_YN,
             C.USE_EMP_SEQ,
             C.USE_EMP_NAME,
