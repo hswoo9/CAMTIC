@@ -231,6 +231,14 @@ var purcInfo = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>잔여금액</div>";
                     }
+                },{
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.PURC_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>'
+                    }
                 }, {
                     field: "DOC_STATUS",
                     title: "구매청구서",
@@ -306,6 +314,14 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
                     }
                 }, {
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.CLAIM_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>'
+                    }
+                },{
                     field: "CRM_NM",
                     title: "업체명",
                     width: 70
@@ -427,7 +443,7 @@ var purcInfo = {
                             return '-';
                         }
                     }
-                }, {
+                }/*, {
                     field: "DOC_STATUS",
                     title: "상태",
                     width: 120,
@@ -438,7 +454,7 @@ var purcInfo = {
 
                         var status = "";
                         if(e.ORG_YN == 'N'){
-                            /** 구매요청서 */
+                            /!** 구매요청서 *!/
                             if(e.PURC_SN != null) {
                                 if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
                                     status = "구매요청작성중";
@@ -447,7 +463,7 @@ var purcInfo = {
                                 }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                                     status = "구매요청완료";
 
-                                    /** 구매청구서 */
+                                    /!** 구매청구서 *!/
                                     if(e.CLAIM_STATUS == "CN"){
                                         status = "구매요청완료";
                                     }else if(e.CLAIM_STATUS == "CAN"){
@@ -489,7 +505,7 @@ var purcInfo = {
                                     }
                                 }
                             } else {
-                                /** 구매청구서 */
+                                /!** 구매청구서 *!/
                                 if(e.CLAIM_STATUS == "CN"){
                                     status = "구매요청완료";
                                 }else if(e.CLAIM_STATUS == "CAN"){
@@ -527,7 +543,7 @@ var purcInfo = {
                         }
                         return status
                     }
-                }, /*{
+                },*/ /*{
                     field: "EXNP_STATUS",
                     title: "지출상태",
                     width: 80,
