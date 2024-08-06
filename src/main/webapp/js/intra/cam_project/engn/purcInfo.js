@@ -23,7 +23,7 @@ var purcInfo = {
                 if(idx == 1){
                     $("#purcInfoMainGrid").css("display", "");
                     $("#purcInfoMainGrid2").css("display", "none");
-                    $("#purcTitleWrap").text("◎ 구매 리스트")
+                    $("#purcTitleWrap").text("◎ 구매 리스트");
                     $("#mainGrid1Wrap").show();
                     $("#purcBtnDiv2").hide();
                 } else if (idx == 2){
@@ -90,7 +90,7 @@ var purcInfo = {
 
         $("#purcBudgetClass").data("kendoRadioGroup").bind("change", function(){
             purcInfo.gridReload($("#purcBudgetClass").data("kendoRadioGroup").value());
-        })
+        });
     },
 
     gridReload: function (pjtCd){
@@ -115,7 +115,7 @@ var purcInfo = {
 
     mainGrid: function(url, params){
         $("#purcInfoMainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
             selectable: "row",
             height : 525,
@@ -584,11 +584,18 @@ var purcInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+        var pageSizeDropDown = $("#purcInfoMainGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     mainGrid2: function (url, params) {
         $("#purcInfoMainGrid2").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
             selectable: "row",
             height : 525,
@@ -600,6 +607,7 @@ var purcInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            resizable : true,
             toolbar: [
                 {
                     name: 'button',
@@ -633,7 +641,7 @@ var purcInfo = {
                         if(e.F_PAY_APP_SN == null){
                             return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
                         } else {
-                            return "";  
+                            return "";
                         }
                     }
                 }, {
@@ -746,18 +754,26 @@ var purcInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#purcInfoMainGrid2").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     subGrid: function(url, params){
         $("#purcInfoSubGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
             selectable: "row",
             height : 525,
             pageable: {
                 refresh: true,
                 pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
+                buttonCount: 5,
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -834,8 +850,16 @@ var purcInfo = {
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
-            }
+            },
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#purcInfoSubGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     fn_pjtPurcDel : function (purcSn){

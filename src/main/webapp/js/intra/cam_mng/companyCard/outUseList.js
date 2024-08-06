@@ -100,13 +100,17 @@ var outUseList = {
                     title: "I-branch<br>법인카드 사용내역(실시간)",
                     columns: [
                         {
+                            field: "BUY_STS_TXT",
+                            title: "구분",
+                            width: 40,
+                        }, {
                             field: "TR_NM",
                             title: "카드명",
                             width: 200,
                         }, {
                             field: "CARD_BA_NB",
                             title: "카드번호",
-                            width: 100,
+                            width: 120,
                         }, {
                             field: "AUTH_DD",
                             title: "결제일자",
@@ -125,7 +129,7 @@ var outUseList = {
                         }, {
                             field: "AUTH_AMT",
                             title: "금액",
-                            width: 100,
+                            width: 80,
                             template : function (e){
                                 calcAmSum  += Number(e.AUTH_AMT);
 
@@ -158,7 +162,7 @@ var outUseList = {
                     title: "전표처리현황",
                     columns: [
                         {
-                            field: "PAY_APP_SN",
+                            field: "EXCEL_PAY_APP_SN",
                             title: "전표처리",
                             template: function(e){
                                 if(e.USE_PAY_APP_SN != null){
@@ -173,7 +177,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
-                            field: "PAY_EMP_SEQ",
+                            field: "EXCEL_PAY_EMP_SEQ",
                             title: "처리자",
                             template: function(e){
                                 if(e.PAY_EMP_SEQ != null){
@@ -188,7 +192,7 @@ var outUseList = {
                             },
                             width: 80
                         }, {
-                            field: "PAY_REG_DT",
+                            field: "EXCEL_PAY_REG_DT",
                             title: "처리일자",
                             width: 80,
                             template: function(e){
@@ -203,7 +207,7 @@ var outUseList = {
                                 }
                             },
                         }, {
-                            field: "PAY_EXNP_STAT",
+                            field: "EXCEL_PAY_EXNP_STAT",
                             title: "지출결의서",
                             width: 80,
                             template: function(e){

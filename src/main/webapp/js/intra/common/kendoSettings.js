@@ -96,6 +96,40 @@ var customKendo = {
         return dataSource;
     },
 
+    fn_gridDataSourceAll : function(url, params, pageSize){
+        var customPageSizeAll = pageSize === "ALL" ? 999999 : (pageSize || 10);
+
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: customPageSizeAll,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data, operation) {
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
+        return dataSource;
+    },
+
     /**
      * Custom KendoDataSource2 > Paging Length
      * @param url

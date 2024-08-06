@@ -53,7 +53,7 @@
             A.HR_BIZ_REQ_ID,
             B.HR_BIZ_REQ_RESULT_ID,
             IFNULL(B.TRIP_CODE, A.TRIP_CODE) AS TRIP_CODE,
-            IFNULL(B.BUSN_NAME, A.BUSN_NAME) AS BUSN_NAME,
+            IF(IFNULL(B.PJT_SN, A.PJT_SN) IS NOT NULL,IFNULL(B.BUSN_NAME, A.BUSN_NAME),'') AS BUSN_NAME,
             A.EMP_NAME,
             IFNULL(B.VISIT_CRM, A.VISIT_CRM) AS VISIT_CRM,
             IFNULL(B.VISIT_LOC, A.VISIT_LOC) AS VISIT_LOC,
@@ -101,21 +101,28 @@
             CAM_MNG.DJ_PAY_APP D ON A.BF_PAY_APP_SN = D.PAY_APP_SN
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON HBC.HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NULL
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI ON EI.EMP_NAME_KR = A.EMP_NAME
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
         WHERE
         <![CDATA[
             A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
         ]]>
         <if test='deptSeq != null and !"".equals(deptSeq)'>
-            AND A.DEPT_SEQ = #{deptSeq}
+            AND (
+                EI.DEPT_SEQ = #{deptSeq} OR
+                (SELECT IF(AA.DEPT_LEVEL=1, AA.DEPT_SEQ, DI.PARENT_DEPT_SEQ) FROM CAM_HR.DJ_DEPT_INFO AA WHERE DEPT_SEQ = DI.PARENT_DEPT_SEQ) = #{deptSeq}
+            )
         </if>
         <if test="tripCode != null and tripCode != ''">
             AND A.TRIP_CODE = #{tripCode}
         </if>
         <if test='"1".equals(project)'>
-            AND (A.BUSN_NAME IS NULL OR A.BUSN_NAME = "")
+            AND IFNULL(B.PJT_SN, A.PJT_SN) IS NULL
         </if>
         <if test='"2".equals(project)'>
-            AND (A.BUSN_NAME IS NOT NULL AND A.BUSN_NAME != "")
+            AND IFNULL(B.PJT_SN, A.PJT_SN) IS NOT NULL
         </if>
         <choose>
             <when test='searchValue == "a"'>
@@ -126,7 +133,10 @@
             </when>
             <otherwise>
                 <if test="busnName != null and busnName != ''">
-                    AND A.BUSN_NAME like concat('%', #{busnName}, '%')
+                    AND (
+                        A.BUSN_NAME like concat('%', #{busnName}, '%') OR
+                        (A.EMP_NAME like concat('%', #{busnName}, '%') OR HBC.EMP_NAME like concat('%', #{busnName}, '%'))
+                    )
                 </if>
             </otherwise>
         </choose>
