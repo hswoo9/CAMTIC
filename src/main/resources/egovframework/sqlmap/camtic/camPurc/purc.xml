@@ -2184,7 +2184,8 @@
                 B.REG_DATE,
                 A.CRM_NM,
                 'N' AS ORG_YN,
-                (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
+                (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS,
+                (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN =  B.PURC_SN) AS PURC_DOC_ID
             FROM
                 CAM_MNG.DJ_PURC_CLAIM A
             LEFT JOIN
@@ -2230,7 +2231,8 @@
                 B.REG_DATE,
                 (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = (SELECT CRM_SN FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1)) AS CRM_NM,
                 'N' AS ORG_YN,
-                (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
+                (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS,
+                (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN =  B.PURC_SN) AS PURC_DOC_ID
             FROM
                 CAM_MNG.DJ_MNG_PURC B
             LEFT JOIN
@@ -2271,6 +2273,7 @@
                 DATE_FORMAT(A.JReqDate, '%Y-%m-%d') as REG_DATE,
                 '' AS CRM_NM,
                 'Y' AS ORG_YN,
+                '',
                 ''
             FROM
                 DJ_CAMTIC.JPRICEINFO A
