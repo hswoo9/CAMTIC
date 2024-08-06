@@ -704,6 +704,10 @@ var purcInfo = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 100
+                },{
+                    field: "EXP_DE",
+                    title: "결제예정일",
+                    width: 80
                 }, {
                     title: "지출금액",
                     width: 80,
