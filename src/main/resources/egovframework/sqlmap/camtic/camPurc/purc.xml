@@ -972,10 +972,11 @@
         </if>
         <choose>
             <when test='"1".equals(inspectStat)'>
-                AND (ABC.STATUS = '100' OR ABC.STATUS = '101') AND ABC.PAYMENT_METHOD NOT IN('I', 'C') AND (ABC.GOODS_DT IS NULL OR ABC.GOODS_DT = '')
+                AND (ABC.STATUS = '100' OR ABC.STATUS = '101') AND ABC.PAYMENT_METHOD NOT IN('I', 'C') AND ABC.ORDER_YN = 'N'
             </when>
             <when test='"2".equals(inspectStat)'>
-                AND ABC.INSPECT_YN = 'Y' AND ABC.INSPECT_STATUS = '0'
+                AND ABC.INSPECT_STATUS = '0'
+                AND IF(ABC.PAYMENT_METHOD = 'A', ABC.ORDER_YN = 'Y', 1=1)
             </when>
             <when test='"3".equals(inspectStat)'>
                 AND ABC.INSPECT_YN = 'Y' AND ABC.INSPECT_STATUS = '100'
