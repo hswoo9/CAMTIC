@@ -424,7 +424,7 @@
                                     <input type="text" id="extCrm5" class="extCrmInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="extCrm6" class="extCrmInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                                    <input type="text" id="extCrm6" class="extCrmInput extCrm6" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
                                 </td>
                                 <td>
                                     <input type="text" id="extCrm7" class="extCrmInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
