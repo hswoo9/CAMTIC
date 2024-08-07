@@ -69,7 +69,7 @@
             A.STATUS,
             A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
-            A.PJT_SN,
+            IFNULL(A.PJT_SN, B.PJT_SN) AS PJT_SN,
             A.BF_EXP_STAT,
             B.EXP_STAT,
             B.PAY_APP_SN,
