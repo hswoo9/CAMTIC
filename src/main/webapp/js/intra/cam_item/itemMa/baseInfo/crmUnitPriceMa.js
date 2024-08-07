@@ -108,6 +108,25 @@ var cupm = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "B2B단가",
+                    field: "B2B_PRICE",
+                    width: 100,
+                    template : function (e){
+                        if(e.CIU_B2B_PRICE != null && e.CIU_B2B_PRICE != ""){
+                            return cupm.comma(e.CIU_B2B_PRICE);
+                        }else{
+                            if(e.MSU_B2B_PRICE != null && e.MSU_B2B_PRICE != ""){
+                                return cupm.comma(e.MSU_B2B_PRICE);
+                            }else{
+                                return "";
+                            }
+                        }
+
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "비고",
                     field: "RMK",
                     width : 300

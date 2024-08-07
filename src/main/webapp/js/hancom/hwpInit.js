@@ -233,7 +233,7 @@ var hwpInit = {
             hwpDocCtrl.putFieldText("PAY_HTML", " ");
             hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
             hwpDocCtrl.setTextFile(htmlIncp, "html","insertfile");
-        }else if(stat == "mod" && ![5185, 5186, 5188, 5189, 5190, 5196, 5268, 5272, 5292, 5353, 5354, 5372, 5403, 5404, 5405, 5406,
+        }else if((stat == "mod" || stat == "reDraft") && ![5185, 5186, 5188, 5189, 5190, 5196, 5268, 5272, 5292, 5353, 5354, 5372, 5403, 5404, 5405, 5406,
             5431, 5432, 5470, 5471, 5475, 5517, 5530, 5536, 5548, 5697, 5837, 5858, 5859, 5860].includes(payIncpSn)){
             const htmlIncp = hwpInit.htmlIncp(ls, rs);
             hwpDocCtrl.putFieldText("PAY_HTML", " ");

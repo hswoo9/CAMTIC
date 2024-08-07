@@ -9,24 +9,98 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <style>
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td {
         overflow: visible;
         white-space: nowrap;
+    }
+
+    .k-footer-template td:nth-child(8) {
         text-align: right;
     }
 
-    .k-footer-template td:nth-child(1),
-    .k-footer-template td:nth-child(2),
-    .k-footer-template td:nth-child(3),
-    .k-footer-template td:nth-child(4),
-    .k-footer-template td:nth-child(5) {
+    .k-footer-template td:nth-child(-n+5) {
         border-width: 0;
     }
 
     .k-grid-content td {
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    .k-pager-nav+.k-pager-nav,
+    .k-pager-nav+.k-pager-numbers-wrap,
+    .k-pager-numbers li+li,
+    .k-pager-numbers-wrap+.k-pager-nav {
+        margin-left: 2px;
+    }
+
+    .k-pager-numbers-wrap,
+    .k-pager-md .k-pager-info,
+    .k-pager-sm .k-pager-info,
+    .k-pager-sm .k-pager-numbers,
+    .k-pager-sm .k-pager-sizes {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .k-pager-numbers-wrap,
+    .k-animation-container,
+    .k-animation-container *,
+    .k-animation-container :after,
+    .k-block .k-header,
+    .k-widget,
+    .k-widget *,
+    .k-widget :before {
+        box-sizing: content-box;
+    }
+
+    .k-pager-numbers-wrap select.k-dropdown,
+    .k-pager-numbers-wrap select.k-dropdown-list,
+    .k-pager-numbers-wrap select.k-dropdownlist,
+    .k-pager-sm .k-pager-numbers-wrap select.k-dropdown,
+    .k-pager-sm .k-pager-numbers-wrap select.k-dropdown-list,
+    .k-pager-sm .k-pager-numbers-wrap select.k-dropdownlist {
+        cursor: pointer;
+        display: none;
+    }
+
+    select.k-dropdown,
+    select.k-dropdownlist {
+        border-radius: 4px;
+        padding: 4px 8px;
+        border-width: 1px;
+        border-style: solid;
+        outline: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all .1s ease;
+    }
+
+    .k-pager-wrap .k-link.k-state-selected {
+        background-color: #1A5089;
+    }
+
+    .k-pager-wrap .k-pager-numbers .k-link {
+        border-color: transparent;
+    }
+
+    .k-pager-sm .k-pager-numbers-wrap {
+        margin-left: 0.4em;
+        margin-right: 0;
+        box-sizing: border-box;
+        border-color: inherit;
+        height: calc(1.42857143em + 10px);
+        width: 31px;
+        height: 2.14em;
+    }
+
+    .k-pager-sizes .k-dropdown,
+    .k-pager-sizes .k-dropdownlist,
+    .k-pager-sizes>select {
+        margin-right: 1ex;
+        width: 6em;
     }
 </style>
 

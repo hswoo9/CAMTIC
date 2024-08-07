@@ -35,6 +35,7 @@
         <input type="hidden" id="crmItemSn" name="crmItemSn" value="${params.crmItemSn}">
         <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
         <input type="hidden" id="unitPrice" name="unitPrice" value="${item.MSU_UNIT_PRICE}">
+        <input type="hidden" id="b2bPrice" name="b2bPrice" value="${item.MSU_B2B_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="popTitle">
@@ -74,10 +75,12 @@
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 3%">
+                    <col style="width: 7%">
                     <col style="width: 15%">
                     <col style="width: 15%">
-                    <col style="width: 18%">
-                    <col style="width: 18%">
+                    <col style="width: 16%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
                     <col>
                 </colgroup>
                 <thead>
@@ -87,6 +90,7 @@
                     </th>
                     <th>원가</th>
                     <th>단가</th>
+                    <th>B2B 단가</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
                     <th>비고</th>

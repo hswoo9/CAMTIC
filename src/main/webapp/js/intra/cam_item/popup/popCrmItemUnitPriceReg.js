@@ -33,6 +33,7 @@ var ciupR = {
 
                     $("#ciup" + i).find("#ciupSn" + i).val(list[i].CRM_ITEM_UNIT_PRICE_SN);
                     $("#ciup" + i).find("#unitPrice" + i).val(ciupR.comma(list[i].UNIT_PRICE));
+                    $("#ciup" + i).find("#b2bPrice" + i).val(ciupR.comma(list[i].B2B_PRICE));
                     $("#ciup" + i).find("#startDt" + i).val(list[i].START_DT)
                     $("#ciup" + i).find("#endDt" + i).text(list[i].END_DT)
                     $("#ciup" + i).find("#rmk" + i).val(list[i].RMK);
@@ -61,6 +62,9 @@ var ciupR = {
                     '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
+                    '<input type="text" id="b2bPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
                     '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '">' +
                 '</td>' +
                 '<td style="text-align: center">';
@@ -76,7 +80,7 @@ var ciupR = {
         $("#listTb").append(html);
 
 
-        customKendo.fn_textBox(["unitPrice" + ciupR.global.ciupIndex, "rmk" + ciupR.global.ciupIndex]);
+        customKendo.fn_textBox(["unitPrice" + ciupR.global.ciupIndex, "b2bPrice" + ciupR.global.ciupIndex, "rmk" + ciupR.global.ciupIndex]);
 
         $(".numberInput").keyup(function(){
             $(this).val(ciupR.comma(ciupR.uncomma($(this).val())));
@@ -127,6 +131,7 @@ var ciupR = {
                     ciupSn : $(this).find("#ciupSn" + i).val(),
                     crmItemSn : $("#crmItemSn").val(),
                     unitPrice : ciupR.uncomma($(this).find("#unitPrice" + i).val()),
+                    b2bPrice : ciupR.uncomma($(this).find("#b2bPrice" + i).val()),
                     startDt : $(this).find("#startDt" + i).val(),
                     rmk : $(this).find("#rmk" + i).val(),
                     empSeq : $("#empSeq").val(),

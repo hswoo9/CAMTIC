@@ -45,15 +45,25 @@
                 <input type="hidden" id="orderDt" name="orderDt" value="${nowHyphen}">
                 <input type="file" id="file" name="file" onchange="oor.fileChange(this)" style="display: none">
             </div>
+
+            <div style="margin: 10px 0 0 10px">
+                <input type="hidden" id="allModCrmSn">
+                <input type="text" id="allModCrmNm" class="k-input k-textbox crmNm" readonly style="width: 20%"
+                       onclick="oor.fn_popCamCrmList('allModCrmSn', 'allModCrmNm');"/>
+                <button type="button" id="allModViewBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.allModCrmSn()" style="font-size: 12px">
+                    <span class="k-button-text">일괄변경</span>
+                </button>
+
+            </div>
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 18%;">
-                    <col style="width: 15%;">
                     <col style="width: 12%;">
-                    <col style="width: 11%;">
-                    <col style="width: 9%;">
+                    <col style="width: 10%;">
+                    <col style="width: 8%;">
+                    <col style="width: 8%;">
                     <col style="width: 5%;">
-                    <col style="width: 7%;">
+                    <col style="width: 15%;">
                     <col style="width: 7%;">
                     <col style="width: 10%;">
                     <col style="width: 3%;">

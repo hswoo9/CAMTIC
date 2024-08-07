@@ -33,6 +33,7 @@ var sdupR = {
                     $("#sdup" + i).find("#masterSdUpSn" + i).val(list[i].MASTER_SD_UP_SN);
                     $("#sdup" + i).find("#num" + i).text(i + 1);
                     $("#sdup" + i).find("#unitPrice" + i).val(sdupR.comma(list[i].UNIT_PRICE));
+                    $("#sdup" + i).find("#b2bPrice" + i).val(sdupR.comma(list[i].B2B_PRICE));
                     $("#sdup" + i).find("#startDt" + i).val(list[i].START_DT)
                     $("#sdup" + i).find("#endDt" + i).text(list[i].END_DT)
                     $("#sdup" + i).find("#rmk" + i).val(list[i].RMK);
@@ -67,6 +68,9 @@ var sdupR = {
                     '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput unitPrice" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
+                    '<input type="text" id="b2bPrice' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
                     '<input type="text" id="startDt' + sdupR.global.sdUpIndex + '" name="startDt' + sdupR.global.sdUpIndex + '">' +
                 '</td>' +
                 '<td style="text-align: center">';
@@ -82,7 +86,7 @@ var sdupR = {
         $("#listTb").append(html);
 
 
-        customKendo.fn_textBox(["unitPrice" + sdupR.global.sdUpIndex, "rmk" + sdupR.global.sdUpIndex]);
+        customKendo.fn_textBox(["unitPrice" + sdupR.global.sdUpIndex, "b2bPrice" + sdupR.global.sdUpIndex, "rmk" + sdupR.global.sdUpIndex]);
 
         $(".numberInput").keyup(function(){
             $(this).val(sdupR.comma(sdupR.uncomma($(this).val())));
@@ -133,6 +137,7 @@ var sdupR = {
                     masterSdUpSn : $(this).find("#masterSdUpSn" + i).val(),
                     masterSn : $("#masterSn").val(),
                     unitPrice : sdupR.uncomma($(this).find("#unitPrice" + i).val()),
+                    b2bPrice : sdupR.uncomma($(this).find("#b2bPrice" + i).val()),
                     startDt : $(this).find("#startDt" + i).val(),
                     rmk : $(this).find("#rmk" + i).val(),
                     empSeq : $("#empSeq").val(),
@@ -154,6 +159,13 @@ var sdupR = {
                     sdupR.global.saveAjaxData.lastUnitPrice = uncomma($(this).val())
                 }
             })
+
+            $.each($("input.b2bPrice"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastB2bPrice = uncomma($(this).val())
+                }
+            })
+
 
             sdupR.global.saveAjaxData.oldArr = JSON.stringify(oldArr)
             sdupR.global.saveAjaxData.empSeq = $("#empSeq").val();

@@ -23,7 +23,7 @@ var purcInfo = {
                 if(idx == 1){
                     $("#purcInfoMainGrid").css("display", "");
                     $("#purcInfoMainGrid2").css("display", "none");
-                    $("#purcTitleWrap").text("◎ 구매 리스트")
+                    $("#purcTitleWrap").text("◎ 구매 리스트");
                     $("#mainGrid1Wrap").show();
                     $("#purcBtnDiv2").hide();
                 } else if (idx == 2){
@@ -90,7 +90,7 @@ var purcInfo = {
 
         $("#purcBudgetClass").data("kendoRadioGroup").bind("change", function(){
             purcInfo.gridReload($("#purcBudgetClass").data("kendoRadioGroup").value());
-        })
+        });
     },
 
     gridReload: function (pjtCd){
@@ -115,8 +115,9 @@ var purcInfo = {
 
     mainGrid: function(url, params){
         $("#purcInfoMainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
+            scrollable: true,
             selectable: "row",
             height : 525,
             pageable: {
@@ -162,7 +163,7 @@ var purcInfo = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 180,
+                    width: 200,
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
@@ -177,6 +178,7 @@ var purcInfo = {
                 }, {
                     field: "PURC_REQ_PURPOSE",
                     title: "목적",
+                    width: 450,
                     template : function(e){
                         return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE + '</div>';
                     },
@@ -226,10 +228,21 @@ var purcInfo = {
                             status = '이관 데이터';
                         }
 
-                        return status
+                        return status;
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>잔여금액</div>";
+                    }
+                },{
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        if (!e.PURC_DOC_ID) {
+                            return '';
+                        }
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.PURC_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>';
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -306,9 +319,20 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
                     }
                 }, {
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        if (!e.CLAIM_DOC_ID) {
+                            return '';
+                        }
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.CLAIM_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>';
+                    }
+                },{
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 70
+                    width: 200
                 }, {
                     field: "STATUS",
                     title: "검수",
@@ -427,7 +451,7 @@ var purcInfo = {
                             return '-';
                         }
                     }
-                }, {
+                }/*, {
                     field: "DOC_STATUS",
                     title: "상태",
                     width: 120,
@@ -438,7 +462,7 @@ var purcInfo = {
 
                         var status = "";
                         if(e.ORG_YN == 'N'){
-                            /** 구매요청서 */
+                            /!** 구매요청서 *!/
                             if(e.PURC_SN != null) {
                                 if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
                                     status = "구매요청작성중";
@@ -447,7 +471,7 @@ var purcInfo = {
                                 }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                                     status = "구매요청완료";
 
-                                    /** 구매청구서 */
+                                    /!** 구매청구서 *!/
                                     if(e.CLAIM_STATUS == "CN"){
                                         status = "구매요청완료";
                                     }else if(e.CLAIM_STATUS == "CAN"){
@@ -489,7 +513,7 @@ var purcInfo = {
                                     }
                                 }
                             } else {
-                                /** 구매청구서 */
+                                /!** 구매청구서 *!/
                                 if(e.CLAIM_STATUS == "CN"){
                                     status = "구매요청완료";
                                 }else if(e.CLAIM_STATUS == "CAN"){
@@ -527,7 +551,7 @@ var purcInfo = {
                         }
                         return status
                     }
-                }, /*{
+                },*/ /*{
                     field: "EXNP_STATUS",
                     title: "지출상태",
                     width: 80,
@@ -584,12 +608,20 @@ var purcInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+        var pageSizeDropDown = $("#purcInfoMainGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     mainGrid2: function (url, params) {
         $("#purcInfoMainGrid2").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
+            scrollable: true,
             selectable: "row",
             height : 525,
             pageable: {
@@ -600,6 +632,7 @@ var purcInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            resizable : true,
             toolbar: [
                 {
                     name: 'button',
@@ -633,21 +666,21 @@ var purcInfo = {
                         if(e.F_PAY_APP_SN == null){
                             return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
                         } else {
-                            return "";  
+                            return "";
                         }
                     }
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
                     field: "DEPT_NAME",
                     title: "요청부서",
-                    width: 120,
+                    width: 250,
                 }, {
                     field: "PURC_TYPE",
                     title: "구매구분",
-                    width: 50,
+                    width: 150,
                     template: function(e){
                         var result = "";
 
@@ -680,22 +713,26 @@ var purcInfo = {
                 }, {
                     field: "CLAIM_TITLE",
                     title: "제목",
-                    width: 100
+                    width: 450
                 }, {
                     field: "PURC_PURPOSE",
                     title: "목적",
-                    width: 200,
+                    width: 450,
                     template : function(e){
-                        return '<a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
+                        return '<a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>';
                     }
                 }, {
                     field: "CRM_NM",
                     title: "업체",
-                    width: 120
+                    width: 200
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 100
+                    width: 200
+                },{
+                    field: "EXP_DE",
+                    title: "결제예정일",
+                    width: 80
                 }, {
                     title: "지출금액",
                     width: 80,
@@ -705,7 +742,7 @@ var purcInfo = {
                 }, {
                     field: "CLAIM_SN",
                     title: "상태",
-                    width: 50,
+                    width: 80,
                     template : function(e) {
                         var stat = "";
                         if(e.F_DOC_STATUS == "100"){
@@ -746,18 +783,26 @@ var purcInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#purcInfoMainGrid2").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     subGrid: function(url, params){
         $("#purcInfoSubGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
             selectable: "row",
             height : 525,
             pageable: {
                 refresh: true,
                 pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
+                buttonCount: 5,
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -834,8 +879,16 @@ var purcInfo = {
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
-            }
+            },
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#purcInfoSubGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     fn_pjtPurcDel : function (purcSn){

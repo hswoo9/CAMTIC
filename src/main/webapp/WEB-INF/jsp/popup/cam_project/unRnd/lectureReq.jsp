@@ -157,15 +157,15 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육기간</th><%--컨설팅 협약기간--%>
                     <td>
-                        <input id="eduStartDt" style="width: 110px;">
+                        <input id="eduStartDt" style="width: 33%;">
                         ~
-                        <input id="eduEndDt" style="width: 110px;">
+                        <input id="eduEndDt" style="width: 33%;">
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>모집기간</th>
                     <td>
-                        <input id="recruitStartDt" style="width: 110px;">
+                        <input id="recruitStartDt" style="width: 35%;">
                         ~
-                        <input id="recruitEndDt" style="width: 110px;">
+                        <input id="recruitEndDt" style="width: 35%;">
                     </td>
                 </tr>
                 <tr>
@@ -365,9 +365,9 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>협약기간</th>
                     <td>
-                        <input id="agmStartDt" style="width: 110px;">
+                        <input id="agmStartDt" style="width: 33%">
                         ~
-                        <input id="agmEndDt" style="width: 110px;">
+                        <input id="agmEndDt" style="width: 33%;">
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>컨설팅 시간</th>
                     <td>

@@ -63,6 +63,8 @@
             AND LOGIN_PASSWD = #{passwd}
         </if>
 
+        AND HEI.TEMP_DIVISION != 'ED'
+
     </select>
 
     <select id="actionLoginMap" resultType="map" parameterType="map">
