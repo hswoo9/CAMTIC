@@ -126,7 +126,7 @@
         </if>
         <choose>
             <when test='searchValue == "a"'>
-                AND A.BUSN_NAME like concat('%', #{busnName}, '%')
+                AND (A.BUSN_NAME like concat('%', #{busnName}, '%') OR B.BUSN_NAME like concat('%', #{busnName}, '%'))
             </when>
             <when test='searchValue == "b"'>
                 AND (A.EMP_NAME like concat('%', #{busnName}, '%') OR HBC.EMP_NAME like concat('%', #{busnName}, '%'))
@@ -134,7 +134,7 @@
             <otherwise>
                 <if test="busnName != null and busnName != ''">
                     AND (
-                        A.BUSN_NAME like concat('%', #{busnName}, '%') OR
+                        A.BUSN_NAME like concat('%', #{busnName}, '%') OR B.BUSN_NAME like concat('%', #{busnName}, '%') OR
                         (A.EMP_NAME like concat('%', #{busnName}, '%') OR HBC.EMP_NAME like concat('%', #{busnName}, '%'))
                     )
                 </if>
