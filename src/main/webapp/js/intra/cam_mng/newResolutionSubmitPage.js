@@ -30,7 +30,7 @@ var newResolutionSubmitPage = {
             }
         });
 
-        var ds = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : 1089});
+        var ds = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : '1089'});
 
         $("#TRANSFR_ACNUT_SE_CODE").kendoDropDownList({
             dataTextField: "CMMN_DETAIL_CODE_NM",
@@ -38,7 +38,7 @@ var newResolutionSubmitPage = {
             dataSource: ds.list,
             index: 0,
             change: function(e){
-                if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "2"){
+                if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "002"){
                     $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").wrapper.show();
                     $("#SBSACNT_TRFRSN_CN").data("kendoTextBox").wrapper.show();
                 } else {
@@ -48,8 +48,8 @@ var newResolutionSubmitPage = {
             }
         });
 
-        var ds2 = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : 665});
-
+        var ds2 = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : '0665'});
+        console.log(ds2);
         $("#SBSACNT_TRFRSN_CODE").kendoDropDownList({
             dataTextField: "CMMN_DETAIL_CODE_NM",
             dataValueField: "CMMN_DETAIL_CODE",
@@ -302,7 +302,7 @@ var newResolutionSubmitPage = {
             return;
         }
 
-        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "2" && $("#SBSACNT_TRFRSN_CN").val() == ""){
+        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "002" && $("#SBSACNT_TRFRSN_CN").val() == ""){
             alert("이체 사유를 입력해주세요.");
             return;
         }
