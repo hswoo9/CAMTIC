@@ -270,11 +270,13 @@
     <select id="getEnaraBankInfoByPayAppData" parameterType="map" resultType="map">
         /*getEnaraBankInfoByPayAppData*/
         SELECT
-            *
+            A.*
         FROM
-            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL
+            CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL A
+        LEFT JOIN
+            CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CNTC_SN = B.CNTC_SN
         WHERE
-            CMMN_CODE = 1070 AND CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM}
+            A.CMMN_CODE = 1070 AND (A.CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM} OR B.CMMN_OBJ_A = #{CRM_BNK_NM} OR B.CMMN_OBJ_B = #{CRM_BNK_NM})
     </select>
 
     <select id="getCrmDataByPayAppData" parameterType="map" resultType="map">

@@ -62,7 +62,6 @@ var kukgohCommCodeView = {
                             '</button>';
                     }
                 }],
-            persistSelection : true,
             columns: [
                 {
                     field : "CMMN_DETAIL_CODE",
