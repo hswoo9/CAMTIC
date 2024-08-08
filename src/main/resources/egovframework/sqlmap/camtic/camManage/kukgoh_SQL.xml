@@ -276,7 +276,13 @@
         LEFT JOIN
             CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CNTC_SN = B.CNTC_SN
         WHERE
-            A.CMMN_CODE = 1070 AND (A.CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM} OR B.CMMN_OBJ_A = #{CRM_BNK_NM} OR B.CMMN_OBJ_B = #{CRM_BNK_NM})
+            A.CMMN_CODE = 1070
+            <if test='"".equals(CRM_BNK_NM)'>
+                AND A.CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM}
+            </if>
+            <if test='!"".equals(CRM_BNK_NM)'>
+                AND (A.CMMN_DETAIL_CODE_NM = #{CRM_BNK_NM} OR B.CMMN_OBJ_A = #{CRM_BNK_NM} OR B.CMMN_OBJ_B = #{CRM_BNK_NM})
+            </if>
     </select>
 
     <select id="getCrmDataByPayAppData" parameterType="map" resultType="map">
