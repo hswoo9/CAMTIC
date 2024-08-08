@@ -7,14 +7,16 @@ var icm = {
     },
 
     fn_defaultScript : function (){
-        icm.mainGrid();
+        icm.mainGridA();
+        icm.mainGridB();
+        icm.mainGridC();
     },
 
     fn_dataSet: function(){
 
     },
 
-    mainGrid: function(){
+    mainGridA : function(){
         let dataSourceA = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -84,8 +86,10 @@ var icm = {
                     const dataItem = grid.dataItem($(this));
                     icm.global.largeCategoryCodeId = dataItem.ITEM_CATEGORY_SN;
                     icm.global.largeCategoryCodeNm = dataItem.CATEGORY_CODE;
-                    gridReload("categoryGridB");
-                    gridReload("categoryGridC");
+                    icm.global.mediumCategoryCodeId = "";
+                    icm.global.mediumCategoryCodeId = "";
+                    icm.mainGridB();
+                    icm.mainGridC();
 
                     grid.tbody.find("tr").each(function (){
                         $(this).css("background-color", "");
@@ -115,7 +119,9 @@ var icm = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+    },
 
+    mainGridB: function(){
         let dataSourceB = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -187,7 +193,7 @@ var icm = {
                     const dataItem = grid.dataItem($(this));
                     icm.global.mediumCategoryCodeId = dataItem.ITEM_CATEGORY_SN;
                     icm.global.mediumCategoryCodeNm = dataItem.CATEGORY_CODE;
-                    gridReload("categoryGridC");
+                    icm.mainGridC();
 
                     grid.tbody.find("tr").each(function (){
                         $(this).css("background-color", "");
@@ -217,7 +223,9 @@ var icm = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+    },
 
+    mainGridC : function(){
         let dataSourceC = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -325,18 +333,14 @@ var icm = {
     fn_delBtn: function(type){
         let checkbox;
         let url;
-        let gridId;
         let data = {};
 
         if(type == "A"){
             checkbox = $("input[name=largeCategoryPk]:checked");
-            gridId = "categoryGridA";
         }else if(type == "B"){
             checkbox = $("input[name=mediumCategoryPk]:checked");
-            gridId = "categoryGridB";
         }else if(type == "C"){
             checkbox = $("input[name=smallCategoryPk]:checked");
-            gridId = "categoryGridC";
         }
         url = "/item/setItemCategoryDel";
 
@@ -351,7 +355,13 @@ var icm = {
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
             alert("삭제가 완료되었습니다.");
-            gridReload(gridId);
+            if(type == "A"){
+                icm.mainGridA();
+            }else if(type == "B"){
+                icm.mainGridB();
+            }else if(type == "C"){
+                icm.mainGridC();
+            }
         }
     },
 
