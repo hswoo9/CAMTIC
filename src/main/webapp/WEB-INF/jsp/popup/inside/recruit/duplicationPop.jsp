@@ -94,7 +94,7 @@
           width : 120,
           template : function(e){
             if(e.DOC_SCREEN_AVERAGE != null){
-              return e.DOC_SCREEN_AVERAGE;
+              return Math.round(e.DOC_SCREEN_AVERAGE * 10) / 10;
             }else{
               return "-"
             }
@@ -105,7 +105,7 @@
           width : 120,
           template : function(e){
             if(e.IN_SCREEN_AVERAGE != null && e.IN_AVOID != "Y"){
-              return e.IN_SCREEN_AVERAGE;
+              return Math.round(e.IN_SCREEN_AVERAGE * 10) / 10;
             }else if(e.IN_AVOID == "Y"){
               return "불참"
             }else{

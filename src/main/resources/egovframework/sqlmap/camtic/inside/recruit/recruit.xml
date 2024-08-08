@@ -630,7 +630,7 @@
             END AS SAVE_DATE,
             (
                 SELECT
-                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 2)
                 FROM
                     CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
                 JOIN
@@ -640,11 +640,13 @@
                     APPLICATION_ID = AM.APPLICATION_ID
                 AND
                     EVAL_ITEM_ID != 'otherRmk'
+                AND
+                    EVAL_SCREEN_TYPE = 'doc'
                 GROUP BY APPLICATION_ID
             ) AS DOC_SCREEN_AVERAGE,
             (
                 SELECT
-                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+                    TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 2)
                 FROM
                     CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
                     LEFT JOIN
