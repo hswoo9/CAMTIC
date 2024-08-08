@@ -35,8 +35,6 @@ var astPdaInfoList = {
     },
 
     mainGrid : function(url, params) {
-        var record = 0;
-
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource3(url,params),
             scrollable: true,
@@ -90,11 +88,9 @@ var astPdaInfoList = {
                     template : "<input type='checkbox' id='apiChk#=AST_PDA_INFO_SN#' name='apiChk' value='#=AST_PDA_INFO_SN#'/>",
                     width: 50
                 }, {
+                    template: "#= --record #",
                     title: "순번",
                     width: 50,
-                    template : function(e){
-                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
                 }, {
                     field: "AST_NO",
                     title: "자산 번호",
@@ -142,7 +138,10 @@ var astPdaInfoList = {
                     title: "바코드",
                     width : 100
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
