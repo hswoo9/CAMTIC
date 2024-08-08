@@ -118,7 +118,7 @@ var histRecruit = {
                     template: function(e){
                         const id = $("#regId").val();
                         var pjtNm = e.Name;
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Inside/Recruit/AppIndex.aspx?InfoCode="+e.InfoCode+"' target='_blank' style='font-weight: bold'>" + pjtNm + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Inside/Recruit/AppIndex.aspx?InfoCode="+e.InfoCode+"' target='_blank' style='font-weight: bold'>" + pjtNm + "</a>";
                     }
                 }, {
                     title: "기간",
@@ -160,13 +160,13 @@ var histRecruit = {
                     title: "서류심사",
                     width: 80,
                     template: function(row){
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Inside/Recruit/JudgeDocuAver.aspx?InfoCode="+row.InfoCode+"&ItemCode="+row.RSeqNo+"' target='_blank' style='font-weight: bold'>서류심사</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Inside/Recruit/JudgeDocuAver.aspx?InfoCode="+row.InfoCode+"&ItemCode="+row.RSeqNo+"' target='_blank' style='font-weight: bold'>서류심사</a>";
                     }
                 }, {
                     title: "면접심사",
                     width: 80,
                     template: function(row){
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Inside/Recruit/JudgeDocuAver.aspx?InfoCode="+row.InfoCode+"&ItemCode="+row.RSeqNo+"' target='_blank' style='font-weight: bold'>면접심사</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Inside/Recruit/JudgeDocuAver.aspx?InfoCode="+row.InfoCode+"&ItemCode="+row.RSeqNo+"' target='_blank' style='font-weight: bold'>면접심사</a>";
                     }
                 }, {
                     title: "상태",

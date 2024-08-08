@@ -152,9 +152,9 @@
                         }else{
                             /** TODO. 임시 하드코딩. 추후 수정 예정 */
                             const id = $("#regId").val();
-                            let menuPath2 = "http://pre.camtic.or.kr/CAMsPot/Manager";
+                            let menuPath2 = "http://www.camtic.or.kr/CAMsPot/Manager";
                             if(x.MENU_PATH == menuPath2){
-                                menu += "       <a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath2 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                                menu += "       <a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath2 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
                             }else{
                                 menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                             }
@@ -172,11 +172,11 @@
                             /** TODO. 임시 하드코딩. 추후 수정 예정 */
                             const id = $("#regId").val();
                             let menuPath3 = "http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023";
-                            let menuPath3_2 = "http://pre.camtic.or.kr/CAMsPot/Learning/Education/EduMgrStatic.aspx";
+                            let menuPath3_2 = "http://www.camtic.or.kr/CAMsPot/Learning/Education/EduMgrStatic.aspx";
                             if(x.MENU_PATH == menuPath3){
-                                menu += "       <a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath3 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                                menu += "       <a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath3 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
                             }else if(x.MENU_PATH == menuPath3_2){
-                                menu += "       <a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath3_2 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                                menu += "       <a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath3_2 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
                             }else{
                                 menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                             }

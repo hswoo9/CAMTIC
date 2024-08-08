@@ -70,7 +70,7 @@ var openstudyInfoHist = {
                     template: function(e){
                         const id = $("#regId").val();
                         var EduName = e.IsName;
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/OpenStudy/OpenStudyResultView.aspx?INFONUM="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/OpenStudy/OpenStudyResultView.aspx?INFONUM="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
                     }
                 }, {
                     title: "지도자",

@@ -141,7 +141,7 @@ var histEduInfo = {
                         }
                         const id = $("#regId").val();
                         var EduName = e.EduName;
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/"+RequestType+"/ViewForm.aspx?EduNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/"+RequestType+"/ViewForm.aspx?EduNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
                     }
                 }, {
                     title: "학습기간",

@@ -74,7 +74,7 @@ var propagInfoHist = {
                     template: function(e){
                         const id = $("#regId").val();
                         var EduName = e.PropagName;
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/Propag/PropagView.aspx?PropagNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/Education/Propag/PropagView.aspx?PropagNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
                     }
                 }, {
                     title: "지도자",

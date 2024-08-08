@@ -87,7 +87,7 @@ var histEngn = {
                         if(pjtNm.toString().length > 62){
                             pjtEx = pjtNm.toString().substring(0, 62)+ "...";
                         }
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/Development/ProjectView.aspx?ID="+e.JNum+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/Development/ProjectView.aspx?ID="+e.JNum+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
                     }
                 }, {
                     field: "JCompany",

@@ -70,7 +70,7 @@ var studyInfoHist = {
                     template: function(e){
                         const id = $("#regId").val();
                         var EduName = e.StudyName;
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/EduCation/Study/StudyView.aspx?SNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Learning/EduCation/Study/StudyView.aspx?SNum="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + EduName + "</a>";
                     }
                 }, {
                     title: "조장",

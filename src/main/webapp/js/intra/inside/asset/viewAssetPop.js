@@ -47,9 +47,9 @@ var viewAssetPop = {
             let linkHtml = '';
             const id = $("#regId").val();
             if(orderType == "1"){
-                linkHtml += "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/Purchase/PriceView.aspx?ID="+assetMap.J_DOC_NO+"' target='_blank' style='font-weight: bold'>[물품청구서] " + assetMap.J_PRICE_NO + "</a>";
+                linkHtml += "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/Purchase/PriceView.aspx?ID="+assetMap.J_DOC_NO+"' target='_blank' style='font-weight: bold'>[물품청구서] " + assetMap.J_PRICE_NO + "</a>";
             }else if(orderType == "2"){
-                linkHtml += "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/OutSide/PriceView.aspx?ID="+assetMap.J_DOC_NO+"' target='_blank' style='font-weight: bold'>[외주청구서] " + assetMap.J_PRICE_NO + "</a>";
+                linkHtml += "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Biz/OutSide/PriceView.aspx?ID="+assetMap.J_DOC_NO+"' target='_blank' style='font-weight: bold'>[외주청구서] " + assetMap.J_PRICE_NO + "</a>";
             }
             $("#purcLink").html(linkHtml);
         }

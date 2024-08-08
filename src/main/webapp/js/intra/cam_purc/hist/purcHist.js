@@ -91,7 +91,7 @@ var histPurc = {
                         if(pjtNm.toString().length > 80){
                             pjtEx = pjtNm.toString().substring(0, 80)+ "...";
                         }
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"BIz/Request/RequestView.aspx?NUM="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
+                        return "<a href='http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"BIz/Request/RequestView.aspx?NUM="+e.SeqNo+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
                     }
                 }, {
                     field: "STAT",
