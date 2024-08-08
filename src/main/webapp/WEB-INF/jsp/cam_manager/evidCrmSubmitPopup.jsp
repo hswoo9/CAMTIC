@@ -74,17 +74,17 @@
 					<td style="text-align: center;" id="regNo">
 
 					</td>
-					<td style="text-align: center;" id="sumAm">
+					<td style="text-align: right;" id="sumAm">
 
 					</td>
-					<td style="text-align: center;" id="supAm">
+					<td style="text-align: right;" id="supAm">
 
 					</td>
-					<td style="text-align: center;" id="vatAm">
+					<td style="text-align: right;" id="vatAm">
 
 					</td>
-					<td style="text-align: center;display: flex;">
-						<input style="width: 80%;" type="text" class="k-input" id="issNo" name="issNo" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+					<td style="text-align: center;">
+						<input style="width: 70%;" type="text" class="k-input" id="issNo" name="issNo" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 						<input type="button" style="margin-left:5px;width: 20%;" class="k-button k-button-solid-base" onclick="fn_etaxSend()" value="전송">
 					</td>
 					<td style="text-align: center;">
@@ -118,9 +118,9 @@
                 var ed = rs.result;
                 $("#trNm").text(ed.TR_NM);
                 $("#regNo").text(ed.TRREG_NB);
-                $("#sumAm").text(ed.SUM_AM.toString().split(".")[0]);
-                $("#supAm").text(ed.SUP_AM.toString().split(".")[0]);
-                $("#vatAm").text(ed.VAT_AM.toString().split(".")[0]);
+                $("#sumAm").text(comma(ed.SUM_AM.toString().split(".")[0]));
+                $("#supAm").text(comma(ed.SUP_AM.toString().split(".")[0]));
+                $("#vatAm").text(comma(ed.VAT_AM.toString().split(".")[0]));
                 $("#issNo").val(ed.ISS_NO);
 
                 $("#BSNSYEAR").val(ed.BSNSYEAR);
@@ -151,6 +151,9 @@
             data : data,
             dataType : "json",
             type : "post",
+			beforeSend : function(){
+				$("#my-spinner").show();
+			},
             success : function (rs){
 
                 $.ajax({
@@ -160,6 +163,7 @@
                     dataType : "json",
                     success : function (rs){
                         alert("전송이 완료되었습니다.");
+						$("#my-spinner").hide();
                     }
                 })
             }, error : function (e){
