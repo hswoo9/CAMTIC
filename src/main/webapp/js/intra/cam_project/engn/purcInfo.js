@@ -381,6 +381,9 @@ var purcInfo = {
                         }
 
                         return html;
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>청구 합계</div>";
                     }
                 }, {
                     field: "PURC_ITEM_AMT_SUM",
@@ -391,9 +394,8 @@ var purcInfo = {
                         purcSum  += Number(e.PURC_ITEM_AMT_SUM);
                         return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
                     },
-
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>청구 합계</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
                     }
                 }, {
                     title: "처리",
@@ -408,9 +410,6 @@ var purcInfo = {
                         } else {
                             return "";
                         }
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
                     }
                 }, {
                     field: "APPROVE_STAT_CODE",
