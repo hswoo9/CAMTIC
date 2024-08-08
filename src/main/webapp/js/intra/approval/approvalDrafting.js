@@ -2080,30 +2080,33 @@ var draft = {
             payAppSn : payAppSn
         });
         console.log("claimExnpResult", claimExnpResult);
-        const claimExnpMap = claimExnpResult.data;
+        const claimExnpMap = claimExnpResult.list;
 
         if(claimExnpMap != null){
             const referencesAll = new Array();
             let count = 0;
 
-            if(claimExnpMap.PURC_DOC_ID != null){
-                referencesAll[count] = {
-                    referencesDocId : claimExnpMap.PURC_DOC_ID,
-                    referencesDocNo : claimExnpMap.PURC_DOC_NO,
-                    referencesDocApproKey : claimExnpMap.PURC_APPRO_KEY,
-                    referencesDocTitle : claimExnpMap.PURC_DOC_TITLE,
-                    REFERENCES_DOC_TITLE : claimExnpMap.PURC_DOC_TITLE
+            for(let i=0; i< claimExnpMap.length; i++){
+                if(claimExnpMap[i].PURC_DOC_ID != null){
+                    referencesAll[count] = {
+                        referencesDocId : claimExnpMap[i].PURC_DOC_ID,
+                        referencesDocNo : claimExnpMap[i].PURC_DOC_NO,
+                        referencesDocApproKey : claimExnpMap[i].PURC_APPRO_KEY,
+                        referencesDocTitle : claimExnpMap[i].PURC_DOC_TITLE,
+                        REFERENCES_DOC_TITLE : claimExnpMap[i].PURC_DOC_TITLE
+                    }
+                    count++;
                 }
-                count++;
-            }
 
-            if(claimExnpMap.CLAIM_DOC_ID != null){
-                referencesAll[count] = {
-                    referencesDocId : claimExnpMap.CLAIM_DOC_ID,
-                    referencesDocNo : claimExnpMap.CLAIM_DOC_ID,
-                    referencesDocApproKey : claimExnpMap.CLAIM_APPRO_KEY,
-                    referencesDocTitle : claimExnpMap.CLAIM_DOC_TITLE,
-                    REFERENCES_DOC_TITLE : claimExnpMap.CLAIM_DOC_TITLE
+                if(claimExnpMap[i].CLAIM_DOC_ID != null){
+                    referencesAll[count] = {
+                        referencesDocId : claimExnpMap[i].CLAIM_DOC_ID,
+                        referencesDocNo : claimExnpMap[i].CLAIM_DOC_ID,
+                        referencesDocApproKey : claimExnpMap[i].CLAIM_APPRO_KEY,
+                        referencesDocTitle : claimExnpMap[i].CLAIM_DOC_TITLE,
+                        REFERENCES_DOC_TITLE : claimExnpMap[i].CLAIM_DOC_TITLE
+                    }
+                    count++;
                 }
             }
 

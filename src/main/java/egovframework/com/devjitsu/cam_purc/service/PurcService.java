@@ -112,7 +112,7 @@ public interface PurcService {
 
     List<Map<String, Object>> getPurcClaimExnpList(Map<String, Object> params);
 
-    Map<String, Object> getClaimExnpDataByPay(Map<String, Object> map);
+    List<Map<String, Object>> getClaimExnpDataByPay(Map<String, Object> map);
 
     void delClaimExnpData(Map<String, Object> params);
 

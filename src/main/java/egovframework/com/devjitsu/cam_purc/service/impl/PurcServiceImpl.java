@@ -1512,10 +1512,8 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
-    public Map<String, Object> getClaimExnpDataByPay(Map<String, Object> params) {
-        Map<String, Object> result = new HashMap<>();
-        result = purcRepository.getClaimExnpDataByPay(params);
-        return result;
+    public List<Map<String, Object>> getClaimExnpDataByPay(Map<String, Object> params) {
+        return purcRepository.getClaimExnpDataByPay(params);
     }
 
     @Override

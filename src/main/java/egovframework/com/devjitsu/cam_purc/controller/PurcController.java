@@ -1049,9 +1049,9 @@ public class PurcController {
     @RequestMapping("/purc/getClaimExnpDataByPay")
     public String getClaimExnpDataByPay(@RequestParam Map<String, Object> params, Model model){
 
-        Map<String, Object> data = purcService.getClaimExnpDataByPay(params);
+        List<Map<String, Object>> list = purcService.getClaimExnpDataByPay(params);
 
-        model.addAttribute("data", data);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }
