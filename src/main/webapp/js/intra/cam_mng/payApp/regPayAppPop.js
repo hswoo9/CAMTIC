@@ -2642,6 +2642,10 @@ var regPay = {
                             }else if($("#reqType").val() == "snack"){
                                opener.parent.snackList.mainGrid();
                             }else if($("#reqType").val() == "partRate" || $("#reqType").val() == "claimExnp"){
+                            }else if($("#reqType").val() == "camproject"){
+                                if(opener.$("#budgetMainGrid3").data("kendoGrid")) {
+                                    opener.$("#budgetMainGrid3").data("kendoGrid").dataSource.read();
+                                }
                             }else{
                                 opener.parent.paymentList.gridReload();
                             }
