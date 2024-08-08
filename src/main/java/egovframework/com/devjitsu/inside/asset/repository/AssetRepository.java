@@ -76,6 +76,7 @@ public class AssetRepository extends AbstractDAO {
         insert("asset.setAstPdaOpt", params);
     }
     public Map<String, Object> getAstPdaInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("asset.getAstPdaInfo", params);}
+    public void updInspectionType(Map<String, Object> params) { update("asset.updInspectionType", params);}
     public void setAstPdaOptInspection(Map<String, Object> params) { update("asset.setAstPdaOptInspection", params);}
     public void setAssetInspectionUpload(Map<String, Object> params) { update("asset.setAssetInspectionUpload", params);}
     public void setAssetPdaActiveDtUpd(Map<String, Object> params) { update("asset.setAssetPdaActiveDtUpd", params);}

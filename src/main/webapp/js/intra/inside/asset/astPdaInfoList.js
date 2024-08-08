@@ -62,6 +62,20 @@ var astPdaInfoList = {
                             '</button>';
                     }
                 }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.updInspectionType(\'1\')">' +
+                            '	<span class="k-button-text">재물조사실시</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.updInspectionType(\'2\')">' +
+                            '	<span class="k-button-text">재물조사미실시</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -152,6 +166,46 @@ var astPdaInfoList = {
         var name = "placeChangePop";
         var option = "width = 650, height = 335, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    updInspectionType : function(inspectionType){
+        if($("input[name='apiChk']:checked").length == 0){
+            alert("변경할 자산을 선택해주세요.");
+            return
+        }
+
+        let txt = "";
+        if(inspectionType == "1") {
+            txt = "재물조사 실시로 일괄변경 하시겠습니까?";
+        } else if(inspectionType == "2") {
+            txt = "재물조사 미실시로 일괄변경 하시겠습니까?";
+        }
+
+        if(confirm(txt)) {
+            var astPdaInfoSn = "";
+            $.each($("input[name='apiChk']:checked"), function (e, i) {
+                astPdaInfoSn += ',' + $(this).val()
+            })
+
+            $.ajax({
+                url: "/asset/updInspectionType",
+                data: {
+                    astPdaInfoSn: astPdaInfoSn.substring(1),
+                    inspectionType : inspectionType
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(){
+                    alert("변경되었습니다.");
+                    astPdaInfoList.gridReload();
+                },
+                error: function() {
+                    alert("에러가 발생했습니다.");
+                }
+            })
+
+        }
     },
 
     onDataBound : function(){

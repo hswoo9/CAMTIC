@@ -324,6 +324,11 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
+    public void updInspectionType(Map<String, Object> params) {
+        assetRepository.updInspectionType(params);
+    }
+
+    @Override
     public void setAstPdaOptInspection(Map<String, Object> params) {
         assetRepository.setAstPdaOptInspection(params);
     }

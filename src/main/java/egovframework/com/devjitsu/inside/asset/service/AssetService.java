@@ -69,6 +69,7 @@ public interface AssetService {
     void setAstPdaInfoBatch(Map<String, Object> params);
     void getAssetListToPdaList(Map<String, Object> params);
     Map<String, Object> getAstPdaInfo(Map<String, Object> params);
+    void updInspectionType(Map<String, Object> params);
     void setAstPdaOptInspection(Map<String, Object> params);
     void setAssetInspectionUpload(Map<String, Object> params);
     void setAppApkDownLoad(HttpServletRequest request, HttpServletResponse response);

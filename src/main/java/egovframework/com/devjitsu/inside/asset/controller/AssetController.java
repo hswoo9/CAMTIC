@@ -672,6 +672,17 @@ public class AssetController {
     }
 
     /**
+     * 자산관리 > PDA 연동목록 - 재물조사실시/미실시 일괄변경
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/updInspectionType")
+    public String updInspectionType(@RequestParam Map<String,Object> params) {
+        assetService.updInspectionType(params);
+        return "jsonView";
+    }
+
+    /**
      * 자산관리 > PDA 연동목록 - 재물조사실시
      * @param params
      * @param model

@@ -1052,6 +1052,16 @@
             API.AST_PDA_INFO_SN = #{astPdaInfoSn}
     </select>
 
+    <update id="updInspectionType" parameterType="map">
+        /*updInspectionType*/
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_PDA_OPT
+        SET
+            INSPECTION_TYPE = #{inspectionType}
+        WHERE
+            AST_PDA_INFO_SN IN (${astPdaInfoSn})
+    </update>
+
     <update id="setAstPdaOptInspection" parameterType="map">
         /* setAstPdaOptInspection */
         UPDATE
