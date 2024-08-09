@@ -144,7 +144,7 @@ var enaralink = {
                     title: "전자(세금)계산서",
                     width: 100,
                     template : function(dataItem) {
-                        if (dataItem.EVID_TYPE == 1) {
+                        if (dataItem.EVID_TYPE == 1 || dataItem.EVID_TYPE == 2) {
                             return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_evidCrmPopup("+dataItem.PAY_APP_DET_SN+");'>설정</button>";
                         } else {
                             return "";
