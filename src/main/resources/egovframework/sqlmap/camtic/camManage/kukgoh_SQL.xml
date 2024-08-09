@@ -551,14 +551,16 @@
                 INTRFC_ID,
                 RSP_MSG,
                 RSP_CD,
-                TRNSC_ID
+                TRNSC_ID,
+                EXCUT_CNTC_ID
             )
         VALUES
             (
                 #{intfId},
                 #{rspMsg},
                 #{rspCd},
-                #{intfTrscId}
+                #{intfTrscId},
+                #{excutCntcId}
             )
     </insert>
 
