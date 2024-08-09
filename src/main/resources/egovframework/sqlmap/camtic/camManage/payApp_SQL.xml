@@ -625,20 +625,39 @@
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
         /*getWaitPaymentList*/
-        SELECT A.PJT_CD, A.PAY_APP_TYPE, A.REVERT_YN,
-               SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-               SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-               B.*
+        SELECT
+            A.PJT_CD,
+            A.PAY_APP_TYPE,
+            A.REVERT_YN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.*
         FROM
             CAM_MNG.DJ_PAY_APP A
-        LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-        LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', B.PAY_APP_DET_SN,'%')
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', B.PAY_APP_DET_SN,'%')
         WHERE
-            A.PJT_CD = #{mgtSeq}
-        AND A.DOC_STATUS = 100
-        AND ((B.EVID_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (B.EVID_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR B.EVID_TYPE IS NULL)
-        AND B.BUDGET_SN IS NOT NULL
-        GROUP BY B.PAY_APP_DET_SN
+           A.PJT_CD = #{mgtSeq}
+        AND (
+                A.DOC_STATUS IN (10, 50)
+            OR
+                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NULL)
+            OR
+                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NOT NULL AND (
+                    (B.EVID_TYPE IN (4, 5, 6) AND (C.DOC_STATUS IS NULL OR C.DOC_STATUS != 100))
+                    OR
+                    (B.EVID_TYPE IN (1, 2, 3) AND (C.RE_STAT IS NULL OR C.RE_STAT != 'Y'))
+                    OR
+                    B.EVID_TYPE IS NULL
+                    )
+                )
+            )
+        AND
+            B.BUDGET_SN IS NOT NULL
+        GROUP BY
+            B.PAY_APP_DET_SN
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">

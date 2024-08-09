@@ -33,7 +33,11 @@ var bdv = {
                     width: 90,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
-                            return "지출결의서";
+                            if(e.EXNP_SN != null){
+                                return "지출결의서";    
+                            }else{
+                                return "지급신청서";
+                            }
                         } else if (e.PAY_APP_TYPE == 2){
                             return "여입결의서";
                         } else if(e.PAY_APP_TYPE == 3){
@@ -51,8 +55,10 @@ var bdv = {
                         var title = "";
                         if(e.EXNP_BRIEFS != null && e.EXNP_BRIEFS != "" && e.EXNP_BRIEFS != undefined){
                             title = e.EXNP_BRIEFS;
+                        } else if(e.APP_TITLE != null && e.APP_TITLE != "" && e.APP_TITLE != undefined){
+                            title = e.APP_TITLE;
                         } else {
-                            title = "";
+                            title = '';
                         }
 
                         if(e.INFO_CODE != null){
@@ -73,7 +79,7 @@ var bdv = {
                         if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
                             return '<a href="javascript:alert(\''+e.EXNP_ISS+'\')" style="font-weight: bold">'+e.REQ_DE+'</a>';
                         } else {
-                            return e.REQ_DE
+                            return (e.REQ_DE != null ? e.REQ_DE : '');
                         }
                     },
                     footerTemplate: "합계"
