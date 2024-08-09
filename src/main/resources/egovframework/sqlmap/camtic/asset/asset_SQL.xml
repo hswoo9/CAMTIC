@@ -842,7 +842,15 @@
             AND APO.WORK_TYPE = #{workType}
         </if>
         <if test='inspectionType != null and !"".equals(inspectionType)'>
-            AND APO.INSPECTION_TYPE = #{inspectionType}
+            AND (
+                APO.INSPECTION_TYPE = #{inspectionType}
+                <if test='"1".equals(inspectionType)'>
+                    OR AP2.AST_PLACE_NAME IS NOT NULL
+                </if>
+                <if test='"2".equals(inspectionType)'>
+                    AND AP2.AST_PLACE_NAME IS NULL
+                </if>
+            )
         </if>
         <if test='placeModType != null and !"".equals(placeModType)'>
             AND APO.PLACE_MOD_TYPE = #{placeModType}

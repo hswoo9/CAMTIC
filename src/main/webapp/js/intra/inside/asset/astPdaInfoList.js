@@ -126,10 +126,14 @@ var astPdaInfoList = {
                     field: "INSPECTION_TYPE",
                     title: "재물조사",
                     template : function(e){
-                        if(e.INSPECTION_TYPE == "1"){
+                        if(e.NEW_AST_PLACE != null){
                             return "실시";
-                        }else{
-                            return "미실시";
+                        } else {
+                            if(e.INSPECTION_TYPE == "1"){
+                                return "실시";
+                            }else{
+                                return "미실시";
+                            }
                         }
                     },
                     width : 100
