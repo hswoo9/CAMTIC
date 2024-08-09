@@ -288,6 +288,9 @@ var newResolutionSubmitPage = {
                     }
                 }
 
+                $("#SBSIDY_BNKB_INDICT_CN").val(eeied != null ? eeied.SBSIDY_BNKB_INDICT_CN : "캠틱종합기술원");
+                $("#BCNC_BNKB_INDICT_CN").val(eeied != null ? eeied.BCNC_BNKB_INDICT_CN : pad.CRM_NM);
+
                 $("#my-spinner").hide();
             }
         });
