@@ -22,7 +22,7 @@ var newResolutionSubmitPage = {
             ],
             index: 0,
             change : function(e){
-                if(this.value() == "3"){
+                if(this.value() == "004"){
                     $("#EXCUT_TY_SE_CODE").val("22")
                 } else {
                     $("#EXCUT_TY_SE_CODE").val("20")
@@ -38,6 +38,13 @@ var newResolutionSubmitPage = {
             dataSource: ds.list,
             index: 0,
             change: function(e){
+
+                if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "003" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() != "004") {
+                    alert("증빙유형이 [보조금전용카드]인 경우 선택 가능합니다.");
+                    $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value("001");
+                    return;
+                }
+
                 if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "002"){
                     $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").wrapper.show();
                     $("#SBSACNT_TRFRSN_CN").data("kendoTextBox").wrapper.show();
@@ -70,15 +77,15 @@ var newResolutionSubmitPage = {
                 {text: "해외", value: "004"},
             ],
             index: 0,
-            change : function (e){
-                if($("#BCNC_SE_CODE").data("kendoDropDownList").value() == "003"){
-                    $("#etcValue").css("display", "none");
-                    $("#etcValue2").css("display", "");
-                } else {
-                    $("#etcValue").css("display", "");
-                    $("#etcValue2").css("display", "none");
-                }
-            }
+            // change : function (e){
+            //     if($("#BCNC_SE_CODE").data("kendoDropDownList").value() == "003"){
+            //         $("#etcValue").css("display", "none");
+            //         $("#etcValue2").css("display", "");
+            //     } else {
+            //         $("#etcValue").css("display", "");
+            //         $("#etcValue2").css("display", "none");
+            //     }
+            // }
         })
 
 
@@ -170,7 +177,7 @@ var newResolutionSubmitPage = {
                 }
 
                 $("#EXCUT_PRPOS_CN").val(ered != null ? ered.EXCUT_PRPOS_CN : pad.APP_TITLE)
-                $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : "");
+                $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : pad.CRM_NM);
                 $("#payAppSn").val(pad.PAY_APP_SN);
                 $("#korNm").val(pad.EMP_NAME);
                 $("#empSeq").val(pad.REG_EMP_SEQ);
@@ -193,6 +200,7 @@ var newResolutionSubmitPage = {
                 } else if(pad.EVID_TYPE == "3"){
                     $("#setFgNm").val("신용카드");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(3);
+                    $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "4"){
                     $("#setFgNm").val("직원지급");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
@@ -302,8 +310,31 @@ var newResolutionSubmitPage = {
             return;
         }
 
-        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "002" && $("#SBSACNT_TRFRSN_CN").val() == ""){
+        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "002" && $("#SBSACNT_TRFRSN_CODE").data("kendoDropDownList").value() == "099" && $("#SBSACNT_TRFRSN_CN").val() == ""){
             alert("이체 사유를 입력해주세요.");
+            return;
+        }
+
+        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "003" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() != "004") {
+            alert("[보조금전용카드결제계좌로 이체]는 증빙유형이 [보조금전용카드]인 경우 선택 가능합니다.");
+            return;
+        }
+
+        if(($("#BCNC_SE_CODE").data("kendoDropDownList").value() == "001" || $("#BCNC_SE_CODE").data("kendoDropDownList").value() == "002") && $("#BCNC_LSFT_NO").val().length != "10") {
+            alert("사업자(주민)등록번호를 다시 확인해주세요.(10자리)");
+            return;
+        } else if($("#BCNC_SE_CODE").data("kendoDropDownList").value() == "003" && $("#BCNC_LSFT_NO").val().length != "13") {
+            alert("사업자(주민)등록번호를 다시 확인해주세요.(13자리)");
+            return;
+        }
+
+        if($("#BCNC_CMPNY_NM").val() == "") {
+            alert("거래처명이 입력되지 않았습니다.");
+            return;
+        }
+
+        if($("#BCNC_ACNUT_NO").val() == "") {
+            alert("계좌번호가 입력되지 않았습니다.");
             return;
         }
 

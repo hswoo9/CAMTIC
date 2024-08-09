@@ -182,11 +182,11 @@
 					</td>
 				</tr>
 				<tr>
-					<th>품목</th>
+					<th><span class="red-star">*</span>품목</th>
 					<td>
 						<input style="width: 80%" type="text" id="PRDLST_NM" name="PRDLST_NM" value="${dataJson.PRDLST_NM }"/>
 					</td>
-					<th>증빙선택</th>
+					<th><span class="red-star">*</span>증빙선택</th>
 					<td>
 						<input type="text" style="width: 45%" name="PRUF_SE_CODE" id="PRUF_SE_CODE" onchange="" placeholder="" value=""/>
 					</td>
@@ -197,7 +197,7 @@
 <%--						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />--%>
                         <span id="fileList">첨부파일이 없습니다.</span>
 					</td>
-					<th>증빙일자</th>
+					<th><span class="red-star">*</span>증빙일자</th>
 					<td colspan="3">
 						<input type="text" style="width: 45%" id="EXCUT_REQUST_DE" name="EXCUT_REQUST_DE" value="${dataJson.EXCUT_REQUST_DE }"/>
 					</td>
@@ -247,7 +247,7 @@
 					<th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">거래처 정보</th>
 				</tr>
 				<tr>
-					<th>거래처 구분</th>
+					<th><span class="red-star">*</span>거래처 구분</th>
 					<td>
 						<input type="text" id="BCNC_SE_CODE" name="BCNC_SE_CODE" style="width: 50%;"  value="" />
 					</td>
@@ -257,13 +257,14 @@
 					</td>
 				</tr>
 				<tr>
-					<th>사업자(주민)<br>등록번호</th>
+					<th><span class="red-star">*</span>사업자(주민)<br>등록번호</th>
 					<td id="etcValue" colspan="3">
-                        <input style="width: 30%;margin-bottom: 3px;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
+                        <input style="width: 30%;margin-bottom: 3px;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" oninput="onlyNumber(this)" />
+						<span class="red-star" style="margin-left: 5px;">* 숫자만 입력</span>
 					</td>
-                    <td id="etcValue2" style="display:none" colspan="3">
-                        <input style="width: 15%;" type="text" id="PIN_NO_1" style="" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 15%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value="******"/>
-                    </td>
+<%--                    <td id="etcValue2" style="display:none" colspan="3">--%>
+<%--                        <input style="width: 15%;" type="text" id="PIN_NO_1" style="" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 15%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value="******"/>--%>
+<%--                    </td>--%>
 				</tr>
 
 				<tr>
@@ -304,11 +305,11 @@
 					</td>
 				</tr>
 				<tr>
-					<th>계좌번호</th>
+					<th><span class="red-star">*</span>계좌번호</th>
 					<td>
 						<input type="text" style="width: 50%;" id="BCNC_ACNUT_NO" name="BCNC_ACNUT_NO" value="${dataJson.BCNC_ACNUT_NO }"/>
 					</td>
-					<th>이체구분</th>
+					<th><span class="red-star">*</span>이체구분</th>
 					<td>
 						<input type="text" style="width: 40%;" id="TRANSFR_ACNUT_SE_CODE" name="TRANSFR_ACNUT_SE_CODE" value="${dataJson.TRANSFR_ACNUT_SE_CODE }"/>
 						<input type="text" style="width: 25%;" id="SBSACNT_TRFRSN_CODE" name="SBSACNT_TRFRSN_CODE" value="${dataJson.SBSACNT_TRFRSN_CODE }"/>
