@@ -95,8 +95,8 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text" id="admissionDt0" class="admissionDt" name="admissionDt" style="width: 110px"> ~
-                        <input type="text" id="graduationDt0" class="graduationDt" name="graduationDt" style="width: 110px">
+                        <input type="text" id="admissionDt0" class="admissionDt" name="admissionDt" style="width: 45%"> ~
+                        <input type="text" id="graduationDt0" class="graduationDt" name="graduationDt" style="width: 45%">
                     </td>
                     <td>
                         <input type="text" id="schoolName0" class="__inp schoolName" style="width: 100px;">
@@ -167,8 +167,8 @@
                         <input type="text" id="careerOrgName0" class="__inp careerOrgName">
                     </td>
                     <td>
-                        <input type="text" id="workStDt0" class="workStDt period" name="workStDt" style="width: 110px"> ~
-                        <input type="text" id="workEnDt0" class="workEnDt period" name="workEnDt" style="width: 110px">
+                        <input type="text" id="workStDt0" class="workStDt period" name="workStDt" style="width: 45%"> ~
+                        <input type="text" id="workEnDt0" class="workEnDt period" name="workEnDt" style="width: 45%">
                     </td>
                     <td>
                         <input type="text" id="position0" class="__inp position">

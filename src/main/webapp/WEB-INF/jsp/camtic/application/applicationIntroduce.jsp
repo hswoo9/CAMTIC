@@ -48,7 +48,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <textarea id="introduce1" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                        <textarea id="introduce1" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -67,7 +67,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <textarea id="introduce2" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                        <textarea id="introduce2" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -86,7 +86,7 @@
                 <tbody>
                 <tr>
                     <td>
-                        <textarea id="introduce3" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                        <textarea id="introduce3" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                     </td>
                 </tr>
                 </tbody>

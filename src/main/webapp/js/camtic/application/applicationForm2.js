@@ -36,8 +36,8 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" name="admissionDt" style="width: 110px"> ~ ' +
-                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" name="graduationDt" style="width: 110px">' +
+                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" name="admissionDt" style="width: 45%"> ~ ' +
+                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" name="graduationDt" style="width: 45%">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="__inp schoolName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
@@ -125,8 +125,8 @@ var applicationForm2 = {
                     '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="__inp careerOrgName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" name="workStDt" style="width: 110px"> ~ ' +
-                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" name="workEnDt" style="width: 110px">' +
+                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" name="workStDt" style="width: 45%"> ~ ' +
+                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" name="workEnDt" style="width: 45%">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="__inp position" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +

@@ -102,7 +102,7 @@
                         활용능력
                     </th>
                     <td colspan="6">
-                        <textarea id="certContent0" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                        <textarea id="certContent0" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -153,7 +153,7 @@
                 <tr id="lang0_1" class="lang_1">
                     <th style="text-align: center;">활용능력</th>
                     <td colspan="6">
-                        <textarea id="langContent0" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                        <textarea id="langContent0" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -168,7 +168,7 @@
         <div id="otherDiv" style="display: none">
             <table class="popTable table table-bordered mb-0 mt10 text-center">
                 <tr>
-                    <textarea id="otherLang" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                    <textarea id="otherLang" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                 </tr>
             </table>
         </div>

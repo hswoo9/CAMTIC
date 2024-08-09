@@ -91,7 +91,7 @@
                         생년월일
                     </th>
                     <td>
-                        <input type="text" id="bDay" name="bDay" style="width:130px">
+                        <input type="text" id="bDay" name="bDay" style="width: 60%">
                         음력<input type="checkbox" id="lunarYn" name="lunarYn" style="vertical-align: middle; margin-left: 3px;">
                     </td>
                     <th>
