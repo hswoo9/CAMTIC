@@ -22,25 +22,26 @@
             B.CMMN_OBJ_B
         FROM
             CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL A
-        LEFT JOIN CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CNTC_SN = B.CNTC_SN
+        LEFT JOIN CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CMMN_CODE = B.CMMN_CODE AND A.CMMN_DETAIL_CODE = B.CMMN_DETAIL_CODE
         WHERE
-            CMMN_CODE = #{cmmnCode}
+            A.CMMN_CODE = #{cmmnCode}
+        ORDER BY A.CMMN_CODE ASC
     </select>
 
     <delete id="delCommCodeObject" parameterType="map">
         /*delCommCodeObject*/
-        DELETE FROM CAM_ERP.DJ_CMMN_CODE_OBJ WHERE CNTC_SN = #{cntcSn}
+        DELETE FROM CAM_ERP.DJ_CMMN_CODE_OBJ WHERE CMMN_CODE = #{cmmnCode} AND CMMN_DETAIL_CODE = #{cmmnDetailCode}
     </delete>
 
     <insert id="insCommCodeObject" parameterType="map">
         /*insCommCodeObject*/
         INSERT INTO CAM_ERP.DJ_CMMN_CODE_OBJ
             (
-                CNTC_SN, CMMN_OBJ_A, CMMN_OBJ_B, REG_EMP_SEQ
+                CNTC_SN, CMMN_CODE, CMMN_DETAIL_CODE, CMMN_OBJ_A, CMMN_OBJ_B, REG_EMP_SEQ
             )
         VALUES
             (
-                #{cntcSn}, #{cmmnObjA}, #{cmmnObjB}, #{regEmpSeq}
+                #{cntcSn}, #{cmmnCode}, #{cmmnDetailCode}, #{cmmnObjA}, #{cmmnObjB}, #{regEmpSeq}
             )
     </insert>
 
@@ -274,7 +275,7 @@
         FROM
             CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL A
         LEFT JOIN
-            CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CNTC_SN = B.CNTC_SN
+            CAM_ERP.DJ_CMMN_CODE_OBJ B ON A.CMMN_CODE = B.CMMN_CODE AND A.CMMN_DETAIL_CODE = B.CMMN_DETAIL_CODE
         WHERE
             A.CMMN_CODE = 1070
             <if test='"".equals(CRM_BNK_NM)'>

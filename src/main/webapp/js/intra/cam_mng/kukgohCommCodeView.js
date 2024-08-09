@@ -77,14 +77,14 @@ var kukgohCommCodeView = {
                     field : "",
                     title : "관리항목1",
                     template: function(e){
-                        return '<input type="text" class="k-input" name="aText" obj="A" keyVal="' + e.CNTC_SN + '" value="'+ (e.CMMN_OBJ_A || '')+ '"  />'
+                        return '<input type="text" class="k-input" name="aText" obj="A" keyVal="' + e.CNTC_SN + '" cmmnCode = "' + e.CMMN_CODE + '" cmmnDetailCode = "' + e.CMMN_DETAIL_CODE + '" value="'+ (e.CMMN_OBJ_A || '')+ '"  />'
                     }
                 },
                 {
                     field : "",
                     title : "관리항목2",
                     template: function(e){
-                        return '<input type="text" class="k-input" name="aText" obj="B" keyVal="' + e.CNTC_SN + '" value="'+ (e.CMMN_OBJ_B || '')+ '" />'
+                        return '<input type="text" class="k-input" name="aText" obj="B" keyVal="' + e.CNTC_SN + '" cmmnCode = "' + e.CMMN_CODE + '" cmmnDetailCode = "' + e.CMMN_DETAIL_CODE + '" value="'+ (e.CMMN_OBJ_B || '')+ '" />'
                     }
                 },
                 {
@@ -131,6 +131,8 @@ var kukgohCommCodeView = {
         grid.tbody.find("tr").each(function () {
             var data = {
                 cntcSn : "",
+                cmmnCode : "",
+                cmmnDetailCode : "",
                 obj : "",
                 cmmnObjA : "",
                 cmmnObjB : "",
@@ -140,6 +142,8 @@ var kukgohCommCodeView = {
             $(this).find("input[name='aText']").each(function () {
                 if($(this).val() != ""){
                     data.cntcSn = $(this).attr("keyVal");
+                    data.cmmnCode = $(this).attr("cmmnCode");
+                    data.cmmnDetailCode = $(this).attr("cmmnDetailCode");
                     data.obj = $(this).attr("obj");
                     if(data.obj == "A"){
                         data.cmmnObjA = $(this).val();
