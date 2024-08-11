@@ -75,7 +75,7 @@ var saveInterfacePage = {
 
     fn_down : function(url){
         var data = {
-            url : "url"
+            url : url
         }
 
         $.ajax({
