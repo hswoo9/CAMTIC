@@ -666,6 +666,11 @@ public class KukgohServiceImpl implements KukgohService {
         return result;
     }
 
+    @Override
+    public List<Map<String, Object>> getInterfaceList(Map<String, Object> params) {
+        return kukgohRepository.getInterfaceList(params);
+    }
+
     /**
      * 전자세금계산서 CSV 파일 생성
      * @param params
@@ -722,6 +727,8 @@ public class KukgohServiceImpl implements KukgohService {
 
         return fileName;
     }
+
+
 
 
 }

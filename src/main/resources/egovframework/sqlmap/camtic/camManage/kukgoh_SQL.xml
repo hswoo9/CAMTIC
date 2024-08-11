@@ -638,4 +638,16 @@
         WHERE
             ETXBL_CONFM_NO = #{ISS_NO}
     </select>
+
+
+    <select id="getInterfaceList" parameterType="map" resultType="map">
+        /*getInterfaceList*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_INTERFACE
+        WHERE
+            USE_YN = 'Y'
+        ORDER BY INF_SN DESC
+    </select>
 </mapper>

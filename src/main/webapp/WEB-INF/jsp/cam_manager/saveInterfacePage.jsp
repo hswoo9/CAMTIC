@@ -27,9 +27,7 @@
         <div class="panel-body">
             <div>
                 <div id="kukgohInterfaceGrid" style="margin:20px 0;"></div>
-                <div style="margin-top:10px;">
-                    <textarea id="editor" rows="10" cols="30"></textarea>
-                </div>
+
                 <div class="btn_div mt10 cl">
                 </div>
             </div>
