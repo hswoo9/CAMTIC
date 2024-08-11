@@ -219,6 +219,12 @@ public class KukgohController {
                 // log
                 System.out.println("result data: " + resutMap);
                 resutMap.put("excutCntcId", params.get("EXCTNC_CNTC_ID"));
+
+                Map<String, Object> tempMap = kukgohService.getErpSendTrscId(resutMap);
+                if(tempMap != null){
+                    kukgohService.delErpSendTrscId(tempMap);
+                }
+
                 kukgohService.insDjErpSend(resutMap);
                 if ("SUCC".equals(resutMap.get("rspCd"))) { // 연계 성공
                     // 연계 성공시 실행할 로직 작성
