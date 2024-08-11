@@ -617,4 +617,25 @@
             CAM_ERP.T_IFR_ETXBL_REQUST_ERP
         WHERE TRNSC_ID = #{TRNSC_ID}
     </select>
+
+    <select id="sendResultEtaxData" parameterType="map" resultType="map">
+        /*sendResultEtaxData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFR_ETXBL_REQUST_ERP A
+        WHERE
+            ETXBL_CONFM_NO = #{ISS_NO}
+        LIMIT 1
+    </select>
+
+    <select id="getResEtsblData" parameterType="map" resultType="map">
+        /*getResEtsblData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.T_IFS_ETXBL_RESULT_ERP
+        WHERE
+            ETXBL_CONFM_NO = #{ISS_NO}
+    </select>
 </mapper>

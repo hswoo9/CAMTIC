@@ -286,7 +286,9 @@ public class KukgohController {
     public String getEtaxInfo(@RequestParam Map<String ,Object> params, Model model){
 
         Map<String, Object> result = kukgohService.getEtaxInfo(params);
+        Map<String, Object> resultSendMsg = kukgohService.sendResultEtaxData(result);
         model.addAttribute("result", result);
+        model.addAttribute("resultSendMsg", resultSendMsg);
 
         return "jsonView";
     }

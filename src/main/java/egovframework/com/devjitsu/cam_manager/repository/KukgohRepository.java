@@ -241,4 +241,14 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getEtaxList", params);
     }
+
+    public Map<String, Object> sendResultEtaxData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.sendResultEtaxData", params);
+    }
+
+    public Map<String, Object> getResEtsblData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getResEtsblData", params);
+    }
 }

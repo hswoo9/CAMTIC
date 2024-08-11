@@ -43,4 +43,6 @@ public interface KukgohService {
     Map<String, Object> getEtaxInfo(Map<String, Object> params);
 
     Map<String, Object> sendEtaxData(Map<String, Object> params);
+
+    Map<String, Object> sendResultEtaxData(Map<String, Object> params);
 }

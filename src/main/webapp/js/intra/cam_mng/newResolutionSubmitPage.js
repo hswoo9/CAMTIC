@@ -276,8 +276,6 @@ var newResolutionSubmitPage = {
                 if(pad.EVID_TYPE == "1" || pad.EVID_TYPE == "2"){
                     $("#PRUF_SE_NO").val(pad.ISS_NO || "");
 
-                } else if(pad.EVID_TYPE == "3"){
-                    $("#PRUF_SE_NO").val(pad.AUTH_NO || "");
                 }
 
                 if(erpSend != null && erpSend != undefined){
@@ -347,6 +345,7 @@ var newResolutionSubmitPage = {
             url: '/kukgoh/sendEnara',
             type: 'POST',
             data: formData,
+            async: false,
             processData: false,  // important
             contentType: false,  // important
             beforeSend : function(request){

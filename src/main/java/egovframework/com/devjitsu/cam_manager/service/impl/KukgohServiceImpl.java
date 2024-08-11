@@ -378,7 +378,7 @@ public class KukgohServiceImpl implements KukgohService {
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
 
             String command = "cp -r " + fromDirectory + " " + toDirectory;
-            String command2 = "chmod -R 777 " + toDirectory + params.get("TRNSC_ID") + "/*";
+            String command2 = "chmod -R 777 " + toDirectory + "/*";
             channel.setCommand(command + ";" + command2);
 
             channel.setErrStream(System.err);
@@ -644,6 +644,28 @@ public class KukgohServiceImpl implements KukgohService {
         return parameters;
     }
 
+    @Override
+    public Map<String, Object> sendResultEtaxData(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> reqEtxblData = kukgohRepository.sendResultEtaxData(params);
+
+        if(reqEtxblData == null){
+            result.put("msg", "전송가능");
+            result.put("etaxStat", "Y");
+        } else {
+            Map<String, Object> resEtxblData = kukgohRepository.getResEtsblData(params);
+
+            if(resEtxblData == null){
+                result.put("msg", "전송진행중");
+                result.put("etaxStat", "Y");
+            } else {
+                result.put("msg", "정상");
+                result.put("etaxStat", "N");
+            }
+        }
+        return result;
+    }
+
     /**
      * 전자세금계산서 CSV 파일 생성
      * @param params
@@ -700,4 +722,6 @@ public class KukgohServiceImpl implements KukgohService {
 
         return fileName;
     }
+
+
 }

@@ -85,9 +85,9 @@
 					</td>
 					<td style="text-align: center;">
 						<input style="width: 70%;" type="text" class="k-input" id="issNo" name="issNo" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-						<input type="button" style="margin-left:5px;width: 20%;" class="k-button k-button-solid-base" onclick="fn_etaxSend()" value="전송">
+						<input type="button" style="margin-left:5px;width: 20%;" class="k-button k-button-solid-base" id="sendBtn" onclick="fn_etaxSend()" value="전송">
 					</td>
-					<td style="text-align: center;">
+					<td style="text-align: center;" id="rsTblMsg">
 
 					</td>
 				</tr>
@@ -116,6 +116,14 @@
             success : function(rs){
                 console.log(rs)
                 var ed = rs.result;
+                var rsMsg = rs.resultSendMsg;
+
+                if(rsMsg.etaxStat == "N"){
+                    $("#sendBtn").attr("disabled", true);
+                }
+
+                $("#rsTblMsg").text(rsMsg.msg);
+
                 $("#trNm").text(ed.TR_NM);
                 $("#regNo").text(ed.TRREG_NB);
                 $("#sumAm").text(comma(ed.SUM_AM.toString().split(".")[0]));
@@ -150,6 +158,7 @@
             url : "/kukgoh/sendEtaxData",
             data : data,
             dataType : "json",
+            async : false,
             type : "post",
 			beforeSend : function(){
 				$("#my-spinner").show();
@@ -164,6 +173,7 @@
                     success : function (rs){
                         alert("전송이 완료되었습니다.");
 						$("#my-spinner").hide();
+                        location.reload();
                     }
                 })
             }, error : function (e){
