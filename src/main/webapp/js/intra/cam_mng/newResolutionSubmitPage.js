@@ -199,8 +199,7 @@ var newResolutionSubmitPage = {
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "3"){
                     $("#setFgNm").val("신용카드");
-                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(3);
-                    $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").select(2);
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 } else if(pad.EVID_TYPE == "4"){
                     $("#setFgNm").val("직원지급");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
@@ -279,15 +278,19 @@ var newResolutionSubmitPage = {
                 }
 
                 if(erpSend != null && erpSend != undefined){
-                    $("#PROCESS_RESULT_MSSAGE").val(erpSend.RSP_MSG);
-
                     if(erpSend.RSP_CD == "SUCC") {
+                        $("#PROCESS_RESULT_MSSAGE").val(erpSend.PROCESS_RESULT_MSSAGE);
+                    } else {
+                        $("#PROCESS_RESULT_MSSAGE").val(erpSend.RSP_MSG);
+                    }
+
+                    if(erpSend.RSP_CD == "SUCC" && erpSend.PROCESS_RESULT_CODE == "000") {
                         $("#sendBtn").hide();
                     }
                 }
 
-                $("#SBSIDY_BNKB_INDICT_CN").val(eeied != null ? eeied.SBSIDY_BNKB_INDICT_CN : "캠틱종합기술원");
-                $("#BCNC_BNKB_INDICT_CN").val(eeied != null ? eeied.BCNC_BNKB_INDICT_CN : pad.CRM_NM);
+                // $("#SBSIDY_BNKB_INDICT_CN").val(eeied != null ? eeied.SBSIDY_BNKB_INDICT_CN : "캠틱종합기술원");
+                // $("#BCNC_BNKB_INDICT_CN").val(eeied != null ? eeied.BCNC_BNKB_INDICT_CN : pad.CRM_NM);
 
                 $("#my-spinner").hide();
             }
@@ -336,6 +339,16 @@ var newResolutionSubmitPage = {
 
         if($("#BCNC_ACNUT_NO").val() == "") {
             alert("계좌번호가 입력되지 않았습니다.");
+            return;
+        }
+
+        if($("#SBSIDY_BNKB_INDICT_CN").val().length > 5) {
+            alert("내통장표시 항목은 5자리까지 입력 가능합니다.");
+            return;
+        }
+
+        if($("#BCNC_BNKB_INDICT_CN").val().length > 5) {
+            alert("내통장표시 항목은 5자리까지 입력 가능합니다.");
             return;
         }
 

@@ -56,6 +56,7 @@
             B.PJT_CD,
             A.BUDGET_NM,
             A.EVID_TYPE,
+            A.ISS_NO,
             A.TOT_COST,
             E.PRUF_SE_CODE,
             E.PRUF_SE_NO,
@@ -70,7 +71,14 @@
             E.BCNC_ACNUT_NO,
             F.TRNSC_ID,
             F.RSP_MSG,
-            F.RSP_CD
+            F.RSP_CD,
+            G.PROCESS_RESULT_CODE,
+            G.PROCESS_RESULT_MSSAGE,
+            -- 전자(세금계산서) 결과
+            I.RSP_MSG AS ISS_RSP_MSG,
+            I.RSP_CD AS ISS_RSP_CD,
+            J.PROCESS_RESULT_CODE AS ISS_PROCESS_RESULT_CODE,
+            J.PROCESS_RESULT_MSSAGE AS ISS_PROCESS_RESULT_MSSAGE
         FROM
             CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
@@ -78,6 +86,10 @@
         LEFT JOIN CAM_ERP.DJ_ERP_REQ_STAT D ON D.PAY_APP_DET_SN = A.PAY_APP_DET_SN
         LEFT JOIN CAM_ERP.T_IFR_EXCUT_REQUST_ERP E ON E.TRNSC_ID = D.TRNSC_ID
         LEFT JOIN CAM_ERP.DJ_ERP_SEND F on E.TRNSC_ID = F.TRNSC_ID
+        LEFT JOIN CAM_ERP.T_IFS_EXCUT_RESULT_ERP G ON E.EXCUT_CNTC_ID = G.EXCUT_CNTC_ID
+        LEFT JOIN CAM_ERP.T_IFR_ETXBL_REQUST_ERP H ON H.ETXBL_CONFM_NO = A.ISS_NO
+        LEFT JOIN CAM_ERP.DJ_ERP_SEND I ON I.TRNSC_ID = H.TRNSC_ID
+        LEFT JOIN CAM_ERP.T_IFS_ETXBL_RESULT_ERP J ON J.ETXBL_CONFM_NO = H.ETXBL_CONFM_NO
         WHERE
             B.DOC_STATUS = 100
         <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
@@ -533,11 +545,18 @@
     <select id="getErpSend" parameterType="map" resultType="map">
         /*getErpSend*/
         SELECT
-            *
+            A.RSP_MSG,
+            A.RSP_CD,
+            A.TRNSC_ID,
+            B.EXCUT_CNTC_ID,
+            C.PROCESS_RESULT_CODE,
+            C.PROCESS_RESULT_MSSAGE
         FROM
-            CAM_ERP.DJ_ERP_SEND
+            CAM_ERP.DJ_ERP_SEND A
+        LEFT JOIN CAM_ERP.T_IFR_EXCUT_REQUST_ERP B ON A.TRNSC_ID = B.TRNSC_ID
+        LEFT JOIN CAM_ERP.T_IFS_EXCUT_RESULT_ERP C ON B.EXCUT_CNTC_ID = C.EXCUT_CNTC_ID
         WHERE
-            TRNSC_ID = #{TRNSC_ID}
+            A.TRNSC_ID = #{TRNSC_ID}
     </select>
 
     <delete id="delEnaraData" parameterType="map">
@@ -637,5 +656,6 @@
             CAM_ERP.T_IFS_ETXBL_RESULT_ERP
         WHERE
             ETXBL_CONFM_NO = #{ISS_NO}
+        ORDER BY CNTC_SN DESC LIMIT 1
     </select>
 </mapper>

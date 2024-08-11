@@ -92,13 +92,7 @@ var enaralink = {
                     name : 'button',
                     template : function (){
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">일괄 전송취소</span>' +
-                            '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">전송취소</span>' +
-                            '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
                             '	<span class="k-button-text">전송제외</span>' +
                             '</button>'+
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
@@ -133,19 +127,35 @@ var enaralink = {
                     title: "전송/확인",
                     width: 100,
                     template : function(e) {
-                        if (e.TRNSC_ID != null) {
-                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
+                        if(e.EVID_TYPE == 1 || e.EVID_TYPE == 2) {
+                            if(e.ISS_RSP_CD == "SUCC" && e.ISS_PROCESS_RESULT_CODE == "000") {
+                                if (e.TRNSC_ID != null) {
+                                    return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
+                                } else {
+                                    return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                                }
+                            } else {
+                                return "";
+                            }
                         } else {
-                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                            if (e.TRNSC_ID != null) {
+                                return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
+                            } else {
+                                return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                            }
                         }
                     }
                 },
                 {
                     title: "전자(세금)계산서",
                     width: 100,
-                    template : function(dataItem) {
-                        if (dataItem.EVID_TYPE == 1 || dataItem.EVID_TYPE == 2) {
-                            return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_evidCrmPopup("+dataItem.PAY_APP_DET_SN+");'>설정</button>";
+                    template : function(e) {
+                        if (e.EVID_TYPE == 1 || e.EVID_TYPE == 2) {
+                            if(e.ISS_RSP_CD == "SUCC" && e.ISS_PROCESS_RESULT_CODE == "000") {
+                                return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_evidCrmPopup("+e.PAY_APP_DET_SN+");'>설정완료</button>";
+                            } else {
+                                return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_evidCrmPopup("+e.PAY_APP_DET_SN+");'>설정</button>";
+                            }
                         } else {
                             return "";
                         }
@@ -157,15 +167,15 @@ var enaralink = {
                         {
                             field: "",
                             title: "상태",
-                            width: 70,
+                            width: 80,
                             template:function(e){
                                 if(e.TRNSC_ID == null) {
                                     return "미전송";
                                 } else {
-                                    if(e.RSP_CD == "SUCC") {
+                                    if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
                                         return "전송완료";
-                                    } else if(e.RSP_CD.indexOf("ER") > -1) {
-                                        return "전송실패";
+                                    } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000")) {
+                                        return "<span style='color: red;'>전송실패</span>";
                                     } else {
                                         return "전송진행중";
                                     }

@@ -659,8 +659,13 @@ public class KukgohServiceImpl implements KukgohService {
                 result.put("msg", "전송진행중");
                 result.put("etaxStat", "Y");
             } else {
-                result.put("msg", "정상");
-                result.put("etaxStat", "N");
+                if(resEtxblData.get("PROCESS_RESULT_CODE").equals("000")){
+                    result.put("msg", "정상");
+                    result.put("etaxStat", "N");
+                } else {
+                    result.put("msg", "전송실패");
+                    result.put("etaxStat", "Y");
+                }
             }
         }
         return result;
