@@ -535,7 +535,7 @@
                 #{item.BA_NB},
                 #{item.DEPOSITOR},
                 #{item.TR_NM},
-                #{item.CARD_BA_NB}
+                scp.enc_b64('KEY1', #{item.CARD_BA_NB})
             )
         </foreach>
 

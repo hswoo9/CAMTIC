@@ -2068,7 +2068,7 @@
             B.BA_NB,
             B.DEPOSITOR,
             B.TR_NM,
-            B.CARD_BA_NB,
+            scp.dec_b64('KEY1', B.CARD_BA_NB) AS CARD_BA_NB,
             B.CVC,
             C.*,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), '|', ' ') AS USE_DEPT_NAME,
