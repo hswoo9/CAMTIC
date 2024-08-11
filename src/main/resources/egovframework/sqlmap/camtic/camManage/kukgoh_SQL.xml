@@ -658,4 +658,16 @@
             ETXBL_CONFM_NO = #{ISS_NO}
         ORDER BY CNTC_SN DESC LIMIT 1
     </select>
+
+
+    <select id="getInterfaceList" parameterType="map" resultType="map">
+        /*getInterfaceList*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_INTERFACE
+        WHERE
+            USE_YN = 'Y'
+        ORDER BY INF_SN DESC
+    </select>
 </mapper>

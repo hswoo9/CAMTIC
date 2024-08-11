@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.*;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -380,5 +382,56 @@ public class KukgohController {
 
         return "jsonView";
     }
+
+
+    @RequestMapping("/kukgoh/getInterfaceList")
+    public String getInterfaceList(@RequestParam Map<String ,Object> params, Model model){
+
+        model.addAttribute("list", kukgohService.getInterfaceList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/kukgoh/setInterfaceAuto")
+    public String setInterfaceAuto(@RequestParam Map<String ,Object> params, Model model) throws Exception{
+
+        String urlStr = "218.158.231.92:1000" + params.get("url").toString();
+
+        URL url = new URL(urlStr);
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        // 선택적 기본 요청 방식은 GET입니다.
+        conn.setRequestMethod("GET");
+
+        // 연결 시간 제한 설정 (5초)
+        conn.setConnectTimeout(5000);
+
+        int responseCode = conn.getResponseCode();
+        System.out.println("Response Code : " + responseCode);
+
+        if(responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            // 결과 출력
+            System.out.println(response.toString());
+            model.addAttribute("code", 200);
+        } else {
+            System.out.println("GET request not worked");
+            model.addAttribute("code", 500);
+        }
+
+        conn.disconnect();
+
+        return "jsonView";
+    }
+
 
 }

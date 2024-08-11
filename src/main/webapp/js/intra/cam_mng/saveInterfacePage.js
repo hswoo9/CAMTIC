@@ -5,10 +5,6 @@ var saveInterfacePage = {
     },
 
     fn_defaultScript: function () {
-        CKEDITOR.replace('editor', {
-            height: 250
-        });
-
         saveInterfacePage.mainGrid();
     },
 
@@ -17,15 +13,23 @@ var saveInterfacePage = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '',
+                    url : '/kukgoh/getInterfaceList',
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function() {
+                parameterMap: function(data) {
 
-                    return ;
+                    return data;
                 }
 
+            },
+            schema: {
+                data: function (data){
+                    return data.list;
+                },
+                total: function (data){
+                    return data.list.length;
+                },
             },
             pageSize: 10,
         });
@@ -47,23 +51,48 @@ var saveInterfacePage = {
             persistSelection : true,
             columns: [
                 {
-                    field : "code",
+                    field : "INTERFACE_ID",
                     title : "인터페이스 ID",
                 },
                 {
-                    field : "code_kr",
+                    field : "INTERFACE_NM",
                     title : "인터페이스 명",
                 },
                 {
-                    field : "code_val",
+                    field : "BATCH",
                     title : "배치 시간"
                 },
                 {
                     title : "다운받기",
-                    width : 100
+                    width : 100,
+                    template:function (e){
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="saveInterfacePage.fn_down( \'' + e.URL + '\')">다운</button>'
+                    }
                 }],
         }).data("kendoGrid");
     },
 
 
+    fn_down : function(url){
+        var data = {
+            url : "url"
+        }
+
+        $.ajax({
+            url : "/kukgoh/setInterfaceAuto",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("다운로드가 완료 되었습니다.");
+                } else {
+                    alert("다운로드가 실패하였습니다.");
+                }
+            }
+        })
+
+    }
 }

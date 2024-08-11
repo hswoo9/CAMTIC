@@ -251,4 +251,9 @@ public class KukgohRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("kukgoh.getResEtsblData", params);
     }
+
+    public List<Map<String, Object>> getInterfaceList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getInterfaceList", params);
+    }
 }
