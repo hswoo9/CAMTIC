@@ -395,7 +395,7 @@ public class KukgohController {
     @RequestMapping("/kukgoh/setInterfaceAuto")
     public String setInterfaceAuto(@RequestParam Map<String ,Object> params, Model model) throws Exception{
 
-        String urlStr = "218.158.231.92:1000" + params.get("url").toString();
+        String urlStr = "http://218.158.231.92:1000" + params.get("url").toString();
 
         URL url = new URL(urlStr);
 
