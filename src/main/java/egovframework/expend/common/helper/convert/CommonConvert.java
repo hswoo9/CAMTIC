@@ -514,7 +514,7 @@ public class CommonConvert {
             /* iCUBE 테스트 */
             loginVo = new LoginVO();
             loginVo.setId("admin");
-            loginVo.setGroupSeq("epis");
+            loginVo.setGroupSeq("camtic");
             loginVo.setCompSeq("1000");
             loginVo.setBizSeq("1000");
             loginVo.setOrgnztId("1110");

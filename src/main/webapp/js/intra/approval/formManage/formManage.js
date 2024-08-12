@@ -384,7 +384,7 @@ var formM = {
             for(var i = 0; i < result.formFile.length; i++){
                 var filePath = "";
                 /** TODO. 배포 시 필수 변경 */
-                if(result.formFile[i].FILE_PATH.indexOf("121.186.165.80") > -1 || result.formFile[i].FILE_PATH.indexOf("10.10.10.114") > -1 || result.formFile[i].FILE_PATH.indexOf("one.epis.or.kr") > -1){
+                if(result.formFile[i].FILE_PATH.indexOf("121.186.165.80") > -1 || result.formFile[i].FILE_PATH.indexOf("10.10.10.114") > -1){
                     var splitFilePath = result.formFile[i].FILE_PATH.split("/");
                     filePath = "/" + splitFilePath[3] + "/" + splitFilePath[4] + "/" + splitFilePath[5] + "/" + result.formFile[i].FILE_UUID
                 }else{
