@@ -186,7 +186,7 @@ public class CommonServiceImpl implements CommonService {
         List<Map<String, Object>> getFvMenuList = commonRepository.getFvMenu(params);
         for(Map<String, Object> parent : getMenuList){
             if(parent.get("MENU_DEPTH").equals("0")){
-                parent.put("MENU_FULL_PATH", "epis|" + parent.get("MENU_FULL_PATH"));
+                parent.put("MENU_FULL_PATH", "camtic_new|" + parent.get("MENU_FULL_PATH"));
             }
 
             for(Map<String, Object> children : getMenuList){

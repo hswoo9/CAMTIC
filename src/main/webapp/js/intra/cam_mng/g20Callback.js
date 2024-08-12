@@ -64,11 +64,16 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
 
     $("#crmNm" + idx).val(trNm);
     $("#trCd" + idx).val(trCd);
-    $("#crmBnkNm" + idx).val(jiro);
-    $("#crmAccNo" + idx).val(baNb);
-    $("#crmAccHolder" + idx).val(depositor);
     $("#regNo" + idx).val(regNb);
-    $("#ceoNm" + idx).val(ceoNm);
+
+    if($("#eviType" + idx).val() != "3") {
+        $("#crmBnkNm" + idx).val(jiro);
+        $("#crmAccNo" + idx).val(baNb);
+        $("#crmAccHolder" + idx).val(depositor);
+        $("#ceoNm" + idx).val(ceoNm);
+    }
+
+    regPay.fn_g20ClientCheck();
 }
 
 function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){

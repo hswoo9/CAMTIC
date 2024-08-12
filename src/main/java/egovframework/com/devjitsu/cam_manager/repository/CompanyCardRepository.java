@@ -220,4 +220,8 @@ public class CompanyCardRepository extends AbstractDAO {
     public void updateMeetingFinalApprStat(Map<String, Object> params) {
         update("card.updateMeetingFinalApprStat", params);
     }
+
+    public Map<String, Object> getCardInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("card.getCardInfo", params);
+    }
 }

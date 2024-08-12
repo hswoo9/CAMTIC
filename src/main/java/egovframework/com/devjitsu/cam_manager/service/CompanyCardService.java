@@ -69,4 +69,6 @@ public interface CompanyCardService {
 
     /** 회의실사용사전승인신청서 결재 상태값에 따른 UPDATE 메서드 */
     void updateMeetingDocState(Map<String, Object> bodyMap) throws Exception;
+
+    Map<String, Object> getCardInfo(Map<String, Object> params);
 }

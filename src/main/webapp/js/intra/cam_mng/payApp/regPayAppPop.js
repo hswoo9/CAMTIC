@@ -2895,6 +2895,9 @@ var regPay = {
                             if(result == null){
                                 $("#crmNm" + index).css("border", "1px solid red");
                                 $("#regNo" + index).css("border", "1px solid red");
+                            } else {
+                                $("#crmNm" + index).css("border", "#bbb");
+                                $("#regNo" + index).css("border", "#bbb");
                             }
                         }
                     });

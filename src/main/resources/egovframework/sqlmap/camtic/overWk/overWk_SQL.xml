@@ -74,7 +74,7 @@
 
     <select id="getApplyDateOwpCheck" resultType="map" parameterType="map">
         /*getApplyDateOwpCheck
-         SELECT DJ_EPIS.FN_APPLY_DATE_OWP_CHECK(#{empSeq}, #{applyDate}, #{startTime}, #{endTime}) AS result*/
+         SELECT DJ_CAMTIC.FN_APPLY_DATE_OWP_CHECK(#{empSeq}, #{applyDate}, #{startTime}, #{endTime}) AS result*/
     </select>
 
     <insert id="setOverWorkPlan" parameterType="map">
