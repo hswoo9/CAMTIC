@@ -625,4 +625,10 @@ public class CompanyCardController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    @RequestMapping("/card/getCardInfo")
+    public String getCardInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", companyCardService.getCardInfo(params));
+        return "jsonView";
+    }
 }

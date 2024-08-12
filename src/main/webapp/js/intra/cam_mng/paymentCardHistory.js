@@ -461,6 +461,11 @@ var payCardHist = {
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);
 
+        var cardInfo  = customKendo.fn_customAjax("/card/getCardInfo", {cardNo : data.CARD_NO});
+        opener.parent.$("#crmAccHolder" + index).val(cardInfo.data.DEPOSITOR);
+        opener.parent.$("#crmAccNo" + index).val(cardInfo.data.BA_NB);
+        opener.parent.$("#crmBnkNm" + index).val(cardInfo.data.JIRO_NM);
+        opener.parent.$("#card" + index).val(cardInfo.data.TR_NM);
 
         if(opener.parent.regPay){
             opener.parent.regPay.fn_changeAllCost();

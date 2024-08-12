@@ -1474,4 +1474,9 @@
         WHERE
             MET_SN = #{metSn}
     </update>
+
+    <select id="getCardInfo" parameterType="map" resultType="map">
+        /*getCardInfo*/
+        SELECT * FROM CAM_MNG.DJ_CARD_INFO WHERE REPLACE(scp.dec_b64('KEY1', CARD_BA_NB), '-', '') = REPLACE(#{cardNo}, '-', '')
+    </select>
 </mapper>

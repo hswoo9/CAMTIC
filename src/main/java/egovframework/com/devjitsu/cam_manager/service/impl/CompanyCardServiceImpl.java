@@ -361,4 +361,9 @@ public class CompanyCardServiceImpl implements CompanyCardService {
             companyCardRepository.updateMeetingFinalApprStat(params);
         }
     }
+
+    @Override
+    public Map<String, Object> getCardInfo(Map<String, Object> params) {
+        return companyCardRepository.getCardInfo(params);
+    }
 }
