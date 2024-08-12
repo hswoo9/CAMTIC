@@ -227,6 +227,16 @@ public class KukgohRepository extends AbstractDAO {
         insert("kukgoh.insDjErpSend", resutMap);
     }
 
+    public void delErpSendTrscId(Map<String, Object> resutMap) {
+
+        delete("kukgoh.delErpSendTrscId", resutMap);
+    }
+
+    public Map<String, Object> getErpSendTrscId(Map<String, Object> resutMap) {
+
+        return (Map<String, Object>) selectOne("kukgoh.insDjErpSend", resutMap);
+    }
+
     public Map<String, Object> getEtaxInfo(Map<String, Object> params) {
 
         return (Map<String, Object>) selectOne("kukgoh.getEtaxInfo", params);

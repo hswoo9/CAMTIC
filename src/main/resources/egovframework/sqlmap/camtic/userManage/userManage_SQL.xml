@@ -21,22 +21,22 @@
             a.login_id AS 'loginId',
             a.EMP_NAME_KR AS 'empName',
             a.EMP_NAME_CN AS 'empNameCn',
-            a.BDAY as 'bDay',
+            scp.dec_b64('KEY1', a.BDAY) as 'bDay',
             a.ZIP_CODE AS 'zipCode',
-            a.ADDR AS 'addr',
+            scp.dec_b64('KEY1', a.ADDR) AS 'addr',
             a.OLD_ADDR AS 'oldAddr',
             a.ADDR_DETAIL AS 'addrDetail',
             a.ADDR_REFERENCES AS 'addrReferences',
             a.OFFICE_TEL_NUM AS 'officeTelNum',
-            a.MOBILE_TEL_NUM AS 'mobileTelNum',
+            scp.dec_b64('KEY1', a.MOBILE_TEL_NUM) AS 'mobileTelNum',
             a.EMG_TEL_NUM as 'emgTelNum',
             a.CAR_ACTIVE AS 'carActive',
             a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
             a.RESIGN_DAY AS 'resignDay',
-            a.RES_REGIS_NUM AS 'resRegisNum',
+            scp.dec_b64('KEY1', a.RES_REGIS_NUM) AS 'resRegisNum',
             a.BANK_NAME AS 'BANK_NAME',
-            a.ACCOUNT_NUM AS 'ACCOUNT_NUM',
+            scp.dec_b64('KEY1', a.ACCOUNT_NUM) AS 'ACCOUNT_NUM',
             a.DEPT_SEQ AS 'deptSeq',
             a.DEPT_NAME AS 'deptName',
             a.DEPT_TEAM_NAME AS 'teamName',
@@ -514,7 +514,7 @@
         #{EMP_NAME_KR},
         #{LOGIN_PASSWD},
         #{LOGIN_ID},
-        #{RES_REGIS_NUM},
+        scp.enc_b64('KEY1', #{RES_REGIS_NUM}),
         #{CAPS_NUM},
         #{DUTY_CODE},
         #{DUTY_NAME},
@@ -527,18 +527,18 @@
         #{BEFOR_CAREER},
         #{ACCOUNT_HOLDER},
         #{BANK_NAME},
-        #{ACCOUNT_NUM},
+        scp.enc_b64('KEY1', #{ACCOUNT_NUM}),
         #{ZIP_CODE},
-        #{ADDR},
+        scp.enc_b64('KEY1', #{ADDR}),
         #{ADDR_DETAIL},
         #{OFFICE_TEL_NUM},
-        #{MOBILE_TEL_NUM},
-        #{EMAIL_ADDR},
+        scp.enc_b64('KEY1', #{MOBILE_TEL_NUM}),
+        scp.enc_b64('KEY1', #{EMAIL_ADDR}),
         #{CAR_NUM},
         #{EMP_NAME_CN},
         #{EMP_NAME_EN},
         #{EMG_TEL_NUM},
-        #{LEGAL_DOMICILE},
+        scp.enc_b64('KEY1', #{LEGAL_DOMICILE}),
         #{HOBBY},
         #{RELIGION},
         #{SPECIALITY},
@@ -584,7 +584,7 @@
         #{CAREER},
         #{MILITARY},
         #{SIGNIFICANT},
-        #{BDAY},
+        scp.enc_b64('KEY1', #{BDAY}),
         #{TEMP_DIVISION},
         #{MY_COMENT},
         #{SCIENCE_NO}
@@ -663,16 +663,16 @@
             HEI.LOCAL_TALENT,
             HEI.WORK_FIELD_NAME,
             HEI.ZIP_CODE,
-            HEI.ADDR,
+            scp.dec_b64('KEY1', HEI.ADDR) AS ADDR,
             HEI.OLD_ADDR,
             HEI.ADDR_DETAIL,
             HEI.ADDR_REFERENCES,
-            HEI.LEGAL_DOMICILE,
+            scp.dec_b64('KEY1', HEI.LEGAL_DOMICILE) AS LEGAL_DOMICILE,
             HEI.HOME_TEL_NUM,
-            HEI.MOBILE_TEL_NUM,
+            scp.dec_b64('KEY1', HEI.MOBILE_TEL_NUM) AS MOBILE_TEL_NUM,
             HEI.OFFICE_TEL_NUM,
-            HEI.EMAIL_ADDR,
-            HEI.BDAY,
+            scp.dec_b64('KEY1', HEI.EMAIL_ADDR) AS EMAIL_ADDR,
+            scp.dec_b64('KEY1', HEI.BDAY) AS BDAY,
             HEI.LUNAR_CAL,
             HEI.GENDER_CODE,
             HEI.WEDDING_ACTIVE,
@@ -695,7 +695,7 @@
             HEI.REG_DATE,
             HEI.MOD_EMP_SEQ,
             HEI.MOD_DATE,
-            HEI.RES_REGIS_NUM,
+            scp.dec_b64('KEY1', HEI.RES_REGIS_NUM) AS RES_REGIS_NUM,
             HEI.CHECK_PASSWD,
             HEI.CAPS_NUM,
             HEI.HOME_PAGE_ACTIVE,
@@ -843,7 +843,7 @@
         from
         (
         SELECT
-        ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(a.BDAY, '%Y-%m-%d'), "-", "")))) / 365) AS age,
+        ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(scp.dec_b64('KEY1', a.BDAY), '%Y-%m-%d'), "-", "")))) / 365) AS age,
         a.*,
         (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =1) as dept_lv1,
         (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as parent_dept_seq,
@@ -1869,16 +1869,16 @@
             a.LOCAL_TALENT,
             a.WORK_FIELD_NAME,
             a.ZIP_CODE,
-            a.ADDR,
+            scp.dec_b64('KEY1', a.ADDR) AS ADDR,
             a.OLD_ADDR,
             a.ADDR_DETAIL,
             a.ADDR_REFERENCES,
-            a.LEGAL_DOMICILE,
+            scp.dec_b64('KEY1', a.LEGAL_DOMICILE) AS LEGAL_DOMICILE,
             a.HOME_TEL_NUM,
-            a.MOBILE_TEL_NUM,
+            scp.dec_b64('KEY1', a.MOBILE_TEL_NUM) AS MOBILE_TEL_NUM,
             a.OFFICE_TEL_NUM,
-            a.EMAIL_ADDR,
-            a.BDAY,
+            scp.dec_b64('KEY1', a.EMAIL_ADDR) AS EMAIL_ADDR,
+            scp.dec_b64('KEY1', a.BDAY) AS BDAY,
             a.GENDER_CODE,
             a.WEDDING_ACTIVE,
             a.IMPAIR_LEVEL_CODE,
@@ -1899,7 +1899,7 @@
             a.REG_DATE,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = a.MOD_EMP_SEQ GROUP BY EMP_SEQ) AS MOD_EMP_NAME,
             DATE_FORMAT(a.MOD_DATE, '%Y-%m-%d %H:%i:%s') AS MOD_DATE,
-            a.RES_REGIS_NUM,
+            scp.dec_b64('KEY1', a.RES_REGIS_NUM) AS RES_REGIS_NUM,
             a.CHECK_PASSWD,
             a.CAPS_NUM,
             a.HOME_PAGE_ACTIVE,
@@ -1908,7 +1908,7 @@
             a.ELAPSED_YEAR,
             a.ACCOUNT_HOLDER,
             a.BANK_NAME,
-            a.ACCOUNT_NUM,
+            scp.dec_b64('KEY1', a.ACCOUNT_NUM) AS ACCOUNT_NUM,
             a.CAR_ACTIVE,
             a.CAR_NUM,
             a.EMG_TEL_NUM,
@@ -2102,7 +2102,7 @@
         <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
             DEGREE_CODE = #{DEGREE_CODE},
         </if>
-        RES_REGIS_NUM = #{RES_REGIS_NUM},
+        RES_REGIS_NUM = scp.enc_b64('KEY1', #{RES_REGIS_NUM}),
         <if test="CAPS_NUM != null and CAPS_NUM != ''">
             CAPS_NUM = #{CAPS_NUM},
         </if>
@@ -2122,15 +2122,15 @@
         BANK_NAME = #{BANK_NAME},
         </if>
         <if test="ACCOUNT_NUM != null">
-        ACCOUNT_NUM = #{ACCOUNT_NUM},
+        ACCOUNT_NUM = scp.enc_b64('KEY1', #{ACCOUNT_NUM}),
         </if>
         ZIP_CODE = #{ZIP_CODE},
-        ADDR = #{ADDR},
+        ADDR = scp.enc_b64('KEY1', #{ADDR}),
         ADDR_DETAIL = #{ADDR_DETAIL},
         OFFICE_TEL_NUM = #{OFFICE_TEL_NUM},
-        MOBILE_TEL_NUM = #{MOBILE_TEL_NUM},
+        MOBILE_TEL_NUM = scp.enc_b64('KEY1', #{MOBILE_TEL_NUM}),
         HOME_TEL_NUM = #{HOME_TEL_NUM},
-        EMAIL_ADDR = #{EMAIL_ADDR},
+        EMAIL_ADDR = scp.enc_b64('KEY1', #{EMAIL_ADDR}),
         CAR_NUM = #{CAR_NUM},
         EMP_NAME_CN = #{EMP_NAME_CN},
         EMP_NAME_EN = #{EMP_NAME_EN},
@@ -2170,7 +2170,7 @@
         CAREER = #{CAREER},
         MILITARY = #{MILITARY},
         SIGNIFICANT = #{SIGNIFICANT},
-        BDAY = #{BDAY},
+        BDAY = scp.enc_b64('KEY1', #{BDAY}),
         TEMP_DIVISION = #{TEMP_DIVISION},
         MY_COMENT = #{MY_COMENT},
         SCIENCE_NO = #{SCIENCE_NO}
@@ -2974,9 +2974,9 @@
         <![CDATA[
         SELECT
             CASE
-                WHEN DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(HEI.BDAY, '%m') THEN DATE_FORMAT(HEI.BDAY, '%m/%d')
-                WHEN DATE_FORMAT(NOW(), '%m') = DATE_FORMAT(HEI.BDAY, '%m') AND DATE_FORMAT(NOW(), '%d') <= DATE_FORMAT(HEI.BDAY, '%d') THEN DATE_FORMAT(HEI.BDAY, '%m/%d')
-                WHEN DATE_FORMAT(NOW(), '%m') > DATE_FORMAT(HEI.BDAY, '%m') AND DATE_FORMAT(NOW(), '%Y/%m/%d') < DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(HEI.BDAY, '/%m/%d')), '%Y/%m/%d') THEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(HEI.BDAY, '/%m/%d')), '%Y/%m/%d')
+                WHEN DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') THEN DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d')
+                WHEN DATE_FORMAT(NOW(), '%m') = DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND DATE_FORMAT(NOW(), '%d') <= DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%d') THEN DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d')
+                WHEN DATE_FORMAT(NOW(), '%m') > DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND DATE_FORMAT(NOW(), '%Y/%m/%d') < DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '/%m/%d')), '%Y/%m/%d') THEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '/%m/%d')), '%Y/%m/%d')
                 END AS b_day,
             EMP_NAME_KR,
             BDAY,
@@ -2996,7 +2996,7 @@
                 WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME
                 ELSE ""
                 END AS TEAM_NAME,
-            DATE_FORMAT(HEI.BDAY, '%m/%d') AS EMPBDAY,
+            DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d') AS EMPBDAY,
             IFNULL(CASE
                        WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME
                        ELSE HEI.DUTY_NAME
@@ -3011,7 +3011,7 @@
                 LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-            HEI.BDAY != '' AND HEI.BDAY IS NOT NULL
+            HEI.BDAY != '' AND scp.dec_b64('KEY1', scp.dec_b64('KEY1', HEI.BDAY)) IS NOT NULL
         AND
              (
                 (DIVISION IN(0))
@@ -3023,14 +3023,14 @@
                 (DIVISION IN(1) AND DIVISION_SUB IN(6))
              )
         AND (
-            DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(HEI.BDAY, '%m') OR
+            DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') OR
             (
-                DATE_FORMAT(NOW(), '%m') = DATE_FORMAT(HEI.BDAY, '%m') AND
-                DATE_FORMAT(NOW(), '%d') <= DATE_FORMAT(HEI.BDAY, '%d')
+                DATE_FORMAT(NOW(), '%m') = DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND
+                DATE_FORMAT(NOW(), '%d') <= DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%d')
             ) OR
             (
-                DATE_FORMAT(NOW(), '%m') > DATE_FORMAT(HEI.BDAY, '%m') AND
-                DATE_FORMAT(NOW(), '%Y/%m/%d') < DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(HEI.BDAY, '/%m/%d')), '%Y/%m/%d')
+                DATE_FORMAT(NOW(), '%m') > DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND
+                DATE_FORMAT(NOW(), '%Y/%m/%d') < DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '/%m/%d')), '%Y/%m/%d')
             )
         )
         AND HEI.WORK_STATUS_CODE = 'Y'
@@ -4022,15 +4022,15 @@
                 SELECT
                     HEI.*,
                     CASE
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 15 AND 25 THEN '15세~25세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 26 AND 30 THEN '26세~30세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 31 AND 35 THEN '31세~35세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 36 AND 40 THEN '36세~40세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 41 AND 45 THEN '41세~45세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 46 AND 50 THEN '46세~50세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 51 AND 55 THEN '51세~55세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 56 AND 60 THEN '56세~60세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) >= 61 THEN '61세 이상'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 15 AND 25 THEN '15세~25세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 26 AND 30 THEN '26세~30세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 31 AND 35 THEN '31세~35세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 36 AND 40 THEN '36세~40세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 41 AND 45 THEN '41세~45세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 46 AND 50 THEN '46세~50세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 51 AND 55 THEN '51세~55세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) BETWEEN 56 AND 60 THEN '56세~60세'
+                        WHEN TIMESTAMPDIFF(year, scp.dec_b64('KEY1', HEI.BDAY), CURDATE()) >= 61 THEN '61세 이상'
                         ELSE '기타'
                         END AS AGE_NAME,
                     CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ_NEW,

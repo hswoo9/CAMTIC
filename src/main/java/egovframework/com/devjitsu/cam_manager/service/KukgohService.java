@@ -40,6 +40,10 @@ public interface KukgohService {
 
     void insDjErpSend(Map<String, Object> resutMap);
 
+    void delErpSendTrscId(Map<String, Object> resutMap);
+
+    Map<String, Object> getErpSendTrscId(Map<String, Object> resutMap);
+
     Map<String, Object> getEtaxInfo(Map<String, Object> params);
 
     Map<String, Object> sendEtaxData(Map<String, Object> params);

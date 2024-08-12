@@ -604,6 +604,16 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     @Override
+    public void delErpSendTrscId(Map<String, Object> resutMap) {
+        kukgohRepository.delErpSendTrscId(resutMap);
+    }
+
+    @Override
+    public Map<String, Object> getErpSendTrscId(Map<String, Object> resutMap) {
+        return kukgohRepository.getErpSendTrscId(resutMap);
+    }
+
+    @Override
     public Map<String, Object> getEtaxInfo(Map<String, Object> params) {
         return kukgohRepository.getEtaxInfo(params);
     }

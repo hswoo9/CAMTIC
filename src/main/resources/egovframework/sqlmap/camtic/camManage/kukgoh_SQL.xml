@@ -584,6 +584,16 @@
             )
     </insert>
 
+    <delete id="delErpSendTrscId" parameterType="map">
+        /*delErpSendTrscId*/
+        DELETE FROM CAM_ERP.DJ_ERP_SEND WHERE TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
+    <select id="getErpSendTrscId" parameterType="map" resultType="map">
+        /*getErpSendTrscId*/
+        SELECT * FROM CAM_ERP.DJ_ERP_SEND WHERE TRNSC_ID = #{intfTrscId}
+    </select>
+
     <select id="getEtaxInfo" parameterType="map" resultType="map">
         /*getEtaxInfo*/
         SELECT
