@@ -19,7 +19,7 @@ public class EgovUserDetailsHelper {
         System.out.println ( "serverName =>"  + serverName ) ;
         // if(serverName.indexOf("localhost") > -1 || serverName.indexOf("127.0.0.1") > -1 || serverName.indexOf("192.168.71.180") > -1) {
 //            loginVo = new LoginVO();
-//            loginVo.setGroupSeq("epis");
+//            loginVo.setGroupSeq("camtic");
 //            loginVo.setCompSeq("1000");
 //            loginVo.setBizSeq("1000");
 //            loginVo.setOrgnztId("1010");
