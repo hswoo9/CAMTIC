@@ -135,7 +135,9 @@ var regExnp = {
         if($("#status").val() == "in"){
             $(".eviType").each(function(e){
                 $("#eviType" + e).data("kendoDropDownList").enable(true);
-            })
+
+                $("#eviType" + e).data("kendoDropDownList").value(6);
+            });
         }
     },
 
