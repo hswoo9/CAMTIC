@@ -2278,6 +2278,10 @@ var regPay = {
             $("#payExnpDe").val(regPay.global.result.EXP_DE);
         }
 
+        if(regPay.global.result.LINK_KEY_TYPE == "출장"){
+            $("#payExnpDe").val($("#trDe0").val());
+        }
+
         var dialog = $("#dialogDraft").data("kendoWindow");
 
         $("#payExnpDeText").text($("#payExnpDe").val());
