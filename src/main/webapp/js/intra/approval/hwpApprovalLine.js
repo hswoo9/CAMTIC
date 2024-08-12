@@ -568,6 +568,12 @@ var hwpApprovalLine = {
         }else{
             hwpDocCtrl.putFieldText(fieldName, empName);
 
+            if($("#mySignLoadingCk").val() == "N"){
+                setTimeout(function() {
+                    $("#loadingDiv").hide();
+                }, 2000);
+            }
+
             hwpApprovalLine.setPjtPayApp();
         }
     },
