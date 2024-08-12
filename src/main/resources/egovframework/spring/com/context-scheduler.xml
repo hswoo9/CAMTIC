@@ -25,4 +25,9 @@
     <task:scheduled-tasks scheduler="appointmentScheduler">
         <task:scheduled ref="schedulerService" method="appointmentEmpInfoUpd" cron="0 0 1 * * ?"/>
     </task:scheduled-tasks>
+
+    <task:scheduler id="enaraCallScheduler" pool-size="1"/>
+    <task:scheduled-tasks scheduler="enaraCallScheduler">
+        <task:scheduled ref="schedulerService" method="enaraCall" cron="0 */1 * * * ?"/>
+    </task:scheduled-tasks>
 </beans>

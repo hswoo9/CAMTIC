@@ -167,6 +167,16 @@ public class KukgohRepository extends AbstractDAO {
         insert("kukgoh.insEnaraData", params);
     }
 
+    public void insEnaraSendTemp(Map<String, Object> params) {
+
+        insert("kukgoh.insEnaraSendTemp", params);
+    }
+
+    public void delEnaraTempData(Map<String, Object> params) {
+
+        delete("kukgoh.delEnaraTempData", params);
+    }
+
     public Map<String, Object> getErpReqData(Map<String, Object> payAppData) {
 
         return (Map<String, Object>) selectOne("kukgoh.getErpReqData", payAppData);
@@ -217,6 +227,16 @@ public class KukgohRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("kukgoh.getErpSend", enaraSendData);
     }
 
+    public Map<String, Object> getEranaTemp(Map<String, Object> enaraSendData) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getEranaTemp", enaraSendData);
+    }
+
+    public List<Map<String, Object>> getEnaraTempList() {
+
+        return selectList("kukgoh.getEnaraTempList");
+    }
+
     public void delEnaraData(Map<String, Object> params) {
 
         delete("kukgoh.delEnaraData", params);
@@ -234,7 +254,7 @@ public class KukgohRepository extends AbstractDAO {
 
     public Map<String, Object> getErpSendTrscId(Map<String, Object> resutMap) {
 
-        return (Map<String, Object>) selectOne("kukgoh.insDjErpSend", resutMap);
+        return (Map<String, Object>) selectOne("kukgoh.getErpSendTrscId", resutMap);
     }
 
     public Map<String, Object> getEtaxInfo(Map<String, Object> params) {

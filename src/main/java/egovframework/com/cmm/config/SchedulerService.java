@@ -1,6 +1,7 @@
 package egovframework.com.cmm.config;
 
 import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
+import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
@@ -44,6 +45,9 @@ public class SchedulerService {
 
     @Autowired
     private PayAppService payAppService;
+
+    @Autowired
+    private KukgohService kukgohService;
 
     public void setAbsentStartEndUpd() {approvalUserRepository.setAbsentStartEndUpd();}
 
@@ -93,5 +97,11 @@ public class SchedulerService {
     public void appointmentEmpInfoUpd(){
         Map<String, Object> params = new HashMap<>();
         historyService.appointmentEmpInfoUpd(params);
+    }
+
+    public void enaraCall(){
+        for(Map<String, Object> map : kukgohService.getEnaraTempList()){
+            kukgohService.EnaraCall(map);
+        }
     }
 }

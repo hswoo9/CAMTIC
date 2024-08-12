@@ -38,6 +38,8 @@ public interface KukgohService {
 
     Map<String, Object> sendEnara(Map<String, Object> params);
 
+    List<Map<String, Object>> getEnaraTempList();
+
     void insDjErpSend(Map<String, Object> resutMap);
 
     void delErpSendTrscId(Map<String, Object> resutMap);
@@ -51,4 +53,6 @@ public interface KukgohService {
     Map<String, Object> sendResultEtaxData(Map<String, Object> params);
 
     List<Map<String, Object>> getInterfaceList(Map<String, Object> params);
+
+    void EnaraCall(Map<String, Object> params);
 }

@@ -188,7 +188,7 @@ public class KukgohController {
 
     @RequestMapping("/kukgoh/test")
     public String kukgohTest (@RequestParam Map<String, Object> params) throws IOException{
-        EnaraCall(params);
+//        EnaraCall(params);
         return "jsonView";
     }
 

@@ -161,6 +161,7 @@ var newResolutionSubmitPage = {
                 var ered = rs.excutReqErpData;
                 var eeied = rs.excutExpItmErpData;
                 var erpSend = rs.erpSendData;
+                var enaraTemp = rs.enaraTempData;
                 if(esd != null && esd != undefined){
                     $("#reqStatSn").val(esd.REQ_STAT_SN);
                 }
@@ -284,9 +285,13 @@ var newResolutionSubmitPage = {
                         $("#PROCESS_RESULT_MSSAGE").val(erpSend.RSP_MSG);
                     }
 
-                    if(erpSend.RSP_CD == "SUCC" && erpSend.PROCESS_RESULT_CODE == "000") {
+                    if((erpSend.RSP_CD == "SUCC" && erpSend.PROCESS_RESULT_CODE == "000")) {
                         $("#sendBtn").hide();
                     }
+                }
+
+                if(enaraTemp != null) {
+                    $("#sendBtn").hide();
                 }
 
                 // $("#SBSIDY_BNKB_INDICT_CN").val(eeied != null ? eeied.SBSIDY_BNKB_INDICT_CN : "캠틱종합기술원");
@@ -358,7 +363,7 @@ var newResolutionSubmitPage = {
             url: '/kukgoh/sendEnara',
             type: 'POST',
             data: formData,
-            async: false,
+            // async: false,
             processData: false,  // important
             contentType: false,  // important
             beforeSend : function(request){
@@ -368,20 +373,21 @@ var newResolutionSubmitPage = {
                 console.log(result);
                 if(result.code == 200){
                     alert("전송이 완료되었습니다.");
+                    $("#my-spinner").hide();
 
-                    $.ajax({
-                        url: '/kukgoh/test',
-                        type: 'POST',
-                        data: result.rs,
-                        dataType : "json",
-                        success: function(result){
-                            console.log(result);
-                            $("#my-spinner").hide();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.error(textStatus, errorThrown);
-                        }
-                    });
+                    // $.ajax({
+                    //     url: '/kukgoh/test',
+                    //     type: 'POST',
+                    //     data: result.rs,
+                    //     dataType : "json",
+                    //     success: function(result){
+                    //         console.log(result);
+                    //         $("#my-spinner").hide();
+                    //     },
+                    //     error: function(jqXHR, textStatus, errorThrown) {
+                    //         console.error(textStatus, errorThrown);
+                    //     }
+                    // });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

@@ -466,6 +466,29 @@
             )
     </insert>
 
+    <insert id="insEnaraSendTemp" parameterType="map">
+        /*insEnaraSendTemp*/
+        INSERT INTO CAM_ERP.DJ_ENARA_TEMP
+        (
+            PAY_APP_DET_SN,
+            INTRFC_ID,
+            TRNSC_ID,
+            REG_DT
+        )
+        VALUES
+        (
+            #{payAppDetSn},
+            #{INTRFC_ID},
+            #{TRNSC_ID},
+            NOW()
+        )
+    </insert>
+
+    <delete id="delEnaraTempData" parameterType="map">
+        /*delEnaraTempData*/
+        DELETE FROM CAM_ERP.DJ_ENARA_TEMP WHERE INTRFC_ID = #{INTRFC_ID} AND TRNSC_ID = #{TRNSC_ID}
+    </delete>
+
     <select id="getErpReqData" parameterType="map" resultType="map">
         /*getErpReqData*/
         SELECT
@@ -557,6 +580,21 @@
         LEFT JOIN CAM_ERP.T_IFS_EXCUT_RESULT_ERP C ON B.EXCUT_CNTC_ID = C.EXCUT_CNTC_ID
         WHERE
             A.TRNSC_ID = #{TRNSC_ID}
+    </select>
+
+    <select id="getEranaTemp" parameterType="map" resultType="map">
+        /*getEranaTemp*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_ENARA_TEMP
+        WHERE
+            INTRFC_ID = #{INTRFC_ID} AND TRNSC_ID = #{TRNSC_ID}
+    </select>
+
+    <select id="getEnaraTempList" resultType="map">
+        /*getEnaraTempList*/
+        SELECT * FROM CAM_ERP.DJ_ENARA_TEMP WHERE 1=1
     </select>
 
     <delete id="delEnaraData" parameterType="map">

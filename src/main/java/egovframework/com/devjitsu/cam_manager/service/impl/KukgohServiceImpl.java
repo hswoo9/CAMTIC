@@ -8,10 +8,15 @@ import egovframework.com.devjitsu.cam_manager.service.KukgohService;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.devjitsu.common.utiles.CSVKeyUtil;
 import egovframework.devjitsu.common.utiles.EsbUtils;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpVersion;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -175,6 +180,11 @@ public class KukgohServiceImpl implements KukgohService {
 
             Map<String, Object> erpSendData = kukgohRepository.getErpSend(enaraSendData);
             result.put("erpSendData", erpSendData);
+
+            if(excutReqErpData != null){
+                Map<String, Object> enaraTempData = kukgohRepository.getEranaTemp(excutReqErpData);
+                result.put("enaraTempData", enaraTempData);
+            }
         }
 
         return result;
@@ -306,8 +316,13 @@ public class KukgohServiceImpl implements KukgohService {
         }
 
         kukgohRepository.insEnaraData(params);
+        kukgohRepository.insEnaraSendTemp(params);
 
         return params;
+    }
+
+    public List<Map<String, Object>> getEnaraTempList() {
+        return kukgohRepository.getEnaraTempList();
     }
 
     private void fileCp(Map<String, Object> fileMap) {
@@ -743,7 +758,102 @@ public class KukgohServiceImpl implements KukgohService {
         return fileName;
     }
 
+    public void EnaraCall(Map<String, Object> params) {
+        HttpClient httpClient = new HttpClient();
+
+        try {
+            int wasNum = 1;
+            String systemCode = "CTIC";
+            String interfaceId = params.get("INTRFC_ID").toString();
+
+            // 개발 포트 45000, 운영 포트 41000
+            String url = "http://218.158.231.92:45000/esb/HttpListenerServlet";
+
+            int timeout = 0;
+
+            // 송신 메시지 생성
+            Map<String, Object> dataStream = makeMessage(interfaceId, systemCode, wasNum, params);
+            String dataStreamStr = EsbUtils.map2Json(dataStream);
+            String result = call(url, timeout, dataStreamStr, httpClient);
+            System.out.println("result: " + result);
+
+            if(result != null && !"".equals(result)){
+                Map<String, Object> resutMap = EsbUtils.json2Map(result);
+                // log
+                System.out.println("result data: " + resutMap);
+                resutMap.put("excutCntcId", params.get("EXCUT_CNTC_ID"));
+
+                Map<String, Object> tempMap = kukgohRepository.getErpSendTrscId(resutMap);
+                System.out.println("tempMap : " + tempMap);
+                System.out.println("params : " + params);
+                if(tempMap != null){
+                    kukgohRepository.delErpSendTrscId(tempMap);
+                }
+//
+                kukgohRepository.insDjErpSend(resutMap);
+                if ("SUCC".equals(resutMap.get("rspCd"))) { // 연계 성공
+                    // 연계 성공시 실행할 로직 작성
+                } else { // 연계 실패공공/민간기관 ERP 연계 개발가이드
+                    // 실패 업무 로직 추가
+                }
+
+                kukgohRepository.delEnaraTempData(params);
+            }
+        } catch(ConnectException e){
+            System.out.println("Connection ERROR : " + e.getMessage());
+        } catch (SocketTimeoutException e){
+            System.out.println("SocketTimeout ERROR : " + e.getMessage());
+        } catch (Exception e){
+            System.out.println("ERROR : " + e.getMessage());
+        }
+
+    }
+
+    private String call(String url, int timeout, String dataStream, HttpClient httpClient) throws Exception {
+        String result = "";
+        PostMethod post = null;
 
 
+        try{
+            post = new PostMethod(url);
+            post.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
+            post.getParams().setParameter("http.protocol.content-charset", "UTF-8");
+            post.getParams().setParameter("http.socket.timeout", timeout);
+            post.addParameter("dataStream", dataStream);
+            int status = httpClient.executeMethod(post);
+            if (status == 200) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(post.getResponseBodyAsStream(), post.getResponseCharSet()));
+                StringBuffer response = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                result = response.toString();
+                reader.close();
+            } else {
+                // http 호출 실패
+                System.out.println("http status code = " + status);
+            }
+        } catch (Exception e){
+            throw e;
+        } finally {
+            try{
+                post.releaseConnection();
+            } catch (Exception e){
 
+                throw e;
+            }
+        }
+
+        return result;
+    }
+
+    private Map<String, Object> makeMessage(String interfaceId, String systemCode, int wasNum, Map<String, Object> params) {
+        Map<String, Object> dataStream = new HashMap<String, Object>();
+
+        dataStream.put("intfId", interfaceId);
+        dataStream.put("intfTrscId", params.get("TRNSC_ID"));
+
+        return dataStream;
+    }
 }
