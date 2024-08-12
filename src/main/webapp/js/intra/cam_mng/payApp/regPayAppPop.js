@@ -799,6 +799,7 @@ var regPay = {
                 if(exnpMap.DIVISION == 1){
                     $("#eviType" + index).data("kendoDropDownList").value(3);
                     $("#etc" + index).val(exnpMap.EXNP_NAME + " 개인여비");
+                    $("#trDe" + index).val(busInfo.TRIP_DAY_FR);
                 } else if (exnpMap.DIVISION == 5){
                     $("#eviType" + index).data("kendoDropDownList").value(6);
                     $("#etc" + index).val(exnpMap.EXNP_NAME);
@@ -1192,8 +1193,6 @@ var regPay = {
 
             $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
             $("#bList").val(resultBlist);
-
-            $(".trDe").val(busInfo.TRIP_DAY_FR);
         }
 
         if($("#reqType").val() == "business"){
