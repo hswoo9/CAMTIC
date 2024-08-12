@@ -143,7 +143,7 @@
                 <th>출장자</th>
                 <td>
                     <input id="popEmpName" name="bustripAdd" readonly style="width: 70%;">
-                    <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" disabled onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
+                    <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                         <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
