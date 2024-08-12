@@ -131,6 +131,12 @@ var regExnp = {
         $("#exnpDe").change(function(){
             $("#DT3").val($("#exnpDe").val());
         });
+
+        if($("#status").val() == "in"){
+            $(".eviType").each(function(e){
+                $("#eviType" + e).data("kendoDropDownList").enable(true);
+            })
+        }
     },
 
     payAppBtnSet : function(data, evidType){
