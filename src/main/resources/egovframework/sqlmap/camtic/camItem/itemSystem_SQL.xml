@@ -502,4 +502,31 @@
         WHERE
             ITEM_CATEGORY_SN IN (${pk})
     </update>
+
+    <update id="updItemCode" parameterType="map">
+        /*updItemCode*/
+        UPDATE CAM_ITEM.DJ_ITEM_CD
+        SET
+            ITEM_CD = #{itemCd},
+            ITEM_CD_NM = #{itemCdNm}
+        WHERE
+            ITEM_CD_SN = #{itemCdSn}
+    </update>
+
+    <delete id="delDetCode" parameterType="map">
+        /*delDetCode*/
+        DELETE FROM CAM_ITEM.DJ_ITEM_CD WHERE ITEM_CD_SN = #{itemCdSn}
+    </delete>
+
+    <select id="getItemCodeCheck" parameterType="map" resultType="map">
+        /*getItemCodeCheck*/
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CD
+        WHERE
+            ITEM_CD = #{itemCd}
+        LIMIT 1
+    </select>
+
 </mapper>

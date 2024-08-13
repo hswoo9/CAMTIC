@@ -33,4 +33,16 @@ public class ItemSystemRepository extends AbstractDAO {
     public void setItemCategoryReg(Map<String, Object> params) { insert("itemSystem.setItemCategoryReg", params);}
     public void setItemCategoryRegUpd(Map<String, Object> params) { update("itemSystem.setItemCategoryRegUpd", params);}
     public void setItemCategoryDel(Map<String, Object> params) { update("itemSystem.setItemCategoryDel", params);}
+
+    public void updItemCode(Map<String, Object> params) {
+        insert("itemSystem.updItemCode", params);
+    }
+
+    public void delDetCode(Map<String, Object> params) {
+        insert("itemSystem.delDetCode", params);
+    }
+
+    public Map<String, Object> getItemCodeCheck(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("itemSystem.getItemCodeCheck", params);
+    }
 }

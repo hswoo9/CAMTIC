@@ -1,8 +1,5 @@
 package egovframework.com.devjitsu.cam_item.service.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_item.repository.ItemManageRepository;
 import egovframework.com.devjitsu.cam_item.repository.ItemSystemRepository;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
@@ -11,14 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -66,8 +57,24 @@ public class ItemSystemServiceImpl implements ItemSystemService {
     }
 
     @Override
-    public void insItemCode(Map<String, Object> params) {
-        itemSystemRepository.insItemCode(params);
+    public Map<String, Object> insItemCode(Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        map = itemSystemRepository.getItemCodeCheck(params);
+
+        if(map != null){
+            result.put("code", 500);
+        } else {
+            result.put("code", 200);
+            if(params.containsKey("itemCdSn")){
+                itemSystemRepository.updItemCode(params);
+            } else {
+                itemSystemRepository.insItemCode(params);
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -155,6 +162,11 @@ public class ItemSystemServiceImpl implements ItemSystemService {
         itemSystemRepository.setItemCategoryDel(params);
     }
 
+    @Override
+    public void delDetCode(Map<String, Object> params) {
+        itemSystemRepository.delDetCode(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 
@@ -176,4 +188,6 @@ public class ItemSystemServiceImpl implements ItemSystemService {
         }
         return txt;
     }
+
+
 }

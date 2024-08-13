@@ -2,7 +2,9 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script type="text/javascript" src="/js/intra/cam_item/system/baseCode/itemCode.js?v="/></script>
+<jsp:useBean id="today" class="java.util.Date" />
+
+<script type="text/javascript" src="/js/intra/cam_item/system/baseCode/itemCode.js?v=${today}"/></script>
 
 <style>
     .k-grid-toolbar{

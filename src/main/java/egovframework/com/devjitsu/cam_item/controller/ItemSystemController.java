@@ -171,8 +171,9 @@ public class ItemSystemController {
 
     @RequestMapping("/item/insItemCode")
     public String insitemCode(@RequestParam Map<String, Object> params, Model model){
-        itemSystemService.insItemCode(params);
-        model.addAttribute("code", 200);
+        Map<String, Object> map = itemSystemService.insItemCode(params);
+
+        model.addAttribute("code", map.get("code").toString());
         return "jsonView";
     }
 
@@ -339,6 +340,17 @@ public class ItemSystemController {
     @RequestMapping("/item/setItemCategoryDel")
     public String setItemCategoryDel(@RequestParam Map<String, Object> params) {
         itemSystemService.setItemCategoryDel(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/delDetCode")
+    public String delDetCode(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            itemSystemService.delDetCode(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

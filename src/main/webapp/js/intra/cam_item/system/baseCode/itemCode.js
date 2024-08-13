@@ -75,10 +75,12 @@ var codeI = {
                 {
                     field: "GRP_NM",
                     title: "그룹코드",
-                }, {
-                    field: "LG_CD",
-                    title: "대분류코드",
-                }, {
+                }
+                // , {
+                //     field: "LG_CD",
+                //     title: "대분류코드",
+                // }
+                , {
                     field: "LG_CD_NM",
                     title: "대분류코드명",
                 }]
@@ -171,6 +173,13 @@ var codeI = {
                 }, {
                     field: "ITEM_CD_NM",
                     title: "코드설명",
+                }, {
+                    title: "기타",
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="codeI.fn_delDetCode('+e.ITEM_CD_SN+')">삭제</button>';
+
+                    }
+
                 }]
         }).data("kendoGrid");
     },
@@ -214,9 +223,35 @@ var codeI = {
 
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
+
             $("#cmCodeRegistM").data("kendoWindow").open();
             $("#cmCodeNewBtnCR").hide();
             setInputData(dataItem);
         });
     },
+
+    fn_delDetCode : function(e){
+
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            itemCdSn : e
+        }
+
+        $.ajax({
+            url : "/item/delDetCode",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+
+                    $("#mainGrid2").data("kendoGrid").dataSource.read();
+                }
+            }
+        })
+    }
 }

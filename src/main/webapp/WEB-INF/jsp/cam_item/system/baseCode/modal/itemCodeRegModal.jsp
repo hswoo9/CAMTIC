@@ -93,6 +93,7 @@
 						'			<th scope="row" class="text-center th-color"><span class="red-star">*</span>그룹코드</th>' +
 						'			<td>' +
 						'				<input type="text" id="lgCode" name="lgCode" style="width: 80.5%"/>' +
+                        '				<input type="hidden" id="itemCodeSn" name="itemCodeSn" />' +
 						'			</td>' +
 						'			<th scope="row" class="text-center th-color"><span class="red-star">*</span>그룹코드명</th>' +
 						'			<td>' +
@@ -144,11 +145,13 @@
 		$("#lgCodeNm").val(codeI.global.gridDataItem.LG_CD_NM);
         $("#grpSn").val(codeI.global.gridDataItem.GRP_SN);
         $("#grpNm").val(codeI.global.gridDataItem.GRP_NM);
-
         if(e != null){
             $("#cmCodeIdCR").val(e.ITEM_CD_SN)
             $("#cmCode").val(e.ITEM_CD);
             $("#cmCodeNm").val(e.ITEM_CD_NM);
+            $("#itemCodeSn").val(e.ITEM_CD_SN);
+        } else {
+            $("#itemCodeSn").val("");
         }
 	}
 
@@ -184,6 +187,10 @@
 					grpSn : $("#grpSn").val(),
 				}
 
+                if($("#itemCodeSn").val() != ""){
+                    data.itemCdSn = $("#itemCodeSn").val();
+                }
+
 				$.ajax({
 					url : "/item/insItemCode",
 					data : data,
@@ -193,7 +200,9 @@
 						if(rs.code == "200"){
                             codeI.cmDetailCodeList(codeI.global.gridDataItem.GRP_SN, codeI.global.gridDataItem.LG_CD);
 							$('#cmCodeRegistM').data('kendoWindow').close();
-						}
+						} else if(rs.code == "500"){
+                            alert("중복 코드가 있습니다. 코드를 확인해주세요.")
+                        }
 					}
 				});
 			}else{
