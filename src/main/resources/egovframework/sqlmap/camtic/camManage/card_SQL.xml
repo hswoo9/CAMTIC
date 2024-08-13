@@ -105,11 +105,11 @@
             LEFT JOIN
                 CAM_MNG.DJ_CARD_INFO B
             ON
-                A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+                A.CARD_NO = REPLACE(SCP.DEC_B64('KEY1', B.CARD_BA_NB), '-', '')
             LEFT JOIN
                 CAM_MNG.DJ_CARD_PRIV BB
             ON
-                B.TR_CD = BB.TR_CD AND B.CARD_BA_NB = BB.CARD_BA_NB
+                B.TR_CD = BB.TR_CD AND SCP.DEC_B64('KEY1', B.CARD_BA_NB) = BB.CARD_BA_NB
             LEFT JOIN
                 CAM_MNG.DJ_CARD_AUTH_MNG BC
             ON
@@ -207,11 +207,11 @@
             LEFT JOIN
                 CAM_MNG.DJ_CARD_INFO B
             ON
-                A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+                A.CARD_NO = REPLACE(SCP.DEC_B64('KEY1', B.CARD_BA_NB), '-', '')
             LEFT JOIN
                 CAM_MNG.DJ_CARD_PRIV BB
             ON
-                B.TR_CD = BB.TR_CD AND B.CARD_BA_NB = BB.CARD_BA_NB
+                B.TR_CD = BB.TR_CD AND SCP.DEC_B64('KEY1', B.CARD_BA_NB) = BB.CARD_BA_NB
             LEFT JOIN
                 CAM_MNG.DJ_CARD_AUTH_MNG BC
             ON

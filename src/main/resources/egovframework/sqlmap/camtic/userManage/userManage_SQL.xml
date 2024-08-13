@@ -2977,51 +2977,51 @@
                 WHEN DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') THEN DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d')
                 WHEN DATE_FORMAT(NOW(), '%m') = DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND DATE_FORMAT(NOW(), '%d') <= DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%d') THEN DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d')
                 WHEN DATE_FORMAT(NOW(), '%m') > DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') AND DATE_FORMAT(NOW(), '%Y/%m/%d') < DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '/%m/%d')), '%Y/%m/%d') THEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL +1 YEAR), '%Y'), DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '/%m/%d')), '%Y/%m/%d')
-                END AS b_day,
+            END AS b_day,
             EMP_NAME_KR,
-            BDAY,
+            scp.dec_b64('KEY1', BDAY) AS BDAY,
             CASE
                 WHEN HDI.DEPT_LEVEL = 2 THEN HDI.PARENT_DEPT_SEQ
                 ELSE HEI.DEPT_SEQ
-                END AS DEPT_SEQ,
+            END AS DEPT_SEQ,
             CASE
                 WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ)
                 ELSE HEI.DEPT_NAME
-                END AS DEPT_NAME1,
+            END AS DEPT_NAME1,
             CASE
                 WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ
                 ELSE ""
-                END AS TEAM_SEQ,
+            END AS TEAM_SEQ,
             CASE
                 WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME
                 ELSE ""
-                END AS TEAM_NAME,
+            END AS TEAM_NAME,
             DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m/%d') AS EMPBDAY,
             IFNULL(CASE
-                       WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME
-                       ELSE HEI.DUTY_NAME
-                       END, "") AS SPOT,
+                WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME
+                ELSE HEI.DUTY_NAME
+            END, "") AS SPOT,
             CASE
                 WHEN HEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = HEI.DUTY_CODE)
                 WHEN HEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE)
                 ELSE 999
-                END AS SORT
+            END AS SORT
         FROM
             CAM_HR.DJ_EMP_INFO AS HEI
-                LEFT JOIN
+        LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-            HEI.BDAY != '' AND scp.dec_b64('KEY1', scp.dec_b64('KEY1', HEI.BDAY)) IS NOT NULL
+            scp.dec_b64('KEY1', HEI.BDAY) != '' AND scp.dec_b64('KEY1', HEI.BDAY) IS NOT NULL
         AND
-             (
-                (DIVISION IN(0))
-             OR
-                (DIVISION IN(4) AND DIVISION_SUB IN(1))
-             OR
-                (DIVISION IN(4) AND DIVISION_SUB IN(2))
-             OR
-                (DIVISION IN(1) AND DIVISION_SUB IN(6))
-             )
+        (
+            (DIVISION IN(0))
+            OR
+            (DIVISION IN(4) AND DIVISION_SUB IN(1))
+            OR
+            (DIVISION IN(4) AND DIVISION_SUB IN(2))
+            OR
+            (DIVISION IN(1) AND DIVISION_SUB IN(6))
+        )
         AND (
             DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(scp.dec_b64('KEY1', HEI.BDAY), '%m') OR
             (
