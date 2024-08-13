@@ -99,7 +99,7 @@
                             <input type="text" id="searchColumn" name="searchColumn" style="width: 15%;" />
                             <input type="text" id="searchContent" style="width: 50%;">
                             <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rbl.gridReload()">
-                                <span class="k-icon k-i-search k-button-icon"></span>
+                                <span class="k-button-text">조회</span>
                             </button>
                         </div>
                     </td>
