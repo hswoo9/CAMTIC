@@ -333,7 +333,13 @@ var payCardHist = {
                     template : function (e){
                         return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8); // + " " + e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
                     }
-                }, {
+                },{
+                    title: "승인시간",
+                    width: 130,
+                    template : function (e){
+                        return e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
+                    }
+                },{
                     title: "승인번호",
                     width: 80,
                     template : function (e){

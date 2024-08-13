@@ -116,7 +116,14 @@ var outUseList = {
                             title: "결제일자",
                             width: 80,
                             template : function (e){
-                                return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8)
+                                return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8);
+                            }
+                        },{
+                            field: "AUTH_HH",
+                            title: "결제시간",
+                            width: 80,
+                            template : function (e){
+                                return e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
                             }
                         }, {
                             field: "MER_NM",

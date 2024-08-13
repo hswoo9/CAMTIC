@@ -805,7 +805,12 @@ var bustripResultPop = {
                     var name = "_self";
                     var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
                     var popup = window.open(url, name, option);
-                    opener.gridReload();
+                    if(window.opener.bustList){
+                        window.opener.bustList.gridReload();
+                    }
+                    if(window.opener.bustInfo){
+                        window.opener.bustInfo.bustripMainGrid();
+                    }
                 }
             });
         }
