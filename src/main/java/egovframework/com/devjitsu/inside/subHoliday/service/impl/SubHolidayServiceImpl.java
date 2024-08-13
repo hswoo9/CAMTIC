@@ -499,7 +499,19 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
         if(subHolidayUseIdArr.size() > 0){
             for(String subHolidayUseId : subHolidayUseIdArr){
-                subHolidayRepository.delYn(subHolidayUseId);
+                params.put("subholidayUseId", subHolidayUseId);
+                Map<String, Object> map = subHolidayRepository.getVacUseHistoryOne(params);
+
+                if(map.get("SUBHOLIDAY_CODE_ID").toString().equals("9")){
+
+                    if(map.get("TARGET_ID") != null && !map.get("TARGET_ID").toString().equals("")){
+                        subHolidayRepository.setVacUseHistSubDel(map);
+                    }
+                    subHolidayRepository.delYn(subHolidayUseId);
+
+                } else {
+                    subHolidayRepository.delYn(subHolidayUseId);
+                }
             }
         }
     }
