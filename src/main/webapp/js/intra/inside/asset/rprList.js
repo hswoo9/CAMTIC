@@ -105,6 +105,10 @@ var rprList = {
 
     },
 
+    gridReload: function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
     mainGrid : function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -368,7 +372,7 @@ var rprList = {
                 var rs = rs.rs;
                 alert(rs.message);
                 if(rs.code == "200"){
-                    gridReload();
+                    rprList.gridReload();
                 }
             }
         });
