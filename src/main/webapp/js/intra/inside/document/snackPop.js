@@ -325,6 +325,10 @@ var snackReq = {
             alert("거래확인서류 수령자를 선택하지 않았습니다.");
             return;
         }
+        if(cardSn == "") {
+            alert("카드가 선택되지 않았습니다.");
+            return;
+        }
         if(areaName == "") {
             alert("주문처가 작성되지 않았습니다.");
             return;
@@ -635,6 +639,8 @@ var snackReq = {
     fn_changePayType : function (e){
         if(e != ''){
             $("#cardSearch").prop("disabled", false);
+            $("#corporCard").val("");
+            $("#cardBaNb").val("");
 
             if(e == 2){
                 $("#cardHistoryDisplay").css("display", "");
@@ -642,7 +648,7 @@ var snackReq = {
                 $("#usAmount").prop("disabled", true);
             }else{
                 $("#cardHistoryDisplay").css("display", "none");
-                $("#corporCard").prop("disabled", false);
+                $("#corporCard").prop("disabled", true);
                 $("#usAmount").prop("disabled", false);
             }
         }
