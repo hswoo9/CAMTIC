@@ -3906,6 +3906,7 @@
             AND AA.DOC_STATUS IN (100,101)
         </if>
 
+        <if test='searchValue != "" and !"".equals(searchValue)'>
         <choose>
             <when test='"A".equals(searchKeyword)'>
                 AND
@@ -3938,6 +3939,7 @@
                 )
             </otherwise>
         </choose>
+        </if>
         ORDER BY AA.PAY_APP_SN DESC
     </select>
 

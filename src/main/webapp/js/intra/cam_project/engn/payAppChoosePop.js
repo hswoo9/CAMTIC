@@ -39,7 +39,6 @@ var payAppChoosePop = {
 
     gridReload: function(){
         payAppChoosePop.mainGrid("/project/payAppChooseList", {
-            appTitle: $("#appTitle").val(),
             searchDate: $("#searchDate").val(),
             strDe: $("#payAppStrDe").val(),
             endDe: $("#payAppEndDe").val(),
@@ -64,15 +63,7 @@ var payAppChoosePop = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<div style="margin-left: 100px;">' +
-                            '<span style="position: relative; top: 5px; right: 5px">건명</span>'+
-                            '<input type="text" id="appTitle" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){gridReload();}">'+
-                        '</div>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="payAppChoosePop.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
