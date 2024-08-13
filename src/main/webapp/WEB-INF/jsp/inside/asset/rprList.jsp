@@ -67,7 +67,7 @@
                         <td colspan="3">
                             <input type="text" id="drop6" style="width: 100px;">
                             <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rprList.mainGrid();}">
+                            <input type="text" id="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rprList.gridReload();}">
                         </td>
                     </tr>
                 </table>
