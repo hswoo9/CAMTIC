@@ -8,6 +8,13 @@
 </div>
 <script>
     window.resizeTo(965, 900);
+
+    let result = customKendo.fn_customAjax("/inside/getInComeUpdateList", {
+        documentSn : ${params.documentSn}
+    });
+    const rs = result.data;
+    let docTitle = "[접수대장]" + rs.DOCUMENT_TITLE_NAME;
+
     approvalDataInit();
     function approvalDataInit(){
         var approvalParams = {};
@@ -15,7 +22,7 @@
         approvalParams.formId = "194";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[접수대장]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = docTitle;
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "inCome";
