@@ -317,7 +317,7 @@ var camPrj = {
                     template: function(e){
 
                         var pjtStepNm = "";
-                        if(e.BUSN_CLASS == "D"){
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
                             pjtStepNm = "상담";
                             if(e.PJT_STOP == "Y"){
                                 pjtStepNm = "미수주";
