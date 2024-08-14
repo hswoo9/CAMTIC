@@ -8,6 +8,15 @@ var oor = {
     
     fn_defaultScript : function(){
         oor.addRow('new');
+
+        $("#checkAll").click(function(){
+            if($("#checkAll").is(":checked")){
+                $(".childCheck").prop("checked", true);
+            } else {
+                $(".childCheck").prop("checked", false);
+            }
+        });
+        customKendo.fn_datePicker("dueDate", "month", "yyyy-MM-dd", new Date());
     },
 
     addRow : function(e){
@@ -15,6 +24,9 @@ var oor = {
 
         html = "" +
             '<tr class="orInfo ' + e + 'OrInfo" id="or' + oor.global.oorIndex + '">' +
+                '<td>' +
+                    '<input type="checkbox" id="check' + oor.global.oorIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />' +
+                '</td>' +
                 '<td>' +
                     '<input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
                     '<input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
@@ -194,11 +206,23 @@ var oor = {
         }
     },
 
-    allModCrmSn : function(){
+    /*allModCrmSn : function(){
         $.each($(".orInfo"), function(i, v){
             $(this).find("#crmSn" + i).val($("#allModCrmSn").val());
             $(this).find("#crmNm" + i).val($("#allModCrmNm").val());
             oor.getItemUnitPrice(i);
+        })
+    },*/
+
+    modCrmSn : function(){
+        $.each($(".orInfo"), function(i, v){
+
+            if($("#check"+i).is(':checked')) {
+                $(this).find("#crmSn" + i).val($("#allModCrmSn").val());
+                $(this).find("#crmNm" + i).val($("#allModCrmNm").val());
+                $(this).find("#dueDt" + i).val($("#dueDate").val());
+                oor.getItemUnitPrice(i);
+            }
         })
     },
 

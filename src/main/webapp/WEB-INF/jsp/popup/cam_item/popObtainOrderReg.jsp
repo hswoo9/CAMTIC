@@ -22,6 +22,8 @@
     .percentInput {
         text-align: right;
     }
+
+    .searchTable > tbody > tr > th{vertical-align: middle;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">
@@ -47,21 +49,43 @@
             </div>
 
             <div style="margin: 10px 0 0 10px">
-                <input type="hidden" id="allModCrmSn">
-                <input type="text" id="allModCrmNm" class="k-input k-textbox crmNm" readonly style="width: 20%"
-                       onclick="oor.fn_popCamCrmList('allModCrmSn', 'allModCrmNm');"/>
-                <button type="button" id="allModViewBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.allModCrmSn()" style="font-size: 12px">
+                <table class="searchTable table table-bordered mb-0" style="width: 43%;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="30%">
+                        <col width="10%">
+                        <col width="18%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th>업체선택</th>
+                        <td>
+                            <input type="hidden" id="allModCrmSn">
+                            <input type="text" id="allModCrmNm" class="k-input k-textbox crmNm" readonly onclick="oor.fn_popCamCrmList('allModCrmSn', 'allModCrmNm');"/>
+                        </td>
+                        <th>납기일자</th>
+                        <td>
+                            <input type="text" id="dueDate">
+                        </td>
+                        <td>
+                            <button type="button" id="allModBtn"  class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info allMod" onclick="oor.modCrmSn()" style="font-size: 12px;">
+                                <span class="k-button-text">변경</span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <%--<button type="button" id="allModViewBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.allModCrmSn()" style="font-size: 12px">
                     <span class="k-button-text">일괄변경</span>
-                </button>
-
+                </button>--%>
             </div>
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
+                    <col style="width: 2%;">
                     <col style="width: 18%;">
                     <col style="width: 12%;">
                     <col style="width: 10%;">
                     <col style="width: 8%;">
-                    <col style="width: 8%;">
+                    <col style="width: 9%;">
                     <col style="width: 5%;">
                     <col style="width: 15%;">
                     <col style="width: 7%;">
@@ -70,6 +94,9 @@
                 </colgroup>
                 <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" id="checkAll" class="k-checkbox" />
+                    </th>
                     <th>업체</th>
                     <th>품번</th>
                     <th>품명</th>
