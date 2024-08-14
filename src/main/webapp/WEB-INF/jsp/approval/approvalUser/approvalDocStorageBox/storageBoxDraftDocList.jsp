@@ -48,10 +48,11 @@
                                 <input type="text" id="docStatus" style="width: 100%;">
                             </td>
                             <th class="text-center th-color">
-                                <span class="pdr5 pdl3per">문서명</span>
+                                <span class="pdr5 pdl3per">검색어</span>
                             </th>
                             <td>
-                                <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){storageBoxDraft.gridReload()}" name="docTitle" style="width: 90%">
+                                <input type="text" id="searchKeyword" style="width: 20%;"/>
+                                <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){storageBoxDraft.gridReload()}" name="docTitle" style="width: 75%">
                             </td>
                         </tr>
                     </table>

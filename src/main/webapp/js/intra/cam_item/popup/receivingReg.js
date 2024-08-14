@@ -47,9 +47,6 @@ var regRv = {
                     '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numberInput whVolume" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput whWeight" style="text-align: right" value="0">' +
-                '</td>' +
-                '<td>' +
                     '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
                     '<button type="button" id="priceSelBtn' + regRv.global.itemWhIndex + '" class="priceSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
@@ -153,7 +150,7 @@ var regRv = {
         var flag = true;
         $.each($(".whInfo"), function(i, v){
             if(!$(this).find("#crmSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#whType" + i).val()
-                || !$(this).find("#whVolume" + i).val() || !$(this).find("#whWeight" + i).val() || !$(this).find("#whCd" + i).val() || !$(this).find("#unitPrice" + i).val()
+                || !$(this).find("#whVolume" + i).val() ||  !$(this).find("#whCd" + i).val() || !$(this).find("#unitPrice" + i).val()
                 || !$(this).find("#amt" + i).val()){
                 flag = false;
             }

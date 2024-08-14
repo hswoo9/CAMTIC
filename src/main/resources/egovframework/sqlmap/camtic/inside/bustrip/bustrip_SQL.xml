@@ -1722,10 +1722,12 @@
         WHERE A.PJT_SN = #{pjtSn}
     </select>
 
-    <update id="updBustPjtsnReset" parameterType="map">
+    <update id="updBustPjtSnReset" parameterType="map">
+        /*updBustPjtSnReset*/
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
-            PJT_SN = NULL
+            PJT_SN = NULL,
+            BUSN_NAME = ''
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>

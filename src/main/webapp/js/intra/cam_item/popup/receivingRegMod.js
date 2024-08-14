@@ -61,9 +61,6 @@ var regRvM = {
         }else if(!$("#whVolume").val()){
             alert("입고량을 입력해주세요.");
             return;
-        }else if(!$("#whWeight").val()){
-            alert("입고중량을 입력해주세요.");
-            return;
         }else if(!$("#unitPrice").val()){
             alert("단가를 입력해주세요.");
             return;

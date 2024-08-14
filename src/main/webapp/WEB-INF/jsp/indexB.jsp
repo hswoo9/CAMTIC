@@ -1041,7 +1041,12 @@
     }
     //함께보아요 이미지 링크연동
     function detailPageMove (){
-        open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
+        const queryParams = {
+            page: 1,
+            watchBoardId : watchBoardId,
+        }
+        open_in_frame('/spot/watchBoardDetail.do?' + new URLSearchParams(queryParams).toString());
+        //open_in_frame('/spot/watchBoardDetail.do?);
     }
 
     //주요일정>오픈스터디 데이터 연동

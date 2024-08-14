@@ -21,6 +21,16 @@ var storageBoxTemp = {
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "문서명", value: "A" },
+                { text: "문서번호", value: "B" },
+                { text: "문서종류", value: "C" }
+            ]
+        });
+
         storageBoxTemp.gridReload();
     },
 
@@ -164,6 +174,7 @@ var storageBoxTemp = {
     gridReload : function() {
         storageBoxTemp.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
+            searchKeyword : $("#searchKeyword").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),

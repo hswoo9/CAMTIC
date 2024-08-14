@@ -388,10 +388,28 @@
         ]]>
         </if>
 
-        <if test='docTitle != null and !"".equals(docTitle)'>
-            AND
-            DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
-        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                DI.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                FORM.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+                OR DI.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+                OR FORM.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+                )
+            </otherwise>
+        </choose>
 
         <if test='readStatus != null and !"".equals(readStatus)'>
             <if test='"N".equals(readStatus)'>

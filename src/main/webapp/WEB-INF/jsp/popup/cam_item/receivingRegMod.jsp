@@ -84,10 +84,6 @@
                     <td>
                         <input type="text" id="whVolume" name="whVolume" class="numberInput whVolume" style="text-align: right">
                     </td>
-                    <th>입고중량</th>
-                    <td>
-                        <input type="text" id="whWeight" name="whWeight" class="numberInput whWeight" style="text-align: right" value="0">
-                    </td>
                 </tr>
                 <tr>
                     <th>단가</th>

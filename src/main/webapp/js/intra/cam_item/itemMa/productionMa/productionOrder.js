@@ -116,6 +116,14 @@ var po = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                },{
+                    title: "BOM조회",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="po.fn_popBomView(' + e.BOM_SN + ')">' +
+                            '	<span class="k-button-text">BOM조회</span>' +
+                            '</button>';
+                    }
                 }, {
                     width: 50,
                     template: function(e){
@@ -233,5 +241,12 @@ var po = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    fn_popBomView : function (e){
+        var url = "/item/pop/popBomView.do?bomSn=" + e;
+        var name = "_blank";
+        var option = "width = 400, height = 705, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 }

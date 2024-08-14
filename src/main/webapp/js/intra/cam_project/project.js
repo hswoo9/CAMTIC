@@ -254,7 +254,7 @@ var camPrj = {
                         if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
                             return e.LIST_STR_DE_T || "";
                         }else{
-                            return e.LIST_END_DE;
+                            return e.LIST_STR_DE;
                         }
                     }
                 }, {
@@ -265,7 +265,7 @@ var camPrj = {
                         if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
                             return e.LIST_END_EX_DE_T || "";
                         }else{
-                            return e.LIST_END_DE;
+                            return e.LIST_END_EX_DE || "";
                         }
                     }
                 }, {
@@ -317,7 +317,7 @@ var camPrj = {
                     template: function(e){
 
                         var pjtStepNm = "";
-                        if(e.BUSN_CLASS == "D"){
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
                             pjtStepNm = "상담";
                             if(e.PJT_STOP == "Y"){
                                 pjtStepNm = "미수주";

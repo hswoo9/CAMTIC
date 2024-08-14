@@ -39,10 +39,11 @@
                             <input type="text" id="startDay" style="width: 45%;"> ~ <input type="text" id="endDay" style="width: 45%">
                         </td>
                         <th class="text-center th-color">
-                            <span class="pdr5 pdl3per">문서명</span>
+                            <span class="pdr5 pdl3per">검색어</span>
                         </th>
                         <td>
-                            <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){storageBoxReturn.gridReload();}" name="docTitle" style="width: 90%">
+                            <input type="text" id="searchKeyword" style="width:14%;"/>
+                            <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){storageBoxReturn.gridReload();}" name="docTitle" style="width: 85%">
                         </td>
                     </tr>
                 </table>

@@ -27,6 +27,17 @@ var storageBoxReader = {
                 {text: "미열람", value: "N"}
             ]
         })
+
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "문서명", value: "A" },
+                { text: "문서번호", value: "B" },
+                { text: "문서종류", value: "C" }
+            ]
+        });
+
         $("#readStatus").change(function(){
             storageBoxReader.gridReload();
         });
@@ -215,6 +226,7 @@ var storageBoxReader = {
             groupSeq : $("#groupSeq").val(),
             compSeq : $("#compSeq").val(),
             empSeq : $("#empSeq").val(),
+            searchKeyword : $("#searchKeyword").val(),
             deptSeq : $("#deptSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
