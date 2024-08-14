@@ -19,6 +19,7 @@
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="apprMngStat" value="M">
 
 <div class="mainCard">
     <div class="panel">

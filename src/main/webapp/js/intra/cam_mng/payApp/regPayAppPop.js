@@ -1974,6 +1974,11 @@ var regPay = {
                         $("#reCallBtn").css("display", "none");
                     }
                 }
+            } else {
+                if(item.DET_STAT != "N" && item.EXNP_SAVE == 'N'){
+                } else {
+                    $("#reCallBtn").css("display", "none");
+                }
             }
 
             var clIdx = regPayDet.global.itemIndex;
@@ -2867,6 +2872,12 @@ var regPay = {
                     alert("반려되었습니다.");
 
                     $("#dialogRecall").data("kendoWindow").close();
+                    window.location.reload();
+                    if($("#auth").val() == "user") {
+                        opener.parent.paymentMngList.gridReload();
+                    } else {
+                        opener.parent.paymentRevList.gridReload();
+                    }
                 }
             }
         });

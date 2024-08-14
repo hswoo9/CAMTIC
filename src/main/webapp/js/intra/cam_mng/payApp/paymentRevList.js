@@ -212,6 +212,12 @@ var paymentRevList = {
         if(status != null && status != ""){
             url = url + "&status=" + status;
         }
+
+        /** 관리자 페이지 일경우 파라미터에 mng 추가*/
+        if($("#apprMngStat").val() == "M"){
+            url += '&vType='+$("#apprMngStat").val();
+        }
+        
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
