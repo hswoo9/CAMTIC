@@ -259,6 +259,10 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updPayDepoData", params);
     }
 
+    public void delPayDepo(Map<String, Object> params) {
+        delete("payApp.delPayDepo", params);
+    }
+
     public void updPurcClaimByPayAppSn(Map<String, Object> params) {
         update("payApp.updPurcClaimByPayAppSn", params);
     }

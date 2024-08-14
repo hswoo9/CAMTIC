@@ -1728,6 +1728,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void delPayDepo(Map<String, Object> params) {
+        payAppRepository.delPayDepo(params);
+    }
+
+    @Override
     public void setApprIncome(Map<String, Object> params) {
         payAppRepository.updApprStatus(params);
     }

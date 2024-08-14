@@ -2421,6 +2421,11 @@
             PAY_DEPO_SN = #{payDepoSn}
     </update>
 
+    <delete id="delPayDepo" parameterType="map">
+        /*delPayDepo*/
+        DELETE FROM CAM_MNG.DJ_PAY_DEPO WHERE PAY_DEPO_SN = #{payDepoSn}
+    </delete>
+
     <update id="updPurcClaimByPayAppSn" parameterType="map">
         /*updPurcClaimByPayAppSn*/
         UPDATE CAM_MNG.DJ_PURC_CLAIM

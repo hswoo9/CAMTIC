@@ -1112,6 +1112,19 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/delPayDepo")
+    public String delPayDepo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.delPayDepo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/setApprIncome")
     public String setApprIncome(@RequestParam Map<String, Object> params, Model model){
 

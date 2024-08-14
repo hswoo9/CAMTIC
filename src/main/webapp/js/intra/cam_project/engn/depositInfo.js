@@ -220,6 +220,16 @@ var depoInfo = {
                     template: function(e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="depoInfo.fn_reqRegPopup(' + e.PAY_DEPO_SN + ')">보기</button>';
                     }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        if(e.PAY_INCP_SN == null) {
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="depoInfo.fn_deleteDepo(' + e.PAY_DEPO_SN + ')">삭제</button>'
+                        } else {
+                            return "";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
@@ -249,6 +259,31 @@ var depoInfo = {
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_deleteDepo : function(key){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            payDepoSn : key,
+        }
+
+        $.ajax({
+            url : "/pay/delPayDepo",
+            type : "POST",
+            data : data,
+            dataType : 'json',
+            traditional : true,
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+
+                    depoInfo.gridReload();
+                }
+            }
+        });
     }
 
 }
