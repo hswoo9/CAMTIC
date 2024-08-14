@@ -374,6 +374,7 @@ var newResolutionSubmitPage = {
                 if(result.code == 200){
                     alert("전송이 완료되었습니다.");
                     $("#my-spinner").hide();
+                    window.location.reload();
 
                     // $.ajax({
                     //     url: '/kukgoh/test',

@@ -104,7 +104,7 @@ var budgetChoicePop = {
             success : function(rs) {
                 if(rs.code == 200){
                     alert(rs.message);
-                    opener.parent.budgetConfigView.mainGrid();
+                    opener.parent.budgetConfigView.gridReload();
                     window.close();
                 }
             }

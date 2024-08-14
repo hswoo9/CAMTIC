@@ -8,6 +8,10 @@ var budgetConfigView = {
         budgetConfigView.mainGrid();
     },
 
+    gridReload : function(){
+        $("#budgetConfigViewGrid").data("kendoGrid").dataSource.read();
+    },
+
     mainGrid : function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,

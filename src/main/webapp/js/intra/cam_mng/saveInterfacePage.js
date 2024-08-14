@@ -39,7 +39,7 @@ var saveInterfacePage = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height : 300,
+            height : 508,
             pageable: {
                 refresh: true,
                 pageSizes : [ 10, 20, 50, "ALL" ],
@@ -48,7 +48,7 @@ var saveInterfacePage = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            persistSelection : true,
+            // persistSelection : true,
             columns: [
                 {
                     field : "INTERFACE_ID",
