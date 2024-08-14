@@ -249,16 +249,37 @@ var camPrj = {
 
                     field: "LIST_STR_DE",
                     title: "수주일",
-                    width: 100
+                    width: 100,
+                    template: function(e){
+                        if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
+                            return e.LIST_STR_DE_T || "";
+                        }else{
+                            return e.LIST_END_DE;
+                        }
+                    }
                 }, {
                     field: "LIST_END_EX_DE",
                     title: "종료예상일",
-                    width: 100
+                    width: 100,
+                    template: function(e){
+                        if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
+                            return e.LIST_END_EX_DE_T || "";
+                        }else{
+                            return e.LIST_END_DE;
+                        }
+                    }
                 }, {
                     field: "LIST_END_DE",
                     title: "종료일",
                     width: 100,
-                    footerTemplate: "합계"
+                    footerTemplate: "합계",
+                    template: function(e){
+                        if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
+                            return e.LIST_END_DE_T || "";
+                        }else{
+                            return e.LIST_END_DE;
+                        }
+                    }
                 }, {
                     field: "PJT_AMT",
                     title: "수주금액",

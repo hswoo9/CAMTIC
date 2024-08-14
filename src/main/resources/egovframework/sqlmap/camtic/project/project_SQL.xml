@@ -41,6 +41,22 @@
                 ELSE ''
             END AS LIST_END_DE,
             CASE
+                WHEN A.BUSN_CLASS IN ('R') THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('S') THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('D', 'V') THEN DATE_FORMAT(DLP.DELV_EST_DE, '%Y-%m-%d')
+                ELSE ''
+            END AS LIST_STR_DE_T,
+                CASE
+                WHEN A.BUSN_CLASS IN ('R') THEN DATE_FORMAT(A.END_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('S') THEN DATE_FORMAT(A.END_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('D', 'V') THEN DATE_FORMAT(A.DELV_DE, '%Y-%m-%d')
+                ELSE ''
+            END AS LIST_END_EX_DE_T,
+            CASE
+                WHEN A.BUSN_CLASS IN ('R', 'S', 'D', 'V') THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
+                ELSE ''
+            END AS LIST_END_DE_T,
+            CASE
                 WHEN A.BUSN_CLASS = 'R' THEN DATE_FORMAT(IFNULL((SELECT NOW_STR_DE FROM CAM_PJT_MNG.DJ_PJT_RND WHERE PJT_SN = A.PJT_SN AND A.YEAR_CLASS = 'M'), A.STR_DT), '%Y-%m-%d')
                 WHEN A.BUSN_CLASS = 'S' THEN DATE_FORMAT(IFNULL((SELECT NOW_STR_DE FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = A.PJT_SN AND A.YEAR_CLASS = 'M'), A.STR_DT), '%Y-%m-%d')
                 ELSE DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
