@@ -694,16 +694,11 @@
             CAM_INSIDE.DJ_HR_CAR_REQ
         WHERE
             CAR_CLASS_SN = #{carClassSn}
-
-        <choose>
-            <when test='startDt.equals(endDt)'>
-                AND ((START_DT = #{startDt} AND #{startTime} BETWEEN START_TIME AND END_TIME) OR
-                    (END_DT = #{endDt} AND #{endTime} BETWEEN START_TIME AND END_TIME))
-            </when>
-            <otherwise>
-                AND #{startDt} BETWEEN START_DT AND END_DT
-            </otherwise>
-        </choose>
+        AND CONCAT(REPLACE(START_DT, '-', ''), REPLACE(START_TIME, ':', '')) <![CDATA[<]]> CONCAT(REPLACE(#{endDt}, '-', ''), REPLACE(#{endTime}, ':', ''))
+        AND CONCAT(REPLACE(END_DT, '-', ''), REPLACE(END_TIME, ':', '')) <![CDATA[>]]> CONCAT(REPLACE(#{startDt}, '-', ''), REPLACE(#{startTime}, ':', ''))
+        <if test='carReqSn != null and !"".equals(carReqSn)'>
+            AND CAR_REQ_SN != #{carReqSn}
+        </if>
     </select>
 </mapper>
 

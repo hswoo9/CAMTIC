@@ -171,7 +171,7 @@ var carReq = {
             let duplicateText = "";
             let realCount = 0;
             for(let i = 0; i < result.list.length; i++) {
-                if(data.type == "bustripReq" && data.regEmpSeq == result.list[i].EMP_SEQ){
+                if(data.type != undefined && data.type == "bustripReq" && data.regEmpSeq == result.list[i].EMP_SEQ){
                 }else {
                     if(i != 0) {
                         duplicateText += ", ";
@@ -183,7 +183,7 @@ var carReq = {
             if(realCount == 0){
                 carType = "B";
             }
-            if((!flag && data.type != "bustripReq") || (!flag && carType == "A" && data.type == "bustripReq")){
+            if((!flag && data.type != undefined && data.type != "bustripReq") || (!flag && carType == "A" && data.type != undefined && data.type == "bustripReq")){
                 alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
                 flag = false;
             } else {
