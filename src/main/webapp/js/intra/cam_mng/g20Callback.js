@@ -64,6 +64,38 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
 
     $("#crmNm" + idx).val(trNm);
     $("#trCd" + idx).val(trCd);
+    $("#crmBnkNm" + idx).val(jiro);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+    $("#regNo" + idx).val(regNb);
+    $("#ceoNm" + idx).val(ceoNm);
+}
+
+function fn_selClientInfoForRegPay(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+    }
+    if(jiro == null || jiro == "" || jiro == "undefined"){
+        jiro = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+    if(ceoNm == null || ceoNm == "" || ceoNm == "undefined"){
+        ceoNm = "";
+    }
+    if(regNb == null || regNb == "" || regNb == "undefined"){
+        regNb = "";
+    }
+
+    $("#crmNm" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
     $("#regNo" + idx).val(regNb);
 
     if($("#eviType" + idx).val() != "3") {
@@ -74,6 +106,7 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
     }
 
     regPay.fn_g20ClientCheck();
+
 }
 
 function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){

@@ -587,7 +587,12 @@ var payDetView = {
 
     fn_selClientInfo: function (trCd, trNm, baNb, depositor, jiro, ceoNm, regNb){
         var idx = $("#index").val();
-        opener.parent.fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx);
+
+        if(opener.parent.regPay) {
+            opener.parent.fn_selClientInfoForRegPay(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx);
+        } else {
+            opener.parent.fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx);
+        }
 
         window.close();
     },
