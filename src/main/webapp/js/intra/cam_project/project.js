@@ -254,7 +254,7 @@ var camPrj = {
                         if(e.PJT_CD != null && e.PJT_CD.endsWith("T")){
                             return e.LIST_STR_DE_T || "";
                         }else{
-                            return e.LIST_END_DE;
+                            return e.LIST_STR_DE;
                         }
                     }
                 }, {
