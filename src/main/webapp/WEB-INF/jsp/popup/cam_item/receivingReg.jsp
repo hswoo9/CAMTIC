@@ -53,7 +53,6 @@
                     <col style="width: 10%;">
                     <col style="width: 10%">
                     <col style="width: 7%;">
-                    <col style="width: 7%;">
                     <col style="width: 10%">
                     <col style="width: 8%">
                     <col style="width: 11%;">
@@ -67,7 +66,6 @@
                     <th>품명</th>
                     <th>입고형태</th>
                     <th>입고량</th>
-                    <th>입고중량</th>
                     <th>단가</th>
                     <th>금액</th>
                     <th>입고창고</th>
