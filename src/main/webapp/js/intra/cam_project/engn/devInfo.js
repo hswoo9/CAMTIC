@@ -142,6 +142,7 @@ var devInfo = {
     },
 
     fn_setVersion : function (key){
+        $("#totalAmt").text(0);
         devInfo.fn_setData(key);
 
         if(devInfo.global.appCk == "Y"){
@@ -448,7 +449,7 @@ var devInfo = {
                         });
                     });
 
-                    $("#invAmt").val(comma(totAmt));
+                    $("#invAmt").val(comma(totAmt))
                     $("#totalAmt").text(comma(totAmt));
 
                     /*var invPer = 0;*/
@@ -961,7 +962,7 @@ var devInfo = {
 
                 if(rs.code == 200){
                     $("#invSn" + idx).val(rs.rep.INV_SN);
-                    $("#invAmt").val(comma(totAmt));
+                    $("#invAmt").val(comma(totAmt));;
                     $("#totalAmt").text(comma(totAmt));
                     /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                 }
