@@ -131,11 +131,11 @@ var lectList = {
                     template: "#= --record #",
                     width: "3%"
                 }, {
-                    field: "LEC_FIELD_NAME",
+                    field: "LEC_FIELD_NAME1",
                     title: "대분류",
                     width: "10%"
                 }, {
-                    field: "LEC_FIELD_NAME1",
+                    field: "LEC_FIELD_NAME",
                     title: "중분류",
                     width: "10%"
                 }, {

@@ -299,25 +299,22 @@
     <select id="getPersonList" parameterType="map" resultType="map">
         /*getPersonList*/
         SELECT
-            A.*,
-        (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN=A.CRM_SN) AS CRM_NM
+            A.PERSON_SN,
+            A.NAME,
+            A.EXISTING_YN,
+            A.USER_TYPE,
+            A.SCHOOL_MAJOR,
+            A.CO_NAME,
+            A.PART,
+            A.PLACE,
+            (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN=A.CRM_SN) AS CRM_NM
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON A
-        WHERE 1=1
         <if test='notIn != null and !"".equals(notIn)'>
-            AND A.PERSON_SN NOT IN (
-                SELECT
-                    PERSON_SN
-                FROM
-                    CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
-                WHERE
-                    LEC_SN = #{notIn}
-                AND ACTIVE = 'Y'
-            )
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ pr ON pr.PERSON_SN = a.PERSON_SN AND pr.LEC_SN = '200' AND pr.ACTIVE = 'Y'
         </if>
-        <if test="sEmpName != null and sEmpName != ''">
-            AND A.NAME LIKE CONCAT('%', #{sEmpName}, '%')
-        </if>
+        WHERE 1=1
         <if test="lectureType == 'newLecture' and lectureType != null and lectureType != ''">
             AND A.EXISTING_YN = 'N'
         </if>
@@ -325,6 +322,25 @@
             AND A.EXISTING_YN = 'Y'
         </if>
 
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+            <choose>
+                <when test='"name".equals(searchKeyword)'>
+                    AND
+                    A.NAME LIKE CONCAT('%', #{sEmpName}, '%')
+                </when>
+                <when test='"crmNm".equals(searchKeyword)'>
+                    AND
+                    A.CO_NAME LIKE CONCAT('%', #{sEmpName},'%')
+                </when>
+                <otherwise>
+                    AND
+                    (
+                    A.NAME LIKE CONCAT('%', #{sEmpName}, '%')
+                    OR A.CO_NAME LIKE CONCAT('%', #{sEmpName},'%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
         AND A.ACTIVE = 'Y'
         ORDER BY A.NAME
     </select>

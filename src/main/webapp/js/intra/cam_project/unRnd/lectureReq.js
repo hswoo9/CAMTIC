@@ -350,48 +350,35 @@ const lectureReq = {
             }
 
             /** 유효성 검사 */
-            /*if (data.projectType == "") {
-                alert("사업구분이 선택되지 않았습니다.");
+            if (data.fieldType1 == "") {
+                alert("교육분야 대분류가 선택되지 않았습니다.");
                 return;
-            }*/
+            }
             if (data.fieldType == "") {
-                alert("교육분야가 선택되지 않았습니다.");
+                alert("교육분야 중분류가 선택되지 않았습니다.");
                 return;
             }
-            if (data.curriculumType == "") {
-                alert("과목명이 선택되지 않았습니다.");
-                return;
-            }
-            if (data.courseType == "") {
-                alert("과정명이 선택되지 않았습니다.");
-                return;
-            }
-            /*if(data.lectureName == ""){ alert("강좌명(사업명)이 작성되지 않았습니다."); return; }*/
             if (data.lectureNameEx == "") {
                 alert("강좌명(홍보용)이 작성되지 않았습니다.");
-                return;
-            }
-            if (data.title == "") {
-                alert("주제(CEO)가 작성되지 않았습니다.");
                 return;
             }
             if (data.recruitNum == "") {
                 alert("모집인원이 작성되지 않았습니다.");
                 return;
             }
-            /*if (data.eduTime == "" || data.eduTimeEx == "") {
-                alert("교육시간이 작성되지 않았습니다.");
-                return;
-            }*/
             if (data.area == "") {
                 alert("교육장소가 작성되지 않았습니다.");
                 return;
             }
-            /*if (data.textbookFee == "") {
-                alert("교육비가 작성되지 않았습니다.");
+            if (data.typeN == "N" && data.typeC == "N" && data.typeS == "N" && data.typeH == "N") {
+                alert("운영방법(대상자)을 선택하지 않았습니다.");
                 return;
-            }*/
-            if (data.courseType == "") {
+            }
+            if (data.methodTypePr == "") {
+                alert("대상자(홍보용)가 작성되지 않았습니다.");
+                return;
+            }
+            if (data.mainType == "") {
                 alert("메인게시여부가 선택되지 않았습니다.");
                 return;
             }

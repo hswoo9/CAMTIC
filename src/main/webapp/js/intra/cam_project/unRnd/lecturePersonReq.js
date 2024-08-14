@@ -7,6 +7,15 @@ var lecturePersonReq = {
     fn_defaultScript: function(){
         this.fn_pageSet();
         this.gridReload();
+
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "이름", value: "name" },
+                { text: "소속", value: "crmNm" }
+            ]
+        });
     },
 
     fn_pageSet: function(){
@@ -16,7 +25,8 @@ var lecturePersonReq = {
     gridReload: function(){
         lecturePersonReq.global.searchAjaxData = {
             notIn : $("#pk").val(),
-            sEmpName : $("#sEmpName").val()
+            sEmpName : $("#sEmpName").val(),
+            searchKeyword : $("#searchKeyword").val()
         }
 
         lecturePersonReq.mainGrid("/projectUnRnd/getPersonList", lecturePersonReq.global.searchAjaxData);
@@ -39,8 +49,9 @@ var lecturePersonReq = {
                     name: 'button',
                     template: function (e) {
                         return '<div style="margin-left: 100px;">' +
-                            '<span style="position: relative; top: 5px; right: 5px">성명</span>'+
-                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){gridReload();}">'+
+                            '<span style="position: relative; top: 5px; right: 5px">검색어</span>'+
+                            '<input type="text" id="searchKeyword" style="width: 90px; margin-right:10px;"/>'+
+                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){gridReload();}">' +
                         '</div>';
                     }
                 }, {
