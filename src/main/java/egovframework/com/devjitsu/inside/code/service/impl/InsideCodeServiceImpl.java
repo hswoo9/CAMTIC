@@ -218,4 +218,9 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     public int carRequestCheck(Map<String, Object> map) {
         return insideCodeRepository.carRequestCheck(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getUserCarReqList(Map<String, Object> params) {
+        return insideCodeRepository.getUserCarReqList(params);
+    }
 }

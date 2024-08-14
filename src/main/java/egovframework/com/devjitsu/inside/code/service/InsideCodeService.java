@@ -87,4 +87,6 @@ public interface InsideCodeService {
     Map<String, Object> getAccountToInfo(Map<String, Object> params);
 
     int carRequestCheck(Map<String, Object> map);
+
+    List<Map<String, Object>> getUserCarReqList(Map<String, Object> params);
 }

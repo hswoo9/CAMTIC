@@ -700,6 +700,67 @@
             AND CAR_REQ_SN != #{carReqSn}
         </if>
     </select>
+
+    <select id="getUserCarReqList" parameterType="map" resultType="map">
+        /*getUserCarReqList*/
+        SELECT
+            SUB.*
+        FROM (
+            SELECT
+                A.CAR_REQ_SN,
+                CONCAT(A.START_DT, ' ', A.START_TIME, ' ~ ', A.END_DT, ' ', A.END_TIME) AS REQ_DATE,
+                (SELECT SDI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI
+                    LEFT JOIN CAM_HR.DJ_DEPT_INFO SDI ON SEI.DEPT_SEQ = SDI.DEPT_SEQ
+                    WHERE SEI.EMP_SEQ = A.EMP_SEQ
+                ) AS USE_DEPT_NAME,
+                A.CAR_CLASS_SN,
+                A.CAR_CLASS_TEXT,
+                A.CAR_CLASS_RMK,
+                A.CAR_TYPE_SN,
+                A.CAR_TYPE_TEXT,
+                A.CAR_TITLE_NAME,
+                A.EMP_SEQ,
+                A.EMP_NAME,
+                A.START_DT,
+                A.START_TIME,
+                A.END_DT,
+                A.END_TIME,
+                DATE_FORMAT(A.REG_DT,'%Y-%m-%d') AS REG_DT,
+                A.DOC_ID,
+                A.STATUS,
+                A.APPROVAL_EMP_SEQ,
+                A.APPROVAL_DATE,
+                DI.APPRO_KEY,
+                DI.DOC_MENU_CD
+            FROM
+                CAM_INSIDE.DJ_HR_CAR_REQ A
+            LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+            WHERE 1=1
+        ) SUB
+        WHERE 1=1
+        AND (
+                (SUB.START_DT BETWEEN #{startDt} AND #{endDt}) OR (SUB.END_DT BETWEEN #{startDt} AND #{endDt})
+            )
+        <if test='searchText != null and !"".equals(searchText)'>
+            <choose>
+                <when test='"1".equals(searchType)'>
+                    AND SUB.EMP_NAME LIKE CONCAT('%', #{searchText}, '%')
+                </when>
+                <when test='"2".equals(searchType)'>
+                    AND SUB.USE_DEPT_NAME LIKE CONCAT('%', #{searchText}, '%')
+                </when>
+                <otherwise>
+                    AND (
+                        SUB.EMP_NAME LIKE CONCAT('%', #{searchText}, '%') OR
+                        SUB.USE_DEPT_NAME LIKE CONCAT('%', #{searchText}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+        <if test='carType != null and !"".equals(carType)'>
+            AND SUB.CAR_TYPE_SN = #{carType}
+        </if>
+    </select>
 </mapper>
 
 

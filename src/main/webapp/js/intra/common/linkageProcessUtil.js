@@ -330,6 +330,10 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 					}else if(key == "camticUnRndCost"){
 						location.reload();
 					}
+
+					if(key == "camticCar") {
+						location.reload();
+					}
 				}catch(e) {
 
 				}

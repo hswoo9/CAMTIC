@@ -149,4 +149,8 @@ public class InsideCodeRepository extends AbstractDAO {
     public int carRequestCheck(Map<String, Object> map) {
         return (int) selectOne("insideCode.carRequestCheck", map);
     }
+
+    public List<Map<String, Object>> getUserCarReqList(Map<String, Object> params) {
+        return selectList("insideCode.getUserCarReqList", params);
+    }
 }

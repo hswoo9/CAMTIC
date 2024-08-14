@@ -407,7 +407,7 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('VISIT_NAME', map.VISIT_NAME);
         hwpDocCtrl.putFieldText('EMERGENCY_NAME', map.EMERGENCY_NAME+" "+map.EMERGENCY_TEL);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
-        hwpDocCtrl.putFieldText('EMP_NAME', map.REG_EMP_NAME);
+        hwpDocCtrl.putFieldText('EMP_NAME', map.EMP_NAME);
 
         /** 차량 */
         let carClassTxt = "";

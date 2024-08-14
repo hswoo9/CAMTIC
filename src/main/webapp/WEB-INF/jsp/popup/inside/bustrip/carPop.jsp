@@ -48,7 +48,7 @@
                 </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>운행 일시
+                        <span class="red-star">*</span>운행 일시
                     </th>
                     <td>
                         <input id="startDt" style="width: 20%;" value="${params.startDt}">
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>사용 부서
+                        <span class="red-star">*</span>사용 부서
                     </th>
                     <td>
                         <input type="text" id="dept" style="width: 40%;">
@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>사용 차량
+                        <span class="red-star">*</span>사용 차량
                     </th>
                     <td>
                         <input type="text" id="carClass" style="width: 40%;">
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>운행 구분
+                        <span class="red-star">*</span>운행 구분
                     </th>
                     <td>
                         <input type="text" id="carType" style="width: 40%;"/>
@@ -109,7 +109,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>운행자
+                        <span class="red-star">*</span>운행자
                     </th>
                     <td>
                         <input type="text" id="empName" style="width: 65%;">
@@ -121,7 +121,7 @@
                 </tr>
                 <tr class="varTR" style="display:none;">
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>긴급 연락처
+                        <span class="red-star">*</span>긴급 연락처
                     </th>
                     <td>성명 : <input type="text" id="emergencyName" style="width: 20%;"/>
                         연락처 : <input type="text" id="emergencyTel" style="width: 30%;"/>

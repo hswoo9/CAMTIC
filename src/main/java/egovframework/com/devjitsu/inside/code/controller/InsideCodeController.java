@@ -38,6 +38,22 @@ public class InsideCodeController {
         return "inside/bustrip/carReq";
     }
 
+    //차량사용신청관리 페이지
+    @RequestMapping("/Inside/carReqMng.do")
+    public String carReqMng(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/carReqMng";
+    }
+
+    @RequestMapping("/inside/getUserCarReqList")
+    public String getUserCarReqList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", insideCodeService.getUserCarReqList(params));
+        return "jsonView";
+    }
+
     //차량관리 페이지
     @RequestMapping("/Inside/carManage.do")
     public String carManage(HttpServletRequest request, Model model) {
