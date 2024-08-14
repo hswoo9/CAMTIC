@@ -11,6 +11,11 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
+<style>
+    .fc-unthemed .fc-today {
+        background: #fcf8e3 !important;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

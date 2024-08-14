@@ -17,6 +17,10 @@
     .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
         border-color: #eaeaea;
     }
+
+    .fc-unthemed .fc-today {
+        background: #fcf8e3 !important;
+    }
 </style>
 <div class="mainCard">
     <div class="panel">
