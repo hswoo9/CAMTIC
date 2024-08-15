@@ -183,7 +183,7 @@ var purcInfo = {
                         return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE + '</div>';
                     },
                     footerTemplate: function(){
-                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: "1"}).list;
                         let invSum = 0;
                         for(let i=0; i<list.length; i++){
                             invSum += Number(list[i].EST_TOT_AMT);
