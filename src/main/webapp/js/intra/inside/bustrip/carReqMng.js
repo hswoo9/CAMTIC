@@ -132,13 +132,13 @@ var carReqMng = {
                     template: function(e) {
                         if(e.CAR_TYPE_SN == 2) {
                             if(e.STATUS == "0"){
-                                return "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReqMng.carDrafting('"+e.CAR_REQ_SN+"',)\">상신</button>";
+                                return "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"carReqMng.carDrafting('"+e.CAR_REQ_SN+"',)\">상신</button>";
                             }else if(e.STATUS == "10"){
-                                return "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+e.DOC_ID+"', '"+e.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                                return "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"docApprovalRetrieve('"+e.DOC_ID+"', '"+e.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
                             }else if(e.STATUS == "30" || e.STATUS == "40"){
                                 return "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+e.DOC_ID+"', '"+e.DOC_MENU_CD+"', '"+e.APPRO_KEY+"', 2, 'reDrafting', 'target');\">재상신</button>";
                             }else if(e.STATUS == "100"){
-                                return "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+e.DOC_ID+"', '"+e.APPRO_KEY+"', '"+e.DOC_MENU_CD+"');\">열람</button>";
+                                return "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"approveDocView('"+e.DOC_ID+"', '"+e.APPRO_KEY+"', '"+e.DOC_MENU_CD+"');\">열람</button>";
                             } else {
                                 return "";
                             }
