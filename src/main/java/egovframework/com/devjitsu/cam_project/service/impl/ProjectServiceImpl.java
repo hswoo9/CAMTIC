@@ -1325,13 +1325,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addDevVersion(Map<String, Object> params) {
-        List<Map<String, Object>> list = new ArrayList<>();
 
-        list = projectRepository.getPsList(params);
+        List<Map<String, Object>> list = projectRepository.getPsList(params);
+        List<Map<String, Object>> list2 = projectRepository.getInvList2(params);
 
         projectRepository.addDevVersion(params);
-
-//        list = projectRepository.getPsListByDevSn(params);
 
         for(Map<String, Object> map : list){
             params.put("psRow", map.get("PS_ROW"));
@@ -1345,6 +1343,22 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("regEmpSeq", map.get("REG_EMP_SEQ"));
 
             projectRepository.insPjtPs(params);
+        }
+
+        for(Map<String, Object> map : list2){
+            params.put("invRow", map.get("INV_ROW"));
+            params.put("divCd", map.get("DIV_CD"));
+            params.put("divNm", map.get("DIV_NM"));
+            params.put("invNm", map.get("INV_NM"));
+            params.put("invCnt", map.get("INV_CNT"));
+            params.put("invUnit", map.get("INV_UNIT"));
+            params.put("invUnitPrice", map.get("INV_UNIT_PRICE"));
+            params.put("estTotAmt", map.get("EST_TOT_AMT"));
+            params.put("estOfc", map.get("EST_OFC"));
+            params.put("invEtc", map.get("INV_ETC"));
+            params.put("regEmpSeq", map.get("REG_EMP_SEQ"));
+
+            projectRepository.insInvData(params);
         }
     }
 

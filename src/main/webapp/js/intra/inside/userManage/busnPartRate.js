@@ -338,19 +338,19 @@ var busnPartRate = {
                                     }
                                 }else{
                                     if(totTotal >= 0) {
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(totTotal) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="totCkA d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(totTotal) + '"/>';
                                     }else{
-                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(aTot) + '"/>';
+                                        tdHtml += '    <input type="text" name="d' + i + j + '" class="totCkA d2 d' + i + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right;font-size: 11px;" value="' + busnPartRate.comma(aTot) + '"/>';
                                     }
                                 }
                                 tdHtml += '</td>';
                                 tdHtml += '<td style="text-align: right">';
                                 if(j == 0) {
-                                    tdHtml += '    <input type="text" class="e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(rs.list[i].TOT_PAY_BUDG) + '"/>';
+                                    tdHtml += '    <input type="text" class="totCkB e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(rs.list[i].TOT_PAY_BUDG) + '"/>';
                                 }else if(j == 1) {
-                                    tdHtml += '    <input type="text" class="e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(rs.list[i].TOT_ITEM_BUDG) + '"/>';
+                                    tdHtml += '    <input type="text" class="totCkB e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(rs.list[i].TOT_ITEM_BUDG) + '"/>';
                                 }else{
-                                    tdHtml += '    <input type="text" class="e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(rs.list[i].TOT_PAY_BUDG) + Number(rs.list[i].TOT_ITEM_BUDG)) + '"/>';
+                                    tdHtml += '    <input type="text" class="totCkB e' + j + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(rs.list[i].TOT_PAY_BUDG) + Number(rs.list[i].TOT_ITEM_BUDG)) + '"/>';
 
                                 }
                                 tdHtml += '</td>';

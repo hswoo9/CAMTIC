@@ -1209,6 +1209,13 @@
             DEV_SN = #{devSn}
     </select>
 
+    <select id="getInvList2" parameterType="map" resultType="map">
+        SELECT * FROM
+            CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
+    </select>
+
     <select id="getTeamInvList" parameterType="map" resultType="map">
         SELECT * FROM
             CAM_PJT_MNG.DJ_PJT_INV

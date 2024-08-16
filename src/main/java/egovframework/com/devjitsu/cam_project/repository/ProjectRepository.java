@@ -204,6 +204,10 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getInvList", params);
     }
 
+    public List<Map<String, Object>> getInvList2(Map<String, Object> params) {
+        return selectList("project.getInvList2", params);
+    }
+
     public List<Map<String, Object>> getTeamInvList(Map<String, Object> params) {
         return selectList("project.getTeamInvList", params);
     }
