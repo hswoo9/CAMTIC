@@ -73,6 +73,47 @@ var rndBg = {
         $("#budgetClass").data("kendoRadioGroup").bind("change", function(){
             rndBg.gridReload($("#budgetClass").data("kendoRadioGroup").value());
         })
+
+        // 지급신청리스트
+        customKendo.fn_datePicker("payAppStrDe", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("payAppEndDe", '', "yyyy-MM-dd", new Date());
+
+        var dropDownDataSource = [
+            { text: "작성중", value: "1" },
+            { text: "결재대기", value: "2" },
+            { text: "결재완료", value: "3" },
+            { text: "지출대기", value: "5" },
+            { text: "지출완료", value: "4" },
+        ]
+        customKendo.fn_dropDownList("searchDept", dropDownDataSource, "text", "value");
+
+        var dropDownDataSource2 = [
+            { text: "문서번호", value: "A" },
+            { text: "신청건명", value: "B" },
+            { text: "거래처", value: "D" },
+            { text: "신청자", value: "E" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", dropDownDataSource2, "text", "value");
+
+        customKendo.fn_textBox(["searchValue", "searchValue2"]);
+
+        // 지출리스트
+        customKendo.fn_datePicker("exnpStrDe", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("exnpEndDe", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() + 1)));
+
+        var dds = [
+            { text: "승인", value: "Y" },
+            { text: "미승인", value: "N" },
+        ]
+        customKendo.fn_dropDownList("searchStatus", dds, "text", "value");
+
+        var dds2 = [
+            { text: "예산비목", value: "BUDGET_NM" },
+            { text: "거래처", value: "CRM_NM" },
+            { text: "제목", value: "EXNP_BRIEFS" },
+        ]
+        customKendo.fn_dropDownList("searchKeyword2", dds2, "text", "value");
     },
 
     gridReload : function (pjtCd){
@@ -98,26 +139,28 @@ var rndBg = {
 
                 if(idx == 1){
                     $("#budgetGrid1Wrap").css("display", "");
-                    $("#budgetMainGrid3").css("display", "none");
-                    $("#budgetMainGrid4").css("display", "none");
+                    $("#budgetGrid3Wrap").css("display", "none");
+                    $("#budgetGrid4Wrap").css("display", "none");
                     $("#titleWrap").text("◎ 예산현황");
                     rndBg.budgetMainGrid(pjtCd);     // 수입예산 리스트
                     rndBg.budgetMainGrid2(pjtCd);    // 지출예산 리스트
                 }
                 else if(idx == 2){
-                    $("#budgetMainGrid3").html("");
+                    // $("#budgetGrid3Wrap").html("");
                     $("#budgetGrid1Wrap").css("display", "none");
-                    $("#budgetMainGrid3").css("display", "");
-                    $("#budgetMainGrid4").css("display", "none");
+                    $("#budgetGrid3Wrap").css("display", "");
+                    $("#budgetGrid4Wrap").css("display", "none");
                     $("#titleWrap").text("◎ 지급 신청 리스트");
-                    rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
+                    // rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData3);  // 지급신청서 리스트
+                    rndBg.budgetMainGrid3Reload();
                 } else if (idx == 3){
-                    $("#budgetMainGrid4").html("");
+                    // $("#budgetGrid4Wrap").html("");
                     $("#budgetGrid1Wrap").css("display", "none");
-                    $("#budgetMainGrid3").css("display", "none");
-                    $("#budgetMainGrid4").css("display", "");
+                    $("#budgetGrid3Wrap").css("display", "none");
+                    $("#budgetGrid4Wrap").css("display", "");
                     $("#titleWrap").text("◎ 지출 리스트");
-                    rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
+                    // rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData4);   // 지출결의서 리스트
+                    rndBg.budgetMainGrid4Reload();   // 지출결의서 리스트
                 }
             }
         });
@@ -459,6 +502,20 @@ var rndBg = {
         }).data("kendoGrid");
     },
 
+    budgetMainGrid3Reload : function(){
+        rndBg.global.searchAjaxData3 = {
+            pjtCd : $("#budgetClass").data("kendoRadioGroup").value(),
+            pageType : "USER",
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            strDe : $("#payAppStrDe").val(),
+            endDe : $("#payAppEndDe").val(),
+        }
+
+        rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData3);
+    },
+
     budgetMainGrid3 : function(url, params){
         $("#budgetMainGrid3").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
@@ -485,7 +542,7 @@ var rndBg = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.budgetMainGrid3Reload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -671,6 +728,20 @@ var rndBg = {
         }).data("kendoGrid");
     },
 
+    budgetMainGrid4Reload : function(){
+        rndBg.global.searchAjaxData4 = {
+            pjtCd : $("#budgetClass").data("kendoRadioGroup").value(),
+            pageType : "USER",
+            searchStatus : $("#searchStatus").val(),
+            searchKeyword : $("#searchKeyword2").val(),
+            searchValue : $("#searchValue2").val(),
+            startDt : $("#exnpStrDe").val(),
+            endDt : $("#exnpEndDe").val(),
+        }
+
+        rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData4);
+    },
+
     budgetMainGrid4 : function(url, params){
         $("#budgetMainGrid4").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
@@ -690,7 +761,7 @@ var rndBg = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.budgetMainGrid4Reload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }

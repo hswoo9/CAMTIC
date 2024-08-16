@@ -96,8 +96,62 @@
                 <div id="budgetMainGrid2"></div>
             </div>
         </div>
-        <div id="budgetMainGrid3" style="display: none;"></div>
-        <div id="budgetMainGrid4" style="display: none;"></div>
+        <div id="budgetGrid3Wrap" style="display: none;">
+            <table class="searchTable table table-bordered mb-1">
+                <colgroup>
+                    <col width="7%">
+                    <col width="20%">
+                    <col width="7%">
+                    <col width="10%">
+                    <col width="7%">
+                    <col width="25%">
+                </colgroup>
+                <tr>
+                    <th class="text-center" style="vertical-align: middle;">신청일</th>
+                    <td>
+                        <input type="text" id="payAppStrDe" style="width: 45%;"> ~ <input type="text" id="payAppEndDe" style="width: 45%;">
+                    </td>
+                    <th class="text-center" style="vertical-align: middle;">상태</th>
+                    <td>
+                        <input type="text" id="searchDept" style="width: 150px;">
+                    </td>
+                    <th class="text-center" style="vertical-align: middle;">검색어</th>
+                    <td>
+                        <input type="text" id="searchKeyword" style="width: 35%;"/>
+                        <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){rndBg.budgetMainGrid3Reload()}"/>
+                    </td>
+                </tr>
+            </table>
+            <div id="budgetMainGrid3"></div>
+        </div>
+        <div id="budgetGrid4Wrap" style="display: none;">
+            <table class="searchTable table table-bordered mb-1">
+                <colgroup>
+                    <col width="7%">
+                    <col width="20%">
+                    <col width="7%">
+                    <col width="10%">
+                    <col width="7%">
+                    <col width="25%">
+                </colgroup>
+                <tr>
+                    <th class="text-center" style="vertical-align: middle;">결의일자</th>
+                    <td>
+                        <input type="text" id="exnpStrDe" style="width: 45%;"> ~ <input type="text" id="exnpEndDe" style="width: 45%;">
+                    </td>
+                    <th class="text-center" style="vertical-align: middle;">승인상태</th>
+                    <td>
+                        <input type="text" id="searchStatus" style="width: 150px;">
+                    </td>
+                    <th class="text-center" style="vertical-align: middle;">검색어</th>
+                    <td>
+                        <input type="text" id="searchKeyword2" style="width: 35%;"/>
+                        <input type="text" id="searchValue2" style="width: 60%;" onkeypress="if(window.event.keyCode==13){rndBg.budgetMainGrid4Reload()}"/>
+                    </td>
+                </tr>
+            </table>
+            <div id="budgetMainGrid4"></div>
+        </div>
     </div>
 </div>
 
