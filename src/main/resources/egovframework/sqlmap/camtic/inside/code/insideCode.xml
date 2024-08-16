@@ -760,6 +760,7 @@
         <if test='carType != null and !"".equals(carType)'>
             AND SUB.CAR_TYPE_SN = #{carType}
         </if>
+        ORDER BY SUB.START_DT DESC
     </select>
 </mapper>
 
