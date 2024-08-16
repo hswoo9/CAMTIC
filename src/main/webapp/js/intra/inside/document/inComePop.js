@@ -249,9 +249,7 @@ var regisReq = {
             success : function(result){
                 console.log(result);
                 alert("문서 수정이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
-
+                location.reload();
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
