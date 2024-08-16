@@ -96,8 +96,18 @@ var regCrmHist = {
             return;
         }
 
+        if($("#crmShareEmp").val() != "" && !$("#smsChk").is(":checked") && !$("#mailChk").is(":checked")){
+            alert("관계내용 공유 방법을 선택해주세요.");
+            return;
+        }
+
+        if(!confirm("저장하시겠습니까?")){
+            return;
+        }
+
         regCrmHist.global.saveAjaxData = {
             crmSn : $("#crmSn").val(),
+            crmNm : $("#crmNm").val(),
             crmMemSn : $("#crmMemSn").val(),
             crmRelTp : $("#crmRelTp").val(),
             crmRelStrDt : $("#crmRelStrDt").val(),
@@ -162,6 +172,11 @@ var regCrmHist = {
 
     fn_popUser : function (){
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    },
+
+    fn_shareEmpReset : function (){
+        $("#crmShareEmp").val("");
+        $("#crmShareEmpName").val("");
     },
 
     // mainCdChkBoxSetting : function(e){

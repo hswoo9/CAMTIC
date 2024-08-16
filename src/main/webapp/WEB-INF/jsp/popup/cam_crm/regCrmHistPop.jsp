@@ -180,6 +180,7 @@
                         <input type="text" id="crmShareEmpName" style="width: 30%;" disabled>
                         <input type="hidden" id="crmShareEmp" />
                         <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popUser();">검색</button>
+                        <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_shareEmpReset();">초기화</button>
                         <span style="position: relative; top: 3px;">
                             <input type="checkbox" id="smsChk">
                             <label for="smsChk" style="margin-right: 15px;">SMS발송</label>

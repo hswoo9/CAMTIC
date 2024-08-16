@@ -1,10 +1,13 @@
 package egovframework.com.devjitsu.cam_crm.controller;
 
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
+import egovframework.com.devjitsu.cam_manager.service.ManageService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import egovframework.com.devjitsu.system.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -36,11 +40,29 @@ public class CrmController {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private ManageService manageService;
+
+    @Autowired
+    private MessageService messageService;
+
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+    @Value("#{properties['Dev.Mail.SMTPServer']}")
+    private String SMTPServer;
+
+    @Value("#{properties['Dev.Mail.SMTPPort']}")
+    private int SMTPPort;
+
+    @Value("#{properties['Dev.Mail.SMTPID']}")
+    private String SMTPID;
+
+    @Value("#{properties['Dev.Mail.SMTPPW']}")
+    private String SMTPPW;
 
     @RequestMapping("/crm/crmView.do")
     public String crmView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -455,13 +477,78 @@ public class CrmController {
      * @return
      */
     @RequestMapping("/crm/setCrmHist")
-    public String setCrmHist(@RequestParam Map<String, Object> params, Model model){
+    public String setCrmHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
             crmService.setCrmHist(params);
+
+            // 메일발송체크
+            if(params.containsKey("mailChk")) {
+                MailUtil mailUtil = new MailUtil();
+                String[] empSeqArr = params.get("crmShareEmp").toString().split(",");
+                Map<String, Object> tempParams = new HashMap<>();
+
+                String contents = "<div>" +
+                        "<p style='font-size: 10px; text-align: left;'>[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림</p>" +
+                        "<p></p>" +
+                        "<p style='font-size: 10px; text-align: left;'>[ " + params.get("crmNm") + " ]의 관계이력이 등록되었습니다.</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>해당내용은 [캠스팟2.0 캠CRM - 고객관리] 메뉴에서 확인할 수 있습니다.</p>" +
+                        "</div>";
+
+                for (String empSeq : empSeqArr) {
+                    tempParams.put("sn", empSeq);
+                    Map<String, Object> empInfo = manageService.getEmpInfo(tempParams);
+
+                    tempParams.put("receiveEml", empInfo.get("EMAIL_ADDR"));
+                    tempParams.put("sendEml", "camtic-send@camtic.or.kr");
+                    tempParams.put("subject", "[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림");
+                    tempParams.put("contents", contents);
+
+                    try {
+                        mailUtil.mailHistSendMail(tempParams, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // SMS발송체크
+            if(params.containsKey("smsChk")) {
+                HttpSession session = request.getSession();
+                LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+                String[] empSeqArr = params.get("crmShareEmp").toString().split(",");
+                Map<String, Object> tempParams = new HashMap<>();
+
+                String contents = "" +
+                        "[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림\n" +
+                        "[ " + params.get("crmNm") + " ]의 관계이력이 등록되었습니다.\n" +
+                        "해당내용은 [캠스팟2.0 캠CRM - 고객관리] 메뉴에서 확인할 수 있습니다.\n";
+
+                Date currentDate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+                for (String empSeq : empSeqArr) {
+                    tempParams.put("sn", empSeq);
+                    Map<String, Object> empInfo = manageService.getEmpInfo(tempParams);
+
+                    tempParams.put("receiveEml", empInfo.get("EMAIL_ADDR"));
+                    tempParams.put("sendEml", "camtic-send@camtic.or.kr");
+
+                    tempParams.put("dest_phone", empInfo.get("EMP_NAME_KR") + "^" + empInfo.get("MOBILE_TEL_NUM"));
+                    tempParams.put("msg_content", contents);
+                    tempParams.put("pkDate", dateFormat.format(currentDate));
+                    tempParams.put("loginEmpSeq", loginVO.getUniqId());
+
+                    messageService.msgSend(tempParams);
+                }
+            }
+
             model.addAttribute("params", params);
+
         } catch (Exception e){
             e.printStackTrace();
         }
+
         return "jsonView";
     }
 
