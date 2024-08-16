@@ -57,7 +57,7 @@ var docView = {
                 && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus" || menuCd == "invenDeadLine" ||
                     menuCd == "payApp" || menuCd == "payIncp" || menuCd == "exnp" || menuCd == "study" || menuCd == "propag" || menuCd == "ojt" || menuCd == "studyRes" || menuCd == "ojtRes" || menuCd == "propagRes" || menuCd == "workPlan" ||
                     menuCd == "rndDelv" || menuCd == "rndDev" || menuCd == "rndRes" || menuCd == "unRndDelv" || menuCd == "unRndDev" || menuCd == "unRndRes" || menuCd == "delv" || menuCd == "dev" || menuCd == "pjtRes" ||
-                    menuCd == "pjtCost" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi"))
+                    menuCd == "pjtCost" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi" || menuCd == "inCome"))
             {
                 $("#modBtn").show();
             } else {
@@ -1000,6 +1000,11 @@ var docView = {
             let url = "/Inside/pop/rprResultPop.do?type=drafting&pk=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "inCome") {    // 포상금지급 신청
+            let url = "/Inside/Pop/inComeUpdatePop.do?type=drafting&documentSn=" + pk;
+            let name = "_self";
+            let option = "width = 850, height = 700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }
     },
