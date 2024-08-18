@@ -309,6 +309,38 @@
     }
 
     function openModalUnRnd(){
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+        }
+
+        var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
+        var result = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", parameters);
+
+        var pjtMap = pjtInfo.map;
+        var rs = result.map;
+
+        unRndDetail.global.bsPlanFileArray = result.fileList.bsPlanFile;
+        unRndDetail.global.agreementFileArray = result.fileList.agreementFile;
+        unRndDetail.global.etcFileArray = result.fileList.etcFile;
+
+        unRndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
+
+        let flag = true;
+
+        if(rs.UN_RND_OBJ == null || rs.UN_RND_OBJ == ""){
+            flag = false;
+        }
+        if(pjtMap.SBJ_SEP == null){
+            flag = false;
+        }
+        if(unRndDetail.global.bsPlanFileArray.length = 0){
+            flag = false;
+        }
+
+        if(!flag){
+            alert("사업정보가 설정되지 않았습니다. 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
+        }
+
         if($("#totResCost").val() == 0){
             alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
         }
