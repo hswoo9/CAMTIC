@@ -287,6 +287,7 @@ var unRndDetail = {
             }
         }
 
+        /*
         if(parameters.peoResItem == ""){
             alert("현물을 작성해주세요. (없을시 0 기입)");
             return;
@@ -301,6 +302,8 @@ var unRndDetail = {
             alert("사업 목적/내용을 작성해주세요.");
             return;
         }
+        */
+
         if(parameters.peoResCost == ""){
             parameters.peoResCost = 0;
         }
