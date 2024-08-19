@@ -1189,7 +1189,10 @@
                 A.EXNP_BRIEFS,
                 A.EXNP_DE,
                 B.CRM_NM,
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN) AS TOT_COST,
+                CASE
+                    WHEN A.PAY_APP_TYPE = 3 THEN (SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN)
+                    ELSE (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN)
+                    END AS TOT_COST,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
                 A.INFO_CODE
             FROM CAM_MNG.DJ_EXNP A
