@@ -1070,88 +1070,7 @@
         /*getIncpBudgetDetailViewData*/
         SELECT AA.* FROM
         (
-            -- 수입반제
-            SELECT
-                B.PAY_INCP_SN,
-                B.EVID_TYPE,
-                A.PJT_CD,
-                '' AS PAY_APP_SN,
-                'Y' AS PAY_APP_TYPE,
-                B.BUDGET_SN,
-                B.BUDGET_NM,
-                B.RE_STAT,
-                A.APP_CONT,
-                A.PAY_EXNP_DE,
-                B.CRM_NM,
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST,
-                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-                A.INFO_CODE
-            FROM CAM_MNG.DJ_PAY_INCP A
-            LEFT JOIN CAM_MNG.DJ_PAY_INCP_RE B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-            WHERE 1=1
-              AND A.PJT_CD = #{pjtCd}
-              AND A.DOC_STATUS = 100
-              AND B.PAY_INCP_RE_SN IS NOT NULL
-              AND B.EVID_TYPE IN (1,3,5)
-              AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-            GROUP BY A.PAY_INCP_SN
-            UNION ALL
-            -- 수입반제(부분)
-            SELECT
-                B.PAY_INCP_SN,
-                B.EVID_TYPE,
-                A.PJT_CD,
-                '' AS PAY_APP_SN,
-                'N' AS PAY_APP_TYPE,
-                B.BUDGET_SN,
-                B.BUDGET_NM,
-                'N' AS RE_STAT,
-                A.APP_CONT,
-                A.PAY_EXNP_DE,
-                B.CRM_NM,
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) -
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST,
-                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-                A.INFO_CODE
-            FROM CAM_MNG.DJ_PAY_INCP A
-            LEFT JOIN CAM_MNG.DJ_PAY_INCP_RE B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-            WHERE 1=1
-              AND A.PJT_CD = #{pjtCd}
-              AND A.DOC_STATUS = 100
-              AND B.PAY_INCP_RE_SN IS NOT NULL
-              AND B.EVID_TYPE IN (1,3,5)
-              AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-              AND ((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) -
-                   (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN)) != 0
-            GROUP BY A.PAY_INCP_SN
-            UNION ALL
-            -- 수입반제(작성X)
-            SELECT
-                B.PAY_INCP_SN,
-                B.EVID_TYPE,
-                A.PJT_CD,
-                '' AS PAY_APP_SN,
-                'N' AS PAY_APP_TYPE,
-                A.BUDGET_SN,
-                A.BUDGET_NM,
-                'N' AS RE_STAT,
-                A.APP_CONT,
-                A.PAY_EXNP_DE,
-                B.CRM_NM,
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST,
-                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-                A.INFO_CODE
-            FROM CAM_MNG.DJ_PAY_INCP A
-            LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-            WHERE 1=1
-              AND A.PJT_CD = #{pjtCd}
-              AND A.DOC_STATUS = 100
-              AND B.EVID_TYPE IN (1,3,5)
-              AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-              AND A.RE_STAT = 'N'
-            GROUP BY A.PAY_INCP_SN
-            UNION ALL
-            -- 수입
+            -- 수입(반제필요)
             SELECT
                 B.PAY_INCP_SN,
                 B.EVID_TYPE,
@@ -1164,7 +1083,34 @@
                 A.APP_CONT,
                 A.PAY_EXNP_DE,
                 B.CRM_NM,
-                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST,
+                IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN),0) AS TOT_COST,
+                IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE S WHERE S.PAY_INCP_SN = B.PAY_INCP_SN),0) AS DEPO_COST,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
+                A.INFO_CODE
+            FROM CAM_MNG.DJ_PAY_INCP A
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
+            WHERE 1=1
+              AND A.PJT_CD = #{pjtCd}
+              AND A.DOC_STATUS = 100
+              AND B.EVID_TYPE IN (1,3,5)
+              AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+            GROUP BY A.PAY_INCP_SN
+            UNION ALL
+            -- 수입(반제필요X)
+            SELECT
+                B.PAY_INCP_SN,
+                B.EVID_TYPE,
+                A.PJT_CD,
+                '' AS PAY_APP_SN,
+                'N' AS PAY_APP_TYPE,
+                B.BUDGET_SN,
+                B.BUDGET_NM,
+                A.RE_STAT,
+                A.APP_CONT,
+                A.PAY_EXNP_DE,
+                B.CRM_NM,
+                IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = A.PAY_INCP_SN),0)AS TOT_COST,
+                IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET S WHERE S.PAY_INCP_SN = B.PAY_INCP_SN AND S.PMR_NO IS NOT NULL),0) AS DEPO_COST,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
                 A.INFO_CODE
             FROM CAM_MNG.DJ_PAY_INCP A
@@ -1174,7 +1120,7 @@
               AND A.DOC_STATUS = 100
               AND B.EVID_TYPE IN (2,4,6,7)
               AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-            GROUP BY B.PAY_INCP_SN
+            GROUP BY A.PAY_INCP_SN
             UNION ALL
             -- 반납
             SELECT
@@ -1189,10 +1135,8 @@
                 A.EXNP_BRIEFS,
                 A.EXNP_DE,
                 B.CRM_NM,
-                CASE
-                    WHEN A.PAY_APP_TYPE = 3 THEN (SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN)
-                    ELSE (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN)
-                    END AS TOT_COST,
+                IFNULL((SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN),0) AS TOT_COST,
+                IFNULL((SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = A.EXNP_SN),0) AS DEPO_COST,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
                 A.INFO_CODE
             FROM CAM_MNG.DJ_EXNP A
@@ -1201,6 +1145,7 @@
               AND A.PJT_CD = #{pjtCd}
               AND A.DOC_STATUS IN (100, 101)
               AND B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+              AND A.PAY_APP_TYPE = 3
             GROUP BY B.EXNP_SN
         ) AA
         ORDER BY AA.PAY_EXNP_DE DESC

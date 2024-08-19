@@ -1,4 +1,4 @@
-var exnpSum = 0, incpSum = 0;
+var exnpSum = 0, incpSum = 0, depoSum = 0;
 var bdv = {
 
     fn_defaultScript: function (){
@@ -145,24 +145,22 @@ var bdv = {
                     template: "#= --record #"
                 }, {
                     title: "구분",
-                    width: 90,
+                    width: 80,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 'N'){
                             return "수입결의서";
-                        } else if (e.PAY_APP_TYPE == 'Y'){
-                            return "반제(수입)";
                         } else if(e.PAY_APP_TYPE == 3){
                             return "반납결의서";
                         }
                     }
                 }, {
                     title: "결의일자",
-                    width: 70,
+                    width: 80,
                     field: "PAY_EXNP_DE",
                 }, {
                     title: "적요",
                     field: "APP_CONT",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         if(e.INFO_CODE != null && e.INFO_CODE != "" && e.INFO_CODE != undefined){
                             return '<div style="cursor: pointer; font-weight: bold">'+e.APP_CONT+'</div>';
@@ -197,6 +195,20 @@ var bdv = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(incpSum)+"</div>";
                     }
+                }, {
+                    title: "입금금액",
+                    width: 100,
+                    template: function(e){
+                        if(e.DEPO_COST != null && e.DEPO_COST != "" && e.DEPO_COST != undefined){
+                            depoSum += e.DEPO_COST;
+                            return '<div style="text-align: right">'+comma(e.DEPO_COST)+'</div>';
+                        } else {
+                            return '<div style="text-align: right">'+0+'</div>';
+                        }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(depoSum)+"</div>";
+                    }
                 },
             ],
             dataBinding: function(){
@@ -204,6 +216,7 @@ var bdv = {
             },
             dataBound: function(){
                 incpSum = 0;
+                depoSum = 0;
             }
         }).data("kendoGrid");
     },
