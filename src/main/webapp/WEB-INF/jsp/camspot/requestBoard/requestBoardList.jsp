@@ -71,11 +71,13 @@
                     <col width="7%">
                     <col width="7%">
                     <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
                     <col width="18%">
                     <col width="7%">
-                    <col width="13%">
+                    <col width="10%">
                     <col width="7%">
-                    <col width="30%">
+                    <col width="38%">
                     <col>
                 </colgroup>
                 <tbody>
@@ -83,6 +85,10 @@
                     <th class="text-center th-color">진행상태</th>
                     <td class="category">
                         <input type="text" id="status" name="status" style="width: 100%;" />
+                    </td>
+                    <th class="text-center th-color">고도화상태</th>
+                    <td class="category">
+                        <input type="text" id="afStatus" name="status" style="width: 100%;" />
                     </td>
                     <th class="text-center th-color">요청일</th>
                     <td>
@@ -96,7 +102,7 @@
                     <th class="text-center th-color">검색</th>
                     <td>
                         <div>
-                            <input type="text" id="searchColumn" name="searchColumn" style="width: 15%;" />
+                            <input type="text" id="searchColumn" name="searchColumn" style="width: 25%;" />
                             <input type="text" id="searchContent" style="width: 50%;">
                             <button type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rbl.gridReload()">
                                 <span class="k-button-text">조회</span>
@@ -119,6 +125,7 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
+                        <col width="10%">
                     </colgroup>
                     <thead>
                     <tr>
@@ -126,6 +133,7 @@
                         <th class="text-center th-color">요청제목</th>
                         <th class="text-center th-color">요청자</th>
                         <th class="text-center th-color">요청일</th>
+                        <th class="text-center th-color">고도화</th>
                         <th class="text-center th-color">상태</th>
                     </tr>
                     </thead>

@@ -42,6 +42,28 @@
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row" class="text-center th-color">접수자</th>
+                    <td>
+                        <input type="hidden" id="empName" value="${loginVO.name}">
+                        ${loginVO.name}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">내선번호</th>
+                    <td>
+                        <input type="hidden" id="officeTelNum" value="${uprinfList.OFFICE_TEL_NUM}">
+                        ${uprinfList.OFFICE_TEL_NUM}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">분류</th>
+                    <td>
+                        <input id="largeMenu" style="width: 200px;">
+                        <input id="middleMenu" style="width: 200px;">
+                        <input id="smallMenu" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color">내용</th>
                     <td>
                         <textarea id="requestContent" name="requestContent" style="width: 100%;"></textarea>

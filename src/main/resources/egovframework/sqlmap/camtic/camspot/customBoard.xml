@@ -518,6 +518,9 @@
                  WHEN RB.STATUS = '99' THEN '반려'
                  WHEN RB.STATUS = '-1' THEN '취소'
                 END AS STATUS,
+            CASE WHEN RB.AF_STATUS = '1' THEN '고도화'
+                 WHEN RB.AF_STATUS = '2' THEN '수정사항'
+                 END AS AF_STATUS,
             DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
             EI.EMP_SEQ AS REG_EMP_SEQ,
             EI.EMP_NAME_KR AS REG_EMP_NAME,
@@ -534,6 +537,10 @@
         <if test='status != null and !"".equals(status)'>
         AND
             RB.STATUS = #{status}
+        </if>
+        <if test='afStatus != null and !"".equals(afStatus)'>
+            AND
+            RB.AF_STATUS = #{afStatus}
         </if>
         <if test='empName != null and !"".equals(empName)'>
             AND
@@ -586,6 +593,10 @@
         AND
             RB.STATUS = #{status}
         </if>
+        <if test='afStatus != null and !"".equals(afStatus)'>
+            AND
+            RB.AF_STATUS = #{afStatus}
+        </if>
 
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
@@ -617,7 +628,12 @@
             REQUEST_TITLE,
             REQUEST_CONTENT,
             DEADLINE_DATE,
-            REG_EMP_SEQ
+            REG_EMP_SEQ,
+            LARGE_MENU,
+            MIDDLE_MENU,
+            SMALL_MENU,
+            REG_EMP_NAME,
+            REG_OFFICE_TEL_NUM
         )
         VALUES
         (
@@ -625,7 +641,12 @@
             #{requestTitle},
             #{requestContent},
             #{deadlineDate},
-            #{empSeq}
+            #{empSeq},
+            #{largeMenu},
+            #{middleMenu},
+            #{smallMenu},
+            #{requestEmpName},
+            #{requestOfficeTelNum}
         )
 
         <selectKey keyProperty="requestBoardId" resultType="Integer" order="BEFORE">
@@ -641,6 +662,9 @@
             REQUEST_TITLE = #{requestTitle},
             REQUEST_CONTENT = #{requestContent},
             DEADLINE_DATE = #{deadlineDate},
+            LARGE_MENU = #{largeMenu},
+            MIDDLE_MENU = #{middleMenu},
+            SMALL_MENU = #{smallMenu},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE
@@ -655,9 +679,18 @@
                  WHEN RB.STATUS = '2' THEN '접수완료'
                  WHEN RB.STATUS = '3' THEN '처리완료'
                  WHEN RB.STATUS = '-1' THEN '취소'
-            END AS STATUS_TXT
+            END AS STATUS_TXT,
+            CASE WHEN RB.AF_STATUS = '1' THEN '고도화'
+                 WHEN RB.STATUS = '2' THEN '수정사항'
+                END AS AF_STATUS_TXT,
+            M.MENU_NAME largeMenu,
+            MI.MENU_NAME smallMenu
         FROM
             CAM_BOARD.DJ_REQUEST_BOARD RB
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO M ON M.MENU_ID = RB.LARGE_MENU
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO MI ON MI.MENU_ID = RB.SMALL_MENU
         WHERE
             REQUEST_BOARD_ID = #{requestBoardId}
     </select>
@@ -1130,4 +1163,16 @@
 
         LIMIT 7
     </select>
+
+    <update id="setRequestBoardAdvancementFixesUpd" parameterType="map">
+        /* setRequestBoardAdvancementFixesUpd */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            AF_STATUS = #{status},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
 </mapper>

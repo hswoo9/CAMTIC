@@ -90,6 +90,21 @@
 						</td>
 					</tr>
 					<tr>
+						<th class="text-center th-color">작성자</th>
+						<td colspan="3" id="reqEmpName">
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center th-color">내선번호</th>
+						<td colspan="3" id="regOfficeTelNum">
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center th-color">분류</th>
+						<td colspan="3" id="menuName">
+						</td>
+					</tr>
+					<tr>
 						<th class="text-center th-color">
 							<c:choose>
 								<c:when test="${params.requestType eq 'R'}">
@@ -113,12 +128,26 @@
 						<td colspan="3" id="status">
 						</td>
 					</tr>
+					<tr>
+						<th class="text-center th-color">진행상태</th>
+						<td colspan="3" id="afStatus">
+						</td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
 			<div style="display: flex;flex-direction: column;">
 				<div>
 					<div style="text-align: right">
+						<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-error" value="1" onclick="rbd.setRequestBoardAdvancementFixesUpd(this)" id="advancementBtn" style="display: none">
+							<span class="k-button-text">고도화</span>
+						</button>
+
+						<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-info" value="2" onclick="rbd.setRequestBoardAdvancementFixesUpd(this)" id="FixesBtn" style="display: none">
+							<span class="k-button-text">수정사항</span>
+						</button>
+
+
 						<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" value="2" onclick="rbd.setRequestBoardStatusUpd(this)" id="processAccBtn" style="display: none">
 							<span class="k-button-text">접수처리</span>
 						</button>

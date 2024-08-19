@@ -55,5 +55,5 @@ public class CustomBoardRepository extends AbstractDAO {
 	public int getEmpScheduleListCnt(ArticlePage articlePage) {return (int) selectOne("cb.getEmpScheduleListCnt", articlePage);}
 	public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) { return selectList("cb.getCustomSchedules", params);}
 	public List<PostResponse> getEmpScheduleList(ArticlePage articlePage) { return selectList("cb.getEmpScheduleList", articlePage);}
-
+	public void setRequestBoardAdvancementFixesUpd(Map<String, Object> params) { update("cb.setRequestBoardAdvancementFixesUpd", params);}
 }

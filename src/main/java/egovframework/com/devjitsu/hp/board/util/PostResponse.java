@@ -15,6 +15,7 @@ public class PostResponse {
     private String SUGGESTION_CONTENT3;
     private String EXECUTE;
     private String STATUS;
+    private String AF_STATUS;
     private String EXECUTE_EMP_SEQ;
     private String EXECUTE_EMP_NAME;
     /** 제안제도 종료 */
@@ -246,4 +247,6 @@ public class PostResponse {
     public String getStart() { return start; }
     public String getEnd() { return end; }
 
+    public String getAF_STATUS() {return AF_STATUS;}
+    public void setAF_STATUS(String AF_STATUS) {this.AF_STATUS = AF_STATUS;}
 }
