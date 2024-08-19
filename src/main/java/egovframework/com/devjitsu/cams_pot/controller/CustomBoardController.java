@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
 import egovframework.com.devjitsu.hp.board.util.PostResponse;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,9 @@ public class CustomBoardController {
 
     @Autowired
     private CustomBoardService customBoardService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -294,7 +298,11 @@ public class CustomBoardController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI() + "?" + request.getQueryString());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
 
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("uprinfList", userPersonnelinformList);
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", new Gson().toJson(params));
 
@@ -477,6 +485,17 @@ public class CustomBoardController {
     @RequestMapping("/spot/getWatchBoardOne")
     public String getWatchBoardOne(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", customBoardService.getWatchBoardOne(params));
+        return "jsonView";
+    }
+
+    /**
+     * 상태업데이트 (전산보완 고도화 , 수정사항)
+     * @param params
+     * @return
+     */
+    @RequestMapping("/spot/setRequestBoardAdvancementFixesUpd")
+    public String setRequestBoardAdvancementFixesUpd(@RequestParam Map<String, Object> params){
+        customBoardService.setRequestBoardAdvancementFixesUpd(params);
         return "jsonView";
     }
 

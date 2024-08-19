@@ -23,12 +23,20 @@ var rbl = {
 		customKendo.fn_dropDownList("status", rbl.global.dropDownDataSource, "text", "value");
 		$("#status").data("kendoDropDownList").bind("change", function(){rbl.gridReload()});
 
+		rbl.global.dropDownDataSource = [
+			{ text: "고도화", value: "1" },
+			{ text: "수정사항", value: "2" },
+		]
+		customKendo.fn_dropDownList("afStatus", rbl.global.dropDownDataSource, "text", "value");
+		$("#afStatus").data("kendoDropDownList").bind("change", function(){rbl.gridReload()});
+
 		customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(rbl.global.now.setMonth(rbl.global.now.getMonth() - 1)));
 		customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
 		rbl.global.dropDownDataSource = [
 			{ text: "제목", value: "REQUEST_TITLE" },
 			{ text: "내용", value: "REQUEST_CONTENT" },
+			{ text: "분류", value: "menuName" }
 		]
 
 		customKendo.fn_dropDownList("searchColumn", rbl.global.dropDownDataSource, "text", "value");
@@ -117,6 +125,7 @@ var rbl = {
 		rbl.global.searchAjaxData = {
 			requestType : $("#requestType").val(),
 			status : $("#status").val(),
+			afStatus : $("#afStatus").val(),
 			startDt : $("#startDt").val(),
 			endDt : $("#endDt").val(),
             empName : $("#empName").val(),
@@ -186,6 +195,18 @@ var rbl = {
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
 			html += "	<td class='ta-center'>" + dt + "</td>";
+			if(row.largeMenu != null && row.smallMenu != null){
+				html += "<td class='ta-center'>" + row.largeMenu + ' - ' + row.smallMenu + "</td>";
+			}else{
+				html += "<td class='ta-center'>-</td>";
+			}
+			if(row.af_STATUS == '고도화'){
+				html += "	<td class='ta-center' style='color: red;'>" + row.af_STATUS + "</td>";
+			}else if(row.af_STATUS == '수정사항'){
+				html += "	<td class='ta-center' style='color: blue;'>" + row.af_STATUS + "</td>";
+			}else{
+				html += "	<td class='ta-center'>-</td>";
+			}
 			if(row.status == '접수완료'){
 				html += "	<td class='ta-center' style='color: green;'>" + row.status + "</td>";
 			}else if(row.status == '요청중') {

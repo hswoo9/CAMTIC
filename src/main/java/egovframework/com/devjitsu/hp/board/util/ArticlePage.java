@@ -16,6 +16,7 @@ public class ArticlePage {
 
     private String suggestionType;
     private String status;
+    private String afStatus;
     private String startDt;
     private String endDt;
     private String requestType;
@@ -123,5 +124,13 @@ public class ArticlePage {
 
     public void setEmpName(String empName) {
         this.empName = empName;
+    }
+
+    public String getAfStatus() {
+        return afStatus;
+    }
+
+    public void setAfStatus(String afStatus) {
+        this.afStatus = afStatus;
     }
 }

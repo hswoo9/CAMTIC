@@ -305,4 +305,9 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) {
         return customBoardRepository.getCustomSchedules(params);
     }
+
+    @Override
+    public void setRequestBoardAdvancementFixesUpd(Map<String, Object> params) {
+        customBoardRepository.setRequestBoardAdvancementFixesUpd(params);
+    }
 }

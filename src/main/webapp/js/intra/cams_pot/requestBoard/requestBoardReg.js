@@ -38,7 +38,8 @@ var rbr = {
 
 		if(rbr.global.params.requestBoardId != null){
 			rbr.global.searchAjaxData = {
-				requestBoardId : rbr.global.params.requestBoardId
+				requestBoardId : rbr.global.params.requestBoardId,
+				empSeq : $("#regEmpSeq").val()
 			}
 
 			var result = customKendo.fn_customAjax("/spot/getRequestBoard.do", rbr.global.searchAjaxData);
@@ -50,14 +51,30 @@ var rbr = {
 				$("#requestTitle").val(result.rs.REQUEST_TITLE);
 				CKEDITOR.instances.requestContent.setData(result.rs.REQUEST_CONTENT);
 				$("#deadlineDate").val(result.rs.DEADLINE_DATE);
+
+				$("#largeMenu").val(result.rs.LARGE_MENU);
+				$("#middleMenu").val(result.rs.MIDDLE_MENU);
+				$("#smallMenu").val(result.rs.SMALL_MENU);
 			}
 		}
+
+		rbr.fn_largeMenuSet();
+
 	},
 
 	setRequestBoard : function(){
 		var content = CKEDITOR.instances.requestContent.getData();
-		if(!$("#requestTitle").val()){
+		if(!$("#requestTitle").val()) {
 			alert("제목을 입력해주세요.");
+			return;
+		} else if (!$("#largeMenu").val()) {
+			alert("대분류를 선택해주세요.");
+			return;
+		} else if (!$("#middleMenu").val()) {
+			alert("중분류를 선택해주세요.");
+			return;
+		} else if (!$("#smallMenu").val()) {
+			alert("소분류를 선택해주세요.");
 			return;
 		}else if(content == null || content == ""){
 			alert("내용을 입력해주세요");
@@ -68,10 +85,15 @@ var rbr = {
 			rbr.global.saveAjaxData = {
 				requestType : $("#requestType").val(),
 				requestTitle : $("#requestTitle").val(),
+				largeMenu : $("#largeMenu").val(),
+				middleMenu : $("#middleMenu").val(),
+				smallMenu : $("#smallMenu").val(),
 				requestContent : content,
 				deadlineDate : $("#deadlineDate").val(),
 				empSeq : $("#regEmpSeq").val(),
-				menuCd : "board"
+				menuCd : "board",
+				requestEmpName : $("#empName").val(),
+				requestOfficeTelNum : $("#officeTelNum").val()
 			}
 
 			var fd = new FormData();
@@ -130,5 +152,38 @@ var rbr = {
 				'	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
 				'</tr>');
 		}
+	},
+
+	fn_largeMenuSet: function(){
+		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+			menuDepth: 0
+		});
+		customKendo.fn_dropDownList("largeMenu", result.rs, "MENU_NAME", "MENU_ID", 2);
+
+		$("#largeMenu").change(function() {
+			rbr.fn_middleMenuSet($(this).val());
+		});
+
+		rbr.fn_middleMenuSet(result.rs.MENU_ID);
+	},
+
+	fn_middleMenuSet: function(menuId){
+		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+			upperMenuId: menuId
+		});
+		customKendo.fn_dropDownList("middleMenu", result.rs, "MENU_NAME", "MENU_ID", 2);
+
+		$("#middleMenu").change(function() {
+			rbr.fn_smallMenuSet($(this).val());
+		});
+
+		rbr.fn_smallMenuSet(result.rs.MENU_ID);
+	},
+
+	fn_smallMenuSet: function(menuId){
+		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+			upperMenuId: menuId
+		});
+		customKendo.fn_dropDownList("smallMenu", result.rs, "MENU_NAME", "MENU_ID", 2);
 	}
 }

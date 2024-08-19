@@ -42,8 +42,12 @@ var rbd = {
 					$("#returnBtn").show();
 
 					if(rbd.global.articleDetailInfo.STATUS == "1"){
+						$("#advancementBtn").show();
+						$("#FixesBtn").show();
 						$("#processAccBtn").show();
 					}else if(rbd.global.articleDetailInfo.STATUS == "2"){
+						$("#advancementBtn").show();
+						$("#FixesBtn").show();
 						$("#processComBtn").show();
 						$("#cancelBtn").show();
 					}else if(rbd.global.articleDetailInfo.STATUS == "-1" || rbd.global.articleDetailInfo.STATUS == "99"){
@@ -63,6 +67,16 @@ var rbd = {
 			$("#requestContent").html(rbd.global.articleDetailInfo.REQUEST_CONTENT);
 			$("#status").html(rbd.global.articleDetailInfo.STATUS_TXT);
 			$("#deadlineDate").html(rbd.global.articleDetailInfo.DEADLINE_DATE);
+
+			$("#reqEmpName").html(rbd.global.articleDetailInfo.REG_EMP_NAME);
+			$("#regOfficeTelNum").html(rbd.global.articleDetailInfo.REG_OFFICE_TEL_NUM);
+			$("#afStatus").html(rbd.global.articleDetailInfo.AF_STATUS_TXT);
+			if(rbd.global.articleDetailInfo.largeMenu != null && rbd.global.articleDetailInfo.smallMenu != ""){
+				$("#menuName").html(rbd.global.articleDetailInfo.largeMenu + ' - ' + rbd.global.articleDetailInfo.smallMenu);
+			}else{
+				$("#menuName").html('');
+			}
+
 
 			let html = '';
 			for(let i=0; i < result.fileInfo.length; i++){
@@ -107,13 +121,31 @@ var rbd = {
 
 			if(result.flag) {
 				alert("처리되었습니다.");
+				location.reload();
+			}
+		}
+	},
+
+	setRequestBoardAdvancementFixesUpd : function(e){
+		if(confirm($(e).find("span").text() + "하시겠습니까?")){
+			rbd.global.saveAjaxData = {
+				empSeq : $("#empSeq").val(),
+				status : $(e).val(),
+				requestBoardId : $("#requestBoardId").val()
+			}
+
+			var result = customKendo.fn_customAjax("/spot/setRequestBoardAdvancementFixesUpd", rbd.global.saveAjaxData);
+
+			if(result.flag) {
+				alert("처리되었습니다.");
 				location.reload()
 			}
 		}
 	},
 
 	setArticleMod : function(){
-		open_in_frame('/spot/requestBoardReg.do?requestBoardId=' + $("#requestBoardId").val() + '&requestType=' + $("#requestType").val());
+		open_in_frame('/spot/requestBoardReg.do?requestBoardId=' + $("#requestBoardId").val() + '&requestType=' + $("#requestType").val() + "&page=" + $("#page").val() + "&status=" + $("#searchStatus").val() + "&startDt=" + $("#startDt").val()
+			+ "&endDt=" + $("#endDt").val() + "&empName=" + $("#searchEmpName").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val());
 	},
 
 	listPageMove : function(){

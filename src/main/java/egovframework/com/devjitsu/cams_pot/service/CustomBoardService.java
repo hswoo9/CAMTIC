@@ -40,4 +40,5 @@ public interface CustomBoardService {
     List<Map<String, Object>> getMainScheduleList2(Map<String, Object> params);
 
     List<Map<String, Object>> getCustomSchedules(Map<String, Object> params);
+    void setRequestBoardAdvancementFixesUpd(Map<String, Object> params);
 }
