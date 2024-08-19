@@ -3014,7 +3014,7 @@
         WHERE
             (
                 PA.PJT_SN = #{pjtSn}
-                OR PA.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
             )
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
     </select>

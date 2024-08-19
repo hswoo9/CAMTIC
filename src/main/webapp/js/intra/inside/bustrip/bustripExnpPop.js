@@ -1592,5 +1592,10 @@ var bustripExnpReq = {
         }
     },
 
-
+    popBustripRes: function(e, d, t) {
+        var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d+"&tripType="+t;;
+        var name = "_self";
+        var option = "width=1200, height=795, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }
