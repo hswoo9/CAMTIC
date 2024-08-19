@@ -104,6 +104,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장 여비정산</h3>
         <div class="btn-st popButton">
+            <input type="button" class="k-button k-button-solid-info" value="이전단계" onclick="bustripExnpReq.popBustripRes('${params.hrBizReqResultId}', '${params.hrBizReqId}', '${params.tripType}')" />
             <c:choose>
                 <c:when test="${params.mode eq 'mng'}">
                     <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_save('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
