@@ -65,7 +65,8 @@ var popUserPay = {
         var list = rs.list;
 
         var dataSource = customKendo.fn_customAjax("/salaryManage/getSocialRateManageList.do", data);
-        for (var i = 1 ; i < list.length+1 ; i++){
+        for (var i = 0 ; i < list.length ; i++){
+
             var html = "";
 
             var count = i;
