@@ -524,12 +524,18 @@
             DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
             EI.EMP_SEQ AS REG_EMP_SEQ,
             EI.EMP_NAME_KR AS REG_EMP_NAME,
-            (select count(*) from cam_board.v_board_article_reply where board_article_id = concat('request_', RB.request_board_id) and active = 'Y') as REPLY_CNT
+            (select count(*) from cam_board.v_board_article_reply where board_article_id = concat('request_', RB.request_board_id) and active = 'Y') as REPLY_CNT,
+            M.MENU_NAME AS largeMenu,
+            MI.MENU_NAME AS smallMenu
         FROM
             CAM_BOARD.DJ_REQUEST_BOARD RB
         JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO M ON M.MENU_ID = RB.LARGE_MENU
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO MI ON MI.MENU_ID = RB.SMALL_MENU
         WHERE
             RB.ACTIVE = 'Y'
         AND
@@ -555,15 +561,19 @@
             DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
         ]]>
         </if>
-
         <choose>
+            <when test='searchColumn != null and "menuName".equals(searchColumn)'>
+                AND (M.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%') OR MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%'))
+            </when>
             <when test='searchColumn != null and !"".equals(searchColumn)'>
                 AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
             </when>
             <otherwise>
                 AND (
                     RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
-                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%') OR
+                    M.MENU_NAME LIKE CONCAT('%',#{searchContent},'%') OR
+                    MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%')
                 )
             </otherwise>
         </choose>
@@ -581,6 +591,10 @@
         JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO M ON M.MENU_ID = RB.LARGE_MENU
+        LEFT JOIN
+            CAM_COMMON.DJ_MENU_INFO MI ON MI.MENU_ID = RB.SMALL_MENU
         WHERE
             RB.ACTIVE = 'Y'
         AND
@@ -608,13 +622,18 @@
         </if>
 
         <choose>
+            <when test='searchColumn != null and "menuName".equals(searchColumn)'>
+                AND (M.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%') OR MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%'))
+            </when>
             <when test='searchColumn != null and !"".equals(searchColumn)'>
                 AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
             </when>
             <otherwise>
                 AND (
                     RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
-                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%') OR
+                    M.MENU_NAME LIKE CONCAT('%',#{searchContent},'%') OR
+                    MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%')
                 )
             </otherwise>
         </choose>
@@ -681,7 +700,7 @@
                  WHEN RB.STATUS = '-1' THEN '취소'
             END AS STATUS_TXT,
             CASE WHEN RB.AF_STATUS = '1' THEN '고도화'
-                 WHEN RB.STATUS = '2' THEN '수정사항'
+                 WHEN RB.AF_STATUS = '2' THEN '수정사항'
                 END AS AF_STATUS_TXT,
             M.MENU_NAME largeMenu,
             MI.MENU_NAME smallMenu

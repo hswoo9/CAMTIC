@@ -36,6 +36,7 @@ var rbl = {
 		rbl.global.dropDownDataSource = [
 			{ text: "제목", value: "REQUEST_TITLE" },
 			{ text: "내용", value: "REQUEST_CONTENT" },
+			{ text: "분류", value: "menuName" }
 		]
 
 		customKendo.fn_dropDownList("searchColumn", rbl.global.dropDownDataSource, "text", "value");
@@ -194,6 +195,11 @@ var rbl = {
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
 			html += "	<td class='ta-center'>" + dt + "</td>";
+			if(row.largeMenu != null && row.smallMenu != null){
+				html += "<td class='ta-center'>" + row.largeMenu + ' - ' + row.smallMenu + "</td>";
+			}else{
+				html += "<td class='ta-center'>-</td>";
+			}
 			if(row.af_STATUS == '고도화'){
 				html += "	<td class='ta-center' style='color: red;'>" + row.af_STATUS + "</td>";
 			}else if(row.af_STATUS == '수정사항'){

@@ -129,7 +129,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th class="text-center th-color">진행상태</th>
+						<th class="text-center th-color">고도화</th>
 						<td colspan="3" id="afStatus">
 						</td>
 					</tr>

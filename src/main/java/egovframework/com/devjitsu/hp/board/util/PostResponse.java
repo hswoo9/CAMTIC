@@ -15,7 +15,6 @@ public class PostResponse {
     private String SUGGESTION_CONTENT3;
     private String EXECUTE;
     private String STATUS;
-    private String AF_STATUS;
     private String EXECUTE_EMP_SEQ;
     private String EXECUTE_EMP_NAME;
     /** 제안제도 종료 */
@@ -25,6 +24,9 @@ public class PostResponse {
     private String REQUEST_TYPE;
     private String REQUEST_TITLE;
     private String REQUEST_CONTENT;
+    private String AF_STATUS;
+    private String largeMenu;
+    private String smallMenu;
     /** 요청 게시판 종료 */
 
     private Long WATCH_BOARD_ID;
@@ -249,4 +251,20 @@ public class PostResponse {
 
     public String getAF_STATUS() {return AF_STATUS;}
     public void setAF_STATUS(String AF_STATUS) {this.AF_STATUS = AF_STATUS;}
+
+    public String getSmallMenu() {
+        return smallMenu;
+    }
+
+    public void setSmallMenu(String smallMenu) {
+        this.smallMenu = smallMenu;
+    }
+
+    public String getLargeMenu() {
+        return largeMenu;
+    }
+
+    public void setLargeMenu(String largeMenu) {
+        this.largeMenu = largeMenu;
+    }
 }

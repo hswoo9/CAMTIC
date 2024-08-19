@@ -124,6 +124,7 @@
                         <col>
                         <col width="10%">
                         <col width="10%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="10%">
                     </colgroup>
@@ -133,6 +134,7 @@
                         <th class="text-center th-color">요청제목</th>
                         <th class="text-center th-color">요청자</th>
                         <th class="text-center th-color">요청일</th>
+                        <th class="text-center th-color">분류</th>
                         <th class="text-center th-color">고도화</th>
                         <th class="text-center th-color">상태</th>
                     </tr>
