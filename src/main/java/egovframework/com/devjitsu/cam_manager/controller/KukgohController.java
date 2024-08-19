@@ -439,5 +439,12 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/getCardPuchasRecptnList")
+    public String getCardPuchasRecptnList(@RequestParam Map<String ,Object> params, Model model){
+
+        model.addAttribute("list", kukgohService.getCardPuchasRecptnList(params));
+
+        return "jsonView";
+    }
 
 }

@@ -100,7 +100,7 @@
 					<td>
 						<input type="text" id="abgtNm" style="width:50%" value='${data.ABGT_NM}'   title="${data.ABGT_NM}"readonly  name="ABGT_NM" disabled/>
 					</td>
-					<th>결재수단</th>
+					<th>결제수단</th>
 					<td>
 						<input type="text" id="setFgNm" style="width:50%" value='${data.SET_FG_NM}'title="${data.SET_FG_NM}"  readonly  name="SET_FG_NM" disabled/>
 					</td>
@@ -140,7 +140,7 @@
 						<input type="hidden" id="FILE_ID" name="FILE_ID"  value='${dataJson.FILE_ID }'/>
 						<input type="hidden" id="DDTLBZ_ID" name="DDTLBZ_ID"  value='${dataJson.DDTLBZ_ID }'/>
 						<input type="hidden" id="EXC_INSTT_ID" name="EXC_INSTT_ID"  value='${dataJson.EXC_INSTT_ID }'/>
-                        <input type="hidden" id="PRUF_SE_NO" name="PRUF_SE_NO" value="${dataJson.PRUF_SE_NO }" />
+<%--                        <input type="hidden" id="PRUF_SE_NO" name="PRUF_SE_NO" value="${dataJson.PRUF_SE_NO }" />--%>
 						<!-- 집행정보 반영 -->
                         <input type="hidden" id="EXCUT_CNTC_ID" name="EXCUT_CNTC_ID" value="${dataJson.EXCUT_CNTC_ID }" />
 						<input type="hidden" id="BCNC_ACNUT_NO_ENARA" name="BCNC_ACNUT_NO_ENARA" value="" />
@@ -186,7 +186,7 @@
 					<td>
 						<input style="width: 80%" type="text" id="PRDLST_NM" name="PRDLST_NM" value="${dataJson.PRDLST_NM }"/>
 					</td>
-					<th><span class="red-star">*</span>증빙선택</th>
+					<th><span class="red-star">*</span>증빙유형</th>
 					<td>
 						<input type="text" style="width: 45%" name="PRUF_SE_CODE" id="PRUF_SE_CODE" onchange="" placeholder="" value=""/>
 					</td>
@@ -200,6 +200,13 @@
 					<th><span class="red-star">*</span>증빙일자</th>
 					<td colspan="3">
 						<input type="text" style="width: 45%" id="EXCUT_REQUST_DE" name="EXCUT_REQUST_DE" value="${dataJson.EXCUT_REQUST_DE }"/>
+					</td>
+				</tr>
+				<tr id="prufSeNoWrap" style="display: none;">
+					<th><span class="red-star">*</span>증빙구분번호</th>
+					<td>
+						<input type="text"  style="width: 80%" id="PRUF_SE_NO" name="PRUF_SE_NO" disabled value="${dataJson.PRUF_SE_NO }" />
+						<input id="cardBtn" style="display: none;" type="button" class="k-button k-button-solid-base" onclick="newResolutionSubmitPage.fn_cardPuchasRecptnPop();" value="검색" />
 					</td>
 				</tr>
 				</thead>
@@ -291,7 +298,7 @@
 					<th>주소</th>
 					<td>
 						<div>
-							<input type="text" style="width: 50%;" id="POST_CD" name="POST_CD" /><input type="button" style="margin-left:5px;"onclick="newResolutionSubmitPage.addrSearch();" value="검색">
+							<input type="text" style="width: 50%;" id="POST_CD" name="POST_CD" /><input type="button" class="k-button k-button-solid-base" style="margin-left:5px;" onclick="newResolutionSubmitPage.addrSearch();" value="검색">
 						</div>
 						<div  style="margin-top:5px;">
 							<input type="text" style="width: 90%;"  id="BCNC_ADRES" name="BCNC_ADRES" value="${dataJson.BCNC_ADRES }"/>

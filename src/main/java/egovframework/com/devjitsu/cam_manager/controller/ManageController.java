@@ -338,6 +338,16 @@ public class ManageController {
         return "cam_manager/newResolutionSubmitPage";
     }
 
+    @RequestMapping("/mng/cardPurchaseReceptionPop.do")
+    public String cardPurchaseReceptionPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "cam_manager/cardPurchaseReceptionPop";
+    }
+
 
     @RequestMapping("/mng/evidCrmSubmitPopup.do")
     public String evidCrmSubmitPopup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

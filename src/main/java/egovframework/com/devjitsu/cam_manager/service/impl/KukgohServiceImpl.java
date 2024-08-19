@@ -701,6 +701,11 @@ public class KukgohServiceImpl implements KukgohService {
         return kukgohRepository.getInterfaceList(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getCardPuchasRecptnList(Map<String, Object> params) {
+        return kukgohRepository.getCardPuchasRecptnList(params);
+    }
+
     /**
      * 전자세금계산서 CSV 파일 생성
      * @param params

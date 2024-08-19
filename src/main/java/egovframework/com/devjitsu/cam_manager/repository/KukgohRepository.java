@@ -286,4 +286,9 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getInterfaceList", params);
     }
+
+    public List<Map<String, Object>> getCardPuchasRecptnList(Map<String, Object> params) {
+
+        return selectList("kukgoh.getCardPuchasRecptnList", params);
+    }
 }

@@ -718,4 +718,18 @@
             USE_YN = 'Y'
         ORDER BY INF_SN DESC
     </select>
+
+    <select id="getCardPuchasRecptnList" parameterType="map" resultType="map">
+        /*getCardPuchasRecptnList*/
+        SELECT
+            A.*,
+            (SELECT CMMN_DETAIL_CODE_NM FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE A.CRDCO_CODE = CMMN_DETAIL_CODE AND CMMN_CODE = '1890') AS CRDCO_CODE_NM,
+            (SELECT CMMN_DETAIL_CODE_NM FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE A.PUCHAS_SE_CODE = CMMN_DETAIL_CODE AND CMMN_CODE = '0580') AS PUCHAS_SE_CODE_NM,
+            (SELECT CMMN_DETAIL_CODE_NM FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE A.OVSEA_USE_SE_CODE = CMMN_DETAIL_CODE AND CMMN_CODE = '1610') AS OVSEA_USE_SE_CODE
+        FROM CAM_ERP.T_IFS_CARD_PUCHAS_RECPTN_ERP A
+        WHERE 1=1
+          <if test='srchCardNo != null and !"".equals(srchCardNo)'>
+              AND SUBSTRING(A.CARD_NO,-4) LIKE CONCAT('%', #{srchCardNo}, '%')
+          </if>
+    </select>
 </mapper>

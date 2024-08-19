@@ -55,4 +55,6 @@ public interface KukgohService {
     List<Map<String, Object>> getInterfaceList(Map<String, Object> params);
 
     void EnaraCall(Map<String, Object> params);
+
+    List<Map<String, Object>> getCardPuchasRecptnList(Map<String, Object> params);
 }

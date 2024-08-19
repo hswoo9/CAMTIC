@@ -6,7 +6,7 @@ var newResolutionSubmitPage = {
 
     fn_defaultScript: function () {
         customKendo.fn_datePicker("EXCUT_REQUST_DE", "depth", "yyyy-MM-dd", new Date());
-        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE").kendoTextBox();
+        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE, #PRUF_SE_NO").kendoTextBox();
 
         $("#EXCUT_TY_SE_CODE").val("20")
 
@@ -22,10 +22,18 @@ var newResolutionSubmitPage = {
             ],
             index: 0,
             change : function(e){
-                if(this.value() == "004"){
+                if(this.value() == "999" || this.value() == "0") {
+                    $("#prufSeNoWrap").hide();
+                    $("#cardBtn").hide();
+                    $("#EXCUT_TY_SE_CODE").val("20");
+                } else if(this.value() == "004"){
+                    $("#prufSeNoWrap").show();
+                    $("#cardBtn").show();
                     $("#EXCUT_TY_SE_CODE").val("22")
                 } else {
-                    $("#EXCUT_TY_SE_CODE").val("20")
+                    $("#prufSeNoWrap").show();
+                    $("#cardBtn").hide();
+                    $("#EXCUT_TY_SE_CODE").val("20");
                 }
             }
         });
@@ -245,7 +253,7 @@ var newResolutionSubmitPage = {
                 $("#PREPAR").val("") // 예비
                 $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
                 $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
-                $("#FNRSC_SE_CODE").val("001")// 재원구분코드
+                $("#FNRSC_SE_CODE").val("002")// 재원구분코드
                 $("#ACNUT_OWNER_NM").val("");
                 $("#ETXBL_CONFM_NO").val("") // 전자세금계산서 승인번호
                 $("#TAXITM_FNRSC_CNT").val("") // 집행연계ID별 비목세목별 재원건수
@@ -297,6 +305,7 @@ var newResolutionSubmitPage = {
                 // $("#SBSIDY_BNKB_INDICT_CN").val(eeied != null ? eeied.SBSIDY_BNKB_INDICT_CN : "캠틱종합기술원");
                 // $("#BCNC_BNKB_INDICT_CN").val(eeied != null ? eeied.BCNC_BNKB_INDICT_CN : pad.CRM_NM);
 
+                $("#PRUF_SE_CODE").data("kendoDropDownList").trigger("change");
                 $("#my-spinner").hide();
             }
         });
@@ -311,6 +320,11 @@ var newResolutionSubmitPage = {
 
         if($("#ASSTN_TAXITM_CODE_NM").val() == ""){
             alert("보조세목이 입력되지 않았습니다.");
+            return;
+        }
+
+        if($("#PRUF_SE_CODE").data("kendoDropDownList").value() == "0") {
+            alert("증빙유형이 선택되지 않았습니다.");
             return;
         }
 
@@ -357,6 +371,13 @@ var newResolutionSubmitPage = {
             return;
         }
 
+        if($("#PRUF_SE_CODE").data("kendoDropDownList").value() != "999" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() != "0") {
+            if($("#PRUF_SE_NO").val() == ""){
+                alert("증빙구분번호가 입력되지 않았습니다.");
+                return;
+            }
+        }
+
         var formData = new FormData(document.querySelector('#sendForm'));
 
         $.ajax({
@@ -395,6 +416,13 @@ var newResolutionSubmitPage = {
                 console.error(textStatus, errorThrown);
             }
         });
+    },
+
+    fn_cardPuchasRecptnPop : function(){
+        var url = "/mng/cardPurchaseReceptionPop.do";
+        var name = "_blank";
+        var option = "width=1200, height=640, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
     },
 
     fn_test : function(){
