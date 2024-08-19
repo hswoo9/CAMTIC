@@ -455,6 +455,12 @@ var payCardHist = {
             opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
             opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
             opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
+
+            if(data.FORE_USEGB == "0" && Number(data.AUTH_AMT) != Number(data.SUPP_PRICE + data.SURTAX)){
+                opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#supCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#vatCost" + index).val(comma(0));
+            }
         }
         opener.parent.$("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
         opener.parent.$("#card" + index).val(data.TR_NM);
