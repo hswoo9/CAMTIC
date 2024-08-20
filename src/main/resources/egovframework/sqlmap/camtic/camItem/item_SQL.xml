@@ -353,6 +353,8 @@
             ORDER_DT,
             DUE_DT,
             UNIT_PRICE,
+            FREIGHT_COST,
+            SHIPPING_COST,
             AMT,
             RMK,
             REG_EMP_SEQ
@@ -366,6 +368,8 @@
             #{orderDt},
             #{dueDt},
             #{unitPrice},
+            #{freightCost},
+            #{shippingCost},
             #{amt},
             #{rmk},
             #{empSeq}
@@ -399,6 +403,7 @@
             ORDER_VOLUME = #{orderVolume},
             DUE_DT = #{dueDt},
             UNIT_PRICE = #{unitPrice},
+            ORDER_REMAIN = (select (#{orderVolume} - DELIVERY_AMT) from cam_item.dj_item_obtain_order where obtain_order_sn = #{obtainOrderSn}),
             AMT = #{amt},
             RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},
