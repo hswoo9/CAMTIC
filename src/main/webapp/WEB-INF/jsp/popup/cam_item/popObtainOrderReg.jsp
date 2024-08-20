@@ -106,6 +106,15 @@
                 <tbody id="listTb">
 
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6" style="text-align: right;">
+                        <strong>합계:</strong>
+                    </td>
+                    <td id="totalAmt" style="text-align: right;"></td>
+                    <td colspan="2"></td>
+                </tr>
+                </tfoot>
             </table>
 
             <input type="hidden" id="crmSn" onchange="oor.crmInfoChange()">

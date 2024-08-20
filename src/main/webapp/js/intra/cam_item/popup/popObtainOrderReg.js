@@ -82,8 +82,9 @@ var oor = {
             var orderVolume = Number(oor.uncomma($(this).closest("tr").find("input.orderVolume").val()));
             var unitPrice = Number(oor.uncomma($(this).closest("tr").find("input.unitPrice").val()));
             $(this).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
-        });
 
+            oor.calculateTotal();
+        });
         oor.global.oorIndex++;
     },
 
@@ -92,6 +93,7 @@ var oor = {
             $(e).closest("tr").remove();
             oor.global.oorIndex--;
             oor.rowAttrOverride();
+            oor.calculateTotal();
         }
     },
 
@@ -99,6 +101,7 @@ var oor = {
         oor.global.oorIndex = 0;
         $("#listTb tr").remove();
         oor.addRow('new');
+        oor.calculateTotal();
     },
 
     setReceivingReg : function(){
@@ -280,6 +283,7 @@ var oor = {
         $("#" + oor.global.unitPriceId).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
 
         $("#unitPrice").val("")
+        oor.calculateTotal();
     },
 
     comma: function(str) {
@@ -317,5 +321,13 @@ var oor = {
             $(this).find("input.amt").attr("id", "amt" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
         })
+    },
+
+    calculateTotal: function() {
+        var total = 0;
+        $(".amt").each(function() {
+            total += Number(oor.uncomma($(this).val()));
+        });
+        $("#totalAmt").text(oor.comma(total));
     },
 }
