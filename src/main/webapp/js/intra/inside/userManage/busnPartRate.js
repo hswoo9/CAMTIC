@@ -163,7 +163,7 @@ var busnPartRate = {
                             } else {
                                 tdHtml += '<td rowspan="4">참여자</td>';
                             }
-                            tdHtml += '    <td rowspan="4">'+item.PART_EMP_NM+'</td>';
+                            tdHtml += '    <td rowspan="4" class="empName">'+item.PART_EMP_NM+'</td>';
                             tdHtml += '</tr>';
 
                             //input부분 반복
@@ -442,12 +442,12 @@ var busnPartRate = {
         $(".d2").each(function(){
             sum += Number(busnPartRate.uncomma($(this).val()));
         });
-        tdHtml += '<td style="text-align: right;background-color: #dee4ed">'+busnPartRate.comma(sum)+'</td>';
+        tdHtml += '<td style="text-align: right;background-color: #dee4ed" class="lastCk1">'+busnPartRate.comma(sum)+'</td>';
         var sum = 0;
         $(".e2").each(function(){
             sum += Number(busnPartRate.uncomma($(this).val()));
         });
-        tdHtml += '<td style="text-align: right;background-color: #dee4ed">'+busnPartRate.comma(sum)+'</td>';
+        tdHtml += '<td style="text-align: right;background-color: #dee4ed" class="lastCk2">'+busnPartRate.comma(sum)+'</td>';
         tdHtml += '</tr>';
         $("#lastTr").html(tdHtml);
     },
@@ -494,7 +494,7 @@ var busnPartRate = {
         if(nameLoc == 0 || nameLoc == 1){
             unitSum += Number(busnPartRate.uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(busnPartRate.uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()));
             $('input[name="t'+nameX+'2'+nameY+'"]').val(busnPartRate.comma(unitSum));
-            //$('input[name="d'+nameY+'2"]').val(busnPartRate.comma(unitSum));
+            $('input[name="d'+nameY+'2"]').val(comma(Number(uncomma($('input[name="d'+nameY+'0"]').val())) + Number(uncomma($('input[name="d'+nameY+'1"]').val()))));
         }
 
         busnPartRate.fn_footerHtml(busnPartRate.global.diffMonth);
@@ -549,6 +549,10 @@ var busnPartRate = {
         var groupArr = [];
         var monSalFlag = true;
 
+        if($(".lastCk1").text() != $(".lastCk2").text()) {
+            alert("합계와 예산 합계가 다릅니다.");
+            return;
+        }
 
         // 사용자 분리 --> 년도 분리
         for (var x = 0; x < payInfo.length; x++) {
