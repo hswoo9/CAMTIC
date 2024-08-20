@@ -259,7 +259,7 @@
                             <div style="text-align: center">법인차량</div>
                         </td>
                         <td>
-                            <input type="text" id="corpCarOilCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                            <input type="text" id="corpCarOilCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100%;text-align:right;" />
                         </td>
                         <td>
                             <input type="text" id="corpCarTrafCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
@@ -405,7 +405,7 @@
                                     <input type="hidden" id="corpCarExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                                 </td>
                                 <td>
-                                    <input type="text" id="corpCarOilCost" class="corpCarInput"  value="${list.OIL_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                                    <input type="text" id="corpCarOilCost" class="corpCarInput"  value="${list.OIL_COST}" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100%;text-align:right;" />
                                 </td>
                                 <td>
                                     <input type="text" id="corpCarTrafCost" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
