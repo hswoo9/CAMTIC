@@ -121,7 +121,7 @@ var rbd = {
 
 			if(result.flag) {
 				alert("처리되었습니다.");
-				location.reload();
+				rbd.fnDefaultScript();
 			}
 		}
 	},
@@ -138,7 +138,7 @@ var rbd = {
 
 			if(result.flag) {
 				alert("처리되었습니다.");
-				location.reload()
+				rbd.fnDefaultScript();
 			}
 		}
 	},
