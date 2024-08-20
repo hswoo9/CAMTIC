@@ -128,16 +128,16 @@ var srrl = {
                     width: 100,
                     template : function (e){
                         var str = "";
-                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            str = srrl.comma(Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT));
+                        if(e.deliveryAmt != null && e.deliveryAmt != ""){
+                            str = srrl.comma(Number(e.orderVolume) - Number(e.deliveryAmt));
                         }else{
-                            str = e.DELIVERY_VOLUME;
+                            str = e.orderVolume;
                         }
 
-                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
+                        if(e.deliveryAmt == e.orderVolume){
                             return "납품완료"
                         }else {
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
+                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.orderVolume) - Number(e.deliveryAmt)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
                         }
                     },
                     attributes : {
@@ -149,8 +149,8 @@ var srrl = {
                     width: 100,
                     template : function (e){
                         var str = "";
-                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            str = srrl.comma(e.DELIVERY_AMT);
+                        if(e.deliveryAmt != null && e.deliveryAmt != ""){
+                            str = srrl.comma(e.deliveryAmt);
                         }else{
                             str = "0";
                         }
@@ -165,8 +165,8 @@ var srrl = {
                     field: "DELIVERY_VOLUME",
                     width: 100,
                     template : function (e){
-                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return srrl.comma(e.DELIVERY_VOLUME) + "";
+                        if(e.orderVolume != null && e.orderVolume != ""){
+                            return srrl.comma(e.orderVolume) + "";
                         }else{
                             return "0";
                         }

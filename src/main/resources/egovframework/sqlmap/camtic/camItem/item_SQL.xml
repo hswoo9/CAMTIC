@@ -463,7 +463,9 @@
             IM.MASTER_SN,
             IM.ITEM_NO,
             IM.ITEM_NAME,
-            CI.CRM_NM
+            CI.CRM_NM,
+            OO.ORDER_VOLUME orderVolume,
+            OO.DELIVERY_AMT AS deliveryAmt
         FROM
             CAM_ITEM.DJ_ITEM_SM_RECORD SR
         JOIN
@@ -1239,7 +1241,7 @@
 
     <select id="getCrmItemMaxChangeNum" parameterType="map" resultType="String">
         /* getCrmItemMaxChangeNum */
-        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '1') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}
+        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '2') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}
     </select>
 
     <insert id="setCrmItemUnitPriceReg" parameterType="map">
@@ -2382,4 +2384,14 @@
         WHERE
             ITEM_APPROVAL_SN = #{itemApprovalSn}
     </update>
+
+    <select id="getItemCostPrice" parameterType="map" resultType="map">
+        /* getItemCostPrice */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER
+        WHERE
+            MASTER_SN = #{masterSn}
+    </select>
 </mapper>
