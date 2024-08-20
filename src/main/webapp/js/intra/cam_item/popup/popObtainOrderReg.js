@@ -55,6 +55,12 @@ var oor = {
                     '<input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
                 '</td>' +
                 '<td>' +
+                    '<input type="text" id="freightCost' + oor.global.oorIndex + '" class="numberInput freightCost" style="text-align: right" value="0">' +
+                '</td>' +
+                ' <td>' +
+                    '<input type="text" id="shippingCost' + oor.global.oorIndex + '" class="numberInput shippingCost" style="text-align: right" value="0">' +
+                ' </td>' +
+                '<td>' +
                     '<input type="text" id="amt' + oor.global.oorIndex + '" class="amt numberInput" style="text-align: right" readonly value="0">' +
                 '</td>' +
                 '<td>' +
@@ -68,7 +74,7 @@ var oor = {
         $("#listTb").append(html);
 
         customKendo.fn_textBox(["orderVolume" + oor.global.oorIndex, "unitPrice" + oor.global.oorIndex,
-            "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex])
+            "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex ,"freightCost" + oor.global.oorIndex ,"shippingCost" + oor.global.oorIndex])
 
         customKendo.fn_datePicker("dueDt" + oor.global.oorIndex, '', "yyyy-MM-dd", '');
 
@@ -86,10 +92,14 @@ var oor = {
             $(this).val(oor.comma(oor.uncomma($(this).val())));
         });
 
-        $(".orderVolume, .unitPrice").keyup(function(){
+        $(".orderVolume, .unitPrice, .freightCost, .shippingCost").keyup(function(){
             var orderVolume = Number(oor.uncomma($(this).closest("tr").find("input.orderVolume").val()));
             var unitPrice = Number(oor.uncomma($(this).closest("tr").find("input.unitPrice").val()));
-            $(this).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
+            var freightCost = Number(oor.uncomma($(this).closest("tr").find("input.freightCost").val()));
+            var shippingCost = Number(oor.uncomma($(this).closest("tr").find("input.shippingCost").val()));
+
+            var totalAmt = (orderVolume * unitPrice) + freightCost + shippingCost;
+            $(this).closest("tr").find("input.amt").val(oor.comma(totalAmt));
         });
 
         oor.global.oorIndex++;
@@ -161,6 +171,8 @@ var oor = {
                         orderDt : $("#orderDt").val(),
                         dueDt : $(this).find("#dueDt" + i).val(),
                         unitPrice : oor.uncomma($(this).find("#unitPrice" + i).val()),
+                        freightCost : oor.uncomma($(this).find("#freightCost" + i).val()),
+                        shippingCost : oor.uncomma($(this).find("#shippingCost" + i).val()),
                         amt : oor.uncomma($(this).find("#amt" + i).val()),
                         rmk : $(this).find("#rmk" + i).val(),
                         empSeq : $("#empSeq").val()
@@ -285,7 +297,11 @@ var oor = {
         $("#" + oor.global.unitPriceId).val(oor.comma($("#unitPrice").val()));
         var orderVolume = Number(oor.uncomma($("#" + oor.global.unitPriceId).closest("tr").find("input.orderVolume").val()));
         var unitPrice = Number($("#unitPrice").val());
-        $("#" + oor.global.unitPriceId).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
+        var freightCost = Number(oor.uncomma($("#" + oor.global.unitPriceId).closest("tr").find("input.freightCost").val()));
+        var shippingCost = Number(oor.uncomma($("#" + oor.global.unitPriceId).closest("tr").find("input.shippingCost").val()));
+
+        var totalAmt = (orderVolume * unitPrice) + freightCost + shippingCost;
+        $("#" + oor.global.unitPriceId).closest("tr").find("input.amt").val(oor.comma(totalAmt));
 
         $("#unitPrice").val("")
     },
