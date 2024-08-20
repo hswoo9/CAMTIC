@@ -353,8 +353,6 @@
             ORDER_DT,
             DUE_DT,
             UNIT_PRICE,
-            FREIGHT_COST,
-            SHIPPING_COST,
             AMT,
             RMK,
             REG_EMP_SEQ
@@ -368,8 +366,6 @@
             #{orderDt},
             #{dueDt},
             #{unitPrice},
-            #{freightCost},
-            #{shippingCost},
             #{amt},
             #{rmk},
             #{empSeq}

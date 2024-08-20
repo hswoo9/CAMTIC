@@ -121,20 +121,20 @@
                 <table class="searchTable table table-bordered mb-0" id="articleListTb" style="border: 1px solid #dedfdf;" >
                     <colgroup>
                         <col width="5%">
+                        <col width="15%">
                         <col>
                         <col width="10%">
                         <col width="10%">
-                        <col width="15%">
                         <col width="10%">
                         <col width="10%">
                     </colgroup>
                     <thead>
                     <tr>
                         <th class="text-center th-color">번호</th>
+                        <th class="text-center th-color">분류</th>
                         <th class="text-center th-color">요청제목</th>
                         <th class="text-center th-color">요청자</th>
                         <th class="text-center th-color">요청일</th>
-                        <th class="text-center th-color">분류</th>
                         <th class="text-center th-color">고도화</th>
                         <th class="text-center th-color">상태</th>
                     </tr>

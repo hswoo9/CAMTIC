@@ -40,14 +40,11 @@ var rbd = {
 				if(map.EMP_SEQ == $("#empSeq").val()){
 					$("#articleDelBtn").show();
 					$("#returnBtn").show();
-
+					$("#advancementBtn").show();
+					$("#FixesBtn").show();
 					if(rbd.global.articleDetailInfo.STATUS == "1"){
-						$("#advancementBtn").show();
-						$("#FixesBtn").show();
 						$("#processAccBtn").show();
 					}else if(rbd.global.articleDetailInfo.STATUS == "2"){
-						$("#advancementBtn").show();
-						$("#FixesBtn").show();
 						$("#processComBtn").show();
 						$("#cancelBtn").show();
 					}else if(rbd.global.articleDetailInfo.STATUS == "-1" || rbd.global.articleDetailInfo.STATUS == "99"){

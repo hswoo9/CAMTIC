@@ -19,6 +19,7 @@ var rbl = {
 			{ text: "접수완료", value: "2" },
 			{ text: "처리완료", value: "3" },
 			{ text: "취소", value: "-1" },
+			{ text: "반려", value: "99" }
 		]
 		customKendo.fn_dropDownList("status", rbl.global.dropDownDataSource, "text", "value");
 		$("#status").data("kendoDropDownList").bind("change", function(){rbl.gridReload()});
@@ -190,16 +191,17 @@ var rbl = {
 			var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
 			html += "<tr>"
 			html += "	<td class='ta-center'>" + i + "</td>";
-			html += "	<td>";
-			html += '		<a class="contentLink" href="javascript:rbl.detailPageMove(' + row.request_BOARD_ID + ')">' + requestTitle + "</a>";
-			html += "	</td>";
-			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
-			html += "	<td class='ta-center'>" + dt + "</td>";
 			if(row.largeMenu != null && row.smallMenu != null){
 				html += "<td class='ta-center'>" + row.largeMenu + ' - ' + row.smallMenu + "</td>";
 			}else{
 				html += "<td class='ta-center'>-</td>";
 			}
+			html += "	<td>";
+			html += '		<a class="contentLink" href="javascript:rbl.detailPageMove(' + row.request_BOARD_ID + ')">' + requestTitle + "</a>";
+			html += "	</td>";
+			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
+			html += "	<td class='ta-center'>" + dt + "</td>";
+
 			if(row.af_STATUS == '고도화'){
 				html += "	<td class='ta-center' style='color: red;'>" + row.af_STATUS + "</td>";
 			}else if(row.af_STATUS == '수정사항'){
