@@ -80,24 +80,18 @@
             </div>
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
-                    <col style="width: 2%;">
-                    <col style="width: 18%;">
-                    <col style="width: 12%;">
+                    <col style="width: 14%;">
                     <col style="width: 10%;">
                     <col style="width: 8%;">
-                    <col style="width: 9%;">
-                    <col style="width: 5%;">
-                    <col style="width: 15%;">
                     <col style="width: 7%;">
-                    <col style="width: 10%;">
+                    <col style="width: 5%;">
+                    <col style="width: 17%;">
+                    <col style="width: 7%;">
+                    <col style="width: 7%;">
                     <col style="width: 3%;">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" id="checkAll" class="k-checkbox" />
-                    </th>
-                    <th>업체</th>
                     <th>품번</th>
                     <th>품명</th>
                     <th>규격</th>
