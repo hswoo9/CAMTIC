@@ -34,7 +34,21 @@ var prm = {
         ]
 
         customKendo.fn_dropDownList("inspectStat", prm.global.dropDownDataSource, "text", "value");
-        $("#inspectStat").data("kendoDropDownList").bind("change", prm.gridReload);
+        // $("#inspectStat").data("kendoDropDownList").bind("change", prm.gridReload);
+
+        $("#busnClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
+                {text: "R&D", value: "R"},
+                {text: "비R&D", value: "S"},
+                {text: "엔지니어링", value: "D"},
+                {text: "기타/용역", value: "V"},
+            ],
+        });
+
         prm.mainGrid();
     },
 
@@ -56,7 +70,8 @@ var prm = {
                     data.searchDept = $("#searchDept").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
-                    data.inspectStat = $("#inspectStat").data("kendoDropDownList").value()
+                    // data.inspectStat = $("#inspectStat").data("kendoDropDownList").value()
+                    data.busnClass =  $("#busnClass").val();
                     return data;
                 }
             },
@@ -603,7 +618,8 @@ var prm = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
+            busnClass : $("#busnClass").val()
+            // inspectStat : $("#inspectStat").data("kendoDropDownList").value()
         }
 
         // prm.mainGrid("/purc/getPurcReqClaimEmpList", prm.global.searchAjaxData);

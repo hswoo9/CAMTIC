@@ -52,9 +52,13 @@
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">검수상태</th>
+                        <%--<th class="text-center th-color">검수상태</th>
                         <td>
                             <input type="text" id="inspectStat" style="width: 150px;">
+                        </td>--%>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="busnClass" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

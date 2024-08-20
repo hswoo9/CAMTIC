@@ -2411,6 +2411,7 @@
                 )
             ) AS PURC_DEPT_NAME,
             B.PJT_SN,
+            IFNULL(A.PURC_TYPE, B.PURC_TYPE) AS PURC_TYPE,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
             B.PURC_REQ_PURPOSE,
             A.PURC_SN,
@@ -2477,6 +2478,7 @@
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
             B.PURC_REQ_PURPOSE,
             B.PURC_SN,
+            B.PURC_TYPE,
             B.STATUS,
             B.DOC_ID AS PURC_DOC_ID,
             B.DOC_STATUS,
@@ -2517,7 +2519,7 @@
                     AND RE.PURC_REQ_EMP_SEQ = #{empSeq}
                 </when>
                 <otherwise>
-                    AND RE.DOC_STATUS = '100'
+                    AND RE.DOC_STATUS = '100' AND PJT_SN != ''
                 </otherwise>
             </choose>
             <if test='pjtSn != null and !"".equals(pjtSn)'>
@@ -2567,6 +2569,24 @@
                 </when>
                 <when test='"3".equals(inspectStat)'>
                     AND RE.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                </when>
+            </choose>
+
+            <choose>
+                <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
+                    AND RE.PURC_TYPE = ''
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "R".equals(busnClass)'>
+                    AND RE.PURC_TYPE = 'R'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "S".equals(busnClass)'>
+                    AND RE.PURC_TYPE = 'S'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "D".equals(busnClass)'>
+                    AND RE.PURC_TYPE = 'D'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "V".equals(busnClass)'>
+                    AND RE.PURC_TYPE = 'V'
                 </when>
             </choose>
         ORDER BY RE.REG_DATE DESC
