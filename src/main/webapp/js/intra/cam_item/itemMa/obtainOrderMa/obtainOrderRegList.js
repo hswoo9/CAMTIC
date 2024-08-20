@@ -476,7 +476,7 @@ var oorl = {
         $.each($("input[name=ooSn]:checked"), function(){
             var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
             if($(this).attr("deadline") == "Y"){
-                alert("이미 마감된 항목이거나 마감된 항목이 포함되어있습니다.");
+                alert("이미 마감된 항목입니다.");
                 deadLineChk = true;
                 return;
             }

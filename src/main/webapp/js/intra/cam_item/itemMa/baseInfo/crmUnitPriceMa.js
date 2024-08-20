@@ -72,11 +72,33 @@ var cupm = {
                 }, {
                     title: "적용시작일자",
                     field: "START_DT",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.CHANGE_NUM == null){
+                            if(e.MSU_START_DT != null){
+                                return e.MSU_START_DT;
+                            }else{
+                                return '';
+                            }
+                        }else{
+                            return e.CIU_START_DT;
+                        }
+                    }
                 }, {
                     title: "적용종료일자",
                     field: "END_DT",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.CHANGE_NUM == null){
+                            if(e.MSU_END_DT != null){
+                                return e.MSU_END_DT;
+                            }else{
+                                return '';
+                            }
+                        }else{
+                            return e.CIU_END_DT;
+                        }
+                    }
                 }, {
                     title: "변경차수",
                     field: "CHANGE_NUM",
