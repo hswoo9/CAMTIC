@@ -140,7 +140,7 @@
 						<input type="hidden" id="FILE_ID" name="FILE_ID"  value='${dataJson.FILE_ID }'/>
 						<input type="hidden" id="DDTLBZ_ID" name="DDTLBZ_ID"  value='${dataJson.DDTLBZ_ID }'/>
 						<input type="hidden" id="EXC_INSTT_ID" name="EXC_INSTT_ID"  value='${dataJson.EXC_INSTT_ID }'/>
-<%--                        <input type="hidden" id="PRUF_SE_NO" name="PRUF_SE_NO" value="${dataJson.PRUF_SE_NO }" />--%>
+                        <input type="hidden" id="PRUF_SE_NO" name="PRUF_SE_NO" value="${dataJson.PRUF_SE_NO }" />
 						<!-- 집행정보 반영 -->
                         <input type="hidden" id="EXCUT_CNTC_ID" name="EXCUT_CNTC_ID" value="${dataJson.EXCUT_CNTC_ID }" />
 						<input type="hidden" id="BCNC_ACNUT_NO_ENARA" name="BCNC_ACNUT_NO_ENARA" value="" />
@@ -205,7 +205,7 @@
 				<tr id="prufSeNoWrap" style="display: none;">
 					<th><span class="red-star">*</span>증빙구분번호</th>
 					<td>
-						<input type="text"  style="width: 80%" id="PRUF_SE_NO" name="PRUF_SE_NO" disabled value="${dataJson.PRUF_SE_NO }" />
+						<input type="text"  style="width: 80%" id="PRUF_SE_NO_TXT" name="PRUF_SE_NO_TXT" disabled />
 						<input id="cardBtn" style="display: none;" type="button" class="k-button k-button-solid-base" onclick="newResolutionSubmitPage.fn_cardPuchasRecptnPop();" value="검색" />
 					</td>
 					<td colspan="2"></td>
@@ -357,7 +357,7 @@
 				</tr>
 				<tr>
 					<td colspan="4" style="text-align: center;">
-						<input style="width: 50%;" type="text" id="PROCESS_RESULT_MSSAGE" disabled name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
+						<input style="width: 100%;" type="text" id="PROCESS_RESULT_MSSAGE" disabled name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
 					</td>
 				</tr>
 				</thead>

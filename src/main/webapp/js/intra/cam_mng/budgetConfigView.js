@@ -144,7 +144,7 @@ var budgetConfigView = {
                     if(rs.code == 200){
                         alert(rs.message);
 
-                        budgetConfigView.mainGrid();
+                        budgetConfigView.gridReload();
                     }
                 }
             });

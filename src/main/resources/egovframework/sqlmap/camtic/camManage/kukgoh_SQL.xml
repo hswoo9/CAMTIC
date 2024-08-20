@@ -58,6 +58,7 @@
             A.EVID_TYPE,
             A.ISS_NO,
             A.TOT_COST,
+            D.REQ_STAT_SN,
             E.PRUF_SE_CODE,
             E.PRUF_SE_NO,
             DATE_FORMAT(E.EXCUT_REQUST_DE, '%Y-%m-%d') AS EXCUT_REQUST_DE,
@@ -100,6 +101,18 @@
             LEFT(B.PJT_CD, 1) IN ('R', 'S', 'A')
         AND
             A.ENARA_SEND_EXCEPT = #{exceptYn}
+        <if test='"A".equals(status)'>
+            AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NULL
+        </if>
+        <if test='"B".equals(status)'>
+            AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NOT NULL
+        </if>
+        <if test='"C".equals(status)'>
+            AND F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE = '000'
+        </if>
+        <if test='"D".equals(status)'>
+            AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE != '000'))
+        </if>
     </select>
 
     <update id="setEnaraSendExcept" parameterType="map">

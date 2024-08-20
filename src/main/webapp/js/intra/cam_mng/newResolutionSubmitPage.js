@@ -6,7 +6,7 @@ var newResolutionSubmitPage = {
 
     fn_defaultScript: function () {
         customKendo.fn_datePicker("EXCUT_REQUST_DE", "depth", "yyyy-MM-dd", new Date());
-        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE, #PRUF_SE_NO").kendoTextBox();
+        $("#korNm, #gisuDt, #gisuSeq, #BG_SQ, #docNumber, #docTitle, #kukgoPjtNm, #divNm, #pjtNm, #abgtNm, #setFgNm, #vatFgNm, #unitAm, #ASSTN_TAXITM_CODE_NM, #EXCUT_PRPOS_CN, #PRDLST_NM, #SUM_AMOUNT, #SPLPC, #VAT, #BCNC_CMPNY_NM, #BCNC_LSFT_NO, #PIN_NO_1, #PIN_NO_2, #BCNC_RPRSNTV_NM, #BCNC_TELNO, #BCNC_BIZCND_NM, #BCNC_INDUTY_NM, #POST_CD, #BCNC_ADRES, #BCNC_BANK_CODE_NM, #BCNC_ACNUT_NO, #SBSACNT_TRFRSN_CN, #SBSIDY_BNKB_INDICT_CN, #BCNC_BNKB_INDICT_CN, #PROCESS_RESULT_MSSAGE, #PRUF_SE_NO_TXT").kendoTextBox();
 
         $("#EXCUT_TY_SE_CODE").val("20")
 
@@ -232,6 +232,13 @@ var newResolutionSubmitPage = {
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 }
 
+                if(ered != null){
+                    $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value(ered.TRANSFR_ACNUT_SE_CODE);
+                    $("#PRUF_SE_CODE").data("kendoDropDownList").value(ered.PRUF_SE_CODE);
+                    $("#PRUF_SE_NO").val(ered.PRUF_SE_NO);
+                    $("#PRUF_SE_NO_TXT").val(ered.PRUF_SE_NO);
+                }
+
                 $("#vatFgNm").val();
                 var taxGubun = (pi.TAX_GUBUN || "");
 
@@ -306,7 +313,7 @@ var newResolutionSubmitPage = {
                         $("#PROCESS_RESULT_MSSAGE").val(erpSend.RSP_MSG);
                     }
 
-                    if((erpSend.RSP_CD == "SUCC" && erpSend.PROCESS_RESULT_CODE == "000")) {
+                    if(erpSend.RSP_CD == "SUCC" && (erpSend.PROCESS_RESULT_CODE == "000" || erpSend.PROCESS_RESULT_CODE == null)) {
                         $("#sendBtn").hide();
                     }
                 }
@@ -351,8 +358,9 @@ var newResolutionSubmitPage = {
             return;
         }
 
-        if($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "003" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() != "004") {
-            alert("[보조금전용카드결제계좌로 이체]는 증빙유형이 [보조금전용카드]인 경우 선택 가능합니다.");
+        if(($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "003" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() != "004")
+        || ($("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value() == "001" && $("#PRUF_SE_CODE").data("kendoDropDownList").value() == "004" )) {
+            alert("증빙유형과 이체구분을 다시 확인해주세요.");
             return;
         }
 

@@ -158,6 +158,7 @@
 
 	function fn_selectPuchasRecptn(no){
 		opener.parent.$("#PRUF_SE_NO").val(no);
+		opener.parent.$("#PRUF_SE_NO_TXT").val(no);
 		window.close();
 	}
 </script>

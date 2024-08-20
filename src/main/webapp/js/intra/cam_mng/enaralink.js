@@ -27,10 +27,11 @@ var enaralink = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "전체", value: "999"},
-                {text: "미전송", value: "0"},
-                {text: "전송진행중", value: "2"},
-                {text: "전송", value: "1"}
+                {text: "전체", value: ""},
+                {text: "미전송", value: "A"},
+                {text: "전송진행중", value: "B"},
+                {text: "전송완료", value: "C"},
+                {text: "전송실패", value: "D"}
             ],
             index: 0
         });
@@ -58,6 +59,7 @@ var enaralink = {
                     data.strDt = $("#fromMonth").val();
                     data.endDt = $("#endMonth").val();
                     data.exceptYn = "N";
+                    data.status = $("#status").data("kendoDropDownList").value();
 
                     return data;
                 }
@@ -169,7 +171,7 @@ var enaralink = {
                             title: "상태",
                             width: 80,
                             template:function(e){
-                                if(e.TRNSC_ID == null) {
+                                if(e.TRNSC_ID == null && e.REQ_STAT_SN == null) {
                                     return "미전송";
                                 } else {
                                     if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
@@ -203,7 +205,7 @@ var enaralink = {
                             width: 150
                         }, {
                             field: "EVID_TYPE",
-                            title: "결재수단",
+                            title: "결제수단",
                             width: 80,
                             template : function (e){
                                 if(e.EVID_TYPE == 1){
@@ -239,7 +241,7 @@ var enaralink = {
                             title: "증빙선택",
                             width: 120,
                             template : function(e) {
-                                if(e.RSP_CD === "SUCC") {
+                                if(e.RSP_CD === "SUCC" && e.PROCESS_RESULT_CODE == "000") {
                                     if(e.PRUF_SE_CODE == "001") {
                                         return "전자세금계산서";
                                     } else if(e.PRUF_SE_CODE == "002") {
@@ -260,7 +262,7 @@ var enaralink = {
                             title: "승인번호",
                             width: 250,
                             template : function(e) {
-                                if(e.RSP_CD === "SUCC") {
+                                if(e.RSP_CD === "SUCC" && e.PROCESS_RESULT_CODE == "000") {
                                     return e.PRUF_SE_NO;
                                 } else {
                                     return "";
@@ -271,7 +273,7 @@ var enaralink = {
                             title: "증빙일자",
                             width: 100,
                             template : function(e) {
-                                if(e.RSP_CD === "SUCC") {
+                                if(e.RSP_CD === "SUCC" && e.PROCESS_RESULT_CODE == "000") {
                                     return e.EXCUT_REQUST_DE;
                                 } else {
                                     return "";
