@@ -31,10 +31,6 @@
                     <td>
                         <input type="text" id="whCd" style="width: 150px;">
                     </td>
-                    <th>단위</th>
-                    <td>
-                        <input type="text" id="itemUnitCd" style="width: 150px;">
-                    </td>
                     <th>검색어</th>
                     <td>
                         <input type="text" id="searchKeyword" style="width: 30%;"/>
