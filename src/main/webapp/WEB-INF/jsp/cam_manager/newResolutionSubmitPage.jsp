@@ -156,7 +156,7 @@
 						<input type="hidden" id="EXCUT_EXPITM_TAXITM_CNT" name="EXCUT_EXPITM_TAXITM_CNT"  value="${dataJson.EXCUT_EXPITM_TAXITM_CNT }"/>
 						<input type="hidden" id="ASSTN_TAXITM_CODE" name="ASSTN_TAXITM_CODE"  value="${dataJson.ASSTN_TAXITM_CODE }"/>
 						<input type="hidden" id="EXCUT_TAXITM_CNTC_ID" name="EXCUT_TAXITM_CNTC_ID"  value="${dataJson.EXCUT_TAXITM_CNTC_ID }"/>
-						<input type="hidden" id="FNRSC_SE_CODE" name="FNRSC_SE_CODE"  value="${dataJson.FNRSC_SE_CODE }"/>
+<%--						<input type="hidden" id="FNRSC_SE_CODE" name="FNRSC_SE_CODE"  value="${dataJson.FNRSC_SE_CODE }"/>--%>
 						<input type="hidden" id="ACNUT_OWNER_NM" name="ACNUT_OWNER_NM" value="${dataJson.ACNUT_OWNER_NM }"/>
 
 						<input type="hidden" id="ETXBL_CONFM_NO" name="ETXBL_CONFM_NO"  value='${dataJson.ETXBL_CONFM_NO }'/>
@@ -208,6 +208,7 @@
 						<input type="text"  style="width: 80%" id="PRUF_SE_NO" name="PRUF_SE_NO" disabled value="${dataJson.PRUF_SE_NO }" />
 						<input id="cardBtn" style="display: none;" type="button" class="k-button k-button-solid-base" onclick="newResolutionSubmitPage.fn_cardPuchasRecptnPop();" value="검색" />
 					</td>
+					<td colspan="2"></td>
 				</tr>
 				</thead>
 			</table>
@@ -238,6 +239,13 @@
 					<td>
 						<input type="text" id="VAT" name="VAT" style="width: 60%;"  value="${dataJson.VAT }" readonly class= "money" disabled/>
 					</td>
+				</tr>
+				<tr>
+					<th>재원구분코드</th>
+					<td>
+						<input type="text" id="FNRSC_SE_CODE" name="FNRSC_SE_CODE"  value="${dataJson.FNRSC_SE_CODE }"/>
+					</td>
+					<td colspan="4"></td>
 				</tr>
 				</thead>
 			</table>

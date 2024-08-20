@@ -96,6 +96,14 @@ var newResolutionSubmitPage = {
             // }
         })
 
+        var ds3 = customKendo.fn_customAjax("/kukgoh/getCmmnCodeDetailList", {cmmnCode : '1220'});
+        $("#FNRSC_SE_CODE").kendoDropDownList({
+            dataTextField: "CMMN_DETAIL_CODE_NM",
+            dataValueField: "CMMN_DETAIL_CODE",
+            dataSource: ds3.list,
+            index: 0
+        });
+
 
         newResolutionSubmitPage.fn_setData();
 
@@ -168,6 +176,7 @@ var newResolutionSubmitPage = {
                 var esd = rs.enaraSendData;
                 var ered = rs.excutReqErpData;
                 var eeied = rs.excutExpItmErpData;
+                var efed = rs.excutFnrscErpData;
                 var erpSend = rs.erpSendData;
                 var enaraTemp = rs.enaraTempData;
                 if(esd != null && esd != undefined){
@@ -253,7 +262,7 @@ var newResolutionSubmitPage = {
                 $("#PREPAR").val("") // 예비
                 $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
                 $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
-                $("#FNRSC_SE_CODE").val("002")// 재원구분코드
+                // $("#FNRSC_SE_CODE").val("001")// 재원구분코드
                 $("#ACNUT_OWNER_NM").val("");
                 $("#ETXBL_CONFM_NO").val("") // 전자세금계산서 승인번호
                 $("#TAXITM_FNRSC_CNT").val("") // 집행연계ID별 비목세목별 재원건수
@@ -284,6 +293,10 @@ var newResolutionSubmitPage = {
                 if(pad.EVID_TYPE == "1" || pad.EVID_TYPE == "2"){
                     $("#PRUF_SE_NO").val(pad.ISS_NO || "");
 
+                }
+
+                if(efed != null && efed != undefined){
+                    $("#FNRSC_SE_CODE").data("kendoDropDownList").value(efed.FNRSC_SE_CODE);
                 }
 
                 if(erpSend != null && erpSend != undefined){
