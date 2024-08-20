@@ -319,16 +319,21 @@ var prm = {
                     title: "요청일",
                     width: 100,
                 }, {
+                    field: "PURC_DEPT_NAME",
+                    title: "요청부서",
+                    width: 80
+                },  {
                     field: "EMP_NAME_KR",
                     title: "요청자",
                     width: 80
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트",
-                    width: 120
+                    width: 180
                 }, {
                     field: "PURC_REQ_PURPOSE",
                     title: "목적",
+                    width: 300,
                     template : function(e){
                         return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />' + e.PURC_REQ_PURPOSE + '</div>';
                     }
@@ -345,6 +350,17 @@ var prm = {
                         }
 
                         return status
+                    }
+                }, {
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        if (e.PURC_DOC_ID == null || e.DOC_STATUS == "111") {
+                            return '';
+                        }
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.PURC_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>';
                     }
                 }, {
                     title: "구매청구서",
@@ -373,6 +389,21 @@ var prm = {
                         return status
                     }
                 }, {
+                    title : "결재선",
+                    width : 80,
+                    template : function(e){
+                        if (!e.CLAIM_DOC_ID) {
+                            return '';
+                        }
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.CLAIM_DOC_ID + ');">' +
+                            '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                            '</button>';
+                    }
+                }, {
+                    field: "CRM_NM",
+                    title: "업체명",
+                    width: 150
+                }, {
                     title: "검수",
                     width: 70,
                     template: function (e) {
@@ -400,10 +431,6 @@ var prm = {
                         return status
                     }
                 }, {
-                    field: "CRM_NM",
-                    title: "업체",
-                    width: 150
-                }, {
                     field: "PURC_ITEM_AMT_SUM",
                     title: "금액",
                     width: 100,
@@ -428,25 +455,39 @@ var prm = {
                 }, {
                     field: "APPROVE_STAT_CODE",
                     title: "결재상태",
-                    width: 70,
+                    width: 120,
                     template : function(e){
                         if(e.RE_STATUS == 'R'){
                             return '반려';
                         }
 
-                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
-                            return '작성중';
-                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
-                            return '결재중';
-                        } else if(e.APPROVE_STAT_CODE == '30') {
-                            return '반려';
-                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
-                            return '결재완료';
+                        if(e.CLAIM_SN == "" || e.CLAIM_SN == null) {
+                            if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                                return '요청서 작성중';
+                            } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                                return '요청서 결재중';
+                            } else if(e.APPROVE_STAT_CODE == '30') {
+                                return '요청서 반려';
+                            } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                                return '요청서 결재완료';
+                            } else {
+                                return '-';
+                            }
                         } else {
-                            return '-';
+                            if(e.CLAIM_DOC_STATUS == '0' || e.CLAIM_DOC_STATUS == '40' || e.CLAIM_DOC_STATUS == '60'){
+                                return '청구서 작성중';
+                            } else if(e.CLAIM_DOC_STATUS == '10' || e.CLAIM_DOC_STATUS == '20' || e.CLAIM_DOC_STATUS == '50') {
+                                return '청구서 결재중';
+                            } else if(e.CLAIM_DOC_STATUS == '30') {
+                                return '청구서 반려';
+                            } else if(e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101') {
+                                return '청구서 결재완료';
+                            } else {
+                                return '-';
+                            }
                         }
                     }
-                }, {
+                }, /*{
                     field: "DOC_STATUS",
                     title: "상태",
                     width: 120,
@@ -456,7 +497,7 @@ var prm = {
                         }
 
                         var status = "";
-                        /** 구매요청서 */
+                        /!** 구매요청서 *!/
                         if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
                             status = "구매요청작성중";
                         }else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
@@ -464,7 +505,7 @@ var prm = {
                         }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                             status = "구매요청완료";
 
-                            /** 구매청구서 */
+                            /!** 구매청구서 *!/
                             if(e.CLAIM_STATUS == "CN"){
                                 status = "구매요청완료";
                             }else if(e.CLAIM_STATUS == "CAN"){
@@ -507,7 +548,7 @@ var prm = {
                         }
                         return status
                     }
-                }, {
+                },*/ {
                     field: "INSPECT_STATUS",
                     title: "지출상태",
                     width: 80,

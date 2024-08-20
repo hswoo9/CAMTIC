@@ -2398,11 +2398,24 @@
             DI.DOC_NO,
             B.PURC_REQ_DATE,
             B.PURC_REQ_EMP_SEQ,
+            IFNULL(
+                (
+                    SELECT SDI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI
+                    LEFT JOIN CAM_HR.DJ_DEPT_INFO SDI ON SEI.DEPT_SEQ = SDI.DEPT_SEQ
+                    WHERE SEI.EMP_SEQ = A.PURC_EMP_SEQ
+                ),
+                (
+                    SELECT SDI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI
+                    LEFT JOIN CAM_HR.DJ_DEPT_INFO SDI ON SEI.DEPT_SEQ = SDI.DEPT_SEQ
+                    WHERE SEI.EMP_SEQ = B.PURC_REQ_EMP_SEQ
+                )
+            ) AS PURC_DEPT_NAME,
             B.PJT_SN,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
             B.PURC_REQ_PURPOSE,
             A.PURC_SN,
             B.STATUS,
+            B.DOC_ID AS PURC_DOC_ID,
             B.DOC_STATUS,
             IFNULL((SELECT SUM(ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM,
             IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
@@ -2455,11 +2468,17 @@
             DI.DOC_NO,
             B.PURC_REQ_DATE,
             B.PURC_REQ_EMP_SEQ,
+            (
+                SELECT SDI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI
+                LEFT JOIN CAM_HR.DJ_DEPT_INFO SDI ON SEI.DEPT_SEQ = SDI.DEPT_SEQ
+                WHERE SEI.EMP_SEQ = B.PURC_REQ_EMP_SEQ
+            ) AS PURC_DEPT_NAME,
             B.PJT_SN,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
             B.PURC_REQ_PURPOSE,
             B.PURC_SN,
             B.STATUS,
+            B.DOC_ID AS PURC_DOC_ID,
             B.DOC_STATUS,
             0 AS PURC_ITEM_AMT_SUM,
             IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
