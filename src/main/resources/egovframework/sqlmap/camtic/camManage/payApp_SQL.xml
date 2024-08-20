@@ -2290,7 +2290,11 @@
     <select id="getPartRatePay" parameterType="map" resultType="map">
         /*getPartRatePay*/
         SELECT
-            *
+            A.*,
+            B.*,
+            C.*,
+            D.*,
+            scp.dec_b64('KEY1', C.RES_REGIS_NUM) AS RES_REGIS_NUM2
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN

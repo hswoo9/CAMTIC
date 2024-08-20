@@ -156,7 +156,7 @@ var regPay = {
                     for(let i = 0; i < rs.length; i++) {
                         $("#eviType" + i).data("kendoDropDownList").select(4)
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
-                        $("#regNo" + i).val(rs[i].RES_REGIS_NUM);
+                        $("#regNo" + i).val(rs[i].RES_REGIS_NUM2);
                         $("#trCd" + i).val(rs[i].ERP_EMP_SEQ);
                         $("#crmBnkNm" + i).val(aiRs.BANK_NAME);
                         $("#crmAccNo" + i).val(aiRs.PAY_ACCOUNT);

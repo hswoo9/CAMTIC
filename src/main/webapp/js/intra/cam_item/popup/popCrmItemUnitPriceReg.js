@@ -19,29 +19,49 @@ var ciupR = {
     setMakeTable : function() {
         ciupR.global.searchAjaxData = {
             crmItemSn : $("#crmItemSn").val(),
+            masterSn : $("#masterSn").val()
         }
 
-        var result = customKendo.fn_customAjax("/item/getCrmItemUnitPriceList.do", ciupR.global.searchAjaxData);
-        if(result.flag){
-            var list = result.list;
-            $("#listTb tr").remove();
-            if(list.length == 0){
-                ciupR.addRow('new');
-            }else{
-                for(var i = 0; i < list.length; i++){
-                    ciupR.addRow('old');
+        var firstRowUrl = "/item/getSdunitPriceList.do";
+        var otherRowsUrl = "/item/getCrmItemUnitPriceList.do";
 
-                    $("#ciup" + i).find("#ciupSn" + i).val(list[i].CRM_ITEM_UNIT_PRICE_SN);
-                    $("#ciup" + i).find("#unitPrice" + i).val(ciupR.comma(list[i].UNIT_PRICE));
-                    $("#ciup" + i).find("#b2bPrice" + i).val(ciupR.comma(list[i].B2B_PRICE));
-                    $("#ciup" + i).find("#startDt" + i).val(list[i].START_DT)
-                    $("#ciup" + i).find("#endDt" + i).text(list[i].END_DT)
-                    $("#ciup" + i).find("#rmk" + i).val(list[i].RMK);
-                }
+        var firstRowResult = customKendo.fn_customAjax(firstRowUrl, ciupR.global.searchAjaxData);
 
-                ciupR.addRow('new');
+        var otherRowsResult = null;
+        if ($("#crmItemSn").val() !== "") {
+            otherRowsResult = customKendo.fn_customAjax(otherRowsUrl, ciupR.global.searchAjaxData);
+        }
+
+        $("#listTb tr").remove();
+
+        if (firstRowResult.flag && firstRowResult.list.length > 0) {
+            ciupR.addRow('old');
+            var firstRowData = firstRowResult.list[0];
+            $("#ciup0").find("#ciupSn0").val(firstRowData.CRM_ITEM_UNIT_PRICE_SN);
+            $("#ciup0").find("#unitPrice0").val(ciupR.comma(firstRowData.UNIT_PRICE));
+            $("#ciup0").find("#b2bPrice0").val(ciupR.comma(firstRowData.B2B_PRICE));
+            $("#ciup0").find("#startDt0").val(firstRowData.START_DT);
+            $("#ciup0").find("#endDt0").text(firstRowData.END_DT);
+            $("#ciup0").find("#rmk0").val(firstRowData.RMK);
+        } else {
+            ciupR.addRow('new');
+        }
+
+        if (otherRowsResult && otherRowsResult.flag) {
+            var list = otherRowsResult.list;
+            for (var i = 0; i < list.length; i++) {
+                ciupR.addRow('old');
+                var index = i + 1;
+                $("#ciup" + index).find("#ciupSn" + index).val(list[i].CRM_ITEM_UNIT_PRICE_SN);
+                $("#ciup" + index).find("#unitPrice" + index).val(ciupR.comma(list[i].UNIT_PRICE));
+                $("#ciup" + index).find("#b2bPrice" + index).val(ciupR.comma(list[i].B2B_PRICE));
+                $("#ciup" + index).find("#startDt" + index).val(list[i].START_DT);
+                $("#ciup" + index).find("#endDt" + index).text(list[i].END_DT);
+                $("#ciup" + index).find("#rmk" + index).val(list[i].RMK);
             }
         }
+
+        ciupR.addRow('new');
     },
 
     addRow : function(e){

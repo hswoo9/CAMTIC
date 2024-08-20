@@ -275,11 +275,11 @@ var regRv = {
             busClass : "W"
         }
 
-        var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", regRv.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/item/getItemCostPrice", regRv.global.searchAjaxData);
         if(result.flag){
             if(result.rs != null){
                 regRv.global.unitPriceId = "unitPrice" + e;
-                $("#unitPrice").val(result.rs.UNIT_PRICE);
+                $("#unitPrice").val(result.rs.COST_PRICE);
                 regRv.unitPriceChange();
             }
         }

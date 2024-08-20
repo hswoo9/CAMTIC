@@ -83,9 +83,9 @@ var cupm = {
                     width: 100,
                     template : function(e){
                         if(e.CHANGE_NUM != null){
-                            return e.CHANGE_NUM
+                            return e.CHANGE_NUM;
                         }else{
-                            return '0'
+                            return '1';
                         }
                     }
                 }, {

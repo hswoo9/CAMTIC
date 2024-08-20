@@ -353,6 +353,8 @@
             ORDER_DT,
             DUE_DT,
             UNIT_PRICE,
+            FREIGHT_COST,
+            SHIPPING_COST,
             AMT,
             RMK,
             REG_EMP_SEQ
@@ -366,6 +368,8 @@
             #{orderDt},
             #{dueDt},
             #{unitPrice},
+            #{freightCost},
+            #{shippingCost},
             #{amt},
             #{rmk},
             #{empSeq}
@@ -399,6 +403,7 @@
             ORDER_VOLUME = #{orderVolume},
             DUE_DT = #{dueDt},
             UNIT_PRICE = #{unitPrice},
+            ORDER_REMAIN = (select (#{orderVolume} - DELIVERY_AMT) from cam_item.dj_item_obtain_order where obtain_order_sn = #{obtainOrderSn}),
             AMT = #{amt},
             RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},
@@ -463,7 +468,9 @@
             IM.MASTER_SN,
             IM.ITEM_NO,
             IM.ITEM_NAME,
-            CI.CRM_NM
+            CI.CRM_NM,
+            OO.ORDER_VOLUME orderVolume,
+            OO.DELIVERY_AMT AS deliveryAmt
         FROM
             CAM_ITEM.DJ_ITEM_SM_RECORD SR
         JOIN
@@ -1239,7 +1246,7 @@
 
     <select id="getCrmItemMaxChangeNum" parameterType="map" resultType="String">
         /* getCrmItemMaxChangeNum */
-        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '1') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}
+        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '2') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}
     </select>
 
     <insert id="setCrmItemUnitPriceReg" parameterType="map">
@@ -2382,4 +2389,14 @@
         WHERE
             ITEM_APPROVAL_SN = #{itemApprovalSn}
     </update>
+
+    <select id="getItemCostPrice" parameterType="map" resultType="map">
+        /* getItemCostPrice */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER
+        WHERE
+            MASTER_SN = #{masterSn}
+    </select>
 </mapper>

@@ -1073,6 +1073,17 @@ public class ItemManageController {
     }
 
     /**
+     * 입고단가조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getItemCostPrice")
+    public String getItemCostPrice(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getItemCostPrice(params));
+        return "jsonView";
+    }
+
+    /**
      * 입고단가이력팝업
      * @param params
      * @param model

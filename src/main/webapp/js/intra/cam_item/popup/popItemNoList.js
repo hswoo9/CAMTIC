@@ -20,9 +20,9 @@ var popItemNoList = {
             }
         }
 
-        popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "UN", lgCd : "UNIT"});
-        customKendo.fn_dropDownList("itemUnitCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#itemUnitCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
+        //popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "UN", lgCd : "UNIT"});
+        // customKendo.fn_dropDownList("itemUnitCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        // $("#itemUnitCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
 
         popItemNoList.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
@@ -92,6 +92,20 @@ var popItemNoList = {
                     title: "창고",
                     field: "WH_CD_NM",
                     width: 100
+                },{
+                    title: "현재재고",
+                    field: "OVERALL_INVEN",
+                    width: 100,
+                    template : function (e){
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return popItemNoList.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
                 }, {
                     title: "안전재고",
                     field: "SAFETY_INVEN",
@@ -123,7 +137,6 @@ var popItemNoList = {
     gridReload: function (){
         popItemNoList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
-            itemUnitCd : $("#itemUnitCd").val(),
             itemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
