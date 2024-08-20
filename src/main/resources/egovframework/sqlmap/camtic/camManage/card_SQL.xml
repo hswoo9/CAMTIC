@@ -975,7 +975,7 @@
         </if>
         <if test='searchValue != null and !"".equals(searchValue)'>
             AND
-            (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.CARD_BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+            (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR scp.dec_b64('KEY1', A.CARD_BA_NB) LIKE CONCAT('%', #{searchValue}, '%'))
         </if>
         <if test='auth == "user" or "user".equals(auth)'>
             AND
