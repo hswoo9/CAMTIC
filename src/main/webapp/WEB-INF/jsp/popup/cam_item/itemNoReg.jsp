@@ -44,9 +44,9 @@
             <table class="searchTable table table-bordered mb-0 mt10">
                 <colgroup>
                     <col style="width: 11%">
-                    <col style="width: 39%">
+                    <col style="width: 53%">
                     <col style="width: 11%">
-                    <col style="width: 39%">
+                    <col style="width: 25%">
                 </colgroup>
                 <thead>
                     <tr>
@@ -59,6 +59,7 @@
                             <input type="text" id="categoryB" name="categoryB" style="width: 120px">
                             <input type="text" id="categoryC" name="categoryC" style="width: 120px">
                             <button type="button" class="k-button k-button-solid-base" onclick="inr.getItemNoDuplicate()">중복확인</button>
+                            <span style="margin-left:10px;">품목코드 : <span id="itemNumber"></span></span>
                         </td>
                         <th>
                             <span class="red-star">*</span>품명

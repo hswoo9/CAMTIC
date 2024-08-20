@@ -45,4 +45,5 @@ public class ItemSystemRepository extends AbstractDAO {
     public Map<String, Object> getItemCodeCheck(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("itemSystem.getItemCodeCheck", params);
     }
+    public Map<String, Object> getItemNo(Map<String, Object> params) { return (Map<String, Object>) selectOne("itemSystem.getItemNo", params);}
 }

@@ -27,4 +27,5 @@ public interface ItemSystemService {
     void setItemCategoryDel(Map<String, Object> params);
 
     void delDetCode(Map<String, Object> params);
+    Map<String, Object> getItemNo(Map<String, Object> params);
 }

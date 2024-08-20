@@ -123,34 +123,27 @@ var srrl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "납품잔량",
-                    field: "DELIVERY_AMT",
+                    title: "수주량",
+                    field: "DELIVERY_VOLUME",
                     width: 100,
                     template : function (e){
-                        var str = "";
-                        if(e.deliveryAmt != null && e.deliveryAmt != ""){
-                            str = srrl.comma(Number(e.orderVolume) - Number(e.deliveryAmt));
+                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
+                            return srrl.comma(e.DELIVERY_VOLUME) + "";
                         }else{
-                            str = e.orderVolume;
-                        }
-
-                        if(e.deliveryAmt == e.orderVolume){
-                            return "납품완료"
-                        }else {
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.orderVolume) - Number(e.deliveryAmt)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
+                            return "0";
                         }
                     },
                     attributes : {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "납품누계",
+                    title: "출하누계",
                     field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
                         var str = "";
-                        if(e.deliveryAmt != null && e.deliveryAmt != ""){
-                            str = srrl.comma(e.deliveryAmt);
+                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
+                            str = srrl.comma(e.DELIVERY_AMT);
                         }else{
                             str = "0";
                         }
@@ -161,14 +154,21 @@ var srrl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "납품량",
-                    field: "DELIVERY_VOLUME",
+                    title: "출하잔량",
+                    field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
-                        if(e.orderVolume != null && e.orderVolume != ""){
-                            return srrl.comma(e.orderVolume) + "";
+                        var str = "";
+                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
+                            str = srrl.comma(Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT));
                         }else{
-                            return "0";
+                            str = e.DELIVERY_VOLUME;
+                        }
+
+                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
+                            return "납품완료"
+                        }else {
+                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
                         }
                     },
                     attributes : {

@@ -533,12 +533,10 @@
     <select id="getItemNo" parameterType="map" resultType="map">
         /* getItemNo */
         SELECT
-            ITEM_NO
-        FROM
-            CAM_ITEM.DJ_ITEM_MASTER
-        WHERE
-            ITEM_NO = CONCAT( (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA}),
-                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB}),
-                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC}) )
+            CONCAT(
+                (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA} AND ACTIVE = 'Y'),
+                (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB} AND ACTIVE = 'Y'),
+                (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC} AND ACTIVE = 'Y')
+            ) categoryCode
     </select>
 </mapper>

@@ -317,7 +317,7 @@ var oorl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "납품누계",
+                    title: "출하누계",
                     field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
@@ -342,7 +342,7 @@ var oorl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "잔량",
+                    title: "출하잔량",
                     field: "ORDER_REMAIN",
                     width: 100,
                     template : function (e){
@@ -471,6 +471,19 @@ var oorl = {
             return;
         }
 
+        var deadLineChk = false;
+
+        $.each($("input[name=ooSn]:checked"), function(){
+            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            if($(this).attr("deadline") == "Y"){
+                alert("이미 마감된 항목이거나 마감된 항목이 포함되어있습니다.");
+                deadLineChk = true;
+                return;
+            }
+        });
+
+        if(deadLineChk) return;
+
         if(confirm("선택한 항목을 마감처리하시겠습니까?")){
             var oorlArr = new Array()
             $.each($("input[name=ooSn]:checked"), function(){
@@ -505,6 +518,20 @@ var oorl = {
             alert("항목을 선택해주세요.");
             return;
         }
+
+        var regPopupChk = false;
+
+        $.each($("input[name=ooSn]:checked"), function(){
+            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            if(dataItem.PAY_DEPO_SN != null){
+                alert("이미 작성된 입금처리요청서가 있습니다.");
+                regPopupChk = true;
+                return;
+            }
+        });
+
+        if(regPopupChk) return;
+
 
         $.each($("input[name=ooSn]:checked"), function(){
             crmSn.push($(this).attr("crmSn"))

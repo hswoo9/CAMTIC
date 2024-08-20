@@ -152,6 +152,7 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setObtainOrderUpd(Map<String, Object> params) {
         itemManageRepository.setObtainOrderUpd(params);
+        itemManageRepository.setShipmentDeliveryAmtUpd(params);
     }
 
     @Override

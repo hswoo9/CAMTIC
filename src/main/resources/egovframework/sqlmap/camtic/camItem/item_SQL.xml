@@ -464,9 +464,7 @@
             IM.MASTER_SN,
             IM.ITEM_NO,
             IM.ITEM_NAME,
-            CI.CRM_NM,
-            OO.ORDER_VOLUME orderVolume,
-            OO.DELIVERY_AMT AS deliveryAmt
+            CI.CRM_NM
         FROM
             CAM_ITEM.DJ_ITEM_SM_RECORD SR
         JOIN
@@ -2395,4 +2393,18 @@
         WHERE
             MASTER_SN = #{masterSn}
     </select>
+
+    <update id="setShipmentDeliveryAmtUpd" parameterType="map">
+        /* setShipmentDeliveryAmtUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_SM_RECORD
+        SET
+            DELIVERY_AMT = (select delivery_amt from cam_item.dj_item_obtain_order where obtain_order_sn = #{obtainOrderSn}),
+            DELIVERY_VOLUME = #{orderVolume},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
 </mapper>

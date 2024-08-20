@@ -66,6 +66,22 @@ var inr = {
                                     dataSource : inr.global.dropDownDataSource,
                                     dataTextField: "CATEGORY_CODE_NM",
                                     dataValueField: "ITEM_CATEGORY_SN",
+                                    change: function() {
+                                        if ($("#categoryA").val() != "" && $("#categoryB").val() != "" && $("#categoryC").val() != "") {
+
+                                            inr.global.saveAjaxData = {
+                                                categoryA : $("#categoryA").data("kendoDropDownList").value(),
+                                                categoryB : $("#categoryB").data("kendoDropDownList").value(),
+                                                categoryC : $("#categoryC").data("kendoDropDownList").value(),
+                                            }
+                                            var result = customKendo.fn_customAjax("/item/getItemNo", inr.global.saveAjaxData);
+
+                                            var itemNo = result.rs.categoryCode;
+                                            $("#itemNumber").text(itemNo);
+                                        } else {
+                                            $("#itemNumber").text("");
+                                        }
+                                    }
                                 });
                             }
                         }
@@ -256,6 +272,7 @@ var inr = {
             $("#b2bPrice").val(comma(result.rs.B2B_PRICE || 0));
             $("#consumerPrice").val(comma(result.rs.CONSUMER_PRICE || 0));
         }
+        $("#categoryC").data("kendoDropDownList").trigger("change");
     },
 
     comma: function(str) {

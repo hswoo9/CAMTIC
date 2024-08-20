@@ -354,4 +354,15 @@ public class ItemSystemController {
         return "jsonView";
     }
 
+    /**
+     * 품번 가져오기
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemNo")
+    public String getItemNo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.getItemNo(params));
+        return "jsonView";
+    }
 }

@@ -137,7 +137,7 @@ var srl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "미납구분",
+                    title: "납품현황",
                     field: "UNPAID_TYPE",
                     width: 80,
                     template : function (e){

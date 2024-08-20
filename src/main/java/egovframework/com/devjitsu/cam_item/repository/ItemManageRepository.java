@@ -157,4 +157,5 @@ public class ItemManageRepository extends AbstractDAO {
     public Map<String, Object> getItemApprovalInfoByPk(Map<String, Object> params) { return (Map<String, Object>) selectOne("item.getItemApprovalInfoByPk", params);}
     public void updateItemApprStat(Map<String, Object> params) { update("item.updateItemApprStat", params); }
     public void updateItemFinalApprStat(Map<String, Object> params) { update("item.updateItemFinalApprStat", params); }
+    public void setShipmentDeliveryAmtUpd(Map<String, Object> params) { update("item.setShipmentDeliveryAmtUpd", params);}
 }

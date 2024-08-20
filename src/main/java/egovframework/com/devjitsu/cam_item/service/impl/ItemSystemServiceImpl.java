@@ -189,5 +189,8 @@ public class ItemSystemServiceImpl implements ItemSystemService {
         return txt;
     }
 
-
+    @Override
+    public Map<String, Object> getItemNo(Map<String, Object> params) {
+        return itemSystemRepository.getItemNo(params);
+    }
 }

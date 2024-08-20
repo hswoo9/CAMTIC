@@ -27,8 +27,6 @@ var popItemNoList = {
         popItemNoList.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
-            { text : "규격", value : "STANDARD" },
-            { text : "안전재고", value : "SAFETY_INVEN" },
         ]
         customKendo.fn_dropDownList("searchKeyword", popItemNoList.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
