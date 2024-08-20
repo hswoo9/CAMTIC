@@ -585,6 +585,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public Map<String, Object> getItemCostPrice(Map<String, Object> params) {
+        return itemManageRepository.getItemCostPrice(params);
+    }
+
+    @Override
     public void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String localPath = "/downloadFile/";
         String fileName = "입고등록 양식.xlsx";

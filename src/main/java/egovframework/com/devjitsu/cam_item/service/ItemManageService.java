@@ -49,6 +49,7 @@ public interface ItemManageService {
     void setCrmItemUnitPriceReg(Map<String, Object> params);
     void setCrmItemUnitPriceDel(Map<String, Object> params);
     Map<String, Object> getItemUnitPrice(Map<String, Object> params);
+    Map<String, Object> getItemCostPrice(Map<String, Object> params);
     void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<Map<String, Object>> receivingExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setReceivingReg(Map<String, Object> params);
