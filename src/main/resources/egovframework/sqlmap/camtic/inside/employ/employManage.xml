@@ -215,7 +215,7 @@
         UPDATE
             CAM_HR.DJ_EMP_INFO
         SET BANK_NAME = #{bankName},
-            ACCOUNT_NUM = #{accountNum},
+            ACCOUNT_NUM = scp.enc_b64('KEY1', #{accountNum}),
             ACCOUNT_HOLDER = #{accountHolder},
             ATT_CARD_NUM = #{cardNum},
             DUZON_CODE = #{duzonCode},
