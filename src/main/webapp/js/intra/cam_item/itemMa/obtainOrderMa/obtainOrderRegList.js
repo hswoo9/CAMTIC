@@ -184,10 +184,10 @@ var oorl = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        if(e.OBTAIN_ORDER_TYPE == "Y" && e.PAY_DEPO_SN == null) {
-                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
+                        if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.APPR_STAT == "Y"){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
+                            return "";
                         }else{
-                            return ""
+                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
                         }
                     },
                     width: 30,
