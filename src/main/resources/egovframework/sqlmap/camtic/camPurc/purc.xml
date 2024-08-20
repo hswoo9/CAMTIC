@@ -1294,7 +1294,7 @@
             CASE
                 WHEN AA.EXNP_AMT != 0 AND AA.TOT_AMT = AA.EXNP_AMT THEN '지출완료'
                 WHEN AA.REQ_AMT != 0 THEN '지출요청중'
-                WHEN AA.SETTING != 0 THEN '지급설정완료'
+                WHEN AA.SETTING != 0 AND AA.SETTING_YN = 'Y' THEN '지급설정완료'
                 ELSE '지급설정대기'
             END AS STAT,
             IF(AA.TOT_AMT - AA.EXNP_AMT > 0, '', '지출완료') as REQ_STAT
@@ -1307,8 +1307,8 @@
                 REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
                 DI.DOC_NO,
                 (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING,
-                IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'C') AS RE_STAT,
-                A.TOT_AMT - IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS NON_EXNP_AMT
+                (SELECT MNG_SET_STAT FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING_YN,
+                IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'C') AS RE_STAT
             FROM CAM_MNG.DJ_PURC_CLAIM A
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = A.DOC_ID
             LEFT JOIN CAM_MNG.DJ_MNG_PURC MP ON MP.PURC_SN = A.PURC_SN
@@ -1794,6 +1794,7 @@
                 PJT_CD,
                 BUDGET_SN,
                 BUDGET_NM,
+                MNG_SET_STAT,
                 REG_EMP_SEQ
             )
         VALUES
@@ -1803,6 +1804,7 @@
                 #{pjtCd},
                 #{budgetSn},
                 #{budgetNm},
+                #{mngSetStat},
                 #{empSeq}
             )
     </insert>

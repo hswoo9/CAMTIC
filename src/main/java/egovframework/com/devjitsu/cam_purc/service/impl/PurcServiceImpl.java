@@ -343,6 +343,7 @@ public class PurcServiceImpl implements PurcService {
                 claimSettingMap.put("pjtCd", claimData.get("PJT_CD"));
                 claimSettingMap.put("claimSn", claimData.get("CLAIM_SN"));
                 claimSettingMap.put("empSeq", claimData.get("EMP_SEQ"));
+                claimSettingMap.put("mngSetStat", "N");
                 purcRepository.insPurcBasicSetting(claimSettingMap);
 
                 // PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT

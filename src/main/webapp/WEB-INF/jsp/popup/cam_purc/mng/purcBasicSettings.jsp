@@ -69,10 +69,12 @@
                 type : "post",
                 dataType : "json",
                 success : function(rs){
-                    $("#budgetSn").val(rs.map.BUDGET_SN);
-                    $("#budgetNm").val(rs.map.BUDGET_NM);
-                    $("#pjtNm").val(rs.map.PJT_NM);
-                    $("#pjtCd").val(rs.map.PJT_CD);
+                    if(rs.map != null) {
+                        $("#budgetSn").val(rs.map.BUDGET_SN);
+                        $("#budgetNm").val(rs.map.BUDGET_NM);
+                        $("#pjtNm").val(rs.map.PJT_NM);
+                        $("#pjtCd").val(rs.map.PJT_CD);
+                    }
                 }
             })
         }
@@ -123,12 +125,21 @@
 
         itemArr = itemArr.substring(0, itemArr.length - 1);
 
+        if(!$("#pjtNm").val()) {
+            alert("프로젝트가 선택되지 않았습니다.");
+            return;
+        } else if(!$("#budgetNm").val()) {
+            alert("예산비목이 선택되지 않았습니다.");
+            return;
+        }
+
         var data = {
             itemArr : itemArr,
             pjtNm : $("#pjtNm").val(),
             pjtCd : $("#pjtCd").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
+            mngSetStat : "Y"
         }
 
         $.ajax({

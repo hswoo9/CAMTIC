@@ -297,7 +297,7 @@ var purcMngAppList = {
                     template : function(e){
                         var stat = "미설정"
 
-                        if(e.SETTING != 0){
+                        if(e.SETTING != 0 && e.SETTING_YN == "Y"){
                             stat = "설정완료";
                         }
                         return stat;
@@ -329,7 +329,7 @@ var purcMngAppList = {
                     template: function (e) {
                         var stat = "지급설정대기";
 
-                        if(e.SETTING != 0){
+                        if(e.SETTING != 0 && e.SETTING_YN == "Y"){
                             stat = "지급설정완료";
                         }
                         if(e.REQ_AMT != 0){
