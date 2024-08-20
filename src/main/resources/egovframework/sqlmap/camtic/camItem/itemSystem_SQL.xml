@@ -206,7 +206,8 @@
             IM.*,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
-            IUC.ITEM_CD_NM AS ITEM_UNIT_NM
+            IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
         JOIN
@@ -529,4 +530,15 @@
         LIMIT 1
     </select>
 
+    <select id="getItemNo" parameterType="map" resultType="map">
+        /* getItemNo */
+        SELECT
+            ITEM_NO
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER
+        WHERE
+            ITEM_NO = CONCAT( (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC}) )
+    </select>
 </mapper>
