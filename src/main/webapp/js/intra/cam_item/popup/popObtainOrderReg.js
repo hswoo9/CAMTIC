@@ -24,57 +24,51 @@ var oor = {
 
         html = "" +
             '<tr class="orInfo ' + e + 'OrInfo" id="or' + oor.global.oorIndex + '">' +
-                '<td>' +
-                    '<input type="checkbox" id="check' + oor.global.oorIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />' +
-                '</td>' +
-                '<td>' +
-                    '<input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
-                    '<input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
-                    '<input type="hidden" id="crmSn' + oor.global.oorIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');"/>' +
-                    '<button type="button" id="crmSelBtn' + oor.global.oorIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');">선택</button>' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
-                    '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="dueDt' + oor.global.oorIndex + '" class="dueDt">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="orderVolume' + oor.global.oorIndex + '" class="numberInput orderVolume" style="text-align: right;" value="0">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange()">' +
-                    '<input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="freightCost' + oor.global.oorIndex + '" class="numberInput freightCost" style="text-align: right" value="0">' +
-                '</td>' +
-                ' <td>' +
-                    '<input type="text" id="shippingCost' + oor.global.oorIndex + '" class="numberInput shippingCost" style="text-align: right" value="0">' +
-                ' </td>' +
-                '<td>' +
-                    '<input type="text" id="amt' + oor.global.oorIndex + '" class="amt numberInput" style="text-align: right" readonly value="0">' +
-                '</td>' +
-                '<td>' +
-                    '<input type="text" id="rmk' + oor.global.oorIndex + '" class="rmk">' +
-                '</td>' +
-                '<td style="text-align: center">' +
-                    '<button type="button" class="k-button k-button-solid-error" orNum="' + oor.global.oorIndex + '" onclick="oor.delRow(this)">X</button>' +
-                '</td>' +
+            '<td>' +
+            '<input type="checkbox" id="check' + oor.global.oorIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />' +
+            '</td>' +
+            '<td>' +
+            '<input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
+            '<input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
+            '<input type="hidden" id="crmSn' + oor.global.oorIndex + '" class="crmSn">' +
+            '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');"/>' +
+            '<button type="button" id="crmSelBtn' + oor.global.oorIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\',' + oor.global.oorIndex + ');">선택</button>' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
+            '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="dueDt' + oor.global.oorIndex + '" class="dueDt">' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="orderVolume' + oor.global.oorIndex + '" class="numberInput orderVolume" style="text-align: right;" value="0">' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange()">' +
+            '<input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="amt' + oor.global.oorIndex + '" class="amt numberInput" style="text-align: right" readonly value="0">' +
+            '</td>' +
+            '<td>' +
+            '<input type="text" id="rmk' + oor.global.oorIndex + '" class="rmk">' +
+            '</td>' +
+            '<td style="text-align: center">' +
+            '<button type="button" class="k-button k-button-solid-error" orNum="' + oor.global.oorIndex + '" onclick="oor.delRow(this)">X</button>' +
+            '</td>' +
             '</tr>';
 
         $("#listTb").append(html);
 
         customKendo.fn_textBox(["orderVolume" + oor.global.oorIndex, "unitPrice" + oor.global.oorIndex,
-            "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex ,"freightCost" + oor.global.oorIndex ,"shippingCost" + oor.global.oorIndex])
+            "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex])
 
         customKendo.fn_datePicker("dueDt" + oor.global.oorIndex, '', "yyyy-MM-dd", '');
 
@@ -92,14 +86,10 @@ var oor = {
             $(this).val(oor.comma(oor.uncomma($(this).val())));
         });
 
-        $(".orderVolume, .unitPrice, .freightCost, .shippingCost").keyup(function(){
+        $(".orderVolume, .unitPrice").keyup(function(){
             var orderVolume = Number(oor.uncomma($(this).closest("tr").find("input.orderVolume").val()));
             var unitPrice = Number(oor.uncomma($(this).closest("tr").find("input.unitPrice").val()));
-            var freightCost = Number(oor.uncomma($(this).closest("tr").find("input.freightCost").val()));
-            var shippingCost = Number(oor.uncomma($(this).closest("tr").find("input.shippingCost").val()));
-
-            var totalAmt = (orderVolume * unitPrice) + freightCost + shippingCost;
-            $(this).closest("tr").find("input.amt").val(oor.comma(totalAmt));
+            $(this).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
         });
 
         oor.global.oorIndex++;

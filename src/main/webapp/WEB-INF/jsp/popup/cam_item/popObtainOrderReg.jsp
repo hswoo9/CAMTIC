@@ -81,18 +81,16 @@
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 2%;">
-                    <col style="width: 19%;">
+                    <col style="width: 18%;">
                     <col style="width: 12%;">
+                    <col style="width: 10%;">
                     <col style="width: 8%;">
-                    <col style="width: 4%;">
                     <col style="width: 9%;">
                     <col style="width: 5%;">
-                    <col style="width: 16%;">
-                    <col style="width: 6%;">
-                    <col style="width: 6%;">
-                    <col style="width: 8%;">
-                    <col style="width: 5%;">
-                    <col style="width: 2%;">
+                    <col style="width: 15%;">
+                    <col style="width: 7%;">
+                    <col style="width: 10%;">
+                    <col style="width: 3%;">
                 </colgroup>
                 <thead>
                 <tr>
@@ -106,8 +104,6 @@
                     <th>납기일자</th>
                     <th>수주량</th>
                     <th>단가</th>
-                    <th>운임비</th>
-                    <th>포장비용</th>
                     <th>수주금액</th>
                     <th>비고</th>
                     <th></th>
