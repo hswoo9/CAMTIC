@@ -38,4 +38,5 @@ public class MenuManagementRepository extends AbstractDAO {
     public void setAuthorityGroupUser(Map<String, Object> params){ insert("menu.setAuthorityGroupUser", params);}
     public void setAuthorityGroupUserUpd(Map<String, Object> params){ insert("menu.setAuthorityGroupUserUpd", params);}
     public void setAuthorityGroupUserDel(List<String> aguAr){ delete("menu.setAuthorityGroupUserDel", aguAr);}
+    public List<Map<String, Object>> getRequestBoardMenuList(Map<String, Object> params) {return selectList("menu.getRequestBoardMenuList", params);}
 }

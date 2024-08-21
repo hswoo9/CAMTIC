@@ -79,4 +79,10 @@ public interface MenuManagementService {
      * @param params
      */
     void setAuthorityGroupUserDel(List<String> aguAr);
+
+    /**
+     * ListMap 형식 메뉴 Select
+     * @return
+     */
+    List<Map<String, Object>> getRequestBoardMenuList(Map<String, Object> params);
 }

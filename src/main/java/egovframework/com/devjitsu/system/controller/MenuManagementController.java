@@ -146,4 +146,10 @@ public class MenuManagementController {
         return "jsonView";
     }
 
+    /** 전산보완 게시판 대,중,소 형 형식 메뉴리스트 */
+    @RequestMapping("/system/getRequestBoardMenuList")
+    public String getRequestBoardMenuList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", menuManagementService.getRequestBoardMenuList(params));
+        return "jsonView";
+    }
 }
