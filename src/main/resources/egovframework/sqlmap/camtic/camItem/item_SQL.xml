@@ -376,7 +376,7 @@
         /* getOrderDeliveryAmtChk */
         SELECT
             <![CDATA[
-            CASE WHEN IFNULL(SR.DELIVERY_AMT, '0') > #{orderVolume}  THEN 1
+            CASE WHEN CAST(IFNULL(SR.DELIVERY_AMT, 0) AS UNSIGNED) > CAST(#{orderVolume} AS UNSIGNED)  THEN 1
                  ELSE 0
             END
             ]]>

@@ -65,7 +65,7 @@ var oorm = {
 
         if(oorm.getOrderDeliveryAmtChk()){
             //alert("납품량은 수주량을 초과할 수 없습니다.");
-            alert("수주량은 납품누계보다 적게 설정 할 수 없습니다.");
+            alert("수주량은 출하누계보다 적게 설정 할 수 없습니다.");
             return;
         }
 

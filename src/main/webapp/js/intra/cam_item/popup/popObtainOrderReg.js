@@ -211,14 +211,11 @@ var oor = {
 
     modCrmSn : function(){
         $.each($(".orInfo"), function(i, v){
-
-            if($("#check"+i).is(':checked')) {
-                $(this).find("#crmSn" + i).val($("#allModCrmSn").val());
-                $(this).find("#crmNm" + i).val($("#allModCrmNm").val());
-                $(this).find("#dueDt" + i).val($("#dueDate").val());
-                oor.getItemUnitPrice(i);
-            }
-        })
+            $(this).find("#crmSn" + i).val($("#allModCrmSn").val());
+            $(this).find("#crmNm" + i).val($("#allModCrmNm").val());
+            $(this).find("#dueDt" + i).val($("#dueDate").val());
+            oor.getItemUnitPrice(i);
+        });
     },
 
     fn_popItemNoList : function (masterSnIndex){
