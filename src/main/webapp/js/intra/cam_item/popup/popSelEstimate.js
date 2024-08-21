@@ -127,7 +127,7 @@ var popSelEstimate = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "납품누계",
+                    title: "출하누계",
                     field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){

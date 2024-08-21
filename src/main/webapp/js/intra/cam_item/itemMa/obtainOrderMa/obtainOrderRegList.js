@@ -436,7 +436,7 @@ var oorl = {
 
         $(".numberInput").keyup(function(){
             if(Number(oorl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
-                alert("납품누계는 수주량을 초과할 수 없습니다.");
+                alert("출하누계는 수주량을 초과할 수 없습니다.");
                 $(this).val(oorl.comma($(this).attr("maxOrderVolume")));
             }else{
                 $(this).val(oorl.comma(oorl.uncomma($(this).val())));
