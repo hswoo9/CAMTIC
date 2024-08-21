@@ -143,7 +143,7 @@ var payRollLedgerMa = {
                                 return "<div style='text-align: right'>"+comma(extraSum)+"</div>";
                             }
                         }, {
-                            field: "SAL_TOT_PAY",
+                            field: "TOTAL_PAY",
                             title: "지급합계",
                             width : 100,
                             template: function (e) {
