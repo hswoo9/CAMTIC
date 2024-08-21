@@ -83,6 +83,15 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/getPaymentListForExcelDown")
+    public String getPaymentListForExcelDown(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = payAppService.getPaymentListForExcelDown(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/regPayAppPop.do")
     public String regPayAppPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

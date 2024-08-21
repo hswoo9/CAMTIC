@@ -61,54 +61,44 @@ var paymentMngList = {
 
         $("#payAppStrDe, #payAppEndDe").attr("readonly", true);
 
+        $("#payAppStrDe").change(function (){
+            if($("#payAppStrDe").val() > $("#payAppEndDe").val()){
+                $("#payAppEndDe").val($("#payAppStrDe").val());
+            }
+        });
+        $("#payAppEndDe").change(function (){
+            if($("#payAppStrDe").val() > $("#payAppEndDe").val()){
+                $("#payAppStrDe").val($("#payAppEndDe").val());
+            }
+        });
+
         $("#payAppStrDe").data("kendoDatePicker").bind("change", paymentMngList.gridReload);
         $("#payAppEndDe").data("kendoDatePicker").bind("change", paymentMngList.gridReload);
         $("#payAppType").data("kendoDropDownList").bind("change", paymentMngList.gridReload);
         $("#searchDept").data("kendoDropDownList").bind("change", paymentMngList.gridReload);
-        paymentMngList.mainGrid();
+        paymentMngList.gridReload();
     },
 
     gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        paymentMngList.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            payAppType : $("#payAppType").val(),
+            searchDate : $("#searchDate").val(),
+            strDe : $("#payAppStrDe").val(),
+            endDe : $("#payAppEndDe").val(),
+            pageType : "USER"
+        }
+
+        paymentMngList.mainGrid("/pay/getPaymentList", paymentMngList.global.searchAjaxData);
+        paymentMngList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentMngList.global.searchAjaxData);
     },
 
-    mainGrid : function(){
-        const dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : "/pay/getPaymentList",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#myEmpSeq").val();
-                    data.searchDate = $("#searchDate").val();
-                    data.searchDept = $("#searchDept").val();
-                    data.searchKeyword = $("#searchKeyword").val();
-                    data.searchValue = $("#searchValue").val();
-                    data.payAppType = $("#payAppType").val();
-
-                    data.strDe = $("#payAppStrDe").val();
-                    data.endDe = $("#payAppEndDe").val();
-
-                    data.pageType = "USER";
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
             height: 525,
@@ -136,8 +126,13 @@ var paymentMngList = {
                             '</button>';
                     }
                 }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentMngList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }, {
                     name: 'button',
                     template: function(){
@@ -147,11 +142,11 @@ var paymentMngList = {
                     }
                 }
             ],
-            excel : {
-                fileName : "지급신청서(관리자) 목록.xlsx",
-                filterable : true
-            },
-            excelExport: exportGrid,
+            // excel : {
+            //     fileName : "지급신청서(관리자) 목록.xlsx",
+            //     filterable : true
+            // },
+            // excelExport: exportGrid,
             dataBound: paymentMngList.onDataBound,
             columns: [
                 {
@@ -341,6 +336,109 @@ var paymentMngList = {
             }
         }).data("kendoGrid");
     },
+
+    hiddenGrid: function(url, params){
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "문서번호",
+                    width: 120,
+                    field: "DOC_NO"
+                }, {
+                    title: "문서유형",
+                    width: 80,
+                    field: "PAY_APP_TYPE"
+                }, {
+                    title: "증빙유형",
+                    width: 80,
+                    field: "EVID_TYPE_TEXT",
+                }, {
+                    title: "프로젝트코드",
+                    field: "PJT_CD",
+                    width: 200,
+                },{
+                    title: "프로젝트명",
+                    field: "PJT_NM",
+                    width: 200,
+                }, {
+                    title: "출금계좌_계좌명",
+                    field: "ACC_NM",
+                    width: 200,
+                }, {
+                    title: "출금계좌_계좌번호",
+                    field: "ACC_NO",
+                    width: 200,
+                }, {
+                    title: "출금계좌_은행명",
+                    field: "BNK_NM",
+                    width: 200,
+                }, {
+                    title: "예산비목(장)",
+                    field: "BUDGET_NM_1",
+                    width: 200,
+                }, {
+                    title: "예산비목(관)",
+                    field: "BUDGET_NM_2",
+                    width: 200,
+                }, {
+                    title: "예산비목(항)",
+                    field: "BUDGET_NM_3",
+                    width: 200,
+                }, {
+                    title: "지급처_은행명",
+                    width: 200,
+                    field: "CRM_BNK_NM"
+                },{
+                    title: "지급처_계좌번호",
+                    width: 200,
+                    field: "CRM_ACC_NO"
+                },{
+                    title: "지급처_예금주",
+                    width: 200,
+                    field: "CRM_ACC_HOLDER"
+                },{
+                    title: "거래처",
+                    width: 200,
+                    field: "CRM_NM"
+                }, {
+                    title: "신청건명",
+                    field: "APP_TITLE",
+                    width: 250,
+                }, {
+                    title: "지출금액",
+                    width: 80,
+                    field: "TOT_COST",
+                }, {
+                    title: "신청일",
+                    width: 80,
+                    field: "REG_DT",
+                }, {
+                    title: "지출요청일",
+                    width: 80,
+                    field: "REQ_DE",
+                }, {
+                    title: "지출예정일",
+                    width: 80,
+                    field: "PAY_EXNP_DE",
+                }, {
+                    title: "부서명",
+                    field: "REG_DEPT_NAME",
+                    width: 80
+                }, {
+                    title: "신청자",
+                    field: "REG_EMP_NAME",
+                    width: 80
+                },
+            ],
+        }).data("kendoGrid");
+    },
     
     onDataBound : function(){
         amtSum = 0;
@@ -468,5 +566,13 @@ var paymentMngList = {
         windowX = Math.ceil( (window.screen.width  - width) / 2 );
         windowY = Math.ceil( (window.screen.height - height) / 2 );
         pop = window.open(url, '결재선 보기', "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
+    },
+
+    fn_excelDownload : function (){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "지급신청서(관리자) 목록.xlsx";
+        });
+        grid.saveAsExcel();
     }
 }

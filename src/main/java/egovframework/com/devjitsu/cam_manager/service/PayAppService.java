@@ -18,6 +18,8 @@ public interface PayAppService {
 
     List<Map<String, Object>> getPaymentList(Map<String, Object> params);
 
+    List<Map<String, Object>> getPaymentListForExcelDown(Map<String, Object> params);
+
     List<Map<String, Object>> getWaitPaymentList(Map<String, Object> params);
 
     void updatePayAppDocState(Map<String, Object> bodyMap);

@@ -405,6 +405,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getPaymentListForExcelDown(Map<String, Object> params) {
+        return payAppRepository.getPaymentListForExcelDown(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getWaitPaymentList(Map<String, Object> params) {
         return payAppRepository.getWaitPaymentList(params);
     }

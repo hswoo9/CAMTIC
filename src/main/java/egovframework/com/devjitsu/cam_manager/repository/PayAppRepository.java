@@ -57,6 +57,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getPaymentList", params);
     }
 
+    public List<Map<String, Object>> getPaymentListForExcelDown(Map<String, Object> params) {
+        return selectList("payApp.getPaymentListForExcelDown", params);
+    }
+
     public List<Map<String, Object>> getWaitPaymentList(Map<String, Object> params) {
         return selectList("payApp.getWaitPaymentList", params);
     }
