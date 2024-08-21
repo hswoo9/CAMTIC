@@ -524,9 +524,9 @@ var prp = {
                 '<td>' +
                     '<input type="text" id="purcItemAmt' + prp.global.itemIndex + '" class="purcItemAmt" disabled onkeyup="prp.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                 '</td>' +
-                '<td>' +
+                '<td style="text-align: center;">' +
                     '<input type="hidden" id="crmSn' + prp.global.itemIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + prp.global.itemIndex + '" disabled class="crmNm" style="width: 60%"> ' +
+                    '<input type="text" id="crmNm' + prp.global.itemIndex + '" disabled class="crmNm" style="width: 70%"> ' +
                     '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">검색</button>' +
                 '</td>' +
                 // '<td>' +
@@ -537,12 +537,12 @@ var prp = {
                 '</td>';
         if($("#stat").val() == "v"){
             prp.global.createHtmlStr += '' +
-                '<td id="itemStatus' + prp.global.itemIndex + '">' +
+                '<td id="itemStatus' + prp.global.itemIndex + '" style="text-align: center;">' +
                     '<button type="button" id="retBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem('+prp.global.itemIndex+')">반려</button>' +
                 '</td>';
         } else {
             prp.global.createHtmlStr += '' +
-                '<td>' +
+                '<td style="text-align: center;">' +
                 '   <button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(' + prp.global.itemIndex + ')">삭제</button>' +
                 '</td>'
         }

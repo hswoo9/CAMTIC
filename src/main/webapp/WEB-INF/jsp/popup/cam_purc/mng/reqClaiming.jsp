@@ -284,26 +284,28 @@
                     </button>
                 </div>
 
-                <table class="popTable table table-bordered mb-0 mt-20">
-                    <colgroup>
-<%--                        <col style="width: 3%;">--%>
-                        <col style="width: 480px;">
-                        <col style="width: 10%;">
-                        <col style="width: 7%;">
-                        <col style="width: 5%;">
-                        <col style="width: 8%;">
-                        <col style="width: 5%;">
-                        <col style="width: 7%;">
-                        <col style="width: 7%;">
-<%--                        <col style="width: 7%;">--%>
-<%--                        <col style="width: 7%;">--%>
-                        <col style="width: 8%;">
-<%--                        <col style="width: 18%;">--%>
-                        <col style="width: 4%;">
-                    </colgroup>
-                    <thead>
+                <div style="width: 100%; overflow-x: scroll !important; overflow-y: hidden;">
+                    <table class="popTable table table-bordered mb-0 mt-20" style="table-layout: fixed">
+                        <colgroup>
+                            <%--                        <col style="width: 3%;">--%>
+                            <col style="width: 480px;">
+                            <col style="width: 220px;">
+                            <col style="width: 220px;">
+                            <col style="width: 80px;">
+                            <col style="width: 120px;">
+                            <col style="width: 80px;">
+                            <col style="width: 120px;">
+                            <col style="width: 120px;">
+                            <%--                        <col style="width: 7%;">--%>
+                            <%--                        <col style="width: 7%;">--%>
+                            <col style="width: 120px;">
+                            <%--                        <col style="width: 18%;">--%>
+                            <col style="width: 200px;">
+                            <col style="width: 80px;">
+                        </colgroup>
+                        <thead>
                         <tr>
-<%--                            <th>번호</th>--%>
+                            <%--                            <th>번호</th>--%>
                             <th>구분</th>
                             <th>품명</th>
                             <th>규격</th>
@@ -313,19 +315,19 @@
                             <th>공급가액</th>
                             <th>세액</th>
                             <th>금액</th>
-<%--                            <th>요청금액</th>--%>
-<%--                            <th>할인금액</th>--%>
+                            <%--                            <th>요청금액</th>--%>
+                            <%--                            <th>할인금액</th>--%>
                             <th>비고</th>
-<%--                            <th>자산</th>--%>
+                            <%--                            <th>자산</th>--%>
                             <th>명령</th>
                         </tr>
-                    </thead>
-                    <tbody id="claimTbody">
+                        </thead>
+                        <tbody id="claimTbody">
                         <tr class="claimItem newArray" id="item0">
-<%--                            <td style="text-align: center">--%>
-<%--                                <div id="claimIndex">1</div>--%>
-<%--                                <input type="hidden" id="claimItemSn0" />--%>
-<%--                            </td>--%>
+                            <%--                            <td style="text-align: center">--%>
+                            <%--                                <div id="claimIndex">1</div>--%>
+                            <%--                                <input type="hidden" id="claimItemSn0" />--%>
+                            <%--                            </td>--%>
                             <td>
                                 <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
                                 <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
@@ -357,36 +359,37 @@
                             <td>
                                 <input type="text" id="itemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
-<%--                            <td>--%>
-<%--                                <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
-<%--                            </td>--%>
-<%--                            <td>--%>
-<%--                                <input type="text" id="difAmt0" class="difAmt" value="0" style="text-align: right" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
-<%--                            </td>--%>
+                            <%--                            <td>--%>
+                            <%--                                <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
+                            <%--                            </td>--%>
+                            <%--                            <td>--%>
+                            <%--                                <input type="text" id="difAmt0" class="difAmt" value="0" style="text-align: right" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
+                            <%--                            </td>--%>
                             <td>
                                 <label for="itemEtc0"></label><input type="text" id="itemEtc0" class="itemEtc">
                             </td>
-<%--                            <td>--%>
-<%--                                <span id="prodCd"></span>--%>
-<%--                            </td>--%>
+                            <%--                            <td>--%>
+                            <%--                                <span id="prodCd"></span>--%>
+                            <%--                            </td>--%>
                             <td style="text-align: center">
                                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete('0')">
                                     <span class="k-button-text">삭제</span>
                                 </button>
                             </td>
                         </tr>
-                    </tbody>
-<%--                    <tfoot>--%>
-<%--                    <tr>--%>
-<%--                        <th colspan="8" style="text-align: right; font-weight: bold">--%>
-<%--                            가격조정--%>
-<%--                        </th>--%>
-<%--                        <td colspan="2" style="text-align: right; font-weight: bold">--%>
-<%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-<%--                    </tfoot>--%>
-                </table>
+                        </tbody>
+                        <%--                    <tfoot>--%>
+                        <%--                    <tr>--%>
+                        <%--                        <th colspan="8" style="text-align: right; font-weight: bold">--%>
+                        <%--                            가격조정--%>
+                        <%--                        </th>--%>
+                        <%--                        <td colspan="2" style="text-align: right; font-weight: bold">--%>
+                        <%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
+                        <%--                        </td>--%>
+                        <%--                    </tr>--%>
+                        <%--                    </tfoot>--%>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

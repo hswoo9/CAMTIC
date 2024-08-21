@@ -249,135 +249,137 @@
                     </div>
                 </div>
 
-                <table class="popTable table table-bordered mb-0 mt-20">
-                    <colgroup>
-                        <col style="width: 2%;">
-                        <col style="width: 480px;">
-                        <col style="width: 8%;">
-                        <col style="width: 5%;">
-                        <col style="width: 8%;">
-                        <col style="width: 5%;">
-                        <col style="width: 4%;">
-                        <col style="width: 7%;">
-                        <col style="width: 7%;">
-                        <col style="width: 7%;">
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 10%;">
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <col style="width: 10%;">
-                        </c:if>
-<%--                        <col style="width: 7%;">--%>
-                        <col style="width: 5%;">
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 3%">
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <col style="width: 3%">
-                        </c:if>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="checkAll" class="k-checkbox" />
-                        </th>
-                        <th><span class="red-star">*</span>구분</th>
-                        <th><span class="red-star">*</span>품명</th>
-                        <th><span class="red-star">*</span>규격</th>
-                        <th><span class="red-star">*</span>단가</th>
-                        <th><span class="red-star">*</span>수량</th>
-                        <th><span class="red-star">*</span>단위</th>
-                        <th>공급가액</th>
-                        <th>세액</th>
-                        <th>금액</th>
-                        <th><span class="red-star">*</span>업체명</th>
-<%--                        <th><span class="red-star">*</span>할인금액</th>--%>
-                        <th>비고</th>
-                        <c:if test="${params.stat == 'v'}">
-                            <th>상태</th>
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <th>삭제</th>
-                        </c:if>
-                    </tr>
-                    </thead>
-                    <tbody id="purcItemTb">
-                    <tr class="purcItemInfo newArray" id="item0">
-                        <td>
-                            <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />
-                        </td>
-                        <td>
-                            <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
-                            <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
-                            <input type="text" id="productA0" class="productA" style="width: 110px">
-                            <input type="text" id="productB0" class="productB" style="width: 110px; display: none">
-                            <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemName0" class="purcItemName">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemStd0" class="purcItemStd">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemUnit0" class="purcItemUnit">
-                        </td>
-                        <td>
-                            <input type="text" id="purcSupAmt0" class="purcSupAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        </td>
-                        <td>
-                            <input type="text" id="purcVatAmt0" class="purcVatAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        </td>
-                        <td>
-                            <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        </td>
-                        <td>
-                            <input type="hidden" id="crmSn0" class="crmSn">
-                            <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
-                            <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">검색</button>
-                        </td>
-<%--                        <td>--%>
-<%--                            <input type="text" id="discountAmt0" style="text-align: right" class="discountAmt" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">--%>
-<%--                        </td>--%>
-                        <td>
-                            <input type="text" id="rmk0" class="rmk">
-                        </td>
-                        <c:if test="${params.stat == 'v'}">
-                            <td id="itemStatus0">
-                                <button type="button" id="retBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem(0)">
-                                    반려
-                                </button>
-                            </td>
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
+                <div style="width: 100%; overflow-x: scroll !important; overflow-y: hidden;">
+                    <table class="popTable table table-bordered mb-0 mt-20" style="table-layout: fixed;">
+                        <colgroup>
+                            <col style="width: 50px;">
+                            <col style="width: 480px;">
+                            <col style="width: 220px;">
+                            <col style="width: 220px;">
+                            <col style="width: 120px;">
+                            <col style="width: 80px;">
+                            <col style="width: 80px;">
+                            <col style="width: 120px;">
+                            <col style="width: 120px;">
+                            <col style="width: 120px;">
+                            <c:if test="${params.stat == 'v'}">
+                                <col style="width: 200px;">
+                            </c:if>
+                            <c:if test="${params.stat != 'v'}">
+                                <col style="width: 200px;">
+                            </c:if>
+                            <%--                        <col style="width: 7%;">--%>
+                            <col style="width: 200px;">
+                            <c:if test="${params.stat == 'v'}">
+                                <col style="width: 80px;">
+                            </c:if>
+                            <c:if test="${params.stat != 'v'}">
+                                <col style="width: 80px;">
+                            </c:if>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="checkAll" class="k-checkbox" />
+                            </th>
+                            <th><span class="red-star">*</span>구분</th>
+                            <th><span class="red-star">*</span>품명</th>
+                            <th><span class="red-star">*</span>규격</th>
+                            <th><span class="red-star">*</span>단가</th>
+                            <th><span class="red-star">*</span>수량</th>
+                            <th><span class="red-star">*</span>단위</th>
+                            <th>공급가액</th>
+                            <th>세액</th>
+                            <th>금액</th>
+                            <th><span class="red-star">*</span>업체명</th>
+                            <%--                        <th><span class="red-star">*</span>할인금액</th>--%>
+                            <th>비고</th>
+                            <c:if test="${params.stat == 'v'}">
+                                <th>상태</th>
+                            </c:if>
+                            <c:if test="${params.stat != 'v'}">
+                                <th>삭제</th>
+                            </c:if>
+                        </tr>
+                        </thead>
+                        <tbody id="purcItemTb">
+                        <tr class="purcItemInfo newArray" id="item0">
                             <td>
-                                <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(0)">
-                                    삭제
-                                </button>
+                                <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />
                             </td>
-                        </c:if>
-                    </tr>
-                    </tbody>
-<%--                    <tfoot>--%>
-<%--                    <tr>--%>
-<%--                        <th colspan="9" style="text-align: right; font-weight: bold">--%>
-<%--                            가격조정--%>
-<%--                        </th>--%>
-<%--                        <td style="text-align: right; font-weight: bold">--%>
-<%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
-<%--                        </td>--%>
-<%--                        <th colspan="2" style="text-align: right; font-weight: bold">--%>
+                            <td>
+                                <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
+                                <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
+                                <input type="text" id="productA0" class="productA" style="width: 110px">
+                                <input type="text" id="productB0" class="productB" style="width: 110px; display: none">
+                                <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemName0" class="purcItemName">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemStd0" class="purcItemStd">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemUnit0" class="purcItemUnit">
+                            </td>
+                            <td>
+                                <input type="text" id="purcSupAmt0" class="purcSupAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input type="text" id="purcVatAmt0" class="purcVatAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="hidden" id="crmSn0" class="crmSn">
+                                <input type="text" id="crmNm0" disabled class="crmNm" style="width: 70%">
+                                <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">검색</button>
+                            </td>
+                            <%--                        <td>--%>
+                            <%--                            <input type="text" id="discountAmt0" style="text-align: right" class="discountAmt" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">--%>
+                            <%--                        </td>--%>
+                            <td>
+                                <input type="text" id="rmk0" class="rmk">
+                            </td>
+                            <c:if test="${params.stat == 'v'}">
+                                <td id="itemStatus0" style="text-align: center;">
+                                    <button type="button" id="retBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem(0)">
+                                        반려
+                                    </button>
+                                </td>
+                            </c:if>
+                            <c:if test="${params.stat != 'v'}">
+                                <td style="text-align: center;">
+                                    <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(0)">
+                                        삭제
+                                    </button>
+                                </td>
+                            </c:if>
+                        </tr>
+                        </tbody>
+                        <%--                    <tfoot>--%>
+                        <%--                    <tr>--%>
+                        <%--                        <th colspan="9" style="text-align: right; font-weight: bold">--%>
+                        <%--                            가격조정--%>
+                        <%--                        </th>--%>
+                        <%--                        <td style="text-align: right; font-weight: bold">--%>
+                        <%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
+                        <%--                        </td>--%>
+                        <%--                        <th colspan="2" style="text-align: right; font-weight: bold">--%>
 
-<%--                        </th>--%>
-<%--                    </tr>--%>
-<%--                    </tfoot>--%>
-                </table>
+                        <%--                        </th>--%>
+                        <%--                    </tr>--%>
+                        <%--                    </tfoot>--%>
+                    </table>
+                </div>
 
                 <input type="hidden" id="crmSn" onchange="prp.crmInfoChange()">
                 <input type="hidden" id="crmNm">
