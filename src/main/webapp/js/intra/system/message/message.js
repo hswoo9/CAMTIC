@@ -28,6 +28,7 @@ function onCheck() {
     console.log(checkedNodes);
     if (checkedNodes.length > 0) {
         $("#destDiv").empty();
+        $("#destDiv").append("<div style=\"color: red; text-align: left; width: 95%; margin: 5px auto;\">* 전화번호부 목록에서 선택</div>");
         for (var i = 0; i < checkedNodes.length; i++) {
             message = checkedNodes[i];
             console.log(message);
@@ -39,19 +40,23 @@ function onCheck() {
                 .attr("cname", "테스트")
                 .attr("value", message)
                 .attr("phone", message)
-                .attr("style", "margin-bottom:5px;")
+                .attr("style", "width: 95%; margin-bottom:5px;")
+                .attr("disabled", "disabled")
                 .val(message);
 
             $("#destDiv").append(input);
         }
     } else {
         $("#destDiv").empty();
+        $("#destDiv").append("<div style=\"color: red; text-align: left; width: 95%; margin: 5px auto;\">* 전화번호부 목록에서 선택</div>");
         var message = "받는사람을 체크해주세요.";
         var input = $("<input>")
             .attr("type", "text")
             .attr("name", "dest_phone")
             .attr("class", "destPhone")
-            .attr("value", message);
+            .attr("value", message)
+            .attr("style", "width: 95%;")
+            .attr("disabled", "disabled")
         $("#destDiv").append(input);
     }
 

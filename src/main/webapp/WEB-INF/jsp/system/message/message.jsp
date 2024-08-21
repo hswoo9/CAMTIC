@@ -186,7 +186,10 @@
                                 <div class="msg_con_wrap" style="height: 520px; display:flex;">
                                     <div style="border:1px solid #ddd; margin-left:10px; width:100%; text-align: center">
                                         <div style="background-color:#eee; height:30px;text-align: center; padding-top: 5px; margin-bottom: 10px;">받는사람</div>
-                                        <div id="destDiv"><input name="dest_phone" id="dest_phone" style="width:95%;" placeholder="받는사람을 체크해주세요."></div>
+                                        <div id="destDiv">
+                                            <div style="color: red; text-align: left; width: 95%; margin: 5px auto;">* 전화번호부 목록에서 선택</div>
+                                            <input name="dest_phone" id="dest_phone" style="width:95%;" placeholder="받는사람을 체크해주세요." disabled>
+                                        </div>
                                     </div>
                                     <div class="msg_mms_box" style="margin: 0 30px;" >
                                         <textarea name="tBox_Msg" class="MsgBox ImeMode" id="tBox_Msg" placeholder="[메시지입력창]" rows="12" cols="20"></textarea>
