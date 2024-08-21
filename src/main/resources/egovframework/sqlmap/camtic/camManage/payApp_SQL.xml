@@ -1223,6 +1223,145 @@
         ORDER BY EXNP_SN DESC
     </select>
 
+    <select id="getExnpListForExcelDown" parameterType="map" resultType="map">
+        /*getExnpListForExcelDown*/
+        SELECT
+            DI.DOC_NO,
+            CASE
+                WHEN ED.EVID_TYPE IN (1,2,3)
+                    THEN '반제(지출)'
+                ELSE '지출'
+                END AS TYPE,
+            CASE
+                WHEN ED.EVID_TYPE = 1 THEN '세금계산서'
+                WHEN ED.EVID_TYPE = 2 THEN '계산서'
+                WHEN ED.EVID_TYPE = 3 THEN '신용카드'
+                WHEN ED.EVID_TYPE = 4 THEN '직원지급'
+                WHEN ED.EVID_TYPE = 5 THEN '사업소득자'
+                WHEN ED.EVID_TYPE = 6 THEN '기타'
+                WHEN ED.EVID_TYPE = 9 THEN '기타소득자'
+                END AS EVID_TYPE_TEXT,
+            E.PJT_CD,
+            E.PJT_NM,
+            E.ACC_NM,
+            E.ACC_NO,
+            E.BNK_NM,
+            SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', 1) AS BUDGET_NM_1,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -2), ' / ', 1) AS BUDGET_NM_2,
+            SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -1) as BUDGET_NM_3,
+            ED.CRM_BNK_NM,
+            ED.CRM_ACC_NO,
+            ED.CRM_ACC_HOLDER,
+            ED.CRM_NM,
+            E.EXNP_BRIEFS,
+            ED.TOT_COST,
+            DATE_FORMAT(E.DT3, '%Y-%m-%d') AS R_DT,
+            E.REQ_EXNP_DE,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE HEI.DEPT_SEQ = DEPT_SEQ) AS REG_DEPT_NAME,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            IF(E.RE_STAT = 'N','미승인','승인') AS RE_STAT_TXT,
+            CASE
+                WHEN MDS.BUDGET_GUBUN = 'CASH' THEN '현금'
+                WHEN MDS.BUDGET_GUBUN = 'POINT' THEN
+                    CONCAT(
+                            '포인트 - ',
+                            CASE
+                                WHEN MDS.EXEC_SYSTEM = 1 then 'e나라도움'
+                                WHEN MDS.EXEC_SYSTEM = 2 then 'RCMS'
+                                WHEN MDS.EXEC_SYSTEM = 3 then '통합이지바로'
+                                WHEN MDS.EXEC_SYSTEM = 4 then '보탬e'
+                                WHEN MDS.EXEC_SYSTEM = 5 then 'KIRIA'
+                                WHEN MDS.EXEC_SYSTEM = 6 then 'JBTP'
+                                WHEN MDS.EXEC_SYSTEM = 99 then '기타'
+                                END
+                    )
+                ELSE '-'
+            END AS BUDGET_TEXT
+        FROM
+            CAM_MNG.DJ_EXNP_DET ED
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON E.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT PP ON LEFT(E.PJT_CD, 9) = LEFT(PP.PJT_CD, 9)
+        LEFT JOIN
+            CAM_MNG.DJ_DEPO_SETTING MDS ON PP.PJT_SN = MDS.FR_PJT_SN
+        WHERE
+            1=1
+        <choose>
+            <when test='"1".equals(searchDate)'>
+                AND E.EXNP_DE BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <when test='"3".equals(searchDate)'>
+                AND E.RE_STAT = 'Y'
+                AND E.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <when test='"4".equals(searchDate)'>
+                AND E.DT3 BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <otherwise>
+                AND E.REQ_DE BETWEEN #{strDe} AND #{endDe}
+            </otherwise>
+        </choose>
+        <if test='!"".equals(payAppType) and payAppType != null'>
+            AND E.PAY_APP_TYPE = #{payAppType}
+        </if>
+        <if test='!"".equals(pjtCd) and pjtCd != null'>
+            AND E.PJT_CD = #{pjtCd}
+        </if>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND E.DOC_STATUS IN (0,30,40)
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND E.DOC_STATUS IN (10,20,50)
+        </if>
+        <if test='searchDept == "3" or "3".equals(searchDept)'>
+            AND E.DOC_STATUS IN (100,101)
+        </if>
+        <if test='"1".equals(searchDept2)'>
+            AND E.DOC_STATUS IN (100,101)
+        </if>
+        <if test='"2".equals(searchDept2)'>
+            AND E.DOC_STATUS NOT IN (100,101)
+        </if>
+
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND DI.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND E.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND E.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND ED.CRM_NM REGEXP #{searchValue}
+            </when>
+            <when test='"E".equals(searchKeyword)'>
+                AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"F".equals(searchKeyword)'>
+                AND E.BUDGET_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    DI.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                    OR E.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+                    OR E.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                    OR ED.CRM_NM REGEXP #{searchValue}
+                    OR HEI.EMP_NAME_KR LIKE CONCAT('%', #{searchValue},'%')
+                    OR E.BUDGET_NM LIKE CONCAT('%', #{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY E.EXNP_SN DESC, E.DT3 DESC
+    </select>
+
     <select id="getExnpReList" parameterType="map" resultType="map">
         /*getExnpReList*/
         SELECT

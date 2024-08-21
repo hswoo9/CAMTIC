@@ -99,8 +99,13 @@ var exnpList = {
             },
             toolbar: [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }, {
                     name: 'button',
                     template: function(){
@@ -110,11 +115,11 @@ var exnpList = {
                     }
                 }
             ],
-            excel : {
-                fileName : "지출결의서 목록.xlsx",
-                filterable : true
-            },
-            excelExport: exportGrid,
+            // excel : {
+            //     fileName : "지출결의서 목록.xlsx",
+            //     filterable : true
+            // },
+            // excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
@@ -245,6 +250,113 @@ var exnpList = {
         }).data("kendoGrid");
     },
 
+    hiddenGrid: function(url, params){
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "문서번호",
+                    width: 120,
+                    field: "DOC_NO"
+                }, {
+                    title: "지출유형",
+                    width: 80,
+                    field: "TYPE"
+                }, {
+                    title: "증빙유형",
+                    width: 80,
+                    field: "EVID_TYPE_TEXT",
+                }, {
+                    title: "프로젝트코드",
+                    field: "PJT_CD",
+                    width: 200,
+                },{
+                    title: "프로젝트명",
+                    field: "PJT_NM",
+                    width: 200,
+                }, {
+                    title: "출금계좌_계좌명",
+                    field: "ACC_NM",
+                    width: 200,
+                }, {
+                    title: "출금계좌_계좌번호",
+                    field: "ACC_NO",
+                    width: 200,
+                }, {
+                    title: "출금계좌_은행명",
+                    field: "BNK_NM",
+                    width: 200,
+                }, {
+                    title: "예산비목(장)",
+                    field: "BUDGET_NM_1",
+                    width: 200,
+                }, {
+                    title: "예산비목(관)",
+                    field: "BUDGET_NM_2",
+                    width: 200,
+                }, {
+                    title: "예산비목(항)",
+                    field: "BUDGET_NM_3",
+                    width: 200,
+                }, {
+                    title: "지급처_은행명",
+                    width: 200,
+                    field: "CRM_BNK_NM"
+                },{
+                    title: "지급처_계좌번호",
+                    width: 200,
+                    field: "CRM_ACC_NO"
+                },{
+                    title: "지급처_예금주",
+                    width: 200,
+                    field: "CRM_ACC_HOLDER"
+                },{
+                    title: "거래처",
+                    width: 200,
+                    field: "CRM_NM"
+                }, {
+                    title: "적요(제목)",
+                    field: "EXNP_BRIEFS",
+                    width: 250,
+                }, {
+                    title: "지출금액",
+                    width: 80,
+                    field: "TOT_COST",
+                }, {
+                    title: "결의일자",
+                    width: 80,
+                    field: "R_DT",
+                }, {
+                    title: "예정일",
+                    width: 80,
+                    field: "REQ_EXNP_DE",
+                }, {
+                    title: "부서명",
+                    field: "REG_DEPT_NAME",
+                    width: 80
+                }, {
+                    title: "작성자",
+                    field: "REG_EMP_NAME",
+                    width: 80
+                }, {
+                    title: "상태",
+                    field: "RE_STAT_TXT",
+                    width: 80
+                }, {
+                    title: "예산정보",
+                    field: "BUDGET_TEXT",
+                    width: 80
+                }
+            ],
+        }).data("kendoGrid");
+    },
+
     gridReload: function (){
         exnpList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
@@ -259,6 +371,7 @@ var exnpList = {
         }
 
         exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
+        exnpList.hiddenGrid("/pay/getExnpListForExcelDown", exnpList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, paySn, status){
@@ -273,5 +386,13 @@ var exnpList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_excelDownload : function (){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "지출결의서 목록.xlsx";
+        });
+        grid.saveAsExcel();
     }
 }

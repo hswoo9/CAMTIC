@@ -980,6 +980,15 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/getExnpListForExcelDown")
+    public String getExnpListForExcelDown(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getExnpListForExcelDown(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
 
     @RequestMapping("/pay/getExnpReList")
     public String getExnpReList(@RequestParam Map<String, Object> params, Model model){

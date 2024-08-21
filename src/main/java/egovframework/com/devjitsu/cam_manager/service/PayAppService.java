@@ -38,6 +38,8 @@ public interface PayAppService {
 
     List<Map<String, Object>> getExnpList(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpListForExcelDown(Map<String, Object> params);
+
     List<Map<String, Object>> getExnpReList(Map<String, Object> params);
 
     List<Map<String, Object>> getExnpReListForExcelDown(Map<String, Object> params);
