@@ -173,14 +173,16 @@ var enaralink = {
                             template:function(e){
                                 if(e.TRNSC_ID == null && e.REQ_STAT_SN == null) {
                                     return "미전송";
-                                } else {
+                                } else if (e.RSP_CD != null) {
                                     if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
                                         return "전송완료";
-                                    } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000")) {
-                                        return "<span style='color: red;'>전송실패</span>";
-                                    } else {
+                                    } else if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == null) {
                                         return "전송진행중";
+                                    } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000" && e.PROCESS_RESULT_CODE != null)) {
+                                        return "<span style='color: red;'>전송실패</span>";
                                     }
+                                } else if (e.REQ_STAT_SN != null && e.RSP_CD == null) {
+                                    return "전송진행중";
                                 }
                             }
                         }, {

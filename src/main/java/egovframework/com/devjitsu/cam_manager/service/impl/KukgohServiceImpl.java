@@ -648,8 +648,10 @@ public class KukgohServiceImpl implements KukgohService {
         parameters.put("DDTLBZ_ID", params.get("DDTLBZ_ID"));
         parameters.put("EXC_INSTT_ID", params.get("EXC_INSTT_ID"));
         parameters.put("ETXBL_CONFM_NO", params.get("issNo"));
+        parameters.put("payAppDetSn", params.get("payAppDetSn"));
 
         kukgohRepository.insEtaxData(parameters);
+        kukgohRepository.insEnaraSendTemp(parameters);
 
         String fileName = makeEtaxCsvFile(parameters);
 

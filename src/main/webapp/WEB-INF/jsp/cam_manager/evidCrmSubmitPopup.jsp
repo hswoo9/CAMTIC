@@ -158,24 +158,29 @@
             url : "/kukgoh/sendEtaxData",
             data : data,
             dataType : "json",
-            async : false,
+            // async : false,
             type : "post",
 			beforeSend : function(){
 				$("#my-spinner").show();
 			},
             success : function (rs){
+				if(rs.code == 200){
+					alert("전송이 완료되었습니다.");
+					$("#my-spinner").hide();
+					window.location.reload();
+				}
 
-                $.ajax({
-                    url : "/kukgoh/test",
-                    data: rs.reParams,
-                    type : "post",
-                    dataType : "json",
-                    success : function (rs){
-                        alert("전송이 완료되었습니다.");
-						$("#my-spinner").hide();
-                        location.reload();
-                    }
-                })
+                // $.ajax({
+                //     url : "/kukgoh/test",
+                //     data: rs.reParams,
+                //     type : "post",
+                //     dataType : "json",
+                //     success : function (rs){
+                //         alert("전송이 완료되었습니다.");
+				// 		$("#my-spinner").hide();
+                //         location.reload();
+                //     }
+                // })
             }, error : function (e){
                 console.log(e);
             }

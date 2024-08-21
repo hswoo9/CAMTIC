@@ -105,13 +105,13 @@
             AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NULL
         </if>
         <if test='"B".equals(status)'>
-            AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NOT NULL
+            AND ((F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NULL) OR (D.REQ_STAT_SN IS NOT NULL AND F.RSP_CD IS NULL))
         </if>
         <if test='"C".equals(status)'>
             AND F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE = '000'
         </if>
         <if test='"D".equals(status)'>
-            AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE != '000'))
+            AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NOT NULL AND G.PROCESS_RESULT_CODE != '000'))
         </if>
     </select>
 

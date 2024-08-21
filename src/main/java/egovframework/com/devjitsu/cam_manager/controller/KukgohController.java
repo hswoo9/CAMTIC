@@ -188,7 +188,7 @@ public class KukgohController {
 
     @RequestMapping("/kukgoh/test")
     public String kukgohTest (@RequestParam Map<String, Object> params) throws IOException{
-//        EnaraCall(params);
+        EnaraCall(params);
         return "jsonView";
     }
 
@@ -304,8 +304,13 @@ public class KukgohController {
     @RequestMapping("/kukgoh/sendEtaxData")
     public String sendEtaxData(@RequestParam Map<String ,Object> params, Model model){
 
-        Map<String, Object> reParams = kukgohService.sendEtaxData(params);
-        model.addAttribute("reParams", reParams);
+        try {
+            Map<String, Object> reParams = kukgohService.sendEtaxData(params);
+            model.addAttribute("reParams", reParams);
+            model.addAttribute("code", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }
