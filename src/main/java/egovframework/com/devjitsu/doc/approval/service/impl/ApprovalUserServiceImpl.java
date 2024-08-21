@@ -93,38 +93,48 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
                     map.put("docMenuCd", "payApp");
                     map.put("dbSchema", "CAM_MNG");
                     map.put("dbTable", "DJ_PAY_APP");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("exnp")) {
                     // 지출결의서
                     map.put("docMenuCd", "exnp");
                     map.put("dbSchema", "CAM_MNG");
                     map.put("dbTable", "DJ_EXNP");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("payIncp")) {
                     // 수입결의서
                     map.put("docMenuCd", "payIncp");
                     map.put("dbSchema", "CAM_MNG");
                     map.put("dbTable", "DJ_PAY_INCP");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("purc")) {
                     // 구매요청서
                     map.put("docMenuCd", "purc");
                     map.put("dbSchema", "CAM_MNG");
                     map.put("dbTable", "DJ_MNG_PURC");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("claim")) {
                     // 구매청구서
                     map.put("docMenuCd", "claim");
                     map.put("dbSchema", "CAM_MNG");
                     map.put("dbTable", "DJ_PURC_CLAIM");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("bustrip")) {
                     // 출장신청서
                     map.put("docMenuCd", "bustrip");
                     map.put("dbSchema", "CAM_INSIDE");
                     map.put("dbTable", "DJ_HR_BIZ_REQ");
+                    map.put("isDel", "Y");
                 } else if (tempMap.get("DOC_MENU_CD").equals("bustripRes")) {
                     // 출장결과보고서
                     map.put("docMenuCd", "bustripRes");
                     map.put("dbSchema", "CAM_INSIDE");
                     map.put("dbTable", "DJ_HR_BIZ_REQ_RESULT");
+                    map.put("isDel", "Y");
                 }
-                approvalUserRepository.setDocIdNull(map);
+
+                if(map.containsKey("isDel")) {
+                    approvalUserRepository.setDocIdNull(map);
+                }
             }
         }
 

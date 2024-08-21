@@ -443,14 +443,14 @@
         /* setDocIdNull */
         UPDATE ${dbSchema}.${dbTable}
         SET
-            DOC_ID = NULL,
+            DOC_ID = NULL
             <if test='docMenuCd != null and !"".equals(docMenuCd)'>
                 <choose>
                     <when test='"payApp".equals(docMenuCd) or "exnp".equals(docMenuCd) or "payIncp".equals(docMenuCd)'>
-                        DOC_STATUS = 0
+                        ,DOC_STATUS = 0
                     </when>
                     <otherwise>
-                        STATUS = 0
+                        ,STATUS = 0
                     </otherwise>
                 </choose>
             </if>
