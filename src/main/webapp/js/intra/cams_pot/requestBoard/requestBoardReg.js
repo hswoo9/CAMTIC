@@ -155,7 +155,7 @@ var rbr = {
 	},
 
 	fn_largeMenuSet: function(){
-		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+		const result = customKendo.fn_customAjax("/system/getRequestBoardMenuList", {
 			menuDepth: 0
 		});
 		customKendo.fn_dropDownList("largeMenu", result.rs, "MENU_NAME", "MENU_ID", 2);
@@ -168,7 +168,7 @@ var rbr = {
 	},
 
 	fn_middleMenuSet: function(menuId){
-		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+		const result = customKendo.fn_customAjax("/system/getRequestBoardMenuList", {
 			upperMenuId: menuId
 		});
 		customKendo.fn_dropDownList("middleMenu", result.rs, "MENU_NAME", "MENU_ID", 2);
@@ -181,7 +181,7 @@ var rbr = {
 	},
 
 	fn_smallMenuSet: function(menuId){
-		const result = customKendo.fn_customAjax("/system/getMenuList.do", {
+		const result = customKendo.fn_customAjax("/system/getRequestBoardMenuList", {
 			upperMenuId: menuId
 		});
 		customKendo.fn_dropDownList("smallMenu", result.rs, "MENU_NAME", "MENU_ID", 2);

@@ -442,4 +442,41 @@
             </foreach>
             )
     </delete>
+
+    <select id="getRequestBoardMenuList" resultType="map" parameterType="map">
+        /* getRequestBoardMenuList */
+        SELECT
+            MENU_ID,
+            UPPER_MENU_ID,
+            MENU_NAME,
+            MENU_TYPE,
+            SORT,
+            MENU_DEPTH,
+            MENU_PATH,
+            ACTIVE,
+            LANG,
+            MENU_NAME TEXT,
+            MENU_ID_PATH,
+            MENU_CHILDREN_YN,
+            MENU_FULL_PATH
+        FROM
+            CAM_COMMON.DJ_MENU_INFO
+        WHERE
+            1 = 1
+        AND
+            ACTIVE = 'Y'
+        <if test='menuId != null and !"".equals(menuId)'>
+            AND MENU_ID NOT IN (#{menuId})
+        </if>
+        <if test='menuDepth != null and !"".equals(menuDepth)'>
+            AND MENU_DEPTH = #{menuDepth}
+        </if>
+        <if test='upperMenuId != null and !"".equals(upperMenuId)'>
+            AND UPPER_MENU_ID = #{upperMenuId}
+        </if>
+        <if test='type != null and !"".equals(type) and "fv".equals(type)'>
+            AND MENU_TYPE = 'a'
+        </if>
+        ORDER BY MENU_FULL_PATH
+    </select>
 </mapper>

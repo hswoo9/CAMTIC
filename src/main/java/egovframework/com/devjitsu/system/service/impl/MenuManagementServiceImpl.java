@@ -148,4 +148,9 @@ public class MenuManagementServiceImpl implements MenuManagementService {
     public void setAuthorityGroupUserDel(List<String> aguAr) {
         menuManagementRepository.setAuthorityGroupUserDel(aguAr);
     }
+
+    @Override
+    public List<Map<String, Object>> getRequestBoardMenuList(Map<String, Object> params) {
+        return menuManagementRepository.getRequestBoardMenuList(params);
+    }
 }
