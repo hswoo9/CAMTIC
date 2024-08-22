@@ -147,12 +147,12 @@ var payRollLedgerMa = {
                             title: "지급합계",
                             width : 100,
                             template: function (e) {
-                                salTotSum += Number(e.SAL_TOT_PAY);
-                                return '<div style="text-align: right">' + comma(e.SAL_TOT_PAY) + '</div>';
+                                salTotSum += Number(e.TOTAL_PAY);
+                                return '<div style="text-align: right">' + comma(e.TOTAL_PAY) + '</div>';
                             },
                             footerTemplate: function(){
                                 return "<div style='text-align: right'>"+comma(salTotSum)+"</div>";
-                            }
+                        }
                         }
                     ]
                 }, {
