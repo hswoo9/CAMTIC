@@ -156,7 +156,7 @@ var bdv = {
                 }, {
                     title: "결의일자",
                     width: 80,
-                    field: "PAY_EXNP_DE",
+                    field: "APP_DE",
                 }, {
                     title: "적요",
                     field: "APP_CONT",
