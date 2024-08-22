@@ -992,7 +992,10 @@
             A.PAY_APP_TYPE,
             SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
             SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-            B.TOT_COST,
+            CASE
+                WHEN A.PAY_APP_TYPE = 2 THEN -1 * SUM(B.TOT_COST)
+                ELSE SUM(B.TOT_COST)
+            END AS TOT_COST,
             A.DOC_STATUS,
             C.RE_STAT,
             C.INFO_CODE,
@@ -1011,19 +1014,12 @@
             OR
                 (A.DOC_STATUS = 100 AND C.EXNP_SN IS NULL)
             OR
-                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NOT NULL AND (
-                    (B.EVID_TYPE IN (4, 5, 6) AND (C.DOC_STATUS IS NULL OR C.DOC_STATUS != 100))
-                    OR
-                    (B.EVID_TYPE IN (1, 2, 3) AND (C.RE_STAT IS NULL OR C.RE_STAT != 'Y'))
-                    OR
-                    B.EVID_TYPE IS NULL
-                    )
-                )
+                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NOT NULL AND C.RE_STAT != 'Y')
             )
         AND
             B.BUDGET_SN IS NOT NULL
         GROUP BY
-            B.PAY_APP_DET_SN
+            C.EXNP_SN, A.PAY_APP_SN
 
         UNION ALL
 
