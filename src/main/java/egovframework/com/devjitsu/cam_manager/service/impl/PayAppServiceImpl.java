@@ -2267,4 +2267,16 @@ public class PayAppServiceImpl implements PayAppService {
         return params;
     }
 
+    @Override
+    public void makeCorpCardPdf(Map<String, Object> params, String serverDir, String baseDir) {
+        // 법인카드 증빙서류 생성
+        createPdf(params, serverDir, baseDir);
+    }
+
+    @Override
+    public void makeBustripPdf(Map<String, Object> params, String serverDir, String baseDir) {
+        // 출장정산목록 pdf 생성
+        createPdf(params, serverDir, baseDir);
+    }
+
 }

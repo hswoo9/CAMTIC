@@ -2243,6 +2243,7 @@
         SELECT
             GROUP_CONCAT(IHBE.EMP_NAME) AS EXNP_NAME,
             SUM(REPLACE(IHBE.TOT_COST,',','')) AS TOT_COST,
+            SUM(IF(IHBE.DIVISION = 3, REPLACE(IHBE.TOT_COST,',',''), 0)) AS CORP_CAR_COST,
             CASE
                 WHEN TRIP_CODE = 1 THEN '도내(시내)'
                 WHEN TRIP_CODE = 2 THEN '도내(시외)'

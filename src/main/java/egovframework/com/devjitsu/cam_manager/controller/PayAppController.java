@@ -1481,4 +1481,26 @@ public class PayAppController {
         model.addAttribute("map", payAppService.g20IncpManage(params)) ;
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/makeCorpCardPdf")
+    public String makeCorpCardPdf(@RequestParam Map<String, Object> params, Model model) {
+        try {
+            payAppService.makeCorpCardPdf(params, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/makeBustripPdf")
+    public String makeBustripPdf(@RequestParam Map<String, Object> params, Model model) {
+        try {
+            payAppService.makeBustripPdf(params, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

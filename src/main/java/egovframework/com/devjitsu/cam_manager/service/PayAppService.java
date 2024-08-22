@@ -160,4 +160,8 @@ public interface PayAppService {
     Map<String, Object> g20ExnpManage(Map<String, Object> params);
 
     Map<String, Object> g20IncpManage(Map<String, Object> params);
+
+    void makeCorpCardPdf(Map<String, Object> params, String SERVER_DIR, String BASE_DIR);
+
+    void makeBustripPdf(Map<String, Object> params, String SERVER_DIR, String BASE_DIR);
 }

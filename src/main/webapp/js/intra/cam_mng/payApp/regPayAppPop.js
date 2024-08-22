@@ -2921,8 +2921,46 @@ var regPay = {
                 }
             }
         });
-    }
+    },
 
+    fn_makeCorpCardPdf : function(){
+        // 법인카드 증빙자료 생성
+        var htmlContents = payAppDoc.fn_makeHtmlToPdf();
+
+        $.ajax({
+            url : "/payApp/makeCorpCardPdf",
+            data : {
+                payAppSn : $("#payAppSn").val(),
+                pdfFileOrgName : "법인카드 지출증빙(지급신청서)",
+                pdfHtmlContents : htmlContents
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs.rs);
+            }
+        });
+    },
+
+    fn_makeBustripPdf : function(){
+        // 출장정산목록 pdf 생성
+        // $("#hrBizReqResultId").val() 임시로 키 넣은 뒤 실행
+        var htmlContents = payAppDoc.fn_makeBustripExnpPdf();
+
+        $.ajax({
+            url : "/payApp/makeBustripPdf",
+            data : {
+                payAppSn : $("#payAppSn").val(),
+                pdfFileOrgName : "출장정산목록",
+                pdfHtmlContents : htmlContents
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs.rs);
+            }
+        });
+    }
 
 }
 

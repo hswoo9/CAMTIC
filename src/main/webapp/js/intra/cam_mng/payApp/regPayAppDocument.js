@@ -169,7 +169,7 @@ var payAppDoc = {
         if(window.location.host.indexOf("218.158.231.184") > -1 || window.location.host.indexOf("new.camtic.or.kr") > -1){
             hostUrl = "https://218.158.231.184";
         } else {
-            hostUrl = "https://218.158.231.186";
+            hostUrl = "http://218.158.231.186";
         }
 
         var html = "";
@@ -492,9 +492,14 @@ var payAppDoc = {
                 '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].VISIT_PLACE +'</td>' +
                 '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].TRIP_DAY_FR +'<br></br>'+ exnpList[i].TRIP_TIME_FR +'</td>' +
                 '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].TRIP_DAY_TO +'<br></br>'+ exnpList[i].TRIP_TIME_TO +'</td>' +
-                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].CAR_CLASS_NAME +'</td>' +
-                '            <td style="border: 1px solid black; padding: 10px 5px;  font-size: 11px; text-align: right">'+ comma(exnpList[i].TOT_COST) +'</td>' +
-                '        </tr>';
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].CAR_CLASS_NAME +'</td>';
+
+            if(exnpList[i].CORP_CAR_COST == "0"){
+                html += '    <td style="border: 1px solid black; padding: 10px 5px;  font-size: 11px; text-align: right">'+ comma(exnpList[i].TOT_COST) +'</td>';
+            } else {
+                html += '    <td style="border: 1px solid black; padding: 10px 5px;  font-size: 11px; text-align: right">'+ comma(exnpList[i].TOT_COST) +'<br></br>(법인차량 : '+ comma(exnpList[i].CORP_CAR_COST) +')</td>';
+            }
+             html += '   </tr>';
         }
 
         html += "" +
