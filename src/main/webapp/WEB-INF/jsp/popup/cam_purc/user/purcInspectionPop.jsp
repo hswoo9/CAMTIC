@@ -97,7 +97,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">검수사진</th>
+                    <th scope="row" class="text-center th-color">거래명세서 및 검수사진</th>
                     <td colspan="3">
                         <form style="padding: 0px 30px;">
                             <div class="card-header" style="padding: 5px;">
