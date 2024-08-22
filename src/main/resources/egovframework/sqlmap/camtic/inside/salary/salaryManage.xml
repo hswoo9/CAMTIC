@@ -415,7 +415,6 @@
             CAM_HR.DJ_DEPT_INFO D ON D.DEPT_SEQ = C.PARENT_DEPT_SEQ
         WHERE
             A.BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
-        AND A.EMP_TYPE like '%전담%'
         <choose>
             <when test='"empName".equals(searchKeyWord)'>
                 AND A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
