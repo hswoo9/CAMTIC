@@ -484,16 +484,12 @@ var bustInfo = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/card/getCardTOData',
+                    url : "/card/getMeetingList",
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.regHistYn = "";
-                    data.searchKeyword = "";
-                    data.searchValue = "";
-                    data.startDt = $("#sbjStrDe").val();
-                    data.endDt = $("#sbjEndDe").val();
+                    data.pjtSn = $("#pjtSn").val();
                     return data;
                 }
             },
@@ -519,6 +515,22 @@ var bustInfo = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop()">사전승인신청서 작성</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+
+            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -527,112 +539,31 @@ var bustInfo = {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                }, /*{
-                    field: "",
-                    title: "카드구분",
-                    width: 100
-                },*/ {
-                    field: "LAST_CARD_NUM",
-                    title: "카드번호",
-                    width: 80
                 }, {
-                    field: "CARD_TO_DE",
-                    title: "반출일자",
-                    width: 80,
-                    template: function(e){
-                        return e.CARD_TO_DE;
-                    }
+                    field: "MET_DE",
+                    title: "회의일",
+                    width: 120
                 }, {
-                    field: "USE_EMP_NAME",
-                    title: "반출자",
-                    width: 80
+                    field: "MET_STR_TIME",
+                    title: "시작시간",
+                    width: 120
                 }, {
-                    field: "CARD_TO_PURPOSE",
-                    title: "반출목적",
-                    width: 100
+                    field: "MET_END_TIME",
+                    title: "종료시간",
+                    width: 120
                 }, {
-                    field: "",
-                    title: "사용내역등록",
-                    width: 100,
-                    template: function(e){
-                        if(e.REG_HISTORY > 0){
-                            return "등록";
-                        } else {
-                            return "미등록";
-                        }
-                    }
+                    field: "MET_LOC",
+                    title: "장소",
+                    width: 240
                 }, {
-                    field: "",
-                    title: "사용내역",
-                    width: 300,
-                    template: function(e){
-                        if(e.REG_HISTORY > 0){
-                            if(e.REG_HISTORY == 1){
-                                return e.LAST_MER_NM;
-                            } else {
-                                return e.LAST_MER_NM + "외 " + Number(e.REG_HISTORY - 1) + "건";
-                            }
-                        } else {
-                            return "미등록";
-                        }
-                    }
-                }, {
-                    field: "",
-                    title: "사용금액",
-                    width: 100,
-                    template: function(e){
-                        return '<div style="text-align: right;">' + comma(e.SUM_AMT) + '</div>';
-                    }
-                }, {
-                    field: "",
-                    title: "반납일시",
-                    width: 100,
-                    template: function(e){
-                        var cardFromTime = "";
-                        if(e.CARD_FROM_TIME != null && e.CARD_FROM_TIME != "" && e.CARD_FROM_TIME != undefined){
-                            cardFromTime = " " + e.CARD_FROM_TIME
-                        }
-                        if(e.REG_HISTORY > 0 && e.RT_YN == 'Y'){
-                            return e.CARD_FROM_DE + cardFromTime
-                        } else {
-                            return "";
-                        }
-                    }
+                    field: "MET_OBJ",
+                    title: "목적",
+                    width: 240
                 }, {
                     title: "",
                     width: 120,
                     template: function(e){
-                        if(e.REG_HISTORY == 0 && e.CARD_TO_PURPOSE != "회의"){
-                            return "";
-                        }
-
-                        if(e.USE_EMP_SEQ == $("#regEmpSeq").val()){
-                            if(e.RT_YN == 'Y'){
-                                if(e.CARD_TO_PURPOSE == "출장"){
-                                    return "";
-                                } else if (e.CARD_TO_PURPOSE == "구매"){
-                                    return "";
-                                } else if (e.CARD_TO_PURPOSE == "영업"){
-                                    return "";
-                                } else if (e.CARD_TO_PURPOSE == "식대"){
-                                    return "";
-                                } else {
-                                    return "";
-                                }
-                            } else {
-                                if(e.CARD_TO_PURPOSE == "회의"){
-                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop('+e.CARD_TO_SN+','+e.FR_KEY+')">사전승인신청서</button>'
-                                    } else {
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop('+e.CARD_TO_SN+')">사전승인신청서 작성</button>'
-                                    }
-                                } else {
-                                    return "";
-                                }
-                            }
-                        } else {
-                            return "";
-                        }
+                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="bustInfo.fn_regMeetingPop('+e.MET_SN+')">사전승인신청서</button>'
                     }
                 }
             ],
@@ -845,11 +776,10 @@ var bustInfo = {
         bustInfo.global.cal.init();
     },
 
-    fn_regMeetingPop: function (key, frKey){
-        var url = "/card/pop/regMeeting.do?cardToSn=" + key + "&metSn=" + frKey + "&type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
-
-        if(frKey == null || frKey == "" || frKey == undefined){
-            url = "/card/pop/regMeeting.do?cardToSn=" + key + "&type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
+    fn_regMeetingPop: function (key){
+        url = "/card/pop/regMeeting.do?metSn=" + key + "&type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
+        if(key == null || key == "" || key == undefined){
+            var url = "/card/pop/regMeeting.do?type=project" + "&PJT_CD=" + commonProject.global.pjtCd;
         }
         var name = "_blank";
         var option = "width = 1000, height = 700, top = 100, left = 300, location = no"

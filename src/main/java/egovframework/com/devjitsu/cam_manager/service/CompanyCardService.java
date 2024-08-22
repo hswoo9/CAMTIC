@@ -12,6 +12,8 @@ public interface CompanyCardService {
 
     List<Map<String, Object>> getCardTOData(Map<String, Object> params);
 
+    List<Map<String, Object>> getCardTOData2(Map<String, Object> params);
+
     void saveRegCardTo(Map<String, Object> params);
 
     void delCardTo(Map<String, Object> params);
@@ -62,6 +64,8 @@ public interface CompanyCardService {
     List<Map<String, Object>> cardAllList(Map<String, Object> params);
 
     void setMeetingData(Map<String, Object> params);
+
+    List<Map<String, Object>> getMeetingList(Map<String, Object> params);
 
     Map<String, Object> getMeetingData(Map<String, Object> params);
 

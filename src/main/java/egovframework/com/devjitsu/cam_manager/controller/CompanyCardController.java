@@ -155,6 +155,17 @@ public class CompanyCardController {
         return "jsonView";
     }
 
+    @RequestMapping("/card/getCardTOData2")
+    public String getCardTOData2(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = companyCardService.getCardTOData2(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/card/regCardToPop.do")
     public String regCardToPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
@@ -209,18 +220,30 @@ public class CompanyCardController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
-        Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
+        if(params.containsKey("cardToSn")){
+            Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
+            model.addAttribute("cardMap", cardMap);
+            if(cardMap.get("PJT_CD") != null){
+                params.put("PJT_CD", cardMap.get("PJT_CD"));
+            }
+        }
 
         Map<String, Object> pjtInfo = new HashMap<String, Object>();
-        if(cardMap.get("PJT_CD") != null){
-            params.put("PJT_CD", cardMap.get("PJT_CD"));
-        }
         pjtInfo = projectService.getProjectCodeData(params);
-
-        model.addAttribute("cardMap", cardMap);
         model.addAttribute("pjtInfo", pjtInfo);
 
         return "popup/cam_manager/companyCard/regMeeting";
+    }
+
+    @RequestMapping("/card/pop/cardToList.do")
+    public String cardToList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/companyCard/cardToList";
     }
 
     @RequestMapping("/card/setMeetingData")
@@ -233,6 +256,13 @@ public class CompanyCardController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getMeetingList")
+    public String getMeetingList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = companyCardService.getMeetingList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 

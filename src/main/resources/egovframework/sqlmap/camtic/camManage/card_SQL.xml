@@ -570,6 +570,69 @@
         ORDER BY CARD_TO_SN DESC
     </select>
 
+    <select id="getCardTOData2" parameterType="map" resultType="map">
+        /*getCardTOData*/
+        SELECT
+        A.*,
+        SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) AS LAST_CARD_NUM,
+        (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) AS REG_HISTORY,
+        IFNULL((SELECT SUM(AUTH_AMT) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN), 0) AS SUM_AMT,
+        (
+        SELECT sB.MER_NM FROM CAM_MNG.DJ_CARD_TO_HIST sA
+        LEFT JOIN CAM_HR.ERP_HIST_CORPCD_USE sB
+        ON sA.AUTH_NO = sB.AUTH_NO AND sA.AUTH_DD = sB.AUTH_DD AND sA.AUTH_HH = sB.AUTH_HH AND sA.CARD_NO = REPLACE(sB.CARD_NO, "-", "")
+        WHERE sA.CARD_TO_SN = A.CARD_TO_SN
+        ORDER BY sA.CARD_TO_HIST_SN DESC LIMIT 1
+        ) AS LAST_MER_NM,
+        (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS TEAM_NAME,
+        IFNULL((SELECT HR_BIZ_REQ_RESULT_ID FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_ID = FR_KEY), '') AS HR_BIZ_REQ_RESULT_ID,
+        IFNULL((SELECT TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE HR_BIZ_REQ_ID = FR_KEY), '') AS TRIP_CODE
+        FROM
+        CAM_MNG.DJ_CARD_TO A
+        LEFT JOIN
+        CAM_HR.DJ_EMP_INFO B
+        ON
+        A.USE_EMP_SEQ = B.EMP_SEQ
+        WHERE DEL_YN = 'N'
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(A.CARD_TO_DE, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(A.CARD_TO_DE, '%Y%m%d')
+        ]]>
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "CARD_NUM".equals(searchKeyword)'>
+                AND
+                SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "USER_NAME".equals(searchKeyword)'>
+                AND
+                A.USE_EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND
+                (
+                SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%') OR
+                A.USE_EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
+        <if test='regHistYn != null and !"".equals(regHistYn)'>
+            <choose>
+                <when test='"Y".equals(regHistYn)'>
+                    AND (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) <![CDATA[>]]> 0
+                </when>
+                <otherwise>
+                    AND (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) = 0
+                </otherwise>
+            </choose>
+        </if>
+            AND A.CARD_TO_SN NOT IN (SELECT CARD_TO_SN FROM CAM_MNG.DJ_MEETING)
+            AND A.CARD_TO_PURPOSE = '회의'
+            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+        ORDER BY CARD_TO_SN DESC
+    </select>
+
     <insert id="saveRegCardTo" parameterType="map">
         /*saveRegCardTo*/
         INSERT INTO CAM_MNG.DJ_CARD_TO
@@ -1433,6 +1496,16 @@
         WHERE
             CARD_TO_SN = #{cardToSn}
     </update>
+
+    <select id="getMeetingList" parameterType="map" resultType="map">
+        /*getMeetingList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_MEETING
+        WHERE
+            LEFT(PJT_CD, 9) = LEFT((SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn}), 9)
+    </select>
 
     <select id="getMeetingData" parameterType="map" resultType="map">
         /*getMeetingData*/

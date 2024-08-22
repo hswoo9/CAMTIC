@@ -68,6 +68,11 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     }
 
     @Override
+    public List<Map<String, Object>> getCardTOData2(Map<String, Object> params) {
+        return companyCardRepository.getCardTOData2(params);
+    }
+
+    @Override
     public void saveRegCardTo(Map<String, Object> params) {
         companyCardRepository.saveRegCardTo(params);
     }
@@ -316,6 +321,11 @@ public class CompanyCardServiceImpl implements CompanyCardService {
             companyCardRepository.insMeetingExternal(extMap);
         }
 
+    }
+
+    @Override
+    public List<Map<String, Object>> getMeetingList(Map<String, Object> params) {
+        return companyCardRepository.getMeetingList(params);
     }
 
 

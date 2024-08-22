@@ -21,6 +21,10 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getCardTOData(Map<String, Object> params) {
         return selectList("card.getCardTOData", params);
     }
+
+    public List<Map<String, Object>> getCardTOData2(Map<String, Object> params) {
+        return selectList("card.getCardTOData2", params);
+    }
     public void saveRegCardTo(Map<String, Object> params) {
         insert("card.saveRegCardTo", params);
     }
@@ -204,6 +208,10 @@ public class CompanyCardRepository extends AbstractDAO {
 
     public void updCardToByFrKey(Map<String, Object> params) {
         update("card.updCardToByFrKey", params);
+    }
+
+    public List<Map<String, Object>> getMeetingList(Map<String, Object> params) {
+        return selectList("card.getMeetingList", params);
     }
 
     public Map<String, Object> getMeetingData(Map<String, Object> params) {

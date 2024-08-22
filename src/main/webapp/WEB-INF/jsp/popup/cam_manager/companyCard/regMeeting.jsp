@@ -67,6 +67,15 @@
                 <col width="30%">
             </colgroup>
             <thead>
+            <tr class="pjtTr" style="display:none">
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>반출요청서 선택
+                </th>
+                <td colspan="3">
+                    <input type="text" id="cardToNm" disabled name="pjtNm" style="width: 85%" value="" />
+                    <button type="button" id="cardBtn" class="k-button k-button-solid-base" onclick="fn_CardToPop()">검색</button>
+                </td>
+            </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>사업명
@@ -167,7 +176,11 @@
 <script>
     let meetingInfo = new Object;
     $(function(){
-        customKendo.fn_textBox(["pjtNm", "pjtSubNm", "metObj", "metLoc", "empName", "externalName"]);
+        if($("#metSn").val() == "" && $("#regType").val() == "project"){
+            $(".pjtTr").show();
+        }
+
+        customKendo.fn_textBox(["pjtNm", "pjtSubNm", "metObj", "metLoc", "empName", "externalName", "cardToNm"]);
 
         $("#metCont").kendoTextArea({
             rows : 5
@@ -334,6 +347,13 @@
         var popup = window.open(url, name, option);
     }
 
+    function fn_CardToPop (){
+        var url = "/card/pop/cardToList.do?pjtCd="+$("#pjtCd").val();
+        var name = "_blank";
+        var option = "width = 1475, height = 800, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    }
+
 
     function addExternalWorkforcePop(){
         let url = "/bustrip/pop/addExternalWorkforcePop.do";
@@ -362,25 +382,30 @@
     }
 
     function fn_save(){
-        // if($("#pjtNm").val() == ""){
-        //     alert("프로젝트를 선택해주세요.");
-        //     return;
-        // }
-        //
-        // if($("#metLoc").val() == ""){
-        //     alert("회의장소를 입력해주세요.");
-        //     return;
-        // }
-        //
-        // if($("#metObj").val() == ""){
-        //     alert("회의목적을 입력해주세요.");
-        //     return;
-        // }
-        //
-        // if($("#metCont").val() == ""){
-        //     alert("회의내용을 입력해주세요.");
-        //     return;
-        // }
+        if($("#pjtNm").val() == ""){
+            alert("프로젝트를 선택해주세요.");
+            return;
+        }
+
+        if($("#metLoc").val() == ""){
+            alert("회의장소를 입력해주세요.");
+            return;
+        }
+
+        if($("#metObj").val() == ""){
+            alert("회의목적을 입력해주세요.");
+            return;
+        }
+
+        if($("#metCont").val() == ""){
+            alert("회의내용을 입력해주세요.");
+            return;
+        }
+
+        if($("#regType").val() == "project" && $("#cardToSn").val() == ""){
+            alert("반출요청서를 선택해주세요");
+            return;
+        }
 
         var parameters = {
             cardToSn : $("#cardToSn").val(),
@@ -462,7 +487,10 @@
                 }
             }
         })
+    }
 
-
+    function selectCard(key, trNm){
+        $("#cardToSn").val(key);
+        $("#cardToNm").val(trNm);
     }
 </script>
