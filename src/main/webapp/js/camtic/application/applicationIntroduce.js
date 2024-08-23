@@ -24,8 +24,8 @@ var applicationIntroduce = {
             }
 
             if (content1.length > 1200) {
-                $(this).val($(this).val().substring(0, 1200));
                 alert('글자수는 1200자까지 입력 가능합니다.');
+                $(this).val($(this).val().substring(0, 1200));
             };
         });
 
@@ -39,8 +39,8 @@ var applicationIntroduce = {
             }
 
             if (content2.length > 1200) {
-                $(this).val($(this).val().substring(0, 1200));
                 alert('글자수는 1200자까지 입력 가능합니다.');
+                $(this).val($(this).val().substring(0, 1200));
             };
         });
 
@@ -54,8 +54,8 @@ var applicationIntroduce = {
             }
 
             if (content3.length > 1200) {
-                $(this).val($(this).val().substring(0, 1200));
                 alert('글자수는 1200자까지 입력 가능합니다.');
+                $(this).val($(this).val().substring(0, 1200));
             };
         });
 
