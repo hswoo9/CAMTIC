@@ -2411,10 +2411,10 @@
                 )
             ) AS PURC_DEPT_NAME,
             B.PJT_SN,
-            IFNULL(A.PURC_TYPE, B.PURC_TYPE) AS PURC_TYPE,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
             B.PURC_REQ_PURPOSE,
             A.PURC_SN,
+            IFNULL(A.PURC_TYPE, B.PURC_TYPE) AS PURC_TYPE,
             B.STATUS,
             B.DOC_ID AS PURC_DOC_ID,
             B.DOC_STATUS,
