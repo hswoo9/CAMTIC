@@ -274,6 +274,19 @@ var paymentMngList = {
                         return "<div style='text-align: right'>"+comma(amtSum)+"</div>";
                     }
                 }, {
+                    title: "지출잔액",
+                    width: 110,
+                    template: function(e){
+                        var totalPay = Number(e.TOT_COST);
+                        var exnpPay = Number(e.EXNP_TOT_COST);
+
+                        if(e.DOC_STATUS == 100) {
+                            return '<div style="text-align: right">'+comma((totalPay - exnpPay))+'</div>';
+                        } else {
+                            return '';
+                        }
+                    },
+                }, {
                     field: "DOC_STATUS",
                     title: "상태",
                     width: 70,

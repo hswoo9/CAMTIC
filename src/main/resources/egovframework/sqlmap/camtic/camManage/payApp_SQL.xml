@@ -453,13 +453,17 @@
                 A.*,
                 B.DOC_NO,
                 C.TOT_COST,
+                IFNULL(E.EXNP_TOT_COST,0) AS EXNP_TOT_COST,
                 C.ITEM_COUNT,
                 C.CRM_NM,
-                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
-                (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS RE_STAT,
+                -- (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
+                -- (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS RE_STAT,
+                E.REQ_END_DE,
+                E.RE_STAT,
                 D.EXNP_STATUS,
                 IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
-                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
+                -- (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
+                E.DOC_STATUS AS EXNP_DOC_STATUS2,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
                 E.DT3 AS R_DT
             FROM
@@ -474,6 +478,7 @@
                 (SELECT
                     PAY_APP_SN,
                     SUM(TOT_COST) AS TOT_COST,
+                    GROUP_CONCAT(PAY_APP_DET_SN) AS PAY_APP_DET_SN,
                     GROUP_CONCAT(CRM_NM) AS CRM_NM,
                     COUNT(*) AS ITEM_COUNT
                 FROM CAM_MNG.DJ_PAY_APP_DET
@@ -495,14 +500,16 @@
 
             LEFT JOIN
                 (SELECT
-                    Y.PAY_APP_SN,
+                    Y.PAY_APP_SN, Y.PAY_APP_DET_SN, Y.EXNP_SN,
                     Y.DT1, Y.DT3,
-                    COUNT(*) AS EXNP_DOC_STATUS
+                    COUNT(*) AS EXNP_DOC_STATUS,
+                    SUM(X.TOT_COST) AS EXNP_TOT_COST,
+                    Y.REQ_END_DE, Y.RE_STAT, Y.DOC_STATUS
                 FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
                 WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
-                GROUP BY Y.PAY_APP_SN ) E
+                GROUP BY Y.EXNP_SN ORDER BY Y.EXNP_SN DESC ) E
             ON
-                A.PAY_APP_SN = E.PAY_APP_SN
+                A.PAY_APP_SN = E.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', E.PAY_APP_DET_SN,'%')
 
             WHERE
                 1=1
