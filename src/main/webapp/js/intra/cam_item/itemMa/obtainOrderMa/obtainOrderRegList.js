@@ -639,7 +639,7 @@ var oorl = {
     fn_popObtainOrderReg : function (){
         var url = "/item/pop/popObtainOrderReg.do";
         var name = "_blank";
-        var option = "width = 1550, height = 505, top = 200, left = 400, location = no"
+        var option = "width = 1550, height = 640, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

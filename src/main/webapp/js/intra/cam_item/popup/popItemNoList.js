@@ -153,38 +153,47 @@ var popItemNoList = {
 
     fn_selItem: function (e){
 
-        $(".masterSnPk").each(function(){
-            var data= {
-                masterSn : this.value
-            }
-
-            var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
-            if(result.flag){
-                var rs = result.rs;
-                console.log(rs);
-                if(rs != null){
-                    opener.parent.$("#masterSn").val(rs.MASTER_SN);
-                    opener.parent.$("#itemNo").val(rs.ITEM_NO);
-                    opener.parent.$("#itemName").val(rs.ITEM_NAME);
-                    opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
-                    opener.parent.$("#baseWhCd").val(rs.WH_CD);
-                    opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
-                    opener.parent.$("#standard").val(rs.STANDARD);
-                    opener.parent.$("#itemType").val(rs.ITEM_TYPE);
-                    opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
-
-                    opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
-                    opener.parent.$("#masterSn").change();
-
-                    opener.parent.oor.addRow('new');
-                }
-
-                // window.close();
-
+        var grid = $("#popMainGrid").data("kendoGrid");
+        var list = [];
+        var data = {};
+        grid.tbody.find("tr").each(function(){
+            if($(this).find("input")[0].checked){
+                data = grid.dataItem($(this));
+                list.push(data);
             }
         });
 
+        for(var i = 0; i < list.length; i++){
+            var data = {
+                masterSn : list[i].MASTER_SN
+            }
 
+            var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
+                if(result.flag){
+                    var rs = result.rs;
+                    console.log(rs);
+                    if(rs != null){
+                        opener.parent.$("#masterSn").val(rs.MASTER_SN);
+                        opener.parent.$("#itemNo").val(rs.ITEM_NO);
+                        opener.parent.$("#itemName").val(rs.ITEM_NAME);
+                        opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
+                        opener.parent.$("#baseWhCd").val(rs.WH_CD);
+                        opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
+                        opener.parent.$("#standard").val(rs.STANDARD);
+                        opener.parent.$("#itemType").val(rs.ITEM_TYPE);
+                        opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
+
+                        opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
+                        opener.parent.$("#masterSn").change();
+
+                        if(i != list.length - 1){
+                            opener.parent.oor.addRow('new');
+                        }
+                    }
+                }
+        }
+
+        window.close();
     },
 
     comma: function(str) {

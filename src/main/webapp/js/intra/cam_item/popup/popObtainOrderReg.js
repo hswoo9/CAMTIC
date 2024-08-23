@@ -27,14 +27,14 @@ var oor = {
             '   <td>' +
             '       <input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
             '       <input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
-            '       <input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
-            '       <button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
+            '       <input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 100%" />' +
+            // '       <button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+            '       <input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" readonly>' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+            '       <input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" readonly>' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="dueDt' + oor.global.oorIndex + '" class="dueDt">' +

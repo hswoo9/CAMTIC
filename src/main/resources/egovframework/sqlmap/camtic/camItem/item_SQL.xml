@@ -59,6 +59,8 @@
             </otherwise>
         </choose>
 
+        AND IM.ACTIVE = 'Y'
+
         ORDER BY IM.ITEM_NO ASC
     </select>
 
