@@ -13,6 +13,52 @@ var applicationIntroduce = {
         if($("#applicationId").val() != ""){
             applicationIntroduce.applicationDataSet($("#applicationId").val());
         }
+
+        $("#introduce1").keyup(function (e) {
+            var content1 = $(this).val();
+
+            if (content1.length == 0 || content1 == "") {
+                $("#textCount1").text('0자');
+            } else {
+                $("#textCount1").text(content1.length + '자');
+            }
+
+            if (content1.length > 1200) {
+                $(this).val($(this).val().substring(0, 1200));
+                alert('글자수는 1200자까지 입력 가능합니다.');
+            };
+        });
+
+        $("#introduce2").keyup(function (e) {
+            var content2 = $(this).val();
+
+            if (content2.length == 0 || content2 == "") {
+                $("#textCount2").text('0자');
+            } else {
+                $("#textCount2").text(content2.length + '자');
+            }
+
+            if (content2.length > 1200) {
+                $(this).val($(this).val().substring(0, 1200));
+                alert('글자수는 1200자까지 입력 가능합니다.');
+            };
+        });
+
+        $("#introduce3").keyup(function (e) {
+            var content3 = $(this).val();
+
+            if (content3.length == 0 || content3 == "") {
+                $("#textCount3").text('0자');
+            } else {
+                $("#textCount3").text(content3.length + '자');
+            }
+
+            if (content3.length > 1200) {
+                $(this).val($(this).val().substring(0, 1200));
+                alert('글자수는 1200자까지 입력 가능합니다.');
+            };
+        });
+
     },
 
     setApplicationTempSave : function(type){

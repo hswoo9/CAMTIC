@@ -49,6 +49,10 @@
                 <tr>
                     <td>
                         <textarea id="introduce1" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
+                        <div class="textLengthWrap" style="width:9%; float:right; display:flex">
+                            <p id="textCount1">0자</p>
+                            <p id="textTotal1">/1200자</p>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -68,6 +72,10 @@
                 <tr>
                     <td>
                         <textarea id="introduce2" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
+                        <div class="textLengthWrap" style="width:9%; float:right; display:flex">
+                            <p id="textCount2">0자</p>
+                            <p id="textTotal2">/1200자</p>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -87,6 +95,10 @@
                 <tr>
                     <td>
                         <textarea id="introduce3" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
+                        <div class="textLengthWrap" style="width:9%; float:right; display:flex">
+                            <p id="textCount3">0자</p>
+                            <p id="textTotal3">/1200자</p>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
