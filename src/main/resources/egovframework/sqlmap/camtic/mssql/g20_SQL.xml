@@ -420,6 +420,11 @@
 
     </select>
 
+    <select id="getCardCompanyList" parameterType="map" resultType="map">
+        /*getCardCompanyList*/
+        SELECT TR_CD, TR_NM FROM ZA_TRADE_DAIKIN WHERE TR_FG = '8' AND TR_NM LIKE '%' + #{searchValue} + '%'
+    </select>
+
     <select id="getOtherDupl" parameterType="map" resultType="map">
         /*getOtherDupl*/
         SELECT

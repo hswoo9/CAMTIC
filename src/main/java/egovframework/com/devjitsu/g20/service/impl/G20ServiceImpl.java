@@ -615,6 +615,11 @@ public class G20ServiceImpl implements G20Service {
     }
 
     @Override
+    public List<Map<String, Object>> getCardCompanyList(Map<String, Object> params) {
+        return g20Repository.getCardCompanyList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getOtherDupl(Map<String, Object> params) {
         return g20Repository.getOtherDupl(params);
     }

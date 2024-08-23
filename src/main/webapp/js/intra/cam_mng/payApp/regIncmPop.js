@@ -283,7 +283,8 @@ var regIncm = {
                 '       <input type="text" id="vatCost' + regIncmDet.global.itemIndex + '" value="'+regIncm.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regIncm.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" disabled id="card' + regIncmDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" id="pIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(7, ' + regIncmDet.global.itemIndex + ')"></i>' +
+                '       <input type="text" style="width: 80%;" disabled id="card' + regIncmDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                 '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
 
@@ -340,7 +341,7 @@ var regIncm = {
                             } else if(value == "3" || value == "4") {
                                 value = 2;
                             } else if(value == "5" || value == "6"){
-                                value = 3;
+                                value = 7;
                             }
                             regIncmDet.fn_popRegDet(value, itemIndex);
                         }
@@ -808,7 +809,7 @@ var regIncmDet = {
                         } else if(value == "3" || value == "4") {
                             value = 2;
                         } else if(value == "5" || value == "6"){
-                            value = 3;
+                            value = 7;
                         }
                         regIncmDet.fn_popRegDet(value, itemIndex);
                     }
@@ -871,6 +872,7 @@ var regIncmDet = {
             '       <input type="text" id="vatCost' + regIncmDet.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" onkeyup="regIncm.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer" id="pIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(7, ' + regIncmDet.global.itemIndex + ')"></i>' +
             '       <input type="text" disabled id="card' + regIncmDet.global.itemIndex + '" class="card">' +
             '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" class="cardNo">' +
             '   </td>' +
@@ -915,7 +917,7 @@ var regIncmDet = {
                         } else if(value == "3" || value == "4") {
                             value = 2;
                         } else if(value == "5" || value == "6"){
-                            value = 3;
+                            value = 7;
                         }
                         regIncmDet.fn_popRegDet(value, itemIndex);
                     }

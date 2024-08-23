@@ -15,6 +15,8 @@ var payDetView = {
             payDetView.empMainGrid();
         } else if ($("#type").val() == 5){
             payDetView.otherMainGrid();
+        } else if ($("#type").val() == 7){
+            payDetView.cardCompanyGrid();
         } else if ($("#type").val() == 8){
             payDetView.cardMainGrid();
         } else if ($("#type").val() == 9){
@@ -34,6 +36,8 @@ var payDetView = {
             $("#empMainGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 5){
             $("#otherMainGrid").data("kendoGrid").dataSource.read();
+        } else if ($("#type").val() == 7){
+            $("#cardCompanyGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 8){
             $("#cardMainGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 9){
@@ -540,6 +544,76 @@ var payDetView = {
         }).data("kendoGrid");
     },
 
+    cardCompanyGrid : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getCardCompanyList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    data.type = $("#type").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#cardCompanyGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes : [ 10, 20, 50, "ALL" ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "코드",
+                    width: 50,
+                    field: "TR_CD",
+                }, {
+                    title: "금융거래처명",
+                    width: 100,
+                    field: "TR_NM",
+                }, {
+                    title: "",
+                    width: 50,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selCardCompanyInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function(){
+                record = fn_getRowNum(this, 1);
+            }
+        }).data("kendoGrid");
+    },
+
 
     onDataBound: function(){
         calcAmSum = 0;
@@ -547,6 +621,13 @@ var payDetView = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+    },
+
+    fn_selCardCompanyInfo : function(trCd, trNm){
+        var idx = $("#index").val();
+        opener.parent.fn_selCardCompanyInfo(trCd, trNm, idx);
+
+        window.close();
     },
 
     fn_selOtherInfo: function (trCd, perNm, acctNo, acctNm, bankNm, regNo){

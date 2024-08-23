@@ -26,6 +26,8 @@ public interface G20Service {
 
     List<Map<String, Object>> getOtherList(Map<String, Object> params);
 
+    List<Map<String, Object>> getCardCompanyList(Map<String, Object> params);
+
     List<Map<String, Object>> getOtherDupl(Map<String, Object> params);
 
     Map<String, Object> getSempData(Map<String, Object> params);

@@ -48,6 +48,9 @@
                         <c:when test="${params.type eq '5' }">
                             사업소득자 선택
                         </c:when>
+                        <c:when test="${params.type eq '7' }">
+                            카드사 선택
+                        </c:when>
                         <c:when test="${params.type eq '9' }">
                             기타소득자 선택
                         </c:when>
@@ -89,6 +92,9 @@
                         * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
                         <button type="button" style="font-size: 12px; float: right;" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">사업소득자 등록</button>
                     </c:when>
+                    <c:when test="${params.type eq '7' }">
+                        * 카드사 검색 가능</span>
+                    </c:when>
                     <c:when test="${params.type eq '9' }">
                         * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
                         <button type="button" style="font-size: 12px; float: right;" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">기타소득자 등록</button>
@@ -112,6 +118,9 @@
             </c:when>
             <c:when test="${params.type eq '5' }">
                 <div id="otherMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:when test="${params.type eq '7' }">
+                <div id="cardCompanyGrid" style="margin-top:12px"></div>
             </c:when>
             <c:when test="${params.type eq '9' }">
                 <div id="otherMainGrid" style="margin-top:12px"></div>

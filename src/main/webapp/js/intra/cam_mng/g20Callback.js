@@ -146,6 +146,14 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     }
 }
 
+function fn_selCardCompanyInfo(trCd, trNm, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+
+    $("#card" + idx).val(trNm);
+}
+
 function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo){
     if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
         accountHolder = "";

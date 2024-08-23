@@ -258,7 +258,8 @@
                             <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regIncm.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" disabled id="card0" class="card">
+                            <i class="k-i-plus k-icon" style="cursor: pointer" id="pIcon0"  onclick="regIncmDet.fn_popRegDet(7, 0)"></i>
+                            <input type="text" style="width: 80%" disabled id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
                         <td style="display: none;">
