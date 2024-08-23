@@ -16,6 +16,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">품번 선택</span>
             </h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popItemNoList.fn_selItem()">선택</button>
+            </div>
         </div>
         <div>
             <table class="popTable table table-bordered mb-0">

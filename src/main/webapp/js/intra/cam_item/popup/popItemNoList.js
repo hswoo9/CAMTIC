@@ -63,6 +63,10 @@ var popItemNoList = {
             ],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" onclick="fn_checkAll(\'checkAllC\', \'masterSnPk\');"/>',
+                    template : "<input type='checkbox' name='masterSnPk' class='masterSnPk' value='#=MASTER_SN#'/>",
+                    width: 50
+                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -118,13 +122,14 @@ var popItemNoList = {
                     attributes : {
                         style : "text-align : right;"
                     }
-                }, {
-                    title: "",
-                    template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popItemNoList.fn_selItem(' + e.MASTER_SN + ')">선택</button>';
-                    },
-                    width: 60
                 }
+                // , {
+                //     title: "",
+                //     template: function(e){
+                //         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popItemNoList.fn_selItem(' + e.MASTER_SN + ')">선택</button>';
+                //     },
+                //     width: 60
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -147,28 +152,39 @@ var popItemNoList = {
     },
 
     fn_selItem: function (e){
-        var data= {
-            masterSn : e
-        }
 
-        var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
-        if(result.flag){
-            var rs = result.rs;
-            console.log(rs);
-            opener.parent.$("#masterSn").val(rs.MASTER_SN);
-            opener.parent.$("#itemNo").val(rs.ITEM_NO);
-            opener.parent.$("#itemName").val(rs.ITEM_NAME);
-            opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
-            opener.parent.$("#baseWhCd").val(rs.WH_CD);
-            opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
-            opener.parent.$("#standard").val(rs.STANDARD);
-            opener.parent.$("#itemType").val(rs.ITEM_TYPE);
-            opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
+        $(".masterSnPk").each(function(){
+            var data= {
+                masterSn : this.value
+            }
 
-            opener.parent.$("#masterSn").change();
+            var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
+            if(result.flag){
+                var rs = result.rs;
+                console.log(rs);
+                if(rs != null){
+                    opener.parent.$("#masterSn").val(rs.MASTER_SN);
+                    opener.parent.$("#itemNo").val(rs.ITEM_NO);
+                    opener.parent.$("#itemName").val(rs.ITEM_NAME);
+                    opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
+                    opener.parent.$("#baseWhCd").val(rs.WH_CD);
+                    opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
+                    opener.parent.$("#standard").val(rs.STANDARD);
+                    opener.parent.$("#itemType").val(rs.ITEM_TYPE);
+                    opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
 
-            window.close();
-        }
+                    opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
+                    opener.parent.$("#masterSn").change();
+
+                    opener.parent.oor.addRow('new');
+                }
+
+                // window.close();
+
+            }
+        });
+
+
     },
 
     comma: function(str) {

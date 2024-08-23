@@ -38,7 +38,7 @@
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="oor.setReceivingReg()">저장</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="oor.resetRow()">초기화</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="oor.addRow('new')">품목추가</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="oor.fn_popItemNoList()">품목선택</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
