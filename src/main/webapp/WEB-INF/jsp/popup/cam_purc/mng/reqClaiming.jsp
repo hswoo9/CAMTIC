@@ -142,12 +142,19 @@
                 <tr>
                     <th scope="row" class="text-center th-color">청구일시</th>
                     <td>
-                        <input type="text" id="claimDe" style="width: 45%">
+                        <input type="text" id="claimDe" style="width: 30%">
                     </td>
+                    <th scope="row" class="text-center th-color">납품 요청일</th>
+                    <td>
+                        <input id="goodsDt" style="width: 30%" onchange="reqCl.fn_goodsDtChange()" />
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color">결제예정일</th>
                     <td>
-                        <input type="text" id="expDe" style="width: 45%">
+                        <input type="text" id="expDe" style="width: 30%">
                     </td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">비고</th>

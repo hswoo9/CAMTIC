@@ -463,6 +463,7 @@ var purcInit = {
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    관 련 사 업 : '+(claimInfo.PJT_NM || '법인운영')+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    선 지 급 여 부 : '+priPay+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    계 약 진 행 여 부 : '+contYn+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    납 품 예 정 일 : '+(claimInfo.GOODS_DT.split("-")[0] + "년 " + claimInfo.GOODS_DT.split("-")[1] + "월 " + claimInfo.GOODS_DT.split("-")[2] + "일" || '')+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    비     고  : '+(claimInfo.CLAIM_ETC == null ? '' : claimInfo.CLAIM_ETC)+'<br>';
         html += '       </div>';
         html += '       <div style="margin-bottom: 5px"></div>';

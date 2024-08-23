@@ -79,6 +79,8 @@ var reqCl = {
             $("#pjtSn").val("");
             $("#pjtNm").val("");
             $("#pjtCd").val("");
+
+            reqCl.fn_goodsDtChange();
         });
 
         $("input[name='paymentMethod']").click(function(){
@@ -92,6 +94,7 @@ var reqCl = {
 
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("expDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("goodsDt", "month", "yyyy-MM-dd", new Date());
 
         if($("#purcSn").val() != ""){
             var data = {
@@ -225,6 +228,7 @@ var reqCl = {
             $("#crmMonCheck").val(data.MON_CHECK);
             $("#claimDe").val(data.CLAIM_DE);
             $("#expDe").val(data.EXP_DE);
+            $("#goodsDt").val(data.GOODS_DT);
             $("#claimTitle").val(data.CLAIM_TITLE);
             $("#claimEtc").val(data.CLAIM_ETC);
             $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
@@ -339,6 +343,39 @@ var reqCl = {
             $("#estAmt").val(comma(Number(uncomma($("#totAmt").val())) - Number(uncomma($("#vatAmt").val()))));
             $("#totAmt").val(comma(Number(uncomma($("#estAmt").val())) + Number(uncomma($("#vatAmt").val()))));
         });
+    },
+
+    fn_goodsDtChange : function(){
+
+        var trDe = $("#goodsDt").val();
+        var trDeAr = trDe.split("-");
+        var trDay = trDeAr[2];
+        if(trDeAr[2] == 31){
+            trDay = 30
+        }
+        var trDate = new Date(trDeAr[0], trDeAr[1] - 1, trDay);
+
+        if($("input[name='purcType']:checked").val() != ""){
+            if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                trDate.setMonth(trDate.getMonth());
+                trDate.setDate(25);
+                $("#expDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+            } else {                        // 매월 16일 ~ 말일
+                trDate.setMonth(trDate.getMonth() + 1);
+                trDate.setDate(10);
+                $("#expDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+            }
+        } else {
+            if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                trDate.setMonth(trDate.getMonth() + 1);
+                trDate.setDate(25);
+                $("#expDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+            } else {                        // 매월 16일 ~ 말일
+                trDate.setMonth(trDate.getMonth() + 2);
+                trDate.setDate(10);
+                $("#expDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+            }
+        }
     },
 
     vatCalc : function(){
@@ -653,6 +690,7 @@ var reqCl = {
             purcDeptName : $("#purcDeptName").val(),
             claimDe : $("#claimDe").val(),
             expDe : $("#expDe").val(),
+            goodsDt : $("#goodsDt").val(),
             purcType : $("#purcType").data("kendoRadioGroup").value(),
             pjtSn : $("#pjtSn").val(),
             pjtNm : $("#pjtNm").val(),

@@ -128,9 +128,12 @@ const reqOr = {
         $("#PHNum").val(orderMap.CRM_TEL_NUM);
         $("#FaxNum").val(orderMap.CRM_FAX_NUM);
 
+        if(orderMap.GOODS_DT != null && orderMap.GOODS_DT != ""){
+            $("#goodsDt").val(orderMap.GOODS_DT);
+        }
+        
         if(orderMap.ORDER_CK == "Y"){
             $("#orderDt").val(orderMap.ORDER_DT);
-            $("#goodsDt").val(orderMap.GOODS_DT);
             $("#significant").val(orderMap.SIGNIFICANT);
         }
 
