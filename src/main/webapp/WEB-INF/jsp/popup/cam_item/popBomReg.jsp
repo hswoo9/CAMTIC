@@ -97,35 +97,37 @@
                     </button>
                 </div>
 
-                <table class="searchTable table table-bordered mb-0 mt-20">
-                    <colgroup>
-                        <col style="width: 20%;">
-                        <col>
-                        <col>
-                        <col>
-                        <col style="width: 12%;">
-                        <col style="width: 8%;">
-                        <col style="width: 10%;">
-                        <col style="width: 15%;">
-                        <col style="width: 5%;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>BOM</th>
-                        <th>품번</th>
-                        <th>품명</th>
-                        <th>품목구분</th>
-                        <th>단가</th>
-                        <th>필요수량</th>
-                        <th>합계</th>
-                        <th>비고</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody id="bomDetailTb">
+                <div style="width: 100%; overflow-x: scroll !important; overflow-y: hidden;">
+                    <table class="searchTable table table-bordered mb-0 mt-20" style="table-layout: fixed">
+                        <colgroup>
+                            <col style="width: 180px;">
+                            <col style="width: 220px;">
+                            <col style="width: 200px;">
+                            <col style="width: 100px;">
+                            <col style="width: 120px;">
+                            <col style="width: 80px;">
+                            <col style="width: 120px;">
+                            <col style="width: 200px;">
+                            <col style="width: 50px;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>BOM</th>
+                            <th>품번</th>
+                            <th>품명</th>
+                            <th>품목구분</th>
+                            <th>단가</th>
+                            <th>필요수량</th>
+                            <th>합계</th>
+                            <th>비고</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="bomDetailTb">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <input type="hidden" id="masterSn" onchange="bomReg.itemInfoChange()">

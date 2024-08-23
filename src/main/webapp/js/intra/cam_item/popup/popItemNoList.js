@@ -155,13 +155,20 @@ var popItemNoList = {
 
         var grid = $("#popMainGrid").data("kendoGrid");
         var list = [];
+        var cnt = 0;
         var data = {};
         grid.tbody.find("tr").each(function(){
             if($(this).find("input")[0].checked){
                 data = grid.dataItem($(this));
+                cnt++;
                 list.push(data);
             }
         });
+
+        if(opener.parent.oor == null && cnt > 1) {
+            alert("하나의 품번만 선택 가능합니다.");
+            return;
+        }
 
         for(var i = 0; i < list.length; i++){
             var data = {
@@ -183,10 +190,12 @@ var popItemNoList = {
                         opener.parent.$("#itemType").val(rs.ITEM_TYPE);
                         opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
 
-                        opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
+                        if(opener.parent.oor != null) {
+                            opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
+                        }
                         opener.parent.$("#masterSn").change();
 
-                        if(i != list.length - 1){
+                        if(i != list.length - 1 && opener.parent.oor != null) {
                             opener.parent.oor.addRow('new');
                         }
                     }
