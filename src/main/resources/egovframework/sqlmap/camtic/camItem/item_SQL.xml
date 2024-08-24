@@ -984,6 +984,8 @@
             IM.ITEM_NO,
             IM.ITEM_NAME,
             IM.ITEM_TYPE,
+            IM.UNIT_PRICE AS UNIT_PRICE_A,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, '] X ', BD.REQ_QTY) AS TREE_NAME,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
             COUNT(II.INVEN_SN) AS INVEN_CNT,
@@ -999,6 +1001,9 @@
         LEFT JOIN
             CAM_ITEM.DJ_ITEM_INVENTORY II
         ON II.MASTER_SN = IM.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
         WHERE
             BOM_SN = #{bomSn}
         GROUP BY MASTER_SN

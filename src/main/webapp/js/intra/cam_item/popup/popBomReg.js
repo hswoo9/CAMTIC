@@ -39,7 +39,9 @@ var bomReg = {
             $.each($(".bomDetail"), function(i, v){
                 if($(this).find("#masterSn" + i).val()){
                     if(!$(this).find("#masterBomSn" + i).val()){
-                        flag = false;
+                        if($("#masterBomSn" + i).data("kendoDropDownList").dataSource.data().length != 0){
+                            flag = false;
+                        }
                     }
 
                     var arrData = {
@@ -196,6 +198,7 @@ var bomReg = {
         }
 
         var result = customKendo.fn_customAjax("/item/getBom.do", bomReg.global.searchAjaxData);
+        console.log(result)
         if(result.flag){
             var bom = result.bom;
             $("#bomTitle").val(bom.BOM_TITLE);
@@ -221,9 +224,10 @@ var bomReg = {
             $("#detail" + i).find("#masterSn" + i).val(e[i].MASTER_SN)
             $("#detail" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
             $("#detail" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
-            $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE));
+            $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE_A));
             $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
             $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
+            $("#detail" + i).find("#itemCdName" + i).val(e[i].ITEM_TYPE_NM);
 
             bomReg.global.searchAjaxData = {
                 masterSn : e[i].MASTER_SN

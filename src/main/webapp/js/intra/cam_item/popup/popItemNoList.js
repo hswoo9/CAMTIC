@@ -158,7 +158,7 @@ var popItemNoList = {
         var cnt = 0;
         var data = {};
         grid.tbody.find("tr").each(function(){
-            if($(this).find("input")[0].checked){
+            if($(this).find("input")[0].checked) {
                 data = grid.dataItem($(this));
                 cnt++;
                 list.push(data);
@@ -188,7 +188,16 @@ var popItemNoList = {
                         opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
                         opener.parent.$("#standard").val(rs.STANDARD);
                         opener.parent.$("#itemType").val(rs.ITEM_TYPE);
-                        opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
+                        opener.parent.$("#maxUnitPrice").val(rs.UNIT_PRICE);
+
+                        if(opener.parent.bomReg.global.masterSnIndex == 999){
+                            // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
+                            opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
+                        } else {
+                            opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
+                            opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
+                        }
+
 
                         if(opener.parent.oor != null) {
                             opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
