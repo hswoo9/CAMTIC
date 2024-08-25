@@ -75,12 +75,17 @@
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 3%">
-                    <col style="width: 7%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 16%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
+                    <col style="width: 5%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 8%">
                     <col>
                 </colgroup>
                 <thead>
@@ -88,9 +93,14 @@
                     <th>
                         <input type="checkbox" id="checkAll">
                     </th>
-                    <th>원가</th>
-                    <th>단가</th>
+                    <th>순번</th>
+                    <th>표준단가</th>
+                    <th>고객단가</th>
                     <th>B2B 단가</th>
+                    <th>B2B 단가2</th>
+                    <th>B2B 단가3</th>
+                    <th>B2B 단가4</th>
+                    <th>B2B 단가5</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
                     <th>비고</th>

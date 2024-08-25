@@ -63,12 +63,17 @@
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 3%">
-                    <col style="width: 7%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
+                    <col style="width: 5%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 8%">
                     <col>
                 </colgroup>
                 <thead>
@@ -80,6 +85,10 @@
                     <th>원가</th>
                     <th>단가</th>
                     <th>B2B 단가</th>
+                    <th>B2B 단가2</th>
+                    <th>B2B 단가3</th>
+                    <th>B2B 단가4</th>
+                    <th>B2B 단가5</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
                     <th>비고</th>

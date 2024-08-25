@@ -38,8 +38,13 @@ var ciupR = {
             ciupR.addRow('old');
             var firstRowData = firstRowResult.list[0];
             $("#ciup0").find("#ciupSn0").val(firstRowData.CRM_ITEM_UNIT_PRICE_SN);
+            $("#ciup0").find("#num0").text(1);
             $("#ciup0").find("#unitPrice0").val(ciupR.comma(firstRowData.UNIT_PRICE));
-            $("#ciup0").find("#b2bPrice0").val(ciupR.comma(firstRowData.B2B_PRICE));
+            $("#ciup0").find("#b2bPrice10").val(ciupR.comma(firstRowData.B2B_PRICE));
+            $("#ciup0").find("#b2bPrice20").val(ciupR.comma(firstRowData.B2B_PRICE2));
+            $("#ciup0").find("#b2bPrice30").val(ciupR.comma(firstRowData.B2B_PRICE3));
+            $("#ciup0").find("#b2bPrice40").val(ciupR.comma(firstRowData.B2B_PRICE4));
+            $("#ciup0").find("#b2bPrice50").val(ciupR.comma(firstRowData.B2B_PRICE5));
             $("#ciup0").find("#startDt0").val(firstRowData.START_DT);
             $("#ciup0").find("#endDt0").text(firstRowData.END_DT);
             $("#ciup0").find("#rmk0").val(firstRowData.RMK);
@@ -53,8 +58,13 @@ var ciupR = {
                 ciupR.addRow('old');
                 var index = i + 1;
                 $("#ciup" + index).find("#ciupSn" + index).val(list[i].CRM_ITEM_UNIT_PRICE_SN);
+                $("#ciup" + index).find("#num" + index).text(index + 1);
                 $("#ciup" + index).find("#unitPrice" + index).val(ciupR.comma(list[i].UNIT_PRICE));
-                $("#ciup" + index).find("#b2bPrice" + index).val(ciupR.comma(list[i].B2B_PRICE));
+                $("#ciup" + index).find("#b2bPrice1" + index).val(ciupR.comma(list[i].B2B_PRICE));
+                $("#ciup" + index).find("#b2bPrice2" + index).val(ciupR.comma(list[i].B2B_PRICE2));
+                $("#ciup" + index).find("#b2bPrice3" + index).val(ciupR.comma(list[i].B2B_PRICE3));
+                $("#ciup" + index).find("#b2bPrice4" + index).val(ciupR.comma(list[i].B2B_PRICE4));
+                $("#ciup" + index).find("#b2bPrice5" + index).val(ciupR.comma(list[i].B2B_PRICE5));
                 $("#ciup" + index).find("#startDt" + index).val(list[i].START_DT);
                 $("#ciup" + index).find("#endDt" + index).text(list[i].END_DT);
                 $("#ciup" + index).find("#rmk" + index).val(list[i].RMK);
@@ -75,6 +85,12 @@ var ciupR = {
         }
 
         html += '</td>' +
+            '<td style="text-align: center">';
+        if(e == "old"){
+            html += '<span id="num' + ciupR.global.ciupIndex + '"></span>';
+        }
+
+        html += '</td>' +
                 '<td style="text-align: right;">' +
                     '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#costPrice").val()) + '</span>' +
                 '</td>' +
@@ -82,7 +98,19 @@ var ciupR = {
                     '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="b2bPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice").val()) : '') + '"/>' +
+                    '<input type="text" id="b2bPrice1' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice1").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="b2bPrice2' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice2").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="b2bPrice3' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice3").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="b2bPrice4' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice4").val()) : '') + '"/>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="b2bPrice5' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice5").val()) : '') + '"/>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '">' +
@@ -100,7 +128,8 @@ var ciupR = {
         $("#listTb").append(html);
 
 
-        customKendo.fn_textBox(["unitPrice" + ciupR.global.ciupIndex, "b2bPrice" + ciupR.global.ciupIndex, "rmk" + ciupR.global.ciupIndex]);
+        customKendo.fn_textBox(["unitPrice" + ciupR.global.ciupIndex, "b2bPrice1" + ciupR.global.ciupIndex, "b2bPrice2" + ciupR.global.ciupIndex,
+            "b2bPrice3" + ciupR.global.ciupIndex, "b2bPrice4" + ciupR.global.ciupIndex, "b2bPrice5" + ciupR.global.ciupIndex, "rmk" + ciupR.global.ciupIndex]);
 
         $(".numberInput").keyup(function(){
             $(this).val(ciupR.comma(ciupR.uncomma($(this).val())));

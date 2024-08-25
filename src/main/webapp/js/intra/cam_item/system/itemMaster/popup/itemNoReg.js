@@ -27,7 +27,7 @@ var inr = {
             $(this).val(inr.comma(inr.uncomma($(this).val())));
         });
 
-        customKendo.fn_textBox(["itemNo", "itemName", "safetyInven", "standard", "unitPrice", "costPrice", "b2bPrice", "consumerPrice"]);
+        customKendo.fn_textBox(["itemNo", "itemName", "safetyInven", "standard", "unitPrice", "costPrice", "b2bPrice", "b2bEtc", "b2bPrice2", "b2bEtc2", "b2bPrice3", "b2bEtc3", "b2bPrice4", "b2bEtc4", "b2bPrice5", "b2bEtc5"]);
 
         $(".numberInput").keyup(function(){
             $(this).val(comma(uncomma($(this).val())));
@@ -198,7 +198,19 @@ var inr = {
             alert("원가를 입력해주세요.");
             return;
         }else if(!$("#b2bPrice").val()){
-            alert("판매가(B2B)를 입력해주세요.");
+            alert("판매가(B2B1)를 입력해주세요.");
+            return;
+        }else if(!$("#b2bPrice2").val()){
+            alert("판매가(B2B2)를 입력해주세요.");
+            return;
+        }else if(!$("#b2bPrice3").val()){
+            alert("판매가(B2B3)를 입력해주세요.");
+            return;
+        }else if(!$("#b2bPrice4").val()){
+            alert("판매가(B2B4)를 입력해주세요.");
+            return;
+        }else if(!$("#b2bPrice5").val()){
+            alert("판매가(B2B5)를 입력해주세요.");
             return;
         }else if(!$("#consumerPrice").val()){
             alert("판매가(소비자가) 입력해주세요.");
@@ -222,6 +234,15 @@ var inr = {
                 unitPrice : uncomma($("#unitPrice").val()),
                 costPrice : uncomma($("#costPrice").val()),
                 b2bPrice : uncomma($("#b2bPrice").val()),
+                b2bPrice2 : uncomma($("#b2bPrice2").val()),
+                b2bPrice3 : uncomma($("#b2bPrice3").val()),
+                b2bPrice4 : uncomma($("#b2bPrice4").val()),
+                b2bPrice5 : uncomma($("#b2bPrice5").val()),
+                b2bEtc : $("#b2bEtc").val(),
+                b2bEtc2 : $("#b2bEtc2").val(),
+                b2bEtc3 : $("#b2bEtc3").val(),
+                b2bEtc4 : $("#b2bEtc4").val(),
+                b2bEtc5 : $("#b2bEtc5").val(),
                 consumerPrice : uncomma($("#consumerPrice").val()),
                 nowHyphen : $("#nowHyphen").val(),
             }
@@ -270,6 +291,15 @@ var inr = {
             $("#unitPrice").val(comma(result.rs.UNIT_PRICE || 0));
             $("#costPrice").val(comma(result.rs.COST_PRICE || 0));
             $("#b2bPrice").val(comma(result.rs.B2B_PRICE || 0));
+            $("#b2bPrice2").val(comma(result.rs.B2B_PRICE2 || 0));
+            $("#b2bPrice3").val(comma(result.rs.B2B_PRICE3 || 0));
+            $("#b2bPrice4").val(comma(result.rs.B2B_PRICE4 || 0));
+            $("#b2bPrice5").val(comma(result.rs.B2B_PRICE5 || 0));
+            $("#b2bEtc").val(result.rs.B2B_ETC)
+            $("#b2bEtc2").val(result.rs.B2B_ETC2);
+            $("#b2bEtc3").val(result.rs.B2B_ETC3);
+            $("#b2bEtc4").val(result.rs.B2B_ETC4);
+            $("#b2bEtc5").val(result.rs.B2B_ETC5);
             $("#consumerPrice").val(comma(result.rs.CONSUMER_PRICE || 0));
         }
         $("#categoryC").data("kendoDropDownList").trigger("change");

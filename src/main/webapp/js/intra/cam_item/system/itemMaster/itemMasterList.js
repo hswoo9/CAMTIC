@@ -155,7 +155,7 @@ var itemM = {
             url += "?masterSn=" + e
         }
         var name = "_blank";
-        var option = "width = 1280, height = 370, top = 200, left = 400, location = no"
+        var option = "width = 1280, height = 565, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

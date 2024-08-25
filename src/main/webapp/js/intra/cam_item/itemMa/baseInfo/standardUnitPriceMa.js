@@ -161,7 +161,7 @@ var supM = {
     fn_popStandardUnitPriceReg : function (e){
         var url = "/item/pop/popStandardUnitPriceReg.do?masterSn=" + e;
         var name = "_blank";
-        var option = "width = 785, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 1325, height = 670, top = 200, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 
