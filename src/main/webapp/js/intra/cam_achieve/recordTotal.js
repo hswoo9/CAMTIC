@@ -1,4 +1,5 @@
 let pjtAmtSum=0;
+let pjtAmt2Sum=0;
 let exnpCompAmtSum=0;
 let incpCompAmtSum=0;
 let tmpSaleAmtSum=0;
@@ -137,6 +138,7 @@ var recordTotal = {
                 /** 합계 */
                 $("#total").text(fn_numberWithCommas(pjtAmtSum));
                 pjtAmtSum=0;
+                pjtAmt2Sum=0;
                 exnpCompAmtSum=0;
                 incpCompAmtSum=0;
                 tmpSaleAmtSum=0;
@@ -236,10 +238,15 @@ var recordTotal = {
                     width: 100,
                     template: function(e){
                         if(e.YEAR_CLASS == "M"){
+                            pjtAmt2Sum += Number(e.ALL_PJT_AMT || 0);
                             return '<div style="text-align: right;">'+comma(e.ALL_PJT_AMT)+'</div>';
                         } else {
+                            pjtAmt2Sum += Number(e.PJT_AMT || 0);
                             return '<div style="text-align: right;">'+comma(e.PJT_AMT)+'</div>';
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(pjtAmt2Sum)+"</div>";
                     }
                 }, {
                     field: "PJT_AMT",
