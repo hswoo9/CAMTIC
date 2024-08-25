@@ -433,6 +433,7 @@
                 )
             </otherwise>
         </choose>
+        GROUP BY PAY_ROLL_SN
         ORDER BY BASE_YEAR_MONTH, D.ORDER_SN, C.ORDER_SN
     </select>
 
