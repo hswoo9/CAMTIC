@@ -469,6 +469,79 @@
             A.EST_PRINT_SN = #{estPrintSn}
     </select>
 
+    <select id="getShipmentRecordMaster" parameterType="map" resultType="map">
+        /* getShipmentRecordMaster */
+        SELECT
+        SR.*,
+        (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
+        EI.EMP_NAME_KR,
+        IM.MASTER_SN,
+        IM.ITEM_NO,
+        IM.ITEM_NAME,
+        CI.CRM_NM
+        FROM
+        CAM_ITEM.DJ_ITEM_SM_RECORD SR
+        JOIN
+        CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        ON OO.OBTAIN_ORDER_SN = SR.OBTAIN_ORDER_SN
+        JOIN
+        CAM_CRM.DJ_CRM_INFO CI
+        ON SR.CRM_SN = CI.CRM_SN
+        JOIN
+        CAM_HR.DJ_EMP_INFO EI
+        ON SR.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+        CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = OO.MASTER_SN
+        WHERE 1=1
+
+        <if test='deadline != null and !"".equals(deadline)'>
+            AND SR.DEADLINE = #{deadline}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SR.DELIVERY_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SR.DELIVERY_DT, '%Y%m%d')
+            ]]>
+        </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND SR.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND SR.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
+        <if test='smRecordSnArr != null and !"".equals(smRecordSnArr)'>
+            AND SR.SM_RECORD_SN IN (${smRecordSnArr})
+        </if>
+
+        GROUP BY OO.REG_EMP_SEQ, DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i')
+        ORDER BY SR.DELIVERY_DT DESC
+    </select>
+
     <select id="getShipmentRecordList" parameterType="map" resultType="map">
         /* getShipmentRecordList */
         SELECT
@@ -537,6 +610,7 @@
         <if test='smRecordSnArr != null and !"".equals(smRecordSnArr)'>
             AND SR.SM_RECORD_SN IN (${smRecordSnArr})
         </if>
+            AND (OO.REG_EMP_SEQ, DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = #{obtainOrderSn})
 
         ORDER BY SR.DELIVERY_DT DESC
     </select>

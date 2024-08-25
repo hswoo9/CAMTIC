@@ -25,6 +25,7 @@ public interface ItemManageService {
     void setObtainOrderCancel(Map<String, Object> params);
     void setItemEstPrint(Map<String, Object> params);
     Map<String, Object> getEstPrintSn(Map<String, Object> params);
+    List<Map<String, Object>> getShipmentRecordMaster(Map<String, Object> params);
     List<Map<String, Object>> getShipmentRecordList(Map<String, Object> params);
     Map<String, Object> getShipmentInvenChk(Map<String, Object> params);
     List<Map<String, Object>> getFwWhCdDesignList(Map<String, Object> params);

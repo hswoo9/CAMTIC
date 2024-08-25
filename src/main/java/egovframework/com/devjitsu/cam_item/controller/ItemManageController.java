@@ -531,6 +531,11 @@ public class ItemManageController {
      * @param model
      * @return
      */
+    @RequestMapping("/item/getShipmentRecordMaster.do")
+    public String getShipmentRecordMaster(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getShipmentRecordMaster(params));
+        return "jsonView";
+    }
     @RequestMapping("/item/getShipmentRecordList.do")
     public String getShipmentRecordList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", itemManageService.getShipmentRecordList(params));
