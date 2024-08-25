@@ -654,4 +654,8 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getWaitIncp(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getWaitIncp", params);
     }
+
+    public List<Map<String, Object>> getExnpDepoListExcelDown(Map<String, Object> params) {
+        return selectList("payApp.getExnpDepoListExcelDown", params);
+    }
 }

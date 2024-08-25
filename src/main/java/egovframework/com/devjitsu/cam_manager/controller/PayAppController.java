@@ -1503,4 +1503,14 @@ public class PayAppController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/pay/getExnpDepoListExcelDown")
+    public String getExnpDepoListExcelDown(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = payAppService.getExnpDepoListExcelDown(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }

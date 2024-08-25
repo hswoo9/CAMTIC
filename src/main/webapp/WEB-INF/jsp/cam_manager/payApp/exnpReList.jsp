@@ -66,6 +66,8 @@
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
                 <div id="hiddenGrid" style="margin:20px 0; display: none;"></div>
+                <div id="hiddenDepoGrid" style="margin:20px 0;display:none; "></div>
+
             </div>
         </div>
     </div>

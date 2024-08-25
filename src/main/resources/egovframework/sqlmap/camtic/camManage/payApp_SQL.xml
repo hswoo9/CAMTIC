@@ -4042,4 +4042,22 @@
         ORDER BY DEPO_SET_SN DESC
             LIMIT 1
     </select>
+
+    <select id="getExnpDepoListExcelDown" parameterType="map" resultType="map">
+        /*getExnpDepoListExcelDown*/
+        SELECT
+            B.CRM_BNK_NM,
+            B.CRM_ACC_NO,
+            B.TOT_COST,
+            B.CRM_ACC_HOLDER,
+            '(사)캠틱종합기술원' AS INV,
+            A.EXNP_DE
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.EXNP_SN IN (${exnpSnAr})
+    </select>
 </mapper>

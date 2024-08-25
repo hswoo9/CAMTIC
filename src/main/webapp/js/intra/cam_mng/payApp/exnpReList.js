@@ -1,5 +1,6 @@
-var exnpReList = {
+let sum=0;
 
+var exnpReList = {
     global: {
         dropDownDataSource : "",
         searchAjaxData : "",
@@ -58,6 +59,13 @@ var exnpReList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpReList.fn_depoReqDownload()">' +
+                            '	<span class="k-button-text">입금의뢰명세서</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="exnpReList.fn_exnpApprove()">' +
                             '	<span class="k-button-text">결의서 승인</span>' +
                             '</button>';
@@ -86,9 +94,9 @@ var exnpReList = {
                     template : function(e){
                         // if(e.TYPE == "반제(지출)"){
                             if(e.RE_STAT == "N"){
-                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/><input type="hidden" name="hidExnpSn" value="'+e.EXNP_SN+'"/><input type="hidden" name="hidExnpDe" value="'+e.R_DT+'">';
                             } else {
-                                return '';
+                                return '<input type="hidden" name="hidExnpSn" value="'+e.EXNP_SN+'"/><input type="hidden" name="hidExnpDe" value="'+e.R_DT+'">';
                             }
                         // } else {
                         //     return '';
@@ -327,6 +335,54 @@ var exnpReList = {
         }).data("kendoGrid");
     },
 
+    hiddenDepoGrid: function(url, params){
+        $("#hiddenDepoGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "은행",
+                    width: 120,
+                    field: "CRM_BNK_NM",
+
+                }, {
+                    title: "계좌번호",
+                    width: 80,
+                    field: "CRM_ACC_NO",
+                    footerTemplate : function (e) {
+                        return "합계";
+                    },
+                    attributes: { style: "text-align: right" },
+                }, {
+                    title: "지출금액(원)",
+                    width: 80,
+                    field: "TOT_COST",
+                    template : function(e){
+                        sum += Number(e.TOT_COST);
+                        return comma(e.TOT_COST);
+                    },
+                    footerTemplate : function (e) {
+                        return comma(sum);
+                    },
+                    attributes: { style: "text-align: right" }
+                }, {
+                    title: "예금주",
+                    field: "CRM_ACC_HOLDER",
+                    width: 200,
+                },{
+                    title: "의뢰인",
+                    field: "INV",
+                    width: 200,
+                }
+            ],
+        }).data("kendoGrid");
+    },
+
     gridReload: function(){
         exnpReList.global.searchAjaxData = {
             empSeq: $("#myEmpSeq").val(),
@@ -388,6 +444,60 @@ var exnpReList = {
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "지출 반제결의 목록.xlsx";
+        });
+        grid.saveAsExcel();
+    },
+
+
+    fn_depoReqDownload : function(){
+        var data = {
+            exnpSnAr : ""
+        }
+
+        $("input[name=hidExnpSn]").each(function(){
+            if(this.value != undefined && this.value != "" && this.value != null){
+                data.exnpSnAr += this.value + ",";
+            }
+        });
+
+        var exnpDe = "";
+
+        var flag = true;
+        $("input[name=hidExnpDe]").each(function(){
+            if(flag) exnpDe = this.value;
+
+            flag = false;
+        });
+
+        data.exnpSnAr = data.exnpSnAr.substring(0, data.exnpSnAr.length - 1);
+
+        exnpReList.hiddenDepoGrid("/pay/getExnpDepoListExcelDown", data);
+
+        var grid = $("#hiddenDepoGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            var sheet = e.workbook.sheets[0];
+            sheet.mergedCells = ["A1:E1", "A2:E2"];
+            sheet.name = "계좌명";
+
+            var myHeaders = [{
+                value:"입금의뢰명세서",
+                fontSize: 13,
+                textAlign: "center",
+                background:"#7A7A7A",
+                color:"#ffffff"
+            }];
+
+            var myHeaders2 = [{
+                value:"지출일자 : " + exnpDe,
+                fontSize: 12,
+                textAlign: "right",
+                background:"#7A7A7A",
+                color:"#ffffff"
+            }];
+
+            sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 30});
+            sheet.rows.splice(1, 0, { cells: myHeaders2, type: "header", height: 30});
+            e.workbook.fileName = "입금의뢰명세서.xlsx";
         });
         grid.saveAsExcel();
     }

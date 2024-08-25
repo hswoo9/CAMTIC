@@ -2279,4 +2279,8 @@ public class PayAppServiceImpl implements PayAppService {
         createPdf(params, serverDir, baseDir);
     }
 
+    @Override
+    public List<Map<String, Object>> getExnpDepoListExcelDown(Map<String, Object> params) {
+        return payAppRepository.getExnpDepoListExcelDown(params);
+    }
 }

@@ -164,4 +164,6 @@ public interface PayAppService {
     void makeCorpCardPdf(Map<String, Object> params, String SERVER_DIR, String BASE_DIR);
 
     void makeBustripPdf(Map<String, Object> params, String SERVER_DIR, String BASE_DIR);
+
+    List<Map<String, Object>> getExnpDepoListExcelDown(Map<String, Object> params);
 }
