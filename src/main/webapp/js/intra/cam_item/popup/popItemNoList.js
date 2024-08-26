@@ -190,12 +190,14 @@ var popItemNoList = {
                         opener.parent.$("#itemType").val(rs.ITEM_TYPE);
                         opener.parent.$("#maxUnitPrice").val(rs.UNIT_PRICE);
 
-                        if(opener.parent.bomReg.global.masterSnIndex == 999){
-                            // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
-                            opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
-                        } else {
-                            opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
-                            opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
+                        if(opener.parent.bomReg != null) {
+                            if(opener.parent.bomReg.global.masterSnIndex == 999){
+                                // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
+                                opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
+                            } else {
+                                opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
+                                opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
+                            }
                         }
 
 
