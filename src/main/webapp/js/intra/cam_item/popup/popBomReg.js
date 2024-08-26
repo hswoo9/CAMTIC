@@ -249,7 +249,9 @@ var bomReg = {
 
         bomReg.costPriceChange();
 
-        bomReg.addRow();
+        if(i != e.length) {
+            bomReg.addRow();
+        }
     },
 
     itemInfoChange : function(){
