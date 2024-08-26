@@ -55,6 +55,15 @@ var popSelEstimate = {
                     template : "<input type='checkbox' id='ooSn#=OBTAIN_ORDER_SN#' name='ooSn' value='#=OBTAIN_ORDER_SN#' style=\"top: 3px; position: relative\" />",
                     width: 30,
                 }, {
+                    title: "메일전송",
+                    field: "CRM_NM",
+                    template : function (e){
+                        if(e.MAIL_YN == "Y"){
+                            return "전송완료"
+                        }
+                        return "미전송"
+                    }
+                }, {
                     title: "거래처",
                     field: "CRM_NM",
                 }, {
@@ -199,12 +208,7 @@ var popSelEstimate = {
 
     gridReload: function (){
         popSelEstimate.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            obtainOrderType : "Y",
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
+            obtainOrderSn : $("#obtainOrderSn").val(),
         }
 
         popSelEstimate.popMainGrid("/item/getObtainOrderList.do", popSelEstimate.global.searchAjaxData);
@@ -237,8 +241,17 @@ var popSelEstimate = {
     },
 
     fn_sendMailPop : function(){
+        var ooSnArr = "";
+        $.each($("input[name='ooSn']:checked"), function(){
+            ooSnArr += "," + $(this).val();
+        })
+        ooSnArr = ooSnArr.substr(1);
+
         let crmSn = $("#crmSn").val();
         var url = "/item/pop/estimateSendMailPop.do?crmSn="+crmSn;
+        if($("input[name='ooSn']:checked").length != 0){
+            url += "&ooSnArr="+ooSnArr
+        }
         var name = "sendMailPop";
         var option = "width=960, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

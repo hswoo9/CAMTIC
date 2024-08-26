@@ -32,6 +32,7 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="crmSn" name="crmSn" value="${params.crmSn}">
+        <input type="hidden" id="obtainOrderSn" name="crmSn" value="${params.obtainOrderSn}">
 
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">

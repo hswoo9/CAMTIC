@@ -1246,6 +1246,11 @@ public class ItemManageServiceImpl implements ItemManageService {
         }*/
     }
 
+
+    @Override
+    public void setEstimateMailCk(Map<String, Object> params) {
+        itemManageRepository.setEstimateMailCk(params);
+    }
     public void setEstimateSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
 
         itemManageRepository.setEstimateSendMailInfo(params);

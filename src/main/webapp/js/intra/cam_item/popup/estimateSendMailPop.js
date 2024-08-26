@@ -57,6 +57,11 @@ const sendMail = {
         if(result.flag){
             var rs = result.rs;
             if(rs == "SUCCESS"){
+                if($("#ooSnArr").val() != ""){
+                    const result = customKendo.fn_customAjax("/item/setEstimateMailCk", {
+                        ooSnArr : $("#ooSnArr").val()
+                    });
+                }
                 alert("전송되었습니다.");
                 window.close();
             }

@@ -144,6 +144,10 @@ public class ItemManageRepository extends AbstractDAO {
         return selectList("item.getIventDeadLineList", params);
     }
 
+    public void setEstimateMailCk(Map<String, Object> params) {
+        update("item.setEstimateMailCk", params);
+    }
+
     public void setEstimateSendMailInfo(Map<String, Object> params) {
         insert("item.setEstimateSendMailInfo", params);
     }

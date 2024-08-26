@@ -2511,6 +2511,15 @@
           AND (IM.ITEM_CONF_CNT = 0 OR IM.ITEM_CONF_CNT IS NULL)
     </select>
 
+    <update id="setEstimateMailCk" parameterType="map">
+        /* setEstimateMailCk */
+        UPDATE CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            MAIL_YN = 'Y'
+        WHERE
+            OBTAIN_ORDER_SN IN (${ooSnArr})
+    </update>
+
     <update id="setCrmHistConfirm" parameterType="map">
         UPDATE CAM_ITEM.DJ_ITEM_HIST
         SET
