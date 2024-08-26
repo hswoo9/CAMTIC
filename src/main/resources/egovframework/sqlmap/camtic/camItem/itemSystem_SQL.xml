@@ -290,7 +290,6 @@
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
         ON MSU.MASTER_SN = IM.MASTER_SN
-        AND <![CDATA[ MSU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND MSU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
         ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD

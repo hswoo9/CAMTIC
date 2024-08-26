@@ -32,7 +32,6 @@
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
         ON MSU.MASTER_SN = IM.MASTER_SN
-        AND <![CDATA[ MSU.START_DT <= DATE_FORMAT(NOW(), '%Y-%m-%d') AND MSU.END_DT >= DATE_FORMAT(NOW(), '%Y-%m-%d') ]]>
 
         WHERE 1=1
         <if test='masterSn != null and !"".equals(masterSn)'>

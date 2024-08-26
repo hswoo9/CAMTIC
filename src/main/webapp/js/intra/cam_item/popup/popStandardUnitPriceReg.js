@@ -54,7 +54,7 @@ var sdupR = {
         html = "" +
             '<tr class="sdupInfo ' + e + 'SdupInfo" id="sdup' + sdupR.global.sdUpIndex + '">' +
                 '<td>';
-        if(e == "old"){
+        if(e == "old" && sdupR.global.sdUpIndex != 0){
             html += '<input type="checkbox" id="masterSdUpSn' + sdupR.global.sdUpIndex + '" class="masterSdUpSn" name="masterSdUpSn">';
         }
 
