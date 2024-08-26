@@ -47,6 +47,8 @@ var oosl = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            detailTemplate : kendo.template($("#template").html()),
+            detailInit: oosl.detailInit,
             toolbar: [
                 {
                     name: 'button',
@@ -72,7 +74,6 @@ var oosl = {
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
-                    width: 150,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
@@ -83,7 +84,7 @@ var oosl = {
                 }, {
                     title: "수주일자",
                     field: "ORDER_DT",
-                    width: 80,
+                    width: 160,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
@@ -92,6 +93,54 @@ var oosl = {
                         }
                     }
                 }, {
+                    title: "등록자",
+                    field: "EMP_NAME_KR",
+                    width: 160,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            }
+        }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
+            else $("input[name=whSn]").prop("checked", false);
+        });
+    },
+
+    detailInit : function(e) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getObtainOrderList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.obtainOrderSn = e.data.OBTAIN_ORDER_SN;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: dataSource,
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                {
                     title: "납기일자",
                     field: "DUE_DT",
                     width: 80,
@@ -214,11 +263,11 @@ var oosl = {
                         // if(e.DEADLINE == "N"){
                         //     return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
                         // }else {
-                            if(e.OBTAIN_ORDER_TYPE == "N"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
-                            }else {
-                                return str
-                            }
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
+                        }
                         // }
                     },
                     attributes : {
@@ -286,20 +335,8 @@ var oosl = {
                     title: "비고",
                     field: "RMK",
                     width: 150,
-                }, {
-                    title: "등록자",
-                    field: "EMP_NAME_KR",
-                    width: 80,
                 }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 3);
-            }
-        }).data("kendoGrid");
-
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
-            else $("input[name=whSn]").prop("checked", false);
+            ]
         });
     },
 
@@ -315,7 +352,7 @@ var oosl = {
             regEmpSeq : $("#regEmpSeq").val()
         }
 
-        oosl.mainGrid("/item/getObtainOrderList.do", oosl.global.searchAjaxData);
+        oosl.mainGrid("/item/getObtainOrderMaster.do", oosl.global.searchAjaxData);
     },
 
     crmSnReset : function(){
