@@ -96,6 +96,10 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getObtainOrderMaster(Map<String, Object> params) {
+        return itemManageRepository.getObtainOrderMaster(params);
+    }
+    @Override
     public List<Map<String, Object>> getObtainOrderList(Map<String, Object> params) {
         return itemManageRepository.getObtainOrderList(params);
     }

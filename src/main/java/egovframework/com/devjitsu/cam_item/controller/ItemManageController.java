@@ -271,6 +271,11 @@ public class ItemManageController {
      * @param model
      * @return
      */
+    @RequestMapping("/item/getObtainOrderMaster.do")
+    public String getObtainOrderMaster(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getObtainOrderMaster(params));
+        return "jsonView";
+    }
     @RequestMapping("/item/getObtainOrderList.do")
     public String getObtainOrderList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", itemManageService.getObtainOrderList(params));

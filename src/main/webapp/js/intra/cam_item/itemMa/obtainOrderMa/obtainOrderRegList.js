@@ -135,6 +135,8 @@ var oorl = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            detailTemplate : kendo.template($("#template").html()),
+            detailInit: oorl.detailInit,
             toolbar: [
                 {
                     name: 'button',
@@ -182,23 +184,12 @@ var oorl = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : function(e){
-                        if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.APPR_STAT == "Y"){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
-                            return "";
-                        }else{
-                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
-                        }
-                    },
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
-                    width: 200,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
@@ -209,7 +200,7 @@ var oorl = {
                 }, {
                     title: "수주일자",
                     field: "ORDER_DT",
-                    width: 80,
+                    width: 160,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
@@ -217,6 +208,80 @@ var oorl = {
                             return e.ORDER_DT
                         }
                     }
+                }, {
+                    width: 160,
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this)">' +
+                            '	<span class="k-button-text">견적서</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "등록자",
+                    field: "EMP_NAME_KR",
+                    width: 80,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            }
+        }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=ooSn]").prop("checked", true);
+            else $("input[name=ooSn]").prop("checked", false);
+        });
+
+        $(".numberInput").keyup(function(){
+            if(Number(oorl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
+                alert("출하누계는 수주량을 초과할 수 없습니다.");
+                $(this).val(oorl.comma($(this).attr("maxOrderVolume")));
+            }else{
+                $(this).val(oorl.comma(oorl.uncomma($(this).val())));
+            }
+        });
+    },
+
+    detailInit : function(e) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getObtainOrderList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.obtainOrderSn = e.data.OBTAIN_ORDER_SN;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: dataSource,
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
+                    template : function(e){
+                        if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.APPR_STAT == "Y"){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
+                            return "";
+                        }else{
+                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
+                        }
+                    },
+                    width: 30,
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
@@ -331,11 +396,11 @@ var oorl = {
                         // if(e.DEADLINE == "N"){
                         //     return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
                         // }else {
-                            if(e.OBTAIN_ORDER_TYPE == "N"){
-                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
-                            }else {
-                                return str
-                            }
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
+                        }
                         // }
                     },
                     attributes : {
@@ -411,36 +476,8 @@ var oorl = {
                             return "개시";
                         }
                     },
-                }, {
-                    width: 80,
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this)">' +
-                            '	<span class="k-button-text">견적서</span>' +
-                            '</button>';
-                    }
-                }, {
-                    title: "등록자",
-                    field: "EMP_NAME_KR",
-                    width: 80,
                 }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 3);
-            }
-        }).data("kendoGrid");
-
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=ooSn]").prop("checked", true);
-            else $("input[name=ooSn]").prop("checked", false);
-        });
-
-        $(".numberInput").keyup(function(){
-            if(Number(oorl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
-                alert("출하누계는 수주량을 초과할 수 없습니다.");
-                $(this).val(oorl.comma($(this).attr("maxOrderVolume")));
-            }else{
-                $(this).val(oorl.comma(oorl.uncomma($(this).val())));
-            }
+            ]
         });
     },
 
@@ -462,7 +499,7 @@ var oorl = {
             // regEmpSeq : $("#regEmpSeq").val()
         }
 
-        oorl.mainGrid("/item/getObtainOrderList.do", oorl.global.searchAjaxData);
+        oorl.mainGrid("/item/getObtainOrderMaster.do", oorl.global.searchAjaxData);
     },
 
     setDeadlineUpd: function(){

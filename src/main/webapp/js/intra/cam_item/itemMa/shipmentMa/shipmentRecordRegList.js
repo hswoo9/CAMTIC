@@ -80,155 +80,20 @@ var srrl = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : function(e){
-                        return "<input type='checkbox' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
-                        // if(e.OVERALL_INVEN != "0"){
-                        //
-                        // }else{
-                        //     return ""
-                        // }
-                    },
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
                 }, {
                     title: "납품처",
                     field: "CRM_NM",
-                    width: 150,
                 }, {
                     title: "납품일",
                     field: "DELIVERY_DT",
-                    width: 80,
-                }, {
-                    title: "품번",
-                    field: "ITEM_NO",
-                    width: 120
-                }, {
-                    title: "품명",
-                    field: "ITEM_NAME",
-                    width: 120
-                }, {
-                    title: "재고",
-                    field: "OVERALL_INVEN",
-                    width: 100,
-                    template : function (e){
-                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
-                            return srrl.comma(e.OVERALL_INVEN);
-                        }else{
-                            return "0";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "수주량",
-                    field: "DELIVERY_VOLUME",
-                    width: 100,
-                    template : function (e){
-                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return srrl.comma(e.DELIVERY_VOLUME) + "";
-                        }else{
-                            return "0";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "출하누계",
-                    field: "DELIVERY_AMT",
-                    width: 100,
-                    template : function (e){
-                        var str = "";
-                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            str = srrl.comma(e.DELIVERY_AMT);
-                        }else{
-                            str = "0";
-                        }
-
-                        return str;
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "출하잔량",
-                    field: "DELIVERY_AMT",
-                    width: 100,
-                    template : function (e){
-                        var str = "";
-                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            str = srrl.comma(Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT));
-                        }else{
-                            str = e.DELIVERY_VOLUME;
-                        }
-
-                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
-                            return "납품완료"
-                        }else {
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "단가",
-                    width: 100,
-                    field: "UNIT_PRICE",
-                    template : function (e){
-                        if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return srrl.comma(e.UNIT_PRICE) + "원";
-                        }else{
-                            return "0원";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "금액",
-                    width: 100,
-                    field: "AMT",
-                    template: function(e){
-                        if(e.AMT != null && e.AMT != ""){
-                            return srrl.comma(e.AMT) + "원";
-                        }else{
-                            return "0원";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "비고",
-                    field: "RMK",
-                    width: 200,
-                    template : function(e){
-                        var rmk = "";
-                        if(e.RMK != null && e.RMK != undefined){
-                            rmk = e.RMK
-                        }
-                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
-                            return rmk;
-                        }else {
-                            return "<input type='text' class='k-input k-textbox' id='rmk" + e.SM_RECORD_SN + "' value='" + rmk + "'>";
-                        }
-                    }
-                }, {
-                    title: "상태",
-                    width: 80,
-                    template : function (e){
-                        return "진행중";
-                    },
+                    width: 160,
                 }, {
                     title: "등록자",
                     field: "EMP_NAME_KR",
-                    width: 80,
+                    width: 160,
                 }
             ],
             dataBinding: function(){
@@ -292,18 +157,6 @@ var srrl = {
                     },
                     width: 30,
                 }, {
-                    title: "순번",
-                    template: "#= --record #",
-                    width: 50
-                }, {
-                    title: "납품처",
-                    field: "CRM_NM",
-                    width: 150,
-                }, {
-                    title: "납품일",
-                    field: "DELIVERY_DT",
-                    width: 80,
-                }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120
@@ -426,10 +279,6 @@ var srrl = {
                     template : function (e){
                         return "진행중";
                     },
-                }, {
-                    title: "등록자",
-                    field: "EMP_NAME_KR",
-                    width: 80,
                 }
             ]
         });
