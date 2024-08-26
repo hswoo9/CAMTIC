@@ -677,7 +677,7 @@
         </if>
 
         GROUP BY OO.REG_EMP_SEQ, DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i')
-        ORDER BY SR.DELIVERY_DT DESC
+        ORDER BY SR.SM_RECORD_SN DESC
     </select>
 
     <select id="getShipmentRecordList" parameterType="map" resultType="map">
@@ -756,28 +756,28 @@
     <update id="setDeliveryAmtUpd" parameterType="map">
         /* setDeliveryAmtUpd */
         UPDATE
-            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
         SET
-            DELIVERY_AMT = (IFNULL(DELIVERY_AMT, 0) + ${deliveryAmt}),
-            ORDER_REMAIN = (ORDER_VOLUME - IFNULL(DELIVERY_AMT, 0)),
-            MOD_EMP_SEQ = #{empSeq},
-            MOD_DT = NOW()
+            OO.DELIVERY_AMT = (IFNULL(OO.DELIVERY_AMT, 0) + ${deliveryAmt}),
+            OO.ORDER_REMAIN = (OO.ORDER_VOLUME - IFNULL(OO.DELIVERY_AMT, 0)),
+            OO.MOD_EMP_SEQ = #{empSeq},
+            OO.MOD_DT = NOW()
         WHERE
-            OBTAIN_ORDER_SN = (SELECT OBTAIN_ORDER_SN FROM CAM_ITEM.DJ_ITEM_SM_RECORD WHERE SM_RECORD_SN = #{smRecordSn})
+            OO.OBTAIN_ORDER_SN = (SELECT SSR.OBTAIN_ORDER_SN FROM CAM_ITEM.DJ_ITEM_SM_RECORD SSR WHERE SSR.SM_RECORD_SN = #{smRecordSn})
     </update>
 
     <update id="getShipmentDeliveryAmtUpd" parameterType="map">
         /* getShipmentDeliveryAmtUpd */
         UPDATE
-            CAM_ITEM.DJ_ITEM_SM_RECORD
+            CAM_ITEM.DJ_ITEM_SM_RECORD SR
         SET
-            DELIVERY_AMT = (IFNULL(DELIVERY_AMT, 0) + ${deliveryAmt}),
-            DELIVERY_DT = DATE_FORMAT(NOW(), '%Y-%m-%d'),
-            RMK = #{rmk},
-            MOD_EMP_SEQ = #{empSeq},
-            MOD_DT = NOW()
+            SR.DELIVERY_AMT = (IFNULL(SR.DELIVERY_AMT, 0) + ${deliveryAmt}),
+            SR.DELIVERY_DT = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            SR.RMK = #{rmk},
+            SR.MOD_EMP_SEQ = #{empSeq},
+            SR.MOD_DT = NOW()
         WHERE
-            SM_RECORD_SN = #{smRecordSn}
+            SR.SM_RECORD_SN = #{smRecordSn}
     </update>
 
     <insert id="setItemSmRecordHist" parameterType="map">

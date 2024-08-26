@@ -21,12 +21,42 @@ var srrl = {
 
         customKendo.fn_textBox(["searchValue"]);
 
-        srrl.gridReload();
+        srrl.mainGrid();
     },
 
     mainGrid: function(url, params){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : "/item/getShipmentRecordMaster.do",
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data){
+                    data.crmSn = $("#crmSn").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.deadline = "N";
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             selectable: "row",
@@ -285,16 +315,7 @@ var srrl = {
     },
 
     gridReload: function (){
-        srrl.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            deadline : "N",
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-        }
-
-        srrl.mainGrid("/item/getShipmentRecordMaster.do", srrl.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     crmSnReset : function(){
@@ -336,6 +357,7 @@ var srrl = {
             }
         })
 
+        console.log("smRecordSnArr", smRecordSnArr);
         if(shipmentArr.length == 0){
             alert("저장할 항목이 없습니다.");
             return;
@@ -405,6 +427,7 @@ var srrl = {
                 if(result.flag){
                     alert("처리되었습니다.");
                     srrl.gridReload();
+                    srrl.global.smRecordSnArr = [];
                 }
             }
         }
