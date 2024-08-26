@@ -100,7 +100,9 @@
 <%--            </div>--%>
 <%--            <div id="gridForm" style="height:537px; width: 100%;overflow: auto;border: 1px solid #dedfdf;" class="mt-20">--%>
 <%--            <div id="treeView" style="padding-right: 20px;padding-left: 20px;">--%>
-                <div id="bomGrid" style="margin-top: 10px;"></div>
+                <div id="bomGrid" style="margin-top: 10px;">
+
+                </div>
             </div>
             </div>
         </div>

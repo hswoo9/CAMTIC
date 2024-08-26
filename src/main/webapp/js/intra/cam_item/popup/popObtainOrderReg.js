@@ -21,8 +21,6 @@ var oor = {
     },
 
     addRow : function(e){
-        console.log(oor.global.oorIndex);
-        console.log(e);
         var html = "";
 
         html = "" +

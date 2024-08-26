@@ -37,6 +37,12 @@ var bomReg = {
             var detailArr = new Array();
             var flag = true;
 
+            $("#bomDetailTb").find("tr").each(function(){
+                if($(this).find(".itemNo").val() == ""){
+                    bomReg.delRow($(this), "save");
+                }
+            });
+
             $.each($(".bomDetail"), function(i, v){
                 if($(this).find("#masterSn" + i).val()){
                     if(!$(this).find("#masterBomSn" + i).val()){
@@ -151,22 +157,58 @@ var bomReg = {
         var popup = window.open(url, name, option);
     },
 
-    delRow : function(e){
-        if($(e).closest("tr").find("input.bomDetailSn").val()){
-            if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
-                bomReg.global.saveAjaxData = {
-                    bomDetailSn : $(e).closest("tr").find("input.bomDetailSn").val()
-                }
+    delRow : function(e, f){
+        let key = $(e).closest("tr").find(".masterSn").val();
 
-                var result = customKendo.fn_customAjax("/item/setBomDetailDel.do", bomReg.global.saveAjaxData);
-                if(result.flag){
-                    $(e).closest("tr").remove();
-                    bomReg.global.bomDetailIndex--;
-                }
-            }
-        }else{
+        if($("#bomDetailTb").find("tr").length == 1){
+            return;
+        }
+        if($("#itemNo" + $(e).closest("tr").attr("id").split("detail")[1]).val() == ""){
+            return;
+        }
+
+        if(f == "save") {
             $(e).closest("tr").remove();
             bomReg.global.bomDetailIndex--;
+
+            for(var i = 0; i < bomReg.global.chkList.length; i++){
+                if (bomReg.global.chkList[i] == key) {
+                    bomReg.global.chkList.splice(i, 1);
+                    i--;
+                }
+            }
+        } else {
+            if($(e).closest("tr").find("input.bomDetailSn").val()){
+                if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+                    bomReg.global.saveAjaxData = {
+                        bomDetailSn : $(e).closest("tr").find("input.bomDetailSn").val()
+                    }
+
+                    var result = customKendo.fn_customAjax("/item/setBomDetailDel.do", bomReg.global.saveAjaxData);
+                    if(result.flag){
+                        $(e).closest("tr").remove();
+                        bomReg.global.bomDetailIndex--;
+                    }
+
+                    for(var i = 0; i < bomReg.global.chkList.length; i++){
+                        if (bomReg.global.chkList[i] == key) {
+                            bomReg.global.chkList.splice(i, 1);
+                            i--;
+                        }
+                    }
+                }
+            }else{
+                $(e).closest("tr").remove();
+                bomReg.global.bomDetailIndex--;
+
+                for(var i = 0; i < bomReg.global.chkList.length; i++){
+                    if (bomReg.global.chkList[i] == key) {
+                        bomReg.global.chkList.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+
         }
 
         bomReg.rowAttrOverride();
@@ -188,6 +230,7 @@ var bomReg = {
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
             $(this).find("input.unitPrice").attr("onClick", "bomReg.fn_popItemNoList(" + i + ")");
             $(this).find("input.reqQty").attr("id", "reqQty" + i);
+            $(this).find("input.totPrice").attr("id", "totPrice" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
         })
     },

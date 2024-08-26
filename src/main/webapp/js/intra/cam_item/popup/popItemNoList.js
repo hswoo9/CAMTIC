@@ -196,6 +196,13 @@ var popItemNoList = {
             return;
         }
 
+        if (opener.parent.bomReg != null) {
+            if(opener.parent.bomReg.global.masterSnIndex == 999 && cnt > 1) {
+                alert("하나의 품번만 선택 가능합니다.");
+                return;
+            }
+        }
+
         for(var i = 0; i < list.length; i++){
             var data = {
                 masterSn : list[i].MASTER_SN
@@ -220,7 +227,7 @@ var popItemNoList = {
                             // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
                             opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
                         } else {
-                            opener.parent.bomReg.global.masterSnIndex = opener.parent.$("#bomDetailTb").find("tr:last-child").attr("id").split("detail")[1];
+                            opener.parent.bomReg.global.masterSnIndex = opener.parent.bomReg.global.bomDetailIndex - 1;
                             opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
                             opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
                             opener.parent.bomReg.addRow('new');
