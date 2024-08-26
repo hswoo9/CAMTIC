@@ -36,7 +36,9 @@ var ciupR = {
 
         if (firstRowResult.flag && firstRowResult.list.length > 0) {
             ciupR.addRow('old');
-            var firstRowData = firstRowResult.list[0];
+            console.log("firstRowResult", firstRowResult);
+            var firstRowData = firstRowResult.list[firstRowResult.list.length - 1];
+            console.log("firstRowData", firstRowData);
             $("#ciup0").find("#ciupSn0").val(firstRowData.CRM_ITEM_UNIT_PRICE_SN);
             $("#ciup0").find("#num0").text(1);
             $("#ciup0").find("#unitPrice0").val(ciupR.comma(firstRowData.UNIT_PRICE));

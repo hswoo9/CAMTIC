@@ -39,6 +39,8 @@ var srl = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            detailTemplate : kendo.template($("#template").html()),
+            detailInit: srl.detailInit,
             toolbar: [
                 {
                     name: 'button',
@@ -64,12 +66,59 @@ var srl = {
                 }, {
                     title: "납품처",
                     field: "CRM_NM",
-                    width: 150,
                 }, {
                     title: "납품일",
                     field: "DELIVERY_DT",
                     width: 80,
                 }, {
+                    title: "등록자",
+                    field: "EMP_NAME_KR",
+                    width: 80,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            }
+        }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
+            else $("input[name=whSn]").prop("checked", false);
+        });
+    },
+
+    detailInit : function(e) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getShipmentRecordList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.obtainOrderSn = e.data.OBTAIN_ORDER_SN;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: dataSource,
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120
@@ -155,20 +204,8 @@ var srl = {
                     title: "비고",
                     field: "RMK",
                     width: 200,
-                }, {
-                    title: "등록자",
-                    field: "EMP_NAME_KR",
-                    width: 80,
                 }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 3);
-            }
-        }).data("kendoGrid");
-
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
-            else $("input[name=whSn]").prop("checked", false);
+            ]
         });
     },
 
@@ -182,7 +219,7 @@ var srl = {
             searchValue : $("#searchValue").val(),
         }
 
-        srl.mainGrid("/item/getShipmentRecordList.do", srl.global.searchAjaxData);
+        srl.mainGrid("/item/getShipmentRecordMaster.do", srl.global.searchAjaxData);
     },
 
     crmSnReset : function(){
