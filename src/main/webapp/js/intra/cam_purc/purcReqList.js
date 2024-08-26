@@ -424,19 +424,19 @@ var prm = {
                     template: function (e) {
                         var status = "";
                         if (e.CLAIM_STATUS == "CAYSY") {
-                            if (e.ORDER_DT != "" && e.ORDER_DT != null && e.ORDER_DT != undefined) {
-                                if (e.INSPECT_STATUS != "100") {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
+                            if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
+                                if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
+                                    if (e.INSPECT_STATUS != "100") {
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수3</button>';
+                                    } else {
+                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수4</button>';
+                                    }
                                 } else {
-                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
-                                }
-                            } else {
-                                if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
-                                    if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
+                                    if(e.ORDER_YN == "Y"){
                                         if (e.INSPECT_STATUS != "100") {
-                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수1</button>';
                                         } else {
-                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수2</button>';
                                         }
                                     }
                                 }
