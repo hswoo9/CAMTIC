@@ -96,8 +96,15 @@ var oor = {
         oor.global.oorIndex++;
     },
 
-    delRow : function(e){
-        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+    delRow : function(e, f){
+        if($("#listTb").find("tr").length == 1){
+            return;
+        }
+        if($("#itemNo" + $(e).attr("orNum")).val() == ""){
+            return;
+        }
+
+        if(f == "save"){
             let key = $(e).closest("tr").find(".masterSn").val();
             $(e).closest("tr").remove();
             oor.global.oorIndex--;
@@ -110,7 +117,25 @@ var oor = {
                     i--;
                 }
             }
+        } else {
+            if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+                let key = $(e).closest("tr").find(".masterSn").val();
+                $(e).closest("tr").remove();
+                oor.global.oorIndex--;
+                oor.rowAttrOverride();
+                oor.calculateTotal();
+
+                for(var i = 0; i < oor.global.chkList.length; i++){
+                    if (oor.global.chkList[i] == key) {
+                        oor.global.chkList.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
         }
+
+
+
     },
 
     resetRow : function(){
@@ -121,6 +146,14 @@ var oor = {
     },
 
     setReceivingReg : function(){
+
+        $("#listTb").find("tr").each(function(){
+            console.log()
+
+            if($(this).find(".itemNo").val() == ""){
+                oor.delRow($(this), "save");
+            }
+        });
 
         if($(".orInfo").length == 0){
             alert("저장할 항목이 없습니다.");
@@ -323,6 +356,7 @@ var oor = {
 
             $(this).find("input.obtainOrderSn").attr("id", "obtainOrderSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
+            $(this).find("input.dueDt").attr("id", "dueDt" + i);
             $(this).find("input.crmSn").attr("id", "crmSn" + i);
             $(this).find("input.crmNm").attr("id", "crmNm" + i);
             $(this).find("input.crmNm").attr("onClick", "oor.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"'," + i + ")");
