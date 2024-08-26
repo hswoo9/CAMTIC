@@ -123,7 +123,7 @@
                             <span class="red-star">*</span>비고1
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc" name="b2bPrice" style="width: 150px; text-align: right;">
+                            <input type="text" id="b2bEtc" name="b2bPrice" style="width: 150px; text-align: left;">
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +137,7 @@
                             <span class="red-star">*</span>비고2
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc2" name="b2bPrice" style="width: 150px; text-align: right;">
+                            <input type="text" id="b2bEtc2" name="b2bPrice" style="width: 150px; text-align: left;">
                         </td>
                     </tr>
                     <tr>
@@ -151,7 +151,7 @@
                             <span class="red-star">*</span>비고3
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc3" name="b2bPrice" style="width: 150px; text-align: right;">
+                            <input type="text" id="b2bEtc3" name="b2bPrice" style="width: 150px; text-align: left;">
                         </td>
                     </tr>
                     <tr>
@@ -165,7 +165,7 @@
                             <span class="red-star">*</span>비고4
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc4" name="b2bPrice" style="width: 150px; text-align: right;">
+                            <input type="text" id="b2bEtc4" name="b2bPrice" style="width: 150px; text-align: left;">
                         </td>
                     </tr>
                     <tr>
@@ -179,7 +179,7 @@
                             <span class="red-star">*</span>비고5
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc5" name="b2bPrice" style="width: 150px; text-align: right;">
+                            <input type="text" id="b2bEtc5" name="b2bPrice" style="width: 150px; text-align: left;">
                         </td>
                     </tr>
                 </thead>
