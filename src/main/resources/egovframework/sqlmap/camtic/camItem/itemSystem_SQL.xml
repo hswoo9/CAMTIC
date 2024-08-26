@@ -432,6 +432,10 @@
         SET
             UNIT_PRICE = #{unitPrice},
             B2B_PRICE = #{b2bPrice},
+            B2B_PRICE2 = #{b2bPrice2},
+            B2B_PRICE3 = #{b2bPrice3},
+            B2B_PRICE4 = #{b2bPrice4},
+            B2B_PRICE5 = #{b2bPrice5},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE

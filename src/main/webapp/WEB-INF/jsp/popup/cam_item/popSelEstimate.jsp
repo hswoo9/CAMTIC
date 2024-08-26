@@ -73,7 +73,15 @@
             <div style="display:flex; justify-content: space-between;">
                 <div class="subTitSt">· 견적사항</div>
             </div>
-            <textarea id="rmk" name="rmk" style="width: 100%;"></textarea>
+            <textarea id="rmk" name="rmk" style="width: 100%;">
+                견적조건 : <br>
+                결제조건 : <br>
+                납기일자 : <br>
+                하자보증기간 : <br>
+                공급제외 품목 : <br>
+                견적유효일자 : <br>
+                견적담당자 연락사항 :
+            </textarea>
         </div>
 
     </div>
