@@ -57,6 +57,7 @@ public class ItemManageRepository extends AbstractDAO {
     public void setBomCurrentInvenUpd(Map<String, Object> params) { update("item.setBomCurrentInvenUpd", params);insert("item.setOutputByBom", params);}
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) { return selectList("item.getMaterialUnitPriceList", params);}
     public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) { return selectList("item.getCrmItemUnitPriceList", params);}
+    public List<Map<String, Object>> getCrmItemUnitPriceListByCrmSn(Map<String, Object> params) { return selectList("item.getCrmItemUnitPriceListByCrmSn", params);}
     public String getCrmItemMaxChangeNum(Map<String, Object> params) { return (String) selectOne("item.getCrmItemMaxChangeNum", params);}
     public void setCrmItemUnitPriceReg(Map<String, Object> params) { insert("item.setCrmItemUnitPriceReg", params);}
     public void setCrmItemUnitPriceEndDtUpd(Map<String, Object> params) { update("item.setCrmItemUnitPriceEndDtUpd", params);}

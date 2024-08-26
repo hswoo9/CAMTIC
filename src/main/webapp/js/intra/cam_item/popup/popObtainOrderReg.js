@@ -275,6 +275,41 @@ var oor = {
     },
 
     masterSnChange : function(){
+
+        var result = customKendo.fn_customAjax("/item/getItemMaster.do", {
+            masterSn : $("#masterSn").val()
+        });
+        console.log("result", result);
+        const map = result.rs;
+
+        let text1 = "기본단가";
+        let text2 = "b2b단가1";
+        let text3 = "b2b단가2";
+        let text4 = "b2b단가3";
+        let text5 = "b2b단가4";
+        let text6 = "b2b단가5";
+        if(result.rs != null){
+            text2 = "b2b1단가(" + map.B2B_ETC + ")";
+            text3 = "b2b2단가(" + map.B2B_ETC2 + ")";
+            text4 = "b2b3단가(" + map.B2B_ETC3 + ")";
+            text5 = "b2b4단가(" + map.B2B_ETC4 + ")";
+            text6 = "b2b5단가(" + map.B2B_ETC5 + ")";
+        }
+
+        $("#priceSel"+ oor.global.masterSnIndex).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: text1, value: "0"},
+                {text: text2, value: "1"},
+                {text: text3, value: "2"},
+                {text: text4, value: "3"},
+                {text: text5, value: "4"},
+                {text: text6, value: "5"}
+            ],
+            index: 0,
+        });
+
         $("#masterSn" + oor.global.masterSnIndex).val($("#masterSn").val())
         $("#itemNo" + oor.global.masterSnIndex).val($("#itemNo").val())
         $("#itemName" + oor.global.masterSnIndex).val($("#itemName").val())
@@ -299,31 +334,53 @@ var oor = {
 
         oor.global.searchAjaxData = {
             crmSn : $("#crmSn" + e).val(),
+            crmSn2 : $("#allModCrmSn").val(),
             masterSn : $("#masterSn" + e).val(),
             busClass : "R"
         }
 
         var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", oor.global.searchAjaxData);
-        if(result.flag){
-            if(result.rs != null){
-                oor.global.unitPriceId = "unitPrice" + e;
-                if($("#priceSel" + e).val() == "0"){
-                    $("#unitPrice").val(result.rs.UNIT_PRICE);
-                }else if($("#priceSel" + e).val() == "1"){
-                    $("#unitPrice").val(result.rs.B2B_PRICE);
-                }else if($("#priceSel" + e).val() == "2"){
-                    $("#unitPrice").val(result.rs.B2B_PRICE2);
-                }else if($("#priceSel" + e).val() == "3"){
-                    $("#unitPrice").val(result.rs.B2B_PRICE3);
-                }else if($("#priceSel" + e).val() == "4"){
-                    $("#unitPrice").val(result.rs.B2B_PRICE4);
-                }else if($("#priceSel" + e).val() == "5"){
-                    $("#unitPrice").val(result.rs.B2B_PRICE5);
+        var crmResult = customKendo.fn_customAjax("/item/getCrmItemUnitPriceListByCrmSn.do", oor.global.searchAjaxData);
+
+        if(crmResult.list.length > 0){
+            const crmRMap = crmResult.list[crmResult.list.length - 1]
+            oor.global.unitPriceId = "unitPrice" + e;
+            if($("#priceSel" + e).val() == "0"){
+                $("#unitPrice").val(crmRMap.UNIT_PRICE);
+            }else if($("#priceSel" + e).val() == "1"){
+                $("#unitPrice").val(crmRMap.B2B_PRICE);
+            }else if($("#priceSel" + e).val() == "2"){
+                $("#unitPrice").val(crmRMap.B2B_PRICE2);
+            }else if($("#priceSel" + e).val() == "3"){
+                $("#unitPrice").val(crmRMap.B2B_PRICE3);
+            }else if($("#priceSel" + e).val() == "4"){
+                $("#unitPrice").val(crmRMap.B2B_PRICE4);
+            }else if($("#priceSel" + e).val() == "5"){
+                $("#unitPrice").val(crmRMap.B2B_PRICE5);
+            }
+            oor.unitPriceChange();
+        }else{
+            if(result.flag){
+                if(result.rs != null){
+                    oor.global.unitPriceId = "unitPrice" + e;
+                    if($("#priceSel" + e).val() == "0"){
+                        $("#unitPrice").val(result.rs.UNIT_PRICE);
+                    }else if($("#priceSel" + e).val() == "1"){
+                        $("#unitPrice").val(result.rs.B2B_PRICE);
+                    }else if($("#priceSel" + e).val() == "2"){
+                        $("#unitPrice").val(result.rs.B2B_PRICE2);
+                    }else if($("#priceSel" + e).val() == "3"){
+                        $("#unitPrice").val(result.rs.B2B_PRICE3);
+                    }else if($("#priceSel" + e).val() == "4"){
+                        $("#unitPrice").val(result.rs.B2B_PRICE4);
+                    }else if($("#priceSel" + e).val() == "5"){
+                        $("#unitPrice").val(result.rs.B2B_PRICE5);
+                    }
+                    oor.unitPriceChange();
+                }else{
+                    $("#unitPrice").val(0);
+                    oor.unitPriceChange();
                 }
-                oor.unitPriceChange();
-            }else{
-                $("#unitPrice").val(0);
-                oor.unitPriceChange();
             }
         }
     },

@@ -1477,6 +1477,16 @@
             CRM_ITEM_SN = #{crmItemSn}
     </select>
 
+    <select id="getCrmItemUnitPriceListByCrmSn" parameterType="map" resultType="map">
+        /* getCrmItemUnitPriceListByCrmSn */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+        WHERE
+            CRM_ITEM_SN = (SELECT CRM_ITEM_SN FROM cam_item.dj_crm_item_mange WHERE CRM_SN = #{crmSn2} AND MASTER_SN = #{masterSn} ORDER BY CRM_ITEM_SN DESC LIMIT 1)
+    </select>
+
     <select id="getCrmItemMaxChangeNum" parameterType="map" resultType="String">
         /* getCrmItemMaxChangeNum */
         SELECT IFNULL(MAX(CHANGE_NUM) + 1, '2') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}

@@ -541,6 +541,10 @@ public class ItemManageServiceImpl implements ItemManageService {
     public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) {
         return itemManageRepository.getCrmItemUnitPriceList(params);
     }
+    @Override
+    public List<Map<String, Object>> getCrmItemUnitPriceListByCrmSn(Map<String, Object> params) {
+        return itemManageRepository.getCrmItemUnitPriceListByCrmSn(params);
+    }
 
     @Override
     public void setCrmItemUnitPriceReg(Map<String, Object> params) {

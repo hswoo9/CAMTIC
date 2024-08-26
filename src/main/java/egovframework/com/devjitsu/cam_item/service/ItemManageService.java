@@ -48,6 +48,7 @@ public interface ItemManageService {
     void setOutput(Map<String, Object> params);
     List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params);
     List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params);
+    List<Map<String, Object>> getCrmItemUnitPriceListByCrmSn(Map<String, Object> params);
     void setCrmItemUnitPriceReg(Map<String, Object> params);
     void setCrmItemUnitPriceDel(Map<String, Object> params);
     Map<String, Object> getItemUnitPrice(Map<String, Object> params);

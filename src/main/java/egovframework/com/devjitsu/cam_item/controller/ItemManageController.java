@@ -1018,6 +1018,11 @@ public class ItemManageController {
         model.addAttribute("list", itemManageService.getCrmItemUnitPriceList(params));
         return "jsonView";
     }
+    @RequestMapping("/item/getCrmItemUnitPriceListByCrmSn.do")
+    public String getCrmItemUnitPriceListByCrmSn(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getCrmItemUnitPriceListByCrmSn(params));
+        return "jsonView";
+    }
 
     /**
      * 고객 품목단가 데이터 저장
