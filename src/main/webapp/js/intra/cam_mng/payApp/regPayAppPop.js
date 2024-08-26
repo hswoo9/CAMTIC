@@ -935,7 +935,7 @@ var regPay = {
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if ($("#pjtSn").val() != "" && busnClass != "D" && busnClass != "V") {
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
-                    if (corpCarData != null && (corpCarData.TOT_COST != null || corpCarData.TOT_COST != "0")) {
+                    if (busInfo.USE_TRSPT != 10 && corpCarData != null && (corpCarData.TOT_COST != null || corpCarData.TOT_COST != "0")) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                             searchValue: '법인차량',
                             cardVal: 'P'
