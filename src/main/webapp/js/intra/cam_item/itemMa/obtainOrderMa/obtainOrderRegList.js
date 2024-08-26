@@ -210,8 +210,8 @@ var oorl = {
                     }
                 }, {
                     width: 160,
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this)">' +
+                    template: function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this, '+e.OBTAIN_ORDER_SN+')">' +
                             '	<span class="k-button-text">견적서</span>' +
                             '</button>';
                     }
@@ -694,9 +694,9 @@ var oorl = {
         var popup = window.open(url, name, option);
     },
 
-    fn_popSelEstimate : function(e){
+    fn_popSelEstimate : function(e, key){
         var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
-        var url = "/item/pop/popSelEstimate.do?crmSn="+dataItem.CRM_SN;
+        var url = "/item/pop/popSelEstimate.do?crmSn="+dataItem.CRM_SN+"&obtainOrderSn="+key;
         var name = "_blank";
         var option = "width = 1300, height = 815, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -84,6 +84,7 @@ public interface ItemManageService {
     void updItemManageRealCnt(Map<String, Object> params);
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
 
+    void setEstimateMailCk(Map<String, Object> params);
     void setEstimateSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
     List<Map<String, Object>> getEstimateSendFileList(Map<String, Object> params);
 

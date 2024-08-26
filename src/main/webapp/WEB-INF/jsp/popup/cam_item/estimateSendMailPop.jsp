@@ -26,6 +26,7 @@
         <div style="padding: 20px 30px;">
             <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}">
+            <input type="hidden" id="ooSnArr" value="${params.ooSnArr}">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="20%">

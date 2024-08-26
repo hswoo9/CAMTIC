@@ -486,6 +486,19 @@ public class ItemManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/item/setEstimateMailCk")
+    public String setEstimateMailCk(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            itemManageService.setEstimateMailCk(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 
     /**
      * 수주현황 페이지
