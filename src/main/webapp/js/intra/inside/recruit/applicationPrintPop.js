@@ -160,7 +160,7 @@ const applicationPrintPop = {
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.DEPT +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.MAJOR +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.GRADUATE_TYPE_TXT +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.GRADE +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ (item.GRADE == "undefined" ? "" : (item.GRADE || "")) +'</p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
