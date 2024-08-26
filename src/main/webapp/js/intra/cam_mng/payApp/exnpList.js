@@ -371,7 +371,7 @@ var exnpList = {
         }
 
         exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
-        exnpList.hiddenGrid("/pay/getExnpListForExcelDown", exnpList.global.searchAjaxData);
+        // exnpList.hiddenGrid("/pay/getExnpListForExcelDown", exnpList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, paySn, status){
@@ -389,6 +389,19 @@ var exnpList = {
     },
 
     fn_excelDownload : function (){
+        let data = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDate : $("#searchDate").val(),
+            searchDept : $("#searchDept").val(),
+            searchDept2 : $("#searchDept2").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            strDe : $("#exnpStrDe").val(),
+            endDe : $("#exnpEndDe").val(),
+            payAppType : 1
+        }
+        exnpList.hiddenGrid("/pay/getExnpListForExcelDown", data);
+
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "지출결의서 목록.xlsx";

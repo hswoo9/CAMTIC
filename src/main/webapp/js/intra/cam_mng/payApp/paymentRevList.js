@@ -309,7 +309,7 @@ var paymentRevList = {
         }
 
         paymentRevList.mainGrid("/pay/getPaymentList", paymentRevList.global.searchAjaxData);
-        paymentRevList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentRevList.global.searchAjaxData);
+        // paymentRevList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentRevList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, status){
@@ -333,6 +333,19 @@ var paymentRevList = {
     },
 
     fn_excelDownload : function (){
+        let data = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : 9,
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            payAppType : $("#payAppType").val(),
+            searchDate : $("#searchDate").val(),
+            strDe : $("#startDt").val(),
+            endDe : $("#endDt").val(),
+            docStatus : 100
+        }
+        paymentRevList.hiddenGrid("/pay/getPaymentListForExcelDown", data);
+
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "신청서검토 목록.xlsx";

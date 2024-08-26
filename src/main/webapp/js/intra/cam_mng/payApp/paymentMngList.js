@@ -93,7 +93,7 @@ var paymentMngList = {
         }
 
         paymentMngList.mainGrid("/pay/getPaymentList", paymentMngList.global.searchAjaxData);
-        paymentMngList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentMngList.global.searchAjaxData);
+        // paymentMngList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentMngList.global.searchAjaxData);
     },
 
     mainGrid : function(url, params){
@@ -582,6 +582,19 @@ var paymentMngList = {
     },
 
     fn_excelDownload : function (){
+        let data = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            payAppType : $("#payAppType").val(),
+            searchDate : $("#searchDate").val(),
+            strDe : $("#payAppStrDe").val(),
+            endDe : $("#payAppEndDe").val(),
+            pageType : "USER"
+        }
+        paymentMngList.hiddenGrid("/pay/getPaymentListForExcelDown", data);
+
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "지급신청서(관리자) 목록.xlsx";

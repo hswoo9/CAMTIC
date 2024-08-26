@@ -394,7 +394,7 @@ var exnpReList = {
         }
 
         exnpReList.mainGrid("/pay/getExnpReList", exnpReList.global.searchAjaxData);
-        exnpReList.hiddenGrid("/pay/getExnpReListForExcelDown", exnpReList.global.searchAjaxData);
+        // exnpReList.hiddenGrid("/pay/getExnpReListForExcelDown", exnpReList.global.searchAjaxData);
     },
 
     fn_reqRegPopup: function(key, paySn){
@@ -441,6 +441,16 @@ var exnpReList = {
     },
 
     fn_excelDownload : function (){
+        let data = {
+            empSeq: $("#myEmpSeq").val(),
+            startDt: $("#startDt").val(),
+            endDt: $("#endDt").val(),
+            searchStatus: $("#searchStatus").val(),
+            searchKeyword: $("#searchKeyword").val(),
+            searchValue: $("#searchValue").val()
+        }
+        exnpReList.hiddenGrid("/pay/getExnpReListForExcelDown", data);
+
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "지출 반제결의 목록.xlsx";
