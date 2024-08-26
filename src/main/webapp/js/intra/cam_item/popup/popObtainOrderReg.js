@@ -69,7 +69,11 @@ var oor = {
             dataValueField: "value",
             dataSource: [
                 {text: "기본단가", value: "0"},
-                {text: "b2b단가", value: "1"}
+                {text: "b2b단가1", value: "1"},
+                {text: "b2b단가2", value: "2"},
+                {text: "b2b단가3", value: "3"},
+                {text: "b2b단가4", value: "4"},
+                {text: "b2b단가5", value: "5"}
             ],
             index: 0,
         });
@@ -262,8 +266,16 @@ var oor = {
                 oor.global.unitPriceId = "unitPrice" + e;
                 if($("#priceSel" + e).val() == "0"){
                     $("#unitPrice").val(result.rs.UNIT_PRICE);
-                }else{
+                }else if($("#priceSel" + e).val() == "1"){
                     $("#unitPrice").val(result.rs.B2B_PRICE);
+                }else if($("#priceSel" + e).val() == "2"){
+                    $("#unitPrice").val(result.rs.B2B_PRICE2);
+                }else if($("#priceSel" + e).val() == "3"){
+                    $("#unitPrice").val(result.rs.B2B_PRICE3);
+                }else if($("#priceSel" + e).val() == "4"){
+                    $("#unitPrice").val(result.rs.B2B_PRICE4);
+                }else if($("#priceSel" + e).val() == "5"){
+                    $("#unitPrice").val(result.rs.B2B_PRICE5);
                 }
                 oor.unitPriceChange();
             }else{

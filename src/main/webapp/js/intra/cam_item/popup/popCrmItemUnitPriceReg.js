@@ -92,7 +92,7 @@ var ciupR = {
 
         html += '</td>' +
                 '<td style="text-align: right;">' +
-                    '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#costPrice").val()) + '</span>' +
+                    '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#unitPrice").val()) + '</span>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" value="' + ($(".oldCiupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
@@ -180,7 +180,11 @@ var ciupR = {
                     ciupSn : $(this).find("#ciupSn" + i).val(),
                     crmItemSn : $("#crmItemSn").val(),
                     unitPrice : ciupR.uncomma($(this).find("#unitPrice" + i).val()),
-                    b2bPrice : ciupR.uncomma($(this).find("#b2bPrice" + i).val()),
+                    b2bPrice : ciupR.uncomma($(this).find("#b2bPrice1" + i).val()),
+                    b2bPrice2 : ciupR.uncomma($(this).find("#b2bPrice2" + i).val()),
+                    b2bPrice3 : ciupR.uncomma($(this).find("#b2bPrice3" + i).val()),
+                    b2bPrice4 : ciupR.uncomma($(this).find("#b2bPrice4" + i).val()),
+                    b2bPrice5 : ciupR.uncomma($(this).find("#b2bPrice5" + i).val()),
                     startDt : $(this).find("#startDt" + i).val(),
                     rmk : $(this).find("#rmk" + i).val(),
                     empSeq : $("#empSeq").val(),

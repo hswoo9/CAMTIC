@@ -33,6 +33,11 @@
         <input type="hidden" id="unitPrice" name="unitPrice" value="${item.UNIT_PRICE}">
         <input type="hidden" id="b2bPrice" name="b2bPrice" value="${item.B2B_PRICE}">
         <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
+        <input type="hidden" id="b2bEtc" name="b2bEtc" value="${item.B2B_ETC}">
+        <input type="hidden" id="b2bEtc2" name="b2bEtc2" value="${item.B2B_ETC2}">
+        <input type="hidden" id="b2bEtc3" name="b2bEtc3" value="${item.B2B_ETC3}">
+        <input type="hidden" id="b2bEtc4" name="b2bEtc4" value="${item.B2B_ETC4}">
+        <input type="hidden" id="b2bEtc5" name="b2bEtc5" value="${item.B2B_ETC5}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="popTitle">표준단가관리</span>
@@ -84,11 +89,26 @@
                     <th>순번</th>
                     <th>원가</th>
                     <th>단가</th>
-                    <th>B2B 단가</th>
-                    <th>B2B 단가2</th>
-                    <th>B2B 단가3</th>
-                    <th>B2B 단가4</th>
-                    <th>B2B 단가5</th>
+                    <th>B2B 단가
+                        <c:if test="${not empty item.B2B_ETC}">
+                            <br>(${item.B2B_ETC})
+                        </c:if></th>
+                    <th>B2B 단가2
+                        <c:if test="${not empty item.B2B_ETC2}">
+                            <br>(${item.B2B_ETC2})
+                        </c:if></th>
+                    <th>B2B 단가3
+                        <c:if test="${not empty item.B2B_ETC3}">
+                            <br>(${item.B2B_ETC3})
+                        </c:if></th>
+                    <th>B2B 단가4
+                        <c:if test="${not empty item.B2B_ETC4}">
+                            <br>(${item.B2B_ETC4})
+                        </c:if></th>
+                    <th>B2B 단가5
+                        <c:if test="${not empty item.B2B_ETC5}">
+                            <br>(${item.B2B_ETC5})
+                        </c:if></th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
                     <th>비고</th>
