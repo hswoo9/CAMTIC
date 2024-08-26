@@ -191,11 +191,11 @@ var bomRegList = {
                 bomSn += "," + $(this).val()
             })
 
-            ciupR.global.saveAjaxData = {
+            bomRegList.global.saveAjaxData = {
                 bomSn : bomSn.substring(1),
             }
 
-            var result = customKendo.fn_customAjax("/item/setBomDel.do", ciupR.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/item/setBomDel.do", bomRegList.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
                 bomRegList.gridReload();

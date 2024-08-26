@@ -92,7 +92,7 @@
 
             <div class="mt-20">
                 <div class="text-right">
-                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bomReg.addRow('new')">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bomReg.fn_popItemNoList('new')">
                         <span class="k-button-text">추가</span>
                     </button>
                 </div>

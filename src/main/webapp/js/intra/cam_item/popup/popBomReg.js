@@ -6,6 +6,7 @@ var bomReg = {
         dropDownDataSource : "",
         searchAjaxData : "",
         saveAjaxData : "",
+        chkList : [],
     },
 
     fn_defaultScript : function (){
@@ -96,17 +97,17 @@ var bomReg = {
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
                     '<input type="hidden" id="masterSn' + bomReg.global.bomDetailIndex + '" class="masterSn">' +
-                    '<input type="text" id="itemNo' + bomReg.global.bomDetailIndex + '" class="itemNo k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" style="width: 75%">' +
-                    '<button type="button" id="itemSelBtn' + bomReg.global.bomDetailIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">선택</button>' +
+                    '<input type="text" id="itemNo' + bomReg.global.bomDetailIndex + '" class="itemNo k-input k-textbox" readonly style="width: 100%">' +
+                    // '<button type="button" id="itemSelBtn' + bomReg.global.bomDetailIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">' +
+                    '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemCdName' + bomReg.global.bomDetailIndex + '" class="itemCdName k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">' +
+                    '<input type="text" id="itemCdName' + bomReg.global.bomDetailIndex + '" class="itemCdName k-input k-textbox" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')">' +
+                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onchange="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')" value="0">' +

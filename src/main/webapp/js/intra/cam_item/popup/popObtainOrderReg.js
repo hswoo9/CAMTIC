@@ -4,10 +4,11 @@ var oor = {
         oorIndex : 0,
         now : new Date(),
         saveAjaxData : "",
+        chkList : [],
     },
     
     fn_defaultScript : function(){
-        oor.addRow('new');
+        oor.addRow('new2');
 
         $("#checkAll").click(function(){
             if($("#checkAll").is(":checked")){
@@ -20,6 +21,8 @@ var oor = {
     },
 
     addRow : function(e){
+        console.log(oor.global.oorIndex);
+        console.log(e);
         var html = "";
 
         html = "" +
@@ -89,15 +92,24 @@ var oor = {
 
             oor.calculateTotal();
         });
+
         oor.global.oorIndex++;
     },
 
     delRow : function(e){
         if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+            let key = $(e).closest("tr").find(".masterSn").val();
             $(e).closest("tr").remove();
             oor.global.oorIndex--;
             oor.rowAttrOverride();
             oor.calculateTotal();
+
+            for(var i = 0; i < oor.global.chkList.length; i++){
+                if (oor.global.chkList[i] == key) {
+                    oor.global.chkList.splice(i, 1);
+                    i--;
+                }
+            }
         }
     },
 

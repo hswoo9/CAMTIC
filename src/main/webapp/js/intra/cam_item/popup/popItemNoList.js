@@ -64,8 +64,28 @@ var popItemNoList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" onclick="fn_checkAll(\'checkAllC\', \'masterSnPk\');"/>',
-                    template : "<input type='checkbox' name='masterSnPk' class='masterSnPk' value='#=MASTER_SN#'/>",
-                    width: 50
+                    width: 50,
+                    template : function(e) {
+                        if(opener.parent.oor != null) {
+                            var chkList = opener.parent.oor.global.chkList;
+
+                            if (chkList.indexOf(e.MASTER_SN) > -1) {
+                                return "";
+                            } else {
+                                return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "' />"
+                            }
+                        } else if(opener.parent.bomReg != null){
+                            var chkList = opener.parent.bomReg.global.chkList;
+
+                            if (chkList.indexOf(e.MASTER_SN) > -1) {
+                                return "";
+                            } else {
+                                return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "' />"
+                            }
+                        } else {
+                            return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "'/>"
+                        }
+                    }
                 }, {
                     title: "순번",
                     template: "#= --record #",
@@ -157,15 +177,21 @@ var popItemNoList = {
         var list = [];
         var cnt = 0;
         var data = {};
-        grid.tbody.find("tr").each(function(){
-            if($(this).find("input")[0].checked) {
-                data = grid.dataItem($(this));
-                cnt++;
-                list.push(data);
-            }
-        });
+        // grid.tbody.find("tr").each(function(){
+        //     if($(this).find("input")[0].checked) {
+        //         data = grid.dataItem($(this));
+        //         cnt++;
+        //         list.push(data);
+        //     }
+        // });
 
-        if(opener.parent.oor == null && cnt > 1) {
+        $("input[name='masterSnPk']:checked").each(function(){
+            data = grid.dataItem($(this).closest("tr"));
+            cnt++;
+            list.push(data);
+        })
+
+        if(opener.parent.oor == null && opener.parent.bomReg == null && cnt > 1) {
             alert("하나의 품번만 선택 가능합니다.");
             return;
         }
@@ -176,41 +202,45 @@ var popItemNoList = {
             }
 
             var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
-                if(result.flag){
-                    var rs = result.rs;
-                    console.log(rs);
-                    if(rs != null){
-                        opener.parent.$("#masterSn").val(rs.MASTER_SN);
-                        opener.parent.$("#itemNo").val(rs.ITEM_NO);
-                        opener.parent.$("#itemName").val(rs.ITEM_NAME);
-                        opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
-                        opener.parent.$("#baseWhCd").val(rs.WH_CD);
-                        opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
-                        opener.parent.$("#standard").val(rs.STANDARD);
-                        opener.parent.$("#itemType").val(rs.ITEM_TYPE);
-                        opener.parent.$("#maxUnitPrice").val(rs.UNIT_PRICE);
+            if(result.flag){
+                var rs = result.rs;
+                if(rs != null){
+                    opener.parent.$("#masterSn").val(rs.MASTER_SN);
+                    opener.parent.$("#itemNo").val(rs.ITEM_NO);
+                    opener.parent.$("#itemName").val(rs.ITEM_NAME);
+                    opener.parent.$("#itemCdName").val(rs.ITEM_TYPE_NM);
+                    opener.parent.$("#baseWhCd").val(rs.WH_CD);
+                    opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
+                    opener.parent.$("#standard").val(rs.STANDARD);
+                    opener.parent.$("#itemType").val(rs.ITEM_TYPE);
+                    opener.parent.$("#maxUnitPrice").val(rs.UNIT_PRICE);
 
-                        if(opener.parent.bomReg != null) {
-                            if(opener.parent.bomReg.global.masterSnIndex == 999){
-                                // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
-                                opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
-                            } else {
-                                opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
-                                opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
-                            }
-                        }
-
-
-                        if(opener.parent.oor != null) {
-                            opener.parent.oor.global.masterSnIndex = opener.parent.$("#listTb").find("tr").length - 1;
-                        }
-                        opener.parent.$("#masterSn").change();
-
-                        if(i != list.length - 1 && opener.parent.oor != null) {
-                            opener.parent.oor.addRow('new');
+                    if(opener.parent.bomReg != null) {
+                        if(opener.parent.bomReg.global.masterSnIndex == 999){
+                            // opener.parent.$("#bomCostPrice").val(comma(rs.COST_PRICE));
+                            opener.parent.$("#bomUnitPrice").val(comma(rs.UNIT_PRICE));
+                        } else {
+                            opener.parent.bomReg.global.masterSnIndex = opener.parent.$("#bomDetailTb").find("tr:last-child").attr("id").split("detail")[1];
+                            opener.parent.$("#bomCostPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.COST_PRICE));
+                            opener.parent.$("#bomUnitPrice" + opener.parent.bomReg.global.masterSnIndex).val(comma(rs.UNIT_PRICE));
+                            opener.parent.bomReg.addRow('new');
+                            opener.parent.bomReg.global.chkList.push(list[i].MASTER_SN);
                         }
                     }
+
+
+                    if(opener.parent.oor != null) {
+                        opener.parent.oor.global.masterSnIndex = opener.parent.oor.global.oorIndex - 1;
+                        opener.parent.oor.addRow('new');
+                        opener.parent.oor.global.chkList.push(list[i].MASTER_SN);
+                    }
+                    opener.parent.$("#masterSn").change();
+
+                    // if(i != list.length - 1 && opener.parent.oor != null) {
+                    //     opener.parent.oor.addRow('new');
+                    // }
                 }
+            }
         }
 
         window.close();
