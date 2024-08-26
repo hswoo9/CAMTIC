@@ -60,3 +60,6 @@
 <script>
     srl.fn_defaultScript();
 </script>
+<script type="text/x-kendo-template" id="template">
+    <div class='subGrid'></div>
+</script>
