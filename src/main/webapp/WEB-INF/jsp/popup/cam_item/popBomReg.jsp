@@ -40,14 +40,14 @@
                     <col width="35%">
                 </colgroup>
                 <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>BOM명
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="bomTitle" class="k-input k-text">
-                    </td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star">*</span>BOM명--%>
+<%--                    </th>--%>
+<%--                    <td colspan="3">--%>
+<%--                        <input type="text" id="bomTitle" class="k-input k-text">--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>품번
@@ -100,7 +100,7 @@
                 <div style="width: 100%; overflow-x: scroll !important; overflow-y: hidden;">
                     <table class="searchTable table table-bordered mb-0 mt-20" style="table-layout: fixed">
                         <colgroup>
-                            <col style="width: 180px;">
+<%--                            <col style="width: 180px;">--%>
                             <col style="width: 220px;">
                             <col style="width: 200px;">
                             <col style="width: 100px;">
@@ -112,7 +112,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>BOM</th>
+<%--                            <th>BOM</th>--%>
                             <th>품번</th>
                             <th>품명</th>
                             <th>품목구분</th>
