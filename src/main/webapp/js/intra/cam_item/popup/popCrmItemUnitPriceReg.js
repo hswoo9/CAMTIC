@@ -82,7 +82,7 @@ var ciupR = {
         html = "" +
             '<tr class="ciupInfo ' + e + 'CiupInfo" id="ciup' + ciupR.global.ciupIndex + '">' +
                 '<td>';
-        if(e == "old"){
+        if(e == "old" && ciupR.global.ciupIndex != 0){
             html += '<input type="checkbox" id="ciupSn' + ciupR.global.ciupIndex + '" class="ciupSn" name="ciupSn">';
         }
 
