@@ -13,6 +13,7 @@
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="estPrintSn" value="${data.estPrintSn}"/>
+<input type="hidden" id="obtainOrderSn" value="${data.obtainOrderSn}"/>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}

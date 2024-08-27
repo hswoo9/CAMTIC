@@ -117,12 +117,48 @@ var oorl = {
             index: 0,
         });
         
-        oorl.gridReload();
+        oorl.mainGrid();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getObtainOrderMaster.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    var categoryA = $("#categoryA").data("kendoDropDownList");
+                    var categoryB = $("#categoryB").data("kendoDropDownList");
+                    var categoryC = $("#categoryC").data("kendoDropDownList");
+
+                    data.crmSn = $("#crmSn").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.deadLine = $("#deadLine").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.category =  categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
+                        categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
+                        categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             scrollable : true,
@@ -482,24 +518,7 @@ var oorl = {
     },
 
     gridReload: function (){
-        var categoryA = $("#categoryA").data("kendoDropDownList");
-        var categoryB = $("#categoryB").data("kendoDropDownList");
-        var categoryC = $("#categoryC").data("kendoDropDownList");
-
-        oorl.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            deadLine : $("#deadLine").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            category :  categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
-                categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
-                categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE
-            // regEmpSeq : $("#regEmpSeq").val()
-        }
-
-        oorl.mainGrid("/item/getObtainOrderMaster.do", oorl.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     setDeadlineUpd: function(){

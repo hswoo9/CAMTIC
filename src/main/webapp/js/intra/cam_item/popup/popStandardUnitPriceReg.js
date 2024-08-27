@@ -181,9 +181,29 @@ var sdupR = {
                 }
             })
 
-            $.each($("input.b2bPrice"), function(){
+            $.each($("input.b2bPrice1"), function(){
                 if($(this).val() != ""){
                     sdupR.global.saveAjaxData.lastB2bPrice = uncomma($(this).val())
+                }
+            })
+            $.each($("input.b2bPrice2"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastB2bPrice2 = uncomma($(this).val())
+                }
+            })
+            $.each($("input.b2bPrice3"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastB2bPrice3 = uncomma($(this).val())
+                }
+            })
+            $.each($("input.b2bPrice4"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastB2bPrice4 = uncomma($(this).val())
+                }
+            })
+            $.each($("input.b2bPrice5"), function(){
+                if($(this).val() != ""){
+                    sdupR.global.saveAjaxData.lastB2bPrice5 = uncomma($(this).val())
                 }
             })
 

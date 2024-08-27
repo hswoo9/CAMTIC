@@ -308,6 +308,7 @@
                 AND IM.MASTER_SN = #{masterSn}
             </otherwise>
         </choose>
+        ORDER BY MSU.MASTER_SD_UP_SN DESC LIMIT 1
     </select>
 
     <select id="getItemNoDuplicate" parameterType="map" resultType="map">

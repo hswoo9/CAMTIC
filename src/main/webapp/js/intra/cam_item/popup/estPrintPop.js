@@ -44,7 +44,7 @@ const estPrintPop = {
     },
 
     openCallBack: function(){
-        const data = { estPrintSn: $("#estPrintSn").val() };
+        const data = { estPrintSn: $("#estPrintSn").val(), obtainOrderSn: $("#obtainOrderSn").val() };
         const rs = customKendo.fn_customAjax("/item/getEstPrintSn.do", data);
         console.log(rs);
 
@@ -70,7 +70,6 @@ const estPrintPop = {
         if(rs.rs.FAX != null){
             estPrintPop.global.hwpCtrl.PutFieldText("FAX_NUM", rs.rs.FAX);
         }
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_CONTENT", rs.rs.RMK);
         estPrintPop.global.hwpCtrl.PutFieldText("ITEM_NAME_ALL", itemNameAll);
 
         let itemAmtSum = 0;
@@ -94,7 +93,8 @@ const estPrintPop = {
         estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(itemAmtSum)+" 원");
 
         /** 5. 기타사항 */
-        // estPrintPop.global.hwpCtrl.PutFieldText("EST_ISS", String(estMap.EST_ISS));
+        estPrintPop.global.hwpCtrl.MoveToField('EST_CONTENT', true, true, false);
+        estPrintPop.global.hwpCtrl.SetTextFile(rs.rs.RMK.replaceAll("\n", "<br>"), "html","insertfile");
     },
 
     resize: function() {
