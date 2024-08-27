@@ -914,7 +914,7 @@ var prp = {
             let purcSum = 0;
             let leftSum = 0;
             for(let i=0; i<leftList.length; i++){
-                purcSum += Number(leftList[i].PURC_ITEM_AMT);
+                purcSum += Number(leftList[i].ITEM_AMT);
             }
             leftSum = invSum - purcSum;
             /**

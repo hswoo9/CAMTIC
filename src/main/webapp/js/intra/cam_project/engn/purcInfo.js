@@ -286,7 +286,7 @@ var purcInfo = {
                         return status
                     },
                     footerTemplate: function(){
-                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: "1"}).list;
                         let invSum = 0;
                         for(let i=0; i<list.length; i++){
                             invSum += Number(list[i].EST_TOT_AMT);
@@ -313,7 +313,7 @@ var purcInfo = {
                         let purcSum2 = 0;
                         let leftSum = 0;
                         for(let i=0; i<leftList.length; i++){
-                            purcSum2 += Number(leftList[i].PURC_ITEM_AMT);
+                            purcSum2 += Number(leftList[i].ITEM_AMT);
                         }
                         leftSum = invSum - purcSum2;
                         return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";

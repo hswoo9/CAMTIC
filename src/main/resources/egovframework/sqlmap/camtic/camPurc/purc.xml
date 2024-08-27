@@ -1246,12 +1246,11 @@
         SELECT
             B.*
         FROM
-            CAM_MNG.DJ_MNG_PURC_ITEM B
-        LEFT JOIN CAM_MNG.DJ_MNG_PURC A ON A.PURC_SN = B.PURC_SN
+            CAM_MNG.DJ_PURC_CLAIM_ITEM B
+        LEFT JOIN CAM_MNG.DJ_PURC_CLAIM A ON A.CLAIM_SN = B.CLAIM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
-        AND A.DOC_STATUS = '100'
-        ORDER BY A.REG_DATE DESC
+        ORDER BY A.CLAIM_SN DESC
     </select>
 
     <update id="updPurcItemStatusChange" parameterType="map">
