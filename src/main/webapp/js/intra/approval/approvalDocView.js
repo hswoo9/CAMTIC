@@ -98,6 +98,22 @@ var docView = {
         if(rs.docInfo.APPROVE_STAT_CODE == "30"){
             $("#approvalCancelBtn").hide();
         }
+
+        var opinList = customKendo.fn_customAjax("/approval/getDocApproveHistOpinList", {
+            docId : docView.global.rs.docInfo.DOC_ID
+        }).list;
+
+        for(let i=0; i<opinList.length; i++){
+            const map = opinList[i];
+            if(map.APPROVE_OPIN != null && map.APPROVE_OPIN != ""){
+                const button = $("#docApprovalOpinViewBtn");
+                const classes = button.attr('class').split(' ');
+                classes[classes.length - 1] = 'k-button-solid-primary';
+                const changeClass = classes.join(' ');
+
+                button.removeClass().addClass(changeClass);
+            }
+        }
     },
 
     readPermissionChk : function(loginVO, params){
@@ -1093,9 +1109,11 @@ var docView = {
                         }
                     },
                     width: "15%"
-                }]
+                }
+            ]
         }).data("kendoGrid");
 
+        console.log("dataArr", dataArr);
         $("#opinViewModal").data("kendoWindow").open();
     },
 
