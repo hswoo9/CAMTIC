@@ -234,6 +234,9 @@ var popSelEstimate = {
 
         var result = customKendo.fn_customAjax("/item/setItemEstPrint.do", popSelEstimate.global.saveAjaxData);
         var url = "/item/pop/estPrintPop.do?estPrintSn=" + result.rs.estPrintSn;
+        if($("input[name='ooSn']:checked").length != 0){
+            url += "&obtainOrderSn="+ooSnArr.substr(1)
+        }
         var name = "estPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

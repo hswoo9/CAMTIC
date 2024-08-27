@@ -12,7 +12,7 @@
             MSU.B2B_PRICE AS MSU_B2B_PRICE,
             MSU.START_DT,
             MSU.END_DT,
-            MSU.CHANGE_NUM,
+            MAX(MSU.CHANGE_NUM) AS CHANGE_NUM,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
@@ -60,7 +60,8 @@
 
         AND IM.ACTIVE = 'Y'
 
-        ORDER BY IM.ITEM_NO ASC
+        GROUP BY MASTER_SN
+        ORDER BY MASTER_SD_UP_SN DESC
     </select>
 
     <select id="getSdunitPriceList" parameterType="map" resultType="map">
