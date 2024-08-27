@@ -375,31 +375,31 @@ const reqOr = {
                     '           <input type="hidden" id="claimItemSn" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
+                    '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].ITEM_NM+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
+                    '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].ITEM_STD+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].ITEM_EA)+'" class="itemEa" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].ITEM_EA)+'" class="itemEa" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" class="itemUnitAmt" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" class="itemUnitAmt" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
+                    '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
+                    '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc" disabled>' +
                     '       </td>' +
                     // '       <td>' +
                     // '           <input type="text" id="discountAmt" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
-                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
+                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)" disabled>' +
                     '               <span class="k-button-text">삭제</span>' +
                     '           </button>' +
                     '       </td>';
@@ -411,31 +411,31 @@ const reqOr = {
                     '           <input type="hidden" id="claimItemSn'+index+'" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
+                    '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].ITEM_NM+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
+                    '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].ITEM_STD+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
+                    '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemAmt'+index+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemAmt'+index+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled>' +
                     '       </td>' +
                     '       <td>' +
-                    '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
+                    '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc" disabled>' +
                     '       </td>' +
                     // '       <td>' +
                     // '           <input type="text" id="discountAmt'+index+'" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
-                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
+                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)" disabled>' +
                     '               <span class="k-button-text">삭제</span>' +
                     '           </button>' +
                     '       </td>';
@@ -484,16 +484,19 @@ const reqOr = {
     fn_kendoUIEnableSet2 : function(e){
         $("#orderDt").data("kendoDatePicker").enable(e);
         $("#goodsDt").data("kendoDatePicker").enable(e);
+        $("#PHNum").data("kendoTextBox").enable(e);
+        $("#FaxNum").data("kendoTextBox").enable(e);
+        $("#significant").data("kendoTextArea").enable(e);
 
-        if(e){
-            $(".k-textbox").removeClass("k-disabled");
-            $(".k-textarea").removeClass("k-disabled");
-            $(".listDelBtn").removeClass("k-disabled");
-        } else {
-            $(".k-textbox").addClass("k-disabled");
-            $(".k-textarea").addClass("k-disabled");
-            $(".listDelBtn").addClass("k-disabled");
-        }
+        // if(e){
+        //     $(".k-textbox").removeClass("k-disabled");
+        //     $(".k-textarea").removeClass("k-disabled");
+        //     $(".listDelBtn").removeClass("k-disabled");
+        // } else {
+        //     $(".k-textbox").addClass("k-disabled");
+        //     $(".k-textarea").addClass("k-disabled");
+        //     $(".listDelBtn").addClass("k-disabled");
+        // }
     },
 
     fn_OrderBtnSet : function(orderMap){

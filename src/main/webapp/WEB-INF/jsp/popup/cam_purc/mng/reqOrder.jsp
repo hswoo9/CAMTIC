@@ -230,31 +230,31 @@
                                 <input type="hidden" id="claimItemSn" />
                             </td>
                             <td>
-                                <input type="text" id="itemNm" class="itemNm">
+                                <input type="text" id="itemNm" class="itemNm" disabled>
                             </td>
                             <td>
-                                <input type="text" id="itemStd" class="itemStd">
+                                <input type="text" id="itemStd" class="itemStd" disabled>
                             </td>
                             <td>
-                                <input type="text" id="itemEa" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calc('', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemEa" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calc('', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" disabled>
                             </td>
                             <td>
-                                <input type="text" id="itemUnitAmt" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calc('', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemUnitAmt" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calc('', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" disabled>
                             </td>
                             <td>
-                                <input type="text" id="itemUnit" class="itemUnit">
+                                <input type="text" id="itemUnit" class="itemUnit" disabled>>
                             </td>
                             <td>
-                                <input type="text" id="itemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" disabled>
                             </td>
                             <td>
-                                <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc">
+                                <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc" disabled>
                             </td>
 <%--                            <td>--%>
 <%--                                <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
 <%--                            </td>--%>
                             <td style="text-align: center">
-                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)" disabled>
                                     <span class="k-button-text">삭제</span>
                                 </button>
                             </td>
