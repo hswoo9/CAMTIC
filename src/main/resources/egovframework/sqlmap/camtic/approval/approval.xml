@@ -357,6 +357,44 @@
             DOC_ID = #{docId}
     </update>
 
+    <update id="setDocFileCopy" parameterType="map">
+        /*setDocFileCopy*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            FR_KEY,
+            DOC_ID,
+            REG_EMP_SEQ
+        )
+        SELECT
+            'normal',
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            FR_KEY,
+            <choose>
+                <when test='DOC_ID != null and !"".equals(DOC_ID)'>#{DOC_ID},</when>
+                <when test='docId != null and !"".equals(docId)'>#{docId},</when>
+                <otherwise>null,</otherwise>
+            </choose>
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE DOC_ID IN (${referencesDocIdStr})
+        AND FILE_PATH NOT LIKE '%approveDocFile%'
+    </update>
+
     <update id="setApproveDocOptUpd2" parameterType="map">
         /* setApproveDocOptUpd2 */
         UPDATE

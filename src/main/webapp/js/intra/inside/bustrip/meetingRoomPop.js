@@ -319,7 +319,6 @@ var roomReq = {
         if(!flag){
             return;
         }
-        console.log("dataArr", dataArr);
 
         return dataArr;
     },

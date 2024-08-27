@@ -28,6 +28,7 @@ var draft = {
         popName : "",
         popStyle : "",
         uploadFlag              : false,
+        nowReferencesArr        : new Array(),
 
         /** 기안기 셋팅 옵션 (파일, editing mode)*/
         templateFormFile : "",
@@ -454,7 +455,7 @@ var draft = {
         window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
     },
 
-    referencesListViewSetData : function(rs){
+    referencesListViewSetData : function(rs, type){
         if(draft.global.referencesArr.length > 0){
             if(rs.length > 0){
                 for(var i = 0 ; i < rs.length ; i++){
@@ -466,6 +467,36 @@ var draft = {
         }
 
         $("#referencesListView").data("kendoListBox").setDataSource(draft.global.referencesArr);
+
+        if(type != "reDraft"){
+            if(draft.global.nowReferencesArr.length > 0){
+                if(rs.length > 0){
+                    for(var i = 0 ; i < rs.length ; i++){
+                        draft.global.nowReferencesArr.push(rs[i]);
+                    }
+                }
+            }else{
+                draft.global.nowReferencesArr = rs;
+            }
+
+            for(var i = 0 ; i < rs.length ; i++){
+                /** 참조문서 추가할때 첨부파일 추가 */
+                let docFileList = customKendo.fn_customAjax("/approval/getDocAttachmentList", {
+                    docId: rs[i].referencesDocId
+                });
+                const fileList = docFileList.list;
+                console.log("fileList", fileList);
+
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
+        }
     },
 
     referencesCancel : function(e){
@@ -739,7 +770,7 @@ var draft = {
                     REFERENCES_DOC_TITLE : rs.referencesAll[i].REFERENCES_DOC_TITLE,
                 }
             }
-            draft.referencesListViewSetData(referencesAll);
+            draft.referencesListViewSetData(referencesAll, "reDraft");
 
             $("#readerName").val(rs.displayReaderName);
             draft.global.readersArr = [];
@@ -1242,6 +1273,14 @@ var draft = {
         /** 참조문서 */
         if(draft.global.referencesArr.length > 0){
             formData.append("referencesArr", JSON.stringify(draft.global.referencesArr));
+        }
+
+        /** 새로 추가한 참조문서 */
+        if(draft.global.nowReferencesArr.length > 0){
+            const referencesDocIdStr = draft.global.nowReferencesArr.map(function(item) {
+                return item.referencesDocId;
+            }).join(',');
+            formData.append("referencesDocIdStr", referencesDocIdStr);
         }
 
         /** 열람자 */

@@ -1112,8 +1112,6 @@ var docView = {
                 }
             ]
         }).data("kendoGrid");
-
-        console.log("dataArr", dataArr);
         $("#opinViewModal").data("kendoWindow").open();
     },
 

@@ -479,6 +479,10 @@ public class ApprovalServiceImpl implements ApprovalService {
             approvalRepository.setApproveDocOptUpd(params);
         }
 
+        if(params.containsKey("referencesDocIdStr")){
+            approvalRepository.setDocFileCopy(params);
+        }
+
         /** 상신자 결재유형 조회 Type == 1 자기전결 */
         if(params.get("draftUserApproveType").equals("2")){
             Map<String, Object> docInfoMap = approvalRepository.getDocInfo(params);
