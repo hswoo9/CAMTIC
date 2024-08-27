@@ -145,7 +145,7 @@ var bomList = {
     fn_popBomView : function (e){
         var url = "/item/pop/popBomView.do?bomSn=" + e;
         var name = "_blank";
-        var option = "width = 1200, height = 605, top = 100, left = 400, location = no"
+        var option = "width = 1200, height = 705, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

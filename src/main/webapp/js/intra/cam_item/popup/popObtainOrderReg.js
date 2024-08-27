@@ -141,6 +141,7 @@ var oor = {
         $("#listTb tr").remove();
         oor.addRow('new');
         oor.calculateTotal();
+        oor.global.chkList = [];
     },
 
     setReceivingReg : function(){

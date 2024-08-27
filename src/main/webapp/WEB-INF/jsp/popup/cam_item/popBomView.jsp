@@ -3,7 +3,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
-<%--<link rel="stylesheet" href="/css/intra/kTreeView.css">--%>
+<link rel="stylesheet" href="/css/intra/kTreeView.css">
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <style>
     .searchTable > thead > tr > th {
@@ -19,6 +19,10 @@
     .k-treeview .k-treeview-top.k-treeview-bot .k-i-collapse:before{
         background: url(/images/ico/ico_organ03_open.png);
         content: "";
+    }
+
+    .k-master-row {
+        font-size: 12px;
     }
 
 </style>
@@ -98,12 +102,17 @@
 <%--                    </thead>--%>
 <%--                </table>--%>
 <%--            </div>--%>
-<%--            <div id="gridForm" style="height:537px; width: 100%;overflow: auto;border: 1px solid #dedfdf;" class="mt-20">--%>
-<%--            <div id="treeView" style="padding-right: 20px;padding-left: 20px;">--%>
-                <div id="bomGrid" style="margin-top: 10px;">
+            <div id="gridForm" style="height:537px; width: 100%; display: flex; justify-content: space-between; border: 1px solid #dedfdf;" class="mt-20">
+                <div style="width: 25%;">
+                    <div id="treeView" style="padding-right: 20px;padding-left: 20px;">
 
+                    </div>
                 </div>
-            </div>
+                <div style="width: 70%;">
+                    <div id="bomGrid" style="margin-top: 10px; margin-right: 10px;">
+
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -6,9 +6,8 @@ var popBomView = {
     },
 
     fn_defaultScript: function (){
-        // popBomView.histGrid();
-        // popBomView.makeTreeView();
-
+        popBomView.histGrid();
+        popBomView.makeTreeView();
         popBomView.bomGrid();
     },
 
@@ -129,7 +128,7 @@ var popBomView = {
             dataSource: customKendo.fn_gridDataSource2("/item/getBomDetailList.do", popBomView.global.searchAjaxData),
             sortable: true,
             selectable: "row",
-            height : 305,
+            height : 450,
             pageable: {
                 refresh: true,
                 pageSize : 5,

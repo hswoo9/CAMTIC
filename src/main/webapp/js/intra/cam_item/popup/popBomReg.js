@@ -320,8 +320,8 @@ var bomReg = {
                 if(result.flag){
                     if(result.list.length > 1){
                         $("#masterBomSn" + bomReg.global.masterSnIndex).removeAttr("disabled");
-                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
                         customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 2);
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
                     }else{
                         customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 3);
                         $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(false);
