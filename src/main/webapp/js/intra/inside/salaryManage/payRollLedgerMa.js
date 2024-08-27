@@ -119,6 +119,10 @@ var payRollLedgerMa = {
                     template: "#= --record #",
                     width: 50
                 }, {
+                    field: "EMP_TYPE",
+                    title: "구분",
+                    width : 80
+                }, {
                     field: "ERP_EMP_CD",
                     title: "사번",
                     width : 80
