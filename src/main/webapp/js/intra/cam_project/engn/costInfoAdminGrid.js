@@ -48,7 +48,11 @@ var costInfoGrid = {
             const purcMap = purcList[i];
             if(purcMap.CLAIM_STATUS == "CAYSY"){
                 if(purcMap.ORG_YN == 'N'){
-                    purcSum += Number(purcMap.PURC_ITEM_AMT_SUM);
+                    if($("#busnClassData").val() == "D" || $("#busnClassData").val() == "V"){
+                        purcSum += Number(purcMap.PURC_SUP_AMT);
+                    } else {
+                        purcSum += Number(purcMap.PURC_ITEM_AMT_SUM);
+                    }
                 } else {
                     let amt = Number(purcMap.PURC_ITEM_AMT_SUM);
                     let amt2 = Math.round(amt/10);
@@ -271,7 +275,11 @@ var costInfoGrid = {
                     width: 100,
                     template: function(e){
                         if(e.ORG_YN == 'N'){
-                            return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
+                            if($("#busnClassData").val() == "D" || $("#busnClassData").val() == "V"){
+                                return "<div style='text-align: right'>"+comma(Math.round(e.PURC_SUP_AMT))+"</div>";
+                            } else {
+                                return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
+                            }
                         } else {
                             let amt = Number(e.PURC_ITEM_AMT_SUM);
                             let amt2 = Math.round(amt/10);
