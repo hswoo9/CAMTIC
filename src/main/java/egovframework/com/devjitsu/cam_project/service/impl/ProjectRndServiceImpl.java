@@ -79,6 +79,25 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             map.put("pjtSn", params.get("pjtSn"));
             projectRndRepository.insRschData(map);
             projectRndRepository.insPjtPsRnd(map);
+
+            /** 승인함 권한 : 회계관리자 */
+            params.put("authorityGroupId", "31");
+            List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+            String recEmpSeq = "|";
+            for(Map<String, Object> map2 : authUser){
+                recEmpSeq += map2.get("EMP_SEQ") + "|";
+            }
+
+            params.put("sdEmpSeq", params.get("empSeq"));           // 요청자 사번
+            params.put("SND_EMP_NM", params.get("empName"));        // 요청자 성명
+            params.put("SND_DEPT_SEQ", params.get("deptSeq"));      // 요청자 부서
+            params.put("SND_DEPT_NM", params.get("deptName"));      // 요청자 부서
+            params.put("recEmpSeq", recEmpSeq);              // 승인자
+            params.put("ntUrl", "/setManagement/projectDepositManagement.do");   // url
+            params.put("frKey", params.get("pjtSn"));
+            params.put("psType", "세무정보 설정");
+
+            commonRepository.setPsCheck(params);
         } else {
             projectRndRepository.updSubjectInfo(params);
             projectRndRepository.updRndDetail2(params);

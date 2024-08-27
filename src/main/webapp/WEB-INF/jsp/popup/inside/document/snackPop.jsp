@@ -95,6 +95,11 @@
 <script type="text/javascript" src ="<c:url value='/js/html2canvas.min.js' />"></script>
 <script type="text/javascript" src ="<c:url value='/js/es6-promise.auto.js' />"></script>
 <script type="text/javascript" src ="<c:url value='/js/jspdf.min.js' />"></script>
+<script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
+<script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <script type="text/javascript" src="/js/intra/inside/document/snackPop.js?v=${today}"/></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -406,7 +411,15 @@
     </div>
 </div>
 
+
+<div style="padding: 20px; display:none" id="test">
+    <div id="hwpApproveContent" style="height: 100%;border: 1px solid lightgray;"></div>
+</div>
+
 <script>
+    let params = JSON.parse('${hwpParams}');
+    const serverName = '${pageContext.request.serverName}';
+
     let snackData = {};
     // var fileNoArr = [];
     // let cardList = [];

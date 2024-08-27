@@ -22,6 +22,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
+import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
@@ -59,6 +60,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private ApprovalUserRepository approvalUserRepository;
+
+    @Autowired
+    private CampusRepository campusRepository;
 
     @Override
     public void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
@@ -1846,6 +1850,10 @@ public class PayAppServiceImpl implements PayAppService {
     public void setProjectTaxInfo(Map<String, Object> params) {
         if(!params.containsKey("depoSetSn")){
             payAppRepository.insProjectTaxInfo(params);
+
+            params.put("type", "세무정보 설정");
+            params.put("frKey", params.get("pjtSn"));
+            campusRepository.updPsStatus(params);
         } else {
             payAppRepository.updProjectTaxInfo(params);
         }

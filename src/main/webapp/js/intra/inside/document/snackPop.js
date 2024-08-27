@@ -1,5 +1,7 @@
 var snackReq = {
     global: {
+        hwpCtrl : "",
+        params : "",
         userArr: [],
         snackData: {},
         attFiles : new Array(),
@@ -10,7 +12,43 @@ var snackReq = {
     },
 
     init: function() {
+        snackReq.hwpSet();
         snackReq.dataSet(snackData);
+    },
+
+    hwpSet: function(){
+        snackReq.loading();
+        snackReq.global.params = params;
+        snackReq.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", snackReq.global.params.hwpUrl, function () {snackReq.editorComplete();});
+    },
+
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
+    },
+
+    editorComplete: function(){
+        let filePath = "http://218.158.231.184/upload/templateForm/snackExnpForm.hwp";
+        snackReq.global.hwpCtrl.Open(filePath, "HWP", "", function(){
+            snackReq.openCallBack();
+            snackReq.global.hwpCtrl.EditMode = 0;
+            snackReq.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
+            snackReq.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
+            snackReq.global.hwpCtrl.ShowRibbon(false);
+            snackReq.global.hwpCtrl.ShowCaret(false);
+            snackReq.global.hwpCtrl.ShowStatusBar(false);
+            snackReq.global.hwpCtrl.SetFieldViewOption(1);
+        }, {"userData" : "success"});
+
+        $.LoadingOverlay("hide", {});
+    },
+
+    openCallBack: function(){
     },
 
     dataSet: function(snackData) {
@@ -778,14 +816,26 @@ var snackReq = {
     },
 
     snackExnpFormDown : function (){
-        var protocol = window.location.protocol + "//";
+        snackReq.loading();
+        snackReq.global.hwpCtrl.PutFieldText("useDate", $("#useDt").val());
+        snackReq.global.hwpCtrl.PutFieldText("useType", $("#snackType").data("kendoDropDownList").text());
+        snackReq.global.hwpCtrl.PutFieldText("useName", $("#userText").val());
+        snackReq.global.hwpCtrl.PutFieldText("useMoney", uncomma($("#usAmount").val()));
+        snackReq.global.hwpCtrl.MoveToField("useTarget", true, true, false);
+        snackReq.global.hwpCtrl.SetTextFile($("#useReason").val().replaceAll("\n", "<br>"), "html","insertfile");
+
+        setTimeout(function() {
+            snackReq.global.hwpCtrl.SaveAs(snackReq.global.fileTitle, "hwp", "download:true");
+            $.LoadingOverlay("hide", {});
+        }, 3000);
+        /*var protocol = window.location.protocol + "//";
         var locationHost = protocol + window.location.host;
 
         var filePath = "/upload/templateForm/snackExnpForm.hwp";
 
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('식대지출증빙양식.hwp'),
-        });
+        });*/
     },
 
     fn_multiDownload : function (){

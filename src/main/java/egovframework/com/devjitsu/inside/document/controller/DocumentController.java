@@ -214,6 +214,16 @@ public class DocumentController {
             return "error/error";
         }
 
+        String hwpUrl = "";
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        model.addAttribute("hwpUrl", hwpUrl);
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpParams", new Gson().toJson(params));
+
         if(params.containsKey("snackInfoSn")){
             Map<String, Object> data = documentService.getSnackOne(params);
             model.addAttribute("snackInfoSn", data.get("SNACK_INFO_SN"));

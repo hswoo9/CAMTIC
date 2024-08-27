@@ -434,6 +434,7 @@ var regPrj = {
             expAmt : regPrj.uncomma($("#expAmt").val()),
             contLoc : $("#contLoc").val(),
             contLocSn : $("#contLocSn").val(),
+            deptSeq : $("#deptSeq").val(),
             deptName : $("#deptName").val(),
             empName : $("#empName").val(),
             deptSeq : $("#deptSeq").val(),
