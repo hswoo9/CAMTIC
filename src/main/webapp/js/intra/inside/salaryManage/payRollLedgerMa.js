@@ -24,22 +24,44 @@ var payRollLedgerMa = {
         });
         customKendo.fn_textBox(["searchValue"])
 
-        payRollLedgerMa.gridReload();
+        payRollLedgerMa.mainGrid();
+        payRollLedgerMa.mainGrid2();
     },
 
     gridReload : function() {
-        payRollLedgerMa.global.searchAjaxData = {
-            searchKeyWord : $("#searchKeyWord").val(),
-            searchValue : $("#searchValue").val(),
-            baseYear : $("#searchYear").val()
-        }
-        payRollLedgerMa.mainGrid('/salaryManage/getPayRollLedgerList.do', payRollLedgerMa.global.searchAjaxData);
-        payRollLedgerMa.mainGrid2('/salaryManage/getPayRollCompanyPay', payRollLedgerMa.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#mainGrid2").data("kendoGrid").dataSource.read();
     },
 
     mainGrid : function(url, params) {
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/salaryManage/getPayRollLedgerList.do",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.searchKeyWord = $("#searchKeyWord").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.baseYear = $("#searchYear").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             scrollable: true,
             resizable: true,
             height: 508,
@@ -283,9 +305,35 @@ var payRollLedgerMa = {
         }
     },
 
-    mainGrid2 : function(url, params) {
+    mainGrid2 : function() {
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/salaryManage/getPayRollCompanyPay",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.searchKeyWord = $("#searchKeyWord").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.baseYear = $("#searchYear").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid2").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             scrollable: true,
             resizable: true,
             height: 508,
