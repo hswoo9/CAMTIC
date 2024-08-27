@@ -54,12 +54,16 @@ var costInfoGrid = {
                     let amt2 = Math.round(amt/10);
                     let itemAmt = 0;
 
-                    if(purcMap.InTax == "0"){     // 부가세 미포함
-                        itemAmt = amt + amt2;
-                    } else if(purcMap.InTax == "1"){  // 부가세 포함
+                    if($("#busnClassData").val() == "D" || $("#busnClassData").val() == "V"){
                         itemAmt = amt;
-                    } else  if(purcMap.InTax == "2"){ // 면세
-                        itemAmt = amt
+                    } else {
+                        if(purcMap.InTax == "0"){     // 부가세 미포함
+                            itemAmt = amt + amt2;
+                        } else if(purcMap.InTax == "1"){  // 부가세 포함
+                            itemAmt = amt;
+                        } else  if(purcMap.InTax == "2"){ // 면세
+                            itemAmt = amt
+                        }
                     }
 
                     purcSum += Number(itemAmt);
@@ -273,12 +277,17 @@ var costInfoGrid = {
                             let amt2 = Math.round(amt/10);
                             let itemAmt = 0;
 
-                            if(e.InTax == "0"){     // 부가세 미포함
-                                itemAmt = amt + amt2;
-                            } else if(e.InTax == "1"){  // 부가세 포함
+                            if($("#busnClassData").val() == "D" || $("#busnClassData").val() == "V"){
                                 itemAmt = amt;
-                            } else  if(e.InTax == "2"){ // 면세
-                                itemAmt = amt
+                            } else {
+                                if(e.InTax == "0"){     // 부가세 미포함
+                                    itemAmt = amt + amt2;
+                                } else if(e.InTax == "1"){  // 부가세 포함
+                                    itemAmt = amt;
+                                } else  if(e.InTax == "2"){ // 면세
+                                    itemAmt = amt
+                                }
+
                             }
 
                             return "<div style='text-align: right'>"+comma(Math.round(itemAmt))+"</div>";
