@@ -147,6 +147,7 @@ var reqCl = {
                 $("#crmMonCheck").val(data.MON_CHECK);
                 $("#claimDe").val(data.CLAIM_DE);
                 $("#expDe").val(data.EXP_DE);
+                $("#goodsDt").val(data.GOODS_DT);
                 $("#claimTitle").val(data.CLAIM_TITLE);
                 $("#claimEtc").val(data.CLAIM_ETC);
                 $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
