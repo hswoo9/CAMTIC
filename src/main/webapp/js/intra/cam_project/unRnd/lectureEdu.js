@@ -52,6 +52,11 @@ var lectureEdu = {
                     text: '엑셀다운로드'
                 }
             ],
+            excel : {
+                fileName : "수강생 관리 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -71,20 +76,20 @@ var lectureEdu = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'person\');"/>',
                     template : "<input type='checkbox' id='person#=PERSON_SN#' name='person' class='person' value='#=PERSON_SN#'/><input type='hidden' id='personReqSn#=PERSON_SN#' value='#=PERSON_REQ_SN#'/>",
-                    width: "3%"
+                    width: "30px"
                 }, {
                     title: "번호",
                     template: "#= --record #",
-                    width: "3%"
+                    width: "30px"
                 }, {
                     field: "NAME",
                     title: "이름",
-                    width: "4%"
+                    width: "40px"
                 }, {
                     /*field: "CO_NAME",*/
                     field: "CRM_NM",
                     title: "소속",
-                    width: "6%",
+                    width: "60px",
                     template: function(row){
                         if(row.CRM_NM != null){
                             return row.CRM_NM;
@@ -95,7 +100,7 @@ var lectureEdu = {
                 }, {
                     field: "PART",
                     title: "부서(학과)",
-                    width: "5%",
+                    width: "50px",
                     template: function(row){
                         if(row.USER_TYPE == "S"){
                             if(row.SCHOOL_MAJOR != null){
@@ -114,11 +119,11 @@ var lectureEdu = {
                 }, {
                     field: "PLACE",
                     title: "직위",
-                    width: "5%"
+                    width: "50px"
                 }, {
                     field: "BIRTH",
                     title: "생년월일",
-                    width: "6%"
+                    width: "60px"
                 }, /*{
                     field: "TEL_NUM",
                     title: "전화번호",
@@ -127,18 +132,19 @@ var lectureEdu = {
                     /*field: "FAX_NUM",*/
                     field: "CRM_FAX",
                     title: "팩스번호",
-                    width: "6%"
+                    width: "60px"
                 }, {
                     field: "HP_NUM",
                     title: "휴대폰",
-                    width: "8%"
+                    width: "80px"
                 },  {
                     field: "EMAIL",
                     title: "이메일",
-                    width: "8%"
+                    width: "80px"
                 }, {
+                    field: "REQ_STATUS",
                     title: "수료(인증)",
-                    width: "5%",
+                    width: "50px",
                     template: function(row){
                         let ox = "X";
                         if(row.REQ_STATUS == "O"){
@@ -152,7 +158,7 @@ var lectureEdu = {
                     }
                 },{
                     title: "첨부파일",
-                    width: "6%",
+                    width: "60px",
                     template: function(e){
                         lectureEdu.global.list.push(e);
                         var fileList = [];

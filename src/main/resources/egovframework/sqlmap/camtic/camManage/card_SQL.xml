@@ -1191,7 +1191,7 @@
         LEFT JOIN
             CAM_MNG.DJ_CARD_PRIV B
         ON
-            A.TR_CD = B.TR_CD AND A.CARD_BA_NB = B.CARD_BA_NB
+            A.TR_CD = B.TR_CD AND scp.dec_b64('KEY1', A.CARD_BA_NB) = B.CARD_BA_NB
         LEFT JOIN
             CAM_MNG.DJ_CARD_AUTH_MNG BB
         ON
@@ -1211,16 +1211,16 @@
             ) T
             GROUP BY T.TR_CD) C
         ON
-            A.TR_CD = C.TR_CD AND A.CARD_BA_NB = C.CARD_BA_NB
+            A.TR_CD = C.TR_CD AND scp.dec_b64('KEY1', A.CARD_BA_NB) = C.CARD_BA_NB
         LEFT JOIN
             CAM_MNG.DJ_CARD_MANAGER D
         ON
-            A.TR_CD = D.TR_CD AND A.CARD_BA_NB = D.CARD_BA_NB
+            A.TR_CD = D.TR_CD AND scp.dec_b64('KEY1', A.CARD_BA_NB) = D.CARD_BA_NB
         WHERE
             A.TR_NM NOT LIKE '%개인카드%'
         <if test='searchValue != null and !"".equals(searchValue)'>
             AND
-                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.CARD_BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR scp.dec_b64('KEY1', A.CARD_BA_NB) LIKE CONCAT('%', #{searchValue}, '%'))
         </if>
         <if test='auth == "user" or "user".equals(auth)'>
             <if test='adminEmpSeq != null and !"".equals(adminEmpSeq)'>

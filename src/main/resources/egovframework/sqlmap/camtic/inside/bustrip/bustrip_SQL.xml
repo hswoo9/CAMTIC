@@ -2209,13 +2209,15 @@
             REPLACE(TOLL_COST, ',', '') AS TOLL_COST,
             IFNULL(SUM(REPLACE(OIL_COST, ',', '') + REPLACE(TOLL_COST, ',', '')), 0) AS TOT_COST
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_EXNP
+            CAM_INSIDE.DJ_HR_BIZ_EXNP E
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT R ON E.HR_BIZ_REQ_RESULT_ID = R.HR_BIZ_REQ_RESULT_ID
         WHERE
-            HR_BIZ_REQ_RESULT_ID IN (${hrBizReqResultId})
+            E.HR_BIZ_REQ_RESULT_ID IN (${hrBizReqResultId})
         AND
             DIVISION = '3'
         AND
             (OIL_COST != 0 or TOLL_COST != 0)
+        AND USE_TRSPT != 10
     </select>
 
     <select id="getBusinessCorpOverExnpData" parameterType="map" resultType="map">
