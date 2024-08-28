@@ -62,7 +62,7 @@ var equipmentUsePop = {
         customKendo.fn_timePicker("endTime1", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime2", '10', "HH:mm", "18:00");
 
-        $("#usePdStrDe, #usePdEndDe, #time1, #time2, #endTime1, #endTime2").attr("readonly", true);
+        // $("#usePdStrDe, #usePdEndDe, #time1, #time2, #endTime1, #endTime2").attr("readonly", true);
 
         //장비명 드롭박스 리스트
         $.ajax({
@@ -170,6 +170,16 @@ var equipmentUsePop = {
         let perAmt = $("#perAmt").val().replace(/,/g, '');
         if($("#perAmt").val() == ""){
             perAmt = 0;
+        }
+
+        if(!checkValidDate($("#usePdStrDe").val())){
+            alert("유효하지 않은 날짜입니다.");
+            return;
+        }
+
+        if(!checkValidDate($("#usePdEndDe").val())){
+            alert("유효하지 않은 날짜입니다.");
+            return;
         }
 
         if(confirm("등록하시겠습니까?")){
@@ -352,6 +362,21 @@ var equipmentUsePop = {
         }
 
         var diffMin = diffSec / 1000 / 60 / 60;
+
+        if(!checkValidDate($("#usePdStrDe").val())){
+            alert("유효하지 않은 날짜입니다.");
+            var now = new Date();
+            $("#usePdStrDe").val(now.getFullYear() + "-" + ("0"+(now.getMonth()+1)).slice(-2) + "-" + now.getDate());
+            diffMin = 0;
+        }
+
+        if(!checkValidDate($("#usePdEndDe").val())){
+            alert("유효하지 않은 날짜입니다.");
+            var now = new Date();
+            $("#usePdEndDe").val(now.getFullYear() + "-" + ("0"+(now.getMonth()+1)).slice(-2) + "-" + now.getDate());
+            diffMin = 0;
+        }
+
         $("#useTime").val(Math.ceil(diffMin));
         equipmentUsePop.fn_EqipmnHUF(Math.ceil(diffMin));
     },
