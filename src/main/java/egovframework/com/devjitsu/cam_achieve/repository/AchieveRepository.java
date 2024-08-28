@@ -131,6 +131,11 @@ public class AchieveRepository extends AbstractDAO {
         update("achieve.updDeptObjSetting", params);
     }
 
+    public List<Map<String, Object>> getProjectListByAchieve(Map<String, Object> params) {
+
+        return selectList("achieve.getProjectListByAchieve", params);
+    }
+
     public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
 
         return selectList("achieve.getExnpCompAmt", params);

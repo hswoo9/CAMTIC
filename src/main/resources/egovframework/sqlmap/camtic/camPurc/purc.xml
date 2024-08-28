@@ -2380,6 +2380,9 @@
                 A.JState != 1
             AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
         ) RE
+        <if test='"achieve".equals(reqType)'>
+            WHERE YEAR(RE.PURC_REQ_DATE) = #{reqYear}
+        </if>
         GROUP BY RE.CLAIM_SN
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>

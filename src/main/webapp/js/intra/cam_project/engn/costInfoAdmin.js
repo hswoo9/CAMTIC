@@ -77,69 +77,8 @@ var costInfo = {
 
     step1(pjtMap){
         const pjtSn = $("#pjtSn").val();
-        const tmYn = pjtMap.TM_YN;
 
         $("#busnNm").val(pjtMap.BUSN_NM);
-
-        const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
-        const data2 = result.data;
-        const e = data2;
-        let html = '';
-        if(e.YEAR_CLASS == "M") {
-            html += '<table id="pjtInfoRow" class="popTable table table-bordered mb-0">\n' +
-                '            <colgroup>\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '                <col width="%">\n' +
-                '            </colgroup>\n' +
-                '            <thead >\n' +
-                '            <tr>\n' +
-                '                <th style="text-align: center">구분</th>\n' +
-                '                <th style="text-align: center">프로젝트 코드</th>\n' +
-                '                <th style="text-align: center">부서</th>\n' +
-                '                <th style="text-align: center">팀</th>\n' +
-                '                <th style="text-align: center">수주금액</th>\n' +
-                '                <th style="text-align: center">당해년도 사업비</th>\n' +
-                '                <th style="text-align: center">달성 매출액</th>\n' +
-                '                <th style="text-align: center">달성 운영수익</th>\n' +
-                '                <th style="text-align: center">예상 매출액</th>\n' +
-                '                <th style="text-align: center">예상 운영수익</th>\n' +
-                '            </tr>\n' +
-                '            <tr>\n' +
-                '                <td id="PJT_TYPE" style="text-align: center"></td>\n' +
-                '                <td id="PJT_CD2" style="text-align: center"></td>\n' +
-                '                <td id="PM_DEPT" style="text-align: center"></td>\n' +
-                '                <td id="PM_TEAM" style="text-align: center"></td>\n' +
-                '                <td id="PJT_AMT2" style="text-align: right"></td>\n' +
-                '                <td id="PJT_AMT3" style="text-align: right"></td>\n' +
-                '                <td id="RES_AMT" style="text-align: right"></td>\n' +
-                '                <td id="RES_NOT_INV_AMT" style="text-align: right"></td>\n' +
-                '                <td id="DEV_AMT" style="text-align: right"></td>\n' +
-                '                <td id="DEV_NOT_INV_AMT" style="text-align: right"></td>\n' +
-                '            </tr>\n' +
-                '            </thead>\n' +
-                '        </table>';
-            $("#pjtInfoRow").html(html);
-        }
-        if(tmYn != "Y"){
-            $("#PJT_TYPE").text("수주");
-        }else{
-            $("#PJT_TYPE").text("협업");
-        }
-        $("#PJT_CD").text(pjtMap.PJT_CD);
-        $("#PJT_CD2").text(pjtMap.PJT_CD);
-        $("#PJT_NM").text(pjtMap.PJT_NM);
-        $("#PM").text(pjtMap.PM);
-        $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
-        $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);
-        $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
 
         if(pjtMap.PM_EMP_SEQ != null){
             const pmInfo = getUser(pjtMap.PM_EMP_SEQ);
@@ -173,6 +112,63 @@ var costInfo = {
         const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
         const data = result.data;
         const e = data;
+
+        let html = '';
+        html += '<table id="pjtInfoRow" class="popTable table table-bordered mb-0">\n' +
+            '            <colgroup>\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '                <col width="%">\n' +
+            '            </colgroup>\n' +
+            '            <thead >\n' +
+            '            <tr>\n' +
+            '                <th style="text-align: center">구분</th>\n' +
+            '                <th style="text-align: center">프로젝트 코드</th>\n' +
+            '                <th style="text-align: center">부서</th>\n' +
+            '                <th style="text-align: center">팀</th>\n' +
+            '                <th style="text-align: center">수주금액</th>\n' +
+            '                <th style="text-align: center">당해년도 사업비</th>\n' +
+            '                <th style="text-align: center">달성 매출액</th>\n' +
+            '                <th style="text-align: center">달성 운영수익</th>\n' +
+            '                <th style="text-align: center">예상 매출액</th>\n' +
+            '                <th style="text-align: center">예상 운영수익</th>\n' +
+            '            </tr>\n' +
+            '            <tr>\n' +
+            '                <td id="PJT_TYPE" style="text-align: center"></td>\n' +
+            '                <td id="PJT_CD2" style="text-align: center"></td>\n' +
+            '                <td id="PM_DEPT" style="text-align: center"></td>\n' +
+            '                <td id="PM_TEAM" style="text-align: center"></td>\n' +
+            '                <td id="PJT_AMT2" style="text-align: right"></td>\n' +
+            '                <td id="PJT_AMT3" style="text-align: right"></td>\n' +
+            '                <td id="RES_AMT" style="text-align: right"></td>\n' +
+            '                <td id="RES_NOT_INV_AMT" style="text-align: right"></td>\n' +
+            '                <td id="DEV_AMT" style="text-align: right"></td>\n' +
+            '                <td id="DEV_NOT_INV_AMT" style="text-align: right"></td>\n' +
+            '            </tr>\n' +
+            '            </thead>\n' +
+            '        </table>';
+        $("#pjtInfoRow").html(html);
+        const tmYn = pjtMap.TM_YN;
+        if(tmYn != "Y"){
+            $("#PJT_TYPE").text("수주");
+        }else{
+            $("#PJT_TYPE").text("협업");
+        }
+        $("#PJT_CD").text(pjtMap.PJT_CD);
+        $("#PJT_CD2").text(pjtMap.PJT_CD);
+        $("#PJT_NM").text(pjtMap.PJT_NM);
+        $("#PM").text(pjtMap.PM);
+        $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
+        $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);
+        $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
+
         console.log("e", e);
 
         /** 수주금액 */

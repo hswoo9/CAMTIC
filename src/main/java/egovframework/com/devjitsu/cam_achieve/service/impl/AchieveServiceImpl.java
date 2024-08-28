@@ -443,6 +443,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public List<Map<String, Object>> getProjectListByAchieve(Map<String, Object> params) {
+        return achieveRepository.getProjectListByAchieve(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
         return achieveRepository.getExnpCompAmt(params);
     }

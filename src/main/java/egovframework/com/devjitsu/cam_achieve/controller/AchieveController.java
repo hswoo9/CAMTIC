@@ -164,17 +164,14 @@ public class AchieveController {
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 
         List<Map<String, Object>> list = new ArrayList<>();
-
-        if(params.get("manageYn") != null) {
-            list = projectService.getDepoManageProjectList(params);
-        }else {
-            list = projectService.getProjectList(params);
-        }
+        list = achieveService.getProjectListByAchieve(params);
 
         for(Map<String, Object> map : list) {
 
             params.put("pjtCd", map.get("PJT_CD"));
             params.put("pjtSn", map.get("PJT_SN"));
+            params.put("reqType", "achieve");
+            params.put("reqYear", map.get("YEAR"));
 
             if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
                 List<Map<String, Object>> exnpList = achieveService.getExnpCompAmt(params);
@@ -229,8 +226,8 @@ public class AchieveController {
                             resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
                         }
                     }
-                    map.put("incpCompAmt", resInvSum);
 
+                    map.put("incpCompAmt", resInvSum);
                     map.put("tmpSaleAmt", 0);
                     map.put("tmpProfitAmt", 0);
                 } else {
@@ -247,10 +244,10 @@ public class AchieveController {
                         for(Map<String, Object> invMap : invList) {
                             invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
                         }
-                        map.put("tmpSaleAmt", map.get("PJT_AMT"));
-                        map.put("tmpProfitAmt", Integer.parseInt(map.get("PJT_AMT").toString()) - invSum);
+                        map.put("tmpSaleAmt", map.get("REAL_PJT_AMT"));
+                        map.put("tmpProfitAmt", Integer.parseInt(map.get("REAL_PJT_AMT").toString()) - invSum);
                     } else {
-                        map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                        map.put("tmpSaleAmt", map.get("REAL_PJT_AMT"));
                         map.put("tmpProfitAmt", 0);
                     }
 
@@ -258,6 +255,7 @@ public class AchieveController {
             }
 
             Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
+
             if(projectPaySetData != null) {
                 map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
                 map.put("befExpProfitAmt", projectPaySetData.get("BEF_EXP_PROFIT_AMT"));

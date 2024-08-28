@@ -92,7 +92,7 @@ var recordTotal = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/cam_achieve/getProjectList',
+                    url : "/cam_achieve/getProjectList",
                     dataType : "json",
                     type : "post"
                 },
@@ -167,48 +167,22 @@ var recordTotal = {
                     template: "#= --record #",
                     width: 50
                 }, {
-
+                    field: "YEAR",
+                    title: "기준연도",
+                    width: 100
+                }, {
                     field: "PJT_STR_DE2",
                     title: "시작일",
                     width: 100,
                     template: function (e) {
-                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.PJT_STR_DE2 == null || e.PJT_STR_DE2 == ""){
-                                return e.PJT_STR_DE;
-                            }
-                            // var date = new Date(e.STR_DT);
-                            // var yyyy = date.getFullYear();
-                            // var mm = date.getMonth()+1;
-                            // mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            // var dd = date.getDate();
-                            // dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            // return yyyy+'-'+mm+'-'+dd;
-                            return e.PJT_STR_DE2;
-                        } else {
-                            return e.DELV_EST_DE || "";
-                        }
+                        return e.LIST_STR_DE || "";
                     }
                 }, {
                     field: "PJT_END_DE2",
                     title: "종료일",
                     width: 100,
                     template: function(e){
-                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            if(e.PJT_END_DE2 == null || e.PJT_END_DE2 == ""){
-                                return e.PJT_END_DE;
-                            }
-                            // var date = new Date(e.END_DT);
-                            // var yyyy = date.getFullYear();
-                            // var mm = date.getMonth()+1;
-                            // mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                            // var dd = date.getDate();
-                            // dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                            // return yyyy+'-'+mm+'-'+dd;
-                            return e.PJT_END_DE2;
-                        } else {
-                            return e.DELV_DATE || "";
-                        }
-
+                        return e.LIST_END_DE || "";
                     },
                     footerTemplate: "합계"
                 }, {
@@ -237,13 +211,8 @@ var recordTotal = {
                     title: "수주금액",
                     width: 100,
                     template: function(e){
-                        if(e.YEAR_CLASS == "M"){
-                            pjtAmt2Sum += Number(e.ALL_PJT_AMT || 0);
-                            return '<div style="text-align: right;">'+comma(e.ALL_PJT_AMT)+'</div>';
-                        } else {
-                            pjtAmt2Sum += Number(e.PJT_AMT || 0);
-                            return '<div style="text-align: right;">'+comma(e.PJT_AMT)+'</div>';
-                        }
+                        pjtAmt2Sum += Number(e.REAL_PJT_AMT || 0);
+                        return '<div style="text-align: right;">'+comma(e.REAL_PJT_AMT)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(pjtAmt2Sum)+"</div>";

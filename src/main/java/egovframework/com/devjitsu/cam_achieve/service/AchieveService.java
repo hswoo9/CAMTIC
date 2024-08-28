@@ -27,6 +27,8 @@ public interface AchieveService {
 
     void insDeptObjSetting(Map<String, Object> params);
 
+    List<Map<String, Object>> getProjectListByAchieve(Map<String, Object> params);
+
     List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params);
 
     List<Map<String, Object>> geincpCompAmt(Map<String, Object> params);
