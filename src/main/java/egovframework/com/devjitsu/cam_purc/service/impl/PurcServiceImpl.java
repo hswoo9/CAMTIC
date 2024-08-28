@@ -1323,7 +1323,9 @@ public class PurcServiceImpl implements PurcService {
             // dj_file_info contentId 업데이트
             paramMap.put("contentId", "payClaim_" + maxIdx);
             paramMap.put("fileNo", map.get("fileNo"));
-            commonRepository.updFileOwnerClaimExnp(paramMap);
+            if(paramMap.get("fileNo") != null){
+                commonRepository.updFileOwnerClaimExnp(paramMap);
+            }
 
             // DJ_USE_CARD_INFO INSERT
             if(!"".equals(map.get("authNo")) && !"".equals(map.get("authHh")) && !"".equals(map.get("authDd")) && !"".equals(map.get("cardNo")) && !"".equals(map.get("buySts"))){
@@ -1342,6 +1344,10 @@ public class PurcServiceImpl implements PurcService {
                 paramMap.put("TAX_TY", map.get("taxTy"));
                 payAppRepository.insUseEtaxInfo(paramMap);
             }
+
+            map.put("ceGwIdx", maxIdx);
+            purcRepository.insClaimExnpDetail(map);
+
         }
     }
 
@@ -1353,6 +1359,11 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public Map<String, Object> getClaimExnpData(Map<String, Object> params) {
         return purcRepository.getClaimExnpData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClaimExnpDetailList(Map<String, Object> params) {
+        return purcRepository.getClaimExnpDetailList(params);
     }
 
     @Override

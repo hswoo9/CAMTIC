@@ -965,6 +965,7 @@ public class PurcController {
     public String getClaimExnpData(@RequestParam Map<String, Object> params, Model model){
 
         Map<String, Object> map = purcService.getClaimExnpData(params);
+        List<Map<String, Object>> list = purcService.getClaimExnpDetailList(params);
 
         Map<String, Object> result = new HashMap<>();
         if(map != null){
@@ -978,6 +979,7 @@ public class PurcController {
         }
 
         model.addAttribute("map", map);
+        model.addAttribute("list", list);
         model.addAttribute("result", result);
         return "jsonView";
     }

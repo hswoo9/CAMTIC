@@ -1787,6 +1787,69 @@
             CLAIM_EXNP_SN = #{claimExnpSn}
     </select>
 
+    <select id="getClaimExnpDetailList" parameterType="map" resultType="map">
+        /*getClaimExnpDetailList*/
+        SELECT * FROM CAM_MNG.DJ_CLAIM_EXNP_DET WHERE CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+    </select>
+
+    <insert id="insClaimExnpDetail" parameterType="map">
+        /*insClaimExnpDetail*/
+        INSERT INTO CAM_MNG.DJ_CLAIM_EXNP_DET
+        (
+            CE_GW_IDX,
+            EVID_TYPE,
+            FILE_NO,
+            TR_CD,
+            REG_NO,
+            CRM_NM,
+            CRM_BNK_NM,
+            CRM_ACC_NO,
+            CRM_ACC_HOLDER,
+            TR_DE,
+            TOT_COST,
+            SUP_COST,
+            VAT_COST,
+            CARD,
+            CARD_NO,
+            ETC,
+            ISS_NO,
+            CO_CD,
+            TAX_TY,
+            AUTH_NO,
+            AUTH_HH,
+            AUTH_DD,
+            BUY_STS,
+            PAY_AMT
+        )
+        VALUES
+        (
+            #{ceGwIdx},
+            #{evidType},
+            #{fileNo},
+            #{trCd},
+            #{regNo},
+            #{crmNm},
+            #{crmBnkNm},
+            #{crmAccNo},
+            #{crmAccHolder},
+            #{trDe},
+            #{totCost},
+            #{supCost},
+            #{vatCost},
+            #{card},
+            #{cardNo},
+            #{etc},
+            #{issNo},
+            #{coCd},
+            #{taxTy},
+            #{authNo},
+            #{authHh},
+            #{authDd},
+            #{buySts},
+            #{payAmt}
+        )
+    </insert>
+
     <insert id="insPurcBasicSetting" parameterType="map">
         /*insPurcBasicSetting*/
         INSERT INTO CAM_MNG.DJ_CLAIM_SETTING

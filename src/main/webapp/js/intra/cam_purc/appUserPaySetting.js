@@ -22,12 +22,12 @@ const appUserPaySetting = {
             dataSource: [
                 { text: "선택", value: "" },
                 { text: "세금계산서", value: "1" },
-                // { text: "계산서", value: "2" },
+                { text: "계산서", value: "2" },
                 { text: "신용카드", value: "3" },
-                // { text: "직원지급", value: "4" },
-                // { text: "사업소득자", value: "5" },
-                // { text: "기타소득자", value: "9" },
-                // { text: "기타", value: "6" }
+                { text: "직원지급", value: "4" },
+                { text: "사업소득자", value: "5" },
+                { text: "기타소득자", value: "9" },
+                { text: "기타", value: "6" }
             ],
             index: 0,
             change : function (e){
@@ -38,26 +38,29 @@ const appUserPaySetting = {
 
                 if(value != ""){
                     if(value == "6"){
-                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
+                        $("#totCost" + itemIndex).data("kendoTextBox").enable(true);
                     } else if(value == "1" || value == "2"){
                         appUserPaySetting.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         appUserPaySetting.fn_paymentCardHistory(value, itemIndex);
                     } else{
                         appUserPaySetting.fn_popRegDet(value, itemIndex);
+                        if(value == "4"){
+                            $("#totCost" + itemIndex).data("kendoTextBox").enable(true);
+                        }
                     }
                 }
             }
         });
 
-        customKendo.fn_textBox(["crmNm0", "regNo0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"]);
+        customKendo.fn_textBox(["crmNm0", "regNo0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0", "card0", "etc0"]);
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
 
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
-
-
 
     },
 
@@ -260,7 +263,7 @@ const appUserPaySetting = {
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
-            if($("#eviType" + index).val() != "" && uncommaN($("#totCost" + index).val()) == ""){
+            if($("#eviType" + index).val() != "" && (uncommaN($("#totCost0").val()) == "0" || uncommaN($("#totCost0").val()) == "")){
                 itemFlag = false;
             }
 
@@ -276,6 +279,7 @@ const appUserPaySetting = {
                 issNo : $("#issNo" + index).val(),
                 coCd : $("#coCd" + index).val(),
                 taxTy : $("#taxTy" + index).val(),
+                payAmt : (uncommaN($("#payAmt" + index).val()) || 0),
                 crmNm : $("#crmNm" + index).val(),
                 regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
@@ -289,7 +293,11 @@ const appUserPaySetting = {
                 buySts : $("#buySts" + index).val(),
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
-                fileNo : $("#fileNo" + index).val(),
+                etc : $("#etc" + index).val(),
+            }
+
+            if($("#fileNo" + index).val() != ""){
+                data.fileNo = $("#fileNo" + index).val();
             }
 
             reqPayAmt += Number(uncommaN($("#totCost" + index).val()));
@@ -309,7 +317,7 @@ const appUserPaySetting = {
         }
 
         if(!itemFlag) {
-            alert("증빙서류가 선택되지 않았습니다.");
+            alert("증빙유형을 다시 확인해주세요.");
             return;
         }
 
@@ -475,6 +483,23 @@ const appUserPaySetting = {
         var popup = window.open(url, name, option);
     },
 
+    fn_popRegDet : function (v, i, cardVal){
+        //개인&법인 구분없이 조회하기 위한 parameter 추가
+        if(cardVal == undefined){
+            cardVal = "";
+        }
+
+        if($("#eviType" + i).val() == 5 || $("#eviType" + i).val() == 9){
+            v = $("#eviType" + i).val();
+        }
+
+        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i + "&cardVal=" + cardVal;
+
+        var name = "_blank";
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     fn_eviTypeReset: function(idx) {
         $("#fileNo" + idx).val("");
         $("#authNo" + idx).val("");
@@ -510,43 +535,57 @@ const appUserPaySetting = {
             '       <input type="hidden" style="width: 70%" id="payDestSn' + appUserPaySetting.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
             '       <input type="text" id="eviType' + appUserPaySetting.global.itemIndex + '" class="eviType">' +
             '       <input type="hidden" id="fileNo' + appUserPaySetting.global.itemIndex + '" class="fileNo">' +
-            '       <input type="hidden" id="card' + appUserPaySetting.global.itemIndex + '" class="card">' +
-            '       <input type="hidden" id="cardNo' + appUserPaySetting.global.itemIndex + '" class="cardNo">' +
             '       <input type="hidden" id="authNo' + appUserPaySetting.global.itemIndex + '" class="authNo">' +
             '       <input type="hidden" id="authHh' + appUserPaySetting.global.itemIndex + '" class="authHh">' +
             '       <input type="hidden" id="authDd' + appUserPaySetting.global.itemIndex + '" class="authDd">' +
             '       <input type="hidden" id="issNo' + appUserPaySetting.global.itemIndex + '" class="issNo">' +
             '       <input type="hidden" id="coCd' + appUserPaySetting.global.itemIndex + '" class="coCd">' +
             '       <input type="hidden" id="taxTy' + appUserPaySetting.global.itemIndex + '" class="taxTy">' +
+            '       <input type="hidden" id="expRate' + appUserPaySetting.global.itemIndex + '" class="expRate">' +
+            '       <input type="hidden" id="taxRate' + appUserPaySetting.global.itemIndex + '" class="taxRate">' +
+            '       <input type="hidden" id="payAmt' + appUserPaySetting.global.itemIndex + '" class="payAmt">' +
+            '       <input type="hidden" id="incTax' + appUserPaySetting.global.itemIndex + '" class="incTax">' +
+            '       <input type="hidden" id="locIncTax' + appUserPaySetting.global.itemIndex + '" class="locIncTax">' +
+            '       <input type="hidden" id="subAmt' + appUserPaySetting.global.itemIndex + '" class="subAmt">' +
+            '       <input type="hidden" id="actPayAmt' + appUserPaySetting.global.itemIndex + '" class="actPayAmt">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" style="width: 100%" id="crmNm' + appUserPaySetting.global.itemIndex + '" class="crmNm" disabled>' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="appUserPaySetting.fn_popRegDet(1, '+appUserPaySetting.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 80%" id="crmNm' + appUserPaySetting.global.itemIndex + '" class="crmNm" readonly >' +
             '       <input type="hidden" id="buySts' + appUserPaySetting.global.itemIndex + '" class="buySts">' +
             '       <input type="hidden" id="trCd' + appUserPaySetting.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="regNo' + appUserPaySetting.global.itemIndex + '" class="regNo" style="width: 100%" disabled>' +
+            '       <input type="text" id="regNo' + appUserPaySetting.global.itemIndex + '" class="regNo" style="width: 100%" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmBnkNm' + appUserPaySetting.global.itemIndex + '" class="crmBnkNm" disabled>' +
+            '       <input type="text" id="crmBnkNm' + appUserPaySetting.global.itemIndex + '" class="crmBnkNm" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmAccNo' + appUserPaySetting.global.itemIndex + '" class="crmAccNo" disabled>' +
+            '       <input type="text" id="crmAccNo' + appUserPaySetting.global.itemIndex + '" class="crmAccNo" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmAccHolder' + appUserPaySetting.global.itemIndex + '" class="crmAccHolder" disabled>' +
+            '       <input type="text" id="crmAccHolder' + appUserPaySetting.global.itemIndex + '" class="crmAccHolder" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="trDe' + appUserPaySetting.global.itemIndex + '" class="trDe" disabled>' +
+            '       <input type="text" id="trDe' + appUserPaySetting.global.itemIndex + '" class="trDe" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="totCost' + appUserPaySetting.global.itemIndex + '" value="0" class="totCost" style="text-align: right" disabled>' +
+            '       <input type="text" id="totCost' + appUserPaySetting.global.itemIndex + '" value="0" class="totCost" style="text-align: right" onkeyup="appUserPaySetting.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="supCost' + appUserPaySetting.global.itemIndex + '" value="0" class="supCost" style="text-align: right" disabled>' +
+            '       <input type="text" id="supCost' + appUserPaySetting.global.itemIndex + '" value="0" class="supCost" style="text-align: right" readonly >' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="vatCost' + appUserPaySetting.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" disabled>' +
+            '       <input type="text" id="vatCost' + appUserPaySetting.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" readonly >' +
+            '   </td>' +
+            '   <td>' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="appUserPaySetting.fn_popRegDet(3, '+appUserPaySetting.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 70%" disabled id="card' + appUserPaySetting.global.itemIndex + '" class="card" readonly >' +
+            '       <input type="hidden" id="cardNo' + appUserPaySetting.global.itemIndex + '" class="cardNo">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="etc' + appUserPaySetting.global.itemIndex + '" class="etc" >' +
             '   </td>' +
             '   <td>' +
             '       <div style="text-align: center">' +
@@ -564,12 +603,12 @@ const appUserPaySetting = {
             dataSource: [
                 { text: "선택", value: "" },
                 { text: "세금계산서", value: "1" },
-                // { text: "계산서", value: "2" },
+                { text: "계산서", value: "2" },
                 { text: "신용카드", value: "3" },
-                // { text: "직원지급", value: "4" },
-                // { text: "사업소득자", value: "5" },
-                // { text: "기타소득자", value: "9" },
-                // { text: "기타", value: "6" },
+                { text: "직원지급", value: "4" },
+                { text: "사업소득자", value: "5" },
+                { text: "기타소득자", value: "9" },
+                { text: "기타", value: "6" },
             ],
             index: 0,
             change : function (e){
@@ -579,22 +618,26 @@ const appUserPaySetting = {
 
                 if(value != ""){
                     if(value == "6"){
-                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
+                        $("#totCost" + itemIndex).data("kendoTextBox").enable(true);
                     } else if(value == "1" || value == "2"){
                         appUserPaySetting.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         appUserPaySetting.fn_paymentCardHistory(value, itemIndex);
                     } else {
                         appUserPaySetting.fn_popRegDet(value, itemIndex);
+                        if(value == "4"){
+                            $("#totCost" + itemIndex).data("kendoTextBox").enable(true);
+                        }
                     }
                 }
             }
         });
 
         customKendo.fn_textBox(["crmNm" + appUserPaySetting.global.itemIndex, "crmBnkNm"  + appUserPaySetting.global.itemIndex
-            , "crmAccHolder" + appUserPaySetting.global.itemIndex, "regNo" + appUserPaySetting.global.itemIndex
+            , "crmAccHolder" + appUserPaySetting.global.itemIndex, "regNo" + appUserPaySetting.global.itemIndex, "card" + appUserPaySetting.global.itemIndex,
             , "crmAccNo" + appUserPaySetting.global.itemIndex, "totCost" + appUserPaySetting.global.itemIndex
-            , "supCost" + appUserPaySetting.global.itemIndex, "vatCost" + appUserPaySetting.global.itemIndex]);
+            , "supCost" + appUserPaySetting.global.itemIndex, "vatCost" + appUserPaySetting.global.itemIndex, "etc" + appUserPaySetting.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + appUserPaySetting.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -609,6 +652,10 @@ const appUserPaySetting = {
         if($(".payDestInfo").length > 1){
             $("#pay" + row).remove();
             /*appUserPaySetting.global.itemIndex--;*/
+        } else if($(".payDestInfo").length == 1){
+            $("#pay" + row).remove();
+            appUserPaySetting.global.itemIndex = 0;
+            appUserPaySetting.addRow();
         }
     },
 
@@ -663,9 +710,19 @@ const appUserPaySetting = {
                     width: 150,
                     template: function (e){
                         if(e.EVID_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.EVID_TYPE == 3){
-                            return "신용카드";
+                            return "세금계산서"
+                        } else if (e.EVID_TYPE == 2){
+                            return "계산서"
+                        } else if(e.EVID_TYPE == 3){
+                            return "신용카드"
+                        } else if(e.EVID_TYPE == 4){
+                            return "직원지급"
+                        } else if(e.EVID_TYPE == 5){
+                            return "사업소득자"
+                        } else if(e.EVID_TYPE == 6){
+                            return "기타"
+                        } else if(e.EVID_TYPE == 9) {
+                            return "기타소득자";
                         } else {
                             return "";
                         }
@@ -726,7 +783,73 @@ const appUserPaySetting = {
             location.reload();
         }
 
-    }
+    },
+
+    fn_calCost: function(obj){
+        var index = obj.id.replace(/[^0-9]/g, '');
+
+        if($("#eviType" + index).val() == '4' || $("#eviType" + index).val() == '6'){
+            if(obj.id.match("totCost")){
+                $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val()))));
+                $("#vatCost" + index).val(0);
+            } else if(obj.id.match("supCost")){
+                $("#totCost" + index).val(comma(Number(uncommaN($("#supCost" + index).val()))));
+                $("#vatCost" + index).val(0);
+            } else if (obj.id.match("vatCost")){
+                $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+            }
+        } else if($("#eviType" + index).val() == '3'){
+
+            if(($("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z") && !($("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012")){
+                if($("#card" + index).val().includes("개인카드")){
+                    if(obj.id.match("totCost")){
+                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val()))));
+                        $("#vatCost" + index).val(0);
+                    } else if(obj.id.match("supCost")){
+                        $("#totCost" + index).val(comma(Number(uncommaN($("#supCost" + index).val()))));
+                        $("#vatCost" + index).val(0);
+                    } else if (obj.id.match("vatCost")){
+                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                    }
+                } else{
+                    if(obj.id.match("totCost")){
+                        $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Math.round(Number(uncommaN($("#totCost" + index).val())) * 100 / 110)));
+                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                    } else if(obj.id.match("supCost")){
+                        $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#supCost" + index).val()))));
+                    } else if (obj.id.match("vatCost")){
+                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                    }
+                }
+            } else {
+                if(obj.id.match("totCost")){
+                    $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val()))));
+                    $("#vatCost" + index).val(0);
+                } else if(obj.id.match("supCost")){
+                    $("#totCost" + index).val(comma(Number(uncommaN($("#supCost" + index).val()))));
+                    $("#vatCost" + index).val(0);
+                } else if (obj.id.match("vatCost")){
+                    $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                }
+            }
+        } else {
+            if(obj.id.match("totCost")){
+                $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Math.round(Number(uncommaN($("#totCost" + index).val())) * 100 / 110)));
+                $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+            } else if(obj.id.match("supCost")){
+                $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#supCost" + index).val()))));
+            } else if (obj.id.match("vatCost")){
+                $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+            }
+        }
+
+        inputNumberFormat(obj);
+
+    },
+}
+
+function inputNumberFormat(obj){
+    obj.value = comma(uncommaN(obj.value));
 }
 
 function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor, tradeDe){
@@ -744,29 +867,14 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     }
     if(baNb == null || baNb == "" || baNb == "undefined"){
         baNb = "";
-        // $("#crmNm" + idx).css("border", "1px solid red");
-        // $("#regNo" + idx).css("border", "1px solid red");
-    // } else {
-    //     $("#crmNm" + idx).css("border", 0);
-    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(bankNm == null || bankNm == "" || bankNm == "undefined"){
         bankNm = "";
-        // $("#crmNm" + idx).css("border", "1px solid red");
-        // $("#regNo" + idx).css("border", "1px solid red");
-    // }else {
-    //     $("#crmNm" + idx).css("border", 0);
-    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(depositor == null || depositor == "" || depositor == "undefined"){
         depositor = "";
-        // $("#crmNm" + idx).css("border", "1px solid red");
-        // $("#regNo" + idx).css("border", "1px solid red");
-    // } else {
-    //     $("#crmNm" + idx).css("border", 0);
-    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(tradeDe != null && tradeDe != "" && tradeDe != "undefined"){
@@ -788,4 +896,148 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#crmBnkNm" + idx).val(bankNm);
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
+}
+
+function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+    }
+    if(jiro == null || jiro == "" || jiro == "undefined"){
+        jiro = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+    if(ceoNm == null || ceoNm == "" || ceoNm == "undefined"){
+        ceoNm = "";
+    }
+    if(regNb == null || regNb == "" || regNb == "undefined"){
+        regNb = "";
+    }
+
+    $("#crmNm" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
+    $("#crmBnkNm" + idx).val(jiro);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+    $("#regNo" + idx).val(regNb);
+    $("#ceoNm" + idx).val(ceoNm);
+}
+
+function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+        cardBaNb = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+    }
+    if(jiro == null || jiro == "" || jiro == "undefined"){
+        jiro = "";
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#card" + idx).val(trNm);
+    $("#cardNo" + idx).val(cardBaNb);
+    $("#trCd" + idx).val(trCd);
+    $("#crmBnkNm" + idx).val(jiro);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+
+    if(idx == 0){
+        $("#trNm").val(trNm);
+        $("#cardBaNb").val(cardBaNb);
+        $("#trCd").val(trCd);
+        $("#jiroNm").val(jiro);
+        $("#baNb").val(baNb);
+        $("#depositor").val(depositor);
+    }
+}
+
+function fn_selCardCompanyInfo(trCd, trNm, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+
+    $("#card" + idx).val(trNm);
+}
+
+function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo){
+    if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
+        accountHolder = "";
+    }
+    if(accountNum == null || accountNum == "" || accountNum == "undefined"){
+        accountNum = "";
+    }
+    if(empNameKr == null || empNameKr == "" || empNameKr == "undefined"){
+        empNameKr = "";
+    }
+    if(bankName == null || bankName == "" || bankName == "undefined"){
+        bankName = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#trCd" + idx).val(trCd);
+    $("#crmNm" + idx).val(empNameKr);
+    $("#crmBnkNm" + idx).val(bankName);
+    $("#crmAccNo" + idx).val(accountNum);
+    $("#crmAccHolder" + idx).val(accountHolder);
+    $("#regNo" + idx).val(regNo);
+}
+
+function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, idx, type, regNo){
+    if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
+        accountHolder = "";
+    }
+    if(accountNum == null || accountNum == "" || accountNum == "undefined"){
+        accountNum = "";
+    }
+    if(empNameKr == null || empNameKr == "" || empNameKr == "undefined"){
+        empNameKr = "";
+    }
+    if(bankName == null || bankName == "" || bankName == "undefined"){
+        bankName = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+    if(regNo == null || regNo == "" || regNo == "undefined"){
+        regNo = "";
+    }
+
+    $("#trCd" + idx).val(trCd);
+    $("#crmNm" + idx).val(empNameKr);
+    $("#crmBnkNm" + idx).val(bankName);
+    $("#crmAccNo" + idx).val(accountNum);
+    $("#crmAccHolder" + idx).val(accountHolder);
+    $("#regNo" + idx).val(regNo);
+
+    if(type != null && type != "" && type != "undefined"){
+        if(type == "5"){
+            $("#etc" + idx).val("사업소득자");
+        } else if(type == "9"){
+            $("#etc" + idx).val("기타소득자");
+        }
+    }
+
+    var url = "/payApp/pop/setPayRequest.do?idx=" + idx + "&type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
+
+    var name = "_blank";
+    var option = "width = 800, height = 500, top = 100, left = 400, location = no"
+    var popup = window.open(url, name, option);
 }

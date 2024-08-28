@@ -90,6 +90,8 @@ public interface PurcService {
 
     Map<String, Object> getClaimExnpData(Map<String, Object> params);
 
+    List<Map<String, Object>> getClaimExnpDetailList(Map<String, Object> params);
+
     Map<String, Object> setPurcBasicSetting(Map<String, Object> params);
 
     Map<String, Object> getBasicSetting(Map<String, Object> params);

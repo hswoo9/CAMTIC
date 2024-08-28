@@ -109,7 +109,9 @@ var spr = {
         opener.parent.$("#subAmt" + $("#index").val()).val($("#supAllAmt").val());
         opener.parent.$("#actPayAmt" + $("#index").val()).val($("#totAmt").val());
 
-        opener.parent.regPay.fn_changeAllCost();
+        if(opener.parent.regPay != null){
+            opener.parent.regPay.fn_changeAllCost();
+        }
         window.close();
     }
 }
