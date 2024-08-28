@@ -375,7 +375,10 @@
             FROM
                 CAM_PJT_MNG.DJ_CORP_PROJECT B
         ) RE
-        WHERE RE.PJT_CD = #{pjtCd}
+        WHERE
+            RE.PJT_CD = #{pjtCd}
+          AND
+            DATE_FORMAT(RE.STR_DT,'%Y%m%d') = #{strDt} AND DATE_FORMAT(RE.END_DT,'%Y%m%d') = #{endDt}
     </select>
 
     <select id="getProjectStep" parameterType="map" resultType="map">

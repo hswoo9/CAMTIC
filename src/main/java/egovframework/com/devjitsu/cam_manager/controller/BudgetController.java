@@ -248,8 +248,14 @@ public class BudgetController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
-        model.addAttribute("g20Info", g20Service.getProjectInfo(params));
+
+        Map<String, Object> map = g20Service.getProjectInfo(params);
+        model.addAttribute("g20Info", map);
+
+        params.put("strDt", map.get("FR_DT"));
+        params.put("endDt", map.get("TO_DT"));
         model.addAttribute("projectInfo", projectService.getProjectDataOne(params));
+
         return "popup/cam_manager/budget/busnCostDetailView";
     }
 
