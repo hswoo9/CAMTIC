@@ -385,7 +385,7 @@ var engnInit = {
             for(let i=0; i<resPurcList.length; i++){
                 const map = resPurcList[i];
                 if(map.CLAIM_STATUS == "CAYSY"){
-                    resInvSum += Number(map.PURC_ITEM_AMT_SUM);
+                    resInvSum += Number(map.PURC_SUP_AMT);
                 }
             }
             const bustList = tripResult.list;
