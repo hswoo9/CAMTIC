@@ -32,6 +32,10 @@ var payCardHist = {
             }
         });
 
+        $("#bnkSelBtn").on("click", function(){
+            payCardHist.fn_search($("#requestType").val());
+        });
+
         const reqType = $("#reqType").val();
 
         /** 출장, 식대 */

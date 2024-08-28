@@ -70,9 +70,9 @@
         </span>
         <span>
             <b style="font-size: 12px">카드정보</b>
-            <input id="searchValue" style="width: 20%;">
+            <input id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){payCardHist.fn_search()}">
 <%--            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payCardHist.gridReload()">선택</button>--%>
-            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onclick="payCardHist.fn_search()" onkeypress="if(window.event.keyCode==13){payCardHist.fn_search()}">검색</button>
+            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn">검색</button>
         </span>
         <span>
             <b style="font-size: 12px; margin-right: 5px; margin-left: 5px">조회</b>
