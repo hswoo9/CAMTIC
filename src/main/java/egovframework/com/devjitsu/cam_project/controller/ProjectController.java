@@ -1788,45 +1788,19 @@ public class ProjectController {
             params.put("reqYear", map.get("YEAR"));
 
             if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
-                List<Map<String, Object>> exnpList = achieveService.getExnpCompAmt(params);
-                List<Map<String, Object>> incpList = achieveService.geincpCompAmt(params);
+                Map<String, Object> exnpMap = achieveService.getExnpCompAmt(params);
+                Map<String, Object> incpMap = achieveService.getIncpCompAmt(params);
+                Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
+                Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
+                Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
 
-                int aSum = 0;
-                int bSum = 0;
-                int cSum = 0;
-                int dSum = 0;
-
-                for(Map<String, Object> exnpMap : exnpList) {
-                    if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
-                        bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
-                    } else{
-                        aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
-                    }
-                }
-                map.put("exnpCompAmt", aSum-bSum);
-
-                for(Map<String, Object> incpMap : incpList) {
-                    if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
-                        dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
-                    } else{
-                        cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
-                    }
-                }
-                map.put("incpCompAmt", cSum-dSum);
+                map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
+                map.put("incpCompAmt1", incpMap.get("TOT_COST"));
+                map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
+                map.put("realUseAmt", realUseMap2.get("COST_SUM"));
+                map.put("planAmt", planMap.get("TOT_COST"));
 
                 List<Map<String, Object>> budgetAmtList = g20Service.getG20BudgetSum(params);
-
-                long budgetAmt = 0;
-                if(budgetAmtList.size() != 0){
-                    for(Map<String, Object> budgetMap : budgetAmtList) {
-                        if("1".equals(budgetMap.get("DRCR_FG"))) {
-                            budgetAmt = Long.parseLong(budgetMap.get("TOT_COST").toString().split("\\.")[0]);
-                        }
-                    }
-                }
-
-                map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
-                map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
 
             } else {
 

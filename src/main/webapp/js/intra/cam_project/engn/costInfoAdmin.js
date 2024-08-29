@@ -128,7 +128,7 @@ var costInfo = {
             '                <th style="text-align: center">프로젝트 코드</th>' +
             '                <th style="text-align: center">부서</th>' +
             '                <th style="text-align: center">팀</th>' +
-            '                <th style="text-align: center">기준연도</th>' +
+            '                <th style="text-align: center">기준년도</th>' +
             '                <th style="text-align: center">수주금액</th>' +
             '                <th style="text-align: center">당해년도 사업비</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
@@ -189,6 +189,7 @@ var costInfo = {
 
         for(let i=0; i<list.length; i++){
             const e = list[i];
+            console.log("eeee", e);
 
             /** 수주금액 */
             if(e.YEAR_CLASS == "M"){
@@ -214,31 +215,6 @@ var costInfo = {
                 $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
             }else{
-                /** 공통 변수 */
-                const date = new Date();
-                const year = e.YEAR;
-
-                /** 사업비 분리사용 유무 확인 */
-                const result2 = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {pjtSn: pjtSn});
-                const list = result2.list;
-                let arr = []
-                for(let i=0; i<list.length; i++){
-                    arr.push($("#costMgtCd").val().slice(0, -1) + list[i].IS_TYPE);
-                }
-                if(list.length == 0){
-                    arr.push($("#costMgtCd").val());
-                }
-                console.log("arr : ", arr);
-
-                /** 지출완료금액 */
-                let usedBudget = 0;
-                /** 수익설정 예산액 */
-                let revenueBudget = 0;
-                /** 수익설정 지출완료금액 */
-                let usedRevenueBudget = 0;
-                /** 비용설정 지출완료금액 */
-                let usedCostBudget = 0;
-
                 /**
                  * ** 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
                  * ** 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
@@ -246,53 +222,12 @@ var costInfo = {
                  * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
                  * */
 
-                /** 달성매출액 */
-                for(let j=0; j<arr.length; j++){
-                    const result3 = customKendo.fn_customAjax("/g20/getSubjectList", {
-                        stat: "project",
-                        gisu: year,
-                        fromDate: year+"0101",
-                        toDate: year+"1231",
-                        mgtSeq: arr[j],
-                        opt01: "3",
-                        opt02: "1",
-                        opt03: "2",
-                        baseDate: year+"1231",
-                        pjtSn: pjtSn,
-                        temp: 2
-                    });
-                    const g20List = result3.list;
-                    console.log("g20List : ", g20List);
-
-                    const bgtInfo = customKendo.fn_customAjax("/mng/getProjectBgtList", {
-                        pjtSn: arr[j]
-                    });
-                    const bgtList = bgtInfo.list;
-                    console.log("bgtList : ", bgtList);
-
-                    for(let k=0; k<g20List.length; k++){
-                        const jMap = g20List[k];
-                        if(jMap.DIV_FG_NM == "항"){
-                            for (let l=0; l<bgtList.length; l++){
-                                const kMap = bgtList[l];
-                                if(jMap.BGT_CD == kMap.BGT_CD){
-                                    usedBudget += Number(jMap.ACCT_AM_3);
-                                    if(kMap.BGT_AT == "1"){
-                                        revenueBudget += Number(jMap.CALC_AM);
-                                        usedRevenueBudget += Number(jMap.ACCT_AM_3);
-                                    }else if(kMap.BGT_AT == "2"){
-                                        usedCostBudget += Number(jMap.ACCT_AM_3);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                /** 달성 매출액 */
                 let asrAmt = 0;
                 if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((usedBudget * 10 / 11).toString().split(".")[0]);
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
                 }else{
-                    asrAmt = usedBudget
+                    asrAmt = e.exnpCompAmt;
                 }
                 $("#RES_AMT"+i).text(comma(asrAmt));
 
@@ -300,14 +235,14 @@ var costInfo = {
                 let aopAmt = 0;
                 let invSum = Number(uncomma($("#invSum").text())) || 0;
                 if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((usedCostBudget - invSum) * 10 / 11).toString().split(".")[0]);
-                    aopAmt = usedRevenueBudget + tmpAmt;
+                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt) * 10 / 11).toString().split(".")[0]);
+                    aopAmt = e.incpCompAmt1 + tmpAmt;
                 }else{
-                    aopAmt = usedRevenueBudget + (usedCostBudget - invSum);
+                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt);
                 }
-                console.log("usedRevenueBudget", usedRevenueBudget);
-                console.log("usedCostBudget", usedCostBudget);
-                console.log("invSum", invSum);
+                console.log("incpCompAmt1", e.incpCompAmt1);
+                console.log("incpCompAmt2", e.incpCompAmt2);
+                console.log("realUseAmt", e.realUseAmt);
                 console.log("aopAmt", aopAmt);
                 $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt));
 
@@ -318,7 +253,10 @@ var costInfo = {
 
                 /** 예상운영수익 */
                 let eopAmt = 0;
-                eopAmt = revenueBudget - usedRevenueBudget;
+                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
+                    eopAmt = e.planAmt;
+                }
+                eopAmt = eopAmt - e.incpCompAmt1;
                 $("#DEV_NOT_INV_AMT"+i).text(comma(eopAmt));
             }
 

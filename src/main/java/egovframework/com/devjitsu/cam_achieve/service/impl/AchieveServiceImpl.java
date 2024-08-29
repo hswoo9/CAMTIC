@@ -448,13 +448,28 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
-    public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
+    public Map<String, Object> getExnpCompAmt(Map<String, Object> params) {
         return achieveRepository.getExnpCompAmt(params);
     }
 
     @Override
-    public List<Map<String, Object>> geincpCompAmt(Map<String, Object> params) {
-        return achieveRepository.geincpCompAmt(params);
+    public Map<String, Object> getIncpCompAmt(Map<String, Object> params) {
+        return achieveRepository.getIncpCompAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getIncpCompAmt2(Map<String, Object> params) {
+        return achieveRepository.getIncpCompAmt2(params);
+    }
+
+    @Override
+    public Map<String, Object> getRealUseExnpAmt(Map<String, Object> params) {
+        return achieveRepository.getRealUseExnpAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getPlanExnpAmt(Map<String, Object> params) {
+        return achieveRepository.getPlanExnpAmt(params);
     }
 
     @Override

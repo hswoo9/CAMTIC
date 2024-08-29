@@ -168,7 +168,7 @@ var recordTotal = {
                     width: 50
                 }, {
                     field: "YEAR",
-                    title: "기준연도",
+                    title: "기준년도",
                     width: 100
                 }, {
                     field: "PJT_STR_DE2",
@@ -235,9 +235,14 @@ var recordTotal = {
                     title: "매출액",
                     width: 100,
                     template: function(e){
-                        exnpCompAmtSum += Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
-                        console.log(e);
-                        return '<div style="text-align: right;">'+comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))+'</div>';
+                        let asrAmt = 0;
+                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                            asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                        }else{
+                            asrAmt = e.exnpCompAmt;
+                        }
+                        exnpCompAmtSum += asrAmt;
+                        return '<div style="text-align: right;">'+comma(asrAmt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(exnpCompAmtSum)+"</div>";
@@ -246,8 +251,15 @@ var recordTotal = {
                     title: "운영수익",
                     width: 100,
                     template: function(e){
-                        incpCompAmtSum += Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0))+'</div>';
+                        let aopAmt = 0;
+                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                            let tmpAmt = Number((((e.incpCompAmt2 || 0) - (e.realUseAmt || 0)) * 10 / 11).toString().split(".")[0]);
+                            aopAmt = (e.incpCompAmt1 || 0) + tmpAmt;
+                        }else{
+                            aopAmt = (e.incpCompAmt1 || 0) + ((e.incpCompAmt2 || 0) - (e.realUseAmt || 0));
+                        }
+                        incpCompAmtSum += aopAmt;
+                        return '<div style="text-align: right;">'+comma(aopAmt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(incpCompAmtSum)+"</div>";
@@ -256,8 +268,16 @@ var recordTotal = {
                     title: "예상매출액",
                     width: 100,
                     template: function(e){
-                        tmpSaleAmtSum += Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
-                        return '<div style="text-align: right;">'+comma(Number(Number(e.PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)))+'</div>';
+                        let devAmt = 0;
+                        let asrAmt = 0;
+                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                            asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                        }else{
+                            asrAmt = e.exnpCompAmt;
+                        }
+                        devAmt = Number(e.REAL_PJT_AMT || 0) - Number(asrAmt);
+                        tmpSaleAmtSum += devAmt;
+                        return '<div style="text-align: right;">'+comma(devAmt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpSaleAmtSum)+"</div>";
@@ -266,12 +286,13 @@ var recordTotal = {
                     title: "예상수익",
                     width: 100,
                     template: function(e){
-                        console.log(Number(e.INV_AMT || 0));
-                        console.log(Number(e.incpCompAmt || 0));
-                        console.log(Number(e.befExpProfitAmt || 0));
-                        console.log(Number(e.aftProfitAmt || 0));
-                        tmpProfitAmtSum += Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0))+'</div>';
+                        let eopAmt = 0;
+                        if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
+                            eopAmt = (e.planAmt || 0);
+                        }
+                        eopAmt = eopAmt - (e.incpCompAmt1 || 0);
+                        tmpProfitAmtSum += Number(eopAmt);
+                        return '<div style="text-align: right;">'+comma(eopAmt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpProfitAmtSum)+"</div>";
@@ -280,8 +301,8 @@ var recordTotal = {
                     title: "전년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        befExpSaleAmtSum += Number(e.befExpSaleAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.befExpSaleAmt)+'</div>';
+                        befExpSaleAmtSum += 0;
+                        return '<div style="text-align: right;">'+comma(0)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpSaleAmtSum)+"</div>";
@@ -290,8 +311,8 @@ var recordTotal = {
                     title: "전년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        befExpProfitAmtSum += Number(e.befExpProfitAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.befExpProfitAmt)+'</div>';
+                        befExpProfitAmtSum += 0;
+                        return '<div style="text-align: right;">'+comma(0)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpProfitAmtSum)+"</div>";
@@ -300,8 +321,8 @@ var recordTotal = {
                     title: "차년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        aftSaleAmtSum += Number(e.aftSaleAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.aftSaleAmt)+'</div>';
+                        aftSaleAmtSum += 0;
+                        return '<div style="text-align: right;">'+comma(0)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftSaleAmtSum)+"</div>";
@@ -310,8 +331,8 @@ var recordTotal = {
                     title: "차년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        aftProfitAmtSum += Number(e.aftProfitAmt || 0);
-                        return '<div style="text-align: right;">'+comma(e.aftProfitAmt)+'</div>';
+                        aftProfitAmtSum += 0;
+                        return '<div style="text-align: right;">'+comma(0)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftProfitAmtSum)+"</div>";

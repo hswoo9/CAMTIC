@@ -603,7 +603,7 @@
     <select id="getProjectDataByAchieve" parameterType="map" resultType="map">
         /*getProjectDataByAchieve*/
         SELECT * FROM (
-            SELECT A.*, YEAR(STR_DT) AS YEAR, PJT_AMT AS REAL_PJT_AMT,
+            SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_STR_DE, UNRND.NOW_STR_DE), STR_DT)) AS YEAR, PJT_AMT AS REAL_PJT_AMT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
             WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
@@ -623,7 +623,7 @@
 
             UNION ALL
 
-            SELECT A.*, YEAR(END_DT) AS YEAR, 0 AS REAL_PJT_AMT,
+            SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_END_DE, UNRND.NOW_END_DE), END_DT)) AS YEAR, 0 AS REAL_PJT_AMT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
             WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
@@ -643,7 +643,7 @@
 
             UNION ALL
 
-            SELECT A.*, YEAR(STR_DT) AS YEAR, PJT_AMT AS REAL_PJT_AMT,
+            SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_STR_DE, UNRND.NOW_STR_DE), STR_DT)) AS YEAR, PJT_AMT AS REAL_PJT_AMT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
             WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')

@@ -59,7 +59,7 @@ var g20ProjectView = {
                 {
                     name : 'text',
                     template : function (e){
-                        return '<label for="baseYear" class="k-label">기준연도</label> ' +
+                        return '<label for="baseYear" class="k-label">기준년도</label> ' +
                             '<input type="text" class="k-input" id="baseYear" style="width: 100px; margin-right: 5px;" onkeyup="g20ProjectView.fn_enterKey();"/>';
                     }
                 }, {

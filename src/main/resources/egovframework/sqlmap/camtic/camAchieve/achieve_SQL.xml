@@ -748,23 +748,66 @@
     <select id="getExnpCompAmt" parameterType="map" resultType="map">
         /*getExnpCompAmt*/
         SELECT
-            A.PAY_APP_TYPE,
-            SUM(TOT_COST) AS TOT_COST
+            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B
-        ON
-            A.EXNP_SN = B.EXNP_SN
+            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
         WHERE
-            A.PJT_CD = #{pjtCd}
-          AND
-            DOC_STATUS IN (100, 101)
-          AND B.BUDGET_SN IS NOT NULL
-        <if test='"achieve".equals(reqType)'>
-            AND YEAR(A.EXNP_DE) = #{reqYear}
-        </if>
-        GROUP BY PAY_APP_TYPE
+            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+        AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
+        AND YEAR(A.EXNP_DE) = #{reqYear}
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9))
+    </select>
+
+    <select id="getIncpCompAmt" parameterType="map" resultType="map">
+        /*getIncpCompAmt*/
+        SELECT
+            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+        AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
+        AND YEAR(A.EXNP_DE) = #{reqYear}
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '1')
+    </select>
+
+    <select id="getIncpCompAmt2" parameterType="map" resultType="map">
+        /*getIncpCompAmt2*/
+        SELECT
+            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+        AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
+        AND YEAR(A.EXNP_DE) = #{reqYear}
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '2')
+    </select>
+
+    <select id="getRealUseExnpAmt" parameterType="map" resultType="map">
+        /*getRealUseExnpAmt*/
+        SELECT
+            IFNULL(SUM((SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y')), 0) AS COST_SUM
+        FROM
+            CAM_MNG.DJ_PAY_APP PA
+        WHERE
+        (
+            PA.PJT_SN = #{pjtSn}
+            OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+        )
+        AND PA.DOC_STATUS NOT IN (0, 30, 40)
+        AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
+    </select>
+
+    <select id="getPlanExnpAmt" parameterType="map" resultType="map">
+        /*getPlanExnpAmt*/
+        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1'
     </select>
 
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
@@ -780,12 +823,15 @@
             CASE
             WHEN A.BUSN_CLASS IN ('R', 'S', 'D', 'V') AND PR.STATUS = '100' THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
             ELSE ''
-            END AS LIST_END_DE
+            END AS LIST_END_DE,
+            PR.STATUS AS RES_STATUS,
+            DDS.TAX_GUBUN
             FROM CAM_PJT_MNG.DJ_PROJECT A
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RND RND ON A.PJT_SN = RND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_UNRND UNRND ON A.PJT_SN = UNRND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT PR ON A.PJT_SN = PR.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_DEPO_SETTING DDS ON A.PJT_SN = DDS.FR_PJT_SN
             WHERE YEAR_CLASS = 'S' AND YEAR(STR_DT) != YEAR(END_DT) AND STR_DT IS NOT NULL AND END_DT IS NOT NULL
 
             UNION ALL
@@ -800,12 +846,15 @@
             CASE
             WHEN A.BUSN_CLASS IN ('R', 'S', 'D', 'V') AND PR.STATUS = '100' THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
             ELSE ''
-            END AS LIST_END_DE
+            END AS LIST_END_DE,
+            PR.STATUS AS RES_STATUS,
+            DDS.TAX_GUBUN
             FROM CAM_PJT_MNG.DJ_PROJECT A
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RND RND ON A.PJT_SN = RND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_UNRND UNRND ON A.PJT_SN = UNRND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT PR ON A.PJT_SN = PR.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_DEPO_SETTING DDS ON A.PJT_SN = DDS.FR_PJT_SN
             WHERE YEAR_CLASS = 'S' AND YEAR(STR_DT) != YEAR(END_DT) AND STR_DT IS NOT NULL AND END_DT IS NOT NULL
 
             UNION ALL
@@ -820,41 +869,97 @@
             CASE
             WHEN A.BUSN_CLASS IN ('R', 'S', 'D', 'V') AND PR.STATUS = '100' THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
             ELSE ''
-            END AS LIST_END_DE
+            END AS LIST_END_DE,
+            PR.STATUS AS RES_STATUS,
+            DDS.TAX_GUBUN
             FROM CAM_PJT_MNG.DJ_PROJECT A
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RND RND ON A.PJT_SN = RND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_UNRND UNRND ON A.PJT_SN = UNRND.PJT_SN
             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT PR ON A.PJT_SN = PR.PJT_SN
+            LEFT JOIN CAM_MNG.DJ_DEPO_SETTING DDS ON A.PJT_SN = DDS.FR_PJT_SN
             WHERE YEAR_CLASS != 'S' OR YEAR(STR_DT) = YEAR(END_DT) AND STR_DT IS NOT NULL AND END_DT IS NOT NULL
         ) R
-        ORDER BY PJT_SN, YEAR
-    </select>
-
-    <select id="geincpCompAmt" parameterType="map" resultType="map">
-        /*geincpCompAmt*/
-        SELECT
-            A.PAY_APP_TYPE,
-            SUM(TOT_COST) AS TOT_COST
-        FROM
-            CAM_MNG.DJ_EXNP A
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B
-        ON
-            A.EXNP_SN = B.EXNP_SN
-        LEFT JOIN
-            CAM_MNG.DJ_PROJECT_BUDGET_MNG C
-        ON
-            A.PJT_CD = C.PJT_CD AND B.BUDGET_SN = C.BGT_CD
         WHERE
-            A.PJT_CD = #{pjtCd}
-        AND
-            DOC_STATUS IN (100, 101)
-        AND B.BUDGET_SN IS NOT NULL AND C.BGT_CD IS NOT NULL AND C.BGT_AT = 1 AND C.ACTIVE = 'Y'
-        <if test='"achieve".equals(reqType)'>
-            AND YEAR(A.EXNP_DE) = #{reqYear}
+            1=1
+        AND R.TEAM_STAT = "N"
+        <if test='pjtYear != null and pjtYear != ""'>
+            AND
+            DATE_FORMAT(R.LIST_STR_DE, '%Y') = #{pjtYear}
         </if>
-        GROUP BY PAY_APP_TYPE
+
+        <if test='busnClass != null and busnClass != ""'>
+            AND
+            R.BUSN_CLASS = #{busnClass}
+        </if>
+        <if test='empName != null and empName != ""'>
+            AND
+            R.PM LIKE CONCAT('%', #{empName}, '%')
+        </if>
+        <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass) and !"res".equals(busnSubClass)'>
+            AND
+            R.PJT_STEP in (${busnSubClass})
+            AND
+            R.PJT_STOP = "N"
+            AND
+            (R.RES_STATUS != '100' OR R.RES_STATUS IS NULL)
+        </if>
+        <if test='busnSubClass == "Y" or "Y".equals(busnSubClass)'>
+            AND
+            R.PJT_STOP = 'Y'
+        </if>
+        <if test='"res".equals(busnSubClass)'>
+            AND
+            R.RES_STATUS = '100'
+        </if>
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND (
+            R.DEPT_SEQ IN (${deptSeq})
+            OR
+            R.DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ IN (${deptSeq})))
+            )
+        </if>
+        <if test='"1".equals(searchValue)'>
+            AND
+            (R.REG_EMP_SEQ = #{regEmpSeq} OR R.PM_EMP_SEQ = #{regEmpSeq} OR R.EMP_SEQ = #{regEmpSeq})
+            AND
+            R.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
+            AND
+            R.PJT_STOP != "Y"
+        </if>
+        <if test='"2".equals(searchValue)'>
+            AND
+            (R.REG_EMP_SEQ = #{regEmpSeq} OR R.PM_EMP_SEQ = #{regEmpSeq} OR R.EMP_SEQ = #{regEmpSeq})
+        </if>
+        <if test='"3".equals(searchValue)'>
+            AND
+            R.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
+        </if>
+        <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            (R.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR R.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            R.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            R.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"4".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            R.PM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='!"".equals(pjtNm) and pjtNm != null'>
+            AND
+            R.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+        </if>
+        <if test='type != null and !"".equals(type)'>
+            AND
+            R.BUSN_CLASS IN ('S', 'R') AND R.PJT_CD IS NOT NULL
+        </if>
+        ORDER BY PJT_SN, YEAR
     </select>
 
     <select id="getResultProject" parameterType="map" resultType="map">
