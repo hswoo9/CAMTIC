@@ -20,11 +20,11 @@ var bomReg = {
     },
 
     setBomReq : function(){
-        /*if(!$("#bomTitle").val()){
+        if(!$("#bomTitle").val()){
             alert("BOM명을 입력해주세요.");
             $("#bomTitle").focus()
             return;
-        }else*/ if(!$("#masterSn999").val()){
+        }else if(!$("#masterSn999").val()){
             alert("품번을 선택해주세요.");
             return;
         }else if(!$("#bomUnitPrice").val()){
@@ -45,16 +45,16 @@ var bomReg = {
 
             $.each($(".bomDetail"), function(i, v){
                 if($(this).find("#masterSn" + i).val()){
-                    // if(!$(this).find("#masterBomSn" + i).val()){
-                    //     if($("#masterBomSn" + i).data("kendoDropDownList").dataSource.data().length != 0){
-                    //         flag = false;
-                    //     }
-                    // }
+                    if(!$(this).find("#masterBomSn" + i).val()){
+                        if($("#masterBomSn" + i).data("kendoDropDownList").dataSource.data().length != 0){
+                            flag = false;
+                        }
+                    }
 
                     var arrData = {
                         bomDetailSn : $(this).find("#bomDetailSn" + i).val(),
                         masterSn : $(this).find("#masterSn" + i).val(),
-                        // masterBomSn : $(this).find("#masterBomSn" + i).val(),
+                        masterBomSn : $(this).find("#masterBomSn" + i).val(),
                         reqQty : $(this).find("#reqQty" + i).val(),
                         rmk : $(this).find("#rmk" + i).val(),
                         empSeq : $("#empSeq").val()
@@ -75,7 +75,7 @@ var bomReg = {
 
             bomReg.global.saveAjaxData = {
                 bomSn : $("#bomSn").val(),
-                bomTitle : $("#itemName999").val(),
+                bomTitle : $("#bomTitle").val(),
                 masterSn : $("#masterSn999").val(),
                 bomCostPrice : bomReg.uncomma($("#bomCostPrice").val()),
                 bomUnitPrice : bomReg.uncomma($("#bomUnitPrice").val()),
@@ -97,9 +97,9 @@ var bomReg = {
 
         bomReg.global.createHtmlStr = "" +
             '<tr class="bomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
-                // '<td>' +
-                //     '<input type="text" id="masterBomSn' + bomReg.global.bomDetailIndex + '" class="masterBomSn k-input k-textbox" disabled>' +
-                // '</td>' +
+                '<td>' +
+                    '<input type="hidden" id="masterBomSn' + bomReg.global.bomDetailIndex + '" class="masterBomSn">' +
+                '</td>' +
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
                     '<input type="hidden" id="masterSn' + bomReg.global.bomDetailIndex + '" class="masterSn">' +
@@ -218,7 +218,7 @@ var bomReg = {
     rowAttrOverride : function(){
         $.each($(".bomDetail"), function(i, v){
             $(this).attr("id", "detail" + i);
-            // $(this).find("input.masterBomSn").attr("id", "masterBomSn" + i);
+            $(this).find("input.masterBomSn").attr("id", "masterBomSn" + i);
             $(this).find("input.bomDetailSn").attr("id", "bomDetailSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
@@ -277,18 +277,18 @@ var bomReg = {
                 masterSn : e[i].MASTER_SN
             }
 
-            // var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
-            // if(result.flag){
-            //     if(result.list.length > 1){
-            //         $("#masterBomSn" + i).removeAttr("disabled");
-            //         customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 2);
-            //         $("#masterBomSn" + i).data("kendoDropDownList").enable(true);
-            //     }else{
-            //         customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 3);
-            //         $("#masterBomSn" + i).data("kendoDropDownList").enable(false);
-            //     }
-            //     $("#masterBomSn" + i).data("kendoDropDownList").value(e[i].MASTER_BOM_SN)
-            // }
+            var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
+            if(result.flag){
+                if(result.list.length > 1){
+                    $("#masterBomSn" + i).removeAttr("disabled");
+                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 2);
+                    $("#masterBomSn" + i).data("kendoDropDownList").enable(true);
+                }else{
+                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 3);
+                    $("#masterBomSn" + i).data("kendoDropDownList").enable(false);
+                }
+                $("#masterBomSn" + i).data("kendoDropDownList").value(e[i].MASTER_BOM_SN)
+            }
         }
 
         bomReg.costPriceChange();
@@ -316,17 +316,17 @@ var bomReg = {
                     masterSn : $("#masterSn" + bomReg.global.masterSnIndex).val()
                 }
 
-                // var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
-                // if(result.flag){
-                //     if(result.list.length > 1){
-                //         $("#masterBomSn" + bomReg.global.masterSnIndex).removeAttr("disabled");
-                //         customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 2);
-                //         $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
-                //     }else{
-                //         customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 3);
-                //         $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(false);
-                //     }
-                // }
+                var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
+                if(result.flag){
+                    if(result.list.length > 1){
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).removeAttr("disabled");
+                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 2);
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
+                    }else{
+                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 3);
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(false);
+                    }
+                }
             }
         }else{
             alert("원자재는 BOM을 등록하실 수 없습니다.");
