@@ -13,6 +13,8 @@
         <input type="hidden" id="target" name="target" value="${params.target}">
         <input type="hidden" id="crmSn" name="crmSn" value="${params.crmSn}">
         <input type="hidden" id="itemType" name="itemType" value="${params.itemType}">
+        <input type="hidden" id="selType" name="selType" value="${params.selType}">
+        
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">품번 선택</span>
             </h3>

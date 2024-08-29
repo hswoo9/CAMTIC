@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <link rel="stylesheet" href="/css/intra/kTreeView.css">
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<link rel="stylesheet" href="/js/treeTable/css/tree-table.css">
 <style>
     .searchTable > thead > tr > th {
         background-color: #00397f96;
@@ -60,66 +61,61 @@
                 </tr>
                 </thead>
             </table>
-
-<%--            <div class="mt-10">--%>
-<%--                <table class="searchTable table table-bordered mb-0 mt-10">--%>
-<%--                    <colgroup>--%>
-<%--                        <col style="width: 6%;">--%>
-<%--                        <col>--%>
-<%--                        <col>--%>
-<%--                        <col style="width: 14%;">--%>
-<%--                        <col style="width: 12%;">--%>
-<%--                        <col style="width: 10%;">--%>
-<%--                        <col style="width: 20%;">--%>
-<%--                    </colgroup>--%>
-<%--                    <thead>--%>
-<%--                    <tr>--%>
-<%--                        <th>순번</th>--%>
-<%--                        <th>품번</th>--%>
-<%--                        <th>품명</th>--%>
-<%--                        <th>단가</th>--%>
-<%--                        <th>필요수량</th>--%>
-<%--                        <th>안전재고</th>--%>
-<%--                        <th>비고</th>--%>
-<%--                    </tr>--%>
-<%--                    <c:forEach var="item" items="${detailList}" varStatus="status">--%>
-<%--                        <tr>--%>
-<%--                            <td style="text-align: center">${status.index + 1}</td>--%>
-<%--                            <td>${item.ITEM_NO}</td>--%>
-<%--                            <td>${item.ITEM_NAME}</td>--%>
-<%--                            <td style="text-align: right">--%>
-<%--                                <fmt:formatNumber value="${item.UNIT_PRICE}" pattern="#,###" />--%>
-<%--                            </td>--%>
-<%--                            <td style="text-align: right">--%>
-<%--                                <fmt:formatNumber value="${item.REQ_QTY}" pattern="#,###" />--%>
-<%--                            </td>--%>
-<%--                            <td style="text-align: right">--%>
-<%--                                <fmt:formatNumber value="${item.SAFETY_INVEN}" pattern="#,###" />--%>
-<%--                            </td>--%>
-<%--                            <td>${item.RMK}</td>--%>
-<%--                        </tr>--%>
-<%--                    </c:forEach>--%>
-<%--                    </thead>--%>
-<%--                </table>--%>
-<%--            </div>--%>
             <div id="gridForm" style="height:537px; width: 100%; display: flex; justify-content: space-between; border: 1px solid #dedfdf;" class="mt-20">
-                <div style="width: 25%;">
-                    <div id="treeView" style="padding-right: 20px;padding-left: 20px;">
+<%--                <div style="width: 25%;">--%>
+<%--                    <div id="treeView" style="padding-right: 20px;padding-left: 20px;">--%>
 
-                    </div>
-                </div>
-                <div style="width: 70%;">
-                    <div id="bomGrid" style="margin-top: 10px; margin-right: 10px;">
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <div style="width: 70%;">--%>
+<%--                    <div id="bomGrid" style="margin-top: 10px; margin-right: 10px;">--%>
 
-                    </div>
-                </div>
+<%--                    </div>--%>
+<%--                </div>--%>
+
+    <div class="tree-table-wrap">
+        <table class="tree-table">
+            <colgroup>
+                <col>
+                <col>
+                <col>
+                <col width="5%">
+                <col width="5%">
+                <col width="5%">
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>순번</th>
+                <th>품번</th>
+                <th>품명</th>
+                <th>품목구분</th>
+                <th>사용갯수</th>
+                <th>단위</th>
+                <th>규격</th>
+                <th>창고</th>
+                <th>현재고</th>
+                <th>매입단가</th>
+                <th>원가</th>
+            </tr>
+            </thead>
+            <tbody id="table-tree">
+            </tbody>
+        </table>
+    </div>
             </div>
         </div>
-
     </div>
 </div>
 <script type="text/javascript">
+    var items = new Array()
+
     popBomView.fn_defaultScript();
 </script>
+<script type="text/javascript" src="/js/treeTable/tree-table.js?v=${today}"/></script>
 </body>
 </html>

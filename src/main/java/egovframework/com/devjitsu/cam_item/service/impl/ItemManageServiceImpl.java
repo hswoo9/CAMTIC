@@ -381,6 +381,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public boolean getBomDoubleChk(Map<String, Object> params) {
+        return itemManageRepository.getBomDoubleChk(params);
+    }
+
+    @Override
     public Map<String, Object> getBom(Map<String, Object> params) {
         return itemManageRepository.getBom(params);
     }
@@ -400,6 +405,39 @@ public class ItemManageServiceImpl implements ItemManageService {
         }
 
         return bomDetailList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getTableTreeBomList(Map<String, Object> params) {
+        List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
+        bomDetailList.add(0, itemManageRepository.getBom2(params));
+
+        for(int i = 0; i < bomDetailList.size(); i++){
+            if(i != 0){
+                if(StringUtils.isEmpty(bomDetailList.get(i))){
+                    bomDetailList.get(i).put("parentId", bomDetailList.get(0).get("MASTER_SN"));
+                }
+                if(!StringUtils.isEmpty(bomDetailList.get(i).get("MASTER_BOM_SN"))){
+                    subBomList(bomDetailList, i);
+                }
+            }
+        }
+
+        return bomDetailList;
+    }
+
+    public void subBomList(List<Map<String, Object>> bd, int index){
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("bomSn", bd.get(index).get("MASTER_BOM_SN"));
+        List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(searchMap);
+
+        for(int j = 0; j < bomDetailList.size(); j++){
+            bomDetailList.get(j).put("parentId", bd.get(index).get("MASTER_SN"));
+            bd.add(bomDetailList.get(j));
+            if(!StringUtils.isEmpty(bomDetailList.get(j).get("MASTER_BOM_SN"))){
+                subBomList(bomDetailList, j);
+            }
+        }
     }
 
     @Override

@@ -43,11 +43,12 @@ public class ItemManageRepository extends AbstractDAO {
     public void setReturnRecordUpd(Map<String, Object> params) { update("item.setReturnRecordUpd", params);}
     public List<Map<String, Object>> getBomList(Map<String, Object> params) { return selectList("item.getBomList", params);}
     public Map<String, Object> getBom(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getBom", params);}
-    public String getBomSn(Map<String, Object> params){ return (String) selectOne("item.getBomSn", params);}
+    public Map<String, Object> getBom2(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getBom2", params);}
     public List<Map<String, Object>> getBomOutputHistory(Map<String, Object> params) { return selectList("item.getBomOutputHistory", params);}
     public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) { return selectList("item.getBomDetailList", params);}
     public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);}
     public void setBomDetailDel(Map<String, Object> params) { delete("item.setBomDetailDel", params);}
+    public boolean getBomDoubleChk(Map<String, Object> params) {return (boolean) selectOne("item.getBomDoubleChk", params);}
     public void setBomCopy(Map<String, Object> params) { delete("item.setBomCopy", params);}
     public void setBomDetailCopy(Map<String, Object> params) { delete("item.setBomDetailCopy", params);}
     public void setBom(Map<String, Object> params) { insert("item.setBom", params);}

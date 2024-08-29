@@ -71,10 +71,6 @@ var bomList = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "BOM명",
-                    field: "BOM_TITLE",
-                    width: 150
-                }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120,

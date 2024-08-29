@@ -811,6 +811,18 @@ public class ItemManageController {
     }
 
     /**
+     * BOM 등록전 체크
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getBomDoubleChk.do")
+    public String getBomDoubleChk(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getBomDoubleChk(params));
+        return "jsonView";
+    }
+
+
+    /**
      * BOM 등록
      * @param params
      * @return
@@ -851,6 +863,18 @@ public class ItemManageController {
         model.addAttribute("detailList", itemManageService.getBomDetailList(params));
 
         return "popup/cam_item/popBomView";
+    }
+
+    /**
+     * TableTree List
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/makeTableTreeView.do")
+    public String makeTableTreeView(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getTableTreeBomList(params));
+        return "jsonView";
     }
 
     /**

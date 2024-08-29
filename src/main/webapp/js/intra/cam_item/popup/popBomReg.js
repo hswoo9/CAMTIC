@@ -10,7 +10,7 @@ var bomReg = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_textBox(["bomTitle", "bomCostPrice", "bomUnitPrice"]);
+        customKendo.fn_textBox(["bomCostPrice", "bomUnitPrice"]);
 
         if($("#bomSn").val()){
             bomReg.bomDataSet();
@@ -20,17 +20,19 @@ var bomReg = {
     },
 
     setBomReq : function(){
-        if(!$("#bomTitle").val()){
-            alert("BOM명을 입력해주세요.");
-            $("#bomTitle").focus()
-            return;
-        }else if(!$("#masterSn999").val()){
+        if(!$("#masterSn999").val()){
             alert("품번을 선택해주세요.");
             return;
         }else if(!$("#bomUnitPrice").val()){
             alert("표준단가를 입력해주세요.");
             $("#bomUnitPrice").focus()
             return;
+        }
+        if(!$("#bomSn").val()){
+            if(bomReg.doubleChk()){
+                alert("이미 BOM이 등록된 품번입니다.");
+                return;
+            }
         }
 
         if(confirm("등록하시겠습니까?")){
@@ -45,16 +47,9 @@ var bomReg = {
 
             $.each($(".bomDetail"), function(i, v){
                 if($(this).find("#masterSn" + i).val()){
-                    if(!$(this).find("#masterBomSn" + i).val()){
-                        if($("#masterBomSn" + i).data("kendoDropDownList").dataSource.data().length != 0){
-                            flag = false;
-                        }
-                    }
-
                     var arrData = {
                         bomDetailSn : $(this).find("#bomDetailSn" + i).val(),
                         masterSn : $(this).find("#masterSn" + i).val(),
-                        masterBomSn : $(this).find("#masterBomSn" + i).val(),
                         reqQty : $(this).find("#reqQty" + i).val(),
                         rmk : $(this).find("#rmk" + i).val(),
                         empSeq : $("#empSeq").val()
@@ -75,7 +70,6 @@ var bomReg = {
 
             bomReg.global.saveAjaxData = {
                 bomSn : $("#bomSn").val(),
-                bomTitle : $("#bomTitle").val(),
                 masterSn : $("#masterSn999").val(),
                 bomCostPrice : bomReg.uncomma($("#bomCostPrice").val()),
                 bomUnitPrice : bomReg.uncomma($("#bomUnitPrice").val()),
@@ -97,9 +91,6 @@ var bomReg = {
 
         bomReg.global.createHtmlStr = "" +
             '<tr class="bomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
-                '<td>' +
-                    '<input type="hidden" id="masterBomSn' + bomReg.global.bomDetailIndex + '" class="masterBomSn">' +
-                '</td>' +
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
                     '<input type="hidden" id="masterSn' + bomReg.global.bomDetailIndex + '" class="masterSn">' +
@@ -149,9 +140,9 @@ var bomReg = {
         }
 
         var url = "/item/pop/popItemNoList.do";
-        /*if(masterSnIndex != 999){
-            url += "?itemType=" + $("#itemType999").val()
-        }*/
+        if(masterSnIndex == 999){
+            url += "?selType=master"
+        }
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -218,7 +209,6 @@ var bomReg = {
     rowAttrOverride : function(){
         $.each($(".bomDetail"), function(i, v){
             $(this).attr("id", "detail" + i);
-            $(this).find("input.masterBomSn").attr("id", "masterBomSn" + i);
             $(this).find("input.bomDetailSn").attr("id", "bomDetailSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
@@ -242,10 +232,8 @@ var bomReg = {
         }
 
         var result = customKendo.fn_customAjax("/item/getBom.do", bomReg.global.searchAjaxData);
-        console.log(result)
         if(result.flag){
             var bom = result.bom;
-            $("#bomTitle").val(bom.BOM_TITLE);
             $("#masterSn999").val(bom.MASTER_SN);
             $("#itemNo999").val(bom.ITEM_NO);
             $("#itemName999").val(bom.ITEM_NAME);
@@ -272,30 +260,10 @@ var bomReg = {
             $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
             $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
             $("#detail" + i).find("#itemCdName" + i).val(e[i].ITEM_TYPE_NM);
-
-            bomReg.global.searchAjaxData = {
-                masterSn : e[i].MASTER_SN
-            }
-
-            var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
-            if(result.flag){
-                if(result.list.length > 1){
-                    $("#masterBomSn" + i).removeAttr("disabled");
-                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 2);
-                    $("#masterBomSn" + i).data("kendoDropDownList").enable(true);
-                }else{
-                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 3);
-                    $("#masterBomSn" + i).data("kendoDropDownList").enable(false);
-                }
-                $("#masterBomSn" + i).data("kendoDropDownList").value(e[i].MASTER_BOM_SN)
-            }
         }
 
+        bomReg.addRow();
         bomReg.costPriceChange();
-
-        if(i != e.length) {
-            bomReg.addRow();
-        }
     },
 
     itemInfoChange : function(){
@@ -309,25 +277,6 @@ var bomReg = {
             $("#itemType" + bomReg.global.masterSnIndex).val($("#itemType").val())
             $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
             $("#unitPrice" + bomReg.global.masterSnIndex).change()
-
-
-            if(bomReg.global.masterSnIndex != "999"){
-                bomReg.global.searchAjaxData = {
-                    masterSn : $("#masterSn" + bomReg.global.masterSnIndex).val()
-                }
-
-                var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
-                if(result.flag){
-                    if(result.list.length > 1){
-                        $("#masterBomSn" + bomReg.global.masterSnIndex).removeAttr("disabled");
-                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 2);
-                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
-                    }else{
-                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 3);
-                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(false);
-                    }
-                }
-            }
         }else{
             alert("원자재는 BOM을 등록하실 수 없습니다.");
         }
@@ -362,5 +311,10 @@ var bomReg = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    doubleChk : function(){
+        const result = customKendo.fn_customAjax("/item/getBomDoubleChk.do", { masterSn : $("#masterSn999").val()});
+        return result.rs;
     },
 }

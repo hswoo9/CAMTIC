@@ -66,6 +66,7 @@ var popItemNoList = {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" onclick="fn_checkAll(\'checkAllC\', \'masterSnPk\');"/>',
                     width: 50,
                     template : function(e) {
+
                         if(opener.parent.oor != null) {
                             var chkList = opener.parent.oor.global.chkList;
 
@@ -77,11 +78,13 @@ var popItemNoList = {
                         } else if(opener.parent.bomReg != null){
                             var chkList = opener.parent.bomReg.global.chkList;
 
-                            if (chkList.indexOf(e.MASTER_SN) > -1) {
+                            if (chkList.indexOf(e.MASTER_SN) > -1 || e.MASTER_SN == opener.parent.$("#masterSn999").val()) {
                                 return "";
                             } else {
                                 return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "' />"
                             }
+
+
                         } else {
                             return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "'/>"
                         }
@@ -250,7 +253,11 @@ var popItemNoList = {
             }
         }
 
-        window.close();
+        if($("#selType").val() == "master"){
+            window.close()
+        }else{
+            location.reload();
+        }
     },
 
     comma: function(str) {

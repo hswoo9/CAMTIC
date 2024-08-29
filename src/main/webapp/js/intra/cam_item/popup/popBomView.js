@@ -6,9 +6,11 @@ var popBomView = {
     },
 
     fn_defaultScript: function (){
-        popBomView.histGrid();
+        // popBomView.histGrid();
         popBomView.makeTreeView();
-        popBomView.bomGrid();
+        // popBomView.bomGrid();
+
+        popBomView.treeGrid();
     },
 
     makeTreeView : function(){
@@ -222,4 +224,207 @@ var popBomView = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    treeGrid : function(){
+        popBomView.global.searchAjaxData = {
+            bomSn : $("#bomSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/item/makeTableTreeView.do", popBomView.global.searchAjaxData);
+        var rs = result.rs;
+        console.log(rs);
+
+        for(var i = 0; i < rs.length; i++){
+            var data =  {
+                num : (i + 1),
+                id: rs[i].MASTER_SN,
+                priority: rs[i].MASTER_SN,
+                itemNo: rs[i].ITEM_NO,
+                itemName: rs[i].ITEM_NAME,
+                itemTypeNm: rs[i].ITEM_TYPE_NM,
+                reqQty: popBomView.comma(rs[i].REQ_QTY),
+                itemUnitNm: rs[i].ITEM_UNIT_NM,
+                standard: rs[i].STANDARD,
+                whNm: rs[i].WH_NM,
+                currentInven: popBomView.comma(rs[i].CURRENT_INVEN),
+                unitPrice: popBomView.comma(rs[i].UNIT_PRICE),
+                costPrice: popBomView.comma(rs[i].COST_PRICE),
+            }
+            if(i != 0) {
+                data.parentId = rs[i].parentId
+            }else{
+                data.reqQty = '-'
+            }
+
+            items.push(data);
+        }
+
+        // items = [
+        //     {
+        //         id: 1,
+        //         priority: 1,
+        //         itemNo: 'reacttreetable@simple.com',
+        //         itemName: 'Lorem Ipsum is simply dummy text of the printing',
+        //         itemTypeNm: '01/01/2019',
+        //         reqQty: '01/01/2019',
+        //         itemUnitNm: '01/01/2019',
+        //         standard: '01/01/2019',
+        //         whNm: '01/01/2019',
+        //         currentInven: '01/01/2019',
+        //         unitPrice: '01/01/2019',
+        //         COST_PRICE: '01/01/2019',
+        //     },
+        //     {
+        //         id: 2,
+        //         priority: 2,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 1
+        //     },
+        //     {
+        //         id: 3,
+        //         priority: 3,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 1
+        //     },
+        //     {
+        //         id: 4,
+        //         priority: 4,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 3
+        //     },
+        //     {
+        //         id: 5,
+        //         priority: 5,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019'
+        //     },
+        //     {
+        //         id: 6,
+        //         priority: 6,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019'
+        //     },
+        //     {
+        //         id: 7,
+        //         priority: 7,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 3
+        //     },
+        //     {
+        //         id: 8,
+        //         priority: 8,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 3
+        //     },
+        //     {
+        //         id: 9,
+        //         priority: 9,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 3
+        //     },
+        //     {
+        //         id: 10,
+        //         priority: 10,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 8
+        //     },
+        //     {
+        //         id: 11,
+        //         priority: 11,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 8
+        //     },
+        //     {
+        //         id: 12,
+        //         priority: 12,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 10
+        //     },
+        //     {
+        //         id: 13,
+        //         priority: 13,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 5
+        //     },
+        //     {
+        //         id: 17,
+        //         priority: 13,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 13
+        //     },
+        //     {
+        //         id: 18,
+        //         priority: 13,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 13
+        //     },
+        //     {
+        //         id: 19,
+        //         priority: 13,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 13
+        //     },
+        //     {
+        //         id: 14,
+        //         priority: 14,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 5
+        //     },
+        //     {
+        //         id: 15,
+        //         priority: 14,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 5
+        //     },{
+        //         id: 16,
+        //         priority: 14,
+        //         from: 'reacttreetable@simple.com',
+        //         subject: 'It is a long established fact that a reader will be distracted',
+        //         sentDate: '01/01/2019',
+        //         parentId: 5
+        //     }];
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    }
 }

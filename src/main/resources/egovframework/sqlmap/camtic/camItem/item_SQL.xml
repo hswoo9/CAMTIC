@@ -1124,14 +1124,38 @@
             BOM_SN = #{bomSn}
     </select>
 
-    <select id="getBomSn" parameterType="map" resultType="String">
-        /* getBomSn */
+    <select id="getBom2" parameterType="map" resultType="map">
+        /* getBom2 */
         SELECT
-            BOM_SN
+            B.*,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            IM.ITEM_TYPE,
+            IM.WH_CD,
+            IM.COST_PRICE,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'UN' AND LG_CD = 'UNIT' AND ITEM_CD = IM.ITEM_UNIT_CD) AS ITEM_UNIT_NM,
+            (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'WC' AND LG_CD = 'WH' AND ITEM_CD = IFNULL(II.WH_CD,IM.WH_CD)) AS WH_NM,
+            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE
         FROM
-            CAM_ITEM.DJ_BOM
+            CAM_ITEM.DJ_BOM B
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = B.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        ON II.MASTER_SN = IM.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
         WHERE
-             = #{masterBomSn}
+            BOM_SN = #{bomSn}
     </select>
 
     <select id="getBomOutputHistory" parameterType="map" resultType="map">
@@ -1204,6 +1228,7 @@
     <select id="getBomDetailList" parameterType="map" resultType="map">
         /* getBomDetailList */
         SELECT
+            IFNULL(B.BOM_SN, '') AS MASTER_BOM_SN,
             BD.*,
             IM.ITEM_NO,
             IM.ITEM_NAME,
@@ -1219,10 +1244,12 @@
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'WC' AND LG_CD = 'WH' AND ITEM_CD = IFNULL(II.WH_CD,IM.WH_CD)) AS WH_NM,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'UN' AND LG_CD = 'UNIT' AND ITEM_CD = IM.ITEM_UNIT_CD) AS ITEM_UNIT_NM,
             IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
-            IM.SAFETY_INVEN,
-            BD.MASTER_BOM_SN
+            IM.SAFETY_INVEN
         FROM
             CAM_ITEM.DJ_BOM_DETAIL BD
+        LEFT JOIN
+            CAM_ITEM.DJ_BOM B
+        ON BD.MASTER_SN = B.MASTER_SN
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
         ON BD.MASTER_SN = IM.MASTER_SN
@@ -1233,7 +1260,7 @@
             CAM_ITEM.DJ_ITEM_CD ITC
         ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
         WHERE
-            BOM_SN = #{bomSn}
+            BD.BOM_SN = #{bomSn}
         GROUP BY MASTER_SN
     </select>
 
@@ -1256,6 +1283,18 @@
             </otherwise>
        </choose>
     </delete>
+
+    <select id="getBomDoubleChk" parameterType="map" resultType="boolean">
+        /* getBomDoubleChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+            END
+        FROM
+            CAM_ITEM.DJ_BOM
+        WHERE
+            MASTER_SN = #{masterSn}
+    </select>
 
     <insert id="setBomCopy" parameterType="map">
         /* setBomCopy */
@@ -1310,7 +1349,6 @@
         /* setBom */
         INSERT INTO CAM_ITEM.DJ_BOM
         (
-            BOM_TITLE,
             MASTER_SN,
             BOM_COST_PRICE,
             BOM_UNIT_PRICE,
@@ -1318,7 +1356,6 @@
         )
         VALUES
         (
-            #{bomTitle},
             #{masterSn},
             #{bomCostPrice},
             #{bomUnitPrice},
@@ -1335,7 +1372,6 @@
         UPDATE
             CAM_ITEM.DJ_BOM
         SET
-            BOM_TITLE = #{bomTitle},
             MASTER_SN = #{masterSn},
             BOM_COST_PRICE = #{bomCostPrice},
             BOM_UNIT_PRICE = #{bomUnitPrice},
@@ -1351,7 +1387,6 @@
         (
             BOM_SN,
             MASTER_SN,
-            MASTER_BOM_SN,
             REQ_QTY,
             RMK,
             REG_EMP_SEQ
@@ -1360,7 +1395,6 @@
         (
             #{bomSn},
             #{masterSn},
-            #{masterBomSn},
             #{reqQty},
             #{rmk},
             #{empSeq}
@@ -1373,7 +1407,6 @@
             CAM_ITEM.DJ_BOM_DETAIL
         SET
             MASTER_SN = #{masterSn},
-            MASTER_BOM_SN = #{masterBomSn},
             REQ_QTY = #{reqQty},
             RMK = #{rmk},
             REG_EMP_SEQ = #{empSeq}

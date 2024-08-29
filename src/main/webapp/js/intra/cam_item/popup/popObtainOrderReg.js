@@ -28,7 +28,7 @@ var oor = {
             '   <td>' +
             '       <input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
             '       <input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
-            '       <input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 100%" />' +
+            '       <input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 100%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ')"/>' +
             // '       <button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +
             '   </td>' +
             '   <td>' +
@@ -54,7 +54,7 @@ var oor = {
             '       <input type="text" id="rmk' + oor.global.oorIndex + '" class="rmk">' +
             '   </td>' +
             '   <td style="text-align: center">' +
-            '       <button type="button" class="k-button k-button-solid-error" orNum="' + oor.global.oorIndex + '" onclick="oor.delRow(this)">X</button>' +
+            '       <button type="button" class="delBtn k-button k-button-solid-error" orNum="' + oor.global.oorIndex + '" onclick="oor.delRow(this)">X</button>' +
             '   </td>' +
             '</tr>';
 
@@ -431,6 +431,7 @@ var oor = {
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
             $(this).find("input.amt").attr("id", "amt" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
+            $(this).find("button.delBtn").attr("ornum", i);
         })
     },
 

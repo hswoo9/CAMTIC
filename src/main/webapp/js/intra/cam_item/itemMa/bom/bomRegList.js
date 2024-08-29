@@ -92,13 +92,6 @@ var bomRegList = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "BOM명",
-                    field: "BOM_TITLE",
-                    width: 150,
-                    template : function(e){
-                        return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.BOM_TITLE + '</a>'
-                    }
-                }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120,
