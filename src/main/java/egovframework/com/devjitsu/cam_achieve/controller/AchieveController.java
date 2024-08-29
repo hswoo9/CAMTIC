@@ -179,9 +179,9 @@ public class AchieveController {
 
                 int aSum = 0;
                 int bSum = 0;
-
                 int cSum = 0;
                 int dSum = 0;
+
                 for(Map<String, Object> exnpMap : exnpList) {
                     if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
                         bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
@@ -213,10 +213,12 @@ public class AchieveController {
 
                 map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
                 map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
+
             } else {
 
                 Map<String, Object> resultStat = achieveService.getResultProject(params);
                 List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
+
                 if(resultStat != null){
                     int resInvSum = 0;
                     map.put("exnpCompAmt", map.get("PJT_AMT"));
