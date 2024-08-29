@@ -1778,110 +1778,116 @@ public class ProjectController {
     @RequestMapping("/project/getPjtCostData")
     public String getPjtCostData(@RequestParam Map<String, Object> params, Model model) {
 
-        Map<String, Object> map = projectService.getProjectData(params);
-        params.put("pjtCd", map.get("PJT_CD"));
-        params.put("pjtSn", map.get("PJT_SN"));
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = projectService.getProjectDataByAchieve(params);
 
-        if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
-            List<Map<String, Object>> exnpList = achieveService.getExnpCompAmt(params);
-            List<Map<String, Object>> incpList = achieveService.geincpCompAmt(params);
+        for(Map<String, Object> map : list) {
+            params.put("pjtCd", map.get("PJT_CD"));
+            params.put("pjtSn", map.get("PJT_SN"));
+            params.put("reqType", "achieve");
+            params.put("reqYear", map.get("YEAR"));
 
-            int aSum = 0;
-            int bSum = 0;
-            int cSum = 0;
-            int dSum = 0;
+            if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
+                List<Map<String, Object>> exnpList = achieveService.getExnpCompAmt(params);
+                List<Map<String, Object>> incpList = achieveService.geincpCompAmt(params);
 
-            for(Map<String, Object> exnpMap : exnpList) {
-                if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
-                    bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
-                } else{
-                    aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
-                }
-            }
+                int aSum = 0;
+                int bSum = 0;
+                int cSum = 0;
+                int dSum = 0;
 
-            map.put("exnpCompAmt", aSum-bSum);
-
-            for(Map<String, Object> incpMap : incpList) {
-                if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
-                    dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
-                } else{
-                    cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
-                }
-            }
-
-            map.put("incpCompAmt", cSum-dSum);
-            List<Map<String, Object>> budgetAmtList = g20Service.getG20BudgetSum(params);
-            long budgetAmt = 0;
-
-            if(budgetAmtList.size() != 0){
-                for(Map<String, Object> budgetMap : budgetAmtList) {
-                    if("1".equals(budgetMap.get("DRCR_FG"))) {
-                        budgetAmt = Long.parseLong(budgetMap.get("TOT_COST").toString().split("\\.")[0]);
+                for(Map<String, Object> exnpMap : exnpList) {
+                    if("2".equals(exnpMap.get("PAY_APP_TYPE"))) {
+                        bSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
+                    } else{
+                        aSum += Integer.parseInt(exnpMap.get("TOT_COST").toString());
                     }
                 }
-            }
+                map.put("exnpCompAmt", aSum-bSum);
 
-            map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
-            map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
-        } else {
-            Map<String, Object> resultStat = achieveService.getResultProject(params);
-            List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
+                for(Map<String, Object> incpMap : incpList) {
+                    if("2".equals(incpMap.get("PAY_APP_TYPE"))) {
+                        dSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                    } else{
+                        cSum += Integer.parseInt(incpMap.get("TOT_COST").toString());
+                    }
+                }
+                map.put("incpCompAmt", cSum-dSum);
 
-            if(resultStat != null){
-                int resInvSum = 0;
-                map.put("exnpCompAmt", map.get("PJT_AMT"));
+                List<Map<String, Object>> budgetAmtList = g20Service.getG20BudgetSum(params);
 
-                for(Map<String, Object> purcMap : purcList) {
-                    if("CAYSY".equals(purcMap.get("CLAIM_STATUS"))){
-                        resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
+                long budgetAmt = 0;
+                if(budgetAmtList.size() != 0){
+                    for(Map<String, Object> budgetMap : budgetAmtList) {
+                        if("1".equals(budgetMap.get("DRCR_FG"))) {
+                            budgetAmt = Long.parseLong(budgetMap.get("TOT_COST").toString().split("\\.")[0]);
+                        }
                     }
                 }
 
-                map.put("incpCompAmt", resInvSum);
-                map.put("tmpSaleAmt", 0);
-                map.put("tmpProfitAmt", 0);
+                map.put("tmpSaleAmt", budgetAmt - Long.parseLong(map.get("exnpCompAmt").toString()));
+                map.put("tmpProfitAmt", Long.parseLong(map.get("incpCompAmt").toString()));
+
             } else {
-                map.put("exnpCompAmt", 0);
-                map.put("incpCompAmt", 0);
 
-                Map<String, Object> getPjtDevSn = achieveService.getPjtDevSn(params);
+                Map<String, Object> resultStat = achieveService.getResultProject(params);
+                List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
 
-                if(getPjtDevSn != null) {
-                    params.put("devSn", getPjtDevSn.get("DEV_SN"));
-                    List<Map<String, Object>> invList = projectService.getInvList(params);
+                if(resultStat != null){
+                    int resInvSum = 0;
+                    map.put("exnpCompAmt", map.get("PJT_AMT"));
 
-                    int invSum = 0;
-
-                    for(Map<String, Object> invMap : invList) {
-                        invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
+                    for(Map<String, Object> purcMap : purcList) {
+                        if("CAYSY".equals(purcMap.get("CLAIM_STATUS"))){
+                            resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
+                        }
                     }
 
-                    map.put("tmpSaleAmt", map.get("PJT_AMT"));
-                    map.put("tmpProfitAmt", Integer.parseInt(map.get("PJT_AMT").toString()) - invSum);
-                } else {
-                    map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                    map.put("incpCompAmt", resInvSum);
+                    map.put("tmpSaleAmt", 0);
                     map.put("tmpProfitAmt", 0);
+                } else {
+                    map.put("exnpCompAmt", 0);
+                    map.put("incpCompAmt", 0);
+
+                    Map<String, Object> getPjtDevSn = achieveService.getPjtDevSn(params);
+
+                    if(getPjtDevSn != null) {
+                        params.put("devSn", getPjtDevSn.get("DEV_SN"));
+                        List<Map<String, Object>> invList = projectService.getInvList(params);
+
+                        int invSum = 0;
+                        for(Map<String, Object> invMap : invList) {
+                            invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
+                        }
+
+                        map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                        map.put("tmpProfitAmt", Integer.parseInt(map.get("PJT_AMT").toString()) - invSum);
+                    } else {
+                        map.put("tmpSaleAmt", map.get("PJT_AMT"));
+                        map.put("tmpProfitAmt", 0);
+                    }
                 }
+            }
+
+            Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
+
+            if(projectPaySetData != null) {
+                map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
+                map.put("befExpProfitAmt", projectPaySetData.get("BEF_EXP_PROFIT_AMT"));
+
+                map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
+                map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
+            } else {
+                map.put("befExpSaleAmt", 0);
+                map.put("befExpProfitAmt", 0);
+
+                map.put("aftSaleAmt", 0);
+                map.put("aftProfitAmt", 0);
             }
         }
 
-        Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
-
-        if(projectPaySetData != null) {
-            map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
-            map.put("befExpProfitAmt", projectPaySetData.get("BEF_EXP_PROFIT_AMT"));
-
-            map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
-            map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
-        } else {
-            map.put("befExpSaleAmt", 0);
-            map.put("befExpProfitAmt", 0);
-
-            map.put("aftSaleAmt", 0);
-            map.put("aftProfitAmt", 0);
-        }
-
-        model.addAttribute("data", map);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }

@@ -156,7 +156,7 @@ const appUserPaySetting = {
                     if(rs.length > 0){
                         for(var i = 0; i < rs.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td>'+ rs[i].file_org_name +'</td>';
+                            html += '   <td style="text-align: left;">'+ rs[i].file_org_name +'</td>';
                             html += '   <td>'+ rs[i].file_ext +'</td>';
                             html += '   <td>'+ fCommon.bytesToKB(rs[i].file_size) +'</td>';
                             html += '   <td>';

@@ -619,11 +619,6 @@
             DJ_CAMTIC.A_FORM FORM
         ON DI.FORM_ID = FORM.FORM_ID
         WHERE 1=1
-        <if test='empName != null and !"".equals(empName)'>
-            AND
-                DI.DRAFT_EMP_NAME LIKE CONCAT('%', #{empName}, '%')
-        </if>
-
         AND
             DI.ACTIVE = 'Y'
         AND
@@ -722,14 +717,6 @@
         </if>
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
-                <if test='docTitle != null and !"".equals(docTitle)'>
-                    AND
-                        RRE.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
-                </if>
-                <if test='empName != null and !"".equals(empName)'>
-                    AND
-                        RRE.DRAFT_EMP_NAME LIKE CONCAT('%', #{empName},'%')
-                </if>
                 ORDER BY (
                 CASE WHEN RRE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RRE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
                 ),  IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT) DESC

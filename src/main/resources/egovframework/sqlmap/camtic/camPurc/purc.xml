@@ -793,7 +793,8 @@
                 VAT_AMT,
                 CHECK_PROFIT,
                 TOT_AMT,
-                CLAIM_ETC
+                CLAIM_ETC,
+                REG_DATE
             )
         VALUES
             (
@@ -826,7 +827,8 @@
                 #{vatAmt},
                 #{checkProfit},
                 #{totAmt},
-                #{claimEtc}
+                #{claimEtc},
+                NOW()
             )
         <selectKey keyProperty="claimSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PURC_CLAIM'
@@ -2297,6 +2299,7 @@
                 ON PA.PAY_APP_SN = CE.PAY_APP_SN
             WHERE
                 A.PJT_SN =  #{pjtSn}
+            GROUP BY A.CLAIM_SN
             UNION ALL
             SELECT
                 DI.DOC_NO,
@@ -2383,7 +2386,6 @@
         <if test='"achieve".equals(reqType)'>
             WHERE YEAR(RE.PURC_REQ_DATE) = #{reqYear}
         </if>
-        GROUP BY RE.CLAIM_SN
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>
 
@@ -2745,4 +2747,37 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
+
+    <insert id="insPurcFileCopy" parameterType="map">
+        /*insPurcFileCopy*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            #{fileCd},
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            #{contentId},
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE FILE_NO = #{fileNo}
+    </insert>
 </mapper>

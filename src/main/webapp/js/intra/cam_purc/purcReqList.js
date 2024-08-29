@@ -427,16 +427,16 @@ var prm = {
                             if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
                                 if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
                                     if (e.INSPECT_STATUS != "100") {
-                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수3</button>';
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                     } else {
-                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수4</button>';
+                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                     }
                                 } else {
                                     if(e.ORDER_YN == "Y"){
                                         if (e.INSPECT_STATUS != "100") {
-                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수1</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                         } else {
-                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수2</button>';
+                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.CLAIM_SN + ')">검수</button>';
                                         }
                                     }
                                 }

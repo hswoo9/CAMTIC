@@ -210,7 +210,6 @@ public class PurcController {
 
     @RequestMapping("/purc/getPurcReqFileList.do")
     public String getPurcReqFileList(@RequestParam Map<String, Object> params, Model model) {
-        List<Map<String, Object>> listMap = purcService.getPurcReqFileList(params);
         model.addAttribute("list", purcService.getPurcReqFileList(params));
         return "jsonView";
     }

@@ -3062,6 +3062,7 @@
                 </if>
             )
             AND FILE_CD != 'useCard'
+            ORDER BY FILE_NO DESC
         ) SUB
         WHERE SUB.row_num = 1
         GROUP BY FILE_UUID, FILE_PATH;

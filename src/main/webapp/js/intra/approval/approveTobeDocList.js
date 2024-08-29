@@ -13,6 +13,14 @@ var approveTobe = {
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "문서명", value: "A" },
+            ]
+        });
+
         approveTobe.gridReload();
     },
 
@@ -190,6 +198,7 @@ var approveTobe = {
             deptSeq : $("#deptSeq").val(),
             sEmpSeq : $("#empSeq").val(),
             sDeptSeq : $("#deptSeq").val(),
+            searchKeyword : $("#searchKeyword").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
