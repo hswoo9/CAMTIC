@@ -409,16 +409,18 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public List<Map<String, Object>> getTableTreeBomList(Map<String, Object> params) {
+        int num = 1;
         List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
         bomDetailList.add(0, itemManageRepository.getBom2(params));
 
         for(int i = 0; i < bomDetailList.size(); i++){
+            bomDetailList.get(i).put("num", num++);
             if(i != 0){
-                if(StringUtils.isEmpty(bomDetailList.get(i))){
-                    bomDetailList.get(i).put("parentId", bomDetailList.get(0).get("MASTER_SN"));
+                if(StringUtils.isEmpty(bomDetailList.get(i).get("parentId"))){
+                    bomDetailList.get(i).put("parentId", bomDetailList.get(0).get("num"));
                 }
                 if(!StringUtils.isEmpty(bomDetailList.get(i).get("MASTER_BOM_SN"))){
-                    subBomList(bomDetailList, i);
+                    subBomList(bomDetailList, i, num);
                 }
             }
         }
@@ -426,16 +428,28 @@ public class ItemManageServiceImpl implements ItemManageService {
         return bomDetailList;
     }
 
-    public void subBomList(List<Map<String, Object>> bd, int index){
+    public void subBomList(List<Map<String, Object>> bd, int index, int num){
         Map<String, Object> searchMap = new HashMap<>();
         searchMap.put("bomSn", bd.get(index).get("MASTER_BOM_SN"));
         List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(searchMap);
 
         for(int j = 0; j < bomDetailList.size(); j++){
-            bomDetailList.get(j).put("parentId", bd.get(index).get("MASTER_SN"));
-            bd.add(bomDetailList.get(j));
+            bomDetailList.get(j).put("num", num++);
+            bomDetailList.get(j).put("parentId", bd.get(index).get("num"));
+            boolean doubleChk = true;
+            for(int k = 0; k < bd.size(); k++){
+                if(!StringUtils.isEmpty(bd.get(k).get("parentId"))){
+                    if(k != 0 && bd.get(k).get("parentId").equals(bomDetailList.get(j).get("parentId")) &&
+                            bd.get(k).get("BOM_DETAIL_SN").equals(bomDetailList.get(j).get("BOM_DETAIL_SN"))){
+                        doubleChk = false;
+                    }
+                }
+            }
+            if(doubleChk){
+                bd.add(bomDetailList.get(j));
+            }
             if(!StringUtils.isEmpty(bomDetailList.get(j).get("MASTER_BOM_SN"))){
-                subBomList(bomDetailList, j);
+                subBomList(bomDetailList, j, num);
             }
         }
     }

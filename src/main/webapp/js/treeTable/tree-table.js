@@ -135,7 +135,7 @@
 
             var spanEle2 = document.createElement('span');
             $(spanEle2).addClass('tree-table-td-content');
-            $(spanEle2).text(item.num);
+            //$(spanEle2).text(item.num);
             $(tdEle1).append(spanEle2);
 
             var tdEle2 = document.createElement('td');

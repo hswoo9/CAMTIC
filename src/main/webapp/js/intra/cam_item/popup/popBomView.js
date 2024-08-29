@@ -237,8 +237,8 @@ var popBomView = {
         for(var i = 0; i < rs.length; i++){
             var data =  {
                 num : (i + 1),
-                id: rs[i].MASTER_SN,
-                priority: rs[i].MASTER_SN,
+                id: rs[i].num,
+                priority: rs[i].num,
                 itemNo: rs[i].ITEM_NO,
                 itemName: rs[i].ITEM_NAME,
                 itemTypeNm: rs[i].ITEM_TYPE_NM,
