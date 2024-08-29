@@ -2299,6 +2299,7 @@
                 ON PA.PAY_APP_SN = CE.PAY_APP_SN
             WHERE
                 A.PJT_SN =  #{pjtSn}
+            GROUP BY A.CLAIM_SN
             UNION ALL
             SELECT
                 DI.DOC_NO,
@@ -2385,7 +2386,6 @@
         <if test='"achieve".equals(reqType)'>
             WHERE YEAR(RE.PURC_REQ_DATE) = #{reqYear}
         </if>
-        GROUP BY RE.CLAIM_SN
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>
 
