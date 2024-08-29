@@ -21,6 +21,7 @@ import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
+import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
@@ -36,6 +37,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -57,6 +59,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private PurcService purcService;
+
+    @Autowired
+    private PurcRepository purcRepository;
 
     @Autowired
     private ApprovalUserRepository approvalUserRepository;
@@ -245,10 +250,39 @@ public class PayAppServiceImpl implements PayAppService {
                 Map<String, Object> tempParams = new HashMap<>();
                 for(int i = 0 ; i < claimExnpSnArr.length ; i++){
                     tempParams.put("claimExnpSn", claimExnpSnArr[i]);
-                    List<Map<String, Object>> lsMap = purcService.purcFileList(tempParams);
+                    tempParams.put("fileCtrl", "Y");
+                    List<Map<String, Object>> ceFileList = purcRepository.getClaimExnpFileList(tempParams);
 
-                    for(Map<String, Object> map : lsMap){
-                        storedFileArr.add(map);
+                    // 구매 관련 첨부파일 복제
+                    for(Map<String, Object> map2 : ceFileList){
+                        Map<String, Object> tempParams2 = new HashMap<>();
+                        tempParams2.put("fileCd", "payApp");
+                        tempParams2.put("fileNo", map2.get("file_no"));
+                        tempParams2.put("contentId", params.get("payAppSn"));
+                        purcRepository.insPurcFileCopy(tempParams2);
+                    }
+
+                    List<Map<String, Object>> tempList = payAppRepository.getClaimExnpData(tempParams);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                    LocalDate baseDate = LocalDate.of(2024, 8, 30);
+                    LocalDate regDate = LocalDate.parse(simpleDateFormat.format(tempList.get(0).get("REG_DATE")));
+
+                    int compare = regDate.compareTo(baseDate);
+                    if(compare < 0) {
+                        List<Map<String, Object>> lsMap = purcService.purcFileList(tempParams);
+
+                        for(Map<String, Object> map : lsMap){
+                            storedFileArr.add(map);
+                        }
+                    } else {
+                        Map<String, Object> tempParams2 = new HashMap<>();
+                        tempParams2.put("fileCd", "payApp");
+                        tempParams2.put("contentId", params.get("payAppSn"));
+
+                        for(Map<String, Object> map : commonRepository.getFileList(tempParams2)){
+                            storedFileArr.add(map);
+                        }
                     }
                 }
             } else {

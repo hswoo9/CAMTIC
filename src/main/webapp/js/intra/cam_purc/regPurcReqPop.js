@@ -11,6 +11,7 @@ var prp = {
         saveAjaxData : "",
         event : "",
         fileArray: [],
+        status : ""
     },
 
     fn_defaultScript : function (){
@@ -728,7 +729,7 @@ var prp = {
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
             $("#paymentMethod").data("kendoRadioGroup").value(data.PAYMENT_METHOD);
 
-            if(result.data.DOC_STATUS == "100" || result.data.DOC_STATUS == "101"){
+            if(result.data.DOC_STATUS == "100" || result.data.DOC_STATUS == "101" || result.data.DOC_STATUS == "10"){
                 $("#saveBtn").css("display", "none");
             }
             if($("input[name='purcType']:checked").val() != ""){
@@ -772,6 +773,8 @@ var prp = {
 
             $("#vat").data("kendoRadioGroup").trigger("change");
             prp.purcBtnSet(data);
+
+            prp.global.status = data.DOC_STATUS;
         }
 
     },
@@ -844,6 +847,23 @@ var prp = {
 
         if(purcMap != null && purcMap.DOC_ID != null){
             reDraftOnlyOne(purcMap.DOC_ID, $("#reqEmpSeq").val(), "reBtn");
+        }
+
+        if(purcMap.DOC_STATUS == 100 || purcMap.DOC_STATUS == 10){
+            $("input[type='text'], input[type='radio']").prop("disabled", true);
+
+            $("#delRowBtn0, #addBtn, #pjtSelBtn, #file1Label, #file2Label, .crmSelBtn").css("display", "none");
+            $(".crmNm").css("width", "100%");
+            var len = $("#purcItemTb > tr").length;
+
+            for(var i = 0 ; i < len ; i++){
+                $("#purcItemType" + i).data("kendoDropDownList").enable(false);
+                $("#productA" + i).data("kendoDropDownList").enable(false);
+                if($("#productA" + i).data("kendoDropDownList").value == "3"){
+                    $("#productB" + i).data("kendoDropDownList").enable(false);
+                    $("#productC" + i).data("kendoDropDownList").enable(false);
+                }
+            }
         }
     },
 
@@ -1304,9 +1324,11 @@ var prp = {
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
-                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                    '			    <span class="k-button-text">삭제</span>' +
-                    '		    </button>';
+                if(prp.global.status == "0" || prp.global.status == "30" || prp.global.status == "40") {
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			    <span class="k-button-text">삭제</span>' +
+                        '		    </button>';
+                }
                 html += '   </td>';
                 html += '   <td>';
                 /*if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){

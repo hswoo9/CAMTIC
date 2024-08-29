@@ -345,4 +345,8 @@ public class PurcRepository extends AbstractDAO {
     public void updClaimInspectStat(Map<String, Object> params) {
         update("purc.updClaimInspectStat", params);
     }
+
+    public void insPurcFileCopy(Map<String, Object> parmas) {
+        insert("purc.insPurcFileCopy", parmas);
+    }
 }

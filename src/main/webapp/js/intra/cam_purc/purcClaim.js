@@ -224,7 +224,7 @@ var purcClaim = {
                             if(e.PAYMENT_METHOD == "I" || e.PAYMENT_METHOD == "C"){
                                 return "발주생략";
                             } else {
-                                if(((e.GOODS_DT == null || e.GOODS_DT == "") && e.ORDER_YN == "N") || e.ORDER_YN == null) {
+                                if(((e.ORDER_DT == null || e.ORDER_DT == "") && e.ORDER_YN == "N") || e.ORDER_YN == null) {
                                     return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
                                         '	<span class="k-button-text">발주대기</span>' +
                                         '</button>';

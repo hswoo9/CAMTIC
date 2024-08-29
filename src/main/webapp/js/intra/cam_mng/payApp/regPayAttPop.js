@@ -214,7 +214,7 @@ const regPayAtt = {
 
                 html1 += '   </td>';
                 html1 += '   <td>';
-                if($("#type").val() != "exnp"){
+                if($("#type").val() != "exnp" && fileArray[i].file_cd != "etax"){
                     html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">';
                 }
                 html1 += '   </td>';

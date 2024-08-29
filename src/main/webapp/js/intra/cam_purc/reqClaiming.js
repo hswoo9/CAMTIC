@@ -4,7 +4,8 @@ var reqCl = {
         createHtmlStr : "",
         itemIndex : 0,
         cliamItemList : [],
-        fileArray: []
+        fileArray: [],
+        status : "",
     },
 
     fn_defaultScript : function(){
@@ -141,6 +142,7 @@ var reqCl = {
 
                 rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
                 data = rs.data;
+                reqCl.global.status = data.STATUS;
 
                 console.log(data);
 
@@ -562,10 +564,10 @@ var reqCl = {
             '           <input type="text" id="itemUnit' + reqCl.global.itemIndex + '" class="itemUnit">' +
             '       </td>' +
             '       <td>' +
-            '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
+            '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
             '       </td>' +
             '       <td>' +
-            '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_vatChange('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+            '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" onkeyup="reqCl.fn_vatChange('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
             '       </td>' +
             '       <td>' +
             '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -1339,9 +1341,11 @@ var reqCl = {
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
-                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                    '			    <span class="k-button-text">삭제</span>' +
-                    '		    </button>';
+                if(e[i].CONTENT_ID.indexOf("purcClaim") > -1 && (reqCl.global.status == "0" || reqCl.global.status == "30" || reqCl.global.status == "40")){
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			    <span class="k-button-text">삭제</span>' +
+                        '		    </button>';
+                }
                 html += '   </td>';
                 html += '</tr>';
             }
