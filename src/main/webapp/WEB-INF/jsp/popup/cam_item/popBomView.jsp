@@ -48,15 +48,15 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>BOM명</th>
+                    <th>품번</th>
                     <td>
-                        ${rs.BOM_TITLE}
+                        ${rs.ITEM_NO}
                     </td>
                 </tr>
                 <tr>
                     <th>품명</th>
                     <td>
-                        ${rs.ITEM_NO} ${rs.ITEM_NAME}
+                        ${rs.ITEM_NAME}
                     </td>
                 </tr>
                 </thead>
