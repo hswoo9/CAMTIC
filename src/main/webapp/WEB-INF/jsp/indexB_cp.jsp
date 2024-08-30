@@ -67,6 +67,36 @@
     .__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
     .__lab span{font-weight: normal;}
 
+    .notice-list .list-group-item .fa {
+        color: #818da7;
+        border: 1px solid #818da7;
+        padding: 9px;
+        vertical-align: middle;
+        font-size: 14px;
+        width: 34px;
+        height: 34px;
+        border-radius: 100px;
+        text-align: center;
+        opacity: .75;
+    }
+    .notice-list .list-group-item.unread .fa {
+        color: #259dab;
+        border-color: #259dab;
+    }
+    .alarmIcon:after {
+        position: absolute;
+        content: '';
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50px;
+        opacity: .75;
+    }
+    .newAlarm:after{
+        background-color: #ff564e;
+    }
+
 </style>
 
 <div class="col-md-12 col-lg-12" class="adminContent" style="float: left; display: none;">
@@ -381,15 +411,19 @@
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color: #333; font-size: 18px; font-weight: 600; letter-spacing: -2px; position: relative;">
-                    캠스팟 즐겨찾기
-                    <img src="/images/ico/ic_setting.png" alt="" id ="favoriteMenu" onclick="fn_favoriteMenu();" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px; cursor:pointer;" >
+                    <div class="fa fa-bell-o alarmIcon" <%--onclick="openAlarm()"--%> style="font-size: 20px; width: 20px;" ></div>
+                    캠스팟 알림
+                    <%--                    <img src="/images/ico/ic_setting.png" alt="" id ="favoriteMenu" onclick="fn_favoriteMenu();" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px; cursor:pointer;" >--%>
                 </h4>
             </div>
             <div class="panel-body" style="padding: 5px;">
-                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 170px; margin: 23px auto; position: relative;">
-                    <div class="fvList" style="display: flex; flex-wrap: wrap; align-content: flex-start; margin-top:17px; margin-left:29px; width:80%; height:80%;">
+                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 170px; margin: 10px auto; overflow-y: scroll">
+                    <div id="noticeDropdown" style="">
+                        <ul class="list-group notice-list" id="alarmUl">
 
+                        </ul>
                     </div>
+                    <%--                    <div class="fvList" style="display: flex; flex-wrap: wrap; align-content: flex-start; margin-top:17px; margin-left:29px; width:80%; height:80%;"></div>--%>
                 </div>
             </div>
         </div>
@@ -638,6 +672,7 @@
         });
 
         fnPopupScript();
+        alarmList();
     });
 
     var resultBannerPopup;
@@ -1169,6 +1204,82 @@
             open_in_frame('/board/normalBoardList.do?boardId=43')
         }
     }
+
+    function alarmList(){
+        var result = customKendo.fn_customAjax("/common/getAlarmList.do", { main: "Y" });
+        if(result.flag){
+            var rs = result.rs;
+            var html = "";
+
+            if(rs.length > 0){
+                console.log(rs)
+                for(var i = 0; i < rs.length; i++){
+                    if(rs[i].URL.indexOf("certificate") > -1){
+                        html += '' +
+                            '<li class="list-group-item unread" style="border-width: 0px;">' +
+                                '<div class="row">' +
+                                    '<div class="col-xs-2">' +
+                                        '<i class="fa fa-envelope"></i>' +
+                                    '</div>' +
+                                    '<div class="col-xs-10">' +
+                                        '<h5>' +
+                                            '<a href="javascript:void(0)" onclick=\"alarmListDel('+ rs[i].AL_ID +');open_in_frame(\'' + rs[i].URL + '\');\">' +
+                                                rs[i].TITLE +
+                                            '</a>' +
+                                            '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                                        '</h5>' +
+                                        '<small>' +
+                                            rs[i].REG_DATE +
+                                        '</small>' +
+                                        '<span>' +
+                                            rs[i].CONTENT+
+                                        '</span>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</li>';
+                    }else{
+                        html += '' +
+                            '<li class="list-group-item unread" style="border-width: 0px;">' +
+                                '<div class="row">' +
+                                    '<div class="col-xs-2">' +
+                                        '<i class="fa fa-envelope"></i>' +
+                                    '</div>' +
+                                    '<div class="col-xs-10">' +
+                                        '<h5>' +
+                                            '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
+                                                rs[i].TITLE +
+                                            '</a>' +
+                                            '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                                        '</h5>' +
+                                        '<small>' +
+                                            rs[i].REG_DATE +
+                                        '</small>' +
+                                        '<span>' +
+                                            rs[i].CONTENT+
+                                        '</span>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</li>';
+                    }
+                }
+                $("#alarmUl").html(html);
+
+                $(".alarmIcon").addClass('newAlarm');
+            }else{
+                html += '' +
+                    '<li class="list-group-item unread" style="text-align: center;border-width: 0px;" id="non_alarm">' +
+                        '<div class="row">' +
+                            '<h5>알림이 없습니다.</h5>' +
+                        '</div>' +
+                    '</li>';
+
+                $("#alarmUl").html(html);
+
+                $(".alarmIcon").removeClass('newAlarm');
+            }
+        }
+    }
+
 </script>
 <script src="/js/schedule/custom.min.js"></script>
 <script src="/js/vendors/chartist.min.js"></script>

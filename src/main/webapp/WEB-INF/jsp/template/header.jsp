@@ -62,27 +62,29 @@
                                 </button>
                             </a>
                             <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0; z-index: 8001">
-                                <div class="fa fa-bell-o" onclick="openAlarm()">
+<%--                                <div class="fa fa-bell-o" onclick="openAlarm()"></div>--%>
+                                <div>
+                                    <img src="/images/ico/ic_setting.png" alt="" id ="favoriteMenu" onclick="fn_favoriteMenu();" class="media-object img-circle" style="width: 20px; cursor:pointer;" >
                                 </div>
                             </button>
-                            <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right" style="z-index: 8001">
-                                <div role="tabpanel">
-                                    <!-- Nav tabs -->
-                                    <ul class="nav nav-tabs nav-justified" role="tablist">
-                                        <li class="active"><a style="cursor: auto; " data-target="#notification" data-toggle="tab">알림</a></li>
-                                    </ul>
+<%--                            <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right" style="z-index: 8001">--%>
+<%--                                <div role="tabpanel">--%>
+<%--                                    <!-- Nav tabs -->--%>
+<%--                                    <ul class="nav nav-tabs nav-justified" role="tablist">--%>
+<%--                                        <li class="active"><a style="cursor: auto; " data-target="#notification" data-toggle="tab">알림</a></li>--%>
+<%--                                    </ul>--%>
 
-                                    <!-- Tab panes -->
-                                    <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane active" id="notification">
-                                            <ul class="list-group notice-list" id="alarmUl">
-                                            </ul>
-                                            <%--                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>--%>
-                                        </div><!-- tab-pane -->
-                                        <div style="text-align: center; background-color: #abdbdb; cursor:pointer" onclick="fn_xAll('${loginVO.uniqId}')" id="xAll">X</div>
-                                    </div>
-                                </div>
-                            </div>
+<%--                                    <!-- Tab panes -->--%>
+<%--                                    <div class="tab-content">--%>
+<%--                                        <div role="tabpanel" class="tab-pane active" id="notification">--%>
+<%--                                            <ul class="list-group notice-list" id="alarmUl">--%>
+<%--                                            </ul>--%>
+<%--                                            &lt;%&ndash;                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>&ndash;%&gt;--%>
+<%--                                        </div><!-- tab-pane -->--%>
+<%--                                        <div style="text-align: center; background-color: #abdbdb; cursor:pointer" onclick="fn_xAll('${loginVO.uniqId}')" id="xAll">X</div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                         </div>
                     </li>
                     <li class="manageTab">

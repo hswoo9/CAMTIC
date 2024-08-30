@@ -648,7 +648,10 @@
             LIST_DEL_YN = 'N'
         AND
             ACTIVE = 'Y'
-        ORDER BY REG_DATE DESC LIMIT 5;
+        ORDER BY REG_DATE DESC
+        <if test='main == null and "".equals(main)'>
+            LIMIT 5
+        </if>
     </select>
 
     <insert id="setAlarm" parameterType="map" >
