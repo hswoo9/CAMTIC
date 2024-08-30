@@ -140,15 +140,16 @@ var costInfo = {
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
         const list = result.list;
+        let count = list.length;
         console.log("재무실적 list", list);
         html +=
             '            <tr>' +
-            '                <td id="PJT_TYPE" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PJT_CD2" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PM_DEPT" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PM_TEAM" rowspan="'+list.length+'" style="text-align: center"></td>';
+            '                <td id="PJT_TYPE" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PJT_CD2" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PM_DEPT" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PM_TEAM" rowspan="'+count+'" style="text-align: center"></td>';
 
-        for(let i=0; i<list.length; i++){
+        for(let i=0; i<count; i++){
             const e = list[i];
             
             if(i != 0){
@@ -159,13 +160,23 @@ var costInfo = {
                 '                <td id="PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
                 '                <td id="PJT_AMT2'+(i)+'" style="text-align: right"></td>' +
                 '                <td id="PJT_AMT3'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="RES_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="RES_NOT_INV_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="DEV_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="DEV_NOT_INV_AMT'+(i)+'" style="text-align: right"></td>' +
+                '                <td id="RES_AMT'+(i)+'" class="resAmt" style="text-align: right"></td>' +
+                '                <td id="RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right"></td>' +
+                '                <td id="DEV_AMT'+(i)+'" class="devAmt" style="text-align: right"></td>' +
+                '                <td id="DEV_NOT_INV_AMT'+(i)+'" class="devNotInvAmt" style="text-align: right"></td>' +
                 '            </tr>';
         }
 
+        if(count > 1) {
+            html +=
+                '            <tr>' +
+                '                <td colspan="7" style="text-align: right">합계</td>' +
+                '                <td id="RES_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="DEV_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="DEV_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+                '            </tr>';
+        }
         html +=
             '            </thead>' +
             '        </table>';
@@ -187,7 +198,7 @@ var costInfo = {
             }
         }
 
-        for(let i=0; i<list.length; i++){
+        for(let i=0; i<count; i++){
             const e = list[i];
             console.log("eeee", e);
 
@@ -265,85 +276,42 @@ var costInfo = {
             console.log(Number(e.befExpProfitAmt || 0));
             console.log(Number(e.aftProfitAmt || 0));
         }
-    },
 
-    step2Bak(pjtMap){
-        const pjtSn = $("#pjtSn").val();
-
-        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
-        const devResult = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn, lastCk: "Y"});
-        const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
-        let type = "";
-
-        const devMap = devResult.rs;
-        const resMap = resResult.result.map;
-        if(resMap == null && devMap != null){
-            type = "dev";
-        }else if(resMap != null){
-            type = "res";
-        }else{
-            type = "delv";
-        }
-
-        const pjtAmt = pjtMap.PJT_AMT;
-        const tmYn = pjtMap.TM_YN;
-
-        /** 엔지니어링/용역/기타*/
-        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V" || pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-
-            if(type == "res"){
-
-                /** 구매/비용내역 */
-                const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
-                /** 출장/비용내역 */
-                const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
-                let resInvSum = 0;
-                const resPurcList = resPurcResult.list;
-                for(let i=0; i<resPurcList.length; i++){
-                    const map = resPurcList[i];
-                    if(map.CLAIM_STATUS == "CAYSY"){
-                        resInvSum += Number(map.PURC_ITEM_AMT_SUM);
-                    }
-                }
-                const bustList = tripResult.list;
-                for(let i=0; i<bustList.length; i++){
-                    const bustMap = bustList[i];
-                    if(bustMap.RS_STATUS == "100"){
-                        resInvSum  += Number(bustMap.RES_EXNP_SUM);
-                    }
-                }
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(pjtAmt));
-                $("#RES_NOT_INV_AMT").text(comma(Number(pjtAmt)-resInvSum));
-                $("#DEV_AMT").text(comma(0));
-                $("#DEV_NOT_INV_AMT").text(comma(0));
-
-            }else if(type == "dev"){
-
-                /** 투자내역 */
-                const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-                const purcList = purcResult.list;
-                let invSum = 0;
-                for(let i=0; i<purcList.length; i++){
-                    const map = purcList[i];
-                    invSum += Number(map.EST_TOT_AMT);
-                }
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(0));
-                $("#RES_NOT_INV_AMT").text(comma(0));
-                $("#DEV_AMT").text(comma(Number(pjtAmt)-invSum));
-                $("#DEV_NOT_INV_AMT").text(comma(Number(pjtAmt)-invSum));
-
-            }else{
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(0));
-                $("#RES_NOT_INV_AMT").text(comma(0));
-                $("#DEV_AMT").text(comma(0));
-                $("#DEV_NOT_INV_AMT").text(comma(0));
+        /** 합계 */
+        let sumA = 0;
+        $('td.resAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumA += value;
             }
-        }
+        });
+        $("#RES_AMT_SUM").text(comma(sumA));
+
+        let sumB = 0;
+        $('td.resNotInvAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumB += value;
+            }
+        });
+        $("#RES_NOT_INV_AMT_SUM").text(comma(sumB));
+
+        let sumC = 0;
+        $('td.devAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumC += value;
+            }
+        });
+        $("#DEV_AMT_SUM").text(comma(sumC));
+
+        let sumD = 0;
+        $('td.devNotInvAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumD += value;
+            }
+        });
+        $("#DEV_NOT_INV_AMT_SUM").text(comma(sumD));
     }
 }
