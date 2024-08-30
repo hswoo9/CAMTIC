@@ -128,7 +128,7 @@ var costInfo = {
             '                <th style="text-align: center">프로젝트 코드</th>' +
             '                <th style="text-align: center">부서</th>' +
             '                <th style="text-align: center">팀</th>' +
-            '                <th style="text-align: center">기준연도</th>' +
+            '                <th style="text-align: center">기준년도</th>' +
             '                <th style="text-align: center">수주금액</th>' +
             '                <th style="text-align: center">당해년도 사업비</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
@@ -140,15 +140,16 @@ var costInfo = {
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
         const list = result.list;
+        let count = list.length;
         console.log("재무실적 list", list);
         html +=
             '            <tr>' +
-            '                <td id="PJT_TYPE" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PJT_CD2" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PM_DEPT" rowspan="'+list.length+'" style="text-align: center"></td>' +
-            '                <td id="PM_TEAM" rowspan="'+list.length+'" style="text-align: center"></td>';
+            '                <td id="PJT_TYPE" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PJT_CD2" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PM_DEPT" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="PM_TEAM" rowspan="'+count+'" style="text-align: center"></td>';
 
-        for(let i=0; i<list.length; i++){
+        for(let i=0; i<count; i++){
             const e = list[i];
             
             if(i != 0){
@@ -159,13 +160,23 @@ var costInfo = {
                 '                <td id="PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
                 '                <td id="PJT_AMT2'+(i)+'" style="text-align: right"></td>' +
                 '                <td id="PJT_AMT3'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="RES_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="RES_NOT_INV_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="DEV_AMT'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="DEV_NOT_INV_AMT'+(i)+'" style="text-align: right"></td>' +
+                '                <td id="RES_AMT'+(i)+'" class="resAmt" style="text-align: right"></td>' +
+                '                <td id="RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right"></td>' +
+                '                <td id="DEV_AMT'+(i)+'" class="devAmt" style="text-align: right"></td>' +
+                '                <td id="DEV_NOT_INV_AMT'+(i)+'" class="devNotInvAmt" style="text-align: right"></td>' +
                 '            </tr>';
         }
 
+        if(count > 1) {
+            html +=
+                '            <tr>' +
+                '                <td colspan="7" style="text-align: right">합계</td>' +
+                '                <td id="RES_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="DEV_AMT_SUM" style="text-align: right"></td>' +
+                '                <td id="DEV_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+                '            </tr>';
+        }
         html +=
             '            </thead>' +
             '        </table>';
@@ -187,8 +198,9 @@ var costInfo = {
             }
         }
 
-        for(let i=0; i<list.length; i++){
+        for(let i=0; i<count; i++){
             const e = list[i];
+            console.log("eeee", e);
 
             /** 수주금액 */
             if(e.YEAR_CLASS == "M"){
@@ -214,31 +226,6 @@ var costInfo = {
                 $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
             }else{
-                /** 공통 변수 */
-                const date = new Date();
-                const year = e.YEAR;
-
-                /** 사업비 분리사용 유무 확인 */
-                const result2 = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {pjtSn: pjtSn});
-                const list = result2.list;
-                let arr = []
-                for(let i=0; i<list.length; i++){
-                    arr.push($("#costMgtCd").val().slice(0, -1) + list[i].IS_TYPE);
-                }
-                if(list.length == 0){
-                    arr.push($("#costMgtCd").val());
-                }
-                console.log("arr : ", arr);
-
-                /** 지출완료금액 */
-                let usedBudget = 0;
-                /** 수익설정 예산액 */
-                let revenueBudget = 0;
-                /** 수익설정 지출완료금액 */
-                let usedRevenueBudget = 0;
-                /** 비용설정 지출완료금액 */
-                let usedCostBudget = 0;
-
                 /**
                  * ** 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
                  * ** 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
@@ -246,53 +233,12 @@ var costInfo = {
                  * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
                  * */
 
-                /** 달성매출액 */
-                for(let j=0; j<arr.length; j++){
-                    const result3 = customKendo.fn_customAjax("/g20/getSubjectList", {
-                        stat: "project",
-                        gisu: year,
-                        fromDate: year+"0101",
-                        toDate: year+"1231",
-                        mgtSeq: arr[j],
-                        opt01: "3",
-                        opt02: "1",
-                        opt03: "2",
-                        baseDate: year+"1231",
-                        pjtSn: pjtSn,
-                        temp: 2
-                    });
-                    const g20List = result3.list;
-                    console.log("g20List : ", g20List);
-
-                    const bgtInfo = customKendo.fn_customAjax("/mng/getProjectBgtList", {
-                        pjtSn: arr[j]
-                    });
-                    const bgtList = bgtInfo.list;
-                    console.log("bgtList : ", bgtList);
-
-                    for(let k=0; k<g20List.length; k++){
-                        const jMap = g20List[k];
-                        if(jMap.DIV_FG_NM == "항"){
-                            for (let l=0; l<bgtList.length; l++){
-                                const kMap = bgtList[l];
-                                if(jMap.BGT_CD == kMap.BGT_CD){
-                                    usedBudget += Number(jMap.ACCT_AM_3);
-                                    if(kMap.BGT_AT == "1"){
-                                        revenueBudget += Number(jMap.CALC_AM);
-                                        usedRevenueBudget += Number(jMap.ACCT_AM_3);
-                                    }else if(kMap.BGT_AT == "2"){
-                                        usedCostBudget += Number(jMap.ACCT_AM_3);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                /** 달성 매출액 */
                 let asrAmt = 0;
                 if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((usedBudget * 10 / 11).toString().split(".")[0]);
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
                 }else{
-                    asrAmt = usedBudget
+                    asrAmt = e.exnpCompAmt;
                 }
                 $("#RES_AMT"+i).text(comma(asrAmt));
 
@@ -300,14 +246,14 @@ var costInfo = {
                 let aopAmt = 0;
                 let invSum = Number(uncomma($("#invSum").text())) || 0;
                 if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((usedCostBudget - invSum) * 10 / 11).toString().split(".")[0]);
-                    aopAmt = usedRevenueBudget + tmpAmt;
+                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt) * 10 / 11).toString().split(".")[0]);
+                    aopAmt = e.incpCompAmt1 + tmpAmt;
                 }else{
-                    aopAmt = usedRevenueBudget + (usedCostBudget - invSum);
+                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt);
                 }
-                console.log("usedRevenueBudget", usedRevenueBudget);
-                console.log("usedCostBudget", usedCostBudget);
-                console.log("invSum", invSum);
+                console.log("incpCompAmt1", e.incpCompAmt1);
+                console.log("incpCompAmt2", e.incpCompAmt2);
+                console.log("realUseAmt", e.realUseAmt);
                 console.log("aopAmt", aopAmt);
                 $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt));
 
@@ -318,7 +264,10 @@ var costInfo = {
 
                 /** 예상운영수익 */
                 let eopAmt = 0;
-                eopAmt = revenueBudget - usedRevenueBudget;
+                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
+                    eopAmt = e.planAmt;
+                }
+                eopAmt = eopAmt - e.incpCompAmt1;
                 $("#DEV_NOT_INV_AMT"+i).text(comma(eopAmt));
             }
 
@@ -327,85 +276,42 @@ var costInfo = {
             console.log(Number(e.befExpProfitAmt || 0));
             console.log(Number(e.aftProfitAmt || 0));
         }
-    },
 
-    step2Bak(pjtMap){
-        const pjtSn = $("#pjtSn").val();
-
-        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
-        const devResult = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn, lastCk: "Y"});
-        const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
-        let type = "";
-
-        const devMap = devResult.rs;
-        const resMap = resResult.result.map;
-        if(resMap == null && devMap != null){
-            type = "dev";
-        }else if(resMap != null){
-            type = "res";
-        }else{
-            type = "delv";
-        }
-
-        const pjtAmt = pjtMap.PJT_AMT;
-        const tmYn = pjtMap.TM_YN;
-
-        /** 엔지니어링/용역/기타*/
-        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V" || pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-
-            if(type == "res"){
-
-                /** 구매/비용내역 */
-                const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
-                /** 출장/비용내역 */
-                const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
-                let resInvSum = 0;
-                const resPurcList = resPurcResult.list;
-                for(let i=0; i<resPurcList.length; i++){
-                    const map = resPurcList[i];
-                    if(map.CLAIM_STATUS == "CAYSY"){
-                        resInvSum += Number(map.PURC_ITEM_AMT_SUM);
-                    }
-                }
-                const bustList = tripResult.list;
-                for(let i=0; i<bustList.length; i++){
-                    const bustMap = bustList[i];
-                    if(bustMap.RS_STATUS == "100"){
-                        resInvSum  += Number(bustMap.RES_EXNP_SUM);
-                    }
-                }
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(pjtAmt));
-                $("#RES_NOT_INV_AMT").text(comma(Number(pjtAmt)-resInvSum));
-                $("#DEV_AMT").text(comma(0));
-                $("#DEV_NOT_INV_AMT").text(comma(0));
-
-            }else if(type == "dev"){
-
-                /** 투자내역 */
-                const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-                const purcList = purcResult.list;
-                let invSum = 0;
-                for(let i=0; i<purcList.length; i++){
-                    const map = purcList[i];
-                    invSum += Number(map.EST_TOT_AMT);
-                }
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(0));
-                $("#RES_NOT_INV_AMT").text(comma(0));
-                $("#DEV_AMT").text(comma(Number(pjtAmt)-invSum));
-                $("#DEV_NOT_INV_AMT").text(comma(Number(pjtAmt)-invSum));
-
-            }else{
-
-                $("#PJT_AMT2").text(comma(pjtAmt));
-                $("#RES_AMT").text(comma(0));
-                $("#RES_NOT_INV_AMT").text(comma(0));
-                $("#DEV_AMT").text(comma(0));
-                $("#DEV_NOT_INV_AMT").text(comma(0));
+        /** 합계 */
+        let sumA = 0;
+        $('td.resAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumA += value;
             }
-        }
+        });
+        $("#RES_AMT_SUM").text(comma(sumA));
+
+        let sumB = 0;
+        $('td.resNotInvAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumB += value;
+            }
+        });
+        $("#RES_NOT_INV_AMT_SUM").text(comma(sumB));
+
+        let sumC = 0;
+        $('td.devAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumC += value;
+            }
+        });
+        $("#DEV_AMT_SUM").text(comma(sumC));
+
+        let sumD = 0;
+        $('td.devNotInvAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumD += value;
+            }
+        });
+        $("#DEV_NOT_INV_AMT_SUM").text(comma(sumD));
     }
 }

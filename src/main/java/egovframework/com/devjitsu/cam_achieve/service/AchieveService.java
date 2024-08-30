@@ -29,9 +29,15 @@ public interface AchieveService {
 
     List<Map<String, Object>> getProjectListByAchieve(Map<String, Object> params);
 
-    List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params);
+    Map<String, Object> getExnpCompAmt(Map<String, Object> params);
 
-    List<Map<String, Object>> geincpCompAmt(Map<String, Object> params);
+    Map<String, Object> getIncpCompAmt(Map<String, Object> params);
+
+    Map<String, Object> getIncpCompAmt2(Map<String, Object> params);
+
+    Map<String, Object> getRealUseExnpAmt(Map<String, Object> params);
+
+    Map<String, Object> getPlanExnpAmt(Map<String, Object> params);
 
     Map<String, Object> getResultProject(Map<String, Object> params);
 

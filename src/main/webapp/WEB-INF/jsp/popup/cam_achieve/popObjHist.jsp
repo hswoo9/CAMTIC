@@ -51,7 +51,7 @@
             columns : [
                 {
                     field : "BASE_YEAR",
-                    title : "기준연도",
+                    title : "기준년도",
                     width : 150
                 },{
                     field : "DEPT_NAME",

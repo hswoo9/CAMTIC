@@ -136,14 +136,29 @@ public class AchieveRepository extends AbstractDAO {
         return selectList("achieve.getProjectListByAchieve", params);
     }
 
-    public List<Map<String, Object>> getExnpCompAmt(Map<String, Object> params) {
+    public Map<String, Object> getExnpCompAmt(Map<String, Object> params) {
 
-        return selectList("achieve.getExnpCompAmt", params);
+        return (Map<String, Object>) selectOne("achieve.getExnpCompAmt", params);
     }
 
-    public List<Map<String, Object>> geincpCompAmt(Map<String, Object> params) {
+    public Map<String, Object> getIncpCompAmt(Map<String, Object> params) {
 
-        return selectList("achieve.geincpCompAmt", params);
+        return (Map<String, Object>) selectOne("achieve.getIncpCompAmt", params);
+    }
+
+    public Map<String, Object> getIncpCompAmt2(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getIncpCompAmt2", params);
+    }
+
+    public Map<String, Object> getRealUseExnpAmt(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAmt", params);
+    }
+
+    public Map<String, Object> getPlanExnpAmt(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getPlanExnpAmt", params);
     }
 
     public Map<String, Object> getResultProject(Map<String, Object> params) {
