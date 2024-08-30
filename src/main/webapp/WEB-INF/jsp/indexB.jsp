@@ -1239,9 +1239,16 @@
                                         '<small>' +
                                             rs[i].REG_DATE +
                                         '</small>' +
-                                        '<span>' +
-                                            rs[i].CONTENT+
-                                        '</span>' +
+                                        '<br>' +
+                                        '<span>';
+                                        if(rs[i].CONTENT.indexOf("[] ") > -1) {
+                                            html += rs[i].CONTENT.replaceAll("[] ", "");
+                                        } else if (rs[i].CONTENT.indexOf("[undefined] ") > -1) {
+                                            html += rs[i].CONTENT.replaceAll("[undefined] ", "");
+                                        } else {
+                                            html += rs[i].CONTENT;
+                                        }
+                                html += '</span>' +
                                     '</div>' +
                                 '</div>' +
                             '</li>';
@@ -1262,9 +1269,16 @@
                                         '<small>' +
                                             rs[i].REG_DATE +
                                         '</small>' +
-                                        '<span>' +
-                                            rs[i].CONTENT+
-                                        '</span>' +
+                                        '<br>' +
+                                        '<span>';
+                                        if(rs[i].CONTENT.indexOf("[] ") > -1) {
+                                            html += rs[i].CONTENT.replaceAll("[] ", "");
+                                        } else if (rs[i].CONTENT.indexOf("[undefined] ") > -1) {
+                                            html += rs[i].CONTENT.replaceAll("[undefined] ", "");
+                                        } else {
+                                            html += rs[i].CONTENT;
+                                        }
+                                html += '</span>' +
                                     '</div>' +
                                 '</div>' +
                             '</li>';
