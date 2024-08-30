@@ -460,7 +460,10 @@ var busnPartRate = {
 
 
         var sum = 0;
+        var sum3 = 0;
         var len = 0;
+        console.log("item.len", item.length);
+        console.log("item3.len", item3.length);
         item.each(function(){
             if(len == item.length-2){
                 return;
@@ -468,13 +471,33 @@ var busnPartRate = {
             sum += Number(busnPartRate.uncomma($(this).val()));
             len++;
         });
-        $(item).eq(item.length-2).val(busnPartRate.comma(sum));;
-        $(item).eq(item3.length-2).val(busnPartRate.comma(sum));;
+        item3.each(function(){
+            if(len == item3.length-2){
+                return;
+            }
+            sum3 += Number(busnPartRate.uncomma($(this).val()));
+            len++;
+        });
+
+        /** 현금 합계 */
+        $(item).eq(item.length-2).val(busnPartRate.comma(sum));
+
+        /** 계 합계 */
+        $(item3).eq(item3.length-2).val(busnPartRate.comma(sum3));
 
         var name = $(obj).attr("name");
-        var nameX = name.substring(2, 1);   // (1월 ~ 12월)
+        console.log("name", name);
+        var nameX = name.substring(2, 1);   // (1월 ~ 10월)
         var nameLoc = name.substring(3, 2); // (현금/현물/계)
         var nameY = name.substring(4, 3);   // 사용자
+        if(name.length == 5){
+            nameX = name.substring(1, 3);   // (11월 ~ 12월)
+            nameLoc = name.substring(3, 4); // (현금/현물/계)
+            nameY = name.substring(4, 5);   // 사용자
+        }
+        console.log('input[name="l'+nameX+'0'+nameY+'"]');
+        console.log('input[name="l'+nameX+'1'+nameY+'"]');
+        console.log('input[name="t'+nameX+'2'+nameY+'"]');
         $('input[name="t'+nameX+'2'+nameY+'"]').val(comma(Number(uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()))));
 
         var monA = $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[1];
