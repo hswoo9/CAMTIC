@@ -211,8 +211,12 @@ var recordTotal = {
                     title: "수주금액",
                     width: 100,
                     template: function(e){
-                        pjtAmt2Sum += Number(e.REAL_PJT_AMT || 0);
-                        return '<div style="text-align: right;">'+comma(e.REAL_PJT_AMT)+'</div>';
+                        let amt = Number(e.REAL_PJT_AMT || 0);
+                        if(e.YEAR_CLASS == "M"){
+                            amt = Number(e.ALL_PJT_AMT || 0)
+                        }
+                        pjtAmt2Sum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(pjtAmt2Sum)+"</div>";

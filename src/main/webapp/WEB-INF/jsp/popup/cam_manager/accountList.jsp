@@ -323,7 +323,7 @@
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].BASIC_SALARY) +'</td>';
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].FOOD_PAY) +'</td>';
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].EXTRA_PAY) +'</td>';
-                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">'+ comma(Number(ls[i].SAL_TOT_PAY) - Number(ls[i].SI_PAY)) +'</td>';
+                        html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #E6EEF7;">'+ comma(Number(ls[i].TOTAL_PAY)) +'</td>';
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].NAT_PAY) +'</td>';
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].HETH_PAY) +'</td>';
                         html += '            <td style="border: 1px solid black; text-align: right; font-size: 11px; padding: 10px 5px; background-color: #FFF;">'+ comma(ls[i].CARE_PAY) +'</td>';

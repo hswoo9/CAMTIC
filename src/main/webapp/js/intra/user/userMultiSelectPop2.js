@@ -1,14 +1,8 @@
-/**
- * 2022.06.28 by. deer
- * 전자결재 관련 팝업 - 열람자 선택팝업
- *
- * function / global variable / local variable setting
- */
-var readerPop = {
+var userMultiSel2 = {
     global : {
         searchAjaxData : "",
         flag : true,
-        readerArr : opener.draft.global.readersArr != null ? opener.draft.global.readersArr : new Array()
+        readerArr : new Array()
     },
 
     fnDefaultScript : function(){
@@ -23,11 +17,10 @@ var readerPop = {
         $("#treeViewDiv").kendoTreeView({
             dataSource: datas,
             dataTextField:['dept_name'],
-            select: readerPop.treeClick,
+            select: userMultiSel2.treeClick,
         });
 
-        readerPop.treeViewReload(deptSeq);
-
+        userMultiSel2.treeViewReload(deptSeq);
 
         $("#readerListDataDiv").kendoGrid({
             resizable: true,
@@ -57,11 +50,11 @@ var readerPop = {
             else $("input[name=readerPk]").prop("checked", false);
         });
 
-        readerPop.readerArrCheck();
+        userMultiSel2.readerArrCheck();
     },
 
     treeViewReload : function(dept){
-        readerPop.global.searchAjaxData = {
+        userMultiSel2.global.searchAjaxData = {
             deptSeq : dept
         }
 
@@ -88,7 +81,7 @@ var readerPop = {
             },
             schema : {
                 data: function (data) {
-                    data.unshift(readerPop.getDept(deptSeq));
+                    data.unshift(userMultiSel2.getDept(deptSeq));
 
                     return data;
                 },
@@ -138,11 +131,11 @@ var readerPop = {
                     width: "70px",
                     template: function(e){
                         if(e.EMP_NAME_KR){
-                            return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"readerPop.addTable(" + e.EMP_SEQ + ", this, 'userClick')\">" +
+                            return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"userMultiSel2.addTable(" + e.EMP_SEQ + ", this, 'userClick')\">" +
                                 '	<span class="k-button-text">추가</span>' +
                                 '</button>';
                         }else{
-                            return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"readerPop.addTable(" + e.DEPT_SEQ + ", this, 'deptClick')\">" +
+                            return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"userMultiSel2.addTable(" + e.DEPT_SEQ + ", this, 'deptClick')\">" +
                                 '	<span class="k-button-text">추가</span>' +
                                 '</button>';
                         }
@@ -173,25 +166,25 @@ var readerPop = {
         var item = $("#treeViewDiv").data("kendoTreeView").dataItem(e.node);
         deptSeq = item.dept_seq;
         deptName = item.dept_name;
-        readerPop.treeViewReload(deptSeq);
+        userMultiSel2.treeViewReload(deptSeq);
         $("#sEmpName").val('');
         $("#userList").data("kendoGrid").dataSource.read();
     },
 
     readerArrCheck : function(){
-        for(var i = 0; i < readerPop.global.readerArr.length; i++){
+        for(var i = 0; i < userMultiSel2.global.readerArr.length; i++){
             $("#readerListDataDiv").data("kendoGrid").dataSource.add({
-                readerId : readerPop.global.readerArr[i].readerId,
-                SEQ : readerPop.global.readerArr[i].readerEmpSeq,
-                seqType: readerPop.global.readerArr[i].seqType,
-                readerEmpSeq: readerPop.global.readerArr[i].readerEmpSeq,
-                readerEmpName: readerPop.global.readerArr[i].readerEmpName,
-                readerDeptSeq: readerPop.global.readerArr[i].readerDeptSeq,
-                readerDeptName: readerPop.global.readerArr[i].readerDeptName,
-                readerDutyCode: readerPop.global.readerArr[i].readerDutyCode,
-                readerDutyName: readerPop.global.readerArr[i].readerDutyName,
-                readerPositionCode: readerPop.global.readerArr[i].readerPositionCode,
-                readerPositionName: readerPop.global.readerArr[i].readerPositionName,
+                readerId : userMultiSel2.global.readerArr[i].readerId,
+                SEQ : userMultiSel2.global.readerArr[i].readerEmpSeq,
+                seqType: userMultiSel2.global.readerArr[i].seqType,
+                readerEmpSeq: userMultiSel2.global.readerArr[i].readerEmpSeq,
+                readerEmpName: userMultiSel2.global.readerArr[i].readerEmpName,
+                readerDeptSeq: userMultiSel2.global.readerArr[i].readerDeptSeq,
+                readerDeptName: userMultiSel2.global.readerArr[i].readerDeptName,
+                readerDutyCode: userMultiSel2.global.readerArr[i].readerDutyCode,
+                readerDutyName: userMultiSel2.global.readerArr[i].readerDutyName,
+                readerPositionCode: userMultiSel2.global.readerArr[i].readerPositionCode,
+                readerPositionName: userMultiSel2.global.readerArr[i].readerPositionName,
             });
         }
     },
@@ -199,23 +192,23 @@ var readerPop = {
     addTable : function(e, v, type){
 
         if(type == "userClick"){
-            readerPop.global.searchAjaxData = {
+            userMultiSel2.global.searchAjaxData = {
                 empSeq : e
             }
 
-            var result = customKendo.fn_customAjax("/user/getUserInfo", readerPop.global.searchAjaxData);
+            var result = customKendo.fn_customAjax("/user/getUserInfo", userMultiSel2.global.searchAjaxData);
             if(result.flag){
-                readerPop.global.flag = true;
+                userMultiSel2.global.flag = true;
 
                 if($("#empSeq").val() != result.EMP_SEQ){
                     $.each($("input[name='readerPk']"), function(i, e){
                         var dataItem = $("#readerListDataDiv").data("kendoGrid").dataItem($(this).closest("tr"));
                         if(dataItem.readerEmpSeq == result.EMP_SEQ){
-                            readerPop.global.flag = false;
+                            userMultiSel2.global.flag = false;
                         }
                     })
 
-                    if(readerPop.global.flag) {
+                    if(userMultiSel2.global.flag) {
                         $("#readerListDataDiv").data("kendoGrid").dataSource.add({
                             SEQ : result.EMP_SEQ,
                             seqType: "u",
@@ -237,16 +230,16 @@ var readerPop = {
             var grid = $("#userList").data("kendoGrid");
             var dataItem = grid.dataItem($(v).closest("tr"));
 
-            readerPop.global.flag = true;
+            userMultiSel2.global.flag = true;
 
             $.each($("input[name='readerPk']"), function(i, e){
                 var dataItem2 = $("#readerListDataDiv").data("kendoGrid").dataItem($(this).closest("tr"));
                 if(dataItem2.readerDeptSeq == dataItem.DEPT_SEQ && dataItem2.seqType == "d"){
-                    readerPop.global.flag = false;
+                    userMultiSel2.global.flag = false;
                 }
             })
 
-            if(readerPop.global.flag){
+            if(userMultiSel2.global.flag){
                 var seqType = "";
                 var readerDeptSeq = "";
                 if(dataItem.DEPT_SEQ == "1000"){
@@ -306,9 +299,6 @@ var readerPop = {
 
                         var result = customKendo.fn_customAjax("/approvalUser/setDocReaderIdDel.do", data);
                         if(result.flag){
-                            if(opener.draft.global.readersArr != null){
-                                opener.draft.global.readersArr = opener.draft.global.readersArr.filter(element => element.readerId != data.readerId);
-                            }
                             grid.removeRow(i.el);
                         }
                     }else{
@@ -319,44 +309,63 @@ var readerPop = {
         }
     },
 
-    addReader : function(){
-        readerPop.global.readerArr = [];
+    apprLineSave : function(){
+        var deptUserDataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/approvalUser/getUserList",
+                    async : false,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.DEPT_SEQ = dataItem.readerDeptSeq;
+                    data.fullTime2 = "1";
+                    data.DEPT_SEQ = dept;
+                    data.tempType = "N";
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    data.unshift(userMultiSel2.getDept(deptSeq));
 
-        var readerEmpNameStr = "";
+                    return data;
+                },
+                total: function (data) {
+                    return data.length;
+                },
+            },
+            pageSize: 15,
+        });
+
+        let userArr = [];
+        let empSeqArr = [];
+        let empNameArr = "";
 
         $.each($("input[name='readerPk']"), function(){
             var dataItem = $("#readerListDataDiv").data("kendoGrid").dataItem($(this).closest("tr"));
 
             if(dataItem.seqType == "d"){
-                readerEmpNameStr += "," + dataItem.readerDeptName;
-            }else{
-                let spot = fn_getSpot(dataItem.readerDutyName, dataItem.readerPositionName);
+                const list = customKendo.fn_customAjax("/approvalUser/getUserList", {
+                    DEPT_SEQ: dataItem.readerDeptSeq,
+                    fullTime2: "1",
+                    tempType: "N"
+                });
 
-                if(spot != ""){
-                    readerEmpNameStr += "," + dataItem.readerEmpName + "(" + spot + ")";
-                }else{
-                    readerEmpNameStr += "," + dataItem.readerEmpName;
+                for(let i=0; i<list.length; i++){
+                    const iMap = list[i];
+                    empNameArr += iMap.EMP_NAME_KR+ ",";
+                    empSeqArr += iMap.EMP_SEQ+ ",";
                 }
+            }else{
+                empNameArr += dataItem.readerEmpName+ ",";
+                empSeqArr += dataItem.readerEmpSeq+ ",";
             }
-
-            var data = {
-                docId : $("#docId", opener.parent.document).val(),
-                seqType : dataItem.seqType,
-                readerEmpSeq : String(dataItem.readerEmpSeq),
-                readerEmpName : dataItem.readerEmpName,
-                readerDeptSeq : dataItem.readerDeptSeq,
-                readerDeptName : dataItem.readerDeptName,
-                readerDutyCode : dataItem.readerDutyCode,
-                readerDutyName : dataItem.readerDutyName,
-                readerPositionCode : dataItem.readerPositionCode,
-                readerPositionName : dataItem.readerPositionName,
-                empSeq : $("#empSeq", opener.parent.document).val(),
-            };
-
-            readerPop.global.readerArr.push(data);
         })
 
-        opener.draft.readerSelectPopClose(readerPop.global.readerArr, readerEmpNameStr.substring(1));
+        opener.parent.userDataSet(userArr, empNameArr, empSeqArr, $("#type").val());
         window.close();
     }
 }
