@@ -526,7 +526,8 @@
             EI.EMP_NAME_KR AS REG_EMP_NAME,
             (select count(*) from cam_board.v_board_article_reply where board_article_id = concat('request_', RB.request_board_id) and active = 'Y') as REPLY_CNT,
             M.MENU_NAME AS largeMenu,
-            MI.MENU_NAME AS smallMenu
+            MI.MENU_NAME AS smallMenu,
+            DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS reg_date2
         FROM
             CAM_BOARD.DJ_REQUEST_BOARD RB
         JOIN
@@ -637,6 +638,82 @@
                 )
             </otherwise>
         </choose>
+    </select>
+
+    <select id="getRequestBoardList2" parameterType="map" resultType="map">
+        /* getRequestBoardList2 */
+        SELECT
+        RB.REQUEST_BOARD_ID,
+        RB.REQUEST_TYPE,
+        RB.REQUEST_TITLE,
+        RB.REQUEST_CONTENT,
+        CASE WHEN RB.STATUS = '1' THEN '요청중'
+        WHEN RB.STATUS = '2' THEN '접수완료'
+        WHEN RB.STATUS = '3' THEN '처리완료'
+        WHEN RB.STATUS = '99' THEN '반려'
+        WHEN RB.STATUS = '-1' THEN '취소'
+        END AS STATUS,
+        CASE WHEN RB.AF_STATUS = '1' THEN '고도화'
+        WHEN RB.AF_STATUS = '2' THEN '수정사항'
+        END AS AF_STATUS,
+        DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+        EI.EMP_SEQ AS REG_EMP_SEQ,
+        EI.EMP_NAME_KR AS REG_EMP_NAME,
+        (select count(*) from cam_board.v_board_article_reply where board_article_id = concat('request_', RB.request_board_id) and active = 'Y') as REPLY_CNT,
+        M.MENU_NAME AS largeMenu,
+        MI.MENU_NAME AS smallMenu,
+        DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS reg_date2
+        FROM
+        CAM_BOARD.DJ_REQUEST_BOARD RB
+        JOIN
+        CAM_HR.DJ_EMP_INFO EI
+        ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+        CAM_COMMON.DJ_MENU_INFO M ON M.MENU_ID = RB.LARGE_MENU
+        LEFT JOIN
+        CAM_COMMON.DJ_MENU_INFO MI ON MI.MENU_ID = RB.SMALL_MENU
+        WHERE
+        RB.ACTIVE = 'Y'
+        AND
+        RB.REQUEST_TYPE = #{requestType}
+        <if test='status != null and !"".equals(status)'>
+            AND
+            RB.STATUS = #{status}
+        </if>
+        <if test='afStatus != null and !"".equals(afStatus)'>
+            AND
+            RB.AF_STATUS = #{afStatus}
+        </if>
+        <if test='empName != null and !"".equals(empName)'>
+            AND
+            EI.EMP_NAME_KR LIKE CONCAT('%', #{empName} ,'%')
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+        <choose>
+            <when test='searchColumn != null and "menuName".equals(searchColumn)'>
+                AND (M.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%') OR MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%'))
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn)'>
+                AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
+            </when>
+            <otherwise>
+                AND (
+                RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%') OR
+                M.MENU_NAME LIKE CONCAT('%',#{searchContent},'%') OR
+                MI.MENU_NAME LIKE CONCAT('%', #{searchContent}, '%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY RB.REG_DATE DESC
     </select>
 
     <insert id="setRequestBoard" parameterType="map">

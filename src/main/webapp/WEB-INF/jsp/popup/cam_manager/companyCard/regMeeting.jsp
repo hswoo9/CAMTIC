@@ -69,7 +69,7 @@
             <thead>
             <tr class="pjtTr" style="display:none">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>반출요청서 선택
+                    반출요청서 선택
                 </th>
                 <td colspan="3">
                     <input type="text" id="cardToNm" disabled name="pjtNm" style="width: 85%" value="" />
@@ -402,13 +402,12 @@
             return;
         }
 
-        if($("#regType").val() == "project" && $("#cardToSn").val() == ""){
+        /*if($("#regType").val() == "project" && $("#cardToSn").val() == ""){
             alert("반출요청서를 선택해주세요");
             return;
-        }
+        }*/
 
         var parameters = {
-            cardToSn : $("#cardToSn").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
             pjtCd : $("#pjtCd").val(),
@@ -423,6 +422,10 @@
             metCont : $("#metCont").val(),
             metEmpName : $("#empName").val(),
             metEmpSeq : $("#empSeq").val()
+        }
+
+        if($("#cardToSn").val() != ""){
+            parameters.cardToSn = $("#cardToSn").val();
         }
 
         if($("#metSn").val() != ""){

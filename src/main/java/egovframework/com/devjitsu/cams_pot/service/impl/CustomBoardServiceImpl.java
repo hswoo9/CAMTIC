@@ -162,6 +162,11 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
+    public List<Map<String, Object>> getRequestBoardList2(Map<String, Object> params) {
+        return customBoardRepository.getRequestBoardList2(params);
+    }
+
+    @Override
     public void setRequestBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         if(!params.containsKey("requestBoardId")){
             customBoardRepository.setRequestBoard(params);

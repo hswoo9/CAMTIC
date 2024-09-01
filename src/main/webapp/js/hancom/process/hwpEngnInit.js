@@ -282,7 +282,7 @@ var engnInit = {
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
 
         /** 구매/비용내역 */
-        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", data);
+        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", data);
         /** 출장/비용내역 */
         const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
 
@@ -385,16 +385,34 @@ var engnInit = {
             for(let i=0; i<resPurcList.length; i++){
                 const map = resPurcList[i];
                 if(map.CLAIM_STATUS == "CAYSY"){
-                    resInvSum += Number(map.PURC_SUP_AMT);
+                    if(map.ORG_YN == 'N'){
+                        resInvSum += Number(map.PURC_SUP_AMT);
+                    } else {
+                        let amt = Number(map.PURC_ITEM_AMT_SUM);
+                        let amt2 = Math.round(amt/10);
+                        let itemAmt = 0;
+
+                        itemAmt = amt;
+
+                        resInvSum += Number(itemAmt);
+                    }
                 }
             }
+
+            console.log("구매결과 합계 값 : ", resInvSum);
             const bustList = tripResult.list;
+            let bustSum = 0;
             for(let i=0; i<bustList.length; i++){
                 const bustMap = bustList[i];
-                if(bustMap.RS_STATUS == "100"){
+                if(bustMap.TRIP_CODE != "4"){
                     resInvSum  += Number(bustMap.RES_EXNP_SUM);
+                    bustSum  += Number(bustMap.RES_EXNP_SUM);
+                } else {
+                    resInvSum  += Number(bustMap.OVER_TOT_COST);
+                    bustSum  += Number(bustMap.RES_EXNP_SUM);
                 }
             }
+            console.log("출장결과 합계 값 : ", bustSum);
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('RES_INV_AMT', resInvSum == 0 ? "0" : fn_numberWithCommas(resInvSum));
             let resInvPer = (resInvSum / map.PJT_AMT * 100);

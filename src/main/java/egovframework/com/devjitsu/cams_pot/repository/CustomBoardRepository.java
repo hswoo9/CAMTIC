@@ -33,6 +33,7 @@ public class CustomBoardRepository extends AbstractDAO {
 	public void setScheduleRegUpd(Map<String, Object> params) { update("cb.setScheduleRegUpd", params);}
 	public Map<String, Object> getSchedule(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getSchedule", params);}
 	public List<PostResponse> getRequestBoardList(ArticlePage articlePage){ return selectList("cb.getRequestBoardList", articlePage);}
+	public List<Map<String, Object>> getRequestBoardList2(Map<String, Object> params){ return selectList("cb.getRequestBoardList2", params);}
 	public int getRequestBoardListCnt(ArticlePage articlePage){ return (int) selectOne("cb.getRequestBoardListCnt", articlePage);}
 	public void setRequestBoard(Map<String, Object> params) { insert("cb.setRequestBoard", params);}
 	public void setRequestBoardUpd(Map<String, Object> params) { update("cb.setRequestBoardUpd", params);}

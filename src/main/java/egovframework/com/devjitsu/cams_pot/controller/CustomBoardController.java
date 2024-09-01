@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -283,6 +284,14 @@ public class CustomBoardController {
 
         model.addAttribute("params", articlePage);
         model.addAttribute("boardArticleList", response);
+        model.addAttribute("boardArticleList", response);
+        return "jsonView";
+    }
+
+    @RequestMapping("/spot/getRequestBoardList2.do")
+    public String getRequestBoardList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = customBoardService.getRequestBoardList2(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 

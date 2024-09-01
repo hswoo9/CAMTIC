@@ -23,6 +23,7 @@ public interface CustomBoardService {
     void setScheduleDel(Map<String, Object> params);
     Map<String, Object> getSchedule(Map<String, Object> params);
     PagingResponse<PostResponse> getRequestBoardList(ArticlePage articlePage);
+    List<Map<String, Object>> getRequestBoardList2(Map<String, Object> params);
     void setRequestBoard(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
     Map<String, Object> getRequestBoard(Map<String, Object> params);
     void setRequestBoardDel(Map<String, Object> params);

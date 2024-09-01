@@ -14,6 +14,11 @@ var rbl = {
 	},
 
 	fnDefaultScript : function(queryParams){
+		rbl.fn_pageSet(queryParams);
+		rbl.gridReload(new URLSearchParams(queryParams).toString());
+	},
+
+	fn_pageSet : function(queryParams){
 		rbl.global.dropDownDataSource = [
 			{ text: "요청중", value: "1" },
 			{ text: "접수완료", value: "2" },
@@ -43,11 +48,11 @@ var rbl = {
 		customKendo.fn_dropDownList("searchColumn", rbl.global.dropDownDataSource, "text", "value");
 		customKendo.fn_textBox(["searchContent", "empName"]);
 
-        $("#empName, #searchContent").on("keyup", function(key){
-            if(key.keyCode == 13){
-                rbl.gridReload();
-            }
-        });
+		$("#empName, #searchContent").on("keyup", function(key){
+			if(key.keyCode == 13){
+				rbl.gridReload();
+			}
+		});
 
 		if(queryParams.status != null){
 			$("#status").data("kendoDropDownList").value(queryParams.status)
@@ -88,8 +93,22 @@ var rbl = {
 		if(queryParams.page != null){
 			rbl.global.nowPage = queryParams.page;
 		}
+	},
 
-		rbl.gridReload(new URLSearchParams(queryParams).toString());
+	gridReload : function(queryParams) {
+		rbl.global.searchAjaxData = {
+			requestType : $("#requestType").val(),
+			status : $("#status").val(),
+			afStatus : $("#afStatus").val(),
+			startDt : $("#startDt").val(),
+			endDt : $("#endDt").val(),
+			empName : $("#empName").val(),
+			searchColumn : $("#searchColumn").val(),
+			searchContent : $("#searchContent").val(),
+		}
+
+		rbl.mainGrid("/spot/getRequestBoardList.do?" + queryParams, rbl.global.searchAjaxData);
+		rbl.hiddenGrid("/spot/getRequestBoardList2.do", rbl.global.searchAjaxData, 99999);
 	},
 
 	mainGrid : function(url, params){
@@ -122,19 +141,75 @@ var rbl = {
 		}
 	},
 
-	gridReload : function(queryParams) {
-		rbl.global.searchAjaxData = {
-			requestType : $("#requestType").val(),
-			status : $("#status").val(),
-			afStatus : $("#afStatus").val(),
-			startDt : $("#startDt").val(),
-			endDt : $("#endDt").val(),
-            empName : $("#empName").val(),
-			searchColumn : $("#searchColumn").val(),
-			searchContent : $("#searchContent").val(),
-		}
+	hiddenGrid: function(url, params, pageSize){
+		var dataSource = new kendo.data.DataSource({
+			serverPaging: false,
+			pageSize: pageSize == null ? 10 : pageSize,
+			transport: {
+				read : {
+					url : url,
+					dataType : "json",
+					type : "post"
+				},
+				parameterMap: function(data) {
+					for(var key in params){
+						data[key] = params[key];
+					}
 
-		rbl.mainGrid("/spot/getRequestBoardList.do?" + queryParams, rbl.global.searchAjaxData);
+					return data;
+				}
+			},
+			schema : {
+				data: function (data) {
+					console.log("datadatadatadatadatadata", data);
+					return data.list;
+				},
+				total: function (data) {
+					return data.list.length;
+				},
+			},
+		});
+
+		$("#hiddenGrid").kendoGrid({
+			dataSource: dataSource,
+			sortable: true,
+			selectable: "row",
+			height : 525,
+			noRecords: {
+				template: "데이터가 존재하지 않습니다."
+			},
+			columns: [
+				{
+					title: "분류1",
+					field: "largeMenu",
+					width: 300,
+				}, {
+					title: "분류2",
+					field: "smallMenu",
+					width: 300,
+				}, {
+					title: "요청제목",
+					field: "REQUEST_TITLE",
+					width: 600
+				}, {
+					title: "요청자",
+					field: "REG_EMP_NAME",
+					width: 280
+				}, {
+					title: "요청일",
+					field: "reg_date2",
+					width: 200,
+				}, {
+					title: "고도화",
+					field: "AF_STATUS",
+					width: 280
+				}, {
+					title: "상태",
+					field: "STATUS",
+					width: 170,
+				}
+			]
+		}).data("kendoGrid");
 	},
 
 	detailPageMove : function(requestBoardId){
@@ -256,5 +331,13 @@ var rbl = {
         }
 
         rbl.mainGrid("/spot/getRequestBoardList.do?" + new URLSearchParams(queryParams).toString(), rbl.global.searchAjaxData);
-    }
+    },
+
+	fn_excelDownload : function(){
+		var grid = $("#hiddenGrid").data("kendoGrid");
+		grid.bind("excelExport", function(e) {
+			e.workbook.fileName = "전산시스템 구축 수정사항.xlsx";
+		});
+		grid.saveAsExcel();
+	}
 }

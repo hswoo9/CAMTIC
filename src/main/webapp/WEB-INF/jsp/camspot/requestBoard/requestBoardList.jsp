@@ -114,6 +114,12 @@
             </table>
 
             <div class="table-responsive">
+                <div id="buttonDiv" style="float:right; padding-bottom:10px">
+                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rbl.fn_excelDownload()">
+                        <span class="k-icon k-i-file-excel k-button-icon"></span>
+                        <span class="k-button-text">엑셀다운로드</span>
+                    </button>
+                </div>
                 <input type="hidden" id="menuNm" name="menuNm" value="${menuNm}">
                 <input type="hidden" id="isAdmin" name="isAdmin" value="${isAdmin}">
 
@@ -152,6 +158,8 @@
         <div class="pagination" style="position: relative; left: 30%; bottom: 50px; width: 560px;">
 
         </div>
+
+        <div id="hiddenGrid" style="margin:20px 0; display: none;"></div>
     </div>
 </div> <!-- col-lg-12 -->
 <script>

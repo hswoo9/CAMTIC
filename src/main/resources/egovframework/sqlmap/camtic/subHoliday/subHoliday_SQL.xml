@@ -722,7 +722,7 @@
                 ELSE 0
             END) AS AFTERNOON,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 5 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 5 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN VUH.SUBHOLIDAY_USE_DAY
                 ELSE 0
             END) AS SICK,
             Sum(CASE
