@@ -73,25 +73,55 @@ var purcMngAppList = {
 
         purcMngAppList.mainGrid();
         purcMngAppList.hiddenGrid();
-    },
 
-    mainGrid : function(){
-        purcMngAppList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val(),
-            strDt : $("#strDt").val(),
-            endDt : $("#endDt").val()
-        }
         if($("#monCheck").is(":checked")){
             purcMngAppList.global.searchAjaxData.monCheck = "Y";
         }
+    },
+
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#hiddenGrid").data("kendoGrid").dataSource.read();
+
+        if($("#monCheck").is(":checked")){
+            purcMngAppList.global.searchAjaxData.monCheck = "Y";
+        }
+    },
+
+    mainGrid : function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 9999,
+            transport: {
+                read : {
+                    url : "/purc/getMngPurcAppList",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.inspectStat = $("#inspectStat").data("kendoDropDownList").value();
+                    data.busnClass = $("#busnClass").val();
+                    data.strDt = $("#strDt").val();
+                    data.endDt = $("#endDt").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
 
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             height: 525,
@@ -350,22 +380,40 @@ var purcMngAppList = {
     },
 
     hiddenGrid : function(){
-        purcMngAppList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val(),
-            strDt : $("#strDt").val(),
-            endDt : $("#endDt").val(),
-        }
-        if($("#monCheck").is(":checked")){
-            purcMngAppList.global.searchAjaxData.monCheck = "Y";
-        }
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 9999,
+            transport: {
+                read : {
+                    url : "/purc/getMngPurcAppListExcel",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.inspectStat = $("#inspectStat").data("kendoDropDownList").value();
+                    data.busnClass = $("#busnClass").val();
+                    data.strDt = $("#strDt").val();
+                    data.endDt = $("#endDt").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
 
         $("#hiddenGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppListExcel", purcMngAppList.global.searchAjaxData, 99999),
+            dataSource: dataSource,
+            pageSize: 99999,
             sortable: true,
             selectable: "row",
             height: 525,
@@ -461,14 +509,6 @@ var purcMngAppList = {
         amt2 = 0;
         amt3 = 0;
         amt4 = 0;
-    },
-
-    gridReload : function(){
-        $("#mainGrid").data("kendoGrid").destroy();
-        $("#hiddenGrid").data("kendoGrid").destroy();
-
-        purcMngAppList.mainGrid();
-        purcMngAppList.hiddenGrid();
     },
 
     fn_reqRegPopup : function(key, stat){
