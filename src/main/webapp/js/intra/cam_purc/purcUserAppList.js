@@ -75,39 +75,18 @@ var purcUserAppList = {
     },
 
     mainGrid : function(url){
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize: 10,
-            transport: {
-                read : {
-                    url : url,
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#myEmpSeq").val();
-                    data.searchDept = $("#searchDept").val();
-                    data.searchKeyword = $("#searchKeyword").val();
-                    data.searchValue = $("#searchValue").val();
-                    data.sBusnClass = $("#sBusnClass").val();
-                    data.strDt = $("#strDt").val();
-                    data.endDt = $("#endDt").val();
-
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-        });
+        purcUserAppList.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            sBusnClass : $("#sBusnClass").val(),
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val()
+        }
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSourceAll(url, purcUserAppList.global.searchAjaxData, "ALL"),
             sortable: true,
             selectable: "row",
             resizable : true,
@@ -335,6 +314,14 @@ var purcUserAppList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#mainGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     fn_reqRegPopup : function(key, stat){

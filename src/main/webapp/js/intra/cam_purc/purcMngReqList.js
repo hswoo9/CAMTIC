@@ -49,7 +49,7 @@ var purcMngReqList = {
 
     mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSourceAll(url, params, "ALL"),
             sortable: true,
             selectable: "row",
             pageable: {
@@ -156,6 +156,14 @@ var purcMngReqList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#mainGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     gridReload : function(){

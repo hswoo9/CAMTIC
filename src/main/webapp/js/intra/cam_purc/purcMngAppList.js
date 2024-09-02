@@ -91,7 +91,7 @@ var purcMngAppList = {
         }
 
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData),
+            dataSource: customKendo.fn_gridDataSourceAll("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData, "ALL"),
             sortable: true,
             selectable: "row",
             height: 525,
@@ -347,6 +347,14 @@ var purcMngAppList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        var pageSizeDropDown = $("#mainGrid").find(".k-pager-sizes select").data("kendoDropDownList");
+        if (pageSizeDropDown) {
+            pageSizeDropDown.select(function(dataItem) {
+                return dataItem.value === "all";
+            });
+            pageSizeDropDown.trigger("change");
+        }
     },
 
     hiddenGrid : function(){
