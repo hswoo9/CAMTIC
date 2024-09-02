@@ -44,12 +44,42 @@ var purcMngReqList = {
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
-        purcMngReqList.gridReload();
+        purcMngReqList.mainGrid();
     },
 
-    mainGrid : function(url, params){
+    mainGrid : function(){
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 99999,
+            transport: {
+                read : {
+                    url : "/purc/getMngReqPurcList",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.inspectStat = $("#inspectStat").data("kendoDropDownList").value();
+                    data.busnClass = $("#busnClass").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             pageable: {
@@ -159,16 +189,7 @@ var purcMngReqList = {
     },
 
     gridReload : function(){
-        purcMngReqList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val()
-        }
-
-        purcMngReqList.mainGrid("/purc/getMngReqPurcList", purcMngReqList.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_reqRegPopup : function(key, stat){

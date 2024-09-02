@@ -77,7 +77,7 @@ var purcUserAppList = {
     mainGrid : function(url){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
-            pageSize: 10,
+            pageSize: 99999,
             transport: {
                 read : {
                     url : url,
