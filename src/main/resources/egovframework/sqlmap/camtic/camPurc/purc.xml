@@ -1647,7 +1647,17 @@
 
     <select id="getUserPurcAppList" parameterType="map" resultType="map">
         /*getUserPurcAppList*/
-        SELECT * FROM (
+        SELECT
+            AA.*,
+            AA.TOT_AMT - AA.EXNP_AMT AS NON_EXNP_AMT,
+            CASE
+            WHEN AA.EXNP_AMT != 0 AND AA.TOT_AMT = AA.EXNP_AMT THEN '지출완료'
+            WHEN AA.REQ_AMT != 0 THEN '지출요청중'
+            WHEN AA.SETTING != 0 AND AA.SETTING_YN = 'Y' THEN '지급설정완료'
+            ELSE '지급설정대기'
+            END AS STAT,
+            IF(AA.TOT_AMT - AA.EXNP_AMT > 0, '', '지출완료') AS REQ_STAT
+        FROM (
             SELECT
                 B.*,
                 A.CLAIM_EXNP_SN,
@@ -1655,6 +1665,8 @@
                 A.EMP_SEQ AS F_EMP_SEQ,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
                 A.PAY_APP_SN AS F_PAY_APP_SN,
+                (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = B.CLAIM_SN) AS SETTING,
+                (SELECT MNG_SET_STAT FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = B.CLAIM_SN) AS SETTING_YN,
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE A.PAY_APP_SN = PAY_APP_SN) AS F_DOC_STATUS,
                 IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS REQ_AMT,
                 IFNULL((SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_CNT,
@@ -1664,6 +1676,7 @@
                 (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) AS REG_EMP_SEQ,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN)) AS REG_EMP_NAME,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ) AS PURC_EMP_NAME,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.CLAIM_EMP_SEQ) AS CLAIM_EMP_NAME,
                 C.ITEM_COUNT,
                 (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS RE_STAT,
                 D.EXNP_STATUS,
@@ -1760,7 +1773,7 @@
                 AND AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "E".equals(searchKeyword)'>
-                AND AA.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                AND AA.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND

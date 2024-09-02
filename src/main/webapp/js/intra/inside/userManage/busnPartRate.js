@@ -138,12 +138,10 @@ var busnPartRate = {
                                     }else{
                                         monYn = 'N';
                                     }
-                                    console.log("/inside/getBusnPartRatePayData : ", rs2.map);
                                 }
                             });
 
                             var item = rs.list[i];
-                            console.log("rs.list[i] : ", item);
 
                             busnPartRate.global.onData.partRateDet = rs.list[i].PART_RATE_DET;
                             busnPartRate.global.onData.partEmpSeq = item.PART_EMP_SEQ;
@@ -462,8 +460,6 @@ var busnPartRate = {
         var sum = 0;
         var sum3 = 0;
         var len = 0;
-        console.log("item.len", item.length);
-        console.log("item3.len", item3.length);
         item.each(function(){
             if(len == item.length-2){
                 return;
@@ -486,7 +482,6 @@ var busnPartRate = {
         $(item3).eq(item3.length-2).val(busnPartRate.comma(sum3));
 
         var name = $(obj).attr("name");
-        console.log("name", name);
         var nameX = name.substring(2, 1);   // (1월 ~ 10월)
         var nameLoc = name.substring(3, 2); // (현금/현물/계)
         var nameY = name.substring(4, 3);   // 사용자
@@ -495,13 +490,10 @@ var busnPartRate = {
             nameLoc = name.substring(3, 4); // (현금/현물/계)
             nameY = name.substring(4, 5);   // 사용자
         }
-        console.log('input[name="l'+nameX+'0'+nameY+'"]');
-        console.log('input[name="l'+nameX+'1'+nameY+'"]');
-        console.log('input[name="t'+nameX+'2'+nameY+'"]');
         $('input[name="t'+nameX+'2'+nameY+'"]').val(comma(Number(uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()))));
 
         var monA = $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[1];
-        if(monA == "11" || monA == "12"){
+        if(monA == "10" || monA == "11" || monA == "12"){
             monA = monA;
         } else {
             monA = monA.substring(2,1);
@@ -517,8 +509,6 @@ var busnPartRate = {
         var unitSum = 0;
         if(nameLoc == 0 || nameLoc == 1){
             unitSum += Number(busnPartRate.uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(busnPartRate.uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()));
-            console.log('input[name="t'+nameX+'2'+nameY+'"]');
-            console.log("unitSum", unitSum);
 
             $('input[name="d'+nameY+'2"]').val(comma(Number(uncomma($('input[name="d'+nameY+'0"]').val())) + Number(uncomma($('input[name="d'+nameY+'1"]').val()))));
         }
@@ -616,9 +606,6 @@ var busnPartRate = {
                     salArr[cnt] = [];
                 }
 
-                console.log("itemX.pay", itemX.pay);
-                console.log("itemX.pay.type[y]", itemX.pay.type[y]);
-
                 mapX_pay["monPay" + (bsMonX)] = parseInt(Object.values(itemX.pay.type[y])[0]);
                 mapX_item["monItem" + (bsMonX)] = parseInt(Object.values(itemX.item.type[y])[0]);
 
@@ -628,16 +615,12 @@ var busnPartRate = {
                 };
 
                 salArr[cnt].push(type);
-
-                console.log();
                 salArr[cnt].monYear = bsYearX;
             }
 
             // if(monSal != Number($("#e" + x + "_" + itemX.partEmpSeq).val())){monSalFlag = false;}
 
             if(!monSalFlag){alert("[" + itemX.empName + "] 인건비 예산합계와 맞지않습니다."); break;}
-
-            console.log("salArr", salArr);
             groupArr.push(salArr);
         }
 

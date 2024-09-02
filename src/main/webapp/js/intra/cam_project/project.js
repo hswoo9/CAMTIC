@@ -499,7 +499,7 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key, cs){
+    fn_projectPopView : function (key, cs, page){
         var uid = $("#myEmpSeq").val()
         var rs = customKendo.fn_customAjax("/project/getProjectData", { pjtSn: key });
         var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
@@ -560,11 +560,20 @@ var camPrj = {
 
         if(flag){
             var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+            if(page == "achieve"){
+                url += "&tab=12";
+            }
 
             if(cs == "R"){
                 url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+                if(page == "achieve"){
+                    url += "&tab=13";
+                }
             } else if (cs == "S"){
                 url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+                if(page == "achieve"){
+                    url += "&tab=13";
+                }
             }
             var name = "_blank";
             var option = "width = 1680, height = 850, top = 100, left = 200, location = no";

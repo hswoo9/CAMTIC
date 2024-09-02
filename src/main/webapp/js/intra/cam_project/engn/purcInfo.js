@@ -205,6 +205,7 @@ var purcInfo = {
                                 invSum = Number(Math.floor(invSum * 1.1));
                             }
                         }
+                        console.log("Math.round(invSum)", Math.round(invSum));
                         return "<div style='text-align: right'>"+comma(Math.round(invSum))+"</div>";
                     }
                 }, {
@@ -316,6 +317,8 @@ var purcInfo = {
                             purcSum2 += Number(leftList[i].ITEM_AMT);
                         }
                         leftSum = invSum - purcSum2;
+                        console.log("purcSum2", purcSum2);
+                        console.log("leftSum", leftSum);
                         return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
                     }
                 }, {

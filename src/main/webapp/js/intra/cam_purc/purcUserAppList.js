@@ -34,7 +34,7 @@ var purcUserAppList = {
             { text: "프로젝트명", value: "B" },
             { text: "목적", value: "C" },
             { text: "업체명", value: "D" },
-            { text: "구매요청자", value: "E" },
+            { text: "작성자", value: "E" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcUserAppList.global.dropDownDataSource, "text", "value");

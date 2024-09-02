@@ -198,7 +198,8 @@ var recordTotal = {
                         /*if(e.BUSN_CLASS == "S"){
                             pjtNm = e.BS_TITLE;
                         }*/
-                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="camPrj.fn_projectPopView('+e.PJT_SN+', \'' + e.BUSN_CLASS + '\')">' + pjtNm + '</div>';
+                        var text = "achieve"
+                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="camPrj.fn_projectPopView('+e.PJT_SN+', \'' + e.BUSN_CLASS + '\', \'' + text + '\')">' + pjtNm + '</div>';
                     }
                 }, {
                     field: "CRM_NM",

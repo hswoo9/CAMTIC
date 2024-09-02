@@ -338,7 +338,7 @@
                         basicSum += Number(ls[i].BASIC_SALARY);
                         foodSum += Number(ls[i].FOOD_PAY);
                         extraSum += Number(ls[i].EXTRA_PAY);
-                        totalSum += Number(ls[i].SAL_TOT_PAY) - Number(ls[i].SI_PAY);
+                        totalSum += Number(ls[i].TOTAL_PAY);
                         nationalSum += Number(ls[i].NAT_PAY);
                         healthSum += Number(ls[i].HETH_PAY);
                         careSum += Number(ls[i].CARE_PAY);

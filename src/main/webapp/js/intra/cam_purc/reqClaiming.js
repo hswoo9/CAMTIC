@@ -91,6 +91,50 @@ var reqCl = {
                 $(".purcLinkTh").css("display", "none");
                 $("#purcLink").val("");
             }
+
+            if($("input[name='paymentMethod']:checked").val() == "A"){
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+
+                const date1 = new Date(currentYear, currentMonth, 10);
+                const date2 = new Date(currentYear, currentMonth, 25);
+
+                if (date1 < now) date1.setMonth(currentMonth + 1);
+                if (date2 < now) date2.setMonth(currentMonth + 1);
+
+                const d = new Date(date1 < date2 ? date1 : date2);
+                let year = d.getFullYear();
+                let month = '' + (d.getMonth() + 1);
+                let day = '' + d.getDate();
+
+                if (month.length < 2){
+                    month = '0' + month;
+                }
+                if (day.length < 2){
+                    day = '0' + day;
+                }
+
+                $("#expDe").val([year, month, day].join('-'));
+            }else{
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+
+                const d = new Date(new Date(currentYear, currentMonth + 1, 10));
+                let year = d.getFullYear();
+                let month = '' + (d.getMonth() + 1);
+                let day = '' + d.getDate();
+
+                if (month.length < 2){
+                    month = '0' + month;
+                }
+                if (day.length < 2){
+                    day = '0' + day;
+                }
+
+                $("#expDe").val([year, month, day].join('-'));
+            }
         });
 
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());

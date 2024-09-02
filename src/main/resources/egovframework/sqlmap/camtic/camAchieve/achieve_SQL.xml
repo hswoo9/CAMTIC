@@ -926,7 +926,7 @@
         AND R.TEAM_STAT = "N"
         <if test='pjtYear != null and pjtYear != ""'>
             AND
-            DATE_FORMAT(R.LIST_STR_DE, '%Y') = #{pjtYear}
+            R.YEAR = #{pjtYear}
         </if>
 
         <if test='busnClass != null and busnClass != ""'>
