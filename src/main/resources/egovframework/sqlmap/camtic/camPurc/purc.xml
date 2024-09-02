@@ -995,14 +995,22 @@
         </if>
         <choose>
             <when test='"1".equals(inspectStat)'>
-                AND (ABC.STATUS = '100' OR ABC.STATUS = '101') AND ABC.PAYMENT_METHOD NOT IN('I', 'C') AND ABC.ORDER_YN = 'N'
+                AND (
+                (ABC.STATUS IN ('100', '101') AND ABC.PAYMENT_METHOD NOT IN ('I', 'C') AND ABC.ORDER_YN = 'N')
+                OR
+                (ABC.PAYMENT_METHOD IN ('I', 'C') AND ABC.STATUS NOT IN ('100', '101') AND ABC.ORDER_YN = 'N')
+                )
             </when>
             <when test='"2".equals(inspectStat)'>
-                AND ABC.INSPECT_STATUS = '0'
-                AND IF(ABC.PAYMENT_METHOD = 'A', ABC.ORDER_YN = 'Y', 1=1)
+                AND (
+                ABC.INSPECT_STATUS = '0' AND ABC.PAYMENT_METHOD NOT IN ('I', 'C') AND IF(ABC.PAYMENT_METHOD = 'A', ABC.ORDER_YN = 'Y', 1=1)
+                OR
+                (ABC.INSPECT_STATUS = '0' AND ABC.STATUS IN ('100', '101') AND ABC.PAYMENT_METHOD IN ('I', 'C'))
+                )
             </when>
             <when test='"3".equals(inspectStat)'>
-                AND ABC.INSPECT_YN = 'Y' AND ABC.INSPECT_STATUS = '100'
+                AND ABC.INSPECT_YN = 'Y'
+                AND ABC.INSPECT_STATUS = '100'
             </when>
         </choose>
         <choose>
