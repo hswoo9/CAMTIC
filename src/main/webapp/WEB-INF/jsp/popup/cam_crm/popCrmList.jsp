@@ -11,6 +11,8 @@
 <input type="hidden" id="mouKey" value="${params.key}" />
 
 <input type="hidden" id="idx" value="${params.idx}" />
+
+<input type="hidden" id="popType" value="${params.type}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
