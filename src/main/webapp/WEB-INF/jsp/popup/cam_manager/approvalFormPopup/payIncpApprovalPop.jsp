@@ -15,7 +15,7 @@
         approvalParams.formId = "153";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[수입결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[수입결의서] ${payIncpItemList[0].TITLE}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "payIncp";
