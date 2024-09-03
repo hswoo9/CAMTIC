@@ -433,7 +433,7 @@
                 GROUP BY InDate, CapsNum
             ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
             WHERE
-                (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3) OR (DIVISION = 1 AND DIVISION_SUB = 6))
             AND
                 WORK_STATUS_CODE = 'Y'
             AND TEMP_DIVISION != 'Y'

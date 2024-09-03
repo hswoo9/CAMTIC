@@ -141,15 +141,15 @@
                         <span class="red-star"></span>계약 번호
                     </th>
                     <td>
-                        <input type="text" id="projectNumber" style="width: 48%; text-align: right;" readonly>
-                        <input type="text" id="projectNumber2" style="width: 48%; text-align: right;" readonly>
+                        <input type="text" id="projectNumber" style="width: 48%; text-align: right;">
+                        <input type="text" id="projectNumber2" style="width: 48%; text-align: right;">
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 업체(자)
                     </th>
                     <td>
                         <input type="text" id="coName" style="width: 50%;" value=""><input type="hidden" id="coSn" style="width: 37%;" value="1">
-                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:80px; height:27px; line-height:0;" disabled>
+                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:80px; height:27px; line-height:0;" onclick="docuContractReq.fn_popCamCrmList();">
                             검색
                         </button>
                     </td>

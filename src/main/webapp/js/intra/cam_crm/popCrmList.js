@@ -218,8 +218,13 @@ var popCrmList = {
             opener.parent.fn_selCrmInfo(rs);
         }
 
-
-
+        if($("#popType").val() != "" && $("#popType").val() == "docu"){
+            opener.parent.$("#coName").val(rs.CRM_NM);
+            opener.parent.$("#representative").val(rs.CRM_CEO);
+            opener.parent.$("#businessNumber").val(rs.CRM_NO);
+            opener.parent.$("#zipCode").val(rs.POST);
+            opener.parent.$("#addr").val(rs.ADDR);
+        }
 
         window.close();
     },

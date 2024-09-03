@@ -20,6 +20,12 @@
     /*.k-radio-list.k-list-horizontal {*/
     /*    justify-content: space-around;*/
     /*}*/
+
+    .popTable .resizable {
+        resize: horizontal;
+        overflow: auto;
+        min-width: 220px;
+    }
 </style>
 
 <input type="hidden" id="stat" value="${params.stat}" />
@@ -292,12 +298,12 @@
                 </div>
 
                 <div style="width: 100%; overflow-x: scroll !important; overflow-y: hidden;">
-                    <table class="popTable table table-bordered mb-0 mt-20" style="table-layout: fixed">
+                    <table class="popTable table table-bordered mb-0 mt-20" style="table-layout: fixed;white-space: nowrap">
                         <colgroup>
                             <%--                        <col style="width: 3%;">--%>
                             <col style="width: 480px;">
-                            <col style="width: 220px;">
-                            <col style="width: 220px;">
+                            <col class="resizable">
+                            <col class="resizable">
                             <col style="width: 80px;">
                             <col style="width: 120px;">
                             <col style="width: 80px;">
@@ -314,8 +320,8 @@
                         <tr>
                             <%--                            <th>번호</th>--%>
                             <th>구분</th>
-                            <th>품명</th>
-                            <th>규격</th>
+                            <th class="resizable">품명</th>
+                            <th class="resizable">규격</th>
                             <th>수량</th>
                             <th>단가</th>
                             <th>단위</th>

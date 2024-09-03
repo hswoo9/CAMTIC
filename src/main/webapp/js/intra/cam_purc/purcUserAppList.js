@@ -110,6 +110,7 @@ var purcUserAppList = {
             dataSource: dataSource,
             sortable: true,
             selectable: "row",
+            height: 525,
             resizable : true,
             pageable: {
                 refresh: true,

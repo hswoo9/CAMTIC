@@ -85,6 +85,13 @@
                 </td>
             </c:if>
             <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="40%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="10%">
+                </colgroup>
                 <thead>
                 <tr>
                     <th>파일명</th>

@@ -15,7 +15,7 @@
         approvalParams.formId = "146";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[구매청구서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[구매청구서] ${info.PURC_REQ_PURPOSE}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "claim";

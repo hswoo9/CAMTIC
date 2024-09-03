@@ -7,10 +7,15 @@ var docuContractList = {
     dataSet: function(){
         customKendo.fn_textBox(["searchText"]);
         let classArr = [
-            {text: "외주", value: "1"},
-            {text: "용역", value: "2"},
-            {text: "구매", value: "3"},
-            {text: "임대차", value: "4"}
+            {text: "외주", value : "1"},
+            /*{text: "용역", value: "2"},*/
+            {text: "구매", value : "3"},
+            {text: "임대차", value : "4"},
+            {text: "시설공사", value : "5"},
+            {text: "리스", value : "6"},
+            {text: "인사", value : "7"},
+            {text: "기타", value : "8"}
+
         ]
         customKendo.fn_dropDownList("classType", classArr, "text", "value", 1);
         let searchArr = [
@@ -132,9 +137,9 @@ var docuContractList = {
                     template : function(e) {
                         if(e.PROJECT_MONEY != null){
                             var originalNumber = e.PROJECT_MONEY;
-                            var convertedNumber = Math.round(originalNumber / 1000);
+                            var convertedNumber = Math.round(originalNumber);
 
-                           return convertedNumber.toString().toMoney() + " " +"천원";
+                           return convertedNumber.toString().toMoney() + " " +"원";
                         }else{
                             return "";
                         }

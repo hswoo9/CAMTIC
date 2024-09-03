@@ -30,10 +30,14 @@ var docuContractReq = {
         $("#mainClass").data("kendoDropDownList").value(1);
 
         let classArr = [
-            {text: "외주", value: "1"},
-            {text: "용역", value: "2"},
-            {text: "구매", value: "3"},
-            {text: "임대차", value: "4"}
+            {text: "외주", value : "1"},
+            /*{text: "용역", value: "2"},*/
+            {text: "구매", value : "3"},
+            {text: "임대차", value : "4"},
+            {text: "시설공사", value : "5"},
+            {text: "리스", value : "6"},
+            {text: "인사", value : "7"},
+            {text: "기타", value : "8"}
         ]
 
         customKendo.fn_dropDownList("class", classArr, "text", "value", 2);
@@ -822,6 +826,13 @@ var docuContractReq = {
                 fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
             }
         }
-    }
+    },
+
+    fn_popCamCrmList : function(){
+        var url = "/crm/pop/popCrmList.do?type=docu";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 
 }

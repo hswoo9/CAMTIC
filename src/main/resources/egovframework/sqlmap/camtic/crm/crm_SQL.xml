@@ -214,7 +214,8 @@
             SAVE_STAT = "Y",
             ETC = #{etc},
             HOMEPAGE = #{homepage},
-            CRM_LOC = #{crmLoc}
+            CRM_LOC = #{crmLoc},
+            MOD_DT = NOW()
         WHERE
             CRM_SN = #{crmSn}
     </update>
@@ -236,7 +237,18 @@
             ADDR = #{addr},
             CRM_OCC = #{crmOcc},
             CRM_EVENT = #{crmEvent},
-            MON_CHECK = #{monCheck}
+            MON_CHECK = #{monCheck},
+            MOD_DT = NOW()
+        WHERE
+            CRM_SN = #{crmSn}
+    </update>
+
+    <update id="updModDate" parameterType="map">
+        /*updModDate*/
+        UPDATE
+            CAM_CRM.DJ_CRM_INFO
+        SET
+            MOD_DT = NOW()
         WHERE
             CRM_SN = #{crmSn}
     </update>
