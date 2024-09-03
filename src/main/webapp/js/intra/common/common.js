@@ -784,3 +784,17 @@ function inputTimeColon(time) {
         time.value = hours + ":" + minute;
     }
 }
+
+/** yyyy-MM-dd의 형식과 일자를 받아 다음달 날짜를 출력 */
+function setNextMonthDate(date, day){
+    date = new Date(date);
+    date.setDate(1);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(day);
+
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+
+    return yyyy + '-' + mm + '-' + dd;
+}

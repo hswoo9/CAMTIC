@@ -2335,7 +2335,7 @@ var regPay = {
         }
 
         if(regPay.global.result.LINK_KEY_TYPE == "출장"){
-            $("#payExnpDe").val($("#trDe0").val());
+            $("#payExnpDe").val(setNextMonthDate($("#trDe0").val(), 10));
         }
 
         var dialog = $("#dialogDraft").data("kendoWindow");

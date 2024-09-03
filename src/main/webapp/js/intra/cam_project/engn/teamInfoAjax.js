@@ -113,8 +113,8 @@ var teamAjax = {
             pjtSn : $("#pjtSn").val(),
             teamVersionSn : $("#teamVersionSn").val(),
             stat : stat,
-            regEmpSeq : $("#teamEmpName").val(),
-            regEmpName : $("#teamEmpSeq").val(),
+            regEmpSeq : $("#teamEmpSeq").val(),
+            regEmpName : $("#teamEmpName").val(),
             regOrgnztId : $("#teamOrgnztId").val(),
             regOrgnztNm : $("#teamOrgnztNm").val()
         }

@@ -29,15 +29,6 @@ var purcMngAppList = {
         customKendo.fn_dropDownList("searchKeyword", purcMngAppList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
 
-        purcMngAppList.global.dropDownDataSource = [
-            { text: "발주대기", value: "1" },
-            { text: "검수대기", value: "2" },
-            { text: "검수완료", value: "3" },
-            { text: "지출문서 작성중", value: "4" },
-            { text: "지출대기", value: "5" },
-            { text: "지출완료", value: "6" },
-        ]
-
         $("#busnClass").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -50,6 +41,14 @@ var purcMngAppList = {
                 {text: "기타/용역", value: "V"},
             ],
         });
+
+        purcMngAppList.global.dropDownDataSource = [
+            { text: "작성중", value: "1" },
+            { text: "결재대기", value: "2" },
+            { text: "결재완료", value: "3" },
+            { text: "지출대기", value: "5" },
+            { text: "지출완료", value: "4" },
+        ]
 
         customKendo.fn_dropDownList("inspectStat", purcMngAppList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
