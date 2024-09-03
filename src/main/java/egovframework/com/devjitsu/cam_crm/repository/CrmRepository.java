@@ -104,4 +104,8 @@ public class CrmRepository extends AbstractDAO {
     public int getDeptRelationCnt(Map<String, Object> params) {
         return (Integer) selectOne("crm.getDeptRelationCnt", params);
     }
+
+    public void updModDate(Map<String, Object> params) {
+        update("crm.updModDate", params);
+    }
 }

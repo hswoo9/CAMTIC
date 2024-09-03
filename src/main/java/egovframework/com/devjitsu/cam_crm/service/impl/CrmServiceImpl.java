@@ -317,6 +317,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public void setCrmMemInfo(Map<String, Object> params) {
+        crmRepository.updModDate(params);
         if(!params.containsKey("crmMemSn")){
             crmRepository.insCrmMemInfo(params);
         } else {
@@ -346,6 +347,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public void setCrmIndustry(Map<String, Object> params) {
+        crmRepository.updModDate(params);
         if(StringUtils.isEmpty(params.get("crmIndustrySn"))){
             crmRepository.setCrmIndustry(params);
         }else{
@@ -360,6 +362,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public void setCrmCert(Map<String, Object> params) {
+        crmRepository.updModDate(params);
         if(StringUtils.isEmpty(params.get("crmCertSn"))){
             crmRepository.setCrmCert(params);
         }else{
@@ -369,6 +372,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public Map<String, Object> getCrmAccounting(Map<String, Object> params) {
+        crmRepository.updModDate(params);
         return crmRepository.getCrmAccounting(params);
     }
 
@@ -427,6 +431,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public Map<String, Object> getCrmMgScale(Map<String, Object> params) {
+        crmRepository.updModDate(params);
         return crmRepository.getCrmMgScale(params);
     }
 
@@ -555,6 +560,7 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void setCrmHist(Map<String, Object> params) {
         crmRepository.insCrmHist(params);
+        crmRepository.updModDate(params);
     }
 
     @Override
