@@ -163,11 +163,9 @@ const appUserPaySetting = {
                             html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ rs[i].file_path +'\', \''+ rs[i].file_uuid +'\')">';
                             html += '   </td>';
                             html += '   <td>';
-                            // if(status != 100){
-                            //     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ rs[i].file_no +', this)">' +
-                            //         '			    <span class="k-button-text">삭제</span>' +
-                            //         '		    </button>';
-                            // }
+                            html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ rs[i].file_no +', this)">' +
+                                    '			    <span class="k-button-text">삭제</span>' +
+                                    '		</button>';
                             html += '   </td>';
                             html += '</tr>';
                         }
