@@ -302,7 +302,7 @@ var oorl = {
             pageSize: 10,
         });
 
-        $("<div/>").appendTo(e.detailCell).kendoGrid({
+        $("<div id='subGrid"+e.data.OBTAIN_ORDER_SN+"'/>").appendTo(e.detailCell).kendoGrid({
             dataSource: dataSource,
             scrollable: false,
             sortable: true,
@@ -593,7 +593,9 @@ var oorl = {
         var regPopupChk = false;
 
         $.each($("input[name=ooSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            const id = $(this).closest('div[id^="subGrid"]').attr("id");
+            console.log("id", id);
+            var dataItem = $("#"+id).data("kendoGrid").dataItem($(this).closest("tr"));
             if(dataItem.PAY_DEPO_SN != null){
                 alert("이미 작성된 입금처리요청서가 있는 항목이 포함되어 있습니다.");
                 regPopupChk = true;
@@ -604,7 +606,9 @@ var oorl = {
         if(regPopupChk) return;
 
         $.each($("input[name=ooSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            const id = $(this).closest('div[id^="subGrid"]').attr("id");
+            console.log("id", id);
+            var dataItem = $("#"+id).data("kendoGrid").dataItem($(this).closest("tr"));
             crmSn.push($(this).attr("crmSn"));
             obtainOrderSn += "," + $(this).val();
             depositAmt += Number(dataItem.AMT);
