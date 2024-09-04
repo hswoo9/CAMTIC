@@ -141,8 +141,8 @@
             </if>
             <if test='searchValue != null and !"".equals(searchValue)'>
                 AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
-                OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
                 OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+                OR CONCAT(SUBSTR(A.CARD_NO, 1, 4), '-', SUBSTR(A.CARD_NO, 5, 4), '-',SUBSTR(A.CARD_NO, 9, 4), '-',SUBSTR(A.CARD_NO, 13, 4)) LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
             </if>
             <if test='regHistYn != null and !"".equals(regHistYn)'>
                 <choose>
@@ -243,8 +243,8 @@
             </if>
             <if test='searchValue != null and !"".equals(searchValue)'>
                 AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
-                OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
                 OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+                OR CONCAT(SUBSTR(A.CARD_NO, 1, 4), '-', SUBSTR(A.CARD_NO, 5, 4), '-',SUBSTR(A.CARD_NO, 9, 4), '-',SUBSTR(A.CARD_NO, 13, 4)) LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
             </if>
             <if test='regHistYn != null and !"".equals(regHistYn)'>
                 <choose>
