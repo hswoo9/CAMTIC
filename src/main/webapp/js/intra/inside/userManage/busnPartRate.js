@@ -482,14 +482,38 @@ var busnPartRate = {
         $(item3).eq(item3.length-2).val(busnPartRate.comma(sum3));
 
         var name = $(obj).attr("name");
+        console.log("name", name);
+        const rowNum = $(obj).closest("tr").index();
+        console.log("rowNum", rowNum);
+        const groupNum = Math.floor(rowNum / 4);
+        console.log("groupNum", groupNum);
+
         var nameX = name.substring(2, 1);   // (1월 ~ 10월)
         var nameLoc = name.substring(3, 2); // (현금/현물/계)
-        var nameY = name.substring(4, 3);   // 사용자
-        if(name.length == 5){
+        var nameY = name.substring(3);   // 사용자
+
+        /** 사용자가 10명 미만이면서 10개월 이상일때 */
+        if(name.length == 5 && groupNum < 10){
             nameX = name.substring(1, 3);   // (11월 ~ 12월)
             nameLoc = name.substring(3, 4); // (현금/현물/계)
-            nameY = name.substring(4, 5);   // 사용자
+            nameY = name.substring(4);   // 사용자
+            
+        /** 사용자가 10명 이상이면서 10개월 미만일때 */
+        }else if(name.length == 5 && groupNum >= 10){
+            alert(22);
+            nameX = name.substring(2, 1);   // (1월 ~ 10월)
+            nameLoc = name.substring(3, 2); // (현금/현물/계)
+            nameY = name.substring(3);   // 사용자
+
+        /** 사용자가 10명 이상이면서 10개월 이상일때 */
+        }else if(name.length == 6){
+            nameX = name.substring(1, 3);   // (11월 ~ 12월)
+            nameLoc = name.substring(3, 4); // (현금/현물/계)
+            nameY = name.substring(4);   // 사용자
         }
+        console.log("nameX", nameX);
+        console.log("nameLoc", nameLoc);
+        console.log("nameY", nameY);
         $('input[name="t'+nameX+'2'+nameY+'"]').val(comma(Number(uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()))));
 
         var monA = $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[1];
