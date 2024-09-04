@@ -1177,7 +1177,7 @@ public class PayAppServiceImpl implements PayAppService {
 
                     if(!data.get("RPMR_NO").toString().equals("")){
                         data.put("SET_FG", "1");
-                        data.put("VAT_FG", "3");
+                        data.put("VAT_FG", "2");
                         data.put("TR_FG", "1");
                     }
                 } else if(data.get("EVID_TYPE").toString().equals("4")){
