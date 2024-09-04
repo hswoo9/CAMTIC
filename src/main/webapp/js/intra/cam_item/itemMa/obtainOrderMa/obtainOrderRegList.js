@@ -309,12 +309,12 @@ var oorl = {
             pageable: true,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
+                    headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
                         if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.APPR_STAT == "Y"){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
                             return "";
                         }else{
-                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
+                            return "<input type='checkbox' class='checkItem' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
                         }
                     },
                     width: 30,
@@ -513,7 +513,21 @@ var oorl = {
                         }
                     },
                 }
-            ]
+            ],
+            dataBound: function() {
+                let grid = this;
+                let checkAll = grid.element.find(".checkAll");
+
+                checkAll.off("click").on("click", function() {
+                    let checked = this.checked;
+                    grid.tbody.find(".checkItem:not(:disabled)").prop("checked", checked);
+                });
+
+                grid.tbody.on("change", ".checkItem", function() {
+                    let allChecked = grid.tbody.find(".checkItem:not(:disabled)").length === grid.tbody.find(".checkItem:checked").length;
+                    checkAll.prop("checked", allChecked);
+                });
+            }
         });
     },
 
@@ -569,6 +583,7 @@ var oorl = {
         var crmSn = [];
         var obtainOrderSn = "";
         var depositAmt = 0;
+        var selectedItemNames = [];
 
         if($("input[name=ooSn]:checked").length == 0){
             alert("항목을 선택해주세요.");
@@ -580,20 +595,24 @@ var oorl = {
         $.each($("input[name=ooSn]:checked"), function(){
             var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
             if(dataItem.PAY_DEPO_SN != null){
-                alert("이미 작성된 입금처리요청서가 있습니다.");
+                alert("이미 작성된 입금처리요청서가 있는 항목이 포함되어 있습니다.");
                 regPopupChk = true;
-                return;
+                return false;
             }
         });
 
         if(regPopupChk) return;
 
-
         $.each($("input[name=ooSn]:checked"), function(){
-            crmSn.push($(this).attr("crmSn"))
+            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            crmSn.push($(this).attr("crmSn"));
             obtainOrderSn += "," + $(this).val();
-            depositAmt += Number($("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr")).AMT);
-        })
+            depositAmt += Number(dataItem.AMT);
+
+            if (dataItem.ITEM_NAME) {
+                selectedItemNames.push(dataItem.ITEM_NAME);
+            }
+        });
 
         const uniqueArr = crmSn.filter((element, index) => {
             return crmSn.indexOf(element) === index;
@@ -604,10 +623,10 @@ var oorl = {
             return;
         }
 
-        oorl.fn_reqRegPopup(key, status, auth, crmSn, obtainOrderSn.substr(1), depositAmt);
+        oorl.fn_reqRegPopup(key, status, auth, crmSn, obtainOrderSn.substr(1), depositAmt, selectedItemNames);
     },
 
-    fn_reqRegPopup : function(key, status, auth, crmSn, obtainOrderSn, depositAmt){
+    fn_reqRegPopup: function(key, status, auth, crmSn, obtainOrderSn, depositAmt, selectedItemNames) {
         var url = "/pay/pop/itemRegPayDepoPop.do";
         if(key != null && key != ""){
             url = "/pay/pop/itemRegPayDepoPop.do?payDepoSn=" + key;
@@ -622,6 +641,10 @@ var oorl = {
         }
         if(depositAmt != null && depositAmt != ""){
             url += "&depositAmt=" + depositAmt;
+        }
+
+        if(selectedItemNames && selectedItemNames.length > 0) {
+            url += "&itemNames=" + selectedItemNames;
         }
 
         var name = "blank";

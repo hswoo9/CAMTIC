@@ -24,6 +24,7 @@
 <input type="hidden" id="crmMemTempNm" value="${hashMap.CRM_MEM_TEMP_NM}" />
 <input type="hidden" id="crmSnSel" value="${params.crmSn}" />
 <input type="hidden" id="obtainOrderSn" value="${params.obtainOrderSn}" />
+<input type="hidden" id="itemNames" value="${params.itemNames}" />
 
 
 <div style="padding:0;">
@@ -197,7 +198,7 @@
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
 
-        $("#depoTitle").val("입금신청 - " + nm);
+        //$("#depoTitle").val("입금신청 - " + nm);
         var data = {
             pjtCd : cd
         }

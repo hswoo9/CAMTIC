@@ -121,6 +121,16 @@ var itemRegPayDepo = {
         if($("#crmSnSel").val()){
             itemRegPayDepo.getCrmData();
         }
+
+        if ($("#itemNames").val() != '') {
+            var items = $("#itemNames").val().split(',');
+
+            if (items.length > 1) {
+                $("#depoTitle").val("입금신청 - " + items[0] + ' 외 ' + (items.length - 1) + "개");
+            } else {
+                $("#depoTitle").val("입금신청 - " + $("#itemNames").val());
+            }
+        }
     },
 
     fn_manageSetData : function (){
