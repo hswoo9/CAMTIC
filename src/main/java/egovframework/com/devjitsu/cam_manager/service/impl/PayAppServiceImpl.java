@@ -1173,7 +1173,13 @@ public class PayAppServiceImpl implements PayAppService {
                 } else if(data.get("EVID_TYPE").toString().equals("3")){
                     data.put("SET_FG", "3");
                     data.put("VAT_FG", "2");
-                    data.put("TR_FG", "3");
+                    data.put("TR_FG", "1");
+
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "1");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("4")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "2");
@@ -1182,7 +1188,6 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("SET_FG", "4");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
-
                     if(!data.get("RPMR_NO").toString().equals("")){
                         data.put("SET_FG", "1");
                         data.put("VAT_FG", "3");
