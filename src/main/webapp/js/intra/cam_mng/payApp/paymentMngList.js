@@ -92,7 +92,7 @@ var paymentMngList = {
             pageType : "USER"
         }
 
-        paymentMngList.mainGrid("/pay/getPaymentList", paymentMngList.global.searchAjaxData);
+        paymentMngList.mainGrid("/pay/getPaymentMngList", paymentMngList.global.searchAjaxData);
         // paymentMngList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentMngList.global.searchAjaxData);
     },
 

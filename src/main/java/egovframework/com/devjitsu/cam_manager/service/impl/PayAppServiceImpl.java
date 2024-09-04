@@ -443,6 +443,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getPaymentMngList(Map<String, Object> params) {
+        return payAppRepository.getPaymentMngList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPaymentListForExcelDown(Map<String, Object> params) {
         return payAppRepository.getPaymentListForExcelDown(params);
     }

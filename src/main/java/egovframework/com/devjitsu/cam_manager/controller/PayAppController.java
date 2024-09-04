@@ -83,6 +83,16 @@ public class PayAppController {
         return "jsonView";
     }
 
+    /** 지급신청서(관리자) */
+    @RequestMapping("/pay/getPaymentMngList")
+    public String getPaymentMngList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = payAppService.getPaymentMngList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/getPaymentListForExcelDown")
     public String getPaymentListForExcelDown(@RequestParam Map<String, Object> params, Model model){
 
