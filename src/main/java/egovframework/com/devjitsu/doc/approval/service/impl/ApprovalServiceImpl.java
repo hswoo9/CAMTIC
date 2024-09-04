@@ -544,21 +544,33 @@ public class ApprovalServiceImpl implements ApprovalService {
         } else if("claim".equals(params.get("type"))) {
             Map<String, Object> map = purcRepository.getPurcClaimData(params);
 
-            params.put("contentId", "purcReq_" + map.get("PURC_SN"));
-            params.put("fileCd", "manage");
-            if(approvalRepository.getDocAttachmentList(params) != null){
-                for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
-                    returnMap.add(tempMap);
+            if(map.containsKey("REG_DATE") && map.get("REG_DATE") != null) {
+                params.put("contentId", "purcClaim_" + params.get("claimSn"));
+                params.put("fileCd", "manage");
+                params.put("purcSn", map.get("PURC_SN"));
+                if(approvalRepository.getDocAttachmentList(params) != null){
+                    for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                        returnMap.add(tempMap);
+                    }
+                }
+            } else {
+                params.put("contentId", "purcReq_" + map.get("PURC_SN"));
+                params.put("fileCd", "manage");
+                if(approvalRepository.getDocAttachmentList(params) != null){
+                    for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                        returnMap.add(tempMap);
+                    }
+                }
+
+                params.put("contentId", "purcClaim_" + params.get("claimSn"));
+                params.put("purcSn", map.get("PURC_SN"));
+                if(approvalRepository.getDocAttachmentList(params) != null){
+                    for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                        returnMap.add(tempMap);
+                    }
                 }
             }
 
-            params.put("contentId", "purcClaim_" + params.get("claimSn"));
-            params.put("purcSn", map.get("PURC_SN"));
-            if(approvalRepository.getDocAttachmentList(params) != null){
-                for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
-                    returnMap.add(tempMap);
-                }
-            }
         }else if("campus".equals(params.get("type"))) {
             params.put("contentId", "eduInfo_" + params.get("eduInfoId"));
             if(approvalRepository.getDocAttachmentList(params) != null){
