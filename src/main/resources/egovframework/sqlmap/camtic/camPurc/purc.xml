@@ -1254,13 +1254,24 @@
     <select id="getProjectPurcReqList" parameterType="map" resultType="map">
         /*getProjectPurcReqList*/
         SELECT
-            B.*
+            B.ITEM_AMT
         FROM
             CAM_MNG.DJ_PURC_CLAIM_ITEM B
         LEFT JOIN CAM_MNG.DJ_PURC_CLAIM A ON A.CLAIM_SN = B.CLAIM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
-        ORDER BY A.CLAIM_SN DESC
+
+        UNION ALL
+
+        SELECT
+            IFNULL((SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO), 0) AS ITEM_AMT
+        FROM
+            DJ_CAMTIC.JPRICEINFO A
+        LEFT JOIN
+            DJ_CAMTIC.PROJECTACCEPTINFO B ON A.JCode = B.ProjectCode
+        WHERE
+            A.JState != 1
+        AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
     </select>
 
     <update id="updPurcItemStatusChange" parameterType="map">
@@ -1320,11 +1331,20 @@
                 DI.DOC_NO,
                 (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING,
                 (SELECT MNG_SET_STAT FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING_YN,
-                IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'C') AS RE_STAT
+                PA.DOC_STATUS AS PAY_DOC_STATUS,
+                C.ITEM_COUNT,
+                D.EXNP_STATUS,
+                IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
+                E.RE_STAT
             FROM CAM_MNG.DJ_PURC_CLAIM A
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = A.DOC_ID
             LEFT JOIN CAM_MNG.DJ_MNG_PURC MP ON MP.PURC_SN = A.PURC_SN
             LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
+            LEFT JOIN CAM_MNG.DJ_CLAIM_EXNP CE ON A.CLAIM_SN = CE.CLAIM_SN
+            LEFT JOIN CAM_MNG.DJ_PAY_APP PA ON CE.PAY_APP_SN = PA.PAY_APP_SN
+            LEFT JOIN (SELECT PAY_APP_SN, SUM(TOT_COST) AS TOT_COST, GROUP_CONCAT(PAY_APP_DET_SN) AS PAY_APP_DET_SN, GROUP_CONCAT(CRM_NM) AS CRM_NM, COUNT(*) AS ITEM_COUNT FROM CAM_MNG.DJ_PAY_APP_DET WHERE TOT_COST != 0 GROUP BY PAY_APP_SN) C ON PA.PAY_APP_SN = C.PAY_APP_SN
+            LEFT JOIN (SELECT PAY_APP_SN, EVID_TYPE, COUNT(*) AS EXNP_STATUS FROM CAM_MNG.DJ_PAY_APP_DET WHERE EXNP_SAVE = 'Y' GROUP BY PAY_APP_SN ) D ON PA.PAY_APP_SN = D.PAY_APP_SN
+            LEFT JOIN (SELECT Y.PAY_APP_SN, Y.PAY_APP_DET_SN, Y.EXNP_SN, Y.DT1, Y.DT3, COUNT(*) AS EXNP_DOC_STATUS, SUM(X.TOT_COST) AS EXNP_TOT_COST, Y.REQ_END_DE, Y.RE_STAT, Y.DOC_STATUS FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != "" GROUP BY Y.EXNP_SN ORDER BY Y.EXNP_SN DESC ) E ON PA.PAY_APP_SN = E.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', E.PAY_APP_DET_SN,'%')
             WHERE
                 A.STATUS = 100
             <if test='monCheck != null and !"".equals(monCheck)'>
@@ -1380,31 +1400,32 @@
             </choose>
             <choose>
                 <when test='"1".equals(inspectStat)'>
-                    AND A.ORDER_YN = 'N'
+                    AND PA.DOC_STATUS IN (0,30,40)
                 </when>
                 <when test='"2".equals(inspectStat)'>
-                    AND A.ORDER_YN = 'Y' AND A.INSPECT_STATUS = '0'
+                    AND PA.DOC_STATUS IN (10,20,50)
                 </when>
                 <when test='"3".equals(inspectStat)'>
-                    AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
-                    AND (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) IS NULL
+                    AND PA.DOC_STATUS IN (100,101)
+                    AND D.EXNP_STATUS IS NULL
                 </when>
                 <when test='"4".equals(inspectStat)'>
-                    AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
-                    AND
-                        (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) != 100
+                    AND PA.DOC_STATUS IN (100,101)
+                    AND (
+                        C.ITEM_COUNT = IFNULL(E.EXNP_DOC_STATUS, 0)
+                    AND D.EXNP_STATUS = IFNULL(E.EXNP_DOC_STATUS, 0)
+                    AND E.RE_STAT = 'Y'
+                    )
+                    AND D.EXNP_STATUS IS NOT NULL
                 </when>
                 <when test='"5".equals(inspectStat)'>
-                    AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
-                    AND
-                        (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
-                    AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'N'
-                </when>
-                <when test='"6".equals(inspectStat)'>
-                    AND A.INSPECT_YN = 'Y' AND A.INSPECT_STATUS = '100'
-                    AND
-                        (SELECT DOC_STATUS FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1)) = 100
-                    AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'Y'
+                    AND PA.DOC_STATUS IN (100,101)
+                    AND (
+                        C.ITEM_COUNT != IFNULL(E.EXNP_DOC_STATUS, 0)
+                     OR D.EXNP_STATUS != IFNULL(E.EXNP_DOC_STATUS, 0)
+                     OR E.RE_STAT != 'Y'
+                    )
+                    AND D.EXNP_STATUS IS NOT NULL
                 </when>
             </choose>
             <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
@@ -2618,6 +2639,9 @@
                 </when>
                 <otherwise>
                     AND RE.DOC_STATUS = '100' AND PJT_SN != ''
+                    <if test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
+                        AND RE.PURC_TYPE NOT IN ('')
+                    </if>
                 </otherwise>
             </choose>
             <if test='pjtSn != null and !"".equals(pjtSn)'>

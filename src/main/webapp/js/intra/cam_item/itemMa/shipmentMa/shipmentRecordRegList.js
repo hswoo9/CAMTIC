@@ -176,9 +176,9 @@ var srrl = {
             pageable: true,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
+                    headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        return "<input type='checkbox' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
+                        return "<input type='checkbox' class='checkItem' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
                         // if(e.OVERALL_INVEN != "0"){
                         //
                         // }else{
@@ -310,7 +310,21 @@ var srrl = {
                         return "진행중";
                     },
                 }
-            ]
+            ],
+            dataBound: function() {
+                let grid = this;
+                let checkAll = grid.element.find(".checkAll");
+
+                checkAll.off("click").on("click", function() {
+                    let checked = this.checked;
+                    grid.tbody.find(".checkItem:not(:disabled)").prop("checked", checked);
+                });
+
+                grid.tbody.on("change", ".checkItem", function() {
+                    let allChecked = grid.tbody.find(".checkItem:not(:disabled)").length === grid.tbody.find(".checkItem:checked").length;
+                    checkAll.prop("checked", allChecked);
+                });
+            }
         });
     },
 

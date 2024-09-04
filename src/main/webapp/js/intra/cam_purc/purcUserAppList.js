@@ -277,24 +277,16 @@ var purcUserAppList = {
                     title: "상태",
                     width: 80,
                     template : function(e){
-                        var stat = "";
-                        if(e.F_DOC_STATUS == "100"){
-                            stat = "결재완료"
-                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.RE_STAT == 'Y'){
-                                stat = "지출완료";
-                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
-                                stat = "부분지출";
-                            } else if (e.EXNP_STATUS != 0){
-                                stat = "지출대기";
-                            }
-                        } else if(e.F_DOC_STATUS == "10" || e.F_DOC_STATUS == "50"){
-                            stat = "결재중"
-                        } else if(e.F_DOC_STATUS == "30"){
-                            stat = "반려"
-                        } else if(e.F_DOC_STATUS == "0") {
-                            stat = "작성중"
-                        } else {
-                            stat = "미작성"
+                        var stat = "지급설정대기";
+
+                        if(e.SETTING != 0 && e.SETTING_YN == "Y"){
+                            stat = "지급설정완료";
+                        }
+                        if(e.REQ_AMT != 0){
+                            stat = "지출요청중";
+                        }
+                        if(e.TOT_AMT == e.EXNP_AMT){
+                            stat = "지출완료";
                         }
 
                         return stat;
