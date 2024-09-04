@@ -17,9 +17,11 @@
             CAM_INSIDE.DJ_ASSET_PLACE AP ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
         LEFT JOIN
             CAM_INSIDE.DJ_INSIDE_CODE IC ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        LEFT JOIN
+        	CAM_INSIDE.DJ_ASSET_CODE_POSITION CP ON CP.AST_CP_CODE = AI.AST_CODE_COMPANY_ID
         WHERE
             AI.ACTIVE = 'Y'
-
+        AND CP.ACTIVE = 'Y'
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[
 		AND
