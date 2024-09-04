@@ -2639,6 +2639,9 @@
                 </when>
                 <otherwise>
                     AND RE.DOC_STATUS = '100' AND PJT_SN != ''
+                    <if test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
+                        AND RE.PURC_TYPE NOT IN ('')
+                    </if>
                 </otherwise>
             </choose>
             <if test='pjtSn != null and !"".equals(pjtSn)'>
