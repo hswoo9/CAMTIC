@@ -10,32 +10,53 @@ var assetList = {
 
     fnDefaultScript : function(){
         assetList.kendoSetting();
-        assetList.gridReload();
+        assetList.mainGrid();
     },
 
     gridReload : function(){
-        assetList.global.searchAjaxData = {
-            startDate : $("#startDate").val(),
-            endDate : $("#endDate").val(),
-            assetPosition : $("#assetPosition").val(),
-            assetType : $("#assetType").val(),
-            categoryA : $("#categoryA").val(),
-            categoryB : $("#categoryB").val(),
-            categoryC : $("#categoryC").val(),
-            assetStatus : $("#assetStatus").val(),
-            assetPlace : $("#assetPlace").val(),
-            regStatus : $("#regStatus").val(),
-            barcodeType : $("#barcodeType").val(),
-            searchType : $("#searchType").val(),
-            searchContent : $("#searchContent").val(),
-        }
-
-        assetList.mainGrid("/inside/getAssetList.do", assetList.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
-    mainGrid : function(url, params) {
+    mainGrid : function() {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : "/inside/getAssetList.do",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.startDate = $("#startDate").val();
+                    data.endDate = $("#endDate").val();
+                    data.assetPosition = $("#assetPosition").val();
+                    data.assetType = $("#assetType").val();
+                    data.categoryA = $("#categoryA").val();
+                    data.categoryB = $("#categoryB").val();
+                    data.categoryC = $("#categoryC").val();
+                    data.assetStatus = $("#assetStatus").val();
+                    data.assetPlace = $("#assetPlace").val();
+                    data.regStatus = $("#regStatus").val();
+                    data.barcodeType = $("#barcodeType").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchContent = $("#searchContent").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url,params),
+            dataSource: dataSource,
             scrollable: true,
             height: 508,
             pageable : {
