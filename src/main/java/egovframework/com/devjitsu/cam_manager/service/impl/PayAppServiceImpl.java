@@ -2045,6 +2045,7 @@ public class PayAppServiceImpl implements PayAppService {
                 paramsMap.put("PAY_INCP_RE_SN", map.get("payIncpReSn"));
                 paramsMap.put("payIncpReSn", map.get("payIncpReSn"));
                 payAppRepository.updIncpRe(paramsMap);
+                groupKey = Integer.parseInt(map.get("payIncpReSn").toString());
             } else {
                 payAppRepository.insIncpRe(paramsMap);
 

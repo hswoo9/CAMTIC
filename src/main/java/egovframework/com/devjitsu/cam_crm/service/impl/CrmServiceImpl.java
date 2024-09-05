@@ -528,8 +528,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public List<Map<String, Object>> getCrmHistRndList(Map<String, Object> params) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        /*result = crmRepository.getCrmHistRndList(params);*/
+        List<Map<String, Object>> result = crmRepository.getCrmHistRndList(params);
 
         Map<String, Object> cuid = crmRepository.getCUIDOne(params);
 
@@ -543,8 +542,7 @@ public class CrmServiceImpl implements CrmService {
     }
     @Override
     public List<Map<String, Object>> getCrmHistNonRndList(Map<String, Object> params) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        /*result = crmRepository.getCrmHistNonRndList(params);*/
+        List<Map<String, Object>> result = crmRepository.getCrmHistUnRndList(params);
 
         Map<String, Object> cuid = crmRepository.getCUIDOne(params);
 

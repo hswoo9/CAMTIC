@@ -518,37 +518,57 @@
     <select id="getCrmHistEngnList" parameterType="map" resultType="map">
         /*getCrmHistEngnList ==> CRM 관리 > 고객 이력관리 엔지니어링 데이터 조회 */
         SELECT
-            A.*,
-            DATE_FORMAT(B.STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
-            DATE_FORMAT(B.END_DT, '%Y-%m-%d %H:%i') AS END_DATETIME,
-            DATE_FORMAT(B.STR_DT, '%Y-%m-%d') AS START_DATE,
-            DATE_FORMAT(B.END_DT, '%Y-%m-%d') AS END_DATE,
-            IFNULL(R.DOC_ID, '') AS DOC_ID,
-            DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            P.PJT_NM AS CRM_REL_PJT_NM,
+            DATE_FORMAT(P.STR_DT, '%Y-%m-%d') AS CRM_DATE,
+            P.PJT_AMT AS CRM_REL_PJT_AMT,
+            P.PM AS CRM_SHARE_EMP
         FROM
-            CAM_CRM.DJ_CRM_HIST A
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_RESULT R ON A.CRM_REL_PJT_SN = R.PJT_SN
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON R.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PROJECT B ON A.CRM_REL_PJT_SN = B.PJT_SN
+            CAM_PJT_MNG.DJ_PJT_DELV PD
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON PD.PJT_SN = P.PJT_SN
         WHERE
-        1 = 1
-        <choose>
-            <when test='crmHistType != null and !"".equals(crmHistType)'>
-                AND A.CRM_HIST_TYPE = #{crmHistType}
-            </when>
-            <otherwise>
-                AND A.CRM_HIST_TYPE = '1'
-            </otherwise>
-        </choose>
-        <if test='crmSn != null and !"".equals(crmSn)'>
-            AND
-                A.CRM_SN = #{crmSn}
-        </if>
-        ORDER BY A.REG_DT DESC
+            1=1
+        AND P.CRM_SN = #{crmSn}
+        ORDER BY P.STR_DT DESC
+    </select>
+
+    <select id="getCrmHistRndList" parameterType="map" resultType="map">
+        /*getCrmHistRndList ==> CRM 관리 > 고객 이력관리 알앤디 데이터 조회 */
+        SELECT
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE SA LEFT JOIN CAM_COMMON.DJ_COM_GROUP_CODE SB ON SA.CM_GROUP_CODE_ID = SB.CM_GROUP_CODE_ID WHERE SB.CM_GROUP_CODE = 'RND_SUBJECT' AND SA.CM_CODE = P.SBJ_CLASS) AS CRM_HIST_OBJ,
+            P.PJT_NM AS CRM_REL_PJT_NM,
+            DATE_FORMAT(P.STR_DT, '%Y-%m-%d') AS START_DATE,
+            DATE_FORMAT(P.END_DT, '%Y-%m-%d') AS END_DATE,
+            IF(P.YEAR_CLASS = 'M', P.ALL_PJT_AMT, P.PJT_AMT) AS CRM_REL_PJT_AMT,
+            P.PM AS CRM_SHARE_EMP
+        FROM
+            CAM_PJT_MNG.DJ_PJT_RND PR
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON PR.PJT_SN = P.PJT_SN
+        WHERE
+            1=1
+        AND P.CRM_SN = #{crmSn}
+        ORDER BY P.STR_DT DESC
+    </select>
+
+    <select id="getCrmHistUnRndList" parameterType="map" resultType="map">
+        /*getCrmHistUnRndList ==> CRM 관리 > 고객 이력관리 비알앤디 데이터 조회 */
+        SELECT
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE SA LEFT JOIN CAM_COMMON.DJ_COM_GROUP_CODE SB ON SA.CM_GROUP_CODE_ID = SB.CM_GROUP_CODE_ID WHERE SB.CM_GROUP_CODE = 'RND_SUBJECT' AND SA.CM_CODE = P.SBJ_CLASS) AS CRM_HIST_OBJ,
+            P.PJT_NM AS CRM_REL_PJT_NM,
+            DATE_FORMAT(P.STR_DT, '%Y-%m-%d') AS START_DATE,
+            DATE_FORMAT(P.END_DT, '%Y-%m-%d') AS END_DATE,
+            IF(P.YEAR_CLASS = 'M', P.ALL_PJT_AMT, P.PJT_AMT) AS CRM_REL_PJT_AMT,
+            P.PM AS EMP_NAME_KR,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            HEI.DUTY_NAME AS POSITION_NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_UNRND PU
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON PU.PJT_SN = P.PJT_SN
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON P.PM_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            1=1
+        AND P.CRM_SN = #{crmSn}
+        ORDER BY P.STR_DT DESC
     </select>
 
     <select id="getCrmOldHistEngnList" parameterType="map" resultType="map">
