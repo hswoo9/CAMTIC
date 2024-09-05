@@ -500,7 +500,6 @@ var busnPartRate = {
             
         /** 사용자가 10명 이상이면서 10개월 미만일때 */
         }else if(name.length == 5 && groupNum >= 10){
-            alert(22);
             nameX = name.substring(2, 1);   // (1월 ~ 10월)
             nameLoc = name.substring(3, 2); // (현금/현물/계)
             nameY = name.substring(3);   // 사용자
