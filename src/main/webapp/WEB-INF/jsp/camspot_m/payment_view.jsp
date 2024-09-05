@@ -53,6 +53,11 @@
                 	<a href="#" class="file"><img src="/images/camspot_m/ico-document.png" /><span id="viewDocTitle"></span></a>
                 </div>
 
+                <font class="txt type28"><b>상신의견</b></font>
+                <div class="content_output mt10">
+                    <span id="draftOpinion"></span>
+                </div>
+
             	<font class="txt type28 mt40"><b>첨부파일</b></font>
                 <div class="content_output mt10">
                     <div id="attachmentGrid" style="border-bottom: none;">
@@ -62,6 +67,7 @@
 <%--                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>--%>
 
                 </div>
+
 
                 <div class="pop_sign_wrap">
                     <div id="approvalDocView" class="pop_wrap_dir" style="padding:0 20px">
@@ -305,6 +311,7 @@
         docView.global.rs = rs;
 
         $("#viewDocTitle").text(rs.docInfo.DOC_TITLE);
+        $("#draftOpinion").text(rs.docInfo.DRAFT_OPIN.replace(/\n+/g, "<br>"));
         docView.global.loginVO = JSON.parse('${mLoginVO}');
 
 
@@ -863,7 +870,9 @@
                     field : "APPROVE_STAT_CODE",
                     title: "구분",
                     template : function (e){
-                        if(e.APPROVE_TYPE == "1"){
+                        if(e.APPROVE_TYPE == "0"){
+                            return "상신의견";
+                        }else if(e.APPROVE_TYPE == "1"){
                             return "협조의견";
                         }else if(e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "30"){
                             return "결재의견";
@@ -875,8 +884,6 @@
                             }else{
                                 return "최종결재(전결)의견";
                             }
-                        } else {
-                            return "상신의견";
                         }
                     },
                     width: "17%"
@@ -896,7 +903,7 @@
                     title: "의견",
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == 10){
-                            return "-";
+                            return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
                         }else{
                             return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
                         }
