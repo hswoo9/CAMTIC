@@ -1,10 +1,25 @@
 var payCardHist = {
 
-    global : {
+    global: {
         searchAjaxData : ""
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript: function (){
+        payCardHist.fn_pageSet();
+
+        payCardHist.mainGrid();
+        payCardHist.cardMainGrid();
+        payCardHist.cardMainGrid2();
+
+        $("#cardM").attr("class", "k-button k-button-solid-base");
+        $("#cardP").attr("class", "k-button k-button-solid-info");
+        $("#requestType").val(2);
+        $("#mainGrid").css("display", "none");
+        $("#cardMainGrid").css("display", "none");
+        $("#cardMainGrid2").css("display", "");
+    },
+
+    fn_pageSet: function(){
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
@@ -20,12 +35,6 @@ var payCardHist = {
         });
         customKendo.fn_textBox(["searchValue"]);
 
-        const requestType = $("#requestType").val();
-
-        //payCardHist.gridReload();
-        payCardHist.cardMainGridReload('M');
-
-
         $("#searchValue").on("keyup", function(key){
             if(key.keyCode == 13){
                 payCardHist.fn_search($("#requestType").val());
@@ -37,12 +46,10 @@ var payCardHist = {
         });
 
         const reqType = $("#reqType").val();
-
         /** 출장, 식대 */
         if(reqType == "bustrip" || reqType == "snack"){
             $("#saveBtn").hide();
             $("#saveBtnBustrip").show();
-
         }
 
         if(reqType == "bustrip"){
@@ -50,52 +57,22 @@ var payCardHist = {
                 && opener.parent.$("#tripDayFr").val() != null && opener.parent.$("#tripDayTo").val() != null){
                 $("#startDt").val(opener.parent.$("#tripDayFr").val());
                 $("#endDt").val(opener.parent.$("#tripDayTo").val());
-
-                // $("#startDt").data("kendoDatePicker").enable(false);
-                // $("#endDt").data("kendoDatePicker").enable(false);
             }
-        } else if(reqType == "snack"){
+        }else if(reqType == "snack"){
             if(opener.parent.$("#useDt").val() != "" && opener.parent.$("#useDt").val() != null){
                 $("#startDt").val(opener.parent.$("#useDt").val());
             }
         }
-
-        if(requestType != "" && requestType != null && requestType != undefined){
-            // $("#startDt").val(opener.parent.$("#tripDayFr").val());
-            // $("#endDt").val(opener.parent.$("#tripDayTo").val());
-
-            if(requestType == 1){
-                $("#cardM").attr("class", "k-button k-button-solid-base");
-                $("#cardP").attr("class", "k-button k-button-solid-info");
-                payCardHist.cardMainGridReload('P');
-            }else if(requestType == 2){
-                $("#cardM").attr("class", "k-button k-button-solid-info");
-                $("#cardP").attr("class", "k-button k-button-solid-base");
-                payCardHist.cardMainGridReload('M');
-            }else if(requestType == 3){
-                if($("#cardBaNb").val() != ''){
-                    $("#searchValue").prop("disabled", true);
-                    $("#searchValue").val($("#cardBaNb").val());
-                }
-
-                payCardHist.gridReload();
-            }
-        }
     },
 
-    gridReload: function (type){
+    gridReload: function(type){
         if(type != "search"){
             $("#mainGrid").css("display", "");
             $("#cardMainGrid").css("display", "none");
             $("#cardMainGrid2").css("display", "none");
         }
 
-        payCardHist.global.searchAjaxData = {
-            startDt: $("#startDt").val(),
-            endDt: $("#endDt").val(),
-            searchValue: $("#searchValue").val()
-        }
-        payCardHist.mainGrid("/card/cardUseList", payCardHist.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     cardMainGridReload: function(value){
@@ -103,191 +80,51 @@ var payCardHist = {
             $("#cardM").attr("class", "k-button k-button-solid-info");
             $("#cardP").attr("class", "k-button k-button-solid-base");
             $("#requestType").val(1);
-            payCardHist.cardMainGrid(value);
+            $("#mainGrid").css("display", "none");
+            $("#cardMainGrid").css("display", "");
+            $("#cardMainGrid2").css("display", "none");
+            $("#cardMainGrid").data("kendoGrid").dataSource.read();
         } else {
             $("#cardM").attr("class", "k-button k-button-solid-base");
             $("#cardP").attr("class", "k-button k-button-solid-info");
             $("#requestType").val(2);
-            payCardHist.cardMainGrid2(value);
-        }
-        $("#searchValue").val('');
-
-    },
-
-    cardMainGrid : function (type) {
-        if(type != "search"){
-            $("#mainGrid").css("display", "none");
-            $("#cardMainGrid").css("display", "");
-            $("#cardMainGrid2").css("display", "none");
-        }
-
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/g20/getCardList",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.searchValue = $("#searchValue").val();
-                    data.cardVal = type;
-                    data.auth = 'user';
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10
-        });
-
-        $("#cardMainGrid").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
-            scrollable: true,
-            selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: payDetView.onDataBound,
-            columns: [
-                {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 50
-                }, {
-                    title: "카드명",
-                    width: 300,
-                    template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
-                    }
-                }, {
-                    title: "카드번호",
-                    width: 250,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "",
-                    width: 80,
-                    template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payCardHist.fn_customSelectCard(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
-                            '   선택' +
-                            '</button>';
-                    }
-                }
-            ],
-
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
-        }).data("kendoGrid");
-    },
-
-    cardMainGrid2 : function (type) {
-        if(type != "search"){
             $("#mainGrid").css("display", "none");
             $("#cardMainGrid").css("display", "none");
             $("#cardMainGrid2").css("display", "");
+            $("#cardMainGrid2").data("kendoGrid").dataSource.read();
         }
+        $("#searchValue").val('');
+    },
 
-        let dataSource = new kendo.data.DataSource({
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
             serverPaging: false,
+            pageSize: 10,
             transport: {
-                read: {
-                    url: "/g20/getCardList",
-                    dataType: "json",
-                    type: "post"
+                read : {
+                    url : "/card/cardUseList",
+                    dataType : "json",
+                    type : "post"
                 },
-                parameterMap: function(data){
+                parameterMap: function(data) {
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
                     data.searchValue = $("#searchValue").val();
-                    data.cardVal = type
                     return data;
                 }
             },
-            schema: {
-                data: function(data){
+            schema : {
+                data: function (data) {
                     return data.list;
                 },
-                total: function(data){
+                total: function (data) {
                     return data.list.length;
                 },
             },
-            pageSize: 10
         });
 
-        $("#cardMainGrid2").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
-            scrollable: true,
-            selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: payDetView.onDataBound,
-            columns: [
-                {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 50
-                }, {
-                    title: "카드명",
-                    width: 300,
-                    template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
-                    }
-                }, {
-                    title: "카드번호",
-                    width: 250,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "",
-                    width: 80,
-                    template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payCardHist.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
-                            '   선택' +
-                            '</button>';
-                    }
-                }
-            ],
-
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
-        }).data("kendoGrid");
-    },
-
-    mainGrid : function (url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -381,8 +218,167 @@ var payCardHist = {
         }).data("kendoGrid");
     },
 
+    cardMainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getCardList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    data.cardVal = "M";
+                    data.auth = "user";
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#cardMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes : [ 10, 20, 50, "ALL" ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "카드명",
+                    width: 300,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                    }
+                }, {
+                    title: "카드번호",
+                    width: 250,
+                    template: function (e){
+                        if(e.CARD_BA_NB != null){
+                            return e.CARD_BA_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payCardHist.fn_customSelectCard(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
+    cardMainGrid2: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getCardList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    data.cardVal = "P"
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#cardMainGrid2").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes : [ 10, 20, 50, "ALL" ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "카드명",
+                    width: 300,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                    }
+                }, {
+                    title: "카드번호",
+                    width: 250,
+                    template: function (e){
+                        if(e.CARD_BA_NB != null){
+                            return e.CARD_BA_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payCardHist.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
     //카드선택 방식 변경
-    fn_customSelectCard : function(trCd,trNm,cardBaNb,jiroNm,clttrCd,baNb,depositor) {
+    fn_customSelectCard: function(trCd,trNm,cardBaNb,jiroNm,clttrCd,baNb,depositor){
         //식대일 경우에는 기존 방식으로 진행
         const reqType = $("#reqType").val();
         if(reqType == "snack"){
@@ -393,7 +389,7 @@ var payCardHist = {
         }
     },
 
-    fn_selectCard : function (){
+    fn_selectCard: function(){
         var grid = $("#mainGrid").data("kendoGrid");
         var cnt = 0;
         var index = $("#index").val();
@@ -406,7 +402,6 @@ var payCardHist = {
                 cnt++;
             }
         })
-
 
         if(cnt > 1){
             alert("여러개의 항목이 선택되었습니다. 확인해주세요.");
@@ -494,11 +489,9 @@ var payCardHist = {
             }
         }
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS, index);
-
-
     },
 
-    fn_selectCardBustrip : function (){
+    fn_selectCardBustrip: function(){
         var grid = $("#mainGrid").data("kendoGrid");
 
         var list = [];
@@ -614,7 +607,7 @@ var payCardHist = {
         window.close();
     },
 
-    fn_search : function (type){
+    fn_search: function(type){
         if(type == 2){
             payCardHist.cardMainGridReload('P');
         }else if(type == 1 || type == ''){
