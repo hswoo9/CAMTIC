@@ -5,7 +5,6 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
-
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/companyCard/outUseList.js?v=${today}'/>"></script>
 <style>
 
@@ -52,14 +51,13 @@
                 </table>
             </div>
             <div>
-
                 <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="hiddenGrid" style="margin:20px 0; display:none"></div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script>
-
     outUseList.fn_defaultScript();
 </script>

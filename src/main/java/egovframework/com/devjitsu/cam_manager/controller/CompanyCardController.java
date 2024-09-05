@@ -109,6 +109,21 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+    @RequestMapping("/card/cardAllListExcel")
+    public String cardAllListExcel(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("empSeq", loginVO.getUniqId());
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = companyCardService.cardAllListExcel(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 
     @RequestMapping("/card/cardToUseList")
     public String cardToUseList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

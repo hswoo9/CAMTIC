@@ -63,6 +63,8 @@ public interface CompanyCardService {
 
     List<Map<String, Object>> cardAllList(Map<String, Object> params);
 
+    List<Map<String, Object>> cardAllListExcel(Map<String, Object> params);
+
     void setMeetingData(Map<String, Object> params);
 
     List<Map<String, Object>> getMeetingList(Map<String, Object> params);

@@ -33,6 +33,11 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     }
 
     @Override
+    public List<Map<String, Object>> cardAllListExcel(Map<String, Object> params) {
+        return companyCardRepository.cardAllListExcel(params);
+    }
+
+    @Override
     public Map<String, Object> useCardDetailInfo(Map<String, Object> params) {
 
         Map<String, Object> resultMap = companyCardRepository.useCardDetailInfo(params);

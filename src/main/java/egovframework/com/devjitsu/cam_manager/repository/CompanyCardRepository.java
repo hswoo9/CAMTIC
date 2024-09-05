@@ -194,6 +194,10 @@ public class CompanyCardRepository extends AbstractDAO {
         return selectList("card.cardAllList", params);
     }
 
+    public List<Map<String, Object>> cardAllListExcel(Map<String, Object> params) {
+        return selectList("card.cardAllListExcel", params);
+    }
+
     public void insMeetingData(Map<String, Object> params) {
         insert("card.insMeetingData", params);
     }

@@ -37,7 +37,7 @@ var outUseList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/card/cardAllList',
+                    url : "/card/cardAllList",
                     dataType : "json",
                     type : "post"
                 },
@@ -76,10 +76,15 @@ var outUseList = {
             },
             toolbar: [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }, {
-                    name : 'button',
+                    name : "button",
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
@@ -87,11 +92,6 @@ var outUseList = {
                     }
                 }
             ],
-            excel : {
-                fileName : "전표내역 목록.xlsx",
-                filterable : true
-            },
-            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -277,6 +277,131 @@ var outUseList = {
         }).data("kendoGrid");
     },
 
+    hiddenGrid: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 9999,
+            transport: {
+                read : {
+                    url : "/card/cardAllList",
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data) {
+                    data.regHistYn = $("#regHistYn").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.startDt = $("#aStrDe").val();
+                    data.endDt = $("#aEndDe").val();
+                    return data;
+                }
+            },
+            aggregate: [
+                { field: "AUTH_AMT", aggregate: "sum" }
+            ],
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            }
+        });
+
+        $("#hiddenGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound : function(){
+                calcAmSum = 0;
+            },
+            columns: [
+                {
+                    title: "I-branch<br>법인카드 사용내역(실시간)",
+                    columns: [
+                        {
+                            field: "BUY_STS_TXT",
+                            title: "구분",
+                            width: 40,
+                        }, {
+                            field: "TR_NM",
+                            title: "카드명",
+                            width: 200,
+                        }, {
+                            field: "CARD_BA_NB",
+                            title: "카드번호",
+                            width: 120,
+                        }, {
+                            field: "AUTH_DATE",
+                            title: "결제일자",
+                            width: 80
+                        },{
+                            field: "AUTH_TIME",
+                            title: "결제시간",
+                            width: 80
+                        }, {
+                            field: "MER_NM",
+                            title: "거래처",
+                            width: 150,
+                            footerTemplate: "합계"
+                        }, {
+                            field: "AUTH_AMT",
+                            title: "금액",
+                            width: 80,
+                            footerTemplate: function(data){
+                                return data.AUTH_AMT.sum;
+                            }
+                        }
+                    ]
+                }, {
+                    title: "사용내역등록",
+                    columns: [
+                        {
+                            title: "사용자",
+                            columns: [
+                                {
+                                    field : "USE_DEPT_NAME",
+                                    title : "부서/팀",
+                                    width: 100,
+                                }, {
+                                    field : "USE_EMP_NAME",
+                                    title : "이름",
+                                    width: 80,
+                                }
+                            ]
+                        }
+                    ]
+                }, {
+                    title: "전표처리현황",
+                    columns: [
+                        {
+                            field: "PAY_APP_TYPE_TEXT",
+                            title: "전표처리",
+                            width: 80
+                        }, {
+                            field: "PAY_APP_EMP_NAME",
+                            title: "처리자",
+                            width: 80
+                        }, {
+                            field: "PAY_APP_REG_DATE",
+                            title: "처리일자",
+                            width: 80,
+                        }, {
+                            field: "STATUS_TEXT",
+                            title: "지출결의서",
+                            width: 80
+                        }
+                    ]
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
     inputNumberFormat : function(obj){
         obj.value = outUseList.comma(outUseList.uncomma(obj.value));
     },
@@ -305,6 +430,16 @@ var outUseList = {
         var option = "width = 600, height = 700, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
 
+    },
+
+    fn_excelDownload : function (){
+        outUseList.hiddenGrid();
+
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "전표내역 목록.xlsx";
+        });
+        grid.saveAsExcel();
     }
 
 }

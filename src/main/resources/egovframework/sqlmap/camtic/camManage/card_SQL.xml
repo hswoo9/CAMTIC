@@ -267,6 +267,336 @@
         ORDER BY AA.AUTH_DD DESC
     </select>
 
+    <select id="cardAllListExcel" parameterType="map" resultType="map">
+        /*cardAllListExcel*/
+        SELECT
+            AA.*,
+            CASE
+            WHEN AA.BUY_STS = '01' THEN '승인'
+            WHEN AA.BUY_STS = '02' THEN '승인취소'
+            WHEN AA.BUY_STS = '03' THEN '매입'
+            WHEN AA.BUY_STS = '04' THEN '매입취소'
+            ELSE ''
+            END BUY_STS_TXT,
+            CASE
+            WHEN AA.USE_PAY_APP_SN IS NOT NULL THEN '지급신청'
+            WHEN AA.USE_SNACK_INFO_SN IS NOT NULL THEN '식대'
+            WHEN AA.USE_HR_BIZ_REQ_ID IS NOT NULL OR AA.USE_HR_BIZ_REQ_RESULT_ID IS NOT NULL THEN '출장'
+            ELSE ''
+            END EXCEL_PAY_APP_SN,
+            CASE
+            WHEN AA.PAY_EMP_SEQ IS NOT NULL THEN AA.PAY_EMP_SEQ
+            WHEN AA.SNACK_EMP_SEQ IS NOT NULL THEN AA.SNACK_EMP_SEQ
+            WHEN AA.HR_BIZ_EMP_SEQ IS NOT NULL THEN AA.HR_BIZ_EMP_SEQ
+            WHEN AA.HR_BIZ_RES_EMP_SEQ IS NOT NULL THEN AA.HR_BIZ_RES_EMP_SEQ
+            ELSE ''
+            END EXCEL_PAY_EMP_SEQ,
+            CASE
+            WHEN AA.PAY_REG_DT IS NOT NULL THEN AA.PAY_REG_DT
+            WHEN AA.SNACK_REG_DT IS NOT NULL THEN AA.SNACK_REG_DT
+            WHEN AA.HR_BIZ_REG_DT IS NOT NULL THEN AA.HR_BIZ_REG_DT
+            WHEN AA.HR_BIZ_RES_REG_DT IS NOT NULL THEN AA.HR_BIZ_RES_REG_DT
+            ELSE ''
+            END EXCEL_PAY_REG_DT,
+            CASE
+            WHEN PAY_EXNP_STAT IS NOT NULL THEN
+            CASE
+            WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NOT NULL THEN '승인'
+            WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NULL AND PAY_APP_TYPE IN (1,2,3) THEN '승인'
+            WHEN PAY_EXNP_STAT = 100 AND PAY_REQ_END_DE IS NULL AND PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+            WHEN PAY_EXNP_STAT != 100 THEN '미결'
+            END
+            WHEN SNACK_EXNP_STAT IS NOT NULL THEN
+            CASE
+            WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NOT NULL THEN '승인'
+            WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NULL AND SNACK_PAY_APP_TYPE IN (1,2,3) THEN '승인'
+            WHEN SNACK_EXNP_STAT = 100 AND SNACK_REQ_END_DE IS NULL AND SNACK_PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+            WHEN SNACK_EXNP_STAT != 100 THEN '미결'
+            END
+            WHEN HR_EXNP_STAT IS NOT NULL THEN
+            CASE
+            WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NOT NULL THEN '승인'
+            WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NULL AND HR_PAY_APP_TYPE IN (1,2,3) THEN '승인'
+            WHEN HR_EXNP_STAT = 100 AND HR_REQ_END_DE IS NULL AND HR_PAY_APP_TYPE NOT IN (1,2,3) THEN '미결'
+            WHEN HR_EXNP_STAT != 100 THEN '미결'
+            END
+            ELSE '미작성'
+            END EXCEL_PAY_EXNP_STAT,
+            CONCAT(SUBSTRING(AUTH_DD, 1, 4), '-', SUBSTRING(AUTH_DD, 5, 2), '-', SUBSTRING(AUTH_DD, 7, 2)) AS AUTH_DATE,
+            CONCAT(SUBSTRING(AUTH_HH, 1, 2), ':', SUBSTRING(AUTH_HH, 3, 2), ':', SUBSTRING(AUTH_HH, 5, 2)) AS AUTH_TIME,
+            <![CDATA[
+            CASE
+                WHEN USE_PAY_APP_SN IS NOT NULL THEN '지급신청'
+                WHEN USE_SNACK_INFO_SN IS NOT NULL THEN '식대'
+                WHEN USE_HR_BIZ_REQ_ID IS NOT NULL OR USE_HR_BIZ_REQ_RESULT_ID IS NOT NULL THEN '출장'
+                ELSE ''
+            END AS PAY_APP_TYPE_TEXT,
+            CASE
+                WHEN PAY_EMP_SEQ IS NOT NULL THEN PAY_EMP_SEQ
+                WHEN SNACK_EMP_SEQ IS NOT NULL THEN SNACK_EMP_SEQ
+                WHEN HR_BIZ_EMP_SEQ IS NOT NULL OR HR_BIZ_RES_EMP_SEQ IS NOT NULL THEN COALESCE(HR_BIZ_EMP_SEQ, HR_BIZ_RES_EMP_SEQ)
+                ELSE ''
+            END AS PAY_APP_EMP_NAME,
+            CASE
+                WHEN PAY_REG_DT IS NOT NULL THEN PAY_REG_DT
+                WHEN SNACK_REG_DT IS NOT NULL THEN SNACK_REG_DT
+                WHEN HR_BIZ_REG_DT IS NOT NULL OR HR_BIZ_RES_REG_DT IS NOT NULL THEN COALESCE(HR_BIZ_REG_DT, HR_BIZ_RES_REG_DT)
+                ELSE ''
+            END AS PAY_APP_REG_DATE,
+            CASE
+                WHEN PAY_EXNP_STAT IS NOT NULL THEN
+                CASE
+                WHEN PAY_EXNP_STAT = '100' THEN
+                CASE
+                WHEN PAY_REQ_END_DE IS NOT NULL AND PAY_REQ_END_DE <> '' THEN '승인'
+                ELSE
+                CASE
+                WHEN PAY_APP_TYPE IN (1, 2, 3) THEN '승인'
+                ELSE '미결'
+                END
+                END
+                ELSE '미결'
+                END
+                WHEN SNACK_EXNP_STAT IS NOT NULL THEN
+                CASE
+                WHEN SNACK_EXNP_STAT = '100' THEN
+                CASE
+                WHEN SNACK_REQ_END_DE IS NOT NULL AND SNACK_REQ_END_DE <> '' THEN '승인'
+                ELSE
+                CASE
+                WHEN SNACK_PAY_APP_TYPE IN (1, 2, 3) THEN '승인'
+                ELSE '미결'
+                END
+                END
+                ELSE '미결'
+                END
+                WHEN HR_EXNP_STAT IS NOT NULL THEN
+                CASE
+                WHEN HR_EXNP_STAT = '100' THEN
+                CASE
+                WHEN HR_REQ_END_DE IS NOT NULL AND HR_REQ_END_DE <> '' THEN '승인'
+                ELSE
+                CASE
+                WHEN HR_PAY_APP_TYPE IN (1, 2, 3) THEN '승인'
+                ELSE '미결'
+                END
+                END
+                ELSE '미결'
+                END
+                ELSE '미작성'
+            END AS STATUS_TEXT
+            ]]>
+        FROM
+        (
+            SELECT
+                A.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                scp.dec_b64('KEY1', B.CARD_BA_NB) AS CARD_BA_NB,
+                B.CVC,
+                C.AUTH_NO AS USE_AUTH_NO,
+                C.AUTH_HH AS USE_AUTH_HH,
+                C.AUTH_DD AS USE_AUTH_DD,
+                C.CARD_NO AS USE_CARD_NO,
+                C.BUY_STS AS USE_BUY_STS,
+                C.PAY_APP_SN AS USE_PAY_APP_SN,
+                C.SNACK_INFO_SN AS USE_SNACK_INFO_SN,
+                C.HR_BIZ_REQ_ID AS USE_HR_BIZ_REQ_ID,
+                C.HR_BIZ_REQ_RESULT_ID AS USE_HR_BIZ_REQ_RESULT_ID,
+                C.CE_GW_IDX AS USE_CE_GW_IDX,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE HR_BIZ_REQ_ID = C.HR_BIZ_REQ_ID) LIMIT 1) AS HR_BIZ_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_BIZ_RES_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) LIMIT 1) AS SNACK_EMP_SEQ,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) AS PAY_REG_DT,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE HR_BIZ_REQ_ID = C.HR_BIZ_REQ_ID) AS HR_BIZ_REG_DT,
+                (SELECT DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) AS HR_BIZ_RES_REG_DT,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) AS SNACK_REG_DT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_EXNP_STAT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_EXNP_STAT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN)) AS SNACK_EXNP_STAT,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_REQ_END_DE,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_REQ_END_DE,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) LIMIT 1) AS SNACK_REQ_END_DE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN)) AS PAY_APP_TYPE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID)) AS HR_PAY_APP_TYPE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN)) AS SNACK_PAY_APP_TYPE,
+                REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), '|', ' ') AS USE_DEPT_NAME,
+                CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM,
+                E.USE_EMP_NAME
+            FROM
+                CAM_HR.ERP_HIST_CORPCD_USE A
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_INFO B
+            ON
+                A.CARD_NO = REPLACE(SCP.DEC_B64('KEY1', B.CARD_BA_NB), '-', '')
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_PRIV BB
+            ON
+                B.TR_CD = BB.TR_CD AND SCP.DEC_B64('KEY1', B.CARD_BA_NB) = BB.CARD_BA_NB
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_AUTH_MNG BC
+            ON
+                BB.CARD_BA_NB = BC.CARD_NO AND BB.TR_CD = BC.TR_CD
+            LEFT JOIN
+                CAM_MNG.DJ_USE_CARD_INFO C
+            ON
+                A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_TO_HIST D
+            ON
+                A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_TO E
+            ON
+                D.CARD_TO_SN = E.CARD_TO_SN
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO F
+            ON
+                E.USE_EMP_SEQ = F.EMP_SEQ
+            WHERE 1=1
+            <if test='startDt != null and !"".equals(startDt)'>
+                <![CDATA[
+                    AND
+                        DATE_FORMAT(#{startDt}, '%Y%m%d') <= A.AUTH_DD
+                    AND
+                        DATE_FORMAT(#{endDt}, '%Y%m%d') >= A.AUTH_DD
+                ]]>
+            </if>
+            <if test='searchValue != null and !"".equals(searchValue)'>
+                AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+                OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+                OR CONCAT(SUBSTR(A.CARD_NO, 1, 4), '-', SUBSTR(A.CARD_NO, 5, 4), '-',SUBSTR(A.CARD_NO, 9, 4), '-',SUBSTR(A.CARD_NO, 13, 4)) LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+            </if>
+            <if test='regHistYn != null and !"".equals(regHistYn)'>
+                <choose>
+                    <when test='"Y".equals(regHistYn)'>
+                        AND E.USE_EMP_NAME IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND E.USE_EMP_NAME IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            AND
+                CASE
+                    WHEN #{empSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (BB.TR_CD IS NULL OR BC.TR_CD IS NOT NULL)
+                    ELSE BB.TR_CD IS NULL
+                END
+            AND A.BUY_STS IN ('01','03')
+            GROUP BY A.AUTH_NO
+
+            UNION ALL
+
+            SELECT
+                A.*,
+                B.CLTTR_CD,
+                B.TR_CD,
+                B.JIRO_NM,
+                B.BA_NB,
+                B.DEPOSITOR,
+                B.TR_NM,
+                scp.dec_b64('KEY1', B.CARD_BA_NB) AS CARD_BA_NB,
+                B.CVC,
+                C.AUTH_NO AS USE_AUTH_NO,
+                C.AUTH_HH AS USE_AUTH_HH,
+                C.AUTH_DD AS USE_AUTH_DD,
+                C.CARD_NO AS USE_CARD_NO,
+                C.BUY_STS AS USE_BUY_STS,
+                C.PAY_APP_SN AS USE_PAY_APP_SN,
+                C.SNACK_INFO_SN AS USE_SNACK_INFO_SN,
+                C.HR_BIZ_REQ_ID AS USE_HR_BIZ_REQ_ID,
+                C.HR_BIZ_REQ_RESULT_ID AS USE_HR_BIZ_REQ_RESULT_ID,
+                C.CE_GW_IDX AS USE_CE_GW_IDX,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE HR_BIZ_REQ_ID = C.HR_BIZ_REQ_ID) LIMIT 1) AS HR_BIZ_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_BIZ_RES_EMP_SEQ,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) LIMIT 1) AS SNACK_EMP_SEQ,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) AS PAY_REG_DT,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE HR_BIZ_REQ_ID = C.HR_BIZ_REQ_ID) AS HR_BIZ_REG_DT,
+                (SELECT DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) AS HR_BIZ_RES_REG_DT,
+                (SELECT DATE_FORMAT(REG_DT, '%Y-%m-%d') FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) AS SNACK_REG_DT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_EXNP_STAT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_EXNP_STAT,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN)) AS SNACK_EXNP_STAT,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN) LIMIT 1) AS PAY_REQ_END_DE,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID) LIMIT 1) AS HR_REQ_END_DE,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN) LIMIT 1) AS SNACK_REQ_END_DE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = C.PAY_APP_SN)) AS PAY_APP_TYPE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = C.HR_BIZ_REQ_RESULT_ID)) AS HR_PAY_APP_TYPE,
+                (SELECT PAY_APP_TYPE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_TYPE FROM CAM_INSIDE.DJ_SNACK_INFO WHERE SNACK_INFO_SN = C.SNACK_INFO_SN)) AS SNACK_PAY_APP_TYPE,
+                REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), '|', ' ') AS USE_DEPT_NAME,
+                CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM,
+                E.USE_EMP_NAME
+            FROM
+                CAM_HR.ERP_HIST_CORPCD_USE A
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_INFO B
+            ON
+                A.CARD_NO = REPLACE(SCP.DEC_B64('KEY1', B.CARD_BA_NB), '-', '')
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_PRIV BB
+            ON
+                B.TR_CD = BB.TR_CD AND SCP.DEC_B64('KEY1', B.CARD_BA_NB) = BB.CARD_BA_NB
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_AUTH_MNG BC
+            ON
+                BB.CARD_BA_NB = BC.CARD_NO AND BB.TR_CD = BC.TR_CD
+            LEFT JOIN
+                CAM_MNG.DJ_USE_CARD_INFO C
+            ON
+                A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_TO_HIST D
+            ON
+                A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_TO E
+            ON
+                D.CARD_TO_SN = E.CARD_TO_SN
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO F
+            ON
+                E.USE_EMP_SEQ = F.EMP_SEQ
+            WHERE 1=1
+            <if test='startDt != null and !"".equals(startDt)'>
+                <![CDATA[
+                        AND
+                            DATE_FORMAT(#{startDt}, '%Y%m%d') <= A.AUTH_DD
+                        AND
+                            DATE_FORMAT(#{endDt}, '%Y%m%d') >= A.AUTH_DD
+                    ]]>
+            </if>
+            <if test='searchValue != null and !"".equals(searchValue)'>
+                AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+                OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+                OR CONCAT(SUBSTR(A.CARD_NO, 1, 4), '-', SUBSTR(A.CARD_NO, 5, 4), '-',SUBSTR(A.CARD_NO, 9, 4), '-',SUBSTR(A.CARD_NO, 13, 4)) LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+            </if>
+            <if test='regHistYn != null and !"".equals(regHistYn)'>
+                <choose>
+                    <when test='"Y".equals(regHistYn)'>
+                        AND E.USE_EMP_NAME IS NOT NULL
+                    </when>
+                    <otherwise>
+                        AND E.USE_EMP_NAME IS NULL
+                    </otherwise>
+                </choose>
+            </if>
+            AND
+                CASE
+                    WHEN #{empSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (BB.TR_CD IS NULL OR BC.TR_CD IS NOT NULL)
+                    ELSE BB.TR_CD IS NULL
+                END
+            AND A.BUY_STS NOT IN ('01','03')
+            GROUP BY A.AUTH_NO
+        ) AA
+        ORDER BY AA.AUTH_DD DESC
+    </select>
+
     <select id="cardUseList" parameterType="map" resultType="map">
         /*cardUseList*/
         SELECT * FROM
