@@ -23,6 +23,7 @@
                 <c:choose>
                     <c:when test="${params.crmHistSn != null && params.crmHistSn !=''}">
                         <button type="button" class="k-button k-button-solid-primary" onclick="regCrmHist.fn_save();">수정</button>
+                        <button type="button" class="k-button k-button-solid-error" onclick="regCrmHist.fn_delete();">삭제</button>
                     </c:when>
                     <c:otherwise>
                         <button type="button" class="k-button k-button-solid-info" onclick="regCrmHist.fn_save();">저장</button>

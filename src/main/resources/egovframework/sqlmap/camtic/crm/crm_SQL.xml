@@ -512,6 +512,8 @@
         WHERE
             1 = 1
           AND
+            A.ACTIVE = 'Y'
+          AND
             A.CRM_HIST_TYPE = '1'
           AND
             CI.CRM_SN = #{crmSn}
@@ -535,6 +537,7 @@
             cam_crm.crm_hist
         where
             CUID = #{cuid}
+        and active = 'Y'
         </if>
         ) R
         ORDER BY START_DATETIME DESC
@@ -753,6 +756,16 @@
             CRM_HIST_SN = #{crmHistSn};
     </update>
 
+    <update id="deleteDjCrmHist" parameterType="map">
+        /* deleteDjCrmHist */
+        UPDATE
+        CAM_CRM.DJ_CRM_HIST
+        SET
+            ACTIVE = 'N'
+        WHERE
+        CRM_HIST_SN = #{crmHistSn};
+    </update>
+
     <update id="updCrmHist" parameterType="map">
         /* updCrmHist */
         UPDATE
@@ -768,6 +781,16 @@
             Contents = #{crmRelCont}
         WHERE
             SeqNo = #{crmHistSn}
+    </update>
+
+    <update id="deleteCrmHist" parameterType="map">
+        /* deleteCrmHist */
+        UPDATE
+            CAM_CRM.CRM_HIST
+        SET
+            active = 'N'
+        WHERE
+            SeqNo = #{crmHistSn};
     </update>
 
     <insert id="insCrmBustHist" parameterType="map">

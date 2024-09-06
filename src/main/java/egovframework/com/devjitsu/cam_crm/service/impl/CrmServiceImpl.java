@@ -583,6 +583,16 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public void deleteCrmHist(Map<String, Object> params) {
+        // type 1 : DJ_CRM_HIST , 2 : CRM_HIST
+        if(Integer.parseInt(params.get("type").toString()) == 1){
+            crmRepository.deleteDjCrmHist(params);
+        }else{
+            crmRepository.deleteCrmHist(params);
+        }
+    }
+
+    @Override
     public void setMfOverviewDel(Map<String, Object> params) {
         crmRepository.setMfOverviewDel(params);
     }

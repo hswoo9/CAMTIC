@@ -566,6 +566,12 @@ public class CrmController {
         return "jsonView";
     }
 
+    @RequestMapping("/crm/deleteCrmHist")
+    public String deleteCrmHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+            crmService.deleteCrmHist(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/setCrmHistUpd")
     public String setCrmHistUpd(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{

@@ -42,6 +42,7 @@ public interface CrmService {
     List<Map<String, Object>> getCrmHistNonRndList(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
     void setCrmHistUpd(Map<String, Object> params);
+    void deleteCrmHist(Map<String, Object> params);
     void setMfOverviewDel(Map<String, Object> params);
     void setMfOverviewByCrmInfoUpd(Map<String, Object> params);
     Map<String, Object> getMfOverviewInfo(Map<String, Object> params);

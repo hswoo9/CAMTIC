@@ -62,6 +62,8 @@ public class CrmRepository extends AbstractDAO {
     public void insCrmHist(Map<String, Object> params) {insert("crm.insCrmHist", params);}
     public void updDjCrmHist(Map<String, Object> params) {insert("crm.updDjCrmHist", params);}
     public void updCrmHist(Map<String, Object> params) {insert("crm.updCrmHist", params);}
+    public void deleteDjCrmHist(Map<String, Object> params) {insert("crm.deleteDjCrmHist", params);}
+    public void deleteCrmHist(Map<String, Object> params) {insert("crm.deleteCrmHist", params);}
     public void insCrmEngnHist(Map<String, Object> params) {insert("crm.insCrmEngnHist", params);}
     public void setMfOverviewDel(Map<String, Object> params) {delete("crm.setMfOverviewDel", params);}
     public void setMfOverviewByCrmInfoUpd(Map<String, Object> params) {update("crm.setMfOverviewByCrmInfoUpd", params);}

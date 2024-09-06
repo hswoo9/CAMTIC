@@ -227,6 +227,25 @@ var regCrmHist = {
         }
     },
 
+    fn_delete : function (){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        regCrmHist.global.saveAjaxData = {
+            crmHistSn : $("#crmHistSn").val(),
+            type : $("#type").val()
+        }
+
+        var result = customKendo.fn_customAjax("/crm/deleteCrmHist", regCrmHist.global.saveAjaxData);
+
+        if(result.flag){
+            alert("삭제되었습니다.");
+            opener.parent.location.reload();
+            window.close();
+        }
+    },
+
     fn_popCamCrmList : function (){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
