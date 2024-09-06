@@ -14,7 +14,8 @@ var docuContractList = {
             {text: "시설공사", value : "5"},
             {text: "리스", value : "6"},
             {text: "인사", value : "7"},
-            {text: "기타", value : "8"}
+            {text: "기타", value : "8"},
+            {text: "용역", value : "9"}
 
         ]
         customKendo.fn_dropDownList("classType", classArr, "text", "value", 1);
