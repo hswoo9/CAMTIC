@@ -797,26 +797,27 @@ const appUserPaySetting = {
                 $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
             }
         } else if($("#eviType" + index).val() == '3'){
-
-            if(($("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z") && !($("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012")){
-                if($("#card" + index).val().includes("개인카드")){
-                    if(obj.id.match("totCost")){
-                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val()))));
-                        $("#vatCost" + index).val(0);
-                    } else if(obj.id.match("supCost")){
-                        $("#totCost" + index).val(comma(Number(uncommaN($("#supCost" + index).val()))));
-                        $("#vatCost" + index).val(0);
-                    } else if (obj.id.match("vatCost")){
-                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
-                    }
-                } else{
-                    if(obj.id.match("totCost")){
-                        $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Math.round(Number(uncommaN($("#totCost" + index).val())) * 100 / 110)));
-                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
-                    } else if(obj.id.match("supCost")){
-                        $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#supCost" + index).val()))));
-                    } else if (obj.id.match("vatCost")){
-                        $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+            if($("#pjtCd").val() != undefined){
+                if((("#pjtCd").val().substring(0,1) == "M" || $("#pjtCd").val().substring(0,1) == "Z") && !($("#pjtCd").val() == "Za9g923011" || $("#pjtCd").val() == "Za9g923012")){
+                    if($("#card" + index).val().includes("개인카드")){
+                        if(obj.id.match("totCost")){
+                            $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val()))));
+                            $("#vatCost" + index).val(0);
+                        } else if(obj.id.match("supCost")){
+                            $("#totCost" + index).val(comma(Number(uncommaN($("#supCost" + index).val()))));
+                            $("#vatCost" + index).val(0);
+                        } else if (obj.id.match("vatCost")){
+                            $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                        }
+                    } else{
+                        if(obj.id.match("totCost")){
+                            $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Math.round(Number(uncommaN($("#totCost" + index).val())) * 100 / 110)));
+                            $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                        } else if(obj.id.match("supCost")){
+                            $("#vatCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#supCost" + index).val()))));
+                        } else if (obj.id.match("vatCost")){
+                            $("#supCost" + index).val(comma(Number(uncommaN($("#totCost" + index).val())) - Number(uncommaN($("#vatCost" + index).val()))));
+                        }
                     }
                 }
             } else {
@@ -947,6 +948,13 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     if(trCd == null || trCd == "" || trCd == "undefined"){
         trCd = "";
     }
+
+    // 개인카드일 경우 총액 입력가능하게 수정
+    $("#totCost" + idx).data("kendoTextBox").enable(true);
+
+    $("#totCost" + idx).on('keyup', function() {
+        $("#reqAmt" + idx).val($("#totCost" + idx).val());
+    });
 
     $("#card" + idx).val(trNm);
     $("#cardNo" + idx).val(cardBaNb);
