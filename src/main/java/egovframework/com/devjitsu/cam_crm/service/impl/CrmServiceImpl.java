@@ -50,6 +50,15 @@ public class CrmServiceImpl implements CrmService {
         return crmRepository.getCrmData(params);
     }
 
+    @Override
+    public Map<String, Object> getCrmHistOne(Map<String, Object> params) {
+        if(Integer.parseInt(params.get("type").toString()) == 1){ // type 1 : DJ_CRM_HIST , 2 : CRM_HIST
+            return crmRepository.getDjCrmHistOne(params);
+        }else{
+            return crmRepository.getCrmHistOne(params);
+        }
+    }
+
 
     @Override
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
@@ -559,6 +568,18 @@ public class CrmServiceImpl implements CrmService {
     public void setCrmHist(Map<String, Object> params) {
         crmRepository.insCrmHist(params);
         crmRepository.updModDate(params);
+    }
+
+    @Override
+    public void setCrmHistUpd(Map<String, Object> params) {
+        if(Integer.parseInt(params.get("type").toString()) == 1){ // type 1 : DJ_CRM_HIST , 2 : CRM_HIST
+            crmRepository.updDjCrmHist(params);
+            crmRepository.updModDate(params);
+        }else{
+            crmRepository.updCrmHist(params);
+            crmRepository.updModDate(params);
+        }
+
     }
 
     @Override

@@ -346,7 +346,7 @@ var chv = {
             // crmInter = e[i].CRM_INTER.split(",");
             chv.global.htmlStr = "";
             chv.global.htmlStr += "" +
-                '<tr>' +
+                '<tr onclick="chv.fn_crmHistRegPop('+e[i].CRM_HIST_SN+','+e[i].type+');" style="cursor: pointer">' +
                     '<td>' + (i+1) + '</td>' +
                     '<td>' + e[i].DEPT_NAME + '</td>' +
                     '<td>' + e[i].EMP_NAME_KR + '</td>' +
@@ -364,7 +364,7 @@ var chv = {
             // chv.mainCdChkBoxSetting(crmInterLg);
 
             chv.global.htmlStr += '' +
-                '<tr>' +
+                '<tr onclick="chv.fn_crmHistRegPop('+e[i].CRM_HIST_SN+','+e[i].type+');" style="cursor: pointer">' +
                     '<td colSpan="6" style="text-align: left">' + e[i].CRM_REL_CONT + '</td>' +
                 '</tr>';
 
@@ -381,6 +381,14 @@ var chv = {
         }
 
     },
+
+    fn_crmHistRegPop: function (pk, type) {
+        // type 1 : DJ_CRM_HIST / 2 : CRM_HIST
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open("/crm/pop/regCrmHistPop.do?crmSn=" + $("#crmSn").val() + "&crmHistSn=" + pk + "&type=" + type, name, option);
+    },
+
 
     mainCdChkBoxSetting : function(e){
         var crmInterLg = e;

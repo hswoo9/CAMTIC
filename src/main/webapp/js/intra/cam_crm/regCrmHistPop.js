@@ -37,6 +37,27 @@ var regCrmHist = {
             culture : "ko-KR"
         });
 
+        $("#InDate").kendoDatePicker({
+            dateInput : true,
+            format: "yyyy-MM-dd",
+            value : new Date,
+            culture : "ko-KR"
+        });
+
+        $("#STimeH ,#ETimeH").kendoTimePicker({
+            format: "HH",
+            value : "00",
+        });
+
+        $("#STimeM ,#ETimeM").kendoTimePicker({
+            format: "mm",
+            value : "00",
+            interval: 1,
+            min: new Date(0, 0, 0, 0, 0),  // 시작 분: 00
+            max: new Date(0, 0, 0, 0, 59)  // 종료 분: 59
+        });
+
+
         regCrmHist.global.searchAjaxData = {
             cmGroupCode : "BUSN_CLASS",
         }
@@ -52,20 +73,20 @@ var regCrmHist = {
             language : 'ko'
         } ).then (newEditor => {
             regCrmHist.global.editor = newEditor;
-        });
 
-        $("input[name='crmRelPjt']").change(function(){
-            $("#pjtNm").hide();
-            $("#pjtSelBtn").hide();
-            if(this.value == "R" || this.value == "S"){
-                $("#pjtNm").show();
-                $("#pjtSelBtn").show();
+            $("input[name='crmRelPjt']").change(function(){
+                $("#pjtNm").hide();
+                $("#pjtSelBtn").hide();
+                if(this.value == "R" || this.value == "S"){
+                    $("#pjtNm").show();
+                    $("#pjtSelBtn").show();
+                }
+            })
+
+            if($("#crmSn").val()){
+                regCrmHist.fn_dataSet();
             }
-        })
-
-        if($("#crmSn").val()){
-            regCrmHist.fn_dataSet();
-        }
+        });
     },
 
     fn_dataSet : function (){
@@ -84,21 +105,64 @@ var regCrmHist = {
         }
         $("#telNum").val(rs.TEL_NUM);
         $("#fax").val(rs.FAX);
+
+        if($("#crmHistSn").val() != null && $("#crmHistSn").val() != ""){
+            var hsResult = customKendo.fn_customAjax("/crm/getCrmHistOne", { crmHistSn : $("#crmHistSn").val(), type : $("#type").val()});
+            var hist = hsResult.rs;
+            if($("#type").val() == 1){
+                $("#crmRelTp").data("kendoDropDownList").value(hist.CRM_REL_TP);
+                $("#crmRelStrDt").val(hist.CRM_REL_STR_DT);
+                $("#crmRelEndDt").val(hist.CRM_REL_END_DT);
+                $("#crmMemNm").val(hist.CRM_MEM_NM);
+                $("#crmMemSn").val(hist.CRM_MEM_SN);
+                $("#crmMemPhn").val(hist.CRM_MEM_PHN);
+                $("input[name='crmRelPjt'][value='" + hist.CRM_REL_PJT + "']").prop("checked", true);
+                if(hist.CRM_REL_PJT == "R" || hist.CRM_REL_PJT == "S"){
+                    $("#pjtNm").show();
+                    $("#pjtSelBtn").show();
+                }
+                $("#pjtSn").val(hist.CRM_REL_PJT_SN);
+                $("#pjtNm").val(hist.CRM_REL_PJT_NM);
+                regCrmHist.global.editor.setData(hist.CRM_REL_CONT);
+                $("#crmShareEmpName").val(hist.SHARE_EMP_NAME);
+                $("#crmShareEmp").val(hist.CRM_SHARE_EMP);
+                if(hist.SMS_CHK == "Y"){$("#smsChk").prop("checked", true);}
+                if(hist.MAIL_CHK == "Y"){$("#mailChk").prop("checked", true);}
+                if(hist.SEC_CHK == "Y"){$("#secChk").prop("checked", true);}
+            }else if($("#type").val() == 2){
+                $("#InDate").val(hist.InDate);
+                $("#STimeH").val(hist.STimeH);
+                $("#STimeM").val(hist.STimeM);
+                $("#ETimeH").val(hist.ETimeH);
+                $("#ETimeM").val(hist.ETimeM);
+                $("#crmMemNm").val(hist.IsCharge);
+                $("#crmMemPhn").val(hist.IsChargeTel);
+                regCrmHist.global.editor.setData(hist.Contents);
+                $("#crmRelTp").data("kendoDropDownList").enable(false);
+                $("#smsChk, #mailChk, #secChk, .dis").prop("disabled", true);
+                $("input[name='crmRelPjt']").prop("disabled", true);
+
+            }
+
+        }
+
     },
 
     fn_save : function(){
-        if(!$("#crmSn").val()){
-            alert("업체를 선택해주세요.");
-            $("#crmSelBtn").click();
-            return;
-        }else if(!$("#crmRelTp").val()){
-            alert("관계유형을 선택해주세요.");
-            return;
-        }
+        if($("#type").val() != 2){
+            if(!$("#crmSn").val()){
+                alert("업체를 선택해주세요.");
+                $("#crmSelBtn").click();
+                return;
+            }else if(!$("#crmRelTp").val()){
+                alert("관계유형을 선택해주세요.");
+                return;
+            }
 
-        if($("#crmShareEmp").val() != "" && !$("#smsChk").is(":checked") && !$("#mailChk").is(":checked")){
-            alert("관계내용 공유 방법을 선택해주세요.");
-            return;
+            if($("#crmShareEmp").val() != "" && !$("#smsChk").is(":checked") && !$("#mailChk").is(":checked")){
+                alert("관계내용 공유 방법을 선택해주세요.");
+                return;
+            }
         }
 
         if(!confirm("저장하시겠습니까?")){
@@ -106,6 +170,8 @@ var regCrmHist = {
         }
 
         regCrmHist.global.saveAjaxData = {
+            crmHistSn : $("#crmHistSn").val(),
+            type : $("#type").val(),
             crmSn : $("#crmSn").val(),
             crmNm : $("#crmNm").val(),
             crmMemSn : $("#crmMemSn").val(),
@@ -115,9 +181,17 @@ var regCrmHist = {
             crmRelPjtSn : $("#pjtSn").val(),
             crmRelPjt : $("input[name='crmRelPjt']:checked").val(),
             crmRelPjtNm : $("label[for='" + $("input[name='crmRelPjt']:checked").val() + "']").text(),
+          //  crmRelPjtNm : $("#pjtNm").val(),
             crmRelCont : regCrmHist.global.editor.getData(),
             crmShareEmp : $("#crmShareEmp").val(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            crmMemNm : $("#crmMemNm").val(),
+            crmMemPhn : $("#crmMemPhn").val(),
+            InDate : $("#InDate").val(),
+            STimeH : $("#STimeH").val(),
+            STimeM : $("#STimeM").val(),
+            ETimeH : $("#ETimeH").val(),
+            ETimeM : $("#ETimeM").val()
         }
 
         var crmInterLg = "";
@@ -143,7 +217,9 @@ var regCrmHist = {
             regCrmHist.global.saveAjaxData.mailChk = "Y";
         }
 
+
         var result = customKendo.fn_customAjax("/crm/setCrmHist", regCrmHist.global.saveAjaxData);
+
         if(result.flag){
             alert("저장되었습니다.");
             opener.parent.location.reload();

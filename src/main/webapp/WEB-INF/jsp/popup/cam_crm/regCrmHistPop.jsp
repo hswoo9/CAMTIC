@@ -14,12 +14,21 @@
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
 <input type="hidden" id="crmSn" name="crmSn" value="${params.crmSn}" />
 <input type="hidden" id="crmHistSn" value="${params.crmHistSn}" />
+<input type="hidden" id="type" value="${params.type}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">고객관계이력 등록</span></h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="regCrmHist.fn_save();">저장</button>
+                <c:choose>
+                    <c:when test="${params.crmHistSn != null && params.crmHistSn !=''}">
+                        <button type="button" class="k-button k-button-solid-primary" onclick="regCrmHist.fn_save();">수정</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="k-button k-button-solid-info" onclick="regCrmHist.fn_save();">저장</button>
+                    </c:otherwise>
+                </c:choose>
+
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -102,18 +111,33 @@
                         <span class="red-star">*</span>관계유형
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmRelTp" style="width: 15%;">
+                        <input type="text" id="crmRelTp" style="width: 15%;" >
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>일시
                     </th>
-                    <td colspan="3">
-                        <input type="text" id="crmRelStrDt" style="width: 20%;">
-                        ~
-                        <input type="text" id="crmRelEndDt" style="width: 20%;">
-                    </td>
+                    <c:choose>
+                        <c:when test="${params.type == 2}">
+                            <td colspan="3">
+                                <input type="text" id="InDate" style="width: 20%;">
+                                <input type="text" id="STimeH" style="width: 10%;">
+                                <input type="text" id="STimeM" style="width: 10%;">
+                                ~
+                                <input type="text" id="ETimeH" style="width: 10%;">
+                                <input type="text" id="ETimeM" style="width: 10%;">
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td colspan="3">
+                                <input type="text" id="crmRelStrDt" style="width: 20%;">
+                                ~
+                                <input type="text" id="crmRelEndDt" style="width: 20%;">
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
+
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -179,8 +203,8 @@
                     <td colspan="3">
                         <input type="text" id="crmShareEmpName" style="width: 30%;" disabled>
                         <input type="hidden" id="crmShareEmp" />
-                        <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popUser();">검색</button>
-                        <button type="button" class="k-button k-button-solid-base" onclick="regCrmHist.fn_shareEmpReset();">초기화</button>
+                        <button type="button" class="k-button k-button-solid-base dis" onclick="regCrmHist.fn_popUser();">검색</button>
+                        <button type="button" class="k-button k-button-solid-base dis" onclick="regCrmHist.fn_shareEmpReset();">초기화</button>
                         <span style="position: relative; top: 3px;">
                             <input type="checkbox" id="smsChk">
                             <label for="smsChk" style="margin-right: 15px;">SMS발송</label>

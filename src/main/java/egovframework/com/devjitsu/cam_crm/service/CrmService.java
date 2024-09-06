@@ -41,6 +41,7 @@ public interface CrmService {
     List<Map<String, Object>> getCrmHistRndList(Map<String, Object> params);
     List<Map<String, Object>> getCrmHistNonRndList(Map<String, Object> params);
     void setCrmHist(Map<String, Object> params);
+    void setCrmHistUpd(Map<String, Object> params);
     void setMfOverviewDel(Map<String, Object> params);
     void setMfOverviewByCrmInfoUpd(Map<String, Object> params);
     Map<String, Object> getMfOverviewInfo(Map<String, Object> params);
@@ -74,4 +75,5 @@ public interface CrmService {
     List<Map<String, Object>> getDeptRelationList(Map<String, Object> params);
 
     Integer getDeptRelationCnt(Map<String, Object> params);
+    Map<String, Object> getCrmHistOne(Map<String, Object> params);
 }

@@ -30,6 +30,55 @@
             A.CRM_SN = #{crmSn}
     </select>
 
+    <select id="getDjCrmHistOne" parameterType="map" resultType="map">
+        /*getDjCrmHistOne*/
+        SELECT
+            CH.CRM_HIST_SN,
+            CH.CRM_REL_TP,
+            DATE_FORMAT(CH.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS CRM_REL_STR_DT,
+            DATE_FORMAT(CH.CRM_REL_END_DT, '%Y-%m-%d %H:%i') AS CRM_REL_END_DT,
+            CH.CRM_MEM_SN,
+            CM.CRM_MEM_NM,
+            CM.CRM_MEM_PHN,
+            CH.CRM_REL_PJT,
+            CH.CRM_REL_PJT_SN,
+            CH.CRM_REL_PJT_NM,
+            CH.CRM_REL_CONT,
+            CH.CRM_SHARE_EMP,
+            GROUP_CONCAT(
+                EI.EMP_NAME_KR ORDER BY FIELD(EI.EMP_SEQ, CH.CRM_SHARE_EMP) SEPARATOR ','
+            ) AS SHARE_EMP_NAME,
+            CH.SMS_CHK,
+            CH.MAIL_CHK,
+            CH.SEC_CHK,
+            CH.REG_EMP_SEQ
+        FROM
+            CAM_CRM.DJ_CRM_HIST CH
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM ON CH.CRM_MEM_SN = CM.CRM_MEM_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI ON FIND_IN_SET(EI.EMP_SEQ, CH.CRM_SHARE_EMP) > 0
+        WHERE
+            CRM_HIST_SN = #{crmHistSn}
+    </select>
+
+    <select id="getCrmHistOne" parameterType="map" resultType="map">
+        /*getCrmHistOne*/
+        SELECT
+            InDate,
+            STimeH,
+            STimeM,
+            ETimeH,
+            ETimeM,
+            IsCharge,
+            IsChargeTel,
+            Contents
+        FROM
+            CAM_CRM.CRM_HIST
+        WHERE
+            SeqNo = #{crmHistSn}
+    </select>
+
     <select id="getCrmList" parameterType="map" resultType="map">
         /* getCrmList */
         SELECT
@@ -438,12 +487,14 @@
         /*getCrmHistDetailList ==> CRM 관리 > 고객 이력관리 데이터 조회 */
         SELECT * FROM (
         SELECT
+            CRM_HIST_SN,
             C.DEPT_NAME,
             EMP_NAME_KR,
             CRM_MEM_NM,
             DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
             CRM_HIST_OBJ,
-            CRM_REL_CONT
+            CRM_REL_CONT,
+            '1' AS type
         FROM
             CAM_CRM.DJ_CRM_HIST A
         LEFT JOIN
@@ -468,6 +519,7 @@
         UNION ALL
 
         select
+            SeqNo AS CRM_HIST_SN,
             DeptTeam AS DEPT_NAME
             ,(select EMP_NAME_KR from cam_hr.dj_emp_info where EMP_SEQ = RegID) AS EMP_NAME_KR
             ,IsCharge AS CRM_MEM_NM
@@ -477,7 +529,8 @@
             end) AS START_DATETIME
             ,(case when InterProjectType1 is null then '출장'
             else 'CRM' end) AS CRM_HIST_OBJ
-            ,Contents AS CRM_REL_CONT
+            ,Contents AS CRM_REL_CONT,
+            '2' AS type
         from
             cam_crm.crm_hist
         where
@@ -670,6 +723,52 @@
                 #{empSeq}
             )
     </insert>
+
+    <update id="updDjCrmHist" parameterType="map">
+        /* updDjCrmHist */
+        UPDATE
+            CAM_CRM.DJ_CRM_HIST
+        SET
+        <if test='crmMemSn != null and !"".equals(crmMemSn)'>
+            CRM_MEM_SN = #{crmMemSn},
+        </if>
+            CRM_REL_TP = #{crmRelTp},
+            CRM_REL_STR_DT = #{crmRelStrDt},
+            CRM_REL_END_DT = #{crmRelEndDt},
+            CRM_INTER_VAL = "",
+            CRM_INTER_LG = #{crmInterLg},
+            CRM_INTER = #{crmInter},
+        <if test='crmRelPjtSn != null and !"".equals(crmRelPjtSn)'>
+            CRM_REL_PJT_SN = #{crmRelPjtSn},
+        </if>
+            CRM_REL_PJT = #{crmRelPjt},
+            CRM_REL_PJT_NM = #{crmRelPjtNm},
+            CRM_REL_CONT = #{crmRelCont},
+            CRM_SHARE_EMP = #{crmShareEmp},
+            SMS_CHK = #{smsChk},
+            MAIL_CHK = #{mailChk},
+            SEC_CHK = #{secChk},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            CRM_HIST_SN = #{crmHistSn};
+    </update>
+
+    <update id="updCrmHist" parameterType="map">
+        /* updCrmHist */
+        UPDATE
+            CAM_CRM.CRM_HIST
+        SET
+            InDate = #{InDate},
+            STimeH = #{STimeH},
+            STimeM = #{STimeM},
+            ETimeH = #{ETimeH},
+            ETimeM = #{ETimeM},
+            IsCharge = #{crmMemNm},
+            IsChargeTel = #{crmMemPhn},
+            Contents = #{crmRelCont}
+        WHERE
+            SeqNo = #{crmHistSn}
+    </update>
 
     <insert id="insCrmBustHist" parameterType="map">
         /* insCrmBustHist */

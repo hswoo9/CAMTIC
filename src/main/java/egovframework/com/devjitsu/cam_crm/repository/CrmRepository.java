@@ -10,6 +10,8 @@ import java.util.Map;
 public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getPopCrmList(Map<String, Object> params) {return selectList("crm.getPopCrmList", params);}
     public Map<String, Object> getCrmData(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmData", params);}
+    public Map<String, Object> getDjCrmHistOne(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getDjCrmHistOne", params);}
+    public Map<String, Object> getCrmHistOne(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmHistOne", params);}
     public List<Map<String, Object>> getCrmList(Map<String, Object> params) {return selectList("crm.getCrmList", params);}
     public void setCrmDel(Map<String, Object> params) {delete("crm.setCrmDel", params);}
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmInfo", params);}
@@ -58,6 +60,8 @@ public class CrmRepository extends AbstractDAO {
     public Map<String, Object> getCrmHist(Map<String, Object> params) {return (Map<String, Object>) selectOne("crm.getCrmHist", params);}
     public void insCrmBustHist(Map<String, Object> params) {insert("crm.insCrmBustHist", params);}
     public void insCrmHist(Map<String, Object> params) {insert("crm.insCrmHist", params);}
+    public void updDjCrmHist(Map<String, Object> params) {insert("crm.updDjCrmHist", params);}
+    public void updCrmHist(Map<String, Object> params) {insert("crm.updCrmHist", params);}
     public void insCrmEngnHist(Map<String, Object> params) {insert("crm.insCrmEngnHist", params);}
     public void setMfOverviewDel(Map<String, Object> params) {delete("crm.setMfOverviewDel", params);}
     public void setMfOverviewByCrmInfoUpd(Map<String, Object> params) {update("crm.setMfOverviewByCrmInfoUpd", params);}

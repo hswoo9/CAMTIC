@@ -151,6 +151,13 @@ public class CrmController {
         return "jsonView";
     }
 
+    @RequestMapping("/crm/getCrmHistOne")
+    public String getCrmHistOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", crmService.getCrmHistOne(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/pop/regCrmPop.do")
     public String regCrmPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
 
@@ -479,7 +486,11 @@ public class CrmController {
     @RequestMapping("/crm/setCrmHist")
     public String setCrmHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
-            crmService.setCrmHist(params);
+            if(params.get("crmHistSn") != null && !"".equals(params.get("crmHistSn"))){
+                crmService.setCrmHistUpd(params);
+            }else{
+                crmService.setCrmHist(params);
+            }
 
             // 메일발송체크
             if(params.containsKey("mailChk")) {
@@ -492,6 +503,88 @@ public class CrmController {
                         "<p></p>" +
                         "<p style='font-size: 10px; text-align: left;'>[ " + params.get("crmNm") + " ]의 관계이력이 등록되었습니다.</p>" +
                         "<p style='font-size: 10px; text-align: left;'>해당내용은 [캠스팟2.0 캠CRM - 고객관리] 메뉴에서 확인할 수 있습니다.</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>업쳬명 : "+ params.get("crmNm") +"</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>관계내용</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>"+ params.get("crmRelCont") +"</p>" +
+                        "</div>";
+
+                for (String empSeq : empSeqArr) {
+                    tempParams.put("sn", empSeq);
+                    Map<String, Object> empInfo = manageService.getEmpInfo(tempParams);
+
+                    tempParams.put("receiveEml", empInfo.get("EMAIL_ADDR"));
+                    tempParams.put("sendEml", "camtic-send@camtic.or.kr");
+                    tempParams.put("subject", "[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림");
+                    tempParams.put("contents", contents);
+
+                    try {
+                        mailUtil.mailHistSendMail(tempParams, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // SMS발송체크
+            if(params.containsKey("smsChk")) {
+                HttpSession session = request.getSession();
+                LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+                String[] empSeqArr = params.get("crmShareEmp").toString().split(",");
+                Map<String, Object> tempParams = new HashMap<>();
+
+                String contents = "" +
+                        "[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림\n" +
+                        "[ " + params.get("crmNm") + " ]의 관계이력이 등록되었습니다.\n" +
+                        "해당내용은 [캠스팟2.0 캠CRM - 고객관리] 메뉴에서 확인할 수 있습니다.\n";
+
+                Date currentDate = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+                for (String empSeq : empSeqArr) {
+                    tempParams.put("sn", empSeq);
+                    Map<String, Object> empInfo = manageService.getEmpInfo(tempParams);
+
+                    tempParams.put("receiveEml", empInfo.get("EMAIL_ADDR"));
+                    tempParams.put("sendEml", "camtic-send@camtic.or.kr");
+
+                    tempParams.put("dest_phone", empInfo.get("EMP_NAME_KR") + "^" + empInfo.get("MOBILE_TEL_NUM"));
+                    tempParams.put("msg_content", contents);
+                    tempParams.put("pkDate", dateFormat.format(currentDate));
+                    tempParams.put("loginEmpSeq", loginVO.getUniqId());
+
+                    messageService.msgSend(tempParams);
+                }
+            }
+
+            model.addAttribute("params", params);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/setCrmHistUpd")
+    public String setCrmHistUpd(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+
+
+            // 메일발송체크
+            if(params.containsKey("mailChk")) {
+                MailUtil mailUtil = new MailUtil();
+                String[] empSeqArr = params.get("crmShareEmp").toString().split(",");
+                Map<String, Object> tempParams = new HashMap<>();
+
+                String contents = "<div>" +
+                        "<p style='font-size: 10px; text-align: left;'>[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림</p>" +
+                        "<p></p>" +
+                        "<p style='font-size: 10px; text-align: left;'>[ " + params.get("crmNm") + " ]의 관계이력이 등록되었습니다.</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>해당내용은 [캠스팟2.0 캠CRM - 고객관리] 메뉴에서 확인할 수 있습니다.</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>업쳬명 : "+ params.get("crmNm") +"</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>관계내용</p>" +
+                        "<p style='font-size: 10px; text-align: left;'>"+ params.get("crmRelCont") +"</p>" +
                         "</div>";
 
                 for (String empSeq : empSeqArr) {
