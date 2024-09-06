@@ -240,4 +240,10 @@ public interface ProjectService {
     List<Map<String, Object>> payAppChooseList(Map<String, Object> params);
 
     void updPayAppChoose(Map<String, Object> params);
+
+    void setPjtAmt(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params);
+
+    Map<String, Object> getPjtAmtSetData(Map<String, Object> params);
 }

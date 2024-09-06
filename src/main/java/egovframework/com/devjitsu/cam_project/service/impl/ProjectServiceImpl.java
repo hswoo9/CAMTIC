@@ -1837,6 +1837,21 @@ public class ProjectServiceImpl implements ProjectService {
     public void updPayAppChoose(Map<String, Object> params) {
         projectRepository.updPayAppChoose(params);
     }
+
+    @Override
+    public void setPjtAmt(Map<String, Object> params) {
+        projectRepository.setPjtAmt(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params) {
+        return projectRepository.getPjtAmtSetList(params);
+    }
+
+    @Override
+    public Map<String, Object> getPjtAmtSetData(Map<String, Object> params) {
+        return projectRepository.getPjtAmtSetData(params);
+    }
 }
 
 

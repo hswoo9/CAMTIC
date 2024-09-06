@@ -4091,4 +4091,47 @@
             PJT_SN = #{pjtSn}
         WHERE PAY_APP_SN IN (${payAppSnList})
     </update>
+
+    <insert id="setPjtAmt" parameterType="map">
+        /* setPjtAmt */
+        INSERT INTO CAM_PJT_MNG.DJ_AMT_SET
+        (
+            PJT_SN,
+            REQ_TYPE,
+            REQ_DATE,
+            REQ_AMT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{amtType},
+            #{reqDate},
+            #{reqAmt},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
+    </insert>
+
+    <select id="getPjtAmtSetList" parameterType="map" resultType="map">
+        /*getPjtAmtSetList*/
+        SELECT
+            *
+        FROM CAM_PJT_MNG.DJ_AMT_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getPjtAmtSetData" parameterType="map" resultType="map">
+        /*getPjtAmtSetData*/
+        SELECT
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_PJT_MNG.DJ_AMT_SET WHERE PJT_SN = #{pjtSn} AND ACTIVE = 'Y' AND REQ_TYPE = '0' AND YEAR(REQ_DATE) = #{reqYear}), 0) AS AMT0,
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_PJT_MNG.DJ_AMT_SET WHERE PJT_SN = #{pjtSn} AND ACTIVE = 'Y' AND REQ_TYPE = '1' AND YEAR(REQ_DATE) = #{reqYear}), 0) AS AMT1,
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_PJT_MNG.DJ_AMT_SET WHERE PJT_SN = #{pjtSn} AND ACTIVE = 'Y' AND REQ_TYPE = '2' AND YEAR(REQ_DATE) = #{reqYear}), 0) AS AMT2,
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_PJT_MNG.DJ_AMT_SET WHERE PJT_SN = #{pjtSn} AND ACTIVE = 'Y' AND REQ_TYPE = '3' AND YEAR(REQ_DATE) = #{reqYear}), 0) AS AMT3
+        FROM DUAL
+    </select>
 </mapper>

@@ -29,5 +29,12 @@ var costInfoPop = {
         const name = "payAppChoosePop";
         const option = "width = 1450, height = 650, top = 150, left = 400, location = no";
         window.open(url, name, option);
+    },
+
+    pjtAmtSetPop: function(){
+        let url = "/project/pjtAmtSetPop.do?pjtSn="+$("#pjtSn").val();
+        const name = "pjtAmtSetPop";
+        const option = "width = 800, height = 689, top = 150, left = 400, location = no";
+        window.open(url, name, option);
     }
 }

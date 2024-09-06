@@ -1775,6 +1775,18 @@ public class ProjectController {
         return "jsonView";
     }
 
+
+
+    @RequestMapping("/project/getPjtCostData2")
+    public String getPjtCostData2(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = projectService.getProjectDataByAchieve(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getPjtCostData")
     public String getPjtCostData(@RequestParam Map<String, Object> params, Model model) {
 
@@ -1793,14 +1805,14 @@ public class ProjectController {
                 Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
                 Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
+                Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
 
                 map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
                 map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
                 map.put("realUseAmt", realUseMap2.get("COST_SUM"));
                 map.put("planAmt", planMap.get("TOT_COST"));
-
-                List<Map<String, Object>> budgetAmtList = g20Service.getG20BudgetSum(params);
+                map.put("pjtAmtSetData", getPjtAmtSetData);
 
             } else {
 
@@ -1841,6 +1853,8 @@ public class ProjectController {
                         map.put("tmpSaleAmt", map.get("PJT_AMT"));
                         map.put("tmpProfitAmt", 0);
                     }
+                    Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
+                    map.put("pjtAmtSetData", getPjtAmtSetData);
                 }
             }
 
@@ -1876,6 +1890,16 @@ public class ProjectController {
         return "popup/cam_project/engineering/payAppChoosePop";
     }
 
+    /** 매출수익설정 팝업 */
+    @RequestMapping("/project/pjtAmtSetPop.do")
+    public String pjtAmtSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/engineering/pjtAmtSetPop";
+    }
+
     @RequestMapping("/project/payAppChooseList")
     public String payAppChooseList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = projectService.payAppChooseList(params);
@@ -1892,6 +1916,24 @@ public class ProjectController {
         } catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/setPjtAmt")
+    public String setPjtAmt(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setPjtAmt(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getPjtAmtSetList")
+    public String getPjtAmtSetList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectService.getPjtAmtSetList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 }

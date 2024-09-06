@@ -145,6 +145,7 @@
             </tr>
             </thead>
         </table>
+        <button type="button" class="k-button k-button-solid-info" style="font-size:12px; margin-top:5px;" onclick="costInfoPop.pjtAmtSetPop()">매출수익설정</button>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 총 합계</span>
         <table id="sumTable" class="popTable table table-bordered mb-0"></table>
