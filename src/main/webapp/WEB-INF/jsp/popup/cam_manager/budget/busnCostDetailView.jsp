@@ -54,6 +54,27 @@
             </div>
         </div>
 
+        <div class="col-md-12 col-sm-12" style="padding: 20px 30px;">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="40%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="text-center th-color">조회기간</th>
+                    <td colspan="3">
+                        <input type="text" id="strDe" style="width: 200px;"> ~ <input type="text" id="endDe" style="width: 200px;">
+                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bcd.gridReload()">
+                            <span class="k-button-text">조회</span>
+                        </button>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+
         <div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -257,6 +278,18 @@
 </div>
 
 <script>
+    const frDt = "${g20Info.FR_DT}";
+    const toDt = "${g20Info.TO_DT}";
+    console.log("frDt", frDt);
+    console.log("toDt", toDt);
+    const year = frDt.substring(0, 4);
+    const month = frDt.substring(4, 6);
+    const day = frDt.substring(6, 8);
+    const year2 = toDt.substring(0, 4);
+    const month2 = toDt.substring(4, 6);
+    const day2 = toDt.substring(6, 8);
+    customKendo.fn_datePicker("strDe", "decade", "yyyy-MM-dd", new Date(year+"-"+month+"-"+day));
+    customKendo.fn_datePicker("endDe", "decade", "yyyy-MM-dd", new Date(year2+"-"+month2+"-"+day2));
     bcd.fn_defaultScript();
 </script>
 </body>

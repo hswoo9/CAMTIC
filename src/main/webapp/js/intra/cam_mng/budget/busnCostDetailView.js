@@ -15,6 +15,11 @@ var bcd = {
         bcd.budgetMainGrid2();
     },
 
+    gridReload : function(){
+        $("#budgetMainGrid").data("kendoGrid").dataSource.read();
+        $("#budgetMainGrid2").data("kendoGrid").dataSource.read();
+    },
+
     budgetMainGrid : function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -31,8 +36,8 @@ var bcd = {
                     data.gisu = year;
                     // data.fromDate = date.getFullYear().toString() + "0101";
                     // data.toDate = date.getFullYear().toString() + "1231";
-                    data.fromDate = $("#g20FrDt").val();
-                    data.toDate = $("#g20ToDt").val();
+                    data.fromDate = $("#strDe").val().replace(/-/g, "");
+                    data.toDate = $("#endDe").val().replace(/-/g, "");
                     data.mgtSeq = $("#pjtCd").val();
                     data.opt01 = '3';
                     data.opt02 = '1';
@@ -200,8 +205,8 @@ var bcd = {
                     data.gisu = year;
                     // data.fromDate = date.getFullYear().toString() + "0101";
                     // data.toDate = date.getFullYear().toString() + "1231";
-                    data.fromDate = $("#g20FrDt").val();
-                    data.toDate = $("#g20ToDt").val();
+                    data.fromDate = $("#strDe").val().replace(/-/g, "");
+                    data.toDate = $("#endDe").val().replace(/-/g, "");
                     data.mgtSeq = $("#pjtCd").val()
                     data.opt01 = '3';
                     data.opt02 = '1';
