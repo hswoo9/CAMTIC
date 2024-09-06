@@ -126,7 +126,12 @@ var docuContractList = {
                     field: "PROJECT_NAME",
                     title: "계약건명",
                     template : function(e){
-                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                        if (e.DEL_STS == 1) {
+                            return '<div style="text-align: left; text-decoration: none; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                        }else if(e.DEL_STS == 10){
+                            return '<div style="text-align: left; text-decoration: line-through; text-decoration-color:red; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                        }
+
                     },
                     width: "29%"
                 }, {
@@ -179,7 +184,20 @@ var docuContractList = {
                             return "<span onmouseover='docuContractList.showEtcDiv(\""+row.DOCUMENT_CONTRACT_SN+"\")' onmouseout='docuContractList.hideEtcDiv(\""+row.DOCUMENT_CONTRACT_SN+"\")'>보기</span>";
                         }
                     }
-                }]
+                }, {
+                    title: "삭제",
+                    width: "10%",
+                    template: function(row) {
+                        if(row.DEL_STS == '10'){
+                            let buttonHtml = '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuContractList.tmpDel(\'' + row.DOCUMENT_CONTRACT_SN + '\', \'' + row.DEL_STS + '\', \'' + row.DOCU_YEAR_SN + '\', \'' + row.DOCU_NO + '\')">삭제</button>';
+                            buttonHtml += '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left:10px;" onclick="docuContractList.tmpDelCancel(\'' + row.DOCUMENT_CONTRACT_SN + '\', \'' + row.DEL_STS + '\', \'' + row.DOCU_YEAR_SN + '\', \'' + row.DOCU_NO + '\')">복원</button>';
+                            return buttonHtml;
+                        }else{
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuContractList.tmpDel(\'' + row.DOCUMENT_CONTRACT_SN + '\', \'' + row.DEL_STS + '\', \'' + row.DOCU_YEAR_SN + '\', \'' + row.DOCU_NO + '\')">삭제</button>';
+                        }
+                    }
+                }
+            ]
         }).data("kendoGrid");
     },
 
@@ -212,6 +230,61 @@ var docuContractList = {
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
         });
-    }
+    },
+
+    tmpDel: function (docSn, delSts, docuYearSn, docuNo) {
+        if (delSts == 1) {
+            if (confirm("계약번호" + "[" + docuYearSn + "-" + docuNo + "]" + "(을)를 삭제하시겠습니까?\n삭제된 문서는 복원이 가능합니다.")) {
+                $.ajax({
+                    url: "/inside/setDocuContractDel",
+                    data: {
+                        documentContractSn: docSn,
+                        delSts: 10,
+                    },
+                    type: "post",
+                    datatype: "json",
+                    success: function () {
+                        alert("삭제 완료 되었습니다.");
+                        docuContractList.gridReload();
+                    }
+                });
+            }
+        } else if (delSts == 10) {
+            if (confirm("계약번호" + "[" + docuYearSn + "-" + docuNo + "]" + "(을)를 완전히 삭제하시겠습니까?\n삭제된 문서는 복원이 불가능합니다.")) {
+                $.ajax({
+                    url: "/inside/setDocuContractDel",
+                    data: {
+                        documentContractSn: docSn,
+                        delSts: 999
+                    },
+                    type: "post",
+                    datatype: "json",
+                    success: function () {
+                        alert("최종 삭제 완료 되었습니다.");
+                        docuContractList.gridReload();
+                    }
+                });
+            }
+        }
+    },
+
+    tmpDelCancel: function (docSn, delSts, docuYearSn, docuNo) {
+        if (confirm("계약번호" + "[" + docuYearSn + "-" + docuNo + "]" + "(을)를 복원 하시겠습니까?")) {
+            $.ajax({
+                url: "/inside/setDocuContractDel",
+                data: {
+                    documentContractSn: docSn,
+                    delSts: 1,
+                },
+                type: "post",
+                datatype: "json",
+                success: function () {
+                    alert("복원 완료 되었습니다.");
+                    docuContractList.gridReload();
+                }
+            })
+        }
+    },
+    
 
 }

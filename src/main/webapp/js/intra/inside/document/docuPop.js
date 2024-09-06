@@ -14,6 +14,14 @@ var docuContractReq = {
         docuContractReq.global.params = parameters;
         docuContractReq.pageSet();
         docuContractReq.dataSet();
+
+        if(docuContractReq.global.params.documentContractSn != undefined) {
+            $('#projectNumber').prop('readonly', false);
+            $('#projectNumber2').prop('readonly', false);
+        }else{
+            $('#projectNumber').prop('readonly', true);
+            $('#projectNumber2').prop('readonly', true);
+        }
     },
 
     pageSet: function(){
@@ -187,6 +195,25 @@ var docuContractReq = {
         $("#zipCode").val(data.ZIP_CODE);
         $("#addr").val(data.ADDR);
 
+        $("#claimSn").val(data.CLAIM_SN);
+        $("#purcSn").val(data.PURC_SN);
+
+        if(data.CONT_YN == 'Y' && data.EST_AMT >= 10000000){
+            $("#claimDiv").css("display", "");
+
+            var claimData = {
+                claimSn :data.CLAIM_SN,
+                purcSn :data.PURC_SN,
+                claimDe : data.CLAIM_DE,
+                expDe : data.EXP_DE,
+                claimTitle : data.CLAIM_TITLE,
+                crmNm : data.CRM_NM,
+                totAmt : data.TOT_AMT
+            };
+
+            docuContractReq.drawClaimData(claimData);
+        }
+
         var returnData = customKendo.fn_customAjax("/contract/getFileListC", { documentContractSn: documentContractSn });
         var returnFileArr = returnData.fileList;
         docuContractReq.global.fileArray = returnFileArr;
@@ -304,6 +331,7 @@ var docuContractReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         let projectNumber = $("#projectNumber").val();
+        let projectNumber2 = $("#projectNumber2").val();
         let representative = $("#representative").val();
         let fullAddr = $("#addr").val() + " " + $("#addrDetail").val();
         let businessNumber = $("#businessNumber").val();
@@ -351,6 +379,7 @@ var docuContractReq = {
             regEmpSeq : regEmpSeq,
             regEmpName : regEmpName,
             projectNumber : projectNumber,
+            projectNumber2 : projectNumber2,
             representative : representative,
             fullAddr : fullAddr,
             businessNumber : businessNumber,
@@ -835,4 +864,34 @@ var docuContractReq = {
         var popup = window.open(url, name, option);
     },
 
+    fn_reqClaiming : function(key , subKey){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    drawClaimData: function (claimData) {
+        var html = "";
+        html += '<tr>';
+        html += '    <td class="text-center">' + claimData.claimDe + '</td>';
+        html += '    <td class="text-center">' + claimData.expDe + '</td>';
+        html += '    <td class="text-center">';
+        html += '       <a onclick="docuContractReq.fn_reqClaiming(\'' + claimData.claimSn + '\',\'' + claimData.purcSn + '\')">' + claimData.claimTitle + '</a>';
+        html += '    </td>';
+        html += '    <td class="text-center">' + claimData.crmNm + '</td>';
+        html += '    <td class="text-center">' + comma(claimData.totAmt) + '</td>';
+        html += '</tr>';
+
+        $("#claimTbody").html(html);
+    },
 }

@@ -399,7 +399,7 @@ public class PurcServiceImpl implements PurcService {
             }
 
             /** 계약건이고 청구 결재 완료시 계약대장 작성 */
-            if (Objects.equals(claimData.get("CONT_YN"), "Y")) {
+            if (Objects.equals(claimData.get("CONT_YN").toString(), "Y") && Integer.parseInt(claimData.get("EST_AMT").toString()) >= 10000000) {
                 purcRepository.insContractPurcReq(params);
             }
         }else if("111".equals(docSts)){ // 임시저장

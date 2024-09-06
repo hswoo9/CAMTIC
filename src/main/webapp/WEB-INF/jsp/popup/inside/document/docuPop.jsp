@@ -1,4 +1,3 @@
-</td>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -8,9 +7,19 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/icons.css">
+
 <script type="text/javascript" src="/js/intra/inside/document/docuPop.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+
+<style>
+    a{font-weight: bold;}
+    a:hover {
+        color: blue;
+        text-decoration: underline !important;
+        cursor: pointer;
+    }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -37,7 +46,7 @@
             <h3 class="card-title title_NM">계약대장</h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="docuContractReq.saveBtn()">저장</button>
-                <button type="button" id="delBtn" class="k-button k-button-solid-error" style="display:none" onclick="docuContractReq.delBtn()">삭제</button>
+                <%--<button type="button" id="delBtn" class="k-button k-button-solid-error" style="display:none" onclick="docuContractReq.delBtn()">삭제</button>--%>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -141,8 +150,8 @@
                         <span class="red-star"></span>계약 번호
                     </th>
                     <td>
-                        <input type="text" id="projectNumber" style="width: 48%; text-align: right;">
-                        <input type="text" id="projectNumber2" style="width: 48%; text-align: right;">
+                        <input type="text" id="projectNumber" style="width: 48%; text-align: right;" >
+                        <input type="text" id="projectNumber2" style="width: 48%; text-align: right;" >
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>계약 업체(자)
@@ -260,6 +269,43 @@
                 </div>
             </form>
         </div>
+
+        <div id="claimDiv" style="padding: 20px 30px; display: none;">
+            <div class="card-header" style="padding: 5px;">
+                <h3 class="card-title">구매청구서</h3>
+            </div>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>청구일
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>납품(예정)일
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>제목
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>업체명
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>금액
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="claimTbody">
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 <div id="docEditor" style="width: 960px;display: none; margin-top: 300px;"></div>

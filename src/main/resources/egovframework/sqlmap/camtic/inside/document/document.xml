@@ -163,7 +163,9 @@
         SELECT
             *
         FROM
-            CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+            CAM_INSIDE.DJ_DOCUMENT_CONTRACT DC
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM PC ON PC.CLAIM_SN = DC.CLAIM_SN
         WHERE
             DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </select>
@@ -598,7 +600,7 @@
                 #{classSn},
                 #{className},
                 CONCAT(#{docuName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
-                #{projectNumber},
+                (select lpad(max(cast(b.docu_no as unsigned)) + 1, 3, '0') from cam_inside.dj_document_contract b),
                 #{docuDe},
                 #{projectName},
                 #{contractAmount},
@@ -656,7 +658,9 @@
             TOTAL_MONTH = #{totalMonth},
             PAYMENT = #{payment},
             SURT_INSR = #{surtInsr},
-            DLV_LOC = #{dlvLoc}
+            DLV_LOC = #{dlvLoc},
+            DOCU_YEAR_SN = #{projectNumber},
+            DOCU_NO = #{projectNumber2}
         WHERE
             DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </insert>
@@ -665,7 +669,8 @@
         /* setDocuContractDel */
         UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
         SET
-            ACTIVE = 'N'
+            DEL_STS = #{delSts},
+            ACTIVE = CASE WHEN #{delSts} = 999 THEN 'N' ELSE 'Y' END
         WHERE
             DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </insert>
