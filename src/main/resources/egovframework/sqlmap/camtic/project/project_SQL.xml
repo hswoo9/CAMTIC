@@ -69,7 +69,8 @@
             DLP.DELV_EST_DE,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ,
-            (SELECT INV_AMT FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE PJT_SN = A.PJT_SN ORDER BY DEV_SN DESC LIMIT 1) AS INV_AMT
+            (SELECT INV_AMT FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE PJT_SN = A.PJT_SN ORDER BY DEV_SN DESC LIMIT 1) AS INV_AMT,
+            SPT.PM_EMP_SEQ AS TEAM_PM_EMP_SEQ, SPT.REG_EMP_SEQ AS TEAM_REG_EMP_SEQ, SPT.EMP_SEQ AS TEAM_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
@@ -95,6 +96,7 @@
             FROM cam_pjt_mng.dj_pjt_ps
         ) R2 ON A.PJT_SN = R2.PJT_SN
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT PR ON A.PJT_SN = PR.PJT_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT SPT ON A.PJT_SN = SPT.PNT_PJT_SN
         WHERE
             1=1
         AND A.TEAM_STAT = "N"
@@ -137,7 +139,8 @@
         </if>
         <if test='"1".equals(searchValue)'>
             AND
-                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq}
+            OR SPT.PM_EMP_SEQ = #{regEmpSeq} OR SPT.REG_EMP_SEQ = #{regEmpSeq} OR SPT.EMP_SEQ = #{regEmpSeq})
             AND
                 A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
             AND
@@ -145,7 +148,8 @@
         </if>
         <if test='"2".equals(searchValue)'>
             AND
-                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq}
+            OR SPT.PM_EMP_SEQ = #{regEmpSeq} OR SPT.REG_EMP_SEQ = #{regEmpSeq} OR SPT.EMP_SEQ = #{regEmpSeq})
         </if>
         <if test='"3".equals(searchValue)'>
             AND

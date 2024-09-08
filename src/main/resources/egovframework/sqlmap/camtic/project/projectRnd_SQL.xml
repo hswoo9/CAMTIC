@@ -662,6 +662,7 @@
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = B.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
+        AND PART_RATE_VER_SN IS NOT NULL
     </select>
 
     <select id="getAccountInfo" parameterType="map" resultType="map">
