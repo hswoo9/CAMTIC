@@ -246,4 +246,6 @@ public interface ProjectService {
     List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params);
 
     Map<String, Object> getPjtAmtSetData(Map<String, Object> params);
+
+    void setPjtAmtDel(Map<String, Object> params);
 }

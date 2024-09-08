@@ -220,10 +220,10 @@ var costInfo = {
                 $("#RES_NOT_INV_AMT"+i).text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
                 /** 예상매출액 */
-                $("#DEV_AMT"+i).text(comma(Number(Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0))));
+                $("#DEV_AMT"+i).text(comma(Number(Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0))));
 
                 /** 예상운영수익 */
-                $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+                $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0)));
 
             }else{
                 /**
@@ -236,11 +236,11 @@ var costInfo = {
                 /** 달성 매출액 */
                 let asrAmt = 0;
                 if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
                 }else{
-                    asrAmt = e.exnpCompAmt;
+                    asrAmt = e.exnpCompAmt - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
                 }
-                $("#RES_AMT"+i).text(comma(asrAmt + e.pjtAmtSetData.AMT1));
+                $("#RES_AMT"+i).text(comma(asrAmt + e.pjtAmtSetData.AMT0));
 
                 /** 달성운영수익 */
                 let aopAmt = 0;
@@ -256,12 +256,12 @@ var costInfo = {
                 console.log("realUseAmt", e.realUseAmt);
                 console.log("aopAmt", aopAmt);
                 console.log("pjtAmtSetData", e.pjtAmtSetData);
-                $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT2));
+                $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1 - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
 
                 /** 예상매출액 */
                 let devAmt = 0;
                 devAmt = Number(e.REAL_PJT_AMT || 0) - asrAmt;
-                $("#DEV_AMT"+i).text(comma(devAmt + e.pjtAmtSetData.AMT3));
+                $("#DEV_AMT"+i).text(comma(devAmt + e.pjtAmtSetData.AMT2));
 
                 /** 예상운영수익 */
                 let eopAmt = 0;
@@ -276,6 +276,11 @@ var costInfo = {
             console.log(Number(e.incpCompAmt || 0));
             console.log(Number(e.befExpProfitAmt || 0));
             console.log(Number(e.aftProfitAmt || 0));
+
+            console.log("befExpSaleAmt", Number(e.befExpSaleAmt || 0));
+            console.log("aftSaleAmt", Number(e.aftSaleAmt || 0));
+            console.log("befExpProfitAmt", Number(e.befExpProfitAmt || 0));
+            console.log("aftProfitAmt", Number(e.aftProfitAmt || 0));
         }
 
         /** 합계 */

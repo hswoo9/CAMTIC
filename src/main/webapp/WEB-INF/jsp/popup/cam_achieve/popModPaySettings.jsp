@@ -10,6 +10,7 @@
     <div class="table-responsive">
         <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
+        <input type="hidden" id="year" value="${params.year}"/>
 
         <input type="hidden" id="aAmt" value="${data.BEF_EXP_SALE_AMT}"/>
         <input type="hidden" id="bAmt" value="${data.BEF_EXP_PROFIT_AMT}"/>
@@ -34,10 +35,10 @@
                         <col width="25%">
                     </colgroup>
                     <tr style="color : black ; background-color: #f0f6ff;">
-                        <td style="text-align: center;"><b>전년도 예상 매출액</b></td>
-                        <td style="text-align: center;"><b>전년도 예상수익</b></td>
+                        <td style="text-align: center;"><b>전년도 매출액</b></td>
+                        <td style="text-align: center;"><b>전년도 운영수익</b></td>
                         <td style="text-align: center;"><b>차년도 매출액</b></td>
-                        <td style="text-align: center;"><b>차년도 수익</b></td>
+                        <td style="text-align: center;"><b>차년도 운영수익</b></td>
                     </tr>
                     <tr style="background-color: white">
                         <td>
@@ -72,6 +73,7 @@
     function fn_save(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
+            year : $("#year").val(),
             befExpSaleAmt : uncomma($("#befExpSaleAmt").val()),
             befExpProfitAmt : uncomma($("#befExpProfitAmt").val()),
             aftSaleAmt : uncomma($("#aftSaleAmt").val()),

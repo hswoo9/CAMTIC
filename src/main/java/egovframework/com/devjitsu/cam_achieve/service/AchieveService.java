@@ -46,6 +46,8 @@ public interface AchieveService {
     void setProjectPaySet(Map<String, Object> params);
 
     Map<String, Object> getProjectPaySet(Map<String, Object> params);
+    Map<String, Object> getProjectPayBef(Map<String, Object> params);
+    Map<String, Object> getProjectPayAft(Map<String, Object> params);
 
     List<Map<String, Object>> getExnpList(Map<String, Object> params);
 

@@ -1034,6 +1034,7 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PAY_SET
         (
             PJT_SN,
+            YEAR,
             BEF_EXP_SALE_AMT,
             BEF_EXP_PROFIT_AMT,
             AFT_SALE_AMT,
@@ -1043,6 +1044,7 @@
         VALUES
         (
             #{pjtSn},
+            #{year},
             #{befExpSaleAmt},
             #{befExpProfitAmt},
             #{aftSaleAmt},
@@ -1055,6 +1057,7 @@
         /*updProjectPaySet*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
         SET
+            YEAR = #{year},
             BEF_EXP_SALE_AMT = #{befExpSaleAmt},
             BEF_EXP_PROFIT_AMT = #{befExpProfitAmt},
             AFT_SALE_AMT = #{aftSaleAmt},
@@ -1072,6 +1075,28 @@
             CAM_PJT_MNG.DJ_PJT_PAY_SET
         WHERE
             PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getProjectPayBef" parameterType="map" resultType="map">
+        /*getProjectPayBef*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR - 1 = #{reqYear}
+    </select>
+
+    <select id="getProjectPayAft" parameterType="map" resultType="map">
+        /*getProjectPayAft*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR + 1 = #{reqYear}
     </select>
 
     <select id="getDeptObjAmt" parameterType="map" resultType="map">

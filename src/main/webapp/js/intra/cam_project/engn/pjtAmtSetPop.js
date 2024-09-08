@@ -91,10 +91,10 @@ var pjtAmtSet = {
                     },
                 }, {
                     field: "",
-                    title: "",
-                    width: 70,
-                    template : function(e){
-                        return "-";
+                    title: "처리명령",
+                    width: 120,
+                    template : function(row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="pjtAmtSet.fn_delete('+row.AMT_SET_SN+')">삭제</button>';
                     }
                 }
             ]
@@ -102,7 +102,7 @@ var pjtAmtSet = {
     },
 
     fn_save: function(){
-        let data = {
+        const data = {
             pjtSn: $("#pjtSn").val(),
             regEmpSeq: $("#regEmpSeq").val(),
             amtType: $("#amtType").data("kendoDropDownList").value(),
@@ -116,6 +116,21 @@ var pjtAmtSet = {
             alert("저장 중 오류가 발생하였습니다.");
         }else{
             alert("저장 되었습니다.");
+            commonProject.getReloadPage(12, 13, 13, 12, 13, 13);
+            location.reload();
+        }
+    },
+
+    fn_delete: function (amtSetSn){
+        const data = {
+            amtSetSn: amtSetSn
+        }
+        const result = customKendo.fn_customAjax("/project/setPjtAmtDel", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            alert("삭제 되었습니다.");
             commonProject.getReloadPage(12, 13, 13, 12, 13, 13);
             location.reload();
         }

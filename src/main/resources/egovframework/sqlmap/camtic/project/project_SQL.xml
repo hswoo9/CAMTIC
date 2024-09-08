@@ -4124,8 +4124,8 @@
             #{reqAmt},
             #{regEmpSeq}
         )
-        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        <selectKey keyProperty="AMT_SET_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_AMT_SET'
         </selectKey>
     </insert>
 
@@ -4148,4 +4148,12 @@
             IFNULL((SELECT SUM(REQ_AMT) FROM CAM_PJT_MNG.DJ_AMT_SET WHERE PJT_SN = #{pjtSn} AND ACTIVE = 'Y' AND REQ_TYPE = '3' AND YEAR(REQ_DATE) = #{reqYear}), 0) AS AMT3
         FROM DUAL
     </select>
+
+    <update id="setPjtAmtDel" parameterType="map">
+        /* setPjtAmtDel */
+        UPDATE CAM_PJT_MNG.DJ_AMT_SET
+        SET
+            ACTIVE = 'N'
+        WHERE AMT_SET_SN = #{amtSetSn}
+    </update>
 </mapper>
