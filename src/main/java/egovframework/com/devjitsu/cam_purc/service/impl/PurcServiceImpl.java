@@ -396,6 +396,19 @@ public class PurcServiceImpl implements PurcService {
 
 //                purcRepository.updPurcInspect(paramMap);
 //                purcRepository.updPurcInspectStat(paramMap);
+
+                // 구매청구 첨부파일 복제
+                if(purcReqMap.containsKey("claimSn")){
+                    Map<String, Object> tempMap = new HashMap<>();
+                    tempMap.put("contentId", "purcClaim_" + purcReqMap.get("claimSn"));
+                    for(Map<String, Object> subMap : purcRepository.getPurcReqFileList(tempMap)){
+                        Map<String, Object> tempParams = new HashMap<>();
+                        tempParams.put("fileCd", "payClaim");
+                        tempParams.put("fileNo", subMap.get("file_no"));
+                        tempParams.put("contentId", purcReqMap.get("ceGwIdx"));
+                        purcRepository.insPurcFileCopy(tempParams);
+                    }
+                }
             }
 
             /** 계약건이고 청구 결재 완료시 계약대장 작성 */
