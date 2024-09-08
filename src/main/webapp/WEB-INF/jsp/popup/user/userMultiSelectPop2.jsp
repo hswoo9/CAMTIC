@@ -44,8 +44,8 @@
 						</li>
 						<div style="margin-left: 60px;">
 							<span>성명</span>
-							<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){readerPop.treeViewReload();}">
-							<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="readerPop.treeViewReload()">
+							<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){userMultiSel2.treeViewReload();}">
+							<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userMultiSel2.treeViewReload()">
 								<span class="k-icon k-i-search k-button-icon"></span>
 							</button>
 						</div>
@@ -65,7 +65,7 @@
 					</ul>
 					<div>
 						<div style="text-align: right">
-							<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="readerPop.rowDblClick()" style="margin-bottom: 5px;">
+							<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userMultiSel2.rowDblClick()" style="margin-bottom: 5px;">
 								<span class="k-button-text">삭제</span>
 							</button>
 						</div>
