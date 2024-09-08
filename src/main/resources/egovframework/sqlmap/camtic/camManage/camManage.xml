@@ -959,6 +959,7 @@
             DT3 = DATE_FORMAT(now(), '%Y-%m-%d')
         AND RE_STAT = 'N'
         AND PAY_APP_TYPE = 1
+        LIMIT 300
         ]]>
     </select>
 
