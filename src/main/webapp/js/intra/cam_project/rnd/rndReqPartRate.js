@@ -252,6 +252,7 @@ var rndRPR = {
         var lastStat = "";
         var versionIndex = 0;
 
+        console.log("ls", ls);
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){

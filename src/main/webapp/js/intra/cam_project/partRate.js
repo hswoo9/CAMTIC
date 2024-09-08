@@ -23,6 +23,8 @@ var partRate = {
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
+        console.log("setData", result);
+
         if(rs != null){
             $("#budget").text("현금 : " + comma(Number(rs.PAY_BUDGET)) + ", 현물 : " + comma(Number(rs.ITEM_BUDGET)) + "원");
             $("#budgetAmt").val(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET));
