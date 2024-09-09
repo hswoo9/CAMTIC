@@ -3795,6 +3795,10 @@
                 TOT_COST,
                 SUP_COST,
                 VAT_COST,
+                BNK_SN,
+                BNK_NM,
+                ACC_NO,
+                ACC_NM,
                 CARD,
                 CARD_NO,
                 ETC,
@@ -3820,6 +3824,10 @@
                 #{TOT_AMT},
                 #{SUP_AMT},
                 #{VAT_AMT},
+                #{bnkSn},
+                #{bnkNm},
+                #{accNo},
+                #{accNm},
                 #{CARD},
                 #{CARD_NO},
                 #{ETC},
@@ -3839,6 +3847,10 @@
             TOT_COST = #{TOT_AMT},
             SUP_COST = #{SUP_AMT},
             VAT_COST = #{VAT_AMT},
+            BNK_SN = #{bnkSn},
+            BNK_NM = #{bnkNm},
+            ACC_NO = #{accNo},
+            ACC_NM = #{accNm},
             RE_APP_DE = #{RE_APP_DE}
         WHERE
             PAY_INCP_RE_SN = #{PAY_INCP_RE_SN}
