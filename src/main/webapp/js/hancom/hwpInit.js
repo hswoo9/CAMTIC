@@ -254,6 +254,9 @@ var hwpInit = {
         html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 71px;"><p style="font-size:12px;"><b>비 고</b></p></td>';
         html += '</tr>';
         let sum = 0;
+
+        console.log("123", list)
+
         for(let i=0; i<list.length; i++){
             const map = list[i];
             html += '<tr>';
@@ -261,7 +264,7 @@ var hwpInit = {
             html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.REG_NO +'</p></td>';
             html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CEO_NM +'</p></td>';
             html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
-            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
+            html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TITLE +'</p></td>';
             html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '</tr>';
             sum += Number(map.TOT_COST);
