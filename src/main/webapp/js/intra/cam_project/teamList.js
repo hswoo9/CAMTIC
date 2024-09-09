@@ -157,10 +157,15 @@ var teamList = {
                 }, {
                     title: "협업보고서",
                     template: function (row){
-                        if(row.PJT_NM == "0"){
-                            return row.REAL_PJT_AMT;
+                        console.log("row", row);
+                        if(row.STATUS == "100"){
+                            if(row.TM_TYPE == "0"){
+                                return '-';
+                            }else{
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="teamList.teamPrintPop('+row.PJT_SN+', '+row.TEAM_VERSION_SN+', '+row.TM_SN+')">협업보고서</button></td>';
+                            }
                         }else{
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="teamList.teamPrintPop('+row.PJT_SN+', '+row.TEAM_VERSION_SN+', '+row.TM_SN+')">협업보고서</button></td>';
+                            return "<div style='text-align: center'>작성중</div>";
                         }
                     }
                 }
