@@ -12,12 +12,12 @@ var payCardHist = {
         payCardHist.cardMainGrid2();
 
         if($("#reqType").val() != "snack"){
-            $("#cardM").attr("class", "k-button k-button-solid-base");
-            $("#cardP").attr("class", "k-button k-button-solid-info");
-            $("#requestType").val(2);
+            $("#cardM").attr("class", "k-button k-button-solid-info");
+            $("#cardP").attr("class", "k-button k-button-solid-base");
+            $("#requestType").val(1);
             $("#mainGrid").css("display", "none");
-            $("#cardMainGrid").css("display", "none");
-            $("#cardMainGrid2").css("display", "");
+            $("#cardMainGrid").css("display", "");
+            $("#cardMainGrid2").css("display", "none");
         } else {
             if($("#requestType").val() == 1) {
                 $("#cardM").attr("class", "k-button k-button-solid-base");
@@ -111,7 +111,6 @@ var payCardHist = {
             $("#cardMainGrid2").css("display", "");
             $("#cardMainGrid2").data("kendoGrid").dataSource.read();
         }
-        $("#searchValue").val('');
     },
 
     mainGrid: function(){
