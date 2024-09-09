@@ -201,7 +201,7 @@ public class KukgohController {
             String interfaceId = params.get("INTRFC_ID").toString();
 
             // 개발 포트 45000, 운영 포트 41000
-            String url = "http://218.158.231.92:45000/esb/HttpListenerServlet";
+            String url = "http://218.158.231.92:41000/esb/HttpListenerServlet";
 
             int timeout = 0;
 
