@@ -113,7 +113,7 @@
                     <th style="width: 10%">계좌명</th>
                     <td colspan="3">
                         <input type="text" id="accNm" disabled style="width: 50%;">
-                        <button type="button" class="k-button k-button-solid-base" id="bnkSelBtn" onclick="regIncmRe.fn_bankPop()">검색</button>
+                        <button type="button" class="k-button k-button-solid-base" id="bnkSelBtn" onclick="regIncpRe.fn_bankPop()">검색</button>
                         <input type="hidden" id="bnkSn">
                     </td>
                 </tr>
