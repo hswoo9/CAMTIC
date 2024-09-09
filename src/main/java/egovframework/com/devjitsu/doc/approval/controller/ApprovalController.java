@@ -118,6 +118,10 @@ public class ApprovalController {
         model.addAttribute("docContents", params.get("DOC_CONTENTS") == null ? "" : params.get("DOC_CONTENTS"));
         model.addAttribute("hwpUrl", hwpUrl);
         params.remove("DOC_CONTENTS");
+
+        params.put("docTitle", params.get("docTitle").toString().replaceAll("\"", "\\\\\""));
+        params.put("DOC_TITLE", params.get("DOC_TITLE").toString().replaceAll("\"", "\\\\\""));
+
         model.addAttribute("params", new Gson().toJson(params));
         model.addAttribute("toDate", getCurrentDateTime());
 
