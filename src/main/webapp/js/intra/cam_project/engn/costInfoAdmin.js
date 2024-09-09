@@ -11,7 +11,7 @@ var costInfo = {
         commonProject.setPjtStat();
 
         /** UI 세팅 */
-        costInfo.pageSet()
+        costInfo.pageSet();
 
         /** 켄도그리드 세팅 */
         costInfoGrid.mainGrid();
@@ -158,8 +158,8 @@ var costInfo = {
             }
             html +=
                 '                <td id="PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
-                '                <td id="PJT_AMT2'+(i)+'" style="text-align: right"></td>' +
-                '                <td id="PJT_AMT3'+(i)+'" style="text-align: right"></td>' +
+                '                <td id="PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right"></td>' +
+                '                <td id="PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right"></td>' +
                 '                <td id="RES_AMT'+(i)+'" class="resAmt" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right"></td>' +
                 '                <td id="DEV_AMT'+(i)+'" class="devAmt" style="text-align: right"></td>' +
@@ -170,7 +170,9 @@ var costInfo = {
         if(count > 1) {
             html +=
                 '            <tr>' +
-                '                <td colspan="7" style="text-align: right">합계</td>' +
+                '                <th colspan="5" style="text-align: right">합계</th>' +
+                '                <td id="PJT_AMT2_SUM" style="text-align: right"></td>' +
+                '                <td id="PJT_AMT3_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="DEV_AMT_SUM" style="text-align: right"></td>' +
@@ -284,6 +286,25 @@ var costInfo = {
         }
 
         /** 합계 */
+        let sumE = 0;
+        $('td.pjtAmt2').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumE += value;
+                console.log()
+            }
+        });
+        $("#PJT_AMT2_SUM").text(comma(sumE));
+
+        let sumF = 0;
+        $('td.pjtAmt3').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumF += value;
+            }
+        });
+        $("#PJT_AMT3_SUM").text(comma(sumF));
+
         let sumA = 0;
         $('td.resAmt').each(function() {
             const value = Number(uncommaN($(this).text()));
