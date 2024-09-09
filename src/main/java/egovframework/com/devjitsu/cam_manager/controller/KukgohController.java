@@ -152,6 +152,19 @@ public class KukgohController {
     	return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/delEnaraProject")
+    public String delEnaraProject(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            kukgohService.delEnaraProject(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("message", "취소되었습니다.");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    	return "jsonView";
+    }
+
     @RequestMapping("/kukgoh/getExecutionInfo")
     public String getExecutionInfo(@RequestParam Map<String, Object> params, Model model) {
 

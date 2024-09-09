@@ -82,7 +82,11 @@ var projectConfigView = {
                     title : "설정취소",
                     width : 50,
                     template : function(e){
-                        return '<button type="button" class="k-button k-button-solid-error" onclick="projectConfigView.fn_delEnaraProject('+e.PJT_SN+')">취소</button>'
+                        if(e.LNK_PJT_SN != null){
+                            return '<button type="button" class="k-button k-button-solid-error" onclick="projectConfigView.fn_delEnaraProject('+e.LNK_PJT_SN+')">취소</button>'
+                        } else {
+                            return "";
+                        }
                     }
                 },
                 {
@@ -131,5 +135,26 @@ var projectConfigView = {
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     },
+
+    fn_delEnaraProject : function(e){
+        if(!confirm("프로젝트 설정을 취소하시겠습니까?")){
+            return;
+        }
+
+        $.ajax({
+            url : "/kukgoh/delEnaraProject",
+            data : {
+                lnkPjtSn : e
+            },
+            type : "post",
+            dataType: "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert(rs.message);
+                    projectConfigView.mainGrid();
+                }
+            }
+        })
+    }
 
 }
