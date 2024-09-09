@@ -318,8 +318,8 @@ var recordTotal = {
                     title: "전년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        befExpSaleAmtSum += 0;
-                        return '<div style="text-align: right;">'+comma(0)+'</div>';
+                        befExpSaleAmtSum += Number(e.befExpSaleAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.befExpSaleAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpSaleAmtSum)+"</div>";
@@ -328,8 +328,8 @@ var recordTotal = {
                     title: "전년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        befExpProfitAmtSum += 0;
-                        return '<div style="text-align: right;">'+comma(0)+'</div>';
+                        befExpProfitAmtSum += Number(e.befExpProfitAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.befExpProfitAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpProfitAmtSum)+"</div>";
@@ -338,8 +338,8 @@ var recordTotal = {
                     title: "차년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        aftSaleAmtSum += 0;
-                        return '<div style="text-align: right;">'+comma(0)+'</div>';
+                        aftSaleAmtSum += Number(e.aftSaleAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.aftSaleAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftSaleAmtSum)+"</div>";
@@ -348,8 +348,8 @@ var recordTotal = {
                     title: "차년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        aftProfitAmtSum += 0;
-                        return '<div style="text-align: right;">'+comma(0)+'</div>';
+                        aftProfitAmtSum += Number(e.aftProfitAmt || 0);
+                        return '<div style="text-align: right;">'+comma(Number(e.aftProfitAmt || 0))+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftProfitAmtSum)+"</div>";
