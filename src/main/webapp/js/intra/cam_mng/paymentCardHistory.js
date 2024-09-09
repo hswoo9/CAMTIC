@@ -11,12 +11,30 @@ var payCardHist = {
         payCardHist.cardMainGrid();
         payCardHist.cardMainGrid2();
 
-        $("#cardM").attr("class", "k-button k-button-solid-base");
-        $("#cardP").attr("class", "k-button k-button-solid-info");
-        $("#requestType").val(2);
-        $("#mainGrid").css("display", "none");
-        $("#cardMainGrid").css("display", "none");
-        $("#cardMainGrid2").css("display", "");
+        if($("#reqType").val() != "snack"){
+            $("#cardM").attr("class", "k-button k-button-solid-base");
+            $("#cardP").attr("class", "k-button k-button-solid-info");
+            $("#requestType").val(2);
+            $("#mainGrid").css("display", "none");
+            $("#cardMainGrid").css("display", "none");
+            $("#cardMainGrid2").css("display", "");
+        } else {
+            if($("#requestType").val() == 1) {
+                $("#cardM").attr("class", "k-button k-button-solid-base");
+                $("#cardP").attr("class", "k-button k-button-solid-info");
+                $("#mainGrid").css("display", "none");
+                $("#cardMainGrid").css("display", "none");
+                $("#cardMainGrid2").css("display", "");
+            } else if($("#requestType").val() == 2) {
+                $("#cardM").attr("class", "k-button k-button-solid-info");
+                $("#cardP").attr("class", "k-button k-button-solid-base");
+                $("#mainGrid").css("display", "none");
+                $("#cardMainGrid").css("display", "");
+                $("#cardMainGrid2").css("display", "none");
+            } else if($("#requestType").val() == 3) {
+                $("#searchValue").val($("#cardBaNb").val());
+            }
+        }
     },
 
     fn_pageSet: function(){
