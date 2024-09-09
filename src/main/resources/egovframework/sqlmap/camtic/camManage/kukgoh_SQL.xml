@@ -229,6 +229,11 @@
             )
     </insert>
 
+    <delete id="delEnaraProject" parameterType="map">
+        /*delEnaraProject*/
+        DELETE FROM CAM_ERP.DJ_PROJECT_LINK WHERE LNK_PJT_SN = #{lnkPjtSn}
+    </delete>
+
     <select id="getPayAppDataByPayAppDetSn" parameterType="map" resultType="map">
         /*getPayAppDataByPayAppDetSn*/
         SELECT
