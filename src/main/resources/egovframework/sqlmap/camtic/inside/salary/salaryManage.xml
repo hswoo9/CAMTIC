@@ -422,14 +422,16 @@
             <when test='"deptName".equals(searchKeyWord)'>
                 AND (
                     B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    C.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </when>
             <otherwise>
                 AND (
                     A.EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
                     B.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    D.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    C.DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>

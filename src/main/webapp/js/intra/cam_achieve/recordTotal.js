@@ -376,7 +376,7 @@ var recordTotal = {
 
     fn_modPaySetting: function (key, year){
 
-        var url = "/cam_achieve/pop/paySetting.do?pjtSn=" + key + "&year=" + key;
+        var url = "/cam_achieve/pop/paySetting.do?pjtSn=" + key + "&year=" + year;
 
         var name = "_blank";
         var option = "width = 800, height = 200, top = 100, left = 200, location = no"
