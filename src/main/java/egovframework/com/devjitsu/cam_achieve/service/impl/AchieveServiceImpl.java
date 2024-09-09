@@ -498,6 +498,14 @@ public class AchieveServiceImpl implements AchieveService {
     public Map<String, Object> getProjectPaySet(Map<String, Object> params) {
         return achieveRepository.getProjectPaySet(params);
     }
+    @Override
+    public Map<String, Object> getProjectPayBef(Map<String, Object> params) {
+        return achieveRepository.getProjectPayBef(params);
+    }
+    @Override
+    public Map<String, Object> getProjectPayAft(Map<String, Object> params) {
+        return achieveRepository.getProjectPayAft(params);
+    }
 
     @Override
     public List<Map<String, Object>> getExnpList(Map<String, Object> params) {

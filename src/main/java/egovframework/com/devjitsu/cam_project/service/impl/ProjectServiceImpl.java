@@ -1852,6 +1852,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getPjtAmtSetData(Map<String, Object> params) {
         return projectRepository.getPjtAmtSetData(params);
     }
+
+    @Override
+    public void setPjtAmtDel(Map<String, Object> params) {
+        projectRepository.setPjtAmtDel(params);
+    }
 }
 
 

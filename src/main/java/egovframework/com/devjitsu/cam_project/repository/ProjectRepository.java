@@ -851,4 +851,8 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getPjtAmtSetData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getPjtAmtSetData", params);
     }
+
+    public void setPjtAmtDel(Map<String, Object> params) {
+        update("project.setPjtAmtDel", params);
+    }
 }
