@@ -350,7 +350,13 @@ var docuContractReq = {
         let totalMonth = $("#totalMonth").val();
         let payment = $("#payment").val();
         let suretyInsurance = $("#suretyInsurance").val();
-        let dlvLoc = $("#dlvLoc").val();
+
+        let dlvLoc = '';
+        if($("#class").val() == "1" || $("#class").val() == '2'){
+            dlvLoc = $("#dlvLoc").val();
+        }else{
+            dlvLoc = "";
+        }
 
         $.each($('.productItem'), function(i, v){
             let areaInfo = {
