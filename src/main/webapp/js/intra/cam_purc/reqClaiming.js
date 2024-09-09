@@ -266,6 +266,7 @@ var reqCl = {
 
             rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
             data = rs.data;
+            reqCl.global.status = data.STATUS;
 
             if(data.purcFile != null){
                 reqCl.settingTempFileDataInit(data.purcFile);
