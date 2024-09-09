@@ -1230,7 +1230,11 @@
                                         '<i class="fa fa-envelope"></i>' +
                                     '</div>' +
                                     '<div class="col-xs-10">' +
-                                        '<h5>' +
+                                        '<h5>' ;
+                                            if(rs[i].cntHist >= 1) {
+                                                html += '<span style="color:red">!</span> ';
+                                            }
+                                        html +=
                                             '<a href="javascript:void(0)" onclick=\"alarmListDel('+ rs[i].AL_ID +');open_in_frame(\'' + rs[i].URL + '\');\">' +
                                             rs[i].TITLE +
                                             '</a>' +
@@ -1260,7 +1264,11 @@
                                         '<i class="fa fa-envelope"></i>' +
                                     '</div>' +
                                     '<div class="col-xs-10">' +
-                                        '<h5>' +
+                                        '<h5>';
+                                            if(rs[i].cntHist >= 1) {
+                                                html += '<span style="color:red">!</span> ';
+                                            }
+                                            html +=
                                             '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
                                                 rs[i].TITLE +
                                             '</a>' +

@@ -631,24 +631,27 @@
     <select id="getAlarmList" parameterType="map" resultType="map">
         /* getAlarmList */
         SELECT
-            AL_ID,
-            SND_EMP_NM,
-            SND_DEPT_NM,
-            TITLE,
-            CONTENT,
-            DATE_FORMAT(REG_DATE, '%Y-%m-%d %H:%i') as REG_DATE,
-            URL,
-            CHECK_YN,
-            LIST_DEL_YN
+            DA.AL_ID,
+            (select count(*) from dj_camtic.a_doc_approve_hist dah
+            where dah.doc_id = (select substring_index(substring_index(da.url, 'docId=', -1), '&amp;', 1))
+            and (dah.approve_stat_code in (20, 30, 40, 100, 101))) AS cntHist,
+            DA.SND_EMP_NM,
+            DA.SND_DEPT_NM,
+            DA.TITLE,
+            DA.CONTENT,
+            DATE_FORMAT(DA.REG_DATE, '%Y-%m-%d %H:%i') as REG_DATE,
+            DA.URL,
+            DA.CHECK_YN,
+            DA.LIST_DEL_YN
         FROM
-            CAM_COMMON.DJ_ALARM
+            CAM_COMMON.DJ_ALARM DA
         WHERE
-            RCV_EMP_SEQ = #{empSeq}
+            DA.RCV_EMP_SEQ = #{empSeq}
         AND
-            LIST_DEL_YN = 'N'
+            DA.LIST_DEL_YN = 'N'
         AND
-            ACTIVE = 'Y'
-        ORDER BY REG_DATE DESC
+            DA.ACTIVE = 'Y'
+        ORDER BY DA.REG_DATE DESC
         <if test='main == null and "".equals(main)'>
             LIMIT 5
         </if>
