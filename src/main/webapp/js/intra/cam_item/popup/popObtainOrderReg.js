@@ -44,7 +44,7 @@ var oor = {
             '       <input type="text" id="orderVolume' + oor.global.oorIndex + '" class="numberInput orderVolume" style="text-align: right;" value="0">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange()">' +
+            '       <input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange(' + oor.global.oorIndex + ')">' +
             '       <input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
             '   </td>' +
             '   <td>' +
@@ -324,8 +324,8 @@ var oor = {
         oor.getItemUnitPrice(oor.global.masterSnIndex);
     },
 
-    priceChange : function(){
-        oor.getItemUnitPrice(oor.global.masterSnIndex);
+    priceChange : function(e){
+        oor.getItemUnitPrice(e);
     },
 
     getItemUnitPrice : function(e){
