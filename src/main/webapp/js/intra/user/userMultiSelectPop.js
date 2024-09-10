@@ -88,6 +88,10 @@ var userMultiSel = {
                         data.fullTime2 = "1";
                     }
 
+                    if($("#type").val() == "partRate"){
+                        data.reqType = "partRate";
+                    }
+
                     return data;
                 }
             },

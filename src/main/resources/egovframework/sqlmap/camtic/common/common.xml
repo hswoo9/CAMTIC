@@ -44,6 +44,9 @@
                 )
             AND WORK_STATUS_CODE = 'Y'
         </if>
+        <if test='"partRate".equals(reqType)'>
+            AND DIVISION != 2
+        </if>
         <if test="tempType != null and tempType != ''">
             AND TEMP_DIVISION = #{tempType}
         </if>
