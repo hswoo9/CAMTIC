@@ -280,6 +280,19 @@ var hwpInit = {
     },
 
     pjtRateInit: function(partRateVerSn){
+
+        if($("#docGbn").data("kendoRadioGroup").value() == "001"){
+            hwpDocCtrl.putFieldText("sender_name", "사단법인 캠틱종합기술원장");
+            hwpDocCtrl.putFieldText("doc_receivelist_txt", "수신자");
+            hwpDocCtrl.putFieldText("doc_receivelist", "");
+            hwpDocCtrl.putFieldText("doc_receive", "");
+        }else {
+            hwpDocCtrl.putFieldText("sender_name", "");
+            hwpDocCtrl.putFieldText("doc_receive", "내부결재");
+            hwpDocCtrl.putFieldText("doc_receivelist_txt", "");
+            hwpDocCtrl.putFieldText("doc_receivelist", "");
+        }
+
         const result = customKendo.fn_customAjax("/project/getPartRateVerInfo", {partRateVerSn: partRateVerSn});
         const rs = result.map;
         const pjtSn = rs.PJT_SN;
