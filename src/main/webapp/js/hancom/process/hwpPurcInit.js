@@ -394,7 +394,7 @@ var purcInit = {
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림; font-weight: bold; font-size:12px;">'+map.ITEM_NM+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;">'+map.ITEM_STD+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_UNIT_AMT_COMMA+'</p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_EA+'</p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_EA+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;">'+map.ITEM_UNIT+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+supAmt+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+vatAmt+'</p></td>';
