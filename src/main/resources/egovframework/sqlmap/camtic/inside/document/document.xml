@@ -147,8 +147,15 @@
                             AND IDC.PROJECT_NAME like CONCAT('%', #{searchText}, '%')
                         </when>
                         <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
-                            AND DATE_FORMAT(IDC.CO_NAME, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                            AND IDC.CO_NAME like CONCAT('%', #{searchText}, '%')
                         </when>
+                        <otherwise>
+                            AND (
+                                CONCAT(IDC.DOCU_YEAR_SN,'-',IDC.DOCU_NO) like CONCAT('%', #{searchText}, '%') OR
+                                IDC.PROJECT_NAME like CONCAT('%', #{searchText}, '%') OR
+                                IDC.CO_NAME like CONCAT('%', #{searchText}, '%')
+                            )
+                        </otherwise>
                     </choose>
                 ORDER BY RIGHT(TRIM(IDC.DOCU_YEAR_SN),2) ASC, CAST(DOCU_NO AS UNSIGNED) ASC
             ) RE
