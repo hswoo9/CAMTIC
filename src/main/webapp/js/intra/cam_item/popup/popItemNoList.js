@@ -83,8 +83,14 @@ var popItemNoList = {
                             } else {
                                 return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "' />"
                             }
+                        } else if(opener.parent.regRv != null){
+                            var chkList = opener.parent.regRv.global.chkList;
 
-
+                            if (chkList.indexOf(e.MASTER_SN) > -1 || e.MASTER_SN == opener.parent.$("#masterSn999").val()) {
+                                return "";
+                            } else {
+                                return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "' />"
+                            }
                         } else {
                             return "<input type='checkbox' name='masterSnPk' class='masterSnPk' value=' " + e.MASTER_SN + "'/>"
                         }
@@ -194,7 +200,7 @@ var popItemNoList = {
             list.push(data);
         })
 
-        if(opener.parent.oor == null && opener.parent.bomReg == null && cnt > 1) {
+        if(opener.parent.oor == null && opener.parent.bomReg == null && opener.parent.regRv == null && cnt > 1) {
             alert("하나의 품번만 선택 가능합니다.");
             return;
         }
@@ -244,6 +250,14 @@ var popItemNoList = {
                         opener.parent.oor.addRow('new');
                         opener.parent.oor.global.chkList.push(list[i].MASTER_SN);
                     }
+
+
+                    if(opener.parent.regRv != null) {
+                        opener.parent.regRv.global.masterSnIndex = opener.parent.regRv.global.itemWhIndex - 1;
+                        opener.parent.regRv.addRow('new');
+                        opener.parent.regRv.global.chkList.push(list[i].MASTER_SN);
+                    }
+
                     opener.parent.$("#masterSn").change();
 
                     // if(i != list.length - 1 && opener.parent.oor != null) {
