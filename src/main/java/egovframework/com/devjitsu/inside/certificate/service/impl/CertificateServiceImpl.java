@@ -91,6 +91,10 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void setCertificateDelete(Map<String, Object> params) {
         certificateRepository.setCertificateDelete(params);
+
+        params.put("type", "증명서 신청");
+        params.put("frKey", params.get("userProofSn"));
+        campusRepository.updPsCancel(params);
     }
 
     @Override
@@ -135,6 +139,10 @@ public class CertificateServiceImpl implements CertificateService {
 
         params.put("type", "증명서 신청");
         params.put("frKey", params.get("userProofSn"));
-        campusRepository.updPsStatus(params);
+        if("30".equals(params.get("status").toString())) {
+            campusRepository.updPsCancel(params);
+        }else{
+            campusRepository.updPsStatus(params);
+        }
     }
 }

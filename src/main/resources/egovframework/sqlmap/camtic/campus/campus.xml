@@ -3755,4 +3755,13 @@
         </if>
     </update>
 
+    <update id="updPsCancel" parameterType="map">
+        /*updPsCancel*/
+        UPDATE CAM_COMMON.DJ_PS_CHECK
+        SET
+            REV_STAT = 'Y'
+        WHERE
+            FR_KEY = #{frKey} AND TYPE = #{type}
+    </update>
+
 </mapper>
