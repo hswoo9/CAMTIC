@@ -174,6 +174,12 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/getExecutionInfoList")
+    public String getExecutionInfoList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", kukgohService.getExecutionInfoList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/kukgoh/getEnaraBankList")
     public String getEnaraBankList(@RequestParam Map<String, Object> params, Model model) {
 
