@@ -355,8 +355,8 @@ var srrl = {
         var itemSnList = "";
         var qtyList = "";
         var smRecordSnArr = "";
-        $.each($("input[name=rcSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+        $.each($("input[name=rcSn]:checked"), function(i, v){
+            var dataItem = customKendo.fn_customAjax("/item/getShipmentRecordMaster.do", { smRecordSnArr : $(this).val() }).list[0];
             if(Number(dataItem.DELIVERY_AMT) < Number(dataItem.DELIVERY_VOLUME)){
                 smRecordSnArr += "|smRecordSn_" + $(this).val() + ",deliveryAmt_" + String(Number($("#deliveryVolume" + dataItem.SM_RECORD_SN).val())) + ",rmk_" + $("#rmk" + dataItem.SM_RECORD_SN).val()
                 if(!shipmentArr.find(element => element.masterSn == dataItem.MASTER_SN)){
@@ -405,7 +405,7 @@ var srrl = {
             if(confirm("해당 품목을 출하하시겠습니까?")){
                 var transferArr = new Array()
                 $.each($("input[name=rcSn]:checked"), function(i, v){
-                    var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+                    var dataItem = customKendo.fn_customAjax("/item/getShipmentRecordMaster.do", { smRecordSnArr : $(this).val() }).list[0];
                     if(Number(dataItem.DELIVERY_AMT) < Number(dataItem.DELIVERY_VOLUME)){
                         var transfer = {
                             transferType : "S",
