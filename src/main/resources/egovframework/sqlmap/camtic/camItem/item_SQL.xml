@@ -170,67 +170,73 @@
     <select id="getObtainOrderMaster" parameterType="map" resultType="map">
         /* getObtainOrderMaster */
         SELECT
-        OO.*,
-        EI.EMP_NAME_KR,
-        IM.ITEM_NO,
-        IM.ITEM_NAME,
-        IUC.ITEM_CD_NM AS UNIT,
-        (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
-        CI.CRM_SN,
-        CI.CRM_NM,
-        PD.APPR_STAT,
-        CASE
-        WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) = PI.TOT_COST THEN '입금완료'
-        WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'
-        ELSE '미입금'
-        END AS DOC_STATUS_TEXT
+            OO.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IUC.ITEM_CD_NM AS UNIT,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
+            CI.CRM_SN,
+            CI.CRM_NM,
+            PD.APPR_STAT,
+            CASE
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) = PI.TOT_COST THEN '입금완료'
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'
+                ELSE '미입금'
+            END AS DOC_STATUS_TEXT,
+            (
+                SELECT
+                    SUM(SS.AMT)
+                FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                WHERE (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ) AS TOT_AMT
         FROM
-        CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
         JOIN
-        CAM_CRM.DJ_CRM_INFO CI
+            CAM_CRM.DJ_CRM_INFO CI
         ON OO.CRM_SN = CI.CRM_SN
         JOIN
-        CAM_HR.DJ_EMP_INFO EI
+            CAM_HR.DJ_EMP_INFO EI
         ON OO.REG_EMP_SEQ = EI.EMP_SEQ
         JOIN
-        CAM_ITEM.DJ_ITEM_MASTER IM
+            CAM_ITEM.DJ_ITEM_MASTER IM
         ON IM.MASTER_SN = OO.MASTER_SN
         JOIN
-        CAM_ITEM.DJ_ITEM_CD IUC
+            CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
         LEFT JOIN
-        CAM_MNG.DJ_PAY_DEPO PD
+            CAM_MNG.DJ_PAY_DEPO PD
         ON PD.PAY_DEPO_SN = OO.PAY_DEPO_SN
         LEFT JOIN (
-        SELECT
-        PI.PAY_INCP_SN,
-        PI.DOC_STATUS,
-        E.RE_CNT,
-        E.RE_TOT_COST,
-        C.TOT_COST
-        FROM
-        CAM_MNG.DJ_PAY_INCP PI
-        LEFT JOIN (
-        SELECT
-        PAY_INCP_SN,
-        SUM(TOT_COST) AS TOT_COST
-        FROM
-        CAM_MNG.DJ_PAY_INCP_DET
-        GROUP BY PAY_INCP_SN
-        )C
-        ON PI.PAY_INCP_SN = C.PAY_INCP_SN
-        LEFT JOIN (
-        SELECT
-        PAY_INCP_SN,
-        SUM(TOT_COST) AS RE_TOT_COST,
-        COUNT(PAY_INCP_RE_SN) AS RE_CNT
-        FROM
-        CAM_MNG.DJ_PAY_INCP_RE
-        WHERE
-        RE_STAT = 'Y'
-        GROUP BY PAY_INCP_SN
-        ) E
-        ON PI.PAY_INCP_SN = E.PAY_INCP_SN
+            SELECT
+                PI.PAY_INCP_SN,
+                PI.DOC_STATUS,
+                E.RE_CNT,
+                E.RE_TOT_COST,
+                C.TOT_COST
+            FROM
+                CAM_MNG.DJ_PAY_INCP PI
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS TOT_COST
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_DET
+                GROUP BY PAY_INCP_SN
+            )C
+            ON PI.PAY_INCP_SN = C.PAY_INCP_SN
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS RE_TOT_COST,
+                    COUNT(PAY_INCP_RE_SN) AS RE_CNT
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_RE
+                WHERE
+                    RE_STAT = 'Y'
+                GROUP BY PAY_INCP_SN
+            ) E
+            ON PI.PAY_INCP_SN = E.PAY_INCP_SN
         )PI
         ON PD.PAY_INCP_SN = PI.PAY_INCP_SN
         WHERE 1=1
@@ -297,9 +303,9 @@
 
         GROUP BY OO.REG_EMP_SEQ, DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i')
         ORDER BY
-        CASE WHEN OO.MOD_DT IS NULL THEN OO.REG_DT
-        ELSE OO.MOD_DT
-        END
+            CASE WHEN OO.MOD_DT IS NULL THEN OO.REG_DT
+            ELSE OO.MOD_DT
+            END
         DESC
     </select>
 
