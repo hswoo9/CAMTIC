@@ -33,6 +33,7 @@ public interface KukgohService {
     void setEnaraProject(Map<String, Object> params);
 
     Map<String, Object> getExecutionInfo(Map<String, Object> params);
+    List<Map<String, Object>> getExecutionInfoList(Map<String, Object> params);
 
     List<Map<String, Object>> getEnaraBankList(Map<String, Object> params);
 

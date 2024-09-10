@@ -191,6 +191,20 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     @Override
+    public List<Map<String, Object>> getExecutionInfoList(Map<String, Object> params) {
+        List<Map<String, Object>> result = new ArrayList<>();
+        String[] payAppDetSnArr = params.get("payAppDetSnArr").toString().split(",");
+        for(String payAppDetSn : payAppDetSnArr){
+            params.put("payAppDetSn", payAppDetSn);
+            Map<String, Object> executionInfo = getExecutionInfo(params);
+            executionInfo.put("payAppDetSn", payAppDetSn);
+            result.add(executionInfo);
+        }
+
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> getEnaraBankList(Map<String, Object> params) {
         return kukgohRepository.getEnaraBankList(params);
     }

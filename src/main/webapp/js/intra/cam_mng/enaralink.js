@@ -97,7 +97,7 @@ var enaralink = {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
                             '	<span class="k-button-text">전송제외</span>' +
                             '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraSendList.fn_enaraSendList();">' +
                             '	<span class="k-button-text">집행정보 일괄전송</span>' +
                             '</button>'+
 
@@ -129,21 +129,25 @@ var enaralink = {
                     title: "전송/확인",
                     width: 100,
                     template : function(e) {
-                        if(e.EVID_TYPE == 1 || e.EVID_TYPE == 2) {
-                            if(e.ISS_RSP_CD == "SUCC" && e.ISS_PROCESS_RESULT_CODE == "000") {
+                        if(e.LNK_PJT_SN == null || e.BG_SN == null){
+                            return "<button type='button' class='k-button k-button-solid-primary' onclick='enaralink.fn_sendUnable(" + e.LNK_PJT_SN + "," + e.BG_SN + ")'>전송불가</button>";
+                        }else{
+                            if(e.EVID_TYPE == 1 || e.EVID_TYPE == 2) {
+                                if(e.ISS_RSP_CD == "SUCC" && e.ISS_PROCESS_RESULT_CODE == "000") {
+                                    if (e.TRNSC_ID != null) {
+                                        return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
+                                    } else {
+                                        return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                                    }
+                                } else {
+                                    return "";
+                                }
+                            } else {
                                 if (e.TRNSC_ID != null) {
                                     return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
                                 } else {
                                     return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
                                 }
-                            } else {
-                                return "";
-                            }
-                        } else {
-                            if (e.TRNSC_ID != null) {
-                                return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
-                            } else {
-                                return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
                             }
                         }
                     }
@@ -333,7 +337,20 @@ var enaralink = {
         }).data("kendoGrid");
     },
 
+    fn_sendUnable : function(l, b) {
+        if(l != null && b != null){
+            alert("사업프로젝트를 설정해주세요.<br>예산과목을 설정해주세요.");
+        }else if(l != null){
+            alert("사업프로젝트를 설정해주세요.");
+        }else if(b != null){
+            alert("예산과목을 설정해주세요.");
+        }
+
+        return;
+    },
+
     fn_openSubmitPage : function(e) {
+
         var url = "/mng/newResolutionSubmitPage.do?payAppDetSn=" + e;
         var name = "newResolutionSubmitPage";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
@@ -384,7 +401,5 @@ var enaralink = {
         var name = "evidPopup";
         var option = "width=1200, height=300, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
-    }
-
-
+    },
 }

@@ -66,7 +66,7 @@
     </div>
 </div><!-- col-md-9 -->
 
-
+<jsp:include page="/WEB-INF/jsp/cam_manager/enaraSendListForm.jsp" flush="false"/>
 <script>
     enaralink.fn_defaultScript();
 </script>
