@@ -638,7 +638,7 @@
             (select count(*) from dj_camtic.a_doc_info da
              left join dj_camtic.a_doc_approve_hist dah on dah.doc_id = da.doc_id
              where dah.doc_id = (select substring_index(substring_index(da.url, 'docId=', -1), '&amp;', 1))
-             and ((da.draft_opin is not null and da.draft_opin != '') or (dah.approve_opin is not null and dah.approve_opin != ''))
+             and (dah.approve_opin is not null and dah.approve_opin != '')
             ) AS cntHist,
             DA.SND_EMP_NM,
             DA.SND_DEPT_NM,
