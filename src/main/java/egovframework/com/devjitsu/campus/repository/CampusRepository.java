@@ -406,6 +406,10 @@ public class CampusRepository extends AbstractDAO  {
         update("campus.updPsStatus", params);
     }
 
+    public void updPsCancel(Map<String, Object> params) {
+        update("campus.updPsCancel", params);
+    }
+
     public Map<String, Object> getEduTargetPkOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("campus.getEduTargetPkOne", params);
     }
