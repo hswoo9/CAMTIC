@@ -380,19 +380,19 @@ var outUseList = {
                     title: "전표처리현황",
                     columns: [
                         {
-                            field: "PAY_APP_TYPE_TEXT",
+                            field: "EXCEL_PAY_APP_SN",
                             title: "전표처리",
                             width: 80
                         }, {
-                            field: "PAY_APP_EMP_NAME",
+                            field: "EXCEL_PAY_EMP_SEQ",
                             title: "처리자",
                             width: 80
                         }, {
-                            field: "PAY_APP_REG_DATE",
+                            field: "EXCEL_PAY_REG_DT",
                             title: "처리일자",
                             width: 80,
                         }, {
-                            field: "STATUS_TEXT",
+                            field: "EXCEL_PAY_EXNP_STAT",
                             title: "지출결의서",
                             width: 80
                         }

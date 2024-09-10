@@ -212,7 +212,11 @@ var regIncpRe = {
 
         var data = {
             itemArr : JSON.stringify(itemArr),
-            regEmpSeq : $("#regEmpSeq").val()
+            regEmpSeq : $("#regEmpSeq").val(),
+            bnkSn : $("#bnkSn").val(),
+            bnkNm : $("#bnkNm").val(),
+            accNm : $("#accNm").val(),
+            accNo : $("#accNo").val(),
         }
 
         $.ajax({

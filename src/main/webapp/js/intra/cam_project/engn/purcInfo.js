@@ -151,7 +151,58 @@ var purcInfo = {
                 fileName : "구매 목록.xlsx",
                 filterable : true
             },
-            excelExport: exportGrid,
+            excelExport: function (e){
+                const data = e.data;
+                const columns = e.sender.columns;
+                const sheet = e.workbook.sheets[0];
+                const visibleColumns = new Array();
+                const columnTemplates = new Array();
+                const elem = document.createElement("div");
+
+                for (let i=0; i<columns.length; i++){
+                    if (!columns[i].hidden && columns[i].field){
+                        visibleColumns.push(columns[i]);
+                    }
+
+                }
+
+                for (let i=0; i<visibleColumns.length; i++){
+                    if (visibleColumns[i].template){
+                        columnTemplates.push({ cellIndex: i, template: kendo.template(visibleColumns[i].template) });
+                    }
+                }
+
+                for (let i=1; i<sheet.rows.length; i++){
+                    let footCk = false;
+                    const row = sheet.rows[i];
+                    const dataItem = data[i - 1];
+                    for (let j=0; j<columnTemplates.length; j++){
+
+                        const columnTemplate = columnTemplates[j];
+
+
+                        if(row == null || row.type == null){
+                            continue;
+                        }if(row.type == "footer"){
+                            footCk = true;
+                        }else{
+                            elem.innerHTML = columnTemplate.template(dataItem);
+                            if (row.cells[columnTemplate.cellIndex] != undefined){
+                                if(columnTemplate.cellIndex == 8){
+                                    // row.cells[columnTemplate.cellIndex].value = elem.textContent.toString() || elem.innerText || "";
+                                } else {
+                                    row.cells[columnTemplate.cellIndex].value = elem.textContent.toString() || elem.innerText || "";
+                                }
+                            }
+                        }
+                    }
+                    if(footCk){
+                        for (let i=0; i<visibleColumns.length; i++){
+                            row.cells[i].value = "";
+                        }
+                    }
+                }
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },

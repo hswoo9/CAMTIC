@@ -399,7 +399,26 @@ public class PurcServiceImpl implements PurcService {
 
                 // 구매청구 첨부파일 복제
                 if(purcReqMap.containsKey("claimSn")){
-                    Map<String, Object> tempMap = new HashMap<>();
+
+                    Map<String, Object> tempMap = purcRepository.getPurcClaimData(purcReqMap);
+
+                    if(tempMap.containsKey("REG_DATE") && tempMap.get("REG_DATE") != null){
+
+                    } else {
+                        params.put("purcSn", tempMap.get("PURC_SN"));
+
+                        if(params.containsKey("purcSn")) {
+                            tempMap.put("contentId", "purcReq_" + params.get("purcSn"));
+                            for(Map<String, Object> subMap : purcRepository.getPurcReqFileList(tempMap)){
+                                Map<String, Object> tempParams = new HashMap<>();
+                                tempParams.put("fileCd", "payClaim");
+                                tempParams.put("fileNo", subMap.get("file_no"));
+                                tempParams.put("contentId", purcReqMap.get("ceGwIdx"));
+                                purcRepository.insPurcFileCopy(tempParams);
+                            }
+                        }
+                    }
+
                     tempMap.put("contentId", "purcClaim_" + purcReqMap.get("claimSn"));
                     for(Map<String, Object> subMap : purcRepository.getPurcReqFileList(tempMap)){
                         Map<String, Object> tempParams = new HashMap<>();
@@ -1382,7 +1401,26 @@ public class PurcServiceImpl implements PurcService {
 
             // 구매요청+청구+검수 첨부파일 복제
             if(map.containsKey("claimSn")){
-                Map<String, Object> tempMap = new HashMap<>();
+
+                Map<String, Object> tempMap = purcRepository.getPurcClaimData(map);
+
+                if(tempMap.containsKey("REG_DATE") && tempMap.get("REG_DATE") != null){
+
+                } else {
+                    params.put("purcSn", tempMap.get("PURC_SN"));
+
+                    if(params.containsKey("purcSn")) {
+                        tempMap.put("contentId", "purcReq_" + params.get("purcSn"));
+                        for(Map<String, Object> subMap : purcRepository.getPurcReqFileList(tempMap)){
+                            Map<String, Object> tempParams = new HashMap<>();
+                            tempParams.put("fileCd", "payClaim");
+                            tempParams.put("fileNo", subMap.get("file_no"));
+                            tempParams.put("contentId", maxIdx);
+                            purcRepository.insPurcFileCopy(tempParams);
+                        }
+                    }
+                }
+
                 tempMap.put("contentId", "purcClaim_" + map.get("claimSn"));
                 for(Map<String, Object> subMap : purcRepository.getPurcReqFileList(tempMap)){
                     Map<String, Object> tempParams = new HashMap<>();

@@ -128,6 +128,12 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     @Override
+    public void delEnaraProject(Map<String, Object> params) {
+
+        kukgohRepository.delEnaraProject(params);
+    }
+
+    @Override
     public Map<String, Object> getExecutionInfo(Map<String, Object> params) {
 
         Map<String, Object> result = new HashMap<>();

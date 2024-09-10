@@ -78,6 +78,11 @@ public class KukgohRepository extends AbstractDAO {
         insert("kukgoh.insEnaraProject", params);
     }
 
+    public void delEnaraProject(Map<String, Object> params) {
+
+        delete("kukgoh.delEnaraProject", params);
+    }
+
     public Map<String, Object> getEnaraPjtData(Map<String, Object> params) {
 
         return (Map<String, Object>) selectOne("kukgoh.getEnaraPjtData", params);

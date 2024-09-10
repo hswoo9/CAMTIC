@@ -6,6 +6,7 @@ var regRv = {
         saveAjaxData : "",
         wTDataSource : "",
         wCDataSource : "",
+        chkList : [],
     },
     
     fn_defaultScript : function(){
@@ -60,7 +61,7 @@ var regRv = {
                     '<input type="text" id="rmk' + regRv.global.itemWhIndex + '" name="rmk' + regRv.global.itemWhIndex + '" class="rmk">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="k-button k-button-solid-error" whNum="' + regRv.global.itemWhIndex + '" onclick="regRv.delRow(this)">X</button>' +
+                    '<button type="button" class="delBtn k-button k-button-solid-error" whNum="' + regRv.global.itemWhIndex + '" onclick="regRv.delRow(this)">X</button>' +
                 '</td>' +
             '</tr>';
 
@@ -86,11 +87,40 @@ var regRv = {
         regRv.global.itemWhIndex++;
     },
 
-    delRow : function(e){
-        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+    delRow : function(e, f){
+        if($("#listTb").find("tr").length == 1){
+            return;
+        }
+        if($("#itemNo" + $(e).attr("whNum")).val() == ""){
+            return;
+        }
+
+        if(f == "save"){
+            let key = $(e).closest("tr").find(".masterSn").val();
             $(e).closest("tr").remove();
-            regRv.global.itemWhIndex--;
+            regRv.global.oorIndex--;
             regRv.rowAttrOverride();
+
+            for(var i = 0; i < regRv.global.chkList.length; i++){
+                if (regRv.global.chkList[i] == key) {
+                    regRv.global.chkList.splice(i, 1);
+                    i--;
+                }
+            }
+        } else {
+            if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+                $(e).closest("tr").remove();
+                regRv.global.itemWhIndex--;
+                regRv.rowAttrOverride();
+
+                let key = $(e).closest("tr").find(".masterSn").val();
+                for(var i = 0; i < regRv.global.chkList.length; i++){
+                    if (regRv.global.chkList[i] == key) {
+                        regRv.global.chkList.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
         }
     },
 
@@ -98,6 +128,7 @@ var regRv = {
         regRv.global.itemWhIndex = 0;
         $("#listTb tr").remove();
         regRv.addRow('new');
+        regRv.global.chkList = [];
     },
 
     fileChange : function(e){
@@ -141,6 +172,14 @@ var regRv = {
     },
 
     setReceivingReg : function(){
+
+        $("#listTb").find("tr").each(function(){
+            console.log()
+
+            if($(this).find(".itemNo").val() == ""){
+                regRv.delRow($(this), "save");
+            }
+        });
 
         if($(".whInfo").length == 0){
             alert("저장할 항목이 없습니다.");
@@ -231,11 +270,19 @@ var regRv = {
     },
 
     masterSnChange : function(){
+
+        var result = customKendo.fn_customAjax("/item/getItemMaster.do", {
+            masterSn : $("#masterSn").val()
+        });
+        console.log("result", result);
+        const map = result.rs;
+
         $("#masterSn" + regRv.global.masterSnIndex).val($("#masterSn").val())
         $("#itemNo" + regRv.global.masterSnIndex).val($("#itemNo").val())
         $("#itemName" + regRv.global.masterSnIndex).val($("#itemName").val())
         $("#baseWhCd" + regRv.global.masterSnIndex).val($("#baseWhCd").val())
         $("#whCd" + regRv.global.masterSnIndex).data("kendoDropDownList").value($("#baseWhCd").val())
+        $("#unitPrice" + regRv.global.masterSnIndex).val(map.COST_PRICE);
 
         regRv.whTypeChange(regRv.global.masterSnIndex);
 
@@ -354,6 +401,7 @@ var regRv = {
             $(this).find("input.whCd").attr("name", "whCd" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
             $(this).find("input.rmk").attr("name", "rmk" + i);
+            $(this).find("button.delBtn").attr("whnum", i);
         })
     },
 }

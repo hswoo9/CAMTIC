@@ -37,7 +37,7 @@
                 <button type="button" class="k-button k-button-solid-base" onclick="regRv.resetRow()">초기화</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="regRv.receivingExcelFormDown()">양식 다운로드</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="$('#file').click()">엑셀 업로드</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="regRv.addRow('new')">품목추가</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="regRv.fn_popItemNoList()">품목선택</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>

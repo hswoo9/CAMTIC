@@ -93,7 +93,7 @@
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>검수날짜</th>
                     <td id="inspectDtTd">
-                        <input id="inspectDt" style="width: 180px">
+                        <input id="inspectDt" style="width: 200px">
                     </td>
                 </tr>
                 <tr>

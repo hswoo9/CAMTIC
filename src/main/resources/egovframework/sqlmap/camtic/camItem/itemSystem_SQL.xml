@@ -404,6 +404,7 @@
             ITEM_NAME = #{itemName},
             ITEM_UNIT_CD = #{itemUnitCd},
             STANDARD = #{standard},
+            ITEM_TYPE = #{itemType},
             WH_CD = #{whCd},
             UNIT_PRICE = #{unitPrice},
             COST_PRICE = #{costPrice},
