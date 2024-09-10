@@ -513,7 +513,7 @@ var rndBg = {
             endDe : $("#payAppEndDe").val(),
         }
 
-        rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData3);
+        rndBg.budgetMainGrid3("/pay/getPaymentMngList", rndBg.global.searchAjaxData3);
     },
 
     budgetMainGrid3 : function(url, params){
