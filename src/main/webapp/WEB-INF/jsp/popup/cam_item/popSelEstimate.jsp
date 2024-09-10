@@ -40,8 +40,9 @@
             </h3>
 
             <div class="btn-st popButton">
+                <button type="button" id="" class="k-button k-button-solid-base" onclick="popSelEstimate.estPrintPop('B')">해외영세</button>
                 <button type="button" id="sendBtn" class="k-button k-button-solid-base" onclick="popSelEstimate.fn_sendMailPop()">메일 전송</button>
-                <button type="button" id="printBtn" class="k-button k-button-solid-base" onclick="popSelEstimate.estPrintPop()">인쇄</button>
+                <button type="button" id="printBtn" class="k-button k-button-solid-base" onclick="popSelEstimate.estPrintPop('A')">인쇄</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>

@@ -214,7 +214,7 @@ var popSelEstimate = {
         popSelEstimate.popMainGrid("/item/getObtainOrderList.do", popSelEstimate.global.searchAjaxData);
     },
 
-    estPrintPop: function(){
+    estPrintPop: function(e){
         if($("input[name='ooSn']:checked").length == 0){
             alert("출력할 견적을 체크해주세요.");
             return;
@@ -237,6 +237,11 @@ var popSelEstimate = {
         if($("input[name='ooSn']:checked").length != 0){
             url += "&obtainOrderSn="+ooSnArr.substr(1)
         }
+
+        if(e == "B") {
+            url += "&type=B";
+        }
+
         var name = "_blank";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

@@ -87,9 +87,17 @@ const estPrintPop = {
         /** 4. 견적 합계 */
         const supAmtSum2 = Math.floor(itemAmtSum/10);
         const supAmtSum1 = itemAmtSum - supAmtSum2;
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(itemAmtSum));
+
+        if($("#vatType").val() == "B") {
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(itemAmtSum));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas("0"));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(itemAmtSum));
+        } else {
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(itemAmtSum));
+        }
+
         estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(itemAmtSum)+" 원");
 
         /** 5. 기타사항 */

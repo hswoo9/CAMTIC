@@ -14,6 +14,7 @@
 
 <input type="hidden" id="estPrintSn" value="${data.estPrintSn}"/>
 <input type="hidden" id="obtainOrderSn" value="${data.obtainOrderSn}"/>
+<input type="hidden" id="vatType" value="${data.type}"/>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
