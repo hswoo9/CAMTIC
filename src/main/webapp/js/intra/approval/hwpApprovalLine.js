@@ -520,19 +520,19 @@ var hwpApprovalLine = {
 
     setSign : function(fieldName, empSeq, empName, type){
 
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "https://new.camtic.or.kr";
+        }else{
+            ip = "http://218.158.231.186";
+        }
+
         /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
         if(type == "view"){
             if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
                 empSeq = $("#approveEmpSeq").val();
                 empName = "대결 "+$("#approveEmpName").val();
             }
-        }
-
-        let ip = "";
-        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "https://new.camtic.or.kr";
-        }else{
-            ip = "http://218.158.231.186";
         }
 
         /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
@@ -607,19 +607,19 @@ var hwpApprovalLine = {
     },
 
     setTranscript : function(fieldName, empSeq, empName, type){
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "https://new.camtic.or.kr";
+        }else{
+            ip = "http://218.158.231.186";
+        }
+
         /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
         if(type == "view"){
             if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
                 empSeq = $("#approveEmpSeq").val();
                 empName = "대결 "+$("#approveEmpName").val();
             }
-        }
-
-        let ip = "";
-        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "https://new.camtic.or.kr";
-        }else{
-            ip = "http://218.158.231.186";
         }
 
         const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});

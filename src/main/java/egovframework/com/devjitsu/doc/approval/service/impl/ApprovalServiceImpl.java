@@ -80,7 +80,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Override
     public Map<String, Object> getDeptDocNum(Map<String, Object> params) {
-        if(StringUtils.isEmpty(approvalRepository.getApprovalDocNoChk(params)) && !params.get("type").equals("temp")){
+        if(!params.get("type").equals("temp")){
             Map<String, Object> docNumMap = approvalRepository.getDeptDocNum(params);
             params.put("docNo", docNumMap.get("docNo"));
             approvalRepository.setDeptDocNumUpd(docNumMap);
