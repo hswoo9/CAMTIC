@@ -597,10 +597,10 @@
     <select id="getEmpData" parameterType="map" resultType="map">
         /*getEmpData*/
         SELECT
-            HEI.BDAY,
+            scp.dec_b64('KEY1', HEI.BDAY) AS BDAY,
             HEI.JOIN_DAY,
             HEI.JOB_DETAIL,
-            HEI.RES_REGIS_NUM AS REGIST_NO,
+            scp.dec_b64('KEY1', HEI.RES_REGIS_NUM) AS REGIST_NO,
             CONCAT(CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END, " ",
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END) AS DEPT_TEAM_NAME
         FROM
