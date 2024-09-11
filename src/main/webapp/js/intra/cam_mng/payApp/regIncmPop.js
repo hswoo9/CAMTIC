@@ -425,7 +425,7 @@ var regIncm = {
                 $("#bnkNm").val(rs.BNK_NM);
 
                 $("#taxType").val(rs.TAX_CH_GUBUN);
-                if(rs.TAX_CH_GUBUN == "1"){
+                if(rs.TAX_CH_GUBUN == "1" || rs.TAX_CH_GUBUN == "") {
                     $("#supCost0").val(regIncm.comma(Math.round(Number(rs.DEPO_AMT) / 1.1)));
                     $("#vatAmt0").val(regIncm.comma(Number(rs.DEPO_AMT) - Math.round(Number(rs.DEPO_AMT) / 1.1)));
                 } else {
