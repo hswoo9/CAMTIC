@@ -50,6 +50,11 @@ public class HistoryController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/historyView";
     }
 
@@ -90,6 +95,11 @@ public class HistoryController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/historyReq";
     }
 
@@ -140,6 +150,11 @@ public class HistoryController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/userManage/rewardReq";
     }
 

@@ -35,6 +35,11 @@ public class EvaluationController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationReq";
     }
 
@@ -100,6 +105,11 @@ public class EvaluationController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationList";
     }
 
@@ -436,6 +446,11 @@ public class EvaluationController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationResultList";
     }
 
@@ -446,6 +461,11 @@ public class EvaluationController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationStatA";
     }
 
@@ -456,6 +476,11 @@ public class EvaluationController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationStatB";
     }
 
@@ -466,6 +491,11 @@ public class EvaluationController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/evaluationStatC";
     }
 
@@ -478,6 +508,11 @@ public class EvaluationController {
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/userManage/employeeInterviewCard";
     }
 

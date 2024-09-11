@@ -66,6 +66,11 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/recruit/recruitList";
     }
 
@@ -82,6 +87,11 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/recruit/recruitListTl";
     }
 
@@ -98,6 +108,11 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/recruit/recruitListEval";
     }
 
@@ -678,6 +693,11 @@ public class RecruitController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/recruit/commissionerManage";
     }
 

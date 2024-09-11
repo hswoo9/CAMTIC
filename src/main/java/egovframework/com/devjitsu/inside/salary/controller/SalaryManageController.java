@@ -47,6 +47,11 @@ public class SalaryManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/salaryManage/empSalaryManage";
     }
 
@@ -93,6 +98,10 @@ public class SalaryManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
 
         return "inside/salaryManage/socialRateManage";
     }
@@ -229,6 +238,11 @@ public class SalaryManageController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/salaryManage/payRollLedgerMa";
     }
 

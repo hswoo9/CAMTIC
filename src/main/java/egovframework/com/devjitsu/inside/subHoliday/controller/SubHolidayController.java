@@ -51,6 +51,11 @@ public class SubHolidayController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "/subHoliday/subHolidayList";
 
     }
@@ -63,6 +68,11 @@ public class SubHolidayController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "/subHoliday/subHolidayAdmin";
     }
 
@@ -78,6 +88,11 @@ public class SubHolidayController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "/subHoliday/subHolidayStat";
     }
 
@@ -89,6 +104,11 @@ public class SubHolidayController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "/subHoliday/subHolidaySetting";
     }
 
@@ -403,6 +423,11 @@ public class SubHolidayController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "/subHoliday/holidayManagement";
     }
 

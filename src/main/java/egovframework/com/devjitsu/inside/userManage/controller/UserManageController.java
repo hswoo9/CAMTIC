@@ -71,6 +71,11 @@ public class UserManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/userPersonList";
     }
 
@@ -91,6 +96,11 @@ public class UserManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/userPersonList2";
     }
 
@@ -757,6 +767,11 @@ public class UserManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/userInfoMod";
     }
 
@@ -813,6 +828,10 @@ public class UserManageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
 
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/employmentReq";
     }
 
@@ -830,6 +849,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/userManage/employmentManage";
     }
 
@@ -1502,6 +1526,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/joinLeaveView";
     }
 
@@ -1519,6 +1548,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/depView";
     }
 
@@ -1536,6 +1570,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/dutyView";
     }
     /**
@@ -1552,6 +1591,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/yearDutyView";
     }
     /**
@@ -1568,6 +1612,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/yearHistoryView";
     }
     /**
@@ -1584,6 +1633,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/genderAgeView";
     }
     /**
@@ -1600,6 +1654,11 @@ public class UserManageController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/userManage/degreeView";
     }
 

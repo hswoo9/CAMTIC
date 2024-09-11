@@ -77,6 +77,11 @@ public class EmployeeController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/participationRateList";
     }
 
@@ -100,6 +105,11 @@ public class EmployeeController {
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/employeeParticipationList";
     }
 
@@ -121,6 +131,11 @@ public class EmployeeController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/businessParticipationList";
     }
 
@@ -143,6 +158,11 @@ public class EmployeeController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/userManage/monthlyPayList";
     }
 
@@ -154,6 +174,11 @@ public class EmployeeController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         session.setAttribute("menuNm", request.getRequestURI());
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/userManage/laborList";
     }
 

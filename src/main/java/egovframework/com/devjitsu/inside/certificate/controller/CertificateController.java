@@ -46,6 +46,11 @@ public class CertificateController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/certificate/certificateList";
     }
 
@@ -57,6 +62,11 @@ public class CertificateController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+        
         return "inside/certificate/certificateAdmin";
     }
 
@@ -108,6 +118,10 @@ public class CertificateController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
 
         Map<String, Object> data = new HashMap<>();
         if(params.containsKey("userProofSn")){

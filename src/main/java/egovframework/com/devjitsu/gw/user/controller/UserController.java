@@ -52,6 +52,11 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(loginVO == null){
+            return "error/error";
+        }
+
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
