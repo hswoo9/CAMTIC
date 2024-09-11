@@ -352,16 +352,16 @@ var hwpInit = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td colspan="8" style="height:20px;background-color:#E6EEF7; text-align:center; width: 60px;"><p style="font-size:11px;"><b>변경 전</b></p></td>';
+        html += '                   <td colspan="7" style="height:20px;background-color:#E6EEF7; text-align:center; width: 60px;"><p style="font-size:11px;"><b>변경 전</b></p></td>';
         html += '               </tr>';
         html += '               <tr>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:11px;">성명</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 50px;"><p style="font-size:11px;">직급</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 105px;"><p style="font-size:11px;">성명</p></td>';
+        // html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 50px;"><p style="font-size:11px;">직급</p></td>';
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">급여총액(원)</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 80px;"><p style="font-size:11px;">참여시작</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 80px;"><p style="font-size:11px;">참여종료</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:11px;">기간(월)</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:11px;">참여율</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 90px;"><p style="font-size:11px;">참여시작</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 90px;"><p style="font-size:11px;">참여종료</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-size:11px;">기간(월)</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-size:11px;">참여율</p></td>';
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">인건비합계(원)</p></td>';
         html += '               </tr>';
         /** 변경 전 담당자 */
@@ -369,7 +369,7 @@ var hwpInit = {
             const map = befMem[i];
             html += '               <tr>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
+            // html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
@@ -379,16 +379,16 @@ var hwpInit = {
             html += '               </tr>';
         }
         html += '               <tr>';
-        html += '                   <td colspan="8" style="height:20px;background-color:#E6EEF7; text-align:center; width: 60px;"><p style="font-size:11px;"><b>변경 후</b></p></td>';
+        html += '                   <td colspan="7" style="height:20px;background-color:#E6EEF7; text-align:center; width: 60px;"><p style="font-size:11px;"><b>변경 후</b></p></td>';
         html += '               </tr>';
         html += '               <tr>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:11px;">성명</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 50px;"><p style="font-size:11px;">직급</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 105px;"><p style="font-size:11px;">성명</p></td>';
+        // html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 50px;"><p style="font-size:11px;">직급</p></td>';
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">급여총액(원)</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 80px;"><p style="font-size:11px;">참여시작</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 80px;"><p style="font-size:11px;">참여종료</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:11px;">기간(월)</p></td>';
-        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:11px;">참여율</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 90px;"><p style="font-size:11px;">참여시작</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 90px;"><p style="font-size:11px;">참여종료</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-size:11px;">기간(월)</p></td>';
+        html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-size:11px;">참여율</p></td>';
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">인건비합계(원)</p></td>';
         html += '               </tr>';
         /** 변경 후 담당자 */
@@ -396,7 +396,7 @@ var hwpInit = {
             const map = mem[i];
             html += '               <tr>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
+            // html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PART_DET_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PART_DET_END_DT +'</p></td>';
