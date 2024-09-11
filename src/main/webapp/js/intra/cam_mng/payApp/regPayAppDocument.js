@@ -167,7 +167,7 @@ var payAppDoc = {
 
         var hostUrl = "";
         if(window.location.host.indexOf("218.158.231.184") > -1 || window.location.host.indexOf("new.camtic.or.kr") > -1){
-            hostUrl = "https://218.158.231.184";
+            hostUrl = "http://218.158.231.184";
         } else {
             hostUrl = "http://218.158.231.186";
         }
