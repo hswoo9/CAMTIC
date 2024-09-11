@@ -136,6 +136,11 @@ public class InsideCodeController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
         return "inside/bustrip/meetingRoomReq";
     }
 
@@ -158,6 +163,11 @@ public class InsideCodeController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+
+        if(login == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
 
         return "popup/inside/bustrip/meetingRoomPop";
     }
