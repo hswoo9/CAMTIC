@@ -123,6 +123,11 @@ public class CommonController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(loginVO == null){
+            model.addAttribute("windowType", "popup");
+            return "error/error";
+        }
+
         model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
         model.addAttribute("loginVO", loginVO);
 
