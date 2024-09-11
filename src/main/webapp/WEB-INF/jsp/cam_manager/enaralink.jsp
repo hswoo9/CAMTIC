@@ -47,11 +47,11 @@
                         </td>
                         <th class="text-center th-color">발의부서</th>
                         <td>
-                            <input type="text" id="deptComp" style="width: 150px;">
+                            <input type="text" id="deptComp" style="width: 150px;" disabled >
                         </td>
                         <th class="text-center th-color">발의자</th>
                         <td>
-                            <input type="text" id="searchValue" style="width: 90%;">
+                            <input type="text" id="searchValue" style="width: 90%;" value="${loginVO.name}" disabled >
                         </td>
                         <th class="text-center th-color">전송상태</th>
                         <td>

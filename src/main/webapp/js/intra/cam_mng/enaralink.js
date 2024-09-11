@@ -60,6 +60,7 @@ var enaralink = {
                     data.endDt = $("#endMonth").val();
                     data.exceptYn = "N";
                     data.status = $("#status").data("kendoDropDownList").value();
+                    data.searchValue = $("#searchValue").val();
 
                     return data;
                 }

@@ -117,6 +117,9 @@
         <if test='"D".equals(status)'>
             AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NOT NULL AND G.PROCESS_RESULT_CODE != '000'))
         </if>
+        <if test='!"".equals(searchValue) and searchValue != null'>
+            AND (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.REG_EMP_SEQ) = #{searchValue}
+        </if>
     </select>
 
     <update id="setEnaraSendExcept" parameterType="map">
