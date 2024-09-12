@@ -122,6 +122,7 @@ var storageBoxResult = {
                         }
                     }
                 }, {
+                    field : "DOC_TITLE",
                     title : "문서제목",
                     template : function (e){
                         var securityIcon = '';
