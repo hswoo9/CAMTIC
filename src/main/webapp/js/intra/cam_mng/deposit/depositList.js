@@ -80,7 +80,7 @@ var depositList = {
                 {
                     title: "번호",
                     width: 40,
-                    template: "#= --record #"
+                    template: "#= --record #",
                 }, {
                     field: "EVI_TYPE",
                     title: "구분",
@@ -98,7 +98,14 @@ var depositList = {
                         } else {
                             eviType = "미발행";
                         }
-                        return eviType;
+
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ eviType +'</div>';
                     }
                 }, {
                     field: "APPR_STAT",
@@ -120,7 +127,13 @@ var depositList = {
                             stat = "미입금";
                         }
 
-                        return stat;
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ stat +'</div>';
                     }
                 }, {
                     field: "DOC_NO",
@@ -141,7 +154,14 @@ var depositList = {
                         } else if (e.DEPO_STAT == "4"){
                             depoStat = "잔금";
                         }
-                        return depoStat;
+
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ depoStat +'</div>';
                     }
                 }, {
                     field: "DEPO_TITLE",
@@ -149,8 +169,13 @@ var depositList = {
                     width: 250,
                     template: function(e){
                         var status = "";
+                        var styleTxt = "cursor: pointer; font-weight: bold;";
 
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="depositList.fn_reqRegPopup('+e.PAY_DEPO_SN+', \''+status+'\', \'user\')">'+e.DEPO_TITLE+'</div>';
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += " text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+styleTxt+'" onclick="depositList.fn_reqRegPopup('+e.PAY_DEPO_SN+', \''+status+'\', \'user\')">'+e.DEPO_TITLE+'</div>';
                     }
                 }, {
                     field: "PJT_NM",
@@ -158,20 +183,44 @@ var depositList = {
                     width: 130,
                     template: function(e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ pjtNm + "..." +'</div>';
                     }
                 }, {
                     field: "APP_DE",
                     title: "입금요청일",
-                    width: 80
+                    width: 80,
+                    template: function(e){
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ e.APP_DE +'</div>';
+                    }
                 }, {
                     field: "PAY_INCP_DE",
                     title: "입금예정일",
-                    width: 80
+                    width: 80,
+                    template: function(e){
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ e.PAY_INCP_DE +'</div>';
+                    }
                 }, {
                     field: "",
                     title: "입금완료일",
-                    width: 80
+                    width: 80,
                 }, {
                     field: "RE_TOT_COST",
                     title: "입금금액",
@@ -181,7 +230,14 @@ var depositList = {
                         if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined){
                             return '<div style="text-align: right">'+comma(e.RE_TOT_COST)+'</div>';
                         } else {
-                            return '<div style="text-align: right">'+0+'</div>';
+
+                            var styleTxt = "text-align: right;";
+
+                            if(e.OBTAIN_ORDER_TYPE == "N") {
+                                styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                            }
+
+                            return '<div style="'+ styleTxt +'">0</div>';
                         }
                     }
                 }, {
@@ -218,7 +274,13 @@ var depositList = {
                             }
                         }
 
-                        return status;
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ status +'</div>';
                     }
                 }
             ],

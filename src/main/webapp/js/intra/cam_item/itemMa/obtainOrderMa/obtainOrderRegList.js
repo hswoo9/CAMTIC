@@ -318,11 +318,12 @@ var oorl = {
                 {
                     headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.APPR_STAT == "Y"){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
+                        if(e.PAY_DEPO_SN != null && e.DEADLINE == "Y" && e.PAY_INCP_SN != 0){ //입금처리요청서 작성, 마감 Y , 요청유무가 Y인경우(요청완료 상태)는 체크박스 제거
                             return "";
                         }else{
                             var depoChk = e.PAY_DEPO_SN != null && e.PAY_DEPO_SN != undefined ? "Y" : "N";
-                            return "<input type='checkbox' class='checkItem' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' depo='" + depoChk + "'  deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' order='" + e.OBTAIN_ORDER_TYPE + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
+                            var incpChk = e.PAY_INCP_SN != 0 ? "Y" : "N";
+                            return "<input type='checkbox' class='checkItem' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' depo='" + depoChk + "' incp='" + incpChk + "' deadline='" + e.DEADLINE + "' deposit='" + e.DEPOSIT + "' order='" + e.OBTAIN_ORDER_TYPE + "' style=\"top: 3px; position: relative\" crmSn='" + e.CRM_SN + "'/>"
                         }
                     },
                     width: 30,
@@ -614,7 +615,7 @@ var oorl = {
             console.log("id", id);
             var dataItem = $("#"+id).data("kendoGrid").dataItem($(this).closest("tr"));
             if(dataItem.PAY_DEPO_SN != null){
-                alert("이미 작성된 입금처리요청서가 있는 항목이 포함되어 있습니다.");
+                alert("이미 입금처리요청서가 작성된 항목이 포함되어 있습니다.");
                 regPopupChk = true;
                 return false;
             }
@@ -710,24 +711,24 @@ var oorl = {
             return;
         }
 
-        var depoChk = false;
+        var incpChk = false;
 
         $.each($("input[name=ooSn]:checked"), function(){
             var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
-            if($(this).attr("depo") == "Y"){
-                alert("입금처리요청서가 작성된 항목이 포함되어 있습니다.");
-                depoChk = true;
+            if($(this).attr("incp") == "Y"){
+                alert("수입결의서가 작성된 항목이 포함되어 있습니다.");
+                incpChk = true;
                 return;
             }
 
             if($(this).attr("order") == "N"){
                 alert("이미 취소된 항목이 포함되어 있습니다.");
-                depoChk = true;
+                incpChk = true;
                 return;
             }
         });
 
-        if(depoChk) return;
+        if(incpChk) return;
 
         if(confirm("선택한 항목을 취소처리하시겠습니까?")){
             var obtainOrderSn = "";

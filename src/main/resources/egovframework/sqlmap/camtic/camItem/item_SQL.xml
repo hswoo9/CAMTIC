@@ -179,6 +179,7 @@
             CI.CRM_SN,
             CI.CRM_NM,
             PD.APPR_STAT,
+            IFNULL(PD.PAY_INCP_SN, 0) AS PAY_INCP_SN,
             CASE
                 WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) = PI.TOT_COST THEN '입금완료'
                 WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'

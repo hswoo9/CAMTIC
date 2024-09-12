@@ -231,6 +231,10 @@ var regPayDepo = {
                         $("#incpBtn").css("display", "none");
                     }
                 }
+
+                if(rs.OBTAIN_ORDER_TYPE == 'N') {
+                    $("#incpBtn").css("display", "none");
+                }
             }
         })
     },
