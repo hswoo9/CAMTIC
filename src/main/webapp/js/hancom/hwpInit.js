@@ -371,9 +371,9 @@ var hwpInit = {
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.EMP_NAME +'</p></td>';
             // html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_getSpot(map.DUTY_NAME, map.POSITION_NAME) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(map.PART_DET_STR_DT, map.PART_DET_END_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ (map.PART_DET_STR_DT == null ? map.PJT_STR_DT : map.PART_DET_STR_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ (map.PART_DET_END_DT == null ? map.PJT_END_DT : map.PART_DET_END_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ (map.PART_DET_STR_DT == null ? fn_monDiff(map.PJT_STR_DT, map.PJT_END_DT) : fn_monDiff(map.PART_DET_STR_DT, map.PART_DET_END_DT)) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_PAY_BUDG) +'</p></td>';
             html += '               </tr>';

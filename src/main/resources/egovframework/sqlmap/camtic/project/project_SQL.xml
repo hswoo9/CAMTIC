@@ -332,7 +332,7 @@
         CAM_PJT_MNG.DJ_PROJECT A
         WHERE
         1=1
-        AND A.YEAR_CLASS != 'M'
+        AND (A.YEAR_CLASS != 'M' OR YEAR_CLASS IS NULL)
         AND A.PARENT_PJT_SN IS NULL
         <if test='tmStat != null and !"".equals(tmStat)'>
             AND A.TEAM_STAT = #{tmStat}
