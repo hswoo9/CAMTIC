@@ -514,13 +514,13 @@ var bustripExnpReq = {
         var diffDays = Math.abs((toDate.getTime() - frDate.getTime()) / (1000*60*60*24));   // 밀리세컨 * 초 * 분 * 시 = 일
         var weekends = 0;
 
-        for(var i=0; i < diffDays; i++){
-            var currentDate = new Date(frDate.getTime() + i * (1000*3600*24));
-
-            if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
-                weekends++;
-            }
-        }
+        // for(var i=0; i < diffDays; i++){
+        //     var currentDate = new Date(frDate.getTime() + i * (1000*3600*24));
+        //
+        //     if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
+        //         weekends++;
+        //     }
+        // }
 
         var bustripDays = diffDays - weekends + 1;      // 주말제외한 출장일수
         var bustripNum = $(".addData").length;           // 출장인원
