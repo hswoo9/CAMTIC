@@ -149,12 +149,17 @@ var userViewPop = {
     },
 
     fn_sethire : function(prevHire, prevHireMon, hire, hireMon){
+        prevHire = prevHire || 0;
+        prevHireMon = prevHireMon || 0;
+
         var totalHire = parseInt(prevHire) + parseInt(hire);
         var totalHireMon = parseInt(prevHireMon) + parseInt(hireMon);
+
         if(totalHireMon > 12){
             totalHire = parseInt(totalHire) + parseInt(String(totalHireMon/12).split(".")[0]);
             totalHireMon = totalHireMon%12;
         }
+
         return totalHire + "년 " + totalHireMon + "개월 (전직경력 : " + prevHire + "년 " + prevHireMon + "개월 + 현직경력 : " + hire + "년 " + hireMon + "개월)" ;
     }
 }
