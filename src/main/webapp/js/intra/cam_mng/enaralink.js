@@ -98,9 +98,9 @@ var enaralink = {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
                             '	<span class="k-button-text">전송제외</span>' +
                             '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraSendList.fn_enaraSendList();">' +
-                            '	<span class="k-button-text">집행정보 일괄전송</span>' +
-                            '</button>'+
+                            // '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraSendList.fn_enaraSendList();">' +
+                            // '	<span class="k-button-text">집행정보 일괄전송</span>' +
+                            // '</button>'+
 
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
