@@ -504,6 +504,7 @@ var docView = {
     },
 
     docApprove : function(){
+        let tmpSignCk = false;
         if(docView.global.loginVO == null){
             alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
         }
@@ -612,6 +613,7 @@ var docView = {
                                 }
 
                                 /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.signImg != null){
                                     const imgMap = result.data.signImg;
@@ -632,6 +634,7 @@ var docView = {
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -653,6 +656,7 @@ var docView = {
                                     }
                                 }
 
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.sign2Img != null){
                                     const imgMap = result.data.sign2Img;
@@ -673,6 +677,7 @@ var docView = {
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -715,6 +720,7 @@ var docView = {
                             }
 
                             /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.signImg != null){
                                 const imgMap = result.data.signImg;
@@ -735,6 +741,7 @@ var docView = {
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -756,6 +763,7 @@ var docView = {
                                 }
                             }
 
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.sign2Img != null){
                                 const imgMap = result.data.sign2Img;
@@ -772,11 +780,11 @@ var docView = {
                                     true, 3, false, false, 0, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
-
                                             hwpApprovalLine.global.checkSign = "Y";
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -810,6 +818,7 @@ var docView = {
                             }
 
                             /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.signImg != null){
                                 const imgMap = result.data.signImg;
@@ -830,6 +839,7 @@ var docView = {
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -851,6 +861,7 @@ var docView = {
                                 }
                             }
 
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.sign2Img != null){
                                 const imgMap = result.data.sign2Img;
@@ -867,11 +878,11 @@ var docView = {
                                     true, 3, false, false, 0, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
-
                                             hwpApprovalLine.global.checkSign = "Y";
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -908,6 +919,7 @@ var docView = {
                                 }
 
                                 /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.signImg != null){
                                     const imgMap = result.data.signImg;
@@ -928,6 +940,7 @@ var docView = {
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -949,6 +962,7 @@ var docView = {
                                     }
                                 }
 
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.sign2Img != null){
                                     const imgMap = result.data.sign2Img;
@@ -965,11 +979,11 @@ var docView = {
                                         true, 3, false, false, 0, 0, 0, function(ctrl){
                                             if(ctrl){
                                                 console.log('성공');
-
                                                 hwpApprovalLine.global.checkSign = "Y";
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -1012,6 +1026,7 @@ var docView = {
                                 }
 
                                 /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.signImg != null){
                                     const imgMap = result.data.signImg;
@@ -1032,6 +1047,7 @@ var docView = {
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -1053,6 +1069,7 @@ var docView = {
                                     }
                                 }
 
+                                tmpSignCk = true;
                                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                                 if(result.data.sign2Img != null){
                                     const imgMap = result.data.sign2Img;
@@ -1069,11 +1086,11 @@ var docView = {
                                         true, 3, false, false, 0, 0, 0, function(ctrl){
                                             if(ctrl){
                                                 console.log('성공');
-
                                                 hwpApprovalLine.global.checkSign = "Y";
                                                 docView.setPjtPayApp2();
                                             }else{
-                                                console.log('실패');
+                                                console.log('실패')
+                                                alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -1115,6 +1132,7 @@ var docView = {
                             }
 
                             /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.signImg != null){
                                 const imgMap = result.data.signImg;
@@ -1135,6 +1153,7 @@ var docView = {
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -1156,6 +1175,7 @@ var docView = {
                                 }
                             }
 
+                            tmpSignCk = true;
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
                             if(result.data.sign2Img != null){
                                 const imgMap = result.data.sign2Img;
@@ -1176,6 +1196,7 @@ var docView = {
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -1185,6 +1206,13 @@ var docView = {
                             }
                         }
                     }
+                }
+
+                console.log("tmpSignCk", tmpSignCk);
+                console.log("pmData", pmData);
+
+                if(!tmpSignCk && pmData != null){
+                    docView.setPjtPayApp2();
                 }
 
                 console.log("----- 양식 사인 세팅 끝 -----");
@@ -1234,6 +1262,7 @@ var docView = {
                                                 docView.setPjtPayApp2();
                                             }else{
                                                 console.log('실패');
+                                                alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                             }
                                         }
                                     );
@@ -1284,6 +1313,7 @@ var docView = {
                                             docView.setPjtPayApp2();
                                         }else{
                                             console.log('실패');
+                                            alert("네트워크 지연으로 결재사인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                         }
                                     }
                                 );
@@ -1300,6 +1330,13 @@ var docView = {
     },
 
     setPjtPayApp2 : function(){
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "https://new.camtic.or.kr"
+        }else{
+            ip = "http://218.158.231.186"
+        }
+
         if($("#type").val() != "drafting" && docView.global.rs.docInfo.FORM_ID == "147"){
             const payAppSn = docView.global.params.approKey.split("_")[1];
             const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
@@ -1337,6 +1374,7 @@ var docView = {
                                     docView.documentHwpSave2();
                                 }else{
                                     console.log('실패');
+                                    alert("네트워크 지연으로 직인 정보를 불러오는데 실패하였습니다. 새로고침 후 재시도 바랍니다."); return;
                                 }
                             }
                         );
