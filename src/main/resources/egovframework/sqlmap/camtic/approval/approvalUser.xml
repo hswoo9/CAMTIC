@@ -529,7 +529,7 @@
         FROM
             CAM_HR.DJ_DEPT_INFO B
         INNER JOIN
-            CAM_HR.DJ_DEPT_INFO A ON CONCAT(A.PATH, '|')  LIKE CONCAT(B.PATH, '|%') AND A.ORG_TYPE = 'D' AND A.DEPT_SEQ = '1205'
+            CAM_HR.DJ_DEPT_INFO A ON CONCAT(A.PATH, '|')  LIKE CONCAT(B.PATH, '|%') AND A.ORG_TYPE = 'D' AND A.DEPT_SEQ = #{deptSeq}
     </select>
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">
