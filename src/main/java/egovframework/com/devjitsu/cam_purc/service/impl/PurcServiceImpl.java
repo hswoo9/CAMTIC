@@ -898,6 +898,20 @@ public class PurcServiceImpl implements PurcService {
                 }
             }
             commonRepository.insFileInfo(list);
+
+            Map<String, Object> claimData = purcRepository.getClaimData(params);
+            if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
+                List<Map<String, Object>> claimExnpList = purcRepository.getPurcClaimExnpList(params);
+
+                for(Map<String, Object> claimExnp : claimExnpList){
+                    for(int i = 0 ; i < list.size() ; i++) {
+                        list.get(i).put("contentId", claimExnp.get("CE_GW_IDX"));
+                        list.get(i).put("fileCd", "payClaim");
+                    }
+
+                    commonRepository.insFileInfo(list);
+                }
+            }
         }
         purcRepository.updPurcClaimInspect(params);
 
