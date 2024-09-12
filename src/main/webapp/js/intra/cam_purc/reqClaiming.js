@@ -5,6 +5,7 @@ var reqCl = {
         itemIndex : 0,
         cliamItemList : [],
         fileArray: [],
+        attFiles: [],
         status : "",
     },
 
@@ -157,6 +158,11 @@ var reqCl = {
             $("#crmMonCheck").val(data.itemList[0].MON_CHECK);
 
             if(data.purcFile != null){
+                if($("#claimSn").val() != ""){
+                    var rs2 = customKendo.fn_customAjax("/purc/getPurcClaimData", { claimSn : $("#claimSn").val() }).data;
+                    reqCl.global.status = rs2.STATUS;
+                }
+
                 reqCl.settingTempFileDataInit(data.purcFile);
                 reqCl.global.fileArray = data.purcFile;
             }
@@ -858,7 +864,7 @@ var reqCl = {
             return;
         }
 
-        if(fCommon.global.attFiles.length == 0){
+        if(reqCl.global.attFiles.length == 0 && reqCl.global.fileArray.length == 0){
             alert("견적서를 등록해주세요.");
             return;
         }
@@ -953,9 +959,9 @@ var reqCl = {
         }
 
         /** 증빙파일 첨부파일 */
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("file1", fCommon.global.attFiles[i]);
+        if(reqCl.global.attFiles != null){
+            for(var i = 0; i < reqCl.global.attFiles.length; i++){
+                formData.append("file1", reqCl.global.attFiles[i]);
             }
         }
 
@@ -1338,37 +1344,84 @@ var reqCl = {
 
     addFileInfoTable : function (){
         let size = 0;
-        let fileName = "";
-        let fileExt = "";
-        if($("input[name='fileList']")[0].files.length == 1){
-            $("#fileGrid").html("");
-        }
+        let attFiles = reqCl.global.attFiles;
+
+        var html = '';
+
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
-            fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+            attFiles.push($("input[name='fileList']")[0].files[i]);
         }
 
-        if(fCommon.global.attFiles.length > 0){
+        if(attFiles.length > 0){
             $("#fileGrid").find(".defultTr").remove();
             $("#fileGrid").find(".addFile").remove();
-
-            var html = '';
-            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
-                size = fCommon.bytesToKB((fCommon.global.attFiles[i].file_size || fCommon.global.attFiles[i].size));
-                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[0] : fCommon.global.attFiles[i].file_org_name;
-                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[1] : fCommon.global.attFiles[i].file_ext;
+            for (var i = 0; i < attFiles.length; i++) {
+                size = attFiles[i].size > 0 ? fCommon.bytesToKB(attFiles[i].size) : '0 KB';
+                var fileName = attFiles[i].name.substring(0, attFiles[i].name.lastIndexOf("."));
+                var fileExt = attFiles[i].name.substring(attFiles[i].name.lastIndexOf(".") + 1);
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="reqCl.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+
+                html += '</tr>';
+            }
+        }
+
+        $("#fileGrid").append(html);
+    },
+
+    fnUploadFile : function(e){
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray2 = Array.from(reqCl.global.attFiles);
+        fileArray2.splice(e, 1);
+        fileArray2.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        reqCl.global.attFiles = dataTransfer.files;
+
+        var fileArray = [];
+        fileArray = reqCl.global.attFiles;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fileArray.length; i++) {
+                var fileName = fileArray[i].name.substring(0, fileArray[i].name.lastIndexOf("."));
+                var fileExt = fileArray[i].name.substring(fileArray[i].name.lastIndexOf(".") + 1);
+
+                size = fCommon.bytesToKB(fileArray[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="reqCl.fnUploadFile(' + i + ')">';
                 html += '   </td>';
                 html += '</tr>';
             }
 
             $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="4" style="text-align: center;padding-top: 10px;">등록된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
         }
+
+        if(reqCl.global.attFiles.length == 0){
+            reqCl.global.attFiles = new Array();
+        }
+
     },
 
     fn_vatChange : function(e){
@@ -1391,16 +1444,16 @@ var reqCl = {
 
     /** 첨부파일 데이터 세팅 */
     settingTempFileDataInit: function(e){
-        fCommon.global.attFiles = fCommon.global.attFiles.concat(e);
+        reqCl.global.fileArray = e;
         var html = '';
         if(e.length > 0){
             for(var i = 0; i < e.length; i++){
-                html += '<tr style="text-align: center" class="addFile">';
+                html += '<tr style="text-align: center">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
-                if(e[i].CONTENT_ID.indexOf("purcClaim") > -1 && (reqCl.global.status == "0" || reqCl.global.status == "30" || reqCl.global.status == "40")){
+                if(e[i].CONTENT_ID.indexOf("purcClaim") == 0 && (reqCl.global.status == "0" || reqCl.global.status == "30" || reqCl.global.status == "40")){
                     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
                         '			    <span class="k-button-text">삭제</span>' +
                         '		    </button>';

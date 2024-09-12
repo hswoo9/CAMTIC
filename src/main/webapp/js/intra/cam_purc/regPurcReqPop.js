@@ -11,6 +11,7 @@ var prp = {
         saveAjaxData : "",
         event : "",
         fileArray: [],
+        attFiles: [],
         status : ""
     },
 
@@ -254,9 +255,9 @@ var prp = {
         // formData.append("discountAmt", uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0);
 
         /** 증빙파일 첨부파일 */
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("file1", fCommon.global.attFiles[i]);
+        if(prp.global.attFiles != null){
+            for(var i = 0; i < prp.global.attFiles.length; i++){
+                formData.append("file1", prp.global.attFiles[i]);
             }
         }
 
@@ -279,7 +280,7 @@ var prp = {
         }
 
         if($("#purcSn").val() == ""){
-            if(fCommon.global.attFiles.length == 0){
+            if(prp.global.attFiles.length == 0){
                 if($("#paymentMethod").data("kendoRadioGroup").value() == "C"){
                     alert("검수 파일을 등록해주세요."); return;
                 } else {
@@ -719,6 +720,7 @@ var prp = {
         var result = customKendo.fn_customAjax("/purc/getPurcReq.do", prp.global.searchAjaxData);
         if(result.flag){
             var data = result.data;
+            prp.global.status = data.DOC_STATUS;
             $("#docNo").text(data.DOC_NO);
             $("#purcReqDate").val(data.PURC_REQ_DATE);
             $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
@@ -758,8 +760,8 @@ var prp = {
             }
 
             if(data.purcFile != null){
-                prp.settingTempFileDataInit(data.purcFile);
                 prp.global.fileArray = data.purcFile;
+                prp.settingTempFileDataInit(data.purcFile);
             }
 
             /*if(data.reqFile != null){
@@ -773,8 +775,6 @@ var prp = {
 
             $("#vat").data("kendoRadioGroup").trigger("change");
             prp.purcBtnSet(data);
-
-            prp.global.status = data.DOC_STATUS;
         }
 
     },
@@ -1274,37 +1274,36 @@ var prp = {
     },
 
     addFileInfoTable : function (){
+        $("#emptyTr").remove();
         let size = 0;
         let fileName = "";
         let fileExt = "";
-        if($("input[name='fileList']")[0].files.length == 1){
-            $("#fileGrid").html("");
-        }
+
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
-            fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+            prp.global.attFiles.push($("input[name='fileList']")[0].files[i]);
         }
 
-        if(fCommon.global.attFiles.length > 0){
+        if(prp.global.attFiles.length > 0){
             $("#fileGrid").find(".defultTr").remove();
             $("#fileGrid").find(".addFile").remove();
 
             var html = '';
-            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
-                size = fCommon.bytesToKB((fCommon.global.attFiles[i].file_size || fCommon.global.attFiles[i].size));
-                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.substring(0, fCommon.global.attFiles[i].name.lastIndexOf(".")) : fCommon.global.attFiles[i].file_org_name;
-                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.substring(fCommon.global.attFiles[i].name.lastIndexOf(".")+1) : fCommon.global.attFiles[i].file_ext;
+            for (var i = 0; i < prp.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(prp.global.attFiles[i].size);
+                fileName = prp.global.attFiles[i].name.substring(0, prp.global.attFiles[i].name.lastIndexOf("."));
+                fileExt = prp.global.attFiles[i].name.substring(prp.global.attFiles[i].name.lastIndexOf(".")+1);
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="prp.fnUploadFile(' + i + ')">'
                 html += '   </td>';
                 html += '   <td>';
                 /*if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
                 }*/
-                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fCommon.global.attFiles[i].file_path +'\', \''+ fCommon.global.attFiles[i].file_uuid +'\')">'
+                // html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fCommon.global.attFiles[i].file_path +'\', \''+ fCommon.global.attFiles[i].file_uuid +'\')">'
                 html += '   </td>';
                 html += '</tr>';
             }
@@ -1313,13 +1312,63 @@ var prp = {
         }
     },
 
+    fnUploadFile : function(e) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray2 = Array.from(prp.global.attFiles);
+        fileArray2.splice(e, 1);
+        fileArray2.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        prp.global.attFiles = dataTransfer.files;
+
+        var fileArray = [];
+        fileArray = prp.global.attFiles;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fileArray.length; i++) {
+                var fileName = fileArray[i].name.substring(0, fileArray[i].name.lastIndexOf("."));
+                var fileExt = fileArray[i].name.substring(fileArray[i].name.lastIndexOf(".") + 1);
+
+                size = fCommon.bytesToKB(fileArray[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="prp.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '   <td>';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">등록된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(prp.global.attFiles.length == 0){
+            prp.global.attFiles = new Array();
+        }
+    },
+
     /** 첨부파일 데이터 세팅 */
     settingTempFileDataInit: function(e){
-        fCommon.global.attFiles = fCommon.global.attFiles.concat(e);
+        var e = e;
         var html = '';
         if(e.length > 0){
             for(var i = 0; i < e.length; i++){
-                html += '<tr style="text-align: center" class="addFile">';
+                html += '<tr style="text-align: center">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
