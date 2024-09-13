@@ -1544,7 +1544,8 @@ var docView = {
                     }
                 }
             }
-        }
+
+         }
     },
 
     documentHwpSave : function(){
