@@ -1326,6 +1326,8 @@ var docView = {
                     }
                 }
             }
+        }else{
+            docView.setPjtPayApp2();
         }
     },
 
