@@ -508,12 +508,13 @@ public class CrmController {
                         "<p style='font-size: 10px; text-align: left;'>"+ params.get("crmRelCont") +"</p>" +
                         "</div>";
 
+                params.put("sn", params.get("empSeq"));
                 for (String empSeq : empSeqArr) {
                     tempParams.put("sn", empSeq);
                     Map<String, Object> empInfo = manageService.getEmpInfo(tempParams);
 
                     tempParams.put("receiveEml", empInfo.get("EMAIL_ADDR"));
-                    tempParams.put("sendEml", "camtic-send@camtic.or.kr");
+                    tempParams.put("sendEml", manageService.getEmpInfo(params).get("EMAIL_ADDR"));
                     tempParams.put("subject", "[캠스팟 2.0] 캠CRM 고객관계이력 공유 알림");
                     tempParams.put("contents", contents);
 
