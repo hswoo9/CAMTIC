@@ -280,7 +280,8 @@ var hwpInit = {
     },
 
     pjtRateInit: function(partRateVerSn){
-
+        $("#docGbn").data("kendoRadioGroup").value("001");
+        $("#docGbn").data("kendoRadioGroup").trigger("change");
         if($("#docGbn").data("kendoRadioGroup").value() == "001"){
             hwpDocCtrl.putFieldText("sender_name", "사단법인 캠틱종합기술원장");
             hwpDocCtrl.putFieldText("doc_receivelist_txt", "수신자");
@@ -299,6 +300,10 @@ var hwpInit = {
 
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
+        $("#receiverName").val(map.CRM_NM);
+        if(map.CRM_NM != null){
+            $('#receiverName').trigger('focusout');
+        }
 
         hwpDocCtrl.putFieldText('CRM_NM', " "+map.CRM_NM);
         hwpDocCtrl.putFieldText('PJT_NM_TEXT', " "+map.PJT_NM+" 참여인력 변경의 건");
@@ -306,8 +311,9 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('PJT_NM', map.BS_TITLE);
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
 
+        console.log("rs", rs);
+        console.log("map", map);
         if(rs.YEAR_CLASS == "M"){
-            console.log("rs", rs);
             if(rs.busnClass == "R"){
                 hwpDocCtrl.putFieldText("PJT_DT", rs.NOW_STR_DE_RND+" ~ "+rs.NOW_END_DE_RND);
             }else{
