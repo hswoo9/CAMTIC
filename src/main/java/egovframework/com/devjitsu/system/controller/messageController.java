@@ -409,4 +409,11 @@ public class messageController {
         model.addAttribute("result", result);
         return "jsonView";
     }
+
+    @RequestMapping("/test/testB")
+    public String testB(){
+
+
+        return "test/testB";
+    }
 }
