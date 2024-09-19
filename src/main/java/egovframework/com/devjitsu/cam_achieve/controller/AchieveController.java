@@ -179,8 +179,15 @@ public class AchieveController {
                 Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
                 Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
-                Map<String, Object> projectPaySetData1 = achieveService.getProjectPayBef(params);
-                Map<String, Object> projectPaySetData2 = achieveService.getProjectPayAft(params);
+                Map<String, Object> projectPaySetData1 = new HashMap<>();
+                Map<String, Object> projectPaySetData2 = new HashMap<>();
+                if("C".equals(map.get("TEXT")) && "M".equals(map.get("YEAR_CLASS"))){
+                    projectPaySetData1 = achieveService.getProjectPayBefMul(params);
+                    projectPaySetData2 = achieveService.getProjectPayNowMul(params);
+                }else{
+                    projectPaySetData1 = achieveService.getProjectPayBef(params);
+                    projectPaySetData2 = achieveService.getProjectPayNow(params);
+                }
 
                 map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
@@ -190,19 +197,31 @@ public class AchieveController {
                 map.put("pjtAmtSetData", getPjtAmtSetData);
 
                 if(projectPaySetData1 != null) {
-                    map.put("befExpSaleAmt", projectPaySetData1.get("BEF_EXP_SALE_AMT"));
-                    map.put("befExpProfitAmt", projectPaySetData1.get("BEF_EXP_PROFIT_AMT"));
+                    map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
+                    map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
                 } else {
                     map.put("befExpSaleAmt", 0);
                     map.put("befExpProfitAmt", 0);
                 }
 
                 if(projectPaySetData2 != null) {
-                    map.put("aftSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
-                    map.put("aftProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
                 } else {
-                    map.put("aftSaleAmt", 0);
-                    map.put("aftProfitAmt", 0);
+                    map.put("nowExpSaleAmt", 0);
+                    map.put("nowExpProfitAmt", 0);
+                }
+
+                if(projectPaySetData2 != null){
+                    map.put("befExpSaleAmt2", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
+                    map.put("befExpProfitAmt2", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
+                    map.put("aftSaleAmt2", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("aftProfitAmt2", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                }else{
+                    map.put("befExpSaleAmt2", 0);
+                    map.put("befExpProfitAmt2", 0);
+                    map.put("aftSaleAmt2", 0);
+                    map.put("aftProfitAmt2", 0);
                 }
 
             } else {
@@ -248,7 +267,7 @@ public class AchieveController {
                 Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
                 map.put("pjtAmtSetData", getPjtAmtSetData);
 
-                Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
+                /*Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
 
                 if(projectPaySetData != null) {
                     map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
@@ -257,12 +276,12 @@ public class AchieveController {
                     map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
                     map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
                 } else {
-                    map.put("befExpSaleAmt", 0);
-                    map.put("befExpProfitAmt", 0);
+                }*/
+                map.put("befExpSaleAmt", 0);
+                map.put("befExpProfitAmt", 0);
 
-                    map.put("aftSaleAmt", 0);
-                    map.put("aftProfitAmt", 0);
-                }
+                map.put("nowExpSaleAmt", 0);
+                map.put("nowExpProfitAmt", 0);
             }
         }
 

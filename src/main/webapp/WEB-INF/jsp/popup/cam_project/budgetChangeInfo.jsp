@@ -32,6 +32,9 @@
     </div>
 </div>
 
+<div id="budgetChangeDialog">
+</div>
+
 <script>
     budgetChangeInfo.fn_defaultScript();
 
@@ -40,12 +43,12 @@
     }
 
     function budgetChangeOpenModal(){
-        alert("1. 열람자 지정 필수(예산담당자) \n2.기존에 없는 비목으로 변경이 필요한 경우 전자결재 내의 한글양식에서 수정하여 사용해주시기바랍니다.");
+        alert("1. 열람자 지정 필수(예산담당자) \n2. 기존에 없는 비목으로 변경이 필요한 경우 전자결재 내의 한글양식에서 수정하여 사용해주시기바랍니다.");
 
-        $("#dialog").data("kendoWindow").open();
+        $("#budgetChangeDialog").data("kendoWindow").open();
     }
 
-    $("#dialog").kendoWindow({
+    $("#budgetChangeDialog").kendoWindow({
         title : "변경 예산 선택",
         width: "700px",
         visible: false,
@@ -82,7 +85,7 @@
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
                 '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">작성</button>' +
-                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#budgetChangeDialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
                 '	<colgroup>' +
@@ -122,10 +125,10 @@
                 '	</thead>' +
                 '</table>';
 
-            $("#dialog").html(htmlStr);
+            $("#budgetChangeDialog").html(htmlStr);
         },
         close: function () {
-            $("#dialog").empty();
+            $("#budgetChangeDialog").empty();
         }
     });
 </script>

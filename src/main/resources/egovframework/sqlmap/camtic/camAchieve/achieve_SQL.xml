@@ -1115,6 +1115,30 @@
         AND YEAR = #{reqYear} + 1
     </select>
 
+    <select id="getProjectPayBefMul" parameterType="map" resultType="map">
+        /*getProjectPayBefMul*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            (PJT_SN = #{pjtSn} OR PJT_SN IN (SELECT PARENT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn}) OR PJT_SN IN (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PARENT_PJT_SN = #{pjtSn}))
+        AND YEAR = #{reqYear} - 1
+        LIMIT 1
+    </select>
+
+    <select id="getProjectPayNowMul" parameterType="map" resultType="map">
+        /*getProjectPayNowMul*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            (PJT_SN = #{pjtSn} OR PJT_SN IN (SELECT PARENT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn}) OR PJT_SN IN (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PARENT_PJT_SN = #{pjtSn}))
+        AND YEAR = #{reqYear}
+        LIMIT 1
+    </select>
+
     <select id="getDeptObjAmt" parameterType="map" resultType="map">
         /*getDeptObjAmt*/
         SELECT

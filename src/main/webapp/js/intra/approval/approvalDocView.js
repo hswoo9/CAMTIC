@@ -1222,7 +1222,6 @@ var docView = {
                 const approveRoute = docView.global.rs.approveRoute;
                 const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
 
-
                 if(cRoute.length == 1){
                     for(var i = 0; i < 2; i ++){
                         const signField = "cAppr" + i;
@@ -1235,7 +1234,7 @@ var docView = {
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
                                 if(type == "view"){
-                                    if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                                    if(docView.global.rs.approveNowRoute.SUB_APPROVAL == "Y"){
                                         empSeq = $("#approveEmpSeq").val();
                                         empName = "대결 "+$("#approveEmpName").val();
                                     }
@@ -1272,6 +1271,8 @@ var docView = {
                                 }
                                 break;
                             }
+                        }else{
+                            docView.setPjtPayApp2();
                         }
                     }
                 }else if(cRoute.length == 2){

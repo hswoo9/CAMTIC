@@ -122,7 +122,7 @@ var crm = {
                     title: "업체명",
                     width: 120,
                     template: function(e){
-                        return "<a href='javascript:void(0);' onclick='crm.fn_crmRegPopup(\"" + e.CRM_SN + "\")'>" + e.CRM_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='crm.fn_crmRegPopup(\"" + e.CRM_SN + "\")'>" + e.CRM_NM + "</a>";
                     }
                 }, {
                     title: "사업자번호",
