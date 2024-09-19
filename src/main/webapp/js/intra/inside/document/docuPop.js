@@ -55,6 +55,14 @@ var docuContractReq = {
         ]
 
         customKendo.fn_dropDownList("class", classArr, "text", "value", 2);
+
+        let methodArr = [
+            {text: "수의", value: "1"},
+            {text: "입찰", value: "2"}
+        ]
+
+        customKendo.fn_dropDownList("method", methodArr, "text", "value", 3);
+
         $("#docuDe, #startDe, #endDe").attr("readonly", true);
         $("#productTable").css("display", "none");
 
@@ -204,6 +212,7 @@ var docuContractReq = {
 
         $("#mainClass").val(data.CLASS_SN);
         $("#class").data("kendoDropDownList").value(data.CLASS_SN);
+        $("#method").data("kendoDropDownList").value(data.METHOD_SN);
         $("#docuDe").val(data.DOCU_DE);
         $("#projectName").val(data.PROJECT_NAME);
         $("#contractAmount").val(comma(data.PROJECT_MONEY));
@@ -396,6 +405,8 @@ var docuContractReq = {
         let totalMonth = $("#totalMonth").val();
         let payment = $("#payment").val();
         let suretyInsurance = $("#suretyInsurance").val();
+        let methodSn = $("#method").val();
+        let methodName = $("#method").data("kendoDropDownList").text();
 
         let dlvLoc = '';
         if($("#class").val() == "1" || $("#class").val() == '2'){
@@ -451,7 +462,9 @@ var docuContractReq = {
             totalMonth : totalMonth,
             payment : payment,
             surtInsr : suretyInsurance,
-            dlvLoc : dlvLoc
+            dlvLoc : dlvLoc,
+            methodSn : methodSn,
+            methodName : methodName,
         }
 
         const documentContractSn = $("#documentContractSn").val();

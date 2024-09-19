@@ -43,6 +43,22 @@ var docuContractList = {
                 gridReload();
             }
         });
+
+        $("#startDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
+        });
+
+        $("#endDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() + 2))
+        });
     },
 
     mainGrid: function (){
@@ -58,6 +74,8 @@ var docuContractList = {
                     data.classType = $("#classType").val();
                     data.searchType = $("#searchType").val();
                     data.searchText = $("#searchText").val();
+                    data.start = $("#startDt").val();
+                    data.end = $("#endDt").val();
                     return data;
                 }
             },
@@ -101,6 +119,75 @@ var docuContractList = {
                     text: '엑셀다운로드'
                 }
             ],
+            excel : {
+                fileName : "계약대장 목록.xlsx",
+                filterable : true
+            },
+            excelExport: function (e) {
+                const data = e.data;
+                const columns = e.sender.columns;
+                const sheet = e.workbook.sheets[0];
+                const columnTemplates = new Array();
+                const visibleColumns = columns.filter(col => !col.hidden);
+                const elem = document.createElement("div");
+
+                for (let i=0; i<columns.length; i++){
+                    if (!columns[i].hidden && columns[i].field){
+                        visibleColumns.push(columns[i]);
+                    }
+                }
+
+                for (let i=0; i<visibleColumns.length; i++){
+                    if (visibleColumns[i].template){
+                        columnTemplates.push({ cellIndex: i, template: kendo.template(visibleColumns[i].template) });
+                    }
+                }
+
+                for (let i=1; i<sheet.rows.length; i++){
+                    let footCk = false;
+                    const row = sheet.rows[i];
+                    const dataItem = data[i - 1];
+                    for (let j=0; j<columnTemplates.length; j++){
+
+                        const columnTemplate = columnTemplates[j];
+
+                        if(row == null || row.type == null){
+                            continue;
+                        }if(row.type == "footer"){
+                            footCk = true;
+                        }else{
+                            elem.innerHTML = columnTemplate.template(dataItem);
+                            if (row.cells[columnTemplate.cellIndex] != undefined){
+                                // 계약금액 처리
+                                if(columnTemplate.cellIndex == 6){
+                                    let moneyValue = dataItem.PROJECT_MONEY;
+                                    if(moneyValue != null){
+                                        moneyValue = Math.round(moneyValue);
+                                        row.cells[columnTemplate.cellIndex].value = moneyValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                    } else {
+                                        row.cells[columnTemplate.cellIndex].value = "";
+                                    }
+                                } else if(columnTemplate.cellIndex == 9){
+                                //문서 처리
+                                    let fileValue = dataItem.file_no;
+                                    if(fileValue != null){
+                                        row.cells[columnTemplate.cellIndex].value = "0";
+                                    }else{
+                                        row.cells[columnTemplate.cellIndex].value = "X";
+                                    }
+                                } else {
+                                    row.cells[columnTemplate.cellIndex].value = elem.textContent.toString() || elem.innerText || "";
+                                }
+                            }
+                        }
+                    }
+                    if(footCk){
+                        for (let i=0; i<visibleColumns.length; i++){
+                            row.cells[i].value = "";
+                        }
+                    }
+                }
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -108,24 +195,30 @@ var docuContractList = {
                 {
                     field: "ROW_NUM",
                     title: "연번",
-                    width: "5%"
-                }, {
+                    width: 50,
+                },{
+                    field: "METHOD_NAME",
+                    title: "계약방법",
+                    width: 60,
+                },{
                     field: "CLASS_NAME",
                     title: "구분",
-                    width: "5%"
+                    width: 60,
                 }, {
+                    field: "DOCU_NUM",
                     title: "계약 번호",
-                    width: "8%",
+                    width: 70,
                     template: function(row) {
                         return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
                     }
                 }, {
                     field: "DOCU_DE",
                     title: "계약 일시",
-                    width: "10%"
+                    width: 80,
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약건명",
+                    width: 150,
                     template : function(e){
                         if (e.DEL_STS == 1) {
                             return '<div style="text-align: left; text-decoration: none; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ', ' + e.CLASS_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
@@ -134,11 +227,10 @@ var docuContractList = {
                         }
 
                     },
-                    width: "29%"
                 }, {
                     field: "PROJECT_MONEY",
                     title: "계약 금액",
-                    width: "8%",
+                    width: 100,
                     attributes: { style: "text-align: right" },
                     template : function(e) {
                         if(e.PROJECT_MONEY != null){
@@ -151,19 +243,20 @@ var docuContractList = {
                         }
                     }
                 }, {
+                    field: "CONTRACT_PERIOD",
                     title: "계약 기간",
-                    width: "15%",
+                    width: 150,
                     template: function(row) {
                         return row.START_DE+" ~ "+row.END_DE;
                     }
                 }, {
                     field: "CO_NAME",
                     title: "계약 업체(자)",
-                    width: "15%"
+                    width: 120,
                 }, {
-                    field: "",
+                    field: "FILE_YN",
                     title: "문서",
-                    width: "5%",
+                    width: 50,
                     template : function(row){
                         if(row.file_no != null){
                             var fileName = row.file_org_name;

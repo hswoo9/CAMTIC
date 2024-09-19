@@ -139,6 +139,16 @@
                     <if test='classType != null and !"".equals(classType)'>
                         AND IDC.CLASS_SN = #{classType}
                     </if>
+                    <if test='start != null and !"".equals(start)'>
+                    <![CDATA[
+                        AND IDC.START_DE >= #{start}
+                    ]]>
+                    </if>
+                    <if test='end != null and !"".equals(end)'>
+                    <![CDATA[
+                        AND IDC.END_DE <= #{end}
+                    ]]>
+                    </if>
                     <choose>
                         <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
                             AND CONCAT(IDC.DOCU_YEAR_SN,'-',IDC.DOCU_NO) like CONCAT('%', #{searchText}, '%')
@@ -601,7 +611,9 @@
                 TOTAL_MONTH,
                 PAYMENT,
                 SURT_INSR,
-                DLV_LOC
+                DLV_LOC,
+                METHOD_SN,
+                METHOD_NAME
 
             )
         VALUES
@@ -634,7 +646,9 @@
                 #{totalMonth},
                 #{payment},
                 #{surtInsr},
-                #{dlvLoc}
+                #{dlvLoc},
+                #{methodSn},
+                #{methodName}
             )
         <selectKey keyProperty="documentContractSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_DOCUMENT_CONTRACT'
@@ -671,7 +685,9 @@
             SURT_INSR = #{surtInsr},
             DLV_LOC = #{dlvLoc},
             DOCU_YEAR_SN = #{projectNumber},
-            DOCU_NO = #{projectNumber2}
+            DOCU_NO = #{projectNumber2},
+            METHOD_SN = #{methodSn},
+            METHOD_NAME = #{methodName}
         WHERE
             DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </insert>

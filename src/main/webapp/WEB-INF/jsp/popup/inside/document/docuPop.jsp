@@ -72,6 +72,14 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>계약 방법
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="method" style="width: 150px; margin-right:10px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>구분
                     </th>
                     <td>
