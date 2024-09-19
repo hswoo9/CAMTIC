@@ -765,12 +765,6 @@
 
                 hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
             }
-
-
-
-            if(!result.flag || result.rs.docNo == null){
-                alert("문서번호 생성 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
-            }
         }
 
         documentHwpDataCtrl()
