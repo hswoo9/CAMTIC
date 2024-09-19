@@ -2237,6 +2237,7 @@
         </if>
         <if test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
             A.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+            AND A.USE_CARD_SN IN (SELECT MIN(SA.USE_CARD_SN) FROM CAM_MNG.DJ_USE_CARD_INFO SA WHERE SA.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId} GROUP BY SA.AUTH_NO)
         </if>
     </select>
 
