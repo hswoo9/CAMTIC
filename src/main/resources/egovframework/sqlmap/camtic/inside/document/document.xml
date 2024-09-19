@@ -173,8 +173,12 @@
             CAM_INSIDE.DJ_DOCUMENT_CONTRACT DC
         LEFT JOIN
             CAM_MNG.DJ_PURC_CLAIM PC ON PC.CLAIM_SN = DC.CLAIM_SN
+        <if test="classSn == 3">
+        LEFT JOIN
+            CAM_INSIDE.DJ_DOCUMENT_PRODUCT DP ON DP.DOCUMENT_CONTRACT_SN = DC.DOCUMENT_CONTRACT_SN
+        </if>
         WHERE
-            DOCUMENT_CONTRACT_SN = #{documentContractSn}
+            DC.DOCUMENT_CONTRACT_SN = #{documentContractSn}
     </select>
 
     <select id="getSnackList" resultType="map" parameterType="map">
@@ -890,6 +894,7 @@
     </select>
 
     <insert id="setProductInsert" parameterType="map">
+        /*setProductInsert*/
         INSERT INTO CAM_INSIDE.DJ_DOCUMENT_PRODUCT
         (
             DOCUMENT_CONTRACT_SN,
@@ -911,6 +916,22 @@
         )
         </foreach>
     </insert>
+
+    <update id="setProductUpdate" parameterType="map">
+        /*setProductUpdate*/
+        <foreach collection="area" item="item" separator=";">
+            UPDATE
+                CAM_INSIDE.DJ_DOCUMENT_PRODUCT
+            SET
+                PRODUCT_NAME = #{item.productName},
+                PRODUCT_COUNT = #{item.productCount},
+                PRODUCT_ONE_MONEY = #{item.productOneMoney},
+                PRODUCT_TOTAL_MONEY = #{item.productTotalMoney},
+                BMK = #{item.bmk}
+            WHERE
+                DOCUMENT_CONTRACT_SN = #{documentContractSn}
+        </foreach>
+    </update>
 
     <insert id="insOneFileInfo" parameterType="map" >
         /* insOneFileInfo */

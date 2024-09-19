@@ -254,6 +254,13 @@ public class DocumentServiceImpl implements DocumentService {
                 documentRepository.setDocuContractFileKey(params);
             }else{
                 documentRepository.setDocuContractUpd(params);
+
+                Gson gson = new Gson();
+                List<Map<String, Object>> area = gson.fromJson((String) params.get("areaArrCustom"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+                if(!area.isEmpty()) {
+                    params.put("area", area);
+                    documentRepository.setProductUpdate(params);
+                }
             }
 
             if(file.length > 0){

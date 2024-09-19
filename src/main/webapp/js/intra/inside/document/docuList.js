@@ -128,9 +128,9 @@ var docuContractList = {
                     title: "계약건명",
                     template : function(e){
                         if (e.DEL_STS == 1) {
-                            return '<div style="text-align: left; text-decoration: none; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                            return '<div style="text-align: left; text-decoration: none; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ', ' + e.CLASS_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
                         }else if(e.DEL_STS == 10){
-                            return '<div style="text-align: left; text-decoration: line-through; text-decoration-color:red; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
+                            return '<div style="text-align: left; text-decoration: line-through; text-decoration-color:red; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ', ' + e.CLASS_SN  + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
                         }
 
                     },
@@ -213,10 +213,10 @@ var docuContractList = {
         console.log("outo");
     },
 
-    docuPopup: function(documentContractSn){
+    docuPopup: function(documentContractSn, classSn){
         var url = "/Inside/Pop/docuPop.do";
         if(documentContractSn != null){
-            url += "?documentContractSn="+documentContractSn;
+            url += "?documentContractSn="+documentContractSn + "&classSn=" + classSn;
         }
         var name = "popup test";
         var option = "width = 1000, height = 550, top = 100, left = 200, location = no"

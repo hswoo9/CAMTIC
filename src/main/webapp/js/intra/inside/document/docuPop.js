@@ -22,6 +22,11 @@ var docuContractReq = {
             $('#projectNumber').prop('readonly', true);
             $('#projectNumber2').prop('readonly', true);
         }
+
+        let classSn = docuContractReq.global.params.classSn;
+        if(classSn){
+            docuContractReq.setClassSnVisibility(classSn);
+        }
     },
 
     pageSet: function(){
@@ -74,7 +79,6 @@ var docuContractReq = {
         $("#product").append(html);
         customKendo.fn_textBox(["productName0", "productCount0", "productOneMoney0", "productTotalMoney0"]);
         $("#bmk0").kendoTextArea({ rows: 2, maxLength:50, placeholder: "" });
-
 
         $("#class").change(function (){
             if(this.value == 3){
@@ -163,6 +167,26 @@ var docuContractReq = {
         });
     },
 
+    setClassSnVisibility : function(classSn){
+        if(classSn == 3){
+            $("#productTable").css("display", "");
+        } else {
+            $("#productTable").css("display", "none");
+        }
+
+        if(classSn == 4){
+            $("#rentalAmtInfo").css("display", "");
+        } else {
+            $("#rentalAmtInfo").css("display", "none");
+        }
+
+        if(classSn == 1 || classSn == 2){
+            $("#outsourcingInfo, #outsourcingInfo2").css("display", "");
+        } else {
+            $("#outsourcingInfo, #outsourcingInfo2").css("display", "none");
+        }
+    },
+
     dataSet: function(){
         const documentContractSn = $("#documentContractSn").val();
         if(documentContractSn == ""){
@@ -171,7 +195,7 @@ var docuContractReq = {
 
         $("#delBtn").show();
 
-        const result = customKendo.fn_customAjax("/inside/getDocuContractOne", { documentContractSn: documentContractSn });
+        const result = customKendo.fn_customAjax("/inside/getDocuContractOne", { documentContractSn: documentContractSn, classSn : docuContractReq.global.params.classSn});
         const data = result.data;
         if(data == null){
             return;
@@ -198,6 +222,28 @@ var docuContractReq = {
 
         $("#claimSn").val(data.CLAIM_SN);
         $("#purcSn").val(data.PURC_SN);
+
+
+        $("#payment").val(data.PAYMENT);
+        $("#suretyInsurance").val(data.SURT_INSR);
+        $("#dlvLoc").val(data.DLV_LOC);
+        $("#purcSn").val(data.PURC_SN);
+
+        if(data.CLASS_SN == "3"){
+            $("#productName0").val(data.PRODUCT_NAME);
+            $("#productCount0").val(data.PRODUCT_COUNT);
+            $("#productOneMoney0").val(data.PRODUCT_ONE_MONEY);
+            $("#productTotalMoney0").val(data.PRODUCT_TOTAL_MONEY);
+            $("#bmk0").val(data.BMK);
+        }
+
+        if(data.CLASS_SN == "4"){
+            let rentalInfoValue = data.RENTAL_INFO;
+            let formattedRentalInfoValue = docuContractReq.comma(rentalInfoValue);
+            $("#rentalInfo").val(formattedRentalInfoValue);
+
+            $("#rentalEa").val(data.RENTAL_EA);
+        }
 
         if(data.CONT_YN == 'Y' && data.EST_AMT >= 10000000){
             $("#claimDiv").css("display", "");
@@ -391,6 +437,7 @@ var docuContractReq = {
             fullAddr : fullAddr,
             businessNumber : businessNumber,
             areaArr : areaArr,
+            areaArrCustom : JSON.stringify(areaArr),
             zipCode : zipCode,
             addr : addr,
             addrDetail : addrDetail,
