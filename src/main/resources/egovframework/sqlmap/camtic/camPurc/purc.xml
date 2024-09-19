@@ -1796,7 +1796,7 @@
                 AND AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "E".equals(searchKeyword)'>
-                AND AA.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                AND IF(AA.MNG_REQ_STAT = 'Y', AA.F_EMP_NAME, AA.PURC_EMP_NAME) LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND
@@ -1805,7 +1805,7 @@
                     AA.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
                     AA.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
                     AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    AA.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                    IF(AA.MNG_REQ_STAT = 'Y', AA.F_EMP_NAME, AA.PURC_EMP_NAME) LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
