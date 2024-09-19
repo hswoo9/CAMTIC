@@ -315,6 +315,21 @@ var regRnd = {
                 $("#viewText").html("&#9650;");
             }
         });
+
+        /** 프로젝트 관리자 일 경우 당해년도 사업비 수정 가능 */
+        let mngCk = false;
+        const authorList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "27"}).rs;
+        for(let i=0; i<authorList.length; i++){
+            const map = authorList[i];
+            if(map.EMP_SEQ == $("#regEmpSeq").val()){
+                mngCk = true;
+                $("#mngCk").val("Y");
+            }
+        }
+
+        if(!mngCk){
+            $("#pjtAmt2").data("kendoTextBox").enable(false);
+        }
     },
 
     fn_setData: function(e){
@@ -678,6 +693,11 @@ var regRnd = {
         /** 다년이면서 2차년도 이상 프로젝트일때(프로젝트 선택했을때) */
         if($("#mYearCk").val() == "Y"){
             parameters.parentPjtSn = $("#parentPjtSn").val()
+        }
+
+        /** 관리자권한 이면서 당해년도사업비가 공백이 아니면 값 수정 */
+        if($("#mngCk").val() == "Y" && $("#pjtAmt2").val() != ""){
+            parameters.pjtAmt = uncomma($("#pjtAmt2").val());
         }
 
         parameters.allPjtAmt = uncomma($("#allPjtAmt").val());

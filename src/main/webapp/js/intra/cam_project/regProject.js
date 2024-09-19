@@ -340,6 +340,21 @@ var regPrj = {
         });
 
         $("#contLoc").data("kendoTextBox").enable(false);
+
+        /** 프로젝트 관리자 일 경우 당해년도 사업비 수정 가능 */
+        let mngCk = false;
+        const authorList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "27"}).rs;
+        for(let i=0; i<authorList.length; i++){
+            const map = authorList[i];
+            if(map.EMP_SEQ == $("#regEmpSeq").val()){
+                mngCk = true;
+                $("#mngCk").val("Y");
+            }
+        }
+
+        if(!mngCk){
+            $("#pjtAmt2").data("kendoTextBox").enable(false);
+        }
     },
 
     fn_setData : function (p) {
@@ -459,6 +474,11 @@ var regPrj = {
 
         if($("#mainPjtSn").val() != ""){
             data.pjtSn = $("#mainPjtSn").val()
+        }
+
+        /** 관리자권한 이면서 당해년도사업비가 공백이 아니면 값 수정 */
+        if($("#mngCk").val() == "Y" && $("#pjtAmt2").val() != ""){
+            data.pjtAmt = uncomma($("#pjtAmt2").val());
         }
 
 
