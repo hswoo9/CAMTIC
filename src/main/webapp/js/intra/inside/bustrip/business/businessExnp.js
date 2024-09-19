@@ -29,10 +29,10 @@ var busiExnp = {
             if(p != null){
                 if(p.STATUS != "100"){
                     html += '<td style="text-align: center">-</td>';
-                }else if(p.PAY_APP_SN != ""){
-                    html += '<td style="text-align: center"><button type="button" class="k-button k-button-solid-base" onclick="busiExnp.fn_reqRegPopup('+p.HR_BIZ_REQ_RESULT_ID+')">지급신청</button></td>';
-                }else{
+                }else if(p.PAY_APP_SN != null && p.PAY_APP_SN != ""){
                     html += '<td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="busiExnp.fn_reqRegPopup('+p.PAY_APP_SN+', 2)">지급신청</button></td>';
+                }else{
+                    html += '<td style="text-align: center"><button type="button" class="k-button k-button-solid-base" onclick="busiExnp.fn_reqRegPopup('+p.HR_BIZ_REQ_RESULT_ID+')">지급신청</button></td>';
                 }
             }else{
                 html += '<td style="text-align: center">-</td>';
