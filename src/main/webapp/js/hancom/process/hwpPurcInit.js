@@ -309,9 +309,6 @@ var purcInit = {
         const list = purcInit.global.claimItemList;
         const totMap = purcInit.global.claimAmtTotal;
 
-        console.log(purcInit.global.claimItemList);
-        console.log(1515151);
-
         var dcPay = 0;
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left;line-height: 20px; width: 100%; ">';
