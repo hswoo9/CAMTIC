@@ -103,6 +103,9 @@
             ALL_BUSN_COST = #{allBusnCost},
             ALL_PJT_AMT = #{allPjtAmt},
             SECURITY = #{security},
+            <if test='pjtAmt != null and !"".equals(pjtAmt)'>
+                PJT_AMT = #{pjtAmt},
+            </if>
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}

@@ -80,6 +80,7 @@
 <input type="hidden" id="paramParentPjtSn" value="${params.paramParentPjtSn}" />
 
 <input type="hidden" id="mYearCk" value="N">
+<input type="hidden" id="mngCk" value="N">
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -196,7 +197,7 @@
                     </td>
                     <th scope="row" class="text-center th-color" id="pjtAmtText">당해년도 사업비</th>
                     <td>
-                        <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" disabled value="0"/>
+                        <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" value="0"/>
                     </td>
                 </tr>
                 <tr id="mYearTr2" style="display: none">
