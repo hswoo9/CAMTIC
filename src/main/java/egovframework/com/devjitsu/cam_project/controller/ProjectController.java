@@ -1807,7 +1807,7 @@ public class ProjectController {
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
                 Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
                 Map<String, Object> projectPaySetData1 = achieveService.getProjectPayBef(params);
-                Map<String, Object> projectPaySetData2 = achieveService.getProjectPayAft(params);
+                Map<String, Object> projectPaySetData2 = achieveService.getProjectPayNow(params);
 
                 map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
@@ -1817,19 +1817,19 @@ public class ProjectController {
                 map.put("pjtAmtSetData", getPjtAmtSetData);
 
                 if(projectPaySetData1 != null) {
-                    map.put("befExpSaleAmt", projectPaySetData1.get("BEF_EXP_SALE_AMT"));
-                    map.put("befExpProfitAmt", projectPaySetData1.get("BEF_EXP_PROFIT_AMT"));
+                    map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
+                    map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
                 } else {
                     map.put("befExpSaleAmt", 0);
                     map.put("befExpProfitAmt", 0);
                 }
 
                 if(projectPaySetData2 != null) {
-                    map.put("aftSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
-                    map.put("aftProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
                 } else {
-                    map.put("aftSaleAmt", 0);
-                    map.put("aftProfitAmt", 0);
+                    map.put("nowExpSaleAmt", 0);
+                    map.put("nowExpProfitAmt", 0);
                 }
 
             } else {

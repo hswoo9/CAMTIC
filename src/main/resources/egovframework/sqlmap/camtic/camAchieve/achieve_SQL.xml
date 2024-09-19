@@ -1065,6 +1065,7 @@
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             PJT_SN = #{pjtSn}
+        AND YEAR = #{year}
     </update>
 
     <select id="getProjectPaySet" parameterType="map" resultType="map">
@@ -1075,6 +1076,8 @@
             CAM_PJT_MNG.DJ_PJT_PAY_SET
         WHERE
             PJT_SN = #{pjtSn}
+        AND YEAR = #{year}
+        LIMIT 1
     </select>
 
     <select id="getProjectPayBef" parameterType="map" resultType="map">
@@ -1085,7 +1088,20 @@
             CAM_PJT_MNG.DJ_PJT_PAY_SET
         WHERE
             PJT_SN = #{pjtSn}
-        AND YEAR - 1 = #{reqYear}
+        AND YEAR = #{reqYear} - 1
+        LIMIT 1
+    </select>
+
+    <select id="getProjectPayNow" parameterType="map" resultType="map">
+        /*getProjectPayNow*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR = #{reqYear}
+        LIMIT 1
     </select>
 
     <select id="getProjectPayAft" parameterType="map" resultType="map">
@@ -1096,7 +1112,7 @@
             CAM_PJT_MNG.DJ_PJT_PAY_SET
         WHERE
             PJT_SN = #{pjtSn}
-        AND YEAR + 1 = #{reqYear}
+        AND YEAR = #{reqYear} + 1
     </select>
 
     <select id="getDeptObjAmt" parameterType="map" resultType="map">

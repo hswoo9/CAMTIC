@@ -204,28 +204,27 @@ var costInfo = {
             const e = list[i];
             console.log("eeee", e);
 
-            /** 수주금액 */
-            if(e.YEAR_CLASS == "M"){
-                $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
-                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
-            } else {
-                $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
-                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
-            }
-
             if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
+                /** 수주금액 */
+                if(e.YEAR_CLASS == "M"){
+                    $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
+                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
+                } else {
+                    $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
+                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
+                }
 
                 /** 달성매출액 */
-                $("#RES_AMT"+i).text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0)));
+                $("#RES_AMT"+i).text(comma(Number(e.exnpCompAmt || 0) - Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
 
                 /** 달성운영수익 */
-                $("#RES_NOT_INV_AMT"+i).text(comma(Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+                $("#RES_NOT_INV_AMT"+i).text(comma(Number(e.incpCompAmt || 0)));
 
                 /** 예상매출액 */
                 $("#DEV_AMT"+i).text(comma(Number(Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0))));
 
                 /** 예상운영수익 */
-                $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0)));
+                $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0) - Number(e.befExpProfitAmt || 0) - Number(e.befExpSaleAmt || 0)));
 
             }else{
                 /**
@@ -235,12 +234,21 @@ var costInfo = {
                  * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
                  * */
 
+                /** 수주금액 */
+                if(e.YEAR_CLASS == "M"){
+                    $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
+                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
+                } else {
+                    $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
+                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
+                }
+
                 /** 달성 매출액 */
                 let asrAmt = 0;
                 if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]) - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
                 }else{
-                    asrAmt = e.exnpCompAmt - Number(e.befExpSaleAmt || 0) - Number(e.aftSaleAmt || 0);
+                    asrAmt = e.exnpCompAmt;
                 }
                 $("#RES_AMT"+i).text(comma(asrAmt + e.pjtAmtSetData.AMT0));
 
@@ -258,11 +266,11 @@ var costInfo = {
                 console.log("realUseAmt", e.realUseAmt);
                 console.log("aopAmt", aopAmt);
                 console.log("pjtAmtSetData", e.pjtAmtSetData);
-                $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1 - Number(e.befExpProfitAmt || 0) - Number(e.aftProfitAmt || 0)));
+                $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1));
 
                 /** 예상매출액 */
                 let devAmt = 0;
-                devAmt = Number(e.REAL_PJT_AMT || 0) - asrAmt;
+                devAmt = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - asrAmt;
                 $("#DEV_AMT"+i).text(comma(devAmt + e.pjtAmtSetData.AMT2));
 
                 /** 예상운영수익 */
@@ -271,18 +279,16 @@ var costInfo = {
                     eopAmt = e.planAmt;
                 }
                 eopAmt = eopAmt - e.incpCompAmt1;
-                $("#DEV_NOT_INV_AMT"+i).text(comma(eopAmt + e.pjtAmtSetData.AMT3));
+                $("#DEV_NOT_INV_AMT"+i).text(comma(eopAmt + e.pjtAmtSetData.AMT3 + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0)));
             }
 
             console.log(Number(e.INV_AMT || 0));
             console.log(Number(e.incpCompAmt || 0));
-            console.log(Number(e.befExpProfitAmt || 0));
-            console.log(Number(e.aftProfitAmt || 0));
 
             console.log("befExpSaleAmt", Number(e.befExpSaleAmt || 0));
-            console.log("aftSaleAmt", Number(e.aftSaleAmt || 0));
+            console.log("nowExpSaleAmt", Number(e.nowExpSaleAmt || 0));
             console.log("befExpProfitAmt", Number(e.befExpProfitAmt || 0));
-            console.log("aftProfitAmt", Number(e.aftProfitAmt || 0));
+            console.log("nowExpProfitAmt", Number(e.nowExpProfitAmt || 0));
         }
 
         /** 합계 */

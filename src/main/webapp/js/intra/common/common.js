@@ -329,8 +329,16 @@ function fn_monDiff(_date1, _date2){
     var pSDate = _date1; //참여 시작일
     var pEDate = _date2; //참여 종료일
 
-    var pSDateArray = pSDate.split("-");
-    var pEDateArray = pEDate.split("-");
+    var pSDateArray = "";
+    var pEDateArray = "";
+    try{
+        pSDateArray = pSDate.split("-");
+        pEDateArray = pEDate.split("-");
+    }catch{
+        console.log("fn_monDiff 함수 pSDate 값이 "+pSDate+"으로 split 오류 발생");
+        console.log("fn_monDiff 함수 pEDate 값이 "+pEDate+"으로 split 오류 발생");
+        return 0;
+    }
 
     var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]);
     var pEDateSet = new Date(pEDateArray[0], pEDateArray[1], pEDateArray[2]);
