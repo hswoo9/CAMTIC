@@ -8,6 +8,7 @@ let subAmSum = 0;
 var bgView = {
 
     fn_defaultScript : function (setParameters){
+
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 
@@ -33,6 +34,11 @@ var bgView = {
 
         customKendo.fn_textBox(["searchValue"]);
 
+        if($("#status").val() == "alt") {
+
+            $("#budgetTypeWrap").show();
+
+        }
     },
 
     gridReload : function (){
@@ -73,6 +79,11 @@ var bgView = {
                         if($("#payAppType").val() == "4" || $("#payAppType").val() == "3"){
                             data.temp = 1;
                         }
+
+                        if($("#status").val() == "alt"){
+                            data.temp = $("input[name='budgetType']:checked").val();
+                        }
+
                     }else{
                         data.temp = 1;
                     }
@@ -198,7 +209,7 @@ var bgView = {
                         var subAm = "";
                         if(e.DIV_FG_NM == "항"){
                             if($("#status").val() != "incp"){
-                                if($("#payAppType").val() == "4"){
+                                if($("#payAppType").val() == "4" || ($("input[name='budgetType']:checked").val() == "1" && $("#status").val() == "alt")){
                                     subAm += Number(e.SUB_AM);
                                     subAmSum += Number(e.SUB_AM);
                                 } else {
@@ -229,7 +240,7 @@ var bgView = {
 
                         if(e.DIV_FG_NM == "항"){
                             if($("#status").val() != "incp"){
-                                if($("#payAppType").val() == "4"){
+                                if($("#payAppType").val() == "4" || ($("input[name='budgetType']:checked").val() == "1" && $("#status").val() == "alt")){
                                     subAm += Number(e.SUB_AM);
                                 } else {
                                     subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
@@ -410,5 +421,9 @@ var bgView = {
         opener.parent.fn_selBudgetInfo(name, cd, idx, subAm);
 
         window.close();
+    },
+
+    changeGrid : function (e){
+        bgView.gridReload();
     }
 }
