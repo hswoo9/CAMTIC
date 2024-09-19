@@ -389,6 +389,11 @@ var exnpList = {
     },
 
     fn_excelDownload : function (){
+        if (btnCk) {
+            return;
+        }
+        btnCk = true;
+
         let data = {
             empSeq : $("#myEmpSeq").val(),
             searchDate : $("#searchDate").val(),
@@ -407,5 +412,9 @@ var exnpList = {
             e.workbook.fileName = "지출결의서 목록.xlsx";
         });
         grid.saveAsExcel();
+
+        setTimeout(() => {
+            btnCk = false;
+        }, 500);
     }
 }
