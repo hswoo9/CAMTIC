@@ -40,10 +40,10 @@ var spr = {
                 var supAmt = uncomma($("#supAmt").val());
                 var vatAmt = uncomma($("#vatAmt").val());
 
-                $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100))));
+                $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100) / 10) * 10));
                 var incomeAmt = uncomma($("#incomeAmt").val());
 
-                $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+                $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100) / 10) * 10));
                 var locIncomeAmt = uncomma($("#locIncomeAmt").val());
 
                 $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
@@ -79,10 +79,10 @@ var spr = {
             var supAmt = uncomma($("#supAmt").val());
             var vatAmt = uncomma($("#vatAmt").val());
 
-            $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100))));
+            $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100) / 10) * 10));
             var incomeAmt = uncomma($("#incomeAmt").val());
 
-            $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+            $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100) / 10) * 10));
             var locIncomeAmt = uncomma($("#locIncomeAmt").val());
 
             $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
