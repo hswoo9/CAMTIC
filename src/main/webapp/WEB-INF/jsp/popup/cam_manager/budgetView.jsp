@@ -48,6 +48,13 @@
 
     <div class="" style="padding: 10px">
 
+        <div id="budgetTypeWrap" style="display: none; font-size: 12px;">
+            <input type="radio" id="budgetA" name="budgetType" value="1" checked="checked" onclick="bgView.budgetMainGrid();">
+            <label for="budgetA">수입예산</label>
+            <input type="radio" id="budgetB" name="budgetType" value="2" style="margin-left:10px;" onclick="bgView.budgetMainGrid();">
+            <label for="budgetB">지출예산</label>
+        </div>
+
 
         <%--        <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="bgView.fn_popBudgetAdd()">등록</button>--%>
         <div id="budgetMainGrid"></div>

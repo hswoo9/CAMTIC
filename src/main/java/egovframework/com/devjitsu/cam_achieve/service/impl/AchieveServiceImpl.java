@@ -503,6 +503,10 @@ public class AchieveServiceImpl implements AchieveService {
         return achieveRepository.getProjectPayBef(params);
     }
     @Override
+    public Map<String, Object> getProjectPayNow(Map<String, Object> params) {
+        return achieveRepository.getProjectPayNow(params);
+    }
+    @Override
     public Map<String, Object> getProjectPayAft(Map<String, Object> params) {
         return achieveRepository.getProjectPayAft(params);
     }
