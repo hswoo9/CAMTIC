@@ -149,7 +149,7 @@
 					title : "",
 					width : 60,
 					template : function(e) {
-						return '<button type="button" class="k-button k-button-solid-base" onclick="fn_selectPuchasRecptn('+ e.PUCHAS_TKBAK_NO +');">선택</button>'
+						return '<button type="button" class="k-button k-button-solid-base" onclick="fn_selectPuchasRecptn(\''+ e.PUCHAS_TKBAK_NO +'\');">선택</button>'
 					}
 				}
 			]
