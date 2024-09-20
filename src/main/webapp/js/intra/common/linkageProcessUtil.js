@@ -22,11 +22,13 @@ function linkageProcessOn(params, target){
 
     if(params.linkageProcessCode == "camticDelv"){
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
-	}else if(target == "target") {
+	}else if(target == "target"){
         window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
-    } else if (params.target == "tempDrafting") {
+    }else if(target == "self"){
+		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+	}else if(params.target == "tempDrafting"){
         window.open(url, "_blank", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
-    } else {
+    }else{
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 	}
 }

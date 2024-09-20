@@ -656,7 +656,6 @@ var draft = {
         }else if(e.operation == "remove"){
             alert(e.XMLHttpRequest.responseJSON.rs.message);
         }
-
     },
 
     onComplete : function(e){
@@ -684,6 +683,13 @@ var draft = {
                     }
                 }catch{
 
+                }
+
+                /** 임시저장시 창 안꺼지게 변경 */
+                console.log("$(\"#tempYn\").val()", $("#tempYn").val());
+                if($("#tempYn").val() == "Y"){
+                    const params = draft.global.fileInitData;
+                    tempOrReDraftingPop(params.DOC_ID || params.docId, params.menuCd, params.approKey, params.linkageType, "reDrafting", "tempDrafting", "self");
                 }
                 window.close();
             }
@@ -891,13 +897,14 @@ var draft = {
                 var params = rs.params;
                 draft.global.fileInitData = params;
 
-                alert("처리되었습니다.");
                 if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                    $("#tempYn").val("Y");
+                    draft.global.uploadFlag = true;
                     $("#files").data("kendoUpload").upload();
                 }else{
-
+                    alert("처리되었습니다.");
                     // 임시저장시 창 안꺼지게 변경
-                    approveDocView(params.DOC_ID || params.docId, params.approKey, params.menuCd)
+                    tempOrReDraftingPop(params.DOC_ID || params.docId, params.menuCd, params.approKey, params.linkageType, "reDrafting", "tempDrafting", "self");
 
                     if(params.DOC_ID != undefined && params.DOC_ID != "" && params.DOC_ID != null){
                         window.close();
