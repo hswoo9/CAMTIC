@@ -261,15 +261,27 @@ var regPay = {
                 var cem = claimExnpData.map;
                 var ceList = claimExnpData.list;
 
-                if($("#pjtSn").val != ""){
-                    $("#pjtSn").val(rs.PJT_SN);
-                }
-                if($("#pjtSn").val() != ""){
-                    $("#pjtSn").val(pjtMap.PJT_SN);
-                    selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                if(cem != null && cem.PJT_CD != "" && cem.PJT_CD != null && cem.PJT_CD != undefined){
+                    if(cem.SET_PJT_CD == null){
+                        $("#pjtSn").val("");
+                        selectProject("", cem.PJT_NM, cem.PJT_CD)
+                    }else{
+                        $("#pjtSn").val("");
+                        selectProject("", cem.SET_PJT_NM, cem.SET_PJT_CD)
+                    }
                 } else {
                     selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
+
+                // if($("#pjtSn").val != ""){
+                //     $("#pjtSn").val(rs.PJT_SN);
+                // }
+                // if($("#pjtSn").val() != ""){
+                //     $("#pjtSn").val(pjtMap.PJT_SN);
+                //     selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                // } else {
+                //     selectProject('', '[2024년]법인운영', 'Mm1m124010');
+                // }
 
                 // $("#appTitle").val(rs.PURC_REQ_PURPOSE);
 
@@ -564,12 +576,12 @@ var regPay = {
             //     $("#pjtSn").val(rs.PJT_SN);
             // }
             if(cem != null && cem.PJT_CD != "" && cem.PJT_CD != null && cem.PJT_CD != undefined){
-                if(cem.CLAIM_SET_SN == null){
+                if(cem.SET_PJT_CD == null){
                     $("#pjtSn").val("");
                     selectProject("", cem.PJT_NM, cem.PJT_CD)
                 }else{
                     $("#pjtSn").val("");
-                    selectProject("", cem.PJT_NM2, cem.PJT_CD2)
+                    selectProject("", cem.SET_PJT_NM, cem.SET_PJT_CD)
                 }
             } else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
