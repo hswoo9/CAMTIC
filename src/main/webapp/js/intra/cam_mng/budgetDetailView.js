@@ -2,10 +2,20 @@ var exnpSum = 0, incpSum = 0, depoSum = 0;
 var bdv = {
 
     fn_defaultScript: function (){
+        const params = {
+            pjtCd: $("#pjtCd").val(),
+            bgtCd: $("#bgtCd").val()
+        }
+        if($("#stat").val() == "mngView"){
+            params.startDt = $("#strDt").val();
+            params.endDt = $("#endDt").val();
+            params.stat2 = "Y";
+        }
+
         if($("#temp").val() == "A"){
-            bdv.mainGridA("/mng/getBudgetDetailViewData", { pjtCd: $("#pjtCd").val(), bgtCd: $("#bgtCd").val() });
+            bdv.mainGridA("/mng/getBudgetDetailViewData", params);
         } else if($("#temp").val() == "B"){
-            bdv.mainGridB("/mng/getIncpBudgetDetailViewData", { pjtCd: $("#pjtCd").val(), bgtCd: $("#bgtCd").val() });
+            bdv.mainGridB("/mng/getIncpBudgetDetailViewData", params);
         }
     },
 

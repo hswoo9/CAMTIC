@@ -288,8 +288,8 @@
     const year2 = toDt.substring(0, 4);
     const month2 = toDt.substring(4, 6);
     const day2 = toDt.substring(6, 8);
-    customKendo.fn_datePicker("strDe", "decade", "yyyy-MM-dd", new Date(year+"-"+month+"-"+day));
-    customKendo.fn_datePicker("endDe", "decade", "yyyy-MM-dd", new Date(year2+"-"+month2+"-"+day2));
+    customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", new Date(year+"-"+month+"-"+day));
+    customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date(year2+"-"+month2+"-"+day2));
     bcd.fn_defaultScript();
 </script>
 </body>

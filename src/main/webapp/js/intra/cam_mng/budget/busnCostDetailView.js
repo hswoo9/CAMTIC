@@ -7,7 +7,7 @@ let subAmSum = 0;
 var bcd = {
 
     fn_defaultScript: function (){
-        $("#carryoverCash ,#carryoverPoint").kendoTextBox();
+        $("#carryoverCash, #carryoverPoint").kendoTextBox();
 
         bcd.getCarryoverAmt();
         // bcd.getCurrentAmountStatus();
@@ -33,9 +33,12 @@ var bcd = {
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
+                    data.stat2 = "Y";
                     data.gisu = year;
                     // data.fromDate = date.getFullYear().toString() + "0101";
                     // data.toDate = date.getFullYear().toString() + "1231";
+                    data.startDt = $("#strDe").val();
+                    data.endDt = $("#endDe").val();
                     data.fromDate = $("#strDe").val().replace(/-/g, "");
                     data.toDate = $("#endDe").val().replace(/-/g, "");
                     data.mgtSeq = $("#pjtCd").val();
@@ -202,9 +205,12 @@ var bcd = {
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
+                    data.stat2 = "Y";
                     data.gisu = year;
                     // data.fromDate = date.getFullYear().toString() + "0101";
                     // data.toDate = date.getFullYear().toString() + "1231";
+                    data.startDt = $("#strDe").val();
+                    data.endDt = $("#endDe").val();
                     data.fromDate = $("#strDe").val().replace(/-/g, "");
                     data.toDate = $("#endDe").val().replace(/-/g, "");
                     data.mgtSeq = $("#pjtCd").val()
@@ -272,7 +278,7 @@ var bcd = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
+                        if(e.DIV_FG_NM == "항"){
                             calcAmSum  += Number(e.CALC_AM);
                         }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
@@ -284,7 +290,7 @@ var bcd = {
                     title: "지출완료",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
+                        if(e.DIV_FG_NM == "항"){
                             acctAm3Sum += Number(e.ACCT_AM_2);
                         }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
@@ -297,7 +303,7 @@ var bcd = {
                     width: 150,
                     template: function(e){
                         if(e.WAIT_CK != null){
-                            if(e.DIV_FG_NM == "장"){
+                            if(e.DIV_FG_NM == "항"){
                                 acctAm1Sum += Number(e.WAIT_CK);
                             }
                             return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
@@ -312,7 +318,7 @@ var bcd = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
+                        if(e.DIV_FG_NM == "항"){
                             acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
                         return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bcd.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'A\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
@@ -364,7 +370,7 @@ var bcd = {
     // },
 
     fn_budgetDetailViewPop : function(type, bgtCd, temp){
-        var url = "/mng/pop/budgetDetailView.do?pjtCd=" + $("#pjtCd").val() + "&bgtCd=" + bgtCd + "&type=" + type + "&temp=" + temp + "&strDt=" + $("#g20FrDt").val() + "&endDt=" + $("#g20ToDt").val();
+        var url = "/mng/pop/budgetDetailView.do?pjtCd=" + $("#pjtCd").val() + "&bgtCd=" + bgtCd + "&type=" + type + "&temp=" + temp + "&strDt=" + $("#strDe").val() + "&endDt=" + $("#endDe").val() + "&stat=mngView";
         var name = "_blank";
         var option = "width = 1000, height = 720, top = 100, left = 200, location = no";
 

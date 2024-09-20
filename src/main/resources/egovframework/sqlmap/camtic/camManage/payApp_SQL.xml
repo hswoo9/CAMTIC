@@ -1036,6 +1036,9 @@
             )
         AND
             B.BUDGET_SN IS NOT NULL
+        <if test='stat2!= null and !"".equals(stat2)'>
+            AND C.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         GROUP BY
             B.PAY_APP_DET_SN
     </select>
@@ -3978,6 +3981,9 @@
             PJT_CD = #{mgtSeq}
         AND
             DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
+        <if test='stat2!= null and !"".equals(stat2)'>
+            AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         AND B.BUDGET_SN IS NOT NULL
     </select>
 
@@ -4004,6 +4010,9 @@
             DOC_STATUS IN (100, 101)
         AND
             RE_STAT = 'Y'
+        <if test='stat2!= null and !"".equals(stat2)'>
+            AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         AND B.BUDGET_SN IS NOT NULL
     </select>
 
@@ -4018,6 +4027,9 @@
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
+        <if test='stat2 != null and !"".equals(stat2)'>
+            AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
           AND A.DOC_STATUS = 100
     </select>
 
@@ -4032,6 +4044,9 @@
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
+        <if test='stat2 != null and !"".equals(stat2)'>
+            AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
           AND A.DOC_STATUS = 100
           ANd A.RE_STAT = 'Y'
     </select>
@@ -4058,6 +4073,9 @@
           AND
             DOC_STATUS IN (100, 101)
           AND A.PAY_APP_TYPE = '3'
+        <if test='stat2 != null and !"".equals(stat2)'>
+            AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
     </select>
 
     <select id="getExnpDetOne" parameterType="map" resultType="map">
@@ -4138,6 +4156,9 @@
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_RE B ON A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
+        <if test='stat2 != null and !"".equals(stat2)'>
+            AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         AND A.DOC_STATUS = 100 AND PAY_INCP_RE_SN IS NOT NULL
         UNION ALL
         SELECT A.PJT_CD, A.BUDGET_SN,
@@ -4152,6 +4173,9 @@
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET C ON A.PAY_INCP_SN = C.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
+        <if test='stat2 != null and !"".equals(stat2)'>
+            AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         AND A.DOC_STATUS = 100 AND C.PMR_NO IS NOT NULL AND EVID_TYPE IN (2,4,6,7)
     </select>
 

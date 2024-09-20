@@ -28,6 +28,9 @@
 <input type="hidden" id="pjtCd" value="${params.pjtCd}"/>
 <input type="hidden" id="bgtCd" value="${params.bgtCd}"/>
 <input type="hidden" id="temp" value="${params.temp}"/>
+<input type="hidden" id="strDt" value="${params.strDt}"/>
+<input type="hidden" id="endDt" value="${params.endDt}"/>
+<input type="hidden" id="stat" value="${params.stat}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">

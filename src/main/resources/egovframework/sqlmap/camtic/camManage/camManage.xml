@@ -1019,6 +1019,9 @@
             )
         AND
             B.BUDGET_SN IS NOT NULL
+        <if test='stat2!= null and !"".equals(stat2)'>
+            AND C.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         GROUP BY
             C.EXNP_SN, A.PAY_APP_SN
 
@@ -1059,6 +1062,9 @@
             A.RE_STAT = 'Y'
         AND
             B.BUDGET_SN IS NOT NULL
+        <if test='stat2!= null and !"".equals(stat2)'>
+            AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        </if>
         GROUP BY
             B.EXNP_SN
     </select>
@@ -1092,6 +1098,9 @@
               AND A.DOC_STATUS = 100
               AND B.EVID_TYPE IN (1,3,5)
               AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+            <if test='stat2!= null and !"".equals(stat2)'>
+                AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
             GROUP BY A.PAY_INCP_SN
             UNION ALL
             -- 수입(반제필요X)
@@ -1119,6 +1128,9 @@
               AND A.DOC_STATUS = 100
               AND B.EVID_TYPE IN (2,4,6,7)
               AND A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+            <if test='stat2!= null and !"".equals(stat2)'>
+                AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
             GROUP BY A.PAY_INCP_SN
             UNION ALL
             -- 반납
@@ -1146,6 +1158,9 @@
               AND A.DOC_STATUS IN (100, 101)
               AND B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
               AND A.PAY_APP_TYPE = 3
+            <if test='stat2!= null and !"".equals(stat2)'>
+                AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
             GROUP BY B.EXNP_SN
         ) AA
         ORDER BY AA.PAY_EXNP_DE DESC
