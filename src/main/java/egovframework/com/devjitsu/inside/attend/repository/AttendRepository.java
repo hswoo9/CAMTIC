@@ -68,6 +68,10 @@ public class AttendRepository extends AbstractDAO {
         return selectList("attend.holidayWorkApplicationList", params);
     }
 
+    public List<Map<String, Object>> holidayWorkApplicationListForCustomExcelDown(Map<String, Object> params) {
+        return selectList("attend.holidayWorkApplicationListForCustomExcelDown", params);
+    }
+
     public void setAttendAdjustment(Map<String, Object> params) {
         insert("attend.setAttendAdjustment", params);
     }

@@ -67,8 +67,36 @@ var holidayWorkApplicationAdmin ={
 
 
     mainGrid: function(url, params) {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             height: 508,
@@ -97,8 +125,13 @@ var holidayWorkApplicationAdmin ={
                             '</button>';
                     }
                 }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplicationAdmin.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }, {
                     name : 'button',
                     template : function (e){
@@ -108,11 +141,11 @@ var holidayWorkApplicationAdmin ={
                     }
                 }
             ],
-            excel : {
+            /*excel : {
                 fileName : "휴일근로(관리자) 목록.xlsx",
                 filterable : true
             },
-            excelExport: exportGrid,
+            excelExport: exportGrid,*/
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -143,7 +176,10 @@ var holidayWorkApplicationAdmin ={
                 {
                     field: "EMP_NAME_KR",
                     title: "이름",
-                    width: 80
+                    width: 80,
+                    template : function(e){
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="holidayWorkApplicationAdmin.subHolidayReqPop(' + e.HOLIDAY_WORK_MASTER_SN + ');">' + e.EMP_NAME_KR + '</div><input type="hidden" name="delYn" value="' + e.DEL_YN + '">';
+                    }
                 },
                 {
                     field: "SUBHOLIDAY_DT_CODE_NM",
@@ -297,7 +333,83 @@ var holidayWorkApplicationAdmin ={
         var status = holidayWorkApplicationAdmin.global.searchAjaxData.status;
 
         holidayWorkApplicationAdmin.mainGrid('/Inside/holidayWorkApplicationList.do', holidayWorkApplicationAdmin.global.searchAjaxData);
-    }
+    },
+
+    hiddenGrid: function(url, params){
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "DEPT_NAME2",
+                    title: "부서/팀",
+                    width: 250
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "이름",
+                    width: 80
+                }, {
+                    field: "SUBHOLIDAY_DT_CODE_NM",
+                    title: "구분",
+                    width: 100
+                }, {
+                    field: "APPLY_DAY",
+                    title: "신청일자",
+                    width: 100
+                }, {
+                    field: "SUBHOLIDAY_WORK_DAY",
+                    title: "근로일자",
+                    width: 100
+                }, {
+                    field: "APPR_STAT_TEXT",
+                    title: "승인상태",
+                    width: 100,
+                }
+            ],
+        }).data("kendoGrid");
+    },
+
+    fn_excelDownload : function (){
+        if (btnCk) {
+            return;
+        }
+        btnCk = true;
+
+        let data = {
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
+            docStatus : $("#docStatus").data("kendoDropDownList").value(),
+            searchKeyword : $("#searchKeyword").data("kendoDropDownList").value(),
+            searchValue : $("#searchValue").val(),
+            adminMenu : "true"
+        }
+
+        holidayWorkApplicationAdmin.hiddenGrid("/Inside/holidayWorkApplicationListForCustomExcelDown", data);
+
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "휴일근로(관리자) 목록.xlsx";
+        });
+        grid.saveAsExcel();
+
+        setTimeout(() => {
+            btnCk = false;
+        }, 500);
+    },
+
+    subHolidayReqPop : function(e) {
+        var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + e;
+        var name = "subHolidayReqPop2";
+        var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+    
+    
 
 
 }

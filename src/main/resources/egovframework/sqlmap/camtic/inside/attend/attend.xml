@@ -935,13 +935,95 @@
                 AND
                     DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
             ]]>
-            AND M.STATUS NOT IN (0, 30, 40)
+
+            <choose>
+                <when test ='docStatus != null and docStatus != "" and docStatus == "B"'>
+                    AND M.STATUS IN (10, 20, 50)
+                </when>
+                <when test ='docStatus != null and docStatus != "" and docStatus == "C"'>
+                    AND M.STATUS IN (100 , 101)
+                </when>
+                <otherwise>
+                    AND M.STATUS NOT IN (0, 30, 40)
+                </otherwise>
+            </choose>
+
             <if test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
             </if>
         </if>
+
         GROUP BY M.HOLIDAY_WORK_MASTER_SN
         ORDER BY sm.APPLY_DATE DESC
+    </select>
+
+    <select id="holidayWorkApplicationListForCustomExcelDown" parameterType="map" resultType="map">
+        /* holidayWorkApplicationListForCustomExcelDown */
+        SELECT
+            M.HOLIDAY_WORK_MASTER_SN,
+            M.STATUS AS DOC_STATUS,
+            CAM_HR.FN_GETNAME('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = SM.APPLY_SEQ), 'KR') AS DEPT_NAME2,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = SM.APPLY_SEQ) AS EMP_NAME_KR,
+            SC.SUBHOLIDAY_DT_CODE_NM,
+            DATE_FORMAT(SM.APPLY_DATE, '%Y-%m-%d') AS APPLY_DAY,
+            SM.SUBHOLIDAY_WORK_DAY,
+            SM.APPR_STAT,
+            M.DOC_ID,
+            M.ACTIVE,
+            M.STATUS,
+            M.REG_EMP_SEQ,
+            SM.SUBHOLIDAY_CODE_ID,
+            CASE
+                WHEN M.STATUS = '100' OR M.STATUS = '101' THEN '결재완료'
+                WHEN M.STATUS = '10' OR M.STATUS ='20' OR M.STATUS = '50' THEN '결재중'
+                WHEN M.STATUS = '30' THEN '반려'
+                ELSE '작성중'
+            END AS APPR_STAT_TEXT
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SM ON SM.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN AND SM.ACTIVE = 'Y' AND SM.DEL_YN = 'N'
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE SC  ON SM.SUBHOLIDAY_CODE_ID = SC.SUBHOLIDAY_CODE_ID
+        WHERE 1=1
+        AND
+            M.ACTIVE = 'Y'
+        AND
+            SM.SUBHOLIDAY_CODE_ID = 11
+        <if test='status != null and !"".equals(status)'>
+            AND sm.APPR_STAT = #{status}
+        </if>
+        <if test='baseYear != null and !"".equals(baseYear)'>
+            AND #{baseYear} = DATE_FORMAT(sm.APPLY_DATE, '%Y')
+        </if>
+        <if test="empSeq != null and empSeq != ''">
+            AND sm.APPLY_SEQ = #{empSeq}
+        </if>
+        <if test="adminMenu != null and adminMenu != ''">
+            <![CDATA[
+                AND
+                    DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+            ]]>
+            <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
+            </if>
+        </if>
+
+        <choose>
+            <when test ='docStatus != null and docStatus != "" and docStatus == "B"'>
+                AND M.STATUS IN (10, 20, 50)
+            </when>
+            <when test ='docStatus != null and docStatus != "" and docStatus == "C"'>
+                AND M.STATUS IN (100 , 101)
+            </when>
+            <otherwise>
+                AND M.STATUS NOT IN (0, 30, 40)
+            </otherwise>
+        </choose>
+
+        ORDER BY sm.APPLY_DATE DESC, EMP_NAME_KR DESC , SUBHOLIDAY_WORK_DAY ASC
     </select>
 
     <insert id="setAttendAdjustment" parameterType="map">

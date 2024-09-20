@@ -138,6 +138,10 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params) {
         return attendRepository.holidayWorkApplicationList(params);
     }
+    @Override
+    public List<Map<String, Object>> holidayWorkApplicationListForCustomExcelDown(Map<String, Object> params) {
+        return attendRepository.holidayWorkApplicationListForCustomExcelDown(params);
+    }
 
     @Override
     public void setAttendAdjustment(Map<String, Object> params) {

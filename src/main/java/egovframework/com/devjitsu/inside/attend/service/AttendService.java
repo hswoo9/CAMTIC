@@ -42,6 +42,7 @@ public interface AttendService {
     List<Map<String, Object>> getHolidayDetailsAdmin(Map<String, Object> params);
 
     List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params);
+    List<Map<String, Object>> holidayWorkApplicationListForCustomExcelDown(Map<String, Object> params);
 
     void setAttendAdjustment(Map<String, Object> params);
 }
