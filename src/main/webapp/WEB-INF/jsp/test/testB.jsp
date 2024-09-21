@@ -22,12 +22,6 @@
 <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
 <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
 
-<style>
-    .k-textbox .k-input-inner::placeholder {
-        color: #4287f5;
-        font-size: 12px;
-    }
-</style>
 <html>
 <head>
     <title>Title</title>
@@ -36,14 +30,38 @@
 <body>
     <h2>Hello, Hanker~!</h2>
 
-    <input type="password" name="name" id="textbox" class="textbox" style="width: 300px;" value=""/>
-    <input type="text" name="name" id="textboxB" class="textbox" style="width: 300px;" value=""/>
+    <div id="grid"></div>
+
 
 </body>
 
 <script>
-    $(".textbox").kendoTextBox({
-        placeholder : "필수값입니다."
-    });
+    let data = [
+        {ID: 1, Name: "Hanker", Date: "2024-06-21"},
+        {ID: 2, Name: "김하나", Date: "2024-02-01"},
+        {ID: 3, Name: "진호정", Date: "2024-01-31"},
+        {ID: 4, Name: "강윤기", Date: "2024-04-22"},
+        {ID: 5, Name: "진현강", Date: "2024-06-03"},
+        {ID: 6, Name: "신정영", Date: "2024-02-13"},
+        {ID: 7, Name: "마수리", Date: "2024-07-25"},
+        {ID: 8, Name: "김강구", Date: "2024-01-17"},
+        {ID: 9, Name: "국태환", Date: "2024-03-06"},
+        {ID: 10, Name: "한석중", Date: "2024-05-21"},
+        {ID: 11, Name: "하나로", Date: "2024-06-01"},
+    ];
+
+
+    var dataSource = new kendo.data.DataSource({
+        data : data
+    })
+
+    $("#grid").kendoGrid({
+        dataSource : dataSource,
+        columns: [
+            { field: "ID", title: "ID" },
+            { field: "Name", title: "이름" },
+            { field: "Date", title: "가입일" }
+        ]
+    })
 </script>
 </html>
