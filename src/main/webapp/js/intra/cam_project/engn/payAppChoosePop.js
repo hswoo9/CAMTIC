@@ -13,8 +13,7 @@ var payAppChoosePop = {
         payAppChoosePop.global.dropDownDataSource2 = [
             { text: "신청일", value: "1" },
             { text: "지출요청일", value: "2" },
-            { text: "지출예정일", value: "3" },
-            { text: "지출완료일", value: "4" }
+            { text: "지출예정일", value: "3" }
         ]
 
         var d = new Date();
@@ -166,13 +165,6 @@ var payAppChoosePop = {
                         var stat = "";
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
-                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.RE_STAT == 'Y'){
-                                stat = "지출완료";
-                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
-                                stat = "부분지출";
-                            } else if (e.EXNP_STATUS != 0){
-                                stat = "지출대기";
-                            }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
                             stat = "결재중"
                         } else if(e.DOC_STATUS == "30"){
@@ -180,7 +172,6 @@ var payAppChoosePop = {
                         } else {
                             stat = "작성중"
                         }
-
                         return stat;
                     }
                 }
