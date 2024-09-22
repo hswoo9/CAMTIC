@@ -413,7 +413,6 @@ public class messageController {
     @RequestMapping("/test/testB")
     public String testB(){
 
-
         return "test/testB";
     }
 }

@@ -309,10 +309,6 @@ var purcInit = {
         const list = purcInit.global.claimItemList;
         const totMap = purcInit.global.claimAmtTotal;
 
-
-
-
-
         var dcPay = 0;
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left;line-height: 20px; width: 100%; ">';
@@ -396,9 +392,9 @@ var purcInit = {
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_UNIT_AMT_COMMA+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_EA+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;">'+map.ITEM_UNIT+'</p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.PURC_SUP_AMT+'</p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.PURC_VAT_AMT+'</p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_AMT+'</p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.PURC_SUP_AMT_COMMA+'</p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.PURC_VAT_AMT_COMMA+'</p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-family:굴림; font-weight: bold; font-size:12px;  margin-right:5px;">'+map.ITEM_AMT_COMMA+'</p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림; font-weight: bold; font-size:12px;">'+map.ITEM_ETC+'</p></td>';
             html += '   </tr>';
 

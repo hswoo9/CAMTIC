@@ -72,29 +72,34 @@ var budgetConfigView = {
                 {
                     field : "BGT_CD",
                     title : "예산코드",
-                    width : 100
-                },
-                {
-                    field : "BGT_NM",
-                    title : "예산명",
-                    width : 100
+                    width : 80
                 },
                 {
                     field : "BGT01_NM",
-                    title : "상위예산명",
-                    width : 90
+                    title : "장",
+                    width : 100
+                },
+                {
+                    field : "BGT02_NM",
+                    title : "관",
+                    width : 100
+                },
+                {
+                    field : "BGT03_NM",
+                    title : "항",
+                    width : 100
                 },
                 {
                     field : "",
                     title : "보조비목세목코드",
-                    width : 80,
+                    width : 100,
                     template : function(dataItem) {
                         return "<input type='button' id='btnChoice' class='k-input' style='text-align: center' key='"+dataItem.BGT_CD+"' value='"+(dataItem.ASSTN_EXPITM_TAXITM_CODE || "")+"' onclick='budgetConfigView.fn_budgetChoice(this)' class='btnChoice' width='100' />";
                     }
                 },
                 {
                     title : "설정취소",
-                    width : 70,
+                    width : 50,
                     template : function(dataItem) {
                         return "<input type='button' class='btnChoice k-button k-button-solid-base' value='설정취소' onclick='budgetConfigView.fn_cnclSetting("+(dataItem.BG_SN || "")+");'>";
                     },
@@ -102,12 +107,12 @@ var budgetConfigView = {
                 {
                     field : "ASSTN_EXPITM_NM",
                     title : "보조비목명",
-                    width : 90
+                    width : 100
                 },
                 {
                     field : "ASSTN_TAXITM_NM",
                     title : "보조세목명",
-                    width : 90
+                    width : 100
                 }]
         }).data("kendoGrid");
     },

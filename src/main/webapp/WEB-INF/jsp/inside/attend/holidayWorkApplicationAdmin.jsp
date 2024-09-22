@@ -53,6 +53,7 @@
                 </table>
             </div>
             <div id="mainGrid" style="margin:20px 0;"></div>
+            <div id="hiddenGrid" style="margin:20px 0; display: none;"></div>
         </div>
     </div>
 </div>
@@ -65,5 +66,6 @@
 </form>
 
 <script type="text/javascript">
+    var btnCk = false;
     holidayWorkApplicationAdmin.init();
 </script>

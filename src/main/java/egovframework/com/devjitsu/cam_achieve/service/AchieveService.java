@@ -36,6 +36,8 @@ public interface AchieveService {
     Map<String, Object> getIncpCompAmt2(Map<String, Object> params);
 
     Map<String, Object> getRealUseExnpAmt(Map<String, Object> params);
+    Map<String, Object> getRealUseExnpAmt2(Map<String, Object> params);
+    Map<String, Object> getRealUseExnpAmt3(Map<String, Object> params);
 
     Map<String, Object> getPlanExnpAmt(Map<String, Object> params);
 

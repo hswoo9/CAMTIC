@@ -431,7 +431,9 @@
             CI.CRM_BN_NUM,
             CI.BN_DEPO,
             FORMAT(A.ITEM_UNIT_AMT , 0) AS ITEM_UNIT_AMT_COMMA,
-            FORMAT(A.ITEM_AMT , 0) AS ITEM_AMT_COMMA
+            FORMAT(A.ITEM_AMT , 0) AS ITEM_AMT_COMMA,
+            FORMAT(A.PURC_SUP_AMT , 0) AS PURC_SUP_AMT_COMMA,
+            FORMAT(A.PURC_VAT_AMT , 0) AS PURC_VAT_AMT_COMMA
         FROM
             CAM_MNG.DJ_PURC_CLAIM_ITEM A
         LEFT JOIN
@@ -1634,6 +1636,8 @@
                 REQ_AMT,
                 PJT_NM,
                 PJT_CD,
+                BUDGET_NM,
+                BUDGET_SN,
                 CE_GW_IDX,
                 EVID_TYPE,
                 EMP_SEQ,
@@ -1645,6 +1649,8 @@
                 #{reqAmt},
                 (SELECT PJT_NM FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
                 (SELECT PJT_CD FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
+                (SELECT BUDGET_NM FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
+                (SELECT BUDGET_SN FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
                 #{ceGwIdx},
                 #{evidType},
                 #{empSeq},
@@ -1682,6 +1688,10 @@
             SELECT
                 B.*,
                 A.CLAIM_EXNP_SN,
+                IFNULL(A.PJT_CD, '') AS SET_PJT_CD,
+                IFNULL(A.PJT_NM, '') AS SET_PJT_NM,
+                A.BUDGET_SN AS SET_BUDGET_SN,
+                A.BUDGET_NM AS SET_BUDGET_NM,
                 A.MNG_REQ_STAT,
                 A.EMP_SEQ AS F_EMP_SEQ,
                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
@@ -1794,7 +1804,7 @@
                 AND AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "E".equals(searchKeyword)'>
-                AND AA.CLAIM_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                AND IF(AA.MNG_REQ_STAT = 'Y', AA.F_EMP_NAME, AA.PURC_EMP_NAME) LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND
@@ -1803,7 +1813,7 @@
                     AA.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
                     AA.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
                     AA.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    AA.PURC_EMP_NAME LIKE CONCAT('%',#{searchValue},'%')
+                    IF(AA.MNG_REQ_STAT = 'Y', AA.F_EMP_NAME, AA.PURC_EMP_NAME) LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
@@ -1820,7 +1830,9 @@
             (SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX) AS CNT,
             B.*,
             B.PJT_NM AS PJT_NM2,
-            B.PJT_CD AS PJT_CD2
+            B.PJT_CD AS PJT_CD2,
+            A.PJT_CD AS SET_PJT_CD,
+            A.PJT_NM AS SET_PJT_NM
         FROM
             CAM_MNG.DJ_CLAIM_EXNP A
         LEFT JOIN

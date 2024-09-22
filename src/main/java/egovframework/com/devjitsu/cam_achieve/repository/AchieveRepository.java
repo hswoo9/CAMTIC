@@ -155,6 +155,14 @@ public class AchieveRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("achieve.getRealUseExnpAmt", params);
     }
+    public Map<String, Object> getRealUseExnpAmt2(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAmt2", params);
+    }
+    public Map<String, Object> getRealUseExnpAmt3(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAmt3", params);
+    }
 
     public Map<String, Object> getPlanExnpAmt(Map<String, Object> params) {
 

@@ -177,6 +177,8 @@ public class AchieveController {
                 Map<String, Object> incpMap = achieveService.getIncpCompAmt(params);
                 Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
                 Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
+                Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
+                Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
                 Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
                 Map<String, Object> projectPaySetData1 = new HashMap<>();
@@ -193,6 +195,8 @@ public class AchieveController {
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
                 map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
                 map.put("realUseAmt", realUseMap2.get("COST_SUM"));
+                map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
+                map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
                 map.put("planAmt", planMap.get("TOT_COST"));
                 map.put("pjtAmtSetData", getPjtAmtSetData);
 

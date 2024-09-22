@@ -333,6 +333,14 @@ public class AttendController {
         return "jsonView";
     }
 
+    //휴일근로 커스텀 엑셀 다운로드
+    @RequestMapping(value = "/Inside/holidayWorkApplicationListForCustomExcelDown")
+    public String holidayWorkApplicationListForCustomExcelDown(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.holidayWorkApplicationListForCustomExcelDown(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/attend/setAttendAdjustment")
     public String setAttendAdjustment(@RequestParam Map<String, Object> params, Model model){
         try{

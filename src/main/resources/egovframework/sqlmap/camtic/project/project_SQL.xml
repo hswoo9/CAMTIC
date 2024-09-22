@@ -19,7 +19,7 @@
 
     <select id="getProjectList" parameterType="map" resultType="map">
         /* getProjectList */
-        SELECT
+        SELECT * FROM (SELECT
             A.*,
             B.CRM_NM,
             DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS PJT_STR_DE,
@@ -70,7 +70,8 @@
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ,
             (SELECT INV_AMT FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE PJT_SN = A.PJT_SN ORDER BY DEV_SN DESC LIMIT 1) AS INV_AMT,
-            SPT.PM_EMP_SEQ AS TEAM_PM_EMP_SEQ, SPT.REG_EMP_SEQ AS TEAM_REG_EMP_SEQ, SPT.EMP_SEQ AS TEAM_EMP_SEQ
+            SPT.PM_EMP_SEQ AS TEAM_PM_EMP_SEQ, SPT.REG_EMP_SEQ AS TEAM_REG_EMP_SEQ, SPT.EMP_SEQ AS TEAM_EMP_SEQ,
+            IFNULL(A.PARENT_PJT_SN, A.PJT_SN) AS PARENT_PJT_SN2
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
@@ -99,8 +100,7 @@
         LEFT JOIN CAM_PJT_MNG.DJ_PROJECT SPT ON A.PJT_SN = SPT.PNT_PJT_SN
         WHERE
             1=1
-        AND A.TEAM_STAT = "N"
-        AND A.PARENT_PJT_SN IS NULL
+        AND A.TEAM_STAT = 'N'
         <if test='pjtYear != null and pjtYear != ""'>
             AND
                 DATE_FORMAT(A.STR_DT, '%Y') = #{pjtYear}
@@ -157,34 +157,38 @@
         </if>
         <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
+            (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+            A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+            A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
+            B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"4".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                A.PM LIKE CONCAT('%', #{searchText}, '%')
+            A.PM LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='!"".equals(pjtNm) and pjtNm != null'>
             AND
-                A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+            A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
         <if test='type != null and !"".equals(type)'>
             AND
-                A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
+            A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
         </if>
         GROUP BY A.PJT_SN
-        ORDER BY A.REG_DT DESC
+        ORDER BY A.PJT_SN DESC
+        ) AA
+
+        GROUP BY AA.PARENT_PJT_SN2
+        ORDER BY AA.REG_DT DESC
     </select>
 
     <select id="getRndProjectList" parameterType="map" resultType="map">
@@ -263,8 +267,7 @@
         LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
         1=1
-        AND A.TEAM_STAT = "N"
-        AND A.PARENT_PJT_SN IS NULL
+        AND A.TEAM_STAT = 'N'
         AND A.PJT_STEP in (${busnSubClass})
         <![CDATA[ AND ((YEAR(STR_DT) <= #{year} AND YEAR(END_DT) >= #{year}) OR (YEAR(CONSULT_DT) <= #{year} AND YEAR(CONSULT_DT) >= #{year})) ]]>
         <if test='busnClass != null and busnClass != ""'>
@@ -494,6 +497,9 @@
             CONSULT_DT = #{contDt},
             SECURITY = #{security},
             MOD_EMP_SEQ = #{regEmpSeq},
+            <if test='pjtAmt != null and !"".equals(pjtAmt)'>
+                PJT_AMT = #{pjtAmt},
+            </if>
             MOD_DT = NOW()
         WHERE PJT_SN = #{pjtSn}
     </update>
@@ -4002,7 +4008,7 @@
         ) AA
         WHERE
             AA.DOC_STATUS NOT IN (0, 30, 40)
-            AND PJT_NM LIKE '%년]법인운영%' OR PJT_NM LIKE '%년]기타%'
+            AND (PJT_NM LIKE '%년]법인운영%' OR PJT_NM LIKE '%년]기타%')
         <choose>
             <when test='"2".equals(searchDate)'>
                 AND AA.REQ_DE BETWEEN #{strDe} AND #{endDe}

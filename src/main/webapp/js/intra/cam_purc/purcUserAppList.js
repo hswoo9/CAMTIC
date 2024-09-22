@@ -34,7 +34,7 @@ var purcUserAppList = {
             { text: "프로젝트명", value: "B" },
             { text: "목적", value: "C" },
             { text: "업체명", value: "D" },
-            { text: "작성자", value: "E" },
+            { text: "담당자", value: "E" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcUserAppList.global.dropDownDataSource, "text", "value");
@@ -159,7 +159,8 @@ var purcUserAppList = {
                     width: 40,
                     template : function (e){
                         if(e.F_PAY_APP_SN == null){
-                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"'/>";
+                            var setPjtCd = e.SET_PJT_CD == "" ? "Mm1m124010" : e.SET_PJT_CD;
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' setPjtCd='"+setPjtCd+"'/>";
                         } else {
                             return "";
                         }
@@ -376,6 +377,9 @@ var purcUserAppList = {
     },
 
     fn_reqPayAppMultiPopup : function (){
+        var flag = true;
+        var setPjtCd = null;
+
         if($('input[name="clm"]:checked').length == 0){
             alert("선택된 지급건이 없습니다.");
             return;
@@ -393,7 +397,20 @@ var purcUserAppList = {
                 ces = $(this).attr("claimExnpSn");
             }
             claimExnpSn += ces + ",";
+
+            if (setPjtCd === null) {
+                setPjtCd = $(this).attr("setPjtCd");
+            } else {
+                if (setPjtCd !== $(this).attr("setPjtCd")) {
+                    flag = false;
+                }
+            }
         });
+
+        if(!flag){
+            alert("지급설정된 프로젝트가 다르므로 일괄 지급신청이 불가합니다.");
+            return false;
+        }
 
         claimSn = claimSn.substring(0, claimSn.length - 1);
         claimExnpSn = claimExnpSn.substring(0, claimExnpSn.length - 1);

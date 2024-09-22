@@ -267,10 +267,10 @@ var recordTotal = {
                         let aopAmt = 0;
                         let aopAmt2 = 0;
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                            let tmpAmt = Number((((e.incpCompAmt2 || 0) - (e.realUseAmt || 0)) * 10 / 11).toString().split(".")[0]);
+                            let tmpAmt = Number((((e.incpCompAmt2 || 0) - (e.realUseAmt || 0) - (e.realUseAmt2 || 0) - (e.realUseAmt3 || 0)) * 10 / 11).toString().split(".")[0]);
                             aopAmt = (e.incpCompAmt1 || 0) + tmpAmt;
                         }else{
-                            aopAmt = (e.incpCompAmt1 || 0) + ((e.incpCompAmt2 || 0) - (e.realUseAmt || 0));
+                            aopAmt = (e.incpCompAmt1 || 0) + ((e.incpCompAmt2 || 0) - (e.realUseAmt || 0) - (e.realUseAmt2 || 0) - (e.realUseAmt3 || 0));
                         }
                         aopAmt2 = aopAmt + Number(e.pjtAmtSetData.AMT1);
                         incpCompAmtSum += aopAmt2;

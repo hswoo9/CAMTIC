@@ -258,14 +258,16 @@ var costInfo = {
                 let aopAmt = 0;
                 let invSum = Number(uncomma($("#invSum").text())) || 0;
                 if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt) * 10 / 11).toString().split(".")[0]);
+                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
                     aopAmt = e.incpCompAmt1 + tmpAmt;
                 }else{
-                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt);
+                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
                 }
                 console.log("incpCompAmt1", e.incpCompAmt1);
                 console.log("incpCompAmt2", e.incpCompAmt2);
                 console.log("realUseAmt", e.realUseAmt);
+                console.log("realUseAmt2", e.realUseAmt2);
+                console.log("realUseAmt3", e.realUseAmt3);
                 console.log("aopAmt", aopAmt);
                 console.log("pjtAmtSetData", e.pjtAmtSetData);
                 $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1));

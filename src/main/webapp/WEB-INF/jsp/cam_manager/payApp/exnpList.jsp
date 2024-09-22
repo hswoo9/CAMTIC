@@ -72,7 +72,7 @@
 </div><!-- col-md-9 -->
 
 <script>
-
+    var btnCk = false;
     exnpList.fn_defaultScript();
 
 </script>
