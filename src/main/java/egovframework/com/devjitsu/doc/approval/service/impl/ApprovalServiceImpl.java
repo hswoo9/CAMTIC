@@ -652,12 +652,22 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     private void linkageProcessSend(Map<String, Object> params) throws IOException {
+
+        System.out.println("전자결재 결재 프로세스 9 [문서번호 : "+params.get("docId")+"]");
+
         approvalRepository.setLinkageProcessDocInterlockUpd(params);
+
+        System.out.println("전자결재 결재 프로세스 10 [문서번호 : "+params.get("docId")+"]");
 
         String urlStr = formManagementRepository.getLinkageProcess(params);
 
+        System.out.println("전자결재 결재 프로세스 11 [문서번호 : "+params.get("docId")+"]");
+
         /** 연동 시스템 없으면 패스 */
         if(urlStr != null && urlStr != ""){
+
+            System.out.println("전자결재 결재 프로세스 12 [문서번호 : "+params.get("docId")+"]");
+
             String parameter = "approKey=" + params.get("approKey") + "&approveStatCode=" + params.get("approveStatCode");
 
             if(!StringUtils.isEmpty(params.get("DOC_ID"))){
@@ -716,18 +726,38 @@ public class ApprovalServiceImpl implements ApprovalService {
 //          URL url = new URL("http://localhost:8080"+ urlStr);
             URL url = new URL("https://new.camtic.or.kr"+ urlStr);
 
+            System.out.println("전자결재 결재 프로세스 13 [문서번호 : "+params.get("docId")+"]");
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            System.out.println("전자결재 결재 프로세스 14 [문서번호 : "+params.get("docId")+"]");
+
             conn.setRequestMethod("POST");
+
+            System.out.println("전자결재 결재 프로세스 15 [문서번호 : "+params.get("docId")+"]");
+
             conn.setDoOutput(true);
 
+            System.out.println("전자결재 결재 프로세스 16 [문서번호 : "+params.get("docId")+"]");
+
             OutputStream out = conn.getOutputStream();
+
+            System.out.println("전자결재 결재 프로세스 17 [문서번호 : "+params.get("docId")+"]");
+
             out.write(parameter.getBytes("utf-8"));
+
+            System.out.println("전자결재 결재 프로세스 18 [문서번호 : "+params.get("docId")+"]");
+
             out.close();
+
+            System.out.println("전자결재 결재 프로세스 19 [문서번호 : "+params.get("docId")+"]");
 
             int code = conn.getResponseCode();
 
             System.out.println("응답코드 : "+ code);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+
+            System.out.println("전자결재 결재 프로세스 20 [문서번호 : "+params.get("docId")+"]");
         }
     }
 
@@ -832,18 +862,34 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     private void setDocApproveNReturnDataFileUpd(Map<String, Object> params, String base_dir){
+
+        System.out.println("전자결재 결재 프로세스 1 [문서번호 : "+params.get("docId")+"]");
+
         setApprovalDocFileDelAndUpd(params, base_dir);
+
+        System.out.println("전자결재 결재 프로세스 2 [문서번호 : "+params.get("docId")+"]");
 
         approvalRepository.setDocInfoStatUp(params);
 
+        System.out.println("전자결재 결재 프로세스 3 [문서번호 : "+params.get("docId")+"]");
+
         approvalRepository.setDocApproveRouteUp(params);
 
+        System.out.println("전자결재 결재 프로세스 4 [문서번호 : "+params.get("docId")+"]");
+
         if(params.get("approveStatCode").equals("101")){
+
+            System.out.println("전자결재 결재 프로세스 5 [문서번호 : "+params.get("docId")+"]");
+
             List<Map<String, Object>> noApproveList = approvalRepository.getDocApproveType2List(params);
+
+            System.out.println("전자결재 결재 프로세스 6 [문서번호 : "+params.get("docId")+"]");
 
             Map<String, Object> noApproveCodeMap = new HashMap<>();
             noApproveCodeMap.put("cmCodeNm", "noApprove");
             noApproveCodeMap = commonCodeRepository.getCmCodeInfo(noApproveCodeMap);
+
+            System.out.println("전자결재 결재 프로세스 7 [문서번호 : "+params.get("docId")+"]");
 
             for(Map<String, Object> map : noApproveList){
                 map.put("approveStatCodeDesc", noApproveCodeMap.get("CM_CODE_NM"));
@@ -851,6 +897,8 @@ public class ApprovalServiceImpl implements ApprovalService {
                 map.put("approveOpin", "전결처리로 인해 결재안함");
                 approvalRepository.setDocApproveRouteNoApproveUp(map);
             }
+
+            System.out.println("전자결재 결재 프로세스 8 [문서번호 : "+params.get("docId")+"]");
         }
 
         /** 최종결재권자가 보안여부 업데이트 가능 */
