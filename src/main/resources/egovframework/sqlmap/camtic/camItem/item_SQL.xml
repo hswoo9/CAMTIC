@@ -1049,6 +1049,7 @@
         /* getBomList */
         SELECT
             B.*,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = B.MASTER_SN) AS CURRENT_INVEN,
             IM.*,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM
@@ -1080,19 +1081,11 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                <choose>
-                    <when test='"BOM_TITLE".equals(searchKeyword)'>
-                        AND B.BOM_TITLE LIKE CONCAT('%', #{searchValue}, '%')
-                    </when>
-                    <otherwise>
-                        AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
-                    </otherwise>
-                </choose>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
-                        B.BOM_TITLE LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%')
@@ -1145,7 +1138,7 @@
             WHC.ITEM_CD_NM AS WH_CD_NM,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'UN' AND LG_CD = 'UNIT' AND ITEM_CD = IM.ITEM_UNIT_CD) AS ITEM_UNIT_NM,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'WC' AND LG_CD = 'WH' AND ITEM_CD = IFNULL(II.WH_CD,IM.WH_CD)) AS WH_NM,
-            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = B.MASTER_SN) AS CURRENT_INVEN,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE
         FROM
             CAM_ITEM.DJ_BOM B
@@ -1168,7 +1161,6 @@
     <select id="getBomOutputHistory" parameterType="map" resultType="map">
         /* getBomOutputHistory */
         SELECT
-            B.BOM_TITLE,
             BOH.BOM_SN,
             IM.ITEM_NO,
             IM.ITEM_NAME,
@@ -1208,19 +1200,11 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                <choose>
-                    <when test='"BOM_TITLE".equals(searchKeyword)'>
-                        AND B.BOM_TITLE LIKE CONCAT('%', #{searchValue}, '%')
-                    </when>
-                    <otherwise>
-                        AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
-                    </otherwise>
-                </choose>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
-                        B.BOM_TITLE LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%')
@@ -1250,7 +1234,7 @@
             IM.STANDARD,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'WC' AND LG_CD = 'WH' AND ITEM_CD = IFNULL(II.WH_CD,IM.WH_CD)) AS WH_NM,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE GRP_SN = 'UN' AND LG_CD = 'UNIT' AND ITEM_CD = IM.ITEM_UNIT_CD) AS ITEM_UNIT_NM,
-            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = B.MASTER_SN) AS CURRENT_INVEN,
             IM.SAFETY_INVEN
         FROM
             CAM_ITEM.DJ_BOM_DETAIL BD
@@ -1307,14 +1291,12 @@
         /* setBomCopy */
         INSERT INTO CAM_ITEM.DJ_BOM
         (
-            BOM_TITLE,
             MASTER_SN,
             BOM_COST_PRICE,
             BOM_UNIT_PRICE,
             REG_EMP_SEQ
         )
         SELECT
-            CONCAT(BOM_TITLE, ' - 복사본'),
             MASTER_SN,
             BOM_COST_PRICE,
             BOM_UNIT_PRICE,
@@ -1426,7 +1408,6 @@
         UPDATE
             CAM_ITEM.DJ_BOM
         SET
-            CURRENT_INVEN = CURRENT_INVEN + ${outputCnt},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE

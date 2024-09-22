@@ -17,7 +17,6 @@ var bomRegList = {
         $("#whCd").data("kendoDropDownList").bind("change", bomRegList.gridReload);
 
         bomRegList.global.dropDownDataSource = [
-            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },

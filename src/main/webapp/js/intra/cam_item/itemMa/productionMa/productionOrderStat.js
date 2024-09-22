@@ -17,7 +17,6 @@ var pos = {
         $("#whCd").data("kendoDropDownList").bind("change", pos.gridReload);
 
         pos.global.dropDownDataSource = [
-            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
@@ -66,10 +65,6 @@ var pos = {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                }, {
-                    title: "BOM명",
-                    field: "BOM_TITLE",
-                    width: 150
                 }, {
                     title: "품번",
                     field: "ITEM_NO",

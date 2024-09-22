@@ -567,8 +567,8 @@ public class ItemManageServiceImpl implements ItemManageService {
             }
         }
 
-        /** bom 생산 재고 업데이트 */
-        itemManageRepository.setBomCurrentInvenUpd(params);
+        /** bom 생산 재고 업데이트 2024. 09. 22 제거 */
+//        itemManageRepository.setBomCurrentInvenUpd(params);
 
         /** bom 창고 입고*/
         Map<String, Object> invenSn = itemManageRepository.getItemInvenValidation(params);
