@@ -32,11 +32,18 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">사업년도</th>
                         <td>
-                            <input type="text" id="fromMonth" style="width: 10%;">
+                            <input type="text" id="fromMonth">
+                        </td>
+                        <th class="text-center th-color">프로젝트명</th>
+                        <td>
+                            <input type="text" id="pjtNm" onkeypress="if(window.event.keyCode==13){projectConfigView.mainGrid()}" style="width: 30%">
                         </td>
                     </tr>
                 </table>

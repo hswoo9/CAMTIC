@@ -102,13 +102,13 @@
                             <span class="red-star">*</span>표준단가
                         </th>
                         <td>
-                            <input type="text" id="unitPrice" class="numberInput" name="unitPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="unitPrice" class="numberInput" name="unitPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                         <th>
                             <span class="red-star">*</span>원가
                         </th>
                         <td>
-                            <input type="text" id="costPrice" class="numberInput" name="costPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="costPrice" class="numberInput" name="costPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                     </tr>
                     <tr>
@@ -116,14 +116,14 @@
                             <span class="red-star">*</span>판매가(B2B1)
                         </th>
                         <td>
-                            <input type="text" id="b2bPrice" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="b2bPrice" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;" value="0"> 원
                             <input type="hidden" id="consumerPrice" class="numberInput" name="consumerPrice" style="width: 150px; text-align: right;" value="0">
                         </td>
                         <th>
                             비고1
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc" name="b2bPrice" style="width: 150px; text-align: left;">
+                            <input type="text" id="b2bEtc" name="b2bPrice" style="width: 150px; text-align: left;" value="-">
                         </td>
                     </tr>
                     <tr>
@@ -131,13 +131,13 @@
                             <span class="red-star">*</span>판매가(B2B2)
                         </th>
                         <td>
-                            <input type="text" id="b2bPrice2" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="b2bPrice2" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                         <th>
                             비고2
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc2" name="b2bPrice" style="width: 150px; text-align: left;">
+                            <input type="text" id="b2bEtc2" name="b2bPrice" style="width: 150px; text-align: left;" value="-">
                         </td>
                     </tr>
                     <tr>
@@ -145,13 +145,13 @@
                             <span class="red-star">*</span>판매가(B2B3)
                         </th>
                         <td>
-                            <input type="text" id="b2bPrice3" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="b2bPrice3" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                         <th>
                             비고3
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc3" name="b2bPrice" style="width: 150px; text-align: left;">
+                            <input type="text" id="b2bEtc3" name="b2bPrice" style="width: 150px; text-align: left;" value="-">
                         </td>
                     </tr>
                     <tr>
@@ -159,13 +159,13 @@
                             <span class="red-star">*</span>판매가(B2B4)
                         </th>
                         <td>
-                            <input type="text" id="b2bPrice4" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="b2bPrice4" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                         <th>
                             비고4
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc4" name="b2bPrice" style="width: 150px; text-align: left;">
+                            <input type="text" id="b2bEtc4" name="b2bPrice" style="width: 150px; text-align: left;" value="-">
                         </td>
                     </tr>
                     <tr>
@@ -173,13 +173,13 @@
                             <span class="red-star">*</span>판매가(B2B5)
                         </th>
                         <td>
-                            <input type="text" id="b2bPrice5" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                            <input type="text" id="b2bPrice5" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;" value="0"> 원
                         </td>
                         <th>
                             비고5
                         </th>
                         <td>
-                            <input type="text" id="b2bEtc5" name="b2bPrice" style="width: 150px; text-align: left;">
+                            <input type="text" id="b2bEtc5" name="b2bPrice" style="width: 150px; text-align: left;" value="-">
                         </td>
                     </tr>
                 </thead>

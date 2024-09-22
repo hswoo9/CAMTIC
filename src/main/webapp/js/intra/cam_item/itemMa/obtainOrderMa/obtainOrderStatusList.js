@@ -82,6 +82,13 @@ var oosl = {
                         }
                     }
                 }, {
+                    title: "견적금액",
+                    field: "TOT_AMT",
+                    width: 120,
+                    template : function(e){
+                        return '<div style="text-align: right;">' + comma(e.TOT_AMT) + '</div>';
+                    }
+                }, {
                     title: "수주일자",
                     field: "ORDER_DT",
                     width: 160,

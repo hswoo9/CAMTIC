@@ -20,8 +20,9 @@ var projectConfigView = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.year = $("#fromMonth").val();
+                    data.pjtNm = $("#pjtNm").val();
 
-                    data.year = $("#fromMonth").val()
                     return data;
                 }
 

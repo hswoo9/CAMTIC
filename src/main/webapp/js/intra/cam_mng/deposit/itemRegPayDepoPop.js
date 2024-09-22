@@ -257,7 +257,6 @@ var itemRegPayDepo = {
             depoManager : $("#depoManager").val(),
             depoTitle : $("#depoTitle").val(),
             depoCont : $("#depoCont").val(),
-            bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),

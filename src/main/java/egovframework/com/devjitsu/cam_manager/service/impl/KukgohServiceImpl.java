@@ -87,6 +87,12 @@ public class KukgohServiceImpl implements KukgohService {
             }
         }
 
+        list.sort(
+            Comparator.comparing(m -> m.get("BGT_CD") != null ? Integer.parseInt((String)m.get("BGT_CD")) : null,
+                Comparator.nullsLast(Integer::compareTo)
+            )
+        );
+
         return list;
     }
 

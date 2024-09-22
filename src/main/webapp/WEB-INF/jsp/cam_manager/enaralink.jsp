@@ -45,13 +45,9 @@
                         <td>
                             <input type="text" id="fromMonth" style="width: 45%;"> ~ <input type="text" id="endMonth" style="width: 45%;">
                         </td>
-                        <th class="text-center th-color">발의부서</th>
+                        <th class="text-center th-color">조회유형</th>
                         <td>
-                            <input type="text" id="deptComp" style="width: 150px;" disabled >
-                        </td>
-                        <th class="text-center th-color">발의자</th>
-                        <td>
-                            <input type="text" id="searchValue" style="width: 90%;" value="${loginVO.name}" disabled >
+                            <input type="text" id="searchType" style="width: 150px;" onchange="enaralink.mainGrid()">
                         </td>
                         <th class="text-center th-color">전송상태</th>
                         <td>

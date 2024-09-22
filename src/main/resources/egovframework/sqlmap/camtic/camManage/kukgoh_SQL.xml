@@ -93,7 +93,7 @@
         LEFT JOIN CAM_ERP.T_IFR_ETXBL_REQUST_ERP H ON H.ETXBL_CONFM_NO = A.ISS_NO
         LEFT JOIN CAM_ERP.DJ_ERP_SEND I ON I.TRNSC_ID = H.TRNSC_ID
         LEFT JOIN CAM_ERP.T_IFS_ETXBL_RESULT_ERP J ON J.ETXBL_CONFM_NO = H.ETXBL_CONFM_NO
-        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK K ON (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = B.PJT_CD GROUP BY PJT_CD HAVING COUNT(PJT_CD) = 1) = K.PJT_SN
+        JOIN CAM_ERP.DJ_PROJECT_LINK K ON (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = B.PJT_CD GROUP BY PJT_CD HAVING COUNT(PJT_CD) = 1) = K.PJT_SN
         LEFT JOIN CAM_ERP.DJ_BUDGET_CODE L ON A.BUDGET_SN = L.BUDGET_SN
         WHERE
             B.DOC_STATUS = 100
@@ -117,8 +117,10 @@
         <if test='"D".equals(status)'>
             AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NOT NULL AND G.PROCESS_RESULT_CODE != '000'))
         </if>
-        <if test='!"".equals(searchValue) and searchValue != null'>
-            AND (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.REG_EMP_SEQ) = #{searchValue}
+        <if test='searchType != null and !"".equals(searchType)'>
+            <if test='"emp".equals(searchType)'>
+                AND B.REG_EMP_SEQ = #{empSeq}
+            </if>
         </if>
     </select>
 
@@ -187,6 +189,11 @@
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_SN = B.PJT_SN
         WHERE #{year} BETWEEN DATE_FORMAT(STR_DT, '%Y') AND DATE_FORMAT(END_DT, '%Y')
+        <if test='pjtNm != null and !"".equals(pjtNm)'>
+        AND
+            A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+        </if>
+        ORDER BY A.STR_DT DESC
     </select>
 
     <select id="getEnaraPjtData" parameterType="map" resultType="map">

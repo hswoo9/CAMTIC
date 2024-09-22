@@ -9,6 +9,11 @@ var enaralink = {
 
     fn_defaultScript: function () {
 
+        enaralink.global.dropDownDataSource = [
+            { text: "내 지출결의서 조회", value: "emp" },
+        ]
+        customKendo.fn_dropDownList("searchType", enaralink.global.dropDownDataSource, "text", "value");
+
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
 
@@ -55,12 +60,15 @@ var enaralink = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-
                     data.strDt = $("#fromMonth").val();
                     data.endDt = $("#endMonth").val();
                     data.exceptYn = "N";
                     data.status = $("#status").data("kendoDropDownList").value();
-                    data.searchValue = $("#searchValue").val();
+
+                    data.searchType = $("#searchType").val();
+                    if($("#searchType").val() == "emp"){
+                        data.empSeq = $("#myEmpSeq").val();
+                    }
 
                     return data;
                 }
