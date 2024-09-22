@@ -139,7 +139,7 @@ var enaralink = {
                     width: 100,
                     template : function(e) {
                         if(e.LNK_PJT_SN == null || e.BG_SN == null){
-                            return "<button type='button' class='k-button k-button-solid-primary' onclick='enaralink.fn_sendUnable(" + e.LNK_PJT_SN + "," + e.BG_SN + ")'>전송불가</button>";
+                            return "<button type='button' class='k-button k-button-solid-primary' onclick='enaralink.fn_sendUnable(" + (e.LNK_PJT_SN != null ? e.LNK_PJT_SN : null) + "," + (e.BG_SN != null ? e.BG_SN : null) + ")'>전송불가</button>";
                         }else{
                             if(e.EVID_TYPE == 1 || e.EVID_TYPE == 2) {
                                 if(e.ISS_RSP_CD == "SUCC" && e.ISS_PROCESS_RESULT_CODE == "000") {
@@ -347,11 +347,11 @@ var enaralink = {
     },
 
     fn_sendUnable : function(l, b) {
-        if(l != null && b != null){
+        if(l == null && b == null){
             alert("사업프로젝트를 설정해주세요.<br>예산과목을 설정해주세요.");
-        }else if(l != null){
+        }else if(l == null){
             alert("사업프로젝트를 설정해주세요.");
-        }else if(b != null){
+        }else if(b == null){
             alert("예산과목을 설정해주세요.");
         }
 
