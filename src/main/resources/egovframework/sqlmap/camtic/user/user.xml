@@ -35,6 +35,7 @@
             HEI.OFFICE_TEL_NUM,
             scp.dec_b64('KEY1', HEI.EMAIL_ADDR) AS EMAIL_ADDR,
             scp.dec_b64('KEY1', HEI.MOBILE_TEL_NUM) AS MOBILE_TEL_NUM,
+            scp.dec_b64('KEY1', HEI.RES_REGIS_NUM) AS RES_REGIS_NUM,
             HEI.HOME_TEL_NUM,
             HDI.DEPT_LEVEL,
             HEI.DIVISION,
