@@ -21,7 +21,7 @@
         approvalParams.menuCd = "poem";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "57";
+        approvalParams.linkageProcessId = "61";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticPoem";
         approvalParams.approKey = "camticPoem_${params.poemSn}";
