@@ -291,6 +291,10 @@ var depositList = {
     },
 
     gridReload : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         depositList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             eviType : $("#eviType").val(),
