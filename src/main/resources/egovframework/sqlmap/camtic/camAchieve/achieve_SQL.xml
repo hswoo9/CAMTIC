@@ -757,7 +757,7 @@
             LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
         AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
         AND YEAR(A.EXNP_DE) = #{reqYear}
-        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9))
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND S.ACTIVE = 'Y')
     </select>
 
     <select id="getIncpCompAmt" parameterType="map" resultType="map">
@@ -772,7 +772,7 @@
             LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
         AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
         AND YEAR(A.EXNP_DE) = #{reqYear}
-        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '1')
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '1' AND S.ACTIVE = 'Y')
     </select>
 
     <select id="getIncpCompAmt2" parameterType="map" resultType="map">
@@ -787,7 +787,7 @@
             LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
         AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
         AND YEAR(A.EXNP_DE) = #{reqYear}
-        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '2')
+        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '2' AND S.ACTIVE = 'Y')
     </select>
 
     <select id="getRealUseExnpAmt" parameterType="map" resultType="map">
@@ -1015,7 +1015,7 @@
 
     <select id="getPlanExnpAmt" parameterType="map" resultType="map">
         /*getPlanExnpAmt*/
-        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1'
+        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1' AND S.ACTIVE = 'Y'
     </select>
 
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
