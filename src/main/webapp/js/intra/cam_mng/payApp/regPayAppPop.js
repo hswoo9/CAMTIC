@@ -1999,6 +1999,9 @@ var regPay = {
         }
         $("#appDe").val(rs.APP_DE)
         $("#reqDe").val(rs.REQ_DE)
+        if(rs.DOC_STATUS == 0 || rs.DOC_STATUS == 30 || rs.DOC_STATUS == 40){
+            selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD);
+        }
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
         $("#pjtCd").val(rs.PJT_CD)
