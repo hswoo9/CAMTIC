@@ -308,4 +308,14 @@ public class DocViewProcessController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    /** 시말서 전자결재 페이지*/
+    @RequestMapping("/popup/customDoc/approvalFormPopup/poemApprovalPop.do")
+    public String poemApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/docView/approvalFormPopup/poemApprovalPop";
+    }
 }

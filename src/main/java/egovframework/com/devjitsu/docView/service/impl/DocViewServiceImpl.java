@@ -363,4 +363,28 @@ public class DocViewServiceImpl implements DocViewService {
 
         return path;
     }
+
+    @Override
+    public void savePoem(Map<String, Object> params) {
+        if(params.containsKey("poemSn")){
+            docViewRepository.updatePoem(params);
+        } else {
+            docViewRepository.insertPoem(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getPoemData(Map<String, Object> params) {
+        return docViewRepository.getPoemData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPoemList(Map<String, Object> params) {
+        return docViewRepository.getPoemList(params);
+    }
+
+    @Override
+    public void delPoem(Map<String, Object> params) {
+        docViewRepository.delPoem(params);
+    }
 }
