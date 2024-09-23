@@ -2250,7 +2250,7 @@
             CASE
                 WHEN TRIP_CODE = 1 THEN '도내(시내)'
                 WHEN TRIP_CODE = 2 THEN '도내(시외)'
-                WHEN TRIP_CODE = 3 THEN '도내(도외)'
+                WHEN TRIP_CODE = 3 THEN '도외'
                 WHEN TRIP_CODE = 4 THEN '도내(해외)'
                 ELSE ''
             END AS TRIP_TYPE,
