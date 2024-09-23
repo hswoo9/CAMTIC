@@ -3619,7 +3619,7 @@
             LEFT(PJT_CD, 9)  = LEFT(#{pjtCd}, 9)
         AND
             TEAM_STAT = 'N'
-        limit 1
+        ORDER BY PJT_SN DESC LIMIT 1
     </select>
 
     <select id="getProjectByDocId" parameterType="map" resultType="map">
