@@ -1934,11 +1934,13 @@ var regPay = {
             success : function (rs){
                 var list = rs.list;
                 var flag = true;
-                for(var i = 0 ; i  < list.length ; i++){
-                    if(list[i].TOT_COST > list[i].BUDGET_AMT) {
-                        alert("예산잔액을 초과했습니다.");
-                        flag = false;
-                        return;
+                if($("#payAppType").data("kendoRadioGroup").value() == "1") {
+                    for(var i = 0 ; i  < list.length ; i++){
+                        if(list[i].TOT_COST > list[i].BUDGET_AMT) {
+                            alert("예산잔액을 초과했습니다.");
+                            flag = false;
+                            return;
+                        }
                     }
                 }
 
