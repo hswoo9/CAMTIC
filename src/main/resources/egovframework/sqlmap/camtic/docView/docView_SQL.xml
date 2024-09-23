@@ -1082,6 +1082,7 @@
         /*getPoemData*/
         SELECT
             A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') REG_DE,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
