@@ -12,7 +12,7 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "89";
+        approvalParams.formId = "197";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.docTitle = "[시말서]${loginVO.orgnztNm}-${loginVO.name}";
@@ -24,7 +24,7 @@
         approvalParams.linkageProcessId = "57";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticPoem";
-        approvalParams.approKey = "camticPoem_${params.detSn}";
+        approvalParams.approKey = "camticPoem_${params.poemSn}";
 
         linkageProcessOn(approvalParams);
     }
