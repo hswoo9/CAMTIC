@@ -286,6 +286,10 @@ var paymentList = {
     },
 
     gridReload : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         paymentList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             regEmpSeq : $("#myEmpSeq").val(),

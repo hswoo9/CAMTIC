@@ -102,4 +102,12 @@ public interface DocViewService {
     List<Map<String, Object>> getReinstatList(Map<String, Object> params);
 
     void delReinstat(Map<String, Object> params);
+
+    void savePoem(Map<String, Object> params);
+
+    Map<String, Object> getPoemData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPoemList(Map<String, Object> params);
+
+    void delPoem(Map<String, Object> params);
 }

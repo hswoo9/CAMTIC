@@ -178,7 +178,11 @@ var srrl = {
                 {
                     headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        return "<input type='checkbox' class='checkItem' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
+                        if(e.DEADLINE == "N"){
+                            return "<input type='checkbox' class='checkItem' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
+                        }else{
+                            return ""
+                        }
                         // if(e.OVERALL_INVEN != "0"){
                         //
                         // }else{
@@ -254,7 +258,19 @@ var srrl = {
                         if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
                             return "납품완료"
                         }else {
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
+                            if(e.DEADLINE == "N"){
+                                return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + (Number(e.DELIVERY_VOLUME) - Number(e.DELIVERY_AMT)) + "' id='deliveryVolume" + e.SM_RECORD_SN + "' style='text-align: right;' value='" + str + "'>";
+                            }else{
+                                if(e.UNPAID_TYPE == "N"){
+                                    return "완납"
+                                }else if(e.UNPAID_TYPE == "P"){
+                                    return "일부미납"
+                                }else if(e.UNPAID_TYPE == "C"){
+                                    return "전체미납"
+                                }else if(e.UNPAID_TYPE == "Y"){
+                                    return "진행중"
+                                }
+                            }
                         }
                     },
                     attributes : {
@@ -297,7 +313,7 @@ var srrl = {
                         if(e.RMK != null && e.RMK != undefined){
                             rmk = e.RMK
                         }
-                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
+                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME || e.DEADLINE == "Y"){
                             return rmk;
                         }else {
                             return "<input type='text' class='k-input k-textbox' id='rmk" + e.SM_RECORD_SN + "' value='" + rmk + "'>";
@@ -307,7 +323,11 @@ var srrl = {
                     title: "상태",
                     width: 80,
                     template : function (e){
-                        return "진행중";
+                        if(e.DEADLINE == "N"){
+                            return "진행중";
+                        }else{
+                            return "마감";
+                        }
                     },
                 }
             ],
