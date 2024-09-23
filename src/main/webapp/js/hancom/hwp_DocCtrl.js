@@ -83,6 +83,12 @@ var hwpDocCtrl = {
 
                     //생년월일
                     let birthDay = ResultData.BDAY.split("-");
+
+                    const userInfo = getUser(ResultData.EMP_SEQ);
+                    console.log("userInfo", userInfo);
+                    if(userInfo.DIVISION == "3"){
+                        birthDay = convertRrnToDate(userInfo.RES_REGIS_NUM).split("-");
+                    }
                     let birthDayText = "";
                     if(birthDay.length < 2){
                         birthDayText = "- 년 "+"- 월 "+" - 일";
@@ -105,7 +111,6 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                     hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
-                    const userInfo = getUser(ResultData.EMP_SEQ);
                     console.log(userInfo);
                     if(userInfo.DIVISION == "1" && userInfo.DIVISION_SUB == "6"){
                         hwpDocCtrl.putFieldText('positionName', "위촉직원");

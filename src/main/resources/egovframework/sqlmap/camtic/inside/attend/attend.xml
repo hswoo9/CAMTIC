@@ -960,19 +960,11 @@
     <select id="holidayWorkApplicationListForCustomExcelDown" parameterType="map" resultType="map">
         /* holidayWorkApplicationListForCustomExcelDown */
         SELECT
-            M.HOLIDAY_WORK_MASTER_SN,
+            M.*, SM.*, SC.*,
             M.STATUS AS DOC_STATUS,
             CAM_HR.FN_GETNAME('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = SM.APPLY_SEQ), 'KR') AS DEPT_NAME2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = SM.APPLY_SEQ) AS EMP_NAME_KR,
-            SC.SUBHOLIDAY_DT_CODE_NM,
             DATE_FORMAT(SM.APPLY_DATE, '%Y-%m-%d') AS APPLY_DAY,
-            SM.SUBHOLIDAY_WORK_DAY,
-            SM.APPR_STAT,
-            M.DOC_ID,
-            M.ACTIVE,
-            M.STATUS,
-            M.REG_EMP_SEQ,
-            SM.SUBHOLIDAY_CODE_ID,
             CASE
                 WHEN M.STATUS = '100' OR M.STATUS = '101' THEN '결재완료'
                 WHEN M.STATUS = '10' OR M.STATUS ='20' OR M.STATUS = '50' THEN '결재중'
@@ -1023,7 +1015,7 @@
             </otherwise>
         </choose>
 
-        ORDER BY sm.APPLY_DATE DESC, EMP_NAME_KR DESC , SUBHOLIDAY_WORK_DAY ASC
+        ORDER BY sm.APPLY_DATE DESC
     </select>
 
     <insert id="setAttendAdjustment" parameterType="map">

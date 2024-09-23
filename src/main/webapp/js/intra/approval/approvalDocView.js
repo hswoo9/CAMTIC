@@ -600,8 +600,8 @@ var docView = {
                             const signField = "appr0";
                             if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -644,8 +644,8 @@ var docView = {
                                 }
                             }else{
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -707,8 +707,8 @@ var docView = {
 
                         if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -751,8 +751,8 @@ var docView = {
                             }
                         }else{
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -805,8 +805,8 @@ var docView = {
 
                         if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -849,8 +849,8 @@ var docView = {
                             }
                         }else{
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -906,8 +906,8 @@ var docView = {
 
                             if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -950,8 +950,8 @@ var docView = {
                                 }
                             }else{
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1013,8 +1013,8 @@ var docView = {
                             const signField = "appr1";
                             if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1057,8 +1057,8 @@ var docView = {
                                 }
                             }else{
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1119,8 +1119,8 @@ var docView = {
                         const signField = "appr2";
                         if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1163,8 +1163,8 @@ var docView = {
                             }
                         }else{
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1228,8 +1228,8 @@ var docView = {
                         if(hwpDocCtrl.fieldExist(signField)){
                             if(hwpDocCtrl.getFieldText(signField) == "" || hwpDocCtrl.getFieldText(signField) == " "){
                                 const fieldName = signField;
-                                const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                                const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                                let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                                let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                                 const type = "view";
 
                                 /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
@@ -1281,8 +1281,8 @@ var docView = {
                         if(cRouteMap.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
                             const signField = "cAppr" + i;
                             const fieldName = signField;
-                            const empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
-                            const empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
+                            let empSeq = docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ;
+                            let empName = docView.global.rs.approveNowRoute.APPROVE_EMP_NAME;
                             const type = "view";
 
                             /** 부재설정이 되어있으면 대결자의 정보가 들어감 */

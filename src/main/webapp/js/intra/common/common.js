@@ -806,3 +806,30 @@ function setNextMonthDate(date, day){
 
     return yyyy + '-' + mm + '-' + dd;
 }
+
+/** 주민등록번호를 입력받아 생년월일 데이터 출력 */
+function convertRrnToDate(rrn) {
+    if (rrn.length != 14 || rrn.charAt(6) != "-") {
+        return "00000000";
+    }
+
+    const yearPrefix19 = ["1", "2"];
+    const yearPrefix20 = ["3", "4"];
+
+    const yearLastTwoDigits = rrn.substring(0, 2);
+    const month = rrn.substring(2, 4);
+    const day = rrn.substring(4, 6);
+    const genderCode = rrn.charAt(7);
+
+    let yearPrefix = "19";
+    if (yearPrefix19.includes(genderCode)) {
+        yearPrefix = "19";
+    } else if (yearPrefix20.includes(genderCode)) {
+        yearPrefix = "20";
+    } else {
+        return "00000000";
+    }
+    const year = yearPrefix + yearLastTwoDigits;
+
+    return `${year}-${month}-${day}`;
+}
