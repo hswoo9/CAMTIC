@@ -251,4 +251,11 @@ public class DocViewRepository extends AbstractDAO {
     public void delReinstat(Map<String, Object> params) {
         delete("docView.delReinstat", params);
     }
+
+    //시말서
+    public void updatePoem(Map<String, Object> params) {update("docView.updatePoem", params);}
+    public void insertPoem(Map<String, Object> params) {insert("docView.insertPoem", params);}
+    public Map<String, Object> getPoemData(Map<String, Object> params) {return (Map<String, Object>) selectOne("docView.getPoemData", params);}
+    public List<Map<String, Object>> getPoemList(Map<String, Object> params) {return selectList("docView.getPoemList", params);}
+    public void delPoem(Map<String, Object> params) {delete("docView.delPoem", params);}
 }

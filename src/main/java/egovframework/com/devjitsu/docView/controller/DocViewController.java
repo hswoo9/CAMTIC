@@ -873,4 +873,78 @@ public class DocViewController {
 
         return "popup/docView/popAssetList";
     }
+
+    //시말서
+    @RequestMapping("/customDoc/poem.do")
+    public String poem(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "docView/poem";
+    }
+
+    //시말서 팝업
+    @RequestMapping("/customDoc/pop/popPoem.do")
+    public String popPoem(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+
+        return "popup/docView/popPoem";
+    }
+
+    @RequestMapping("/customDoc/savePoem")
+    public String savePoem(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.savePoem(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getPoemData")
+    public String getPoemData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = docViewService.getPoemData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/getPoemList")
+    public String getPoemList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = docViewService.getPoemList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/customDoc/delPoem")
+    public String delPoem(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            docViewService.delPoem(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

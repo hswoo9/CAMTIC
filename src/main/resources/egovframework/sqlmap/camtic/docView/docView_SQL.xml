@@ -1033,4 +1033,84 @@
         WHERE
             REINSTAT_SN = #{reinstatSn}
     </delete>
+
+    <insert id="insertPoem" parameterType="map">
+        /*insertPoem*/
+        INSERT INTO CAM_INSIDE.DJ_TP_POEM
+        (
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            POSITION,
+            POEM_CONT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{position},
+            #{poemCont},
+            #{empSeq}
+        )
+        <selectKey keyProperty="poemSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_TP_POEM'
+        </selectKey>
+    </insert>
+
+    <update id="updatePoem" parameterType="map">
+        /*updatePoem*/
+        UPDATE
+            CAM_INSIDE.DJ_TP_POEM
+        SET
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            POSITION = #{position},
+            POEM_CONT = #{poemCont},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = now()
+        WHERE
+            POEM_SN = #{poemSn}
+    </update>
+
+    <select id="getPoemData" parameterType="map" resultType="map">
+        /*getPoemData*/
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_TP_POEM A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            POEM_SN = #{poemSn}
+    </select>
+
+    <select id="getPoemList" parameterType="map" resultType="map">
+        /*getPoemList*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DE,
+            DI.DOC_NO
+        FROM
+            CAM_INSIDE.DJ_TP_POEM A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <delete id="delPoem" parameterType="map">
+        /*delPoem*/
+        DELETE FROM
+            CAM_INSIDE.DJ_TP_POEM
+        WHERE
+            POEM_SN = #{poemSn}
+    </delete>
 </mapper>
