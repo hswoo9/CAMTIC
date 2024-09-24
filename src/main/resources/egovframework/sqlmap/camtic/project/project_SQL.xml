@@ -1662,15 +1662,6 @@
         ]]>
     </update>
 
-    <update id="updProjectGoods" parameterType="map">
-        /* updProjectGoods */
-        UPDATE CAM_PJT_MNG.DJ_PROJECT
-        SET
-            GOODS_DT = #{delvDe}
-        WHERE
-            PJT_SN = #{pjtSn}
-    </update>
-
     <update id="updEngn" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
@@ -2082,7 +2073,10 @@
         /*updGoodInfo*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            DELV_DE = #{delvDe},
+            <if test='delvDe != null and !"".equals(delvDe)'>
+                DELV_DE = #{delvDe},
+                GOODS_DT = #{delvDe},
+            </if>
             GOODS_ISS = #{goodsIss}
         WHERE
             PJT_SN = #{pjtSn}
@@ -4074,11 +4068,51 @@
         </selectKey>
     </insert>
 
+    <insert id="setPjtDelvDe" parameterType="map">
+        /* setPjtDelvDe */
+        INSERT INTO CAM_PJT_MNG.DJ_DELV_DE_SET
+            (
+                PJT_SN,
+                DELV_DE,
+                SET_ISS,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{delvDe},
+                #{setIss},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="DELV_DE_SET_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_DELV_DE_SET'
+        </selectKey>
+    </insert>
+
+    <update id="setDelvDe" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_DE = #{delvDe},
+            GOODS_DT = #{delvDe}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <select id="getPjtAmtSetList" parameterType="map" resultType="map">
         /*getPjtAmtSetList*/
         SELECT
             *
         FROM CAM_PJT_MNG.DJ_AMT_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getPjtDelvDeSetList" parameterType="map" resultType="map">
+        /*getPjtDelvDeSetList*/
+        SELECT
+            *
+        FROM CAM_PJT_MNG.DJ_DELV_DE_SET
         WHERE
             PJT_SN = #{pjtSn}
         AND ACTIVE = 'Y'

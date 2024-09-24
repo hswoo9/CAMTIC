@@ -29,10 +29,12 @@
 
 
 <input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
+<input type="hidden" id="saveCk" value="N"/>
 
 <div style="padding: 10px">
     <div id="btnDiv">
         <button type="button" id="teamAppBtn" style="display:none; float: right;" class="k-button k-button-solid-base" onclick="goodsInfo.fn_teamProjectApp()">프로젝트 마감</button>
+        <button type="button" id="delvDeHistBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="goodsInfo.pjtDelvDeSetPop()">납품일자 변경</button>
         <button type="button" id="saveBtn2" style="float: right; margin-right: 5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="goodsInfo.fn_save()">저장</button>
         <button type="button" id="printBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="goodsInfo.goodsPrintPop()">인쇄</button>
     </div>

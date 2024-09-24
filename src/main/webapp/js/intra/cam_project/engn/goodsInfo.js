@@ -38,8 +38,12 @@ var goodsInfo = {
 
         const pjtInfo = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: $("#pjtSn").val()});
         const pjtMap = pjtInfo.map;
-        if(pjtMap.DELV_DE != null && pjtMap.DELV_DE != ""){
+        if(pjtMap.DELV_DE != null && pjtMap.DELV_DE != "") {
             $("#goodsDelvDe").val(pjtMap.DELV_DE);
+            $("#delvDeHistBtn").show();
+            $("#saveCk").val("Y");
+        } else {
+            $("#delvDeHistBtn").hide();
         }
 
 
@@ -148,10 +152,9 @@ var goodsInfo = {
         var data = {
             estSn : $("#estSn").val(),
             pjtSn : $("#pjtSn").val(),
-            delvDe : $("#goodsDelvDe").val(),
             goodsTotAmt : goodsInfo.uncomma($("#goodsTotAmt").val()),
             goodsIss : $("#goodsIss").val(),
-
+            delvDe : $("#goodsDelvDe").val(),
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),
             nextStepColumn : $("#nextStepColumn").val(),
@@ -164,10 +167,11 @@ var goodsInfo = {
         var fd = new FormData();
         fd.append("pjtSn", data.pjtSn);
         fd.append("estSn", data.estSn);
-        fd.append("delvDe", data.delvDe);
         fd.append("goodsTotAmt", data.goodsTotAmt);
         fd.append("goodsIss", data.goodsIss);
-
+        if($("#saveCk").val() == "N"){
+            fd.append("delvDe", data.delvDe);
+        }
         fd.append("step", data.step);
         fd.append("stepColumn", data.stepColumn);
         fd.append("nextStepColumn", data.nextStepColumn);
@@ -329,5 +333,12 @@ var goodsInfo = {
         var name = "goodsPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
+    },
+
+    pjtDelvDeSetPop: function(){
+        let url = "/project/pjtDelvDeSetPop.do?pjtSn="+$("#pjtSn").val();
+        const name = "pjtAmtSetPop";
+        const option = "width = 800, height = 689, top = 150, left = 400, location = no";
+        window.open(url, name, option);
     }
 }
