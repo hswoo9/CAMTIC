@@ -1935,6 +1935,16 @@ public class ProjectController {
         return "popup/cam_project/engineering/pjtAmtSetPop";
     }
 
+    /** 납품일자 변경 팝업 */
+    @RequestMapping("/project/pjtDelvDeSetPop.do")
+    public String pjtDelvDeSetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/engineering/pjtDelvDeSetPop";
+    }
+
     @RequestMapping("/project/payAppChooseList")
     public String payAppChooseList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = projectService.payAppChooseList(params);
@@ -1965,9 +1975,27 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setPjtDelvDe")
+    public String setPjtDelvDe(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setPjtDelvDe(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getPjtAmtSetList")
     public String getPjtAmtSetList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = projectService.getPjtAmtSetList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getPjtDelvDeSetList")
+    public String getPjtDelvDeSetList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectService.getPjtDelvDeSetList(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

@@ -156,6 +156,10 @@ var invenSt = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         invenSt.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             searchKeyword : $("#searchKeyword").val(),

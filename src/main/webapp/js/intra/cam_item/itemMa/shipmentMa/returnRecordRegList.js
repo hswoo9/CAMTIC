@@ -150,6 +150,10 @@ var rrl = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         rrl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             whCd : "RT",

@@ -151,6 +151,10 @@ var rvSt = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         rvSt.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             whType : $("#whType").val(),

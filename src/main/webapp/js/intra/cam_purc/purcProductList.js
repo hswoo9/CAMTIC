@@ -135,6 +135,10 @@ var prdList = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         prdList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             purcItemType : $("#purcItemType0").val(),

@@ -155,6 +155,10 @@ var formFolderM = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         formFolderM.global.gridParamData = {
             searchCompSeq : $("#searchCompSeq").val(),
             searchKeyWord : $("#searchKeyWord").val(),

@@ -141,6 +141,10 @@ var po = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         po.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemType : $("#itemType").val(),

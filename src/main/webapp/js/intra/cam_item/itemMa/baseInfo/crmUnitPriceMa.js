@@ -182,6 +182,10 @@ var cupm = {
             url = "/item/getMaterialUnitPriceList.do";
         }
 
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         cupm.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             busClass : "R",

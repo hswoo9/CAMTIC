@@ -98,6 +98,10 @@ var itemL = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         itemL.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemUnitCd : $("#itemUnitCd").val(),

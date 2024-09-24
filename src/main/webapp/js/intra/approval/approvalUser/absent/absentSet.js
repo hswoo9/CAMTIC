@@ -229,6 +229,10 @@ var absentSet = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         absentSet.global.searchAjaxData = {
             absentCode : $("#absentCode").val(),
             aisday : $("#aisday").val(),

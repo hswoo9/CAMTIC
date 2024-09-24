@@ -140,6 +140,10 @@ var mup = {
             url = "/item/getMaterialUnitPriceList.do";
         }
 
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         mup.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             busClass : "W",

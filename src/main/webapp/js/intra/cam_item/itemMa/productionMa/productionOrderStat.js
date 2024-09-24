@@ -122,6 +122,10 @@ var pos = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         pos.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemType : $("#itemType").val(),

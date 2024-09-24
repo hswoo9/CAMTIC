@@ -293,10 +293,6 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProject", params);
     }
 
-    public void updProjectGoods(Map<String, Object> params) {
-        update("project.updProjectGoods", params);
-    }
-
     public void updateDelvApprStat(Map<String, Object> params) {
         update("project.updateDelvApprStat", params);
     }
@@ -844,8 +840,17 @@ public class ProjectRepository extends AbstractDAO {
         update("project.setPjtAmt", params);
     }
 
+    public void setPjtDelvDe(Map<String, Object> params) {
+        update("project.setPjtDelvDe", params);
+        update("project.setDelvDe", params);
+    }
+
     public List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params) {
         return selectList("project.getPjtAmtSetList", params);
+    }
+
+    public List<Map<String, Object>> getPjtDelvDeSetList(Map<String, Object> params) {
+        return selectList("project.getPjtDelvDeSetList", params);
     }
 
     public Map<String, Object> getPjtAmtSetData(Map<String, Object> params) {

@@ -193,6 +193,10 @@ var approveTobe = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         approveTobe.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),

@@ -243,7 +243,11 @@ public interface ProjectService {
 
     void setPjtAmt(Map<String, Object> params);
 
+    void setPjtDelvDe(Map<String, Object> params);
+
     List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtDelvDeSetList(Map<String, Object> params);
 
     Map<String, Object> getPjtAmtSetData(Map<String, Object> params);
 

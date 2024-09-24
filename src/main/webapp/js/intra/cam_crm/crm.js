@@ -171,6 +171,10 @@ var crm = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         crm.global.searchAjaxData = {
             ctmType : $("#ctmType").val(),
             searchKeyword : $("#searchKeyword").val(),

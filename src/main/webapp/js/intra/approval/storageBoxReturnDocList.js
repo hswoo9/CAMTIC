@@ -204,6 +204,10 @@ var storageBoxReturn = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         storageBoxReturn.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             searchKeyword : $("#searchKeyword").val(),
