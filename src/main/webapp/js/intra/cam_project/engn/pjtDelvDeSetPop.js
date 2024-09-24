@@ -54,10 +54,6 @@ var pjtDelvDeSet = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'amtSetSn\');"/>',
-                    template : "<input type='checkbox' id='amtSetSn#=AMT_SET_SN#' name='amtSetSn' class='amtSetSn' value='#=AMT_SET_SN#'/>",
-                    width: 50
-                }, {
                     field: "DELV_DE",
                     title: "변경일자",
                     width: 180,
@@ -65,7 +61,7 @@ var pjtDelvDeSet = {
                     field: "SET_ISS",
                     title: "변경사유",
                     template: function(row){
-                        return "<div style='text-align: right'>"+row.SET_ISS+"</div>";
+                        return "<div style='text-align: left'>"+row.SET_ISS.replaceAll("\n", "<br>")+"</div>";
                     },
                 }
             ]
@@ -86,7 +82,7 @@ var pjtDelvDeSet = {
             alert("저장 중 오류가 발생하였습니다.");
         }else{
             alert("저장 되었습니다.");
-            commonProject.getReloadPage(12, 13, 13, 12, 13, 13);
+            opener.commonProject.getReloadPage(6, 6, 6, 3, 3, 3);
             location.reload();
         }
     }

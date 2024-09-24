@@ -338,7 +338,7 @@ var goodsInfo = {
     pjtDelvDeSetPop: function(){
         let url = "/project/pjtDelvDeSetPop.do?pjtSn="+$("#pjtSn").val();
         const name = "pjtAmtSetPop";
-        const option = "width = 800, height = 689, top = 150, left = 400, location = no";
+        const option = "width = 800, height = 767, top = 150, left = 400, location = no";
         window.open(url, name, option);
     }
 }
