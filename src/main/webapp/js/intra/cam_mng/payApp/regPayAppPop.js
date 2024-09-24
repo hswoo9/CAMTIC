@@ -2566,6 +2566,7 @@ var regPay = {
         var budgetNmFlag = true;
         var trCdFlag = true;
         var tdFlag = true;
+        var costFlag = true;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
@@ -2645,20 +2646,29 @@ var regPay = {
 
             // befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
-            if(data.eviType == ""){
+            if(data.evidType == ""){
                 flag = false;
+            }
+
+            if(data.totCost == "" || data.supCost == "" || data.vatCost == "") {
+                costFlag = false;
             }
             
             itemArr.push(data);
         });
 
         if(!flag){
-            alert("구분값을 선택해주세요.");
+            alert("증빙유형을 선택해주세요.");
             return ;
         }
 
         if(!budgetNmFlag){
             alert("예산비목을 선택해주세요.");
+            return;
+        }
+
+        if(!costFlag){
+            alert("입력되지 않은 금액이 있습니다.");
             return;
         }
 
