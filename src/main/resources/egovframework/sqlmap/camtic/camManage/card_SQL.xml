@@ -8,10 +8,10 @@
         SELECT
             AA.*,
             CASE
-                WHEN AA.BUY_STS = '01' THEN '매입'
-                WHEN AA.BUY_STS = '02' THEN '매입취소'
-                WHEN AA.BUY_STS = '03' THEN '승인'
-                WHEN AA.BUY_STS = '04' THEN '승인취소'
+                WHEN AA.MAX_BUY_STS = '01' THEN '매입'
+                WHEN AA.MAX_BUY_STS = '02' THEN '매입취소'
+                WHEN AA.MAX_BUY_STS = '03' THEN '승인'
+                WHEN AA.MAX_BUY_STS = '04' THEN '승인취소'
                 ELSE ''
             END BUY_STS_TXT,
             CASE
@@ -62,6 +62,7 @@
         (
             SELECT
                 A.*,
+                MAX(A.BUY_STS) AS MAX_BUY_STS,
                 B.CLTTR_CD,
                 B.TR_CD,
                 B.JIRO_NM,
@@ -164,6 +165,7 @@
             UNION ALL
             SELECT
                 A.*,
+                MAX(A.BUY_STS) AS MAX_BUY_STS,
                 B.CLTTR_CD,
                 B.TR_CD,
                 B.JIRO_NM,

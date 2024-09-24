@@ -141,7 +141,7 @@
 		var vatAmt = '${cardInfo.SURTAX}';
 		var serAmt = '${cardInfo.SVC_AMT}';
 		var amt = '${cardInfo.AUTH_AMT}';
-		var foreUseGb = '${cardInfo.FORE_USEGB}';
+		<%--var foreUseGb = '${cardInfo.FORE_USEGB}';--%>
 
 		var mccName = '${cardInfo.BIZTYPE_NM}';
 		if(!mccName){
@@ -159,9 +159,9 @@
 		$('#addr').html(addr);
 		$('#tel').html(tel);
 
-		if(foreUseGb == "0" && Number(amt) != (Number(stdAmt) + Number(vatAmt))) {
-			amt = stdAmt;
-		}
+		// if(foreUseGb == "0" && Number(amt) != (Number(stdAmt) + Number(vatAmt))) {
+		// 	amt = stdAmt;
+		// }
 		
 		$('#stdAmt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, stdAmt), 0 ) );
 		$('#vatAmt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, vatAmt), 0 ) );

@@ -138,14 +138,9 @@ var outUseList = {
                             title: "금액",
                             width: 80,
                             template : function (e){
-                                var authAmt = e.AUTH_AMT;
-                                if(e.FORE_USEGB == "0" && Number(e.AUTH_AMT) != Number(e.SUPP_PRICE + e.SURTAX)){
-                                    authAmt = e.SUPP_PRICE;
-                                }
+                                calcAmSum  += Number(e.AUTH_AMT);
 
-                                calcAmSum  += Number(authAmt);
-
-                                return '<div style="text-align: right;">' + comma(authAmt) + '</div>';
+                                return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
                             },
                             footerTemplate: function(){
                                 return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
