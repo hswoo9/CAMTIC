@@ -1185,7 +1185,6 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delEstSub(params);
 
         projectRepository.updProject(params);
-        projectRepository.updProjectGoods(params);
 
         return params;
     }
@@ -1844,8 +1843,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setPjtDelvDe(Map<String, Object> params) {
+        projectRepository.setPjtDelvDe(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPjtAmtSetList(Map<String, Object> params) {
         return projectRepository.getPjtAmtSetList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtDelvDeSetList(Map<String, Object> params) {
+        return projectRepository.getPjtDelvDeSetList(params);
     }
 
     @Override

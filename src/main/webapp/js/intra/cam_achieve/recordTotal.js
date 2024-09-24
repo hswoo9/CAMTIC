@@ -308,7 +308,7 @@ var recordTotal = {
                         if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
                             eopAmt = (e.planAmt || 0);
                         }
-                        eopAmt2 = eopAmt - (e.incpCompAmt1 || 0) + Number(e.pjtAmtSetData.AMT3) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+                        eopAmt2 = eopAmt - (e.incpCompAmt1 || 0) + Number(e.pjtAmtSetData.AMT3) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
                         tmpProfitAmtSum += Number(eopAmt2);
                         return '<div style="text-align: right;">'+comma(eopAmt2)+'</div>';
                     },

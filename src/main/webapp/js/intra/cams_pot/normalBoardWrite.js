@@ -98,6 +98,12 @@ var normalArticleWrite = {
 		}
 
 		normalArticleWrite.setKendoUpload();
+
+		if(normalArticleWrite.global.params.boardId == "45") {
+			$("#infoTxtDiv").show();
+		} else {
+			$("#infoTxtDiv").hide();
+		}
 	},
 
 	getArticleFileSet : function (attachFile){

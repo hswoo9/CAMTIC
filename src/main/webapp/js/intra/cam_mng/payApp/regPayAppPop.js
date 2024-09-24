@@ -1934,11 +1934,13 @@ var regPay = {
             success : function (rs){
                 var list = rs.list;
                 var flag = true;
-                for(var i = 0 ; i  < list.length ; i++){
-                    if(list[i].TOT_COST > list[i].BUDGET_AMT) {
-                        alert("예산잔액을 초과했습니다.");
-                        flag = false;
-                        return;
+                if($("#payAppType").data("kendoRadioGroup").value() == "1") {
+                    for(var i = 0 ; i  < list.length ; i++){
+                        if(list[i].TOT_COST > list[i].BUDGET_AMT) {
+                            alert("예산잔액을 초과했습니다.");
+                            flag = false;
+                            return;
+                        }
                     }
                 }
 
@@ -1997,6 +1999,9 @@ var regPay = {
         }
         $("#appDe").val(rs.APP_DE)
         $("#reqDe").val(rs.REQ_DE)
+        if(rs.DOC_STATUS == 0 || rs.DOC_STATUS == 30 || rs.DOC_STATUS == 40){
+            selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD);
+        }
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
         $("#pjtCd").val(rs.PJT_CD)
@@ -2561,6 +2566,7 @@ var regPay = {
         var budgetNmFlag = true;
         var trCdFlag = true;
         var tdFlag = true;
+        var costFlag = true;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
@@ -2640,20 +2646,29 @@ var regPay = {
 
             // befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
-            if(data.eviType == ""){
+            if(data.evidType == ""){
                 flag = false;
+            }
+
+            if(data.totCost == "" || data.supCost == "" || data.vatCost == "") {
+                costFlag = false;
             }
             
             itemArr.push(data);
         });
 
         if(!flag){
-            alert("구분값을 선택해주세요.");
+            alert("증빙유형을 선택해주세요.");
             return ;
         }
 
         if(!budgetNmFlag){
             alert("예산비목을 선택해주세요.");
+            return;
+        }
+
+        if(!costFlag){
+            alert("입력되지 않은 금액이 있습니다.");
             return;
         }
 

@@ -300,5 +300,28 @@ var docViewInit = {
             hwpDocCtrl.moveToField("REINSTAT_CONT", true, true, false);
             hwpDocCtrl.setTextFile(map.REINSTAT_CONT.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1500);
-    }
+    },
+
+    /** 시말서 */
+    poemInit: function(poemSn){
+        const poemInfo = customKendo.fn_customAjax("/customDoc/getPoemData", {poemSn : poemSn});
+        const map = poemInfo.data;
+
+        const userInfo = getUser(map.EMP_SEQ);
+
+        hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
+        hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
+
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        /** 내용 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("POEM_CONT", "");
+            hwpDocCtrl.moveToField("POEM_CONT", true, true, false);
+            hwpDocCtrl.setTextFile(map.POEM_CONT.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
+
 }

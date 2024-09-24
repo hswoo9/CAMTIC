@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=4'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/normalBoardWrite.js?v=5'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/normalBoardWrite.js?v=6'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <style>
     .k-action-buttons {
@@ -71,6 +71,9 @@
                 <tr style="display: none" id="fileTr">
                     <th scope="row" class="text-center th-color">첨부파일</th>
                     <td>
+                        <div id="infoTxtDiv" style="color: red; font-weight: bold; margin-bottom: 3px; display: none;">
+                            ※ 관련 기안문서(공고 등에 대한 근거)도 첨부 바람
+                        </div>
                         <div style="max-width: 100% !important;">
                             <div style="width:100%;" >
                                 <input name="files" id="files" type="file" aria-label="files" />

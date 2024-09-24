@@ -106,7 +106,7 @@
                             <th>품번</th>
                             <th>품명</th>
                             <th>품목구분</th>
-                            <th>단가</th>
+                            <th>원가</th>
                             <th>필요수량</th>
                             <th>합계</th>
                             <th>비고</th>
@@ -125,6 +125,7 @@
             <input type="hidden" id="itemName">
             <input type="hidden" id="itemCdName">
             <input type="hidden" id="maxUnitPrice">
+            <input type="hidden" id="maxCostPrice">
             <input type="hidden" id="whCdNm">
             <input type="hidden" id="standard">
             <input type="hidden" id="itemType">

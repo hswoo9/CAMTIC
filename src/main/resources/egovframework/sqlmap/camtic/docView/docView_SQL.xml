@@ -1082,6 +1082,7 @@
         /*getPoemData*/
         SELECT
             A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') REG_DE,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
@@ -1104,6 +1105,7 @@
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             EMP_SEQ = #{empSeq}
+        ORDER BY REG_DT DESC
     </select>
 
     <delete id="delPoem" parameterType="map">

@@ -57,8 +57,12 @@
                 </tr>
                 <tr>
                     <th>성명</th>
-                    <td colspan="3">
+                    <td>
                         <input type="text" id="empName" disabled name="empName" value="${loginVO.name}">
+                    </td>
+                    <th>신청일자</th>
+                    <td>
+                        <input type="text" id="poemDe" disabled name="poemDe">
                     </td>
                 </tr>
                 <tr>
@@ -121,6 +125,7 @@
         $("#empName").val(result.EMP_NAME);
         $("#position").val(result.POSITION);
         $("#poemCont").val(result.POEM_CONT);
+        $("#poemDe").val(result.REG_DE);
 
         fn_btnSet(result);
         fn_kendoUIEnableSet(result);

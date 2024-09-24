@@ -328,6 +328,8 @@
 
     <select id="getAllProjectList" parameterType="map" resultType="map">
         /* getAllProjectList */
+
+        /* 단년 사업 */
         SELECT * FROM (
         SELECT
         A.PJT_SN, A.PJT_CD, A.BUSN_CLASS, A.BUSN_NM, A.PJT_NM, A.PJT_AMT, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS END_DT, A.EMP_NAME, A.PM, A.PJT_STEP, A.PJT_STEP_NM, A.PJT_STOP
@@ -343,6 +345,7 @@
 
         UNION ALL
 
+        /* 다년사업이면서 차년도가 여러개인것들 */
         SELECT
         A.PJT_SN, A.PJT_CD, A.BUSN_CLASS, A.BUSN_NM, A.PJT_NM, A.PJT_AMT, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS END_DT, A.EMP_NAME, A.PM, A.PJT_STEP, A.PJT_STEP_NM, A.PJT_STOP
         FROM
@@ -352,6 +355,17 @@
 
         UNION ALL
 
+        /* 다년사업이면서 차년도가 1개인것들 */
+        SELECT
+        A.PJT_SN, A.PJT_CD, A.BUSN_CLASS, A.BUSN_NM, A.PJT_NM, A.PJT_AMT, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS END_DT, A.EMP_NAME, A.PM, A.PJT_STEP, A.PJT_STEP_NM, A.PJT_STOP
+        FROM
+        CAM_PJT_MNG.DJ_PROJECT A
+        WHERE
+        PJT_SN IN (SELECT AA.PJT_SN AS PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT AA WHERE AA.YEAR_CLASS = 'M' AND AA.TEAM_STAT = "N" AND AA.PARENT_PJT_SN IS NULL AND AA.PJT_SN NOT IN (SELECT MAX(A.PJT_SN) AS PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT A WHERE A.YEAR_CLASS = 'M' AND A.TEAM_STAT = "N" AND A.PARENT_PJT_SN IS NOT NULL GROUP BY A.PARENT_PJT_SN))
+
+        UNION ALL
+
+        /* 정부사업 */
         SELECT
         B.CORP_PJT_SN AS PJT_SN, B.CORP_PJT_CD AS PJT_CD, 'M' AS BUSN_CLASS, '법인' AS BUSN_NM, B.CORP_PJT_NM AS PJT_NM, 0 AS PJT_AMT, B.STR_DT AS STR_DT, B.END_DT AS END_DT, B.PM_EMP_NAME AS EMP_NAME, B.PM_EMP_NAME AS PM, '' AS PJT_STEP, '' AS PJT_STEP_NM, 'N' AS PJT_STOP
         FROM
@@ -1648,15 +1662,6 @@
         ]]>
     </update>
 
-    <update id="updProjectGoods" parameterType="map">
-        /* updProjectGoods */
-        UPDATE CAM_PJT_MNG.DJ_PROJECT
-        SET
-            GOODS_DT = #{delvDe}
-        WHERE
-            PJT_SN = #{pjtSn}
-    </update>
-
     <update id="updEngn" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
@@ -2068,7 +2073,10 @@
         /*updGoodInfo*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            DELV_DE = #{delvDe},
+            <if test='delvDe != null and !"".equals(delvDe)'>
+                DELV_DE = #{delvDe},
+                GOODS_DT = #{delvDe},
+            </if>
             GOODS_ISS = #{goodsIss}
         WHERE
             PJT_SN = #{pjtSn}
@@ -3605,7 +3613,7 @@
             LEFT(PJT_CD, 9)  = LEFT(#{pjtCd}, 9)
         AND
             TEAM_STAT = 'N'
-        limit 1
+        ORDER BY PJT_SN DESC LIMIT 1
     </select>
 
     <select id="getProjectByDocId" parameterType="map" resultType="map">
@@ -4060,11 +4068,51 @@
         </selectKey>
     </insert>
 
+    <insert id="setPjtDelvDe" parameterType="map">
+        /* setPjtDelvDe */
+        INSERT INTO CAM_PJT_MNG.DJ_DELV_DE_SET
+            (
+                PJT_SN,
+                DELV_DE,
+                SET_ISS,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{delvDe},
+                #{setIss},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="DELV_DE_SET_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_DELV_DE_SET'
+        </selectKey>
+    </insert>
+
+    <update id="setDelvDe" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_DE = #{delvDe},
+            GOODS_DT = #{delvDe}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <select id="getPjtAmtSetList" parameterType="map" resultType="map">
         /*getPjtAmtSetList*/
         SELECT
             *
         FROM CAM_PJT_MNG.DJ_AMT_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getPjtDelvDeSetList" parameterType="map" resultType="map">
+        /*getPjtDelvDeSetList*/
+        SELECT
+            *
+        FROM CAM_PJT_MNG.DJ_DELV_DE_SET
         WHERE
             PJT_SN = #{pjtSn}
         AND ACTIVE = 'Y'

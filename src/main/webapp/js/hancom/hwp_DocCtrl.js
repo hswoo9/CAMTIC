@@ -630,6 +630,10 @@ var hwpDocCtrl = {
             const key = data.approKey.split("_")[1];
             if (key == null || key == undefined || key == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             docViewInit.reinstatInit(key);
+        }else if(data.menuCd == "poem") {
+            const key = data.approKey.split("_")[1];
+            if (key == null || key == undefined || key == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            docViewInit.poemInit(key);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -928,6 +932,12 @@ var hwpDocCtrl = {
             const key = pk;
             if (key == null || key == undefined || key == "") { alert(errorText); return; }
             docViewInit.reinstatInit(key);
+
+        }else if(data.menuCd == "poem") {
+
+            const key = pk;
+            if (key == null || key == undefined || key == "") { alert(errorText); return; }
+            docViewInit.poemInit(key);
 
         }
 
