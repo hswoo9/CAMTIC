@@ -230,6 +230,7 @@ var popItemNoList = {
                     opener.parent.$("#standard").val(rs.STANDARD);
                     opener.parent.$("#itemType").val(rs.ITEM_TYPE);
                     opener.parent.$("#maxUnitPrice").val(rs.UNIT_PRICE);
+                    opener.parent.$("#maxCostPrice").val(rs.COST_PRICE);
 
                     if(opener.parent.bomReg != null) {
                         if(opener.parent.bomReg.global.masterSnIndex == 999){
