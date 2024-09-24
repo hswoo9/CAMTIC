@@ -208,6 +208,10 @@ var storageBoxDraft = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         storageBoxDraft.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             searchKeyword : $("#searchKeyword").val(),

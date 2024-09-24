@@ -102,6 +102,10 @@ var systemLingSet = {
     },
 
     gridReload : function () {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         systemLingSet.global.gridParamData = {
             searchCompSeq : $("#searchCompSeq").val(),
             searchKeyWord : $("#searchKeyWord").val()

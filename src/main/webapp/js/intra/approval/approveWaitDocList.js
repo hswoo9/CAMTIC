@@ -192,6 +192,10 @@ var approveWaitDocList = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         approveWaitDocList.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),

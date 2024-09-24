@@ -313,6 +313,10 @@ var formM = {
     },
 
     gridReload : function () {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         formM.global.gridParamData = {
             searchCompSeq : $("#searchCompSeq").val(),
             searchKeyWord : $("#searchKeyWord").val(),

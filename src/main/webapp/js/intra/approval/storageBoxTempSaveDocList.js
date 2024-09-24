@@ -172,6 +172,10 @@ var storageBoxTemp = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         storageBoxTemp.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             searchKeyword : $("#searchKeyword").val(),

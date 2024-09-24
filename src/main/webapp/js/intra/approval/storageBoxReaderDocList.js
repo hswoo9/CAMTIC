@@ -222,6 +222,10 @@ var storageBoxReader = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         storageBoxReader.global.searchAjaxData = {
             groupSeq : $("#groupSeq").val(),
             compSeq : $("#compSeq").val(),
