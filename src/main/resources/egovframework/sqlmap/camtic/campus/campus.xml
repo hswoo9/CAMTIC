@@ -3402,6 +3402,7 @@
         FROM
             CAM_HR.DJ_EMP_INFO
         WHERE 1=1
+          AND WORK_STATUS_CODE = 'Y'
           AND DEPT_SEQ =
               <choose>
                   <when test='"ld".equals(type)'>
