@@ -25,6 +25,10 @@ var bustList = {
     },
 
     gridReload: function (){
+        if($("#bustripMainGrid").data("kendoGrid") != null){
+            $("#bustripMainGrid").data("kendoGrid").destroy();
+        }
+        
         bustList.global.searchAjaxData = {
             startDate : $("#start_date").val(),
             endDate : $("#end_date").val(),

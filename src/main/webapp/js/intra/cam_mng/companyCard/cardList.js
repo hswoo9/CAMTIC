@@ -23,6 +23,10 @@ var cardList = {
     },
 
     mainGrid : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {

@@ -28,6 +28,10 @@ var mouAgr = {
     },
 
     fn_mainGridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         mouAgr.global.searchAjaxData = {
             baseYear : $("#baseYear").val(),
             searchKeyword : $("#searchKeyword").val(),

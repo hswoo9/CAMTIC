@@ -218,6 +218,10 @@ var entryList = {
     },
 
     gridReload : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         entryList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),

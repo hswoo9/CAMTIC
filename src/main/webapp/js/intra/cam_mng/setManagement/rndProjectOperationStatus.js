@@ -37,6 +37,10 @@ var rndStat = {
     },
 
     gridReload : function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         this.mainGrid();
     },
 

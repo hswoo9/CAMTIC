@@ -161,6 +161,10 @@ var incomeReList = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         incomeReList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
