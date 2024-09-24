@@ -191,4 +191,25 @@
         WHERE
             REINSTAT_SN = #{reinstatSn}
     </update>
+
+    <update id="updatePoemApprStat" parameterType="map">
+        /* updatePoemApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_POEM
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            POEM_SN = #{poemSn}
+    </update>
+
+    <update id="updatePoemFinalApprStat" parameterType="map">
+        /* updatePoemFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_TP_POEM
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            POEM_SN = #{poemSn}
+    </update>
 </mapper>
