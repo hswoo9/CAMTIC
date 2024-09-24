@@ -503,6 +503,8 @@ public class PayAppServiceImpl implements PayAppService {
                     }
                 }
             }*/
+        }else if("20".equals(docSts)) { // 중간결재
+            payAppRepository.updatePayAppApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updatePayAppApprStat(params);
 
@@ -555,6 +557,8 @@ public class PayAppServiceImpl implements PayAppService {
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             payAppRepository.updateExnpApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
+            payAppRepository.updateExnpApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updateExnpApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
@@ -591,6 +595,8 @@ public class PayAppServiceImpl implements PayAppService {
         params.put("empSeq", empSeq);
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            payAppRepository.updateIncpApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
             payAppRepository.updateIncpApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updateIncpApprStat(params);

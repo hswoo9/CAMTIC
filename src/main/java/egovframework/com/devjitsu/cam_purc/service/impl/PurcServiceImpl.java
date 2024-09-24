@@ -247,6 +247,8 @@ public class PurcServiceImpl implements PurcService {
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             purcRepository.updatePurcApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
+            purcRepository.updatePurcApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             purcRepository.updatePurcApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
@@ -290,6 +292,8 @@ public class PurcServiceImpl implements PurcService {
         params.put("empSeq", empSeq);
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            purcRepository.updateClaimApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
             purcRepository.updateClaimApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             purcRepository.updateClaimApprStat(params);

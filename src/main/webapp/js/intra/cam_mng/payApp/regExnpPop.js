@@ -154,6 +154,9 @@ var regExnp = {
                 }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     $("#mode").val("view");
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
+                }else if(data.DOC_STATUS == "20"){
+                    $("#mode").val("view");
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">결재중</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     if($("#docMode").val() != "new"){

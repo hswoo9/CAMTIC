@@ -1306,7 +1306,7 @@ var reqCl = {
     fn_kendoUIEnableSet : function(claimMap){
         if(claimMap != null){
             /** 상신, 재상신, 최종결재완료 상태일때 UI비활성화 */
-            if(claimMap.STATUS == "10" || claimMap.STATUS == "50" || claimMap.STATUS == "100"){
+            if(claimMap.STATUS == "10" || claimMap.STATUS == "20" || claimMap.STATUS == "50" || claimMap.STATUS == "100"){
                 $(':radio').attr('disabled', true);
                 $('.k-input-inner').attr('disabled', true);
                 $("#pjtSelBtn").css("display", "none");
