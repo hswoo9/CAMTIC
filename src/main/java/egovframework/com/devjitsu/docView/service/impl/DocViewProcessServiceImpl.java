@@ -344,7 +344,7 @@ public class DocViewProcessServiceImpl implements DocViewProcessService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("detSn", approKey);
+        params.put("poemSn", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));
