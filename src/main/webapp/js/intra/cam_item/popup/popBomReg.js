@@ -104,7 +104,7 @@ var bomReg = {
                     '<input type="text" id="itemCdName' + bomReg.global.bomDetailIndex + '" class="itemCdName k-input k-textbox" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onchange="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')">' +
+                    '<input type="text" id="costPrice' + bomReg.global.bomDetailIndex + '" class="costPrice k-input k-textbox numberInput" style="text-align: right" readonly onchange="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange(' + bomReg.global.bomDetailIndex + ')" value="0">' +
@@ -256,7 +256,7 @@ var bomReg = {
             $("#detail" + i).find("#masterSn" + i).val(e[i].MASTER_SN)
             $("#detail" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
             $("#detail" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
-            $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE_A));
+            $("#detail" + i).find("#costPrice" + i).val(bomReg.comma(e[i].COST_PRICE_A));
             $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
             $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
             $("#detail" + i).find("#itemCdName" + i).val(e[i].ITEM_TYPE_NM);
@@ -277,6 +277,9 @@ var bomReg = {
             $("#itemType" + bomReg.global.masterSnIndex).val($("#itemType").val())
             $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
             $("#unitPrice" + bomReg.global.masterSnIndex).change()
+
+            $("#costPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxCostPrice").val()))
+            $("#costPrice" + bomReg.global.masterSnIndex).change()
         }else{
             alert("원자재는 BOM을 등록하실 수 없습니다.");
         }
@@ -293,7 +296,7 @@ var bomReg = {
     costPriceChange : function(idx){
         var sum = 0;
         var amt = 0;
-        $.each($("#bomDetailTb .unitPrice"), function(){
+        $.each($("#bomDetailTb .costPrice"), function(){
             sum += Number(bomReg.uncomma($(this).val())) * Number(bomReg.uncomma($(this).closest("tr").find("input.reqQty").val()));
         })
 
