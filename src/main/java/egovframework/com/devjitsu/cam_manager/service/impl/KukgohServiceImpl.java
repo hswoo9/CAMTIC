@@ -296,8 +296,9 @@ public class KukgohServiceImpl implements KukgohService {
             fileMap.put("TRNSC_ID", params.get("TRNSC_ID"));
             fileMap.put("FILE_SN", fileCnt);
             fileMap.put("FILE_ID", params.get("FILE_ID"));
-            fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("FILE_SN") + "_" + fileMap.get("file_org_name").toString() + "-" + fileMap.get("file_ext").toString());
             fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileMap.get("file_org_name").toString().replaceAll("'", "") + "." + fileMap.get("file_ext").toString());
+            fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+
             fileMap.put("CNTC_CREAT_DT", params.get("CNTC_CREAT_DT"));
 
             fileCp(fileMap);
@@ -355,7 +356,7 @@ public class KukgohServiceImpl implements KukgohService {
         directoryConfirmAndMake("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/");
 
         Path source = Paths.get("/home" + fileMap.get("file_path").toString().replaceAll("http://218.158.231.184", "") + "/" + fileMap.get("file_uuid").toString());
-        Path destination = Paths.get("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString().replaceAll("'", ""));
+        Path destination = Paths.get("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_FILE_NM").toString());
 
         try {
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
