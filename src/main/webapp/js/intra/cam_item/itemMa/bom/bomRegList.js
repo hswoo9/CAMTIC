@@ -150,6 +150,10 @@ var bomRegList = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         bomRegList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemType : $("#itemType").val(),

@@ -348,6 +348,10 @@ var oosl = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         oosl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             startDt : $("#startDt").val(),

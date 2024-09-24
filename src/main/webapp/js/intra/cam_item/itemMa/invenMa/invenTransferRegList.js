@@ -142,6 +142,10 @@ var invenTrl = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         invenTrl.global.searchAjaxData = {
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),

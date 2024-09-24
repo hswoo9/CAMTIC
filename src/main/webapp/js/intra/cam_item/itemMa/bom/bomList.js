@@ -127,6 +127,10 @@ var bomList = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         bomList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemType : $("#itemType").val(),

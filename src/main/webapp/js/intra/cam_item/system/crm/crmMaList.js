@@ -137,6 +137,10 @@ var cml = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         cml.global.searchAjaxData = {
             ctmType : $("#ctmType").val(),
             searchKeyword : $("#searchKeyword").val(),

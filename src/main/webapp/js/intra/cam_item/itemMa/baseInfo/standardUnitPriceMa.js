@@ -135,6 +135,10 @@ var supM = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         supM.global.searchAjaxData = {
             masterSn : $("#masterSn").val(),
             searchKeyword : $("#searchKeyword").val(),

@@ -210,6 +210,10 @@ var srl = {
     },
 
     gridReload: function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         srl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             startDt : $("#startDt").val(),

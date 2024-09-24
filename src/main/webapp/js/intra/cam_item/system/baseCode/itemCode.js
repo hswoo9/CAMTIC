@@ -11,6 +11,10 @@ var codeI = {
     },
 
     gridReload : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         codeI.global.searchAjaxData = {
             cmGroupCode : $("#cmGroupCode").val(),
             cmGroupCodeNm : $("#cmGroupCodeNm").val(),
