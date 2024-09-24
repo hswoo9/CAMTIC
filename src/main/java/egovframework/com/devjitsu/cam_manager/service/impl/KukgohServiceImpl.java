@@ -355,7 +355,7 @@ public class KukgohServiceImpl implements KukgohService {
         directoryConfirmAndMake("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/");
 
         Path source = Paths.get("/home" + fileMap.get("file_path").toString().replaceAll("http://218.158.231.184", "") + "/" + fileMap.get("file_uuid").toString());
-        Path destination = Paths.get("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString());
+        Path destination = Paths.get("/fs_data/kukgoh/" + fileMap.get("INTRFC_ID") + "/" + fileMap.get("TRNSC_ID") + "/attach/" + fileMap.get("CNTC_ORG_FILE_NM").toString().replaceAll("'", ""));
 
         try {
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
