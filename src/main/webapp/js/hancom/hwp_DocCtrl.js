@@ -933,6 +933,12 @@ var hwpDocCtrl = {
             if (key == null || key == undefined || key == "") { alert(errorText); return; }
             docViewInit.reinstatInit(key);
 
+        }else if(data.menuCd == "poem") {
+
+            const key = pk;
+            if (key == null || key == undefined || key == "") { alert(errorText); return; }
+            docViewInit.poemInit(key);
+
         }
 
         /** 재상신이면 사인 초기화 */

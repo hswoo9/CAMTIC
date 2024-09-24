@@ -311,8 +311,7 @@ var docViewInit = {
 
         hwpDocCtrl.putFieldText("EMP_NAME", userInfo.EMP_NAME_KR);
         hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.DEPT_NAME);
-        //hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
-        hwpDocCtrl.putFieldText("POSITION", map.POSITION);
+        hwpDocCtrl.putFieldText("POSITION", fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
 
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
