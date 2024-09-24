@@ -1226,7 +1226,6 @@
             IM.ITEM_TYPE,
             IM.COST_PRICE,
             IM.UNIT_PRICE AS UNIT_PRICE_A,
-            IM.COST_PRICE AS COST_PRICE_A,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, '] X ', BD.REQ_QTY) AS TREE_NAME,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,

@@ -256,7 +256,7 @@ var bomReg = {
             $("#detail" + i).find("#masterSn" + i).val(e[i].MASTER_SN)
             $("#detail" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
             $("#detail" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
-            $("#detail" + i).find("#costPrice" + i).val(bomReg.comma(e[i].COST_PRICE_A));
+            $("#detail" + i).find("#costPrice" + i).val(bomReg.comma(e[i].COST_PRICE));
             $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
             $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
             $("#detail" + i).find("#itemCdName" + i).val(e[i].ITEM_TYPE_NM);
