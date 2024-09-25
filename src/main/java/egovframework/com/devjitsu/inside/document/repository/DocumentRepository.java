@@ -21,6 +21,10 @@ public class DocumentRepository extends AbstractDAO {
         return selectList("document.getDocuContractList", params);
     }
 
+    public List<Map<String, Object>> getDocuContractExcelDownList(Map<String, Object> params) {
+        return selectList("document.getDocuContractExcelDownList", params);
+    }
+
     public Map<String, Object> getDocuContractOne(Map<String, Object> params) {
         return (Map<String, Object>)selectOne("document.getDocuContractOne", params);
     }

@@ -324,6 +324,14 @@ public class DocumentController {
         return "jsonView";
     }
 
+    //계약대장 커스텀 리스트 엑셀 다운
+    @RequestMapping("/inside/getDocuContractExcelDownList")
+    public String getDocuContractExcelDownList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getDocuContractExcelDownList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //계약대장 데이터 조회
     @RequestMapping("/inside/getDocuContractOne")
     public String getDocuContractOne(@RequestParam Map<String, Object> params, Model model) {

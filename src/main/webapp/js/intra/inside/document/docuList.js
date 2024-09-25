@@ -63,6 +63,7 @@ var docuContractList = {
 
     mainGrid: function (){
         var dataSource = new kendo.data.DataSource({
+            pageSize: 9999,
             serverPaging: false,
             transport: {
                 read : {
@@ -87,7 +88,6 @@ var docuContractList = {
                     return data.list.length;
                 },
             },
-            pageSize: 10,
         });
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
@@ -115,11 +115,16 @@ var docuContractList = {
                             '</button>';
                     }
                 }, {
-                    name: 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuContractList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }
             ],
-            excel : {
+            /*excel : {
                 fileName : "계약대장 목록.xlsx",
                 filterable : true
             },
@@ -187,7 +192,7 @@ var docuContractList = {
                         }
                     }
                 }
-            },
+            },*/
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -218,7 +223,7 @@ var docuContractList = {
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약건명",
-                    width: 150,
+                    width: 250,
                     template : function(e){
                         if (e.DEL_STS == 1) {
                             return '<div style="text-align: left; text-decoration: none; font-weight: bold; cursor: pointer" onclick="docuContractList.docuPopup(' + e.DOCUMENT_CONTRACT_SN + ', ' + e.CLASS_SN + ')">' + titleCut(e.PROJECT_NAME, 36) + '</div>';
@@ -243,18 +248,16 @@ var docuContractList = {
                         }
                     }
                 }, {
-                    field: "CONTRACT_PERIOD",
                     title: "계약 기간",
-                    width: 150,
+                    width: 120,
                     template: function(row) {
                         return row.START_DE+" ~ "+row.END_DE;
                     }
                 }, {
                     field: "CO_NAME",
                     title: "계약 업체(자)",
-                    width: 120,
+                    width: 120
                 }, {
-                    field: "FILE_YN",
                     title: "문서",
                     width: 50,
                     template : function(row){
@@ -271,8 +274,9 @@ var docuContractList = {
 
                     }
                 }, {
+                    field: "REMARK_CN",
                     title: "비고",
-                    width: "5%",
+                    width: 50,
                     template: function(row){
                         if(row.ETC_CN != "") {
                             return "<span onmouseover='docuContractList.showEtcDiv(\""+row.DOCUMENT_CONTRACT_SN+"\")' onmouseout='docuContractList.hideEtcDiv(\""+row.DOCUMENT_CONTRACT_SN+"\")'>보기</span>";
@@ -379,6 +383,96 @@ var docuContractList = {
             })
         }
     },
-    
+
+    hiddenGrid: function(url, params){
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 99999),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "ROW_NUM",
+                    title: "연번",
+                    width: 50
+                },{
+                    field: "METHOD_NAME",
+                    title: "계약방법",
+                    width: 60
+                },{
+                    field: "CLASS_NAME",
+                    title: "구분",
+                    width: 60
+                }, {
+                    field: "DOCU_NUM",
+                    title: "계약 번호",
+                    width: 100
+                }, {
+                    field: "DOCU_DE",
+                    title: "계약 일시",
+                    width: 80
+                }, {
+                    field: "PROJECT_NAME",
+                    title: "계약건명",
+                    width: 250
+                }, {
+                    field: "CUSTOM_PROJECT_MONEY",
+                    title: "계약 금액",
+                    width: 100
+                }, {
+                    field: "CONTRACT_PERIOD",
+                    title: "계약 기간",
+                    width: 200
+                }, {
+                    field: "CO_NAME",
+                    title: "계약 업체(자)",
+                    width: 200
+                }, {
+                    field: "FILE_YN",
+                    title: "문서",
+                    width: 50
+                }, {
+                    field: "REMARK_CN",
+                    title: "비고",
+                    width: 300
+                },{
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 150
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
+    fn_excelDownload : function (){
+        if (btnCk) {
+            return;
+        }
+        btnCk = true;
+
+        let data = {
+            classType : $("#classType").val(),
+            searchType : $("#searchType").val(),
+            searchText : $("#searchText").val(),
+            start : $("#startDt").val(),
+            end : $("#endDt").val()
+        }
+
+        docuContractList.hiddenGrid("/inside/getDocuContractExcelDownList", data);
+
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "계약대장 목록.xlsx";
+        });
+        grid.saveAsExcel();
+
+        setTimeout(() => {
+            btnCk = false;
+        }, 500);
+    }
+
 
 }
