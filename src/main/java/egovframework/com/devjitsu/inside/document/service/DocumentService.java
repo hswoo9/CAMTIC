@@ -96,6 +96,7 @@ public interface DocumentService {
      */
     void setDocuContractInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String base_dir);
     void setDocuContractDel(Map<String, Object> params);
+    void setDocuContractUnlink(Map<String, Object> params);
 
     /**
      * 식대대장 신청

@@ -49,7 +49,7 @@ var docuContractList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            value : new Date(new Date().setMonth(new Date().getMonth() - 1))
         });
 
         $("#endDt").kendoDatePicker({
@@ -57,7 +57,7 @@ var docuContractList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() + 2))
+            value : new Date(new Date().setMonth(new Date().getMonth() + 2))
         });
     },
 

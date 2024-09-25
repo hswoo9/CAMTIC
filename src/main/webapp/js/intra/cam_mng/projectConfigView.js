@@ -1,13 +1,23 @@
 var projectConfigView = {
 
     global: {
-
+        dropDownDataSource : "",
     },
 
     fn_defaultScript: function () {
         customKendo.fn_datePicker("fromMonth", 'decade', "yyyy", new Date());
 
+        projectConfigView.global.dropDownDataSource = [
+            { text: "미설정", value: "N" },
+            { text: "설정완료", value: "Y" }
+        ]
+        customKendo.fn_dropDownList("searchType", projectConfigView.global.dropDownDataSource, "text", "value");
+
         projectConfigView.mainGrid();
+    },
+
+    gridReload : function(){
+        $("#kukgohPjtConfigGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid : function(){
@@ -15,14 +25,14 @@ var projectConfigView = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/kukgoh/getProjectList',
+                    url : "/kukgoh/getProjectList",
                     dataType : "json",
                     type : "post"
                 },
                 parameterMap: function(data) {
                     data.year = $("#fromMonth").val();
                     data.pjtNm = $("#pjtNm").val();
-
+                    data.searchType = $("#searchType").data("kendoDropDownList").value();
                     return data;
                 }
 
@@ -56,7 +66,7 @@ var projectConfigView = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="projectConfigView.mainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="projectConfigView.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -152,7 +162,7 @@ var projectConfigView = {
             success : function(rs){
                 if(rs.code == 200){
                     alert(rs.message);
-                    projectConfigView.mainGrid();
+                    projectConfigView.gridReload();
                 }
             }
         })

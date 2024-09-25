@@ -298,6 +298,16 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public void setDocuContractUnlink(Map<String, Object> params) {
+        try{
+            documentRepository.setDocuContractUnlink(params);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
+
+    @Override
     public void setSnackInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         Gson gson = new Gson();
         List<Map<String, Object>> amt = gson.fromJson((String) params.get("amtUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());

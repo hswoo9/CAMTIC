@@ -197,4 +197,6 @@ public class DocumentRepository extends AbstractDAO {
     public void setIncomeFileDocNm(Map<String, Object> params) {
         update("document.setIncomeFileDocNm", params);
     }
+
+    public void setDocuContractUnlink(Map<String, Object> params) {update("document.setDocuContractUnlink", params);}
 }

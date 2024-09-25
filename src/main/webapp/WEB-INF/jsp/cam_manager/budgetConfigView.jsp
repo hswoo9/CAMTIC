@@ -28,9 +28,9 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="">
                         <col width="10%">
-                        <col width="">
+                        <col width="10%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">예산그룹</th>
@@ -42,8 +42,8 @@
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 15%;"/>
-                            <input type="text" id="searchValue" style="width: 50%;" onkeypress="if(window.event.keyCode==13){budgetConfigView.gridReload()}"/>
+                            <input type="text" id="searchKeyword" style="width: 200px;"/>
+                            <input type="text" id="searchValue" style="width: 300px;" onkeypress="if(window.event.keyCode==13){budgetConfigView.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

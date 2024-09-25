@@ -1365,4 +1365,13 @@
             file_no = #{file_no}
         AND file_cd = #{file_cd}
     </update>
+
+    <update id="setDocuContractUnlink" parameterType="map">
+        /* setDocuContractUnlink */
+        UPDATE CAM_INSIDE.DJ_DOCUMENT_CONTRACT
+        SET
+            UNLINK_YN = 'Y'
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
 </mapper>

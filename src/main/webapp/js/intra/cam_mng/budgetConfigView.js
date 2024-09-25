@@ -5,13 +5,13 @@ var budgetConfigView = {
     },
 
     fn_defaultScript: function () {
-        var dropDownDataSource = [
-            { text: "장", value: "A" },
-            { text: "관", value: "B" },
-            { text: "항", value: "C" },
+        budgetConfigView.global.dropDownDataSource = [
+            { text: "예산코드", value: "A" },
+            { text: "장", value: "B" },
+            { text: "관", value: "C" },
+            { text: "항", value: "D" }
         ]
-
-        customKendo.fn_dropDownList("searchKeyword", dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", budgetConfigView.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
 
         budgetConfigView.mainGrid();
@@ -35,10 +35,10 @@ var budgetConfigView = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.groupCd = 'T000';
-                    data.grFg = '2';
-                    data.searchKeyword = $("#searchKeyword").val();
-                    data.searchValue = $("#searchValue").val();
+                    data.groupCd = 'T000'
+                    data.grFg = '2'
+                    data.searchKeyword = $("#searchKeyword").val()
+                    data.searchValue = $("#searchValue").val()
                     return data;
                 }
 
