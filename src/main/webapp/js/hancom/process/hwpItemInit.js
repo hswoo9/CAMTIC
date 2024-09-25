@@ -107,14 +107,6 @@ var itemInit = {
     },
 
     htmlObtainOrderItem: function(){
-        let ip = "";
-
-        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "http://218.158.231.184";
-        }else{
-            ip = "http://218.158.231.184";
-        }
-
         const list = itemInit.global.obtainOrderItemList;
         const data = itemInit.global.obtainOrderData;
 
@@ -186,12 +178,14 @@ var itemInit = {
 
         html += '   <tr style="border-bottom: white;">';
         html += '       <td colspan="6" style="background-color:#FFFFFF; text-align:left;">';
-        html += '       <div style="margin-top: 5px; font-size: 11.5px;">' + data.RMK + '</div>';
+        html += '           <div style="margin-top: 5px;font-size: 11px;">' + data.RMK + '</div>';
+        html += '       </td>';
         html += '   </tr>';
 
         html += '</table>';
 
         console.log(html);
+
         return html.replaceAll("\n", "<br>");
     }
 }

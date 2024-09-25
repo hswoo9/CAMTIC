@@ -42,7 +42,6 @@
 
 <script type="text/javascript">
     let params = JSON.parse('${params}');
-    const serverName = '${pageContext.request.serverName}';
     estPrintPop.init('${nowKr}');
 </script>
 </body>
