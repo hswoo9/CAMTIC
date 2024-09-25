@@ -290,6 +290,7 @@
                     <col width="30%">
                     <col width="20%">
                     <col width="10%">
+                    <col width="10%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -307,6 +308,9 @@
                     </th>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>금액
+                    </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>연동
                     </th>
                 </tr>
                 </thead>

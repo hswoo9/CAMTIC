@@ -659,5 +659,12 @@ public class DocumentController {
         return "jsonView";
     }
 
+    /** 계약대장 구매청구서 연동 해제 */
+    @RequestMapping("/inside/setDocuContractUnlink")
+    public String setDocuContractUnlink(@RequestParam Map<String, Object> params) {
+        documentService.setDocuContractUnlink(params);
+
+        return "jsonView";
+    }
 
 }

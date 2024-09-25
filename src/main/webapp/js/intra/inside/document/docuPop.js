@@ -177,7 +177,7 @@ var docuContractReq = {
 
     setClassSnVisibility : function(classSn){
         if(classSn == 3){
-            $("#productTable").css("display", "");
+            //$("#productTable").css("display", "");
         } else {
             $("#productTable").css("display", "none");
         }
@@ -254,7 +254,7 @@ var docuContractReq = {
             $("#rentalEa").val(data.RENTAL_EA);
         }
 
-        if(data.CONT_YN == 'Y' && data.EST_AMT >= 10000000){
+        if(data.CONT_YN == 'Y' && data.EST_AMT >= 10000000 && data.UNLINK_YN == 'N'){
             $("#claimDiv").css("display", "");
 
             var claimData = {
@@ -957,8 +957,27 @@ var docuContractReq = {
         html += '    </td>';
         html += '    <td class="text-center">' + claimData.crmNm + '</td>';
         html += '    <td class="text-center">' + comma(claimData.totAmt) + '</td>';
+        html += '    <td class="text-center"><button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuContractReq.setUnlink(\'' + claimData.claimSn + '\')">해제</button></td>';
         html += '</tr>';
 
         $("#claimTbody").html(html);
+    },
+
+    setUnlink : function (e) {
+        if (confirm("구매청구서 연동을 해제하시겠습니까?")) {
+            $.ajax({
+                url: "/inside/setDocuContractUnlink",
+                data: {
+                    claimSn : e
+                },
+                type: "post",
+                datatype: "json",
+                success: function () {
+                    alert("해제 완료 되었습니다.");
+                    docuContractReq.dataSet();
+                    $("#claimDiv").css("display", "none");
+                }
+            });
+        }
     },
 }
