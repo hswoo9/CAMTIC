@@ -33,14 +33,16 @@ var devInfo = {
 
         var html = "";
         for(var i = 0 ; i < rs.list.length ; i++){
-            var date = new Date(rs.list[i].CONSULT_DT);
-            var yyyy = date.getFullYear();
-            var mm = date.getMonth()+1;
-            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-            var dd = date.getDate();
-            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-            var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
-
+            var sdfDate = "-";
+            if(rs.list[i].DEV_APP_DE != null && rs.list[i].DEV_APP_DE != ""){
+                var date = new Date(rs.list[i].DEV_APP_DE);
+                var yyyy = date.getFullYear();
+                var mm = date.getMonth()+1;
+                mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                var dd = date.getDate();
+                dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
+            }
 
             var pjtStepNm = "상담";
             if(rs.list[i].PJT_STEP == "E0"){
