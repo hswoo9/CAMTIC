@@ -95,6 +95,7 @@ var enaralink = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
+            resizable: true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
