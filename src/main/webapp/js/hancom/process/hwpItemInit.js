@@ -104,5 +104,94 @@ var itemInit = {
         html += '</table>';
 
         return html.replaceAll("\n", "<br>");
+    },
+
+    htmlObtainOrderItem: function(){
+        let ip = "";
+
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "http://218.158.231.184";
+        }else{
+            ip = "http://218.158.231.184";
+        }
+
+        const list = itemInit.global.obtainOrderItemList;
+        const data = itemInit.global.obtainOrderData;
+
+        var itemAmtSum = 0;
+
+        var html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 340px;"><p style="font-size:12px;"><b>품 명 및 규 격</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>단 가</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 57px;"><p style="font-size:12px;"><b>수 량</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>단 위</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>금 액</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#BFBFFF; text-align:center; width: 78px;"><p style="font-size:12px;"><b>비 고</b></p></td>';
+        html += '               </tr>';
+
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+
+            html += '   <tr>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px; margin-left:5px;"><b>'+map.ITEM_NAME+'</b></p></td>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;  margin-right:5px;"><b>'+comma(map.UNIT_PRICE)+'</b></p></td>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;  margin-right:5px;"><b>'+map.ORDER_VOLUME+'</b></p></td>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.UNIT+'</b></p></td>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;  margin-right:5px;"><b>'+comma(list[i].AMT)+'</b></p></td>';
+            html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;  margin-left:5px;"><b>'+map.RMK+'</b></p></td>';
+            html += '   </tr>';
+
+            itemAmtSum += Number(map.AMT);
+        }
+
+        if(list.length < 10){
+            for(let i=0; i<10-list.length; i++){
+                html += '   <tr>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:20px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '   </tr>';
+            }
+        }
+
+        const supAmtSum2 = Math.floor(itemAmtSum/10);
+        const supAmtSum1 = itemAmtSum - supAmtSum2;
+
+        html += '   <tr>';
+        html += '       <td colspan="4" style="height:20px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>견&nbsp;&nbsp;적&nbsp;&nbsp;가&nbsp;&nbsp;합&nbsp;&nbsp;계</b></p></td>';
+        html += '       <td colspan="2" style="height:20px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px; margin-right: 5px;"><b>&#8361; '+ comma(supAmtSum1)+'</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="4" style="height:20px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>세&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</b></p></td>';
+        html += '       <td colspan="2" style="height:20px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px; margin-right: 5px;"><b>&#8361; '+ comma(supAmtSum2)+'</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="4" style="height:20px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>총&nbsp;&nbsp;&nbsp;견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;가</b></p></td>';
+        html += '       <td colspan="2" style="height:20px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px; margin-right: 5px;"><b>&#8361; '+ comma(itemAmtSum)+'</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="6" style="height:20px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>**********견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;항**********</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr style="border-bottom: white;">';
+        html += '       <td colspan="6" style="background-color:#FFFFFF; text-align:left;">';
+        html += '       <div style="margin-top: 5px; font-size: 11.5px;">' + data.RMK + '</div>';
+        html += '   </tr>';
+
+        html += '</table>';
+
+        console.log(html);
+        return html.replaceAll("\n", "<br>");
     }
 }

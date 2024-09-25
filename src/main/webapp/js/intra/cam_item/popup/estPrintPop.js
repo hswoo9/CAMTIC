@@ -53,6 +53,8 @@ const estPrintPop = {
         }
 
         var obtainOrderList = rs.rs.obtainOrderList;
+        var obtainOrderData = rs.rs;
+
         var itemNameAll = "";
         if(obtainOrderList.length == 1){
             itemNameAll = obtainOrderList[0].ITEM_NAME;
@@ -72,8 +74,8 @@ const estPrintPop = {
         }
         estPrintPop.global.hwpCtrl.PutFieldText("ITEM_NAME_ALL", itemNameAll);
 
-        let itemAmtSum = 0;
-        /** 3. 견적 리스트 */
+        /*let itemAmtSum = 0;
+        /!** 3. 견적 리스트 *!/
         for(var i = 0; i < obtainOrderList.length; i++){
             estPrintPop.global.hwpCtrl.PutFieldText("ITEM_NAME"+i, String(obtainOrderList[i].ITEM_NAME));
             estPrintPop.global.hwpCtrl.PutFieldText("UNIT_PRICE"+i, fn_numberWithCommas(obtainOrderList[i].UNIT_PRICE));
@@ -84,7 +86,7 @@ const estPrintPop = {
             itemAmtSum += Number(obtainOrderList[i].AMT);
         }
 
-        /** 4. 견적 합계 */
+        /!** 4. 견적 합계 *!/
         const supAmtSum2 = Math.floor(itemAmtSum/10);
         const supAmtSum1 = itemAmtSum - supAmtSum2;
 
@@ -100,9 +102,27 @@ const estPrintPop = {
 
         estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(itemAmtSum)+" 원");
 
-        /** 5. 기타사항 */
+        /!** 5. 기타사항 *!/
         estPrintPop.global.hwpCtrl.MoveToField('EST_CONTENT', true, true, false);
-        estPrintPop.global.hwpCtrl.SetTextFile(rs.rs.RMK.replaceAll("\n", "<br>"), "html","insertfile");
+        estPrintPop.global.hwpCtrl.SetTextFile(rs.rs.RMK.replaceAll("\n", "<br>"), "html","insertfile");*/
+
+        let itemAmtSum = 0;
+
+        for(var i = 0; i < obtainOrderList.length; i++){
+            itemAmtSum += Number(obtainOrderList[i].AMT);
+        }
+
+        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : " + fn_numberWithCommas(itemAmtSum)+ " 원 ");
+
+        itemInit.global.obtainOrderItemList = obtainOrderList;
+        itemInit.global.obtainOrderData = obtainOrderData;
+
+        estPrintPop.global.hwpCtrl.PutFieldText("ORDER_LIST_HTML", " ");
+        let htmlData = '';
+        htmlData = itemInit.htmlObtainOrderItem();
+        estPrintPop.global.hwpCtrl.MoveToField("ORDER_LIST_HTML", true, true, false);
+        estPrintPop.global.hwpCtrl.SetTextFile(htmlData, "html","insertfile");
+
     },
 
     resize: function() {
