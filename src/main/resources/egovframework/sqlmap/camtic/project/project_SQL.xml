@@ -637,6 +637,7 @@
     <select id="getProjectDataByAchieve" parameterType="map" resultType="map">
         /*getProjectDataByAchieve*/
         SELECT * FROM (
+            /* 정부사업 시작년도와 종료년도가 다를때 시작년도 */
             SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_STR_DE, UNRND.NOW_STR_DE), STR_DT)) AS YEAR, PJT_AMT AS REAL_PJT_AMT, 'A' AS TEXT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
@@ -665,6 +666,7 @@
 
             UNION ALL
 
+            /* 정부사업 시작년도와 종료년도가 다를때 마지막년도 */
             SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_END_DE, UNRND.NOW_END_DE), END_DT)) AS YEAR, 0 AS REAL_PJT_AMT, 'B' AS TEXT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
@@ -693,6 +695,7 @@
 
             UNION ALL
 
+            /* 정부사업 시작년도와 종료년도가 같은 데이터들 */
             SELECT A.*, YEAR(IF(YEAR_CLASS = 'M', IF(A.BUSN_CLASS = 'R', RND.NOW_STR_DE, UNRND.NOW_STR_DE), STR_DT)) AS YEAR, PJT_AMT AS REAL_PJT_AMT, 'C' AS TEXT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
@@ -721,7 +724,8 @@
 
             UNION ALL
 
-            SELECT A.*, Y.YEAR AS YEAR, PJT_AMT AS REAL_PJT_AMT, 'D' AS TEXT,
+            /* 민간사업 */
+            SELECT A.*, Y.YEAR AS YEAR, IF(DLP.DELV_EST_DE = Y.YEAR, PJT_AMT, 0) AS REAL_PJT_AMT, 'D' AS TEXT,
             CASE
             WHEN A.BUSN_CLASS IN ('R') AND RND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
             WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')

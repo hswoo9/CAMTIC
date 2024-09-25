@@ -206,13 +206,8 @@ var costInfo = {
 
             if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
                 /** 수주금액 */
-                if(e.YEAR_CLASS == "M"){
-                    $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
-                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
-                } else {
-                    $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
-                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
-                }
+                $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
+                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
 
                 /** 달성매출액 */
                 $("#RES_AMT"+i).text(comma(Number(e.exnpCompAmt || 0)));
@@ -237,13 +232,12 @@ var costInfo = {
                  * */
 
                 /** 수주금액 */
-                if(e.YEAR_CLASS == "M"){
+                if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
                     $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
-                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
                 } else {
-                    $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
-                    $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
+                    $("#PJT_AMT2"+i).text(0);
                 }
+                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
 
                 /** 달성 매출액 */
                 let asrAmt = 0;
