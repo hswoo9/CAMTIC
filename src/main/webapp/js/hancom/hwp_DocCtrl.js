@@ -105,7 +105,7 @@ var hwpDocCtrl = {
 
                     //소속
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
-                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME);
+                    hwpDocCtrl.putFieldText('deptName', userInfo.DEPT_NAME);
 
                     //직위
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
