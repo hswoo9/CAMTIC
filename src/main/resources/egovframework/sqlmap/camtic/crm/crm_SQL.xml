@@ -494,7 +494,8 @@
             DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
             CRM_HIST_OBJ,
             CRM_REL_CONT,
-            '1' AS type
+            '1' AS type,
+            A.REG_EMP_SEQ
         FROM
             CAM_CRM.DJ_CRM_HIST A
         LEFT JOIN
@@ -532,7 +533,8 @@
             ,(case when InterProjectType1 is null then '출장'
             else 'CRM' end) AS CRM_HIST_OBJ
             ,Contents AS CRM_REL_CONT,
-            '2' AS type
+            '2' AS type,
+            (select EMP_SEQ from cam_hr.dj_emp_info where EMP_SEQ = RegID) AS REG_EMP_SEQ
         from
             cam_crm.crm_hist
         where

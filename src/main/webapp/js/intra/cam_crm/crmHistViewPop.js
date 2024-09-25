@@ -331,7 +331,7 @@ var chv = {
 
         var result = customKendo.fn_customAjax("/crm/getCrmHistDetailList", chv.global.searchAjaxData);
         if(result.flag){
-            chv.makeTable(result.list)
+            chv.makeTable(result.list);
         }
     },
 
@@ -345,12 +345,18 @@ var chv = {
             // crmInterLg = e[i].CRM_INTER_LG.split(",");
             // crmInter = e[i].CRM_INTER.split(",");
             chv.global.htmlStr = "";
-            chv.global.htmlStr += "" +
-                '<tr onclick="chv.fn_crmHistRegPop('+e[i].CRM_HIST_SN+','+e[i].type+');" style="cursor: pointer">' +
-                    '<td>' + (i+1) + '</td>' +
-                    '<td>' + e[i].DEPT_NAME + '</td>' +
-                    '<td>' + e[i].EMP_NAME_KR + '</td>' +
-                    '<td>';
+            chv.global.htmlStr += "";
+
+                if(e[i].CRM_HIST_OBJ === "CRM" && e[i].REG_EMP_SEQ == $("#empSeq").val()){ 
+                    chv.global.htmlStr += '<tr onclick="chv.fn_crmHistRegPop('+e[i].CRM_HIST_SN+','+e[i].type+');" style="cursor: pointer">';
+                }else{
+                    chv.global.htmlStr += '<tr>';
+                }
+
+                    chv.global.htmlStr += '<td>' + (i+1) + '</td>' +
+                                        '<td>' + e[i].DEPT_NAME + '</td>' +
+                                        '<td>' + e[i].EMP_NAME_KR + '</td>' +
+                                        '<td>';
                     if(e[i].CRM_MEM_NM != null){
                         chv.global.htmlStr += e[i].CRM_MEM_NM;
                     }
@@ -364,7 +370,7 @@ var chv = {
             // chv.mainCdChkBoxSetting(crmInterLg);
 
             chv.global.htmlStr += '' +
-                '<tr onclick="chv.fn_crmHistRegPop('+e[i].CRM_HIST_SN+','+e[i].type+');" style="cursor: pointer">' +
+                '<tr>' +
                     '<td colSpan="6" style="text-align: left">' + e[i].CRM_REL_CONT + '</td>' +
                 '</tr>';
 

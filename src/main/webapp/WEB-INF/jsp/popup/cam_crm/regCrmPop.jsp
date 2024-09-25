@@ -42,7 +42,7 @@
 <script type="text/javascript" src="/js/intra/cam_crm/crmHistViewPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userReqPop.js?v=${today}'/>"></script>
-
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
 <input type="hidden" id="crmSn" value="${params.crmSn}" />
 <input type="hidden" id="type" value="${params.type}" />
 <div style="padding:0;">
