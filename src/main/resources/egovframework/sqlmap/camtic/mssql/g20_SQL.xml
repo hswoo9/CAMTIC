@@ -928,6 +928,28 @@
         SELECT t.*
         FROM dbo.VN_G20SBGTCD_INFO t
         WHERE GROUP_CD = 'T000' AND GR_FG = 2
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND t.BGT_CD LIKE '%' + #{searchValue} + '%'
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND t.BGT01_NM LIKE '%' + #{searchValue} + '%'
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND t.BGT02_NM LIKE '%' + #{searchValue} + '%'
+            </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND t.BGT03_NM LIKE '%' + #{searchValue} + '%'
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (t.BGT_CD LIKE '%' + #{searchValue} + '%'
+                    OR t.BGT01_NM LIKE '%' + #{searchValue} + '%'
+                    OR t.BGT02_NM LIKE '%' + #{searchValue} + '%'
+                    OR t.BGT03_NM LIKE '%' + #{searchValue} + '%')
+                </if>
+            </otherwise>
+        </choose>
     </select>
 
 

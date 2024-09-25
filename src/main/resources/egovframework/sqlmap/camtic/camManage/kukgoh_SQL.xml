@@ -193,6 +193,16 @@
         AND
             A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
+        <if test='"Y".equals(searchType)'>
+            AND
+            B.LNK_PJT_SN IS NOT NULL
+        </if>
+        <if test='"N".equals(searchType)'>
+            AND
+            B.LNK_PJT_SN IS NULL
+        </if>
+        AND BUSN_CLASS IN ('R', 'S')
+        AND PJT_CD IS NOT NULL
         ORDER BY A.STR_DT DESC
     </select>
 

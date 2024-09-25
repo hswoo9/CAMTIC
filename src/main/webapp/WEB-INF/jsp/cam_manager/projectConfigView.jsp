@@ -35,6 +35,8 @@
                         <col width="10%">
                         <col width="10%">
                         <col>
+                        <col width="10%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">사업년도</th>
@@ -43,7 +45,11 @@
                         </td>
                         <th class="text-center th-color">프로젝트명</th>
                         <td>
-                            <input type="text" id="pjtNm" onkeypress="if(window.event.keyCode==13){projectConfigView.mainGrid()}" style="width: 30%">
+                            <input type="text" id="pjtNm" onkeypress="if(window.event.keyCode==13){projectConfigView.gridReload()}" style="width: 30%">
+                        </td>
+                        <th class="text-center th-color">설정여부</th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
