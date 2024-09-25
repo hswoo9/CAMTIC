@@ -29,7 +29,8 @@ var newResolutionSubmitPage = {
                 } else if(this.value() == "004"){
                     $("#prufSeNoWrap").show();
                     $("#cardBtn").show();
-                    $("#EXCUT_TY_SE_CODE").val("22")
+                    $("#EXCUT_TY_SE_CODE").val("22");
+                    $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").select(2);
                 } else {
                     $("#prufSeNoWrap").show();
                     $("#cardBtn").hide();
@@ -195,7 +196,7 @@ var newResolutionSubmitPage = {
                 }
 
                 $("#EXCUT_PRPOS_CN").val(ered != null ? ered.EXCUT_PRPOS_CN : pad.APP_TITLE)
-                $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : pad.CRM_NM);
+                $("#PRDLST_NM").val(eeied != null ? eeied.PRDLST_NM : pad.APP_TITLE);
                 $("#payAppSn").val(pad.PAY_APP_SN);
                 $("#korNm").val(pad.EMP_NAME);
                 $("#empSeq").val(pad.REG_EMP_SEQ);
@@ -224,12 +225,14 @@ var newResolutionSubmitPage = {
                 } else if(pad.EVID_TYPE == "5"){
                     $("#setFgNm").val("사업소득자");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
+                    $("#BCNC_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "6"){
                     $("#setFgNm").val("기타");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
                 } else if(pad.EVID_TYPE == "9"){
                     $("#setFgNm").val("기타소득자");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
+                    $("#BCNC_SE_CODE").data("kendoDropDownList").select(2);
                 }
 
                 if(ered != null){
@@ -279,7 +282,8 @@ var newResolutionSubmitPage = {
                 $("#VAT").val(comma(pad.VAT_COST));
                 $("#CO_CD").val(1212);
 
-                $("#EXCUT_REQUST_DE").val(ered != null ? (ered.EXCUT_REQUST_DE.toString().substring(0, 4) + "-" + ered.EXCUT_REQUST_DE.toString().substring(4, 6) + "-" + ered.EXCUT_REQUST_DE.toString().substring(6)) : pad.TR_DE)
+                $("#EXCUT_REQUST_DE").val(ered != null ? (ered.EXCUT_REQUST_DE.toString().substring(0, 4) + "-" + ered.EXCUT_REQUST_DE.toString().substring(4, 6) + "-" + ered.EXCUT_REQUST_DE.toString().substring(6)) : pad.TR_DE);
+
                 if(cd != null){
                     $("#BCNC_CMPNY_NM").val(cd.TR_NM);
                     $("#BCNC_LSFT_NO").val(ered != null ? ered.BCNC_LSFT_NO : cd.REG_NB);
@@ -294,6 +298,10 @@ var newResolutionSubmitPage = {
                     $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : cd.BA_NB);
                 } else {
                     $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
+                    $("#BCNC_LSFT_NO").val(ered != null ? ered.BCNC_LSFT_NO : pad.REG_NO.replaceAll("-",""));
+                    $("#tmpBankNm").val(pad.CRM_BNK_NM);
+                    $("#BCNC_BANK_CODE_NM").val(ered != null ? ered.BCNC_BANK_CODE_NM : (ebi != null ? ebi.CMMN_DETAIL_CODE_NM : pad.CRM_BNK_NM));
+                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : pad.CRM_ACC_NO);
                 }
 
 
