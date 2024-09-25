@@ -195,7 +195,10 @@
 					<th>정산서류 등록</th>
 					<td>
 <%--						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />--%>
-                        <span id="fileList">첨부파일이 없습니다.</span>
+						<div>
+							<button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="newResolutionSubmitPage.fn_regPayAttPop()">첨부파일 확인</button>
+							<span id="fileList">첨부파일이 없습니다.</span>
+						</div>
 					</td>
 					<th><span class="red-star">*</span>증빙일자</th>
 					<td colspan="3">

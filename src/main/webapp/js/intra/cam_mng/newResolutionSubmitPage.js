@@ -1,7 +1,8 @@
 var newResolutionSubmitPage = {
 
     global: {
-        searchAjaxData : ""
+        searchAjaxData : "",
+        fileArray: [],
     },
 
     fn_defaultScript: function () {
@@ -187,7 +188,8 @@ var newResolutionSubmitPage = {
                 console.log(rs);
 
                 if(fl.length > 0) {
-                    let text = fl[0].file_org_name;
+                    newResolutionSubmitPage.global.fileArray = fl;
+                    let text = fl[0].file_org_name + "." + fl[0].file_ext;
 
                     if(fl.length > 1) {
                         text += "외 " + (fl.length - 1) + "개"
@@ -218,7 +220,13 @@ var newResolutionSubmitPage = {
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "3"){
                     $("#setFgNm").val("신용카드");
-                    $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
+                    if(pad.CARD_TYPE == "1") {
+                        $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
+                    } else {
+                        $("#PRUF_SE_CODE").data("kendoDropDownList").select(3);
+                        $("#PRUF_SE_NO_TXT").val(pad.PUCHAS_TKBAK_NO != null ? pad.PUCHAS_TKBAK_NO : "");
+                        $("#PRUF_SE_NO").val(pad.PUCHAS_TKBAK_NO != null ? pad.PUCHAS_TKBAK_NO : "");
+                    }
                 } else if(pad.EVID_TYPE == "4"){
                     $("#setFgNm").val("직원지급");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
@@ -459,6 +467,13 @@ var newResolutionSubmitPage = {
 
         }
 
+    },
+
+    fn_regPayAttPop : function (){
+        var url = "/payApp/pop/regPayAttPop.do?type=enara";
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
     }
 
 

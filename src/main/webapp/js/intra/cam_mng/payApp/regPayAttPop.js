@@ -7,17 +7,27 @@ const regPayAtt = {
 
     fn_DefaultScript: function(){
         var parameterArray = [];
-        regPayAtt.global.attFiles = opener.parent.regPay.global.attFiles;
+        if(opener.parent.regPay != null) {
+            regPayAtt.global.attFiles = opener.parent.regPay.global.attFiles;
+        }
 
         if($("#type").val() != "exnp"){
-            console.log(opener.parent.regPay.global.fileArray);
-            parameterArray = opener.parent.regPay.global.fileArray;
-            regPayAtt.global.fileArray = parameterArray;
 
-            if(opener.parent.regPay.global.result.DOC_STATUS == "10" || opener.parent.regPay.global.result.DOC_STATUS == "50" || opener.parent.regPay.global.result.DOC_STATUS == "100") {
+            if($("#type").val() == "enara") {
                 $("#saveBtn").hide();
                 $("label[for='payFileList']").hide();
+                regPayAtt.fn_enaraFileList();
+            } else {
+                console.log(opener.parent.regPay.global.fileArray);
+                parameterArray = opener.parent.regPay.global.fileArray;
+                regPayAtt.global.fileArray = parameterArray;
+
+                if(opener.parent.regPay.global.result.DOC_STATUS == "10" || opener.parent.regPay.global.result.DOC_STATUS == "50" || opener.parent.regPay.global.result.DOC_STATUS == "100") {
+                    $("#saveBtn").hide();
+                    $("label[for='payFileList']").hide();
+                }
             }
+
         } else {
             regPayAtt.global.attFiles = opener.parent.regExnp.global.attFiles;
             parameterArray = opener.parent.regExnp.global.fileArray;
@@ -691,5 +701,31 @@ const regPayAtt = {
                 fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
             }
         }
+    },
+
+    fn_enaraFileList : function (){
+        var fileArray = opener.parent.newResolutionSubmitPage.global.fileArray;
+        var html = "";
+        var size = "";
+
+        if(fileArray.length > 0){
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fileArray[i].file_size > 0 ? fCommon.bytesToKB(fileArray[i].file_size) : '0 KB';
+
+                var fileName = fileArray[i].file_org_name;
+                var fileExt = fileArray[i].file_ext;
+                html += '<tr style="text-align: center;padding-top: 10px;">';
+                html += '   <td style="text-align: left; width: 50%"><span style="cursor: pointer;" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+'\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">' + fileName + '</span></td>';
+                html += '   <td style="width: 10%;">' + fileExt + '</td>';
+                html += '   <td style="width: 15%;">' + size + '</td>';
+                html += '   <td style="width: 15%;">';
+                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ fileArray[i].file_path +'\', \''+ fileArray[i].file_uuid +'\')">'
+                html += '   </td>';
+                html += '   <td style="width: 10%;">-</td>';
+                html += '</tr>';
+            }
+        }
+
+        $("#fileGrid").html(html);
     }
 }
