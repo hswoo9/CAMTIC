@@ -28,6 +28,13 @@ public interface DocumentService {
      * @return
      */
     List<Map<String, Object>> getDocuContractList(Map<String, Object> params);
+
+    /**
+     * 계약대장 엑셀다운 커스텀 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getDocuContractExcelDownList(Map<String, Object> params);
     Map<String, Object> getDocuContractOne(Map<String, Object> params);
 
     /**

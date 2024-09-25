@@ -102,7 +102,8 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>계약 금액
+                        <span class="red-star"></span>계약 금액<br>
+                        <span style="color:red;;">(부가세포함)</span>
                     </th>
                     <td>
                         <input type="text" id="contractAmount" style="width: 90%; text-align: right;"  onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원

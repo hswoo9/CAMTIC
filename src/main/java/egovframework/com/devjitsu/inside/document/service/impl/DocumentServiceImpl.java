@@ -61,6 +61,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public List<Map<String, Object>> getDocuContractExcelDownList(Map<String, Object> params){
+        return documentRepository.getDocuContractExcelDownList(params);
+    }
+
+    @Override
     public Map<String, Object> getDocuContractOne(Map<String, Object> params){
         return documentRepository.getDocuContractOne(params);
     }

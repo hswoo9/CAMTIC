@@ -90,7 +90,7 @@ var docuContractReq = {
 
         $("#class").change(function (){
             if(this.value == 3){
-                $("#productTable").css("display", "");
+                //$("#productTable").css("display", "");
             } else {
                 $("#productTable").css("display", "none");
                 $("#productCount0, #productOneMoney0, #productTotalMoney0, #contractAmount").val("");

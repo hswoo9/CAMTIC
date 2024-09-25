@@ -43,11 +43,13 @@
                     </tr>
                 </table>
                 <div id="mainGrid"></div>
+                <div id="hiddenGrid" style="margin:20px 0; display: none;"></div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    var btnCk = false;
     docuContractList.init();
 </script>

@@ -175,6 +175,74 @@
         ORDER BY RE.ROW_NUM DESC
     </select>
 
+    <select id="getDocuContractExcelDownList" resultType="map" parameterType="map">
+        /* getDocuContractExcelDownList */
+        SELECT
+            RE.*,
+            CFI.*,
+            DI.DOC_NO,
+            FORMAT(RE.PROJECT_MONEY, 0) as CUSTOM_PROJECT_MONEY,
+            CONCAT(RE.START_DE,' ~ ',RE.END_DE) AS CONTRACT_PERIOD,
+            CONCAT(RE.DOCU_YEAR_SN,'-',RE.DOCU_NO) AS DOCU_NUM,
+            CASE
+                WHEN CFI.file_no IS NOT NULL THEN 'O'
+                ELSE 'X'
+            END AS FILE_YN
+        FROM
+            (
+                SELECT
+                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+                    IDC.*
+                FROM
+                    CAM_INSIDE.DJ_DOCUMENT_CONTRACT IDC,
+                    (SELECT @ROWNUM := 0) TMP
+                WHERE
+                    1=1
+                AND IDC.ACTIVE = 'Y'
+                AND IDC.DEL_STS = 1
+                <if test='classType != null and !"".equals(classType)'>
+                    AND IDC.CLASS_SN = #{classType}
+                </if>
+                <if test='start != null and !"".equals(start)'>
+                    <![CDATA[
+                                AND IDC.START_DE >= #{start}
+                    ]]>
+                </if>
+                <if test='end != null and !"".equals(end)'>
+                    <![CDATA[
+                                AND IDC.END_DE <= #{end}
+                    ]]>
+                </if>
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND CONCAT(IDC.DOCU_YEAR_SN,'-',IDC.DOCU_NO) like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND IDC.PROJECT_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                        AND IDC.CO_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <otherwise>
+                        AND (
+                        CONCAT(IDC.DOCU_YEAR_SN,'-',IDC.DOCU_NO) like CONCAT('%', #{searchText}, '%') OR
+                        IDC.PROJECT_NAME like CONCAT('%', #{searchText}, '%') OR
+                        IDC.CO_NAME like CONCAT('%', #{searchText}, '%')
+                        )
+                    </otherwise>
+                </choose>
+            ORDER BY RIGHT(TRIM(IDC.DOCU_YEAR_SN),2) ASC, CAST(DOCU_NO AS UNSIGNED) ASC
+        ) RE
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_CONTRACT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'contract'
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM PC ON PC.CLAIM_SN = RE.CLAIM_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
+        GROUP BY RE.DOCUMENT_CONTRACT_SN
+        ORDER BY RE.ROW_NUM DESC
+    </select>
+
     <select id="getDocuContractOne" resultType="map" parameterType="map">
         /* getDocuContractOne */
         SELECT
