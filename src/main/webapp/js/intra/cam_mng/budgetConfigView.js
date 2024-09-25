@@ -5,11 +5,24 @@ var budgetConfigView = {
     },
 
     fn_defaultScript: function () {
+        var dropDownDataSource = [
+            { text: "장", value: "A" },
+            { text: "관", value: "B" },
+            { text: "항", value: "C" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", dropDownDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+
         budgetConfigView.mainGrid();
     },
 
     gridReload : function(){
-        $("#budgetConfigViewGrid").data("kendoGrid").dataSource.read();
+        if($("#sendResolutionGrid").data("kendoGrid") != null){
+            $("#sendResolutionGrid").data("kendoGrid").destroy();
+        }
+
+        budgetConfigView.mainGrid();
     },
 
     mainGrid : function(){
@@ -22,8 +35,10 @@ var budgetConfigView = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.groupCd = 'T000'
-                    data.grFg = '2'
+                    data.groupCd = 'T000';
+                    data.grFg = '2';
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
                     return data;
                 }
 

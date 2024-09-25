@@ -28,6 +28,9 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
+                        <col width="">
+                        <col width="10%">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">예산그룹</th>
@@ -36,6 +39,11 @@
 <%--                            <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetConfigView.fn_reqPopOnen()">--%>
 <%--                                <span class="k-button-text">검색</span>--%>
 <%--                            </button>--%>
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 15%;"/>
+                            <input type="text" id="searchValue" style="width: 50%;" onkeypress="if(window.event.keyCode==13){budgetConfigView.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
