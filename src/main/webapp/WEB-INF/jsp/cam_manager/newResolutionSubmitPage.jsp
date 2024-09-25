@@ -326,6 +326,7 @@
 					<th><span class="red-star">*</span>계좌번호</th>
 					<td>
 						<input type="text" style="width: 50%;" id="BCNC_ACNUT_NO" name="BCNC_ACNUT_NO" value="${dataJson.BCNC_ACNUT_NO }"/>
+						<span class="red-star" style="margin-left: 5px;">* 숫자만 입력</span>
 					</td>
 					<th><span class="red-star">*</span>이체구분</th>
 					<td>
