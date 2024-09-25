@@ -1453,7 +1453,7 @@ var reqCl = {
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
-                if(e[i].CONTENT_ID.indexOf("purcClaim") == 0 && (reqCl.global.status == "0" || reqCl.global.status == "30" || reqCl.global.status == "40")){
+                if(e[i].CONTENT_ID != null && e[i].CONTENT_ID.indexOf("purcClaim") == 0 && (reqCl.global.status == "0" || reqCl.global.status == "30" || reqCl.global.status == "40")){
                     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
                         '			    <span class="k-button-text">삭제</span>' +
                         '		    </button>';
