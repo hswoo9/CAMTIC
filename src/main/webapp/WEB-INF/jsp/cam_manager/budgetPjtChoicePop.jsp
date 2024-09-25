@@ -19,7 +19,7 @@
 
 <div class="col-lg-12 pop_sign_wrap" style="width:1200px; padding:0;">
     <div class="card-header pop-header">
-        <h3 class="card-title title_NM">예산과목 선택</h3>
+        <h3 class="card-title title_NM">사업설정</h3>
     </div>
     <div style="margin: 0 10px 0 10px;">
         <table class="popTable table table-bordered mb-0">

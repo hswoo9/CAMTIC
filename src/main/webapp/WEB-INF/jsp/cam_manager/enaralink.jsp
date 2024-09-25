@@ -23,8 +23,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">지출결의서 집행 연동</h4>
-            <div class="title-road">캠매니저 > e-나라도움 > 지출결의서 집행 연동</div>
+            <h4 class="panel-title">지급신청서 전송(집행등록)</h4>
+            <div class="title-road">캠매니저 > e-나라도움 > 지급신청서 전송(집행등록)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
