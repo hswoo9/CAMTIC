@@ -41,14 +41,20 @@ var enaralink = {
             index: 0
         });
         $("#fromMonth, #endMonth").attr("readonly", true);
-        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.mainGrid);
-        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.mainGrid);
+        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.grinReload);
+        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.grinReload);
 
 
         enaralink.mainGrid();
     },
 
+    grinReload : function(){
+        if($("#sendResolutionGrid").data("kendoGrid") != null){
+            $("#sendResolutionGrid").data("kendoGrid").destroy();
+        }
 
+        enaralink.mainGrid();
+    },
 
     mainGrid : function(){
         var dataSource = new kendo.data.DataSource({
