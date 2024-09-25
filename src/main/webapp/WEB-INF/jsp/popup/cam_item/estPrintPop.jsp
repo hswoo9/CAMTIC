@@ -9,6 +9,7 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpItemInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="/js/intra/cam_item/popup/estPrintPop.js"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 

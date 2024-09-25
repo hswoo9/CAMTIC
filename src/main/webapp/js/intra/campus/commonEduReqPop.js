@@ -15,11 +15,10 @@ const commonEduReq = {
         customKendo.fn_datePicker("startDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", "month", "yyyy-MM-dd", new Date());
         let commonDataSource = [
-            { text: "상반기 공통학습", value: "1" },
-            { text: "하반기 공통학습", value: "2" },
-            { text: "분기별 공통학습", value: "3" },
-            { text: "부서별 공통학습", value: "4" },
-            { text: "기타 공통학습", value: "5" }
+            { text: "리더십교육", value: "1" },
+            { text: "직무교육", value: "2" },
+            { text: "온라인교육", value: "3" },
+            { text: "기타 공통학습", value: "4" }
         ]
         customKendo.fn_dropDownList("commonClass", commonDataSource, "text", "value", 2);
         let statusDataSource = [
