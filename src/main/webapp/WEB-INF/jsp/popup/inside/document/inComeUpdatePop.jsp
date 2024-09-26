@@ -37,7 +37,7 @@
                 <span id="inComeApprBtnBox">
 
                 </span>
-                <button type="button" class="k-button k-button-solid-info" onclick="regisReq.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regisReq.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;"
                         onclick="window.close()">닫기
                 </button>

@@ -1215,7 +1215,8 @@
             CFI.file_path,
             CFI.file_uuid,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            DI.APPROVE_STAT_CODE
         FROM
             CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         LEFT JOIN

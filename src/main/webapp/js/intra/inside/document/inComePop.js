@@ -49,6 +49,10 @@ var regisReq = {
         if(inComeMap != null && inComeMap.DOC_ID != null){
             reDraftOnlyOne(inComeMap.DOC_ID, $("#regEmpSeq").val(), "reBtn");
         }
+
+        if(inComeMap.APPRO_KEY != null && inComeMap.APPROVE_STAT_CODE != "40"){
+            $("#saveBtn").hide();
+        }
     },
 
     inComeDrafting : function(){
