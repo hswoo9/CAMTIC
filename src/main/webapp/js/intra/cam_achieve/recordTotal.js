@@ -218,9 +218,15 @@ var recordTotal = {
                     width: 100,
                     template: function(e){
                         let amt = Number(e.REAL_PJT_AMT || 0);
-                        if(e.YEAR_CLASS == "M"){
-                            amt = Number(e.ALL_PJT_AMT || 0);
+
+                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "D"){
+                            if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+                                amt = Number(e.ALL_PJT_AMT || 0);
+                            }else{
+                                amt = 0;
+                            }
                         }
+
                         pjtAmt2Sum += amt;
                         return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },

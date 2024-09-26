@@ -301,7 +301,7 @@ var rndPR = {
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" name="strDt" disabled /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" name="endDt" disabled /></td>';
-                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" disabled value="'+rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
+                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" disabled></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled></td>';
@@ -317,8 +317,36 @@ var rndPR = {
 
             for(var i = 0 ; i < mem.length ; i++){
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
-                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_STR_DT));
-                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_END_DT));
+
+                var strDt = mem[i].PJT_STR_DT;
+                var endDt = mem[i].PJT_END_DT;
+                if(mem[i].PART_DET_STR_DT != null){
+                    strDt = mem[i].PART_DET_STR_DT;
+                }else{
+                    if(rs.YEAR_CLASS == "M"){
+                        if(rs.busnClass == "R"){
+                            strDt = rs.NOW_STR_DE_RND;
+                        }else if (rs.busnClass == "S"){
+                            strDt = rs.NOW_STR_DE_UNRND;
+                        }
+                    }
+                }
+                if(mem[i].PART_DET_END_DT != null){
+                    endDt = mem[i].PART_DET_END_DT;
+                }else{
+                    if(rs.YEAR_CLASS == "M"){
+                        if(rs.busnClass == "R"){
+                            endDt = rs.NOW_END_DE_RND;
+                        }else if (rs.busnClass == "S"){
+                            endDt = rs.NOW_END_DE_UNRND;
+                        }
+                    }
+                }
+                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date());
+                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date());
+                $("#memStrDt" + i).val(strDt);
+                $("#memEndDt" + i).val(endDt);
+                $("#memMon" + i).val(rndPR.fn_monDiff(strDt, endDt));
 
                 if(mem[i].CHNG_SAL != null){
                     $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL * 12));
