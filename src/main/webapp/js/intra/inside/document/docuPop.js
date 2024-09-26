@@ -244,6 +244,7 @@ var docuContractReq = {
             $("#productOneMoney0").val(data.PRODUCT_ONE_MONEY);
             $("#productTotalMoney0").val(data.PRODUCT_TOTAL_MONEY);
             $("#bmk0").val(data.BMK);
+            $("#endDe").val(data.GOODS_DT);
         }
 
         if(data.CLASS_SN == "4"){
