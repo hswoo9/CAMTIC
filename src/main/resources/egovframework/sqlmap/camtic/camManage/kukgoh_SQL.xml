@@ -81,7 +81,8 @@
             J.PROCESS_RESULT_CODE AS ISS_PROCESS_RESULT_CODE,
             J.PROCESS_RESULT_MSSAGE AS ISS_PROCESS_RESULT_MSSAGE,
             K.LNK_PJT_SN,
-            L.BG_SN
+            L.BG_SN,
+            A.ENARA_MNG_STAT
         FROM
             CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
@@ -106,16 +107,16 @@
         AND
             A.ENARA_SEND_EXCEPT = #{exceptYn}
         <if test='"A".equals(status)'>
-            AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NULL
+            AND F.TRNSC_ID IS NULL AND D.REQ_STAT_SN IS NULL AND A.ENARA_MNG_STAT = 'N'
         </if>
         <if test='"B".equals(status)'>
             AND ((F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NULL) OR (D.REQ_STAT_SN IS NOT NULL AND F.RSP_CD IS NULL))
         </if>
         <if test='"C".equals(status)'>
-            AND F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE = '000'
+            AND ((F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE = '000') OR A.ENARA_MNG_STAT = 'Y')
         </if>
         <if test='"D".equals(status)'>
-            AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NOT NULL AND G.PROCESS_RESULT_CODE != '000'))
+            AND (F.RSP_CD LIKE '%ER%' OR (F.RSP_CD = 'SUCC' AND G.PROCESS_RESULT_CODE IS NOT NULL AND G.PROCESS_RESULT_CODE != '000')) AND A.ENARA_MNG_STAT = 'N'
         </if>
         <if test='searchType != null and !"".equals(searchType)'>
             <if test='"emp".equals(searchType)'>
@@ -129,6 +130,15 @@
         UPDATE CAM_MNG.DJ_PAY_APP_DET
         SET
             ENARA_SEND_EXCEPT = #{exceptYn}
+        WHERE
+            PAY_APP_DET_SN IN (${payAppDetSn})
+    </update>
+
+    <update id="setEnaraMngStat" parameterType="map">
+        /*setEnaraMngStat*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            ENARA_MNG_STAT = #{status}
         WHERE
             PAY_APP_DET_SN IN (${payAppDetSn})
     </update>
@@ -284,7 +294,8 @@
             B.TR_DE,
             B.FILE_NO,
             IFNULL(B.TR_CD, "") AS TR_CD,
-            C.*
+            C.*,
+            B.ENARA_MNG_STAT
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN

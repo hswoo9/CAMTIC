@@ -41,14 +41,14 @@ var enaralink = {
             index: 0
         });
         $("#fromMonth, #endMonth").attr("readonly", true);
-        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.grinReload);
-        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.grinReload);
+        $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
+        $("#endMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
 
 
         enaralink.mainGrid();
     },
 
-    grinReload : function(){
+    gridReload : function(){
         if($("#sendResolutionGrid").data("kendoGrid") != null){
             $("#sendResolutionGrid").data("kendoGrid").destroy();
         }
@@ -110,14 +110,20 @@ var enaralink = {
                     name : 'button',
                     template : function (){
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraStatChange(\'succ\');">' +
+                            '	<span class="k-button-text">전송완료처리</span>' +
+                            '</button>'+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraStatChange(\'cancle\');">' +
+                            '	<span class="k-button-text">미전송처리</span>' +
+                            '</button>'+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraSendExcept();">' +
                             '	<span class="k-button-text">전송제외</span>' +
                             '</button>'+
                             // '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaraSendList.fn_enaraSendList();">' +
                             // '	<span class="k-button-text">집행정보 일괄전송</span>' +
                             // '</button>'+
 
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.mainGrid()">' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -128,7 +134,28 @@ var enaralink = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'payAppDetChk\');"/>',
                     template : function(e){
-                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"'>";
+
+                        var sendChk = "N";
+                        if(e.TRNSC_ID == null && e.REQ_STAT_SN == null) {
+                            // 미전송
+                            sendChk = "N";
+                        } else if (e.RSP_CD != null) {
+                            if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
+                                // 전송완료
+                                sendChk = "Y";
+                            } else if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == null) {
+                                // 전송진행중
+                                sendChk = "I";
+                            } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000" && e.PROCESS_RESULT_CODE != null)) {
+                                // 전송실패
+                                sendChk = "N";
+                            }
+                        } else if (e.REQ_STAT_SN != null && e.RSP_CD == null) {
+                            // 전송진행중
+                            sendChk = "I";
+                        }
+
+                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"' sendChk='"+sendChk+"'>";
                     },
                     width: 50
                 },
@@ -159,10 +186,14 @@ var enaralink = {
                                     return "";
                                 }
                             } else {
-                                if (e.TRNSC_ID != null) {
+                                if(e.ENARA_MNG_STAT == "Y") {
                                     return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
                                 } else {
-                                    return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                                    if (e.TRNSC_ID != null) {
+                                        return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>확인</button>";
+                                    } else {
+                                        return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+");'>전송</button>";
+                                    }
                                 }
                             }
                         }
@@ -191,18 +222,22 @@ var enaralink = {
                             title: "상태",
                             width: 80,
                             template:function(e){
-                                if(e.TRNSC_ID == null && e.REQ_STAT_SN == null) {
-                                    return "미전송";
-                                } else if (e.RSP_CD != null) {
-                                    if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
-                                        return "전송완료";
-                                    } else if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == null) {
+                                if(e.ENARA_MNG_STAT == "Y") {
+                                    return "전송완료";
+                                } else {
+                                    if(e.TRNSC_ID == null && e.REQ_STAT_SN == null) {
+                                        return "미전송";
+                                    } else if (e.RSP_CD != null) {
+                                        if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == "000") {
+                                            return "전송완료";
+                                        } else if(e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE == null) {
+                                            return "전송진행중";
+                                        } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000" && e.PROCESS_RESULT_CODE != null)) {
+                                            return "<span style='color: red;'>전송실패</span>";
+                                        }
+                                    } else if (e.REQ_STAT_SN != null && e.RSP_CD == null) {
                                         return "전송진행중";
-                                    } else if(e.RSP_CD.indexOf("ER") > -1 || (e.RSP_CD == "SUCC" && e.PROCESS_RESULT_CODE != "000" && e.PROCESS_RESULT_CODE != null)) {
-                                        return "<span style='color: red;'>전송실패</span>";
                                     }
-                                } else if (e.REQ_STAT_SN != null && e.RSP_CD == null) {
-                                    return "전송진행중";
                                 }
                             }
                         }, {
@@ -398,13 +433,93 @@ var enaralink = {
                 async: false,
                 success: function(rs) {
                     alert("제외되었습니다.");
-                    enaralink.mainGrid();
+                    enaralink.gridReload();
                 },
                 error: function (e) {
                     console.log('error : ', e);
                 }
             });
         }
+    },
+
+    fn_enaraStatChange : function(stat){
+        if($("input[name='payAppDetChk']:checked").length == 0){
+            alert("지급신청서 항목을 선택해주세요.");
+            return;
+        }
+
+        var sendFlag = false;
+        var sendFlag2 = false;
+
+        var comfirmTxt = "";
+        var status = "";
+        if(stat == "succ"){
+
+            $.each($("input[name=payAppDetChk]:checked"), function(){
+                if($(this).attr("sendChk") == "I"){
+                    sendFlag2 = true;
+                }
+            });
+
+            if(sendFlag2){
+                alert("전송 진행중인 지급신청서가 포함되어 있습니다.");
+                return;
+            }
+
+            comfirmTxt = "전송완료 상태로 변경하시겠습니까?";
+            status = "Y";
+        }else{
+
+            $.each($("input[name=payAppDetChk]:checked"), function(){
+                if($(this).attr("sendChk") == "Y"){
+                    sendFlag = true;
+                }
+
+                if($(this).attr("sendChk") == "I"){
+                    sendFlag2 = true;
+                }
+            });
+
+            if(sendFlag){
+                alert("수동으로 전송완료 처리한 지급신청서만 변경 가능합니다.");
+                return;
+            }
+
+            if(sendFlag2){
+                alert("전송 진행중인 지급신청서가 포함되어 있습니다.");
+                return;
+            }
+
+            comfirmTxt = "미전송 상태로 변경하시겠습니까?";
+            status = "N";
+        }
+
+        if(confirm(comfirmTxt)){
+            var payAppDetSn = "";
+
+            $.each($("input[name='payAppDetChk']:checked"), function(){
+                payAppDetSn += "," + $(this).val()
+            })
+
+            $.ajax({
+                url: "/kukgoh/setEnaraMngStat",
+                data: {
+                    payAppDetSn : payAppDetSn.substring(1),
+                    status : status
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs) {
+                    alert("변경되었습니다.");
+                    enaralink.gridReload();
+                },
+                error: function (e) {
+                    console.log('error : ', e);
+                }
+            });
+        }
+
     },
 
     comma : function(str){

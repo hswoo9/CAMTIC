@@ -68,6 +68,11 @@ public class KukgohServiceImpl implements KukgohService {
     }
 
     @Override
+    public void setEnaraMngStat(Map<String, Object> params) {
+        kukgohRepository.setEnaraMngStat(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBudgetGroupList(Map<String, Object> params) {
         List<Map<String, Object>> list = g20Repository.getBudgetGroupList(params);
 

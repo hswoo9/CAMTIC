@@ -77,6 +77,14 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/setEnaraMngStat")
+    public String setEnaraMngStat(@RequestParam Map<String, Object> params, Model model) {
+
+        kukgohService.setEnaraMngStat(params);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/kukgoh/getBudgetGroupList")
     public String getBudgetGroupList(@RequestParam Map<String, Object> params, Model model) {
 

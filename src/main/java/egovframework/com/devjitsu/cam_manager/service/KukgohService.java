@@ -18,6 +18,8 @@ public interface KukgohService {
 
     void setEnaraSendExcept(Map<String, Object> params);
 
+    void setEnaraMngStat(Map<String, Object> params);
+
     List<Map<String, Object>> getBudgetGroupList(Map<String, Object> params);
 
     List<Map<String, Object>> getEnaraBudgetCdList(Map<String, Object> params);
