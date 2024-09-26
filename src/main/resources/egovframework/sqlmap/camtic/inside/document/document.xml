@@ -139,15 +139,8 @@
                     <if test='classType != null and !"".equals(classType)'>
                         AND IDC.CLASS_SN = #{classType}
                     </if>
-                    <if test='start != null and !"".equals(start)'>
-                    <![CDATA[
-                        AND IDC.START_DE >= #{start}
-                    ]]>
-                    </if>
-                    <if test='end != null and !"".equals(end)'>
-                    <![CDATA[
-                        AND IDC.END_DE <= #{end}
-                    ]]>
+                    <if test='searchYear != null and !"".equals(searchYear)'>
+                        AND (DATE_FORMAT(IDC.DOCU_DE, '%Y') = #{searchYear})
                     </if>
                     <choose>
                         <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
@@ -563,8 +556,6 @@
             </if>
         </if>
         REMARK_CN,
-        DOCUMENT_FIRST_NUMBER,
-        DOCUMENT_SECOND_NUMBER,
         REG_EMP_SEQ,
         REG_EMP_NAME,
         REG_DT
@@ -589,8 +580,6 @@
             </if>
         </if>
         #{remarkCn},
-        CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
-        (SELECT IFNULL(MAX(SCCD.DOCUMENT_SECOND_NUMBER), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.DOCUMENT_FIRST_NUMBER = CONCAT(#{documentPartName}, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2))),
         #{regEmpSeq},
         #{regEmpName},
         NOW()
@@ -1374,4 +1363,25 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
+
+    <update id="setInComeDocNumUpdate" parameterType="map">
+        /*setInComeDocNumUpdate*/
+        UPDATE
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET
+            DOCUMENT_FIRST_NUMBER = CONCAT('[CAMTIC]', RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)),
+            DOCUMENT_SECOND_NUMBER = (SELECT IFNULL(MAX(SCCD.DOCUMENT_SECOND_NUMBER), 0)+1 FROM CAM_COMMON.DJ_CAMTIC_DOCUMENT SCCD WHERE SCCD.DOCUMENT_FIRST_NUMBER = CONCAT('[CAMTIC]', RIGHT(DATE_FORMAT(NOW(), '%Y'), 2)))
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </update>
+
+    <select id="getUpdatedDocNum" parameterType="map" resultType="map">
+        SELECT
+            CONCAT(DOCUMENT_FIRST_NUMBER, '-', DOCUMENT_SECOND_NUMBER) as updatedDocNum
+        FROM
+            CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </select>
+
 </mapper>

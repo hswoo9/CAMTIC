@@ -390,8 +390,14 @@ public class DocumentController {
     //접수대장 문서등록
     @RequestMapping("/inside/setInComeInsert")
     public String setInComeInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
-        MultipartFile[] file = request.getFiles("inComeFile").toArray(new MultipartFile[0]);
-        documentService.setInComeInsert(params, file, SERVER_DIR, BASE_DIR);
+        try{
+            MultipartFile[] file = request.getFiles("inComeFile").toArray(new MultipartFile[0]);
+            documentService.setInComeInsert(params, file, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }
@@ -664,6 +670,14 @@ public class DocumentController {
     public String setDocuContractUnlink(@RequestParam Map<String, Object> params) {
         documentService.setDocuContractUnlink(params);
 
+        return "jsonView";
+    }
+
+    // 접수대장 최종 결재 후 문서번호 생성
+    @RequestMapping("/inside/setInComeDocNumUpdate")
+    public String setInComeDocNumUpdate(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> result = documentService.setInComeDocNumUpdate(params);
+        model.addAttribute("updatedDocNum", result.get("updatedDocNum"));
         return "jsonView";
     }
 

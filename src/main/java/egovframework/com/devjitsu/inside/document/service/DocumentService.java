@@ -192,4 +192,7 @@ public interface DocumentService {
 
     void updateInComeDocState(Map<String, Object> bodyMap) throws Exception;
 
+    Map<String, Object> setInComeDocNumUpdate(Map<String, Object> params);
+
+
 }

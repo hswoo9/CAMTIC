@@ -6,7 +6,7 @@ var insideInit = {
         console.log("map : ", map)
 
         /** 1. 접수대장 정보 */
-        hwpDocCtrl.putFieldText("INCOME_NUM", map.DOCUMENT_FIRST_NUMBER+"-"+map.DOCUMENT_SECOND_NUMBER);
+        //hwpDocCtrl.putFieldText("INCOME_NUM", map.DOCUMENT_FIRST_NUMBER+"-"+map.DOCUMENT_SECOND_NUMBER);
         hwpDocCtrl.putFieldText("documentTitleName", map.DOCUMENT_TITLE_NAME);
         hwpDocCtrl.putFieldText("shipmentDt", map.SHIPMENT_DATE);
         hwpDocCtrl.putFieldText("effectiveDt", map.EFFECTIVE_DATE);
