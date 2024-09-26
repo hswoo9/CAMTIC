@@ -44,20 +44,12 @@ var docuContractList = {
             }
         });
 
-        $("#startDt").kendoDatePicker({
-            depth: "month",
-            start: "month",
+        $("#searchYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(new Date().setMonth(new Date().getMonth() - 1))
-        });
-
-        $("#endDt").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(new Date().setMonth(new Date().getMonth() + 2))
+            format : "yyyy",
+            value : new Date()
         });
     },
 
@@ -75,8 +67,7 @@ var docuContractList = {
                     data.classType = $("#classType").val();
                     data.searchType = $("#searchType").val();
                     data.searchText = $("#searchText").val();
-                    data.start = $("#startDt").val();
-                    data.end = $("#endDt").val();
+                    data.searchYear = $("#searchYear").val();
                     return data;
                 }
             },
@@ -316,7 +307,7 @@ var docuContractList = {
             url += "?documentContractSn="+documentContractSn + "&classSn=" + classSn;
         }
         var name = "popup test";
-        var option = "width = 1000, height = 550, top = 100, left = 200, location = no"
+        var option = "width = 1000, height = 750, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -457,8 +448,7 @@ var docuContractList = {
             classType : $("#classType").val(),
             searchType : $("#searchType").val(),
             searchText : $("#searchText").val(),
-            start : $("#startDt").val(),
-            end : $("#endDt").val()
+            searchYear : $("#searchYear").val()
         }
 
         docuContractList.hiddenGrid("/inside/getDocuContractExcelDownList", data);

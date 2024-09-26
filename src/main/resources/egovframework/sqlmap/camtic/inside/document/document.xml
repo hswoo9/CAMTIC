@@ -139,15 +139,8 @@
                     <if test='classType != null and !"".equals(classType)'>
                         AND IDC.CLASS_SN = #{classType}
                     </if>
-                    <if test='start != null and !"".equals(start)'>
-                    <![CDATA[
-                        AND IDC.START_DE >= #{start}
-                    ]]>
-                    </if>
-                    <if test='end != null and !"".equals(end)'>
-                    <![CDATA[
-                        AND IDC.END_DE <= #{end}
-                    ]]>
+                    <if test='searchYear != null and !"".equals(searchYear)'>
+                        AND (DATE_FORMAT(IDC.DOCU_DE, '%Y') = #{searchYear})
                     </if>
                     <choose>
                         <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>

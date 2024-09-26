@@ -18,7 +18,7 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
@@ -27,9 +27,7 @@
                     <tr>
                         <th class="text-center th-color">계약 기간</th>
                         <td>
-                            <input type="text" id="startDt" style="width: 45%;">
-                            ~
-                            <input type="text" id="endDt" style="width: 45%;">
+                            <input type="text" id="searchYear" style="width: 60%;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
@@ -37,8 +35,8 @@
                         </td>
                         <th class="text-center th-color">검색구분</th>
                         <td>
-                            <input type="text" id="searchType" style="width:130px;">
-                            <input type="text" id="searchText" style="width:150px;">
+                            <input type="text" id="searchType" style="width:150px;">
+                            <input type="text" id="searchText" style="width:500px;">
                         </td>
                     </tr>
                 </table>
