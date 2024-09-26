@@ -230,6 +230,7 @@ var newResolutionSubmitPage = {
                 } else if(pad.EVID_TYPE == "4"){
                     $("#setFgNm").val("직원지급");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
+                    $("#BCNC_SE_CODE").data("kendoDropDownList").select(2);
                 } else if(pad.EVID_TYPE == "5"){
                     $("#setFgNm").val("사업소득자");
                     $("#PRUF_SE_CODE").data("kendoDropDownList").select(4);
@@ -248,6 +249,7 @@ var newResolutionSubmitPage = {
                     $("#PRUF_SE_CODE").data("kendoDropDownList").value(ered.PRUF_SE_CODE);
                     $("#PRUF_SE_NO").val(ered.PRUF_SE_NO);
                     $("#PRUF_SE_NO_TXT").val(ered.PRUF_SE_NO);
+                    $("#BCNC_SE_CODE").data("kendoDropDownList").value(ered.BCNC_SE_CODE);
                 }
 
                 $("#vatFgNm").val();
@@ -303,13 +305,13 @@ var newResolutionSubmitPage = {
                     $("#BCNC_ADRES").val(ered != null ? ered.BCNC_ADRES : cd.DIV_ADDR1);
                     $("#tmpBankNm").val(cd.JIRO_NM);
                     $("#BCNC_BANK_CODE_NM").val(ered != null ? ered.BCNC_BANK_CODE_NM : (ebi != null ? ebi.CMMN_DETAIL_CODE_NM : cd.JIRO_NM));
-                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : cd.BA_NB.replaceAll("-",""));
+                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO.replaceAll("-","") : cd.BA_NB.replaceAll("-",""));
                 } else {
                     $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
                     $("#BCNC_LSFT_NO").val(ered != null ? ered.BCNC_LSFT_NO : pad.REG_NO.replaceAll("-",""));
                     $("#tmpBankNm").val(pad.CRM_BNK_NM);
                     $("#BCNC_BANK_CODE_NM").val(ered != null ? ered.BCNC_BANK_CODE_NM : (ebi != null ? ebi.CMMN_DETAIL_CODE_NM : pad.CRM_BNK_NM));
-                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO : pad.CRM_ACC_NO.replaceAll("-",""));
+                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO.replaceAll("-","") : pad.CRM_ACC_NO.replaceAll("-",""));
                 }
 
 
