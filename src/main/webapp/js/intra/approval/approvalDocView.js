@@ -538,6 +538,17 @@ var docView = {
             }*/
         }
 
+        /** 접수대장 최종 결재 후 문서번호 생성 */
+        if((list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId || (docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'
+                && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ))
+            && docView.global.rs.docInfo.FORM_ID == "194"){
+
+            const result = customKendo.fn_customAjax("/inside/setInComeDocNumUpdate", {documentSn: docView.global.params.approKey.replace('camticInCome_', '')});
+            if(result.flag){
+                hwpDocCtrl.putFieldText("INCOME_NUM", result.updatedDocNum);
+            }
+        }
+
         /** 결재사인
          *  결재인지, 협조인지 체크 해서 자리 추척해서 사인을 넣어줌
          * */

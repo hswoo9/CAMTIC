@@ -224,11 +224,13 @@ var regisReq = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(result){
-                console.log(result);
-                alert("문서 등록이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
+                if(result.code == 200){
+                    alert("문서 등록이 완료되었습니다.");
+                    opener.gridReload();
 
+                    var url = "/Inside/Pop/inComeUpdatePop.do?documentSn=" + result.params.documentSn;
+                    location.href = url;
+                }
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");

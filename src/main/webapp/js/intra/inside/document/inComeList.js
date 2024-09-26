@@ -83,7 +83,6 @@ var regisList = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
-            dataBound: regisList.dblclick,
             toolbar: [
                 {
                     name : 'button',
@@ -128,14 +127,18 @@ var regisList = {
                     title: "접수 번호",
                     width: "8%",
                     template: function(row){
-                        return row.DOCUMENT_FIRST_NUMBER+"-"+row.DOCUMENT_SECOND_NUMBER;
+                        if(row.DOCUMENT_FIRST_NUMBER != null && row.DOCUMENT_SECOND_NUMBER != null){
+                            return row.DOCUMENT_FIRST_NUMBER+"-"+row.DOCUMENT_SECOND_NUMBER;
+                        }else{
+                            return "";
+                        }
                     }
                 }, {
                     title: "제목",
                     width: "35%",
                     template : function(row) {
                         if (row.DEL_STS == 1) {
-                            return "<span style='text-decoration: none;' >"+titleCut(row.DOCUMENT_TITLE_NAME, 48)+"</span>";
+                            return "<span style=\"text-align: left; text-decoration: none; font-weight: bold; cursor: pointer\" onclick=\"regisList.inComeListPopup('" +row.DOCUMENT_SN + "')\">" + titleCut(row.DOCUMENT_TITLE_NAME, 48)+"</span>";
                         }else if(row.DEL_STS == 10){
                             return "<span style='text-decoration: line-through; cursor: pointer;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">"+titleCut(row.DOCUMENT_TITLE_NAME, 48)+"</span>";
                         }
@@ -261,20 +264,6 @@ var regisList = {
                 }
             })
         }
-    },
-
-
-    dblclick: function () {
-        var grid = this;
-        //접수대장 리스트 행 더블 클릭시 수정 팝업창
-
-        grid.tbody.find("tr").dblclick(function (e) {
-            var selectedItem = grid.dataItem($(this));
-            console.log(selectedItem);
-            console.log(selectedItem.DOCUMENT_SN);
-            //pk
-            regisList.inComeListPopup(selectedItem.DOCUMENT_SN);
-        });
     },
 
     inComeListPopup: function (key) {

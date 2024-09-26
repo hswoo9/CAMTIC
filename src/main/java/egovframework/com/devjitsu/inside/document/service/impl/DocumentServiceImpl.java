@@ -639,4 +639,11 @@ public class DocumentServiceImpl implements DocumentService {
             }
         }
     }
+
+    // 접수대장 최종 결재 후 문서번호 생성
+    @Override
+    public Map<String, Object> setInComeDocNumUpdate(Map<String, Object> params) {
+        documentRepository.setInComeDocNumUpdate(params);
+        return documentRepository.getUpdatedDocNum(params);
+    }
 }
