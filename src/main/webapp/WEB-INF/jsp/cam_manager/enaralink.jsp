@@ -47,7 +47,7 @@
                         </td>
                         <th class="text-center th-color">조회유형</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 150px;" onchange="enaralink.grinReload()">
+                            <input type="text" id="searchType" style="width: 150px;" onchange="enaralink.gridReload()">
                         </td>
                         <th class="text-center th-color">전송상태</th>
                         <td>
