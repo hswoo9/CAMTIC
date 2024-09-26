@@ -21,6 +21,8 @@
     #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+
+
 <div id='my-spinner'>
     <div>
     <span>
@@ -39,6 +41,7 @@
 			</div>
 		</div>
 		<form id="sendForm" style="padding: 20px 30px;">
+            <input type="hidden" id="sendType" name="sendType"  value="${params.type}"/>
 			<input type="hidden" name="C_DIKEYCODE" id="C_DIKEYCODE" value="${data.C_DIKEYCODE}" />
 			<table class="popTable table table-bordered mb-0">
 				<colgroup>

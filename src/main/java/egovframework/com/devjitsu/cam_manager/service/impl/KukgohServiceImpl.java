@@ -242,7 +242,11 @@ public class KukgohServiceImpl implements KukgohService {
 //            SFTPFileRemove(reqStatData);
 
 
-            kukgohRepository.delEnaraData(params);
+            if(!params.get("sendType").equals("C")){
+                kukgohRepository.delEnaraData(params);
+            } else {
+                kukgohRepository.delEnaraTaxReq(params);
+            }
         }
 
 
@@ -347,7 +351,11 @@ public class KukgohServiceImpl implements KukgohService {
             }
         }
 
-        kukgohRepository.insEnaraData(params);
+        if(!params.get("sendType").equals("C")){
+            kukgohRepository.insEnaraData(params);
+        } else {
+            kukgohRepository.insEnaraTaxReq(params);
+        }
         kukgohRepository.insEnaraSendTemp(params);
 
         return params;

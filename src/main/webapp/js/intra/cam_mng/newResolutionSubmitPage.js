@@ -349,8 +349,30 @@ var newResolutionSubmitPage = {
 
                 $("#PRUF_SE_CODE").data("kendoDropDownList").trigger("change");
                 $("#my-spinner").hide();
+
+
+                if(pad.EVID_TYPE == "5" || pad.EVID_TYPE == "9"){
+                    if($("#sendType").val() == "C") {
+                        $("#EXCUT_TY_SE_CODE").val(24);
+                        $("#EXCUT_SPLPC").val($("#EXCUT_VAT").val());
+                        $("#SPLPC").val($("#VAT").val());
+                        $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_VAT").val());
+                        $("#SUM_AMOUNT").val($("#VAT").val());
+                        $("#EXCUT_VAT").val(0);
+                        $("#VAT").val(0);
+                    } else {
+                        $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_SPLPC").val());
+                        $("#SUM_AMOUNT").val($("#SPLPC").val());
+
+                        $("#EXCUT_VAT").val(0);
+                        $("#VAT").val(0);
+                    }
+                }
             }
         });
+
+
+
     },
 
     fn_send: function(){

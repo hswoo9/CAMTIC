@@ -201,6 +201,25 @@ var enaralink = {
                     }
                 },
                 {
+                    title: "원천징수",
+                    width: 100,
+                    template : function(e) {
+                        if(e.EVID_TYPE == 5 || e.EVID_TYPE == 9){
+                            if(e.ENARA_MNG_STAT == "Y") {
+                                return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>확인</button>";
+                            } else {
+                                if (e.TRNSC_ID != null) {
+                                    return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>확인</button>";
+                                } else {
+                                    return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>전송</button>";
+                                }
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                },
+                {
                     title: "전자(세금)계산서",
                     width: 100,
                     template : function(e) {
@@ -401,9 +420,14 @@ var enaralink = {
         return;
     },
 
-    fn_openSubmitPage : function(e) {
+    fn_openSubmitPage : function(e, t) {
 
         var url = "/mng/newResolutionSubmitPage.do?payAppDetSn=" + e;
+
+        if(t != null) {
+            url += "&type=" + t
+        }
+
         var name = "newResolutionSubmitPage";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

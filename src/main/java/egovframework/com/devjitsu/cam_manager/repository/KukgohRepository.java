@@ -300,4 +300,14 @@ public class KukgohRepository extends AbstractDAO {
 
         return selectList("kukgoh.getCardPuchasRecptnList", params);
     }
+
+    public void delEnaraTaxReq(Map<String, Object> params) {
+
+        delete("kukgoh.delEnaraTaxReq", params);
+    }
+
+    public void insEnaraTaxReq(Map<String, Object> params) {
+
+        insert("kukgoh.insEnaraTaxReq", params);
+    }
 }

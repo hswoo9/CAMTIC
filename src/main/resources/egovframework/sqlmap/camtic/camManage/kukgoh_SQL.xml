@@ -409,6 +409,24 @@
         </selectKey>
     </insert>
 
+    <insert id="insEnaraTaxReq" parameterType="map">
+        /*insEnaraTaxReq*/
+        INSERT INTO CAM_ERP.DJ_ERP_TAX_REQUEST (
+        (
+            PAY_APP_DET_SN, INTRFC_ID, TRNSC_ID, EXCUT_CNTC_ID,
+            EXCUT_TY_SE_CODE, TRANSFR_ACNUT_SE_CODE, SBSACNT_TRFRSN_CODE, SBSACNT_TRFRSN_CN, BCNC_SE_CODE,
+            BCNC_LSFT_NO, BCNC_CMPNY_NM, BCNC_INDUTY_NM, BCNC_BIZCND_NM, BCNC_RPRSNTV_NM,
+            BCNC_ADRES, BCNC_TELNO, BCNC_BANK_CODE, BCNC_ACNUT_NO,
+            FNRSC_SE_CODE, SPLPC, VAT, SUM_AMOUNT, BCNC_BNKB_INDICT_CN, SBSIDY_BNKB_INDICT_CN
+        ) VALUES (
+            #{payAppDetSn}, #{INTRFC_ID}, #{TRNSC_ID}, #{EXCUT_CNTC_ID},
+            #{EXCUT_TY_SE_CODE}, #{TRANSFR_ACNUT_SE_CODE}, #{SBSACNT_TRFRSN_CODE}, #{SBSACNT_TRFRSN_CN}, #{BCNC_SE_CODE},
+            #{BCNC_LSFT_NO}, #{BCNC_CMPNY_NM}, #{BCNC_INDUTY_NM}, #{BCNC_BIZCND_NM}, #{BCNC_RPRSNTV_NM},
+            #{BCNC_ADRES}, #{BCNC_TELNO}, #{BCNC_BANK_CODE}, #{BCNC_ACNUT_NO},
+            #{FNRSC_SE_CODE}, #{EXCUT_SPLPC}, #{EXCUT_VAT}, #{EXCUT_SUM_AMOUNT}, #{BCNC_BNKB_INDICT_CN}, #{SBSIDY_BNKB_INDICT_CN}
+        )
+    </insert>
+
     <insert id="insExcutExpItmErp" parameterType="map">
         /*insExcutExpItmErp*/
         INSERT INTO CAM_ERP.T_IFR_EXCUT_EXPITM_ERP
@@ -789,4 +807,10 @@
               AND SUBSTRING(A.CARD_NO,-4) LIKE CONCAT('%', #{srchCardNo}, '%')
           </if>
     </select>
+
+
+    <delete id="delEnaraTaxReq" parameterType="map">
+        /*delEnaraTaxReq*/
+        DELETE FROM CAM_ERP.DJ_ERP_TAX_REQUEST WHERE PAY_APP_DET_SN = #{payAppDetSn}
+    </delete>
 </mapper>
