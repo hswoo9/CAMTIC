@@ -13,6 +13,7 @@ var enaralink = {
             { text: "내 지출결의서 조회", value: "emp" },
         ]
         customKendo.fn_dropDownList("searchType", enaralink.global.dropDownDataSource, "text", "value");
+        $("#searchType").data("kendoDropDownList").select(1);
 
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
