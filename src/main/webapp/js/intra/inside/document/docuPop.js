@@ -93,14 +93,14 @@ var docuContractReq = {
                 //$("#productTable").css("display", "");
             } else {
                 $("#productTable").css("display", "none");
-                $("#productCount0, #productOneMoney0, #productTotalMoney0, #contractAmount").val("");
+                $("#productCount0, #productOneMoney0, #productTotalMoney0").val("");
             }
 
             if(this.value == 4){
                 $("#rentalAmtInfo").css("display", "");
             } else {
                 $("#rentalAmtInfo").css("display", "none");
-                $("#rentalInfo, #rentalEa, #contractAmount").val("");
+                $("#rentalInfo, #rentalEa").val("");
             }
 
             if(this.value == 1 || this.value == 2){
