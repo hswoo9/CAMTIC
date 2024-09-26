@@ -1648,6 +1648,7 @@
         ON
             A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE A.PJT_SN = #{pjtSn}
+        <if test='!"T".equals(stat)'>
         UNION
         SELECT
             bb.SeqNo AS HR_BIZ_REQ_ID,
@@ -1691,6 +1692,7 @@
             DJ_CAMTIC.TripInfo bb ON aa.IntraCode = bb.ObjectCode
         WHERE bb.ObjectCode IS NOT NULL
         AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+        </if>
     </select>
 
     <select id="getProjectBustMetList" parameterType="map" resultType="map">

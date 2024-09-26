@@ -75,6 +75,11 @@ var bustInfo = {
                     data.busnName = $("#busnName").val();
                     data.empSeq = $("#regEmpSeq").val();
                     data.pjtSn = $("#pjtSn").val();
+
+                    /** 협업일때 이관데이터 조회 X */
+                    if(commonProject.global.teamStat == "Y"){
+                        data.stat = "T";
+                    }
                     return data;
                 }
             },
