@@ -211,6 +211,13 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         if(params.get("stat").equals("100")){
             setPsAppr(params);
         }
+
+        /** 승인취소 */
+        if(params.get("stat").equals("0")){
+            params.put("type", "협업승인요청");
+            params.put("frKey", params.get("teamVersionSn"));
+            campusRepository.updPsCancel(params);
+        }
     }
 
     private void setPsCheck(Map<String, Object> params) {
