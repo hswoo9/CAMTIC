@@ -154,7 +154,8 @@ var newResolutionSubmitPage = {
 
     fn_setData: function(){
         var data = {
-            payAppDetSn : $("#payAppDetSn").val()
+            payAppDetSn : $("#payAppDetSn").val(),
+            sendType : $("#sendType").val()
         };
 
         $.ajax({
@@ -305,7 +306,7 @@ var newResolutionSubmitPage = {
                     $("#BCNC_ADRES").val(ered != null ? ered.BCNC_ADRES : cd.DIV_ADDR1);
                     $("#tmpBankNm").val(cd.JIRO_NM);
                     $("#BCNC_BANK_CODE_NM").val(ered != null ? ered.BCNC_BANK_CODE_NM : (ebi != null ? ebi.CMMN_DETAIL_CODE_NM : cd.JIRO_NM));
-                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO.replaceAll("-","") : cd.BA_NB.replaceAll("-",""));
+                    $("#BCNC_ACNUT_NO").val(ered != null ? ered.BCNC_ACNUT_NO.replaceAll("-","") : (cd.BA_NM != null ? cd.BA_NM.replaceAll("-","") : pad.CRM_ACC_NO.replaceAll("-","")));
                 } else {
                     $("#BCNC_CMPNY_NM").val(pad.CRM_NM);
                     $("#BCNC_LSFT_NO").val(ered != null ? ered.BCNC_LSFT_NO : pad.REG_NO.replaceAll("-",""));
@@ -351,21 +352,79 @@ var newResolutionSubmitPage = {
                 $("#my-spinner").hide();
 
 
+                // 사업소득자, 기타소득자
                 if(pad.EVID_TYPE == "5" || pad.EVID_TYPE == "9"){
+                    // 원천징수 구분
                     if($("#sendType").val() == "C") {
-                        $("#EXCUT_TY_SE_CODE").val(24);
-                        $("#EXCUT_SPLPC").val($("#EXCUT_VAT").val());
-                        $("#SPLPC").val($("#VAT").val());
-                        $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_VAT").val());
-                        $("#SUM_AMOUNT").val($("#VAT").val());
-                        $("#EXCUT_VAT").val(0);
-                        $("#VAT").val(0);
-                    } else {
-                        $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_SPLPC").val());
-                        $("#SUM_AMOUNT").val($("#SPLPC").val());
+                        if(esd != null && esd != undefined){
+                            $("#EXCUT_TY_SE_CODE").val(esd.EXCUT_TY_SE_CODE);
+                            $("#EXCUT_SPLPC").val(esd.SPLPC);
+                            $("#SPLPC").val(comma(esd.SPLPC));
+                            $("#EXCUT_SUM_AMOUNT").val(esd.SUM_AMOUNT);
+                            $("#SUM_AMOUNT").val(comma(esd.SUM_AMOUNT));
+                            $("#EXCUT_VAT").val(esd.VAT);
+                            $("#VAT").val(comma(esd.VAT));
 
-                        $("#EXCUT_VAT").val(0);
-                        $("#VAT").val(0);
+                            $("#BCNC_SE_CODE").data("kendoDropDownList").value(esd.BCNC_SE_CODE);
+                            $("#BCNC_CMPNY_NM").val(esd.BCNC_CMPNY_NM);
+                            $("#BCNC_LSFT_NO").val(esd.BCNC_LSFT_NO);
+                            $("#BCNC_ACNUT_NO").val(esd.BCNC_ACNUT_NO);
+
+                            $("#BCNC_RPRSNTV_NM").val(esd.BCNC_RPRSNTV_NM);
+                            $("#BCNC_TELNO").val(esd.BCNC_TELNO);
+                            $("#BCNC_BIZCND_NM").val(esd.BCNC_BIZCND_NM);
+                            $("#BCNC_INDUTY_NM").val(esd.BCNC_INDUTY_NM);
+                            $("#BCNC_ADRES").val(esd.BCNC_ADRES);
+                            $("#BCNC_BANK_CODE_NM").val(esd.BCNC_BANK_CODE_NM);
+                            $("#TRANSFR_ACNUT_SE_CODE").data("kendoDropDownList").value(esd.TRANSFR_ACNUT_SE_CODE);
+
+                            $("#SBSIDY_BNKB_INDICT_CN").val(esd.SBSIDY_BNKB_INDICT_CN);
+                            $("#BCNC_BNKB_INDICT_CN").val(esd.BCNC_BNKB_INDICT_CN);
+                        } else {
+                            $("#EXCUT_TY_SE_CODE").val(24);
+                            $("#EXCUT_SPLPC").val($("#EXCUT_VAT").val());
+                            $("#SPLPC").val($("#VAT").val());
+                            $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_VAT").val());
+                            $("#SUM_AMOUNT").val($("#VAT").val());
+                            $("#EXCUT_VAT").val(0);
+                            $("#VAT").val(0);
+
+                            $("#BCNC_SE_CODE").data("kendoDropDownList").select(0);
+                            $("#BCNC_CMPNY_NM").val("캠틱종합기술원");
+                            $("#BCNC_LSFT_NO").val("4028213594");
+                            $("#BCNC_ACNUT_NO").val("529230312907");
+                        }
+                    } else {
+                        if(esd != null && esd != undefined){
+                            $("#EXCUT_TY_SE_CODE").val(ered.EXCUT_TY_SE_CODE);
+                            $("#EXCUT_SPLPC").val(ered.EXCUT_SPLPC);
+                            $("#SPLPC").val(comma(ered.EXCUT_SPLPC));
+                            $("#EXCUT_SUM_AMOUNT").val(ered.EXCUT_SUM_AMOUNT);
+                            $("#SUM_AMOUNT").val(comma(ered.EXCUT_SUM_AMOUNT));
+                            $("#EXCUT_VAT").val(ered.EXCUT_VAT);
+                            $("#VAT").val(comma(ered.EXCUT_VAT));
+
+                            $("#BCNC_SE_CODE").data("kendoDropDownList").value(ered.BCNC_SE_CODE);
+                            $("#BCNC_CMPNY_NM").val(ered.BCNC_CMPNY_NM);
+                            $("#BCNC_LSFT_NO").val(ered.BCNC_LSFT_NO);
+                            $("#BCNC_ACNUT_NO").val(ered.BCNC_ACNUT_NO);
+
+                            $("#BCNC_RPRSNTV_NM").val(ered.BCNC_RPRSNTV_NM);
+                            $("#BCNC_TELNO").val(ered.BCNC_TELNO);
+                            $("#BCNC_BIZCND_NM").val(ered.BCNC_BIZCND_NM);
+                            $("#BCNC_INDUTY_NM").val(ered.BCNC_INDUTY_NM);
+                            $("#BCNC_ADRES").val(ered.BCNC_ADRES);
+                            $("#BCNC_BANK_CODE_NM").val(ered.BCNC_BANK_CODE_NM);
+
+                            $("#SBSIDY_BNKB_INDICT_CN").val(ered.SBSIDY_BNKB_INDICT_CN);
+                            $("#BCNC_BNKB_INDICT_CN").val(ered.BCNC_BNKB_INDICT_CN);
+                        } else {
+                            $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_SPLPC").val());
+                            $("#SUM_AMOUNT").val($("#SPLPC").val());
+
+                            $("#EXCUT_VAT").val(0);
+                            $("#VAT").val(0);
+                        }
                     }
                 }
             }

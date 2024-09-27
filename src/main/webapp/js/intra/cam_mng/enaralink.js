@@ -208,7 +208,7 @@ var enaralink = {
                             if(e.ENARA_MNG_STAT == "Y") {
                                 return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>확인</button>";
                             } else {
-                                if (e.TRNSC_ID != null) {
+                                if (e.TAX_TRNSC_ID != null) {
                                     return "<button type='button' class='k-button k-button-solid-info' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>확인</button>";
                                 } else {
                                     return "<button type='button' class='k-button k-button-solid-base' onclick='enaralink.fn_openSubmitPage("+e.PAY_APP_DET_SN+", \"C\");'>전송</button>";

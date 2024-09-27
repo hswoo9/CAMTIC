@@ -75,14 +75,22 @@
             F.RSP_CD,
             G.PROCESS_RESULT_CODE,
             G.PROCESS_RESULT_MSSAGE,
-            -- 전자(세금계산서) 결과
+            -- 전자(세금계산서) 결과 start
             I.RSP_MSG AS ISS_RSP_MSG,
             I.RSP_CD AS ISS_RSP_CD,
             J.PROCESS_RESULT_CODE AS ISS_PROCESS_RESULT_CODE,
             J.PROCESS_RESULT_MSSAGE AS ISS_PROCESS_RESULT_MSSAGE,
+            -- 전자(세금계산서) 결과 end
             K.LNK_PJT_SN,
             L.BG_SN,
-            A.ENARA_MNG_STAT
+            A.ENARA_MNG_STAT,
+            -- 사업소득자, 기타소득자 원천징수 결과 start
+            TAX.TAX_TRNSC_ID,
+            TAX.TAX_RSP_MNG,
+            TAX.TAX_RSP_CD,
+            TAX.TAX_PROCESS_RESULT_CODE,
+            TAX.TAX_PROCESS_RESULT_MSSAGE
+            -- 사업소득자, 기타소득자 원천징수 결과 end
         FROM
             CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
@@ -96,6 +104,21 @@
         LEFT JOIN CAM_ERP.T_IFS_ETXBL_RESULT_ERP J ON J.ETXBL_CONFM_NO = H.ETXBL_CONFM_NO
         JOIN CAM_ERP.DJ_PROJECT_LINK K ON (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = B.PJT_CD GROUP BY PJT_CD HAVING COUNT(PJT_CD) = 1) = K.PJT_SN
         LEFT JOIN CAM_ERP.DJ_BUDGET_CODE L ON A.BUDGET_SN = L.BUDGET_SN
+        LEFT JOIN (
+            SELECT
+                aa.*,
+                aa.TRNSC_ID AS TAX_TRNSC_ID,
+                bb.RSP_MSG AS TAX_RSP_MNG,
+                bb.RSP_CD AS TAX_RSP_CD,
+                cc.PROCESS_RESULT_CODE AS TAX_PROCESS_RESULT_CODE,
+                cc.PROCESS_RESULT_MSSAGE AS TAX_PROCESS_RESULT_MSSAGE
+            FROM
+                CAM_ERP.DJ_ERP_TAX_REQUEST aa
+            LEFT JOIN
+                CAM_ERP.DJ_ERP_SEND bb ON aa.TRNSC_ID = bb.TRNSC_ID
+            LEFT JOIN
+                CAM_ERP.T_IFS_EXCUT_RESULT_ERP cc ON aa.EXCUT_CNTC_ID = cc.EXCUT_CNTC_ID
+        ) TAX ON TAX.PAY_APP_DET_SN = A.PAY_APP_DET_SN
         WHERE
             B.DOC_STATUS = 100
         <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
@@ -123,6 +146,7 @@
                 AND B.REG_EMP_SEQ = #{empSeq}
             </if>
         </if>
+        ORDER BY A.PAY_APP_DET_SN DESC
     </select>
 
     <update id="setEnaraSendExcept" parameterType="map">
@@ -411,7 +435,7 @@
 
     <insert id="insEnaraTaxReq" parameterType="map">
         /*insEnaraTaxReq*/
-        INSERT INTO CAM_ERP.DJ_ERP_TAX_REQUEST (
+        INSERT INTO CAM_ERP.DJ_ERP_TAX_REQUEST
         (
             PAY_APP_DET_SN, INTRFC_ID, TRNSC_ID, EXCUT_CNTC_ID,
             EXCUT_TY_SE_CODE, TRANSFR_ACNUT_SE_CODE, SBSACNT_TRFRSN_CODE, SBSACNT_TRFRSN_CN, BCNC_SE_CODE,
@@ -582,6 +606,28 @@
             CAM_ERP.DJ_ERP_REQ_STAT
         WHERE
             REQ_STAT_SN = #{reqStatSn}
+    </select>
+
+    <select id="getErpTaxReqData" parameterType="map" resultType="map">
+        /*getErpTaxReqData*/
+        SELECT
+            A.REQ_TAX_SN AS REQ_STAT_SN,
+            A.*,
+            (SELECT CMMN_DETAIL_CODE_NM FROM CAM_ERP.T_IFS_ERP_CMMN_CODE_DETAIL WHERE A.BCNC_BANK_CODE = CMMN_DETAIL_CODE AND CMMN_CODE = '1070') AS BCNC_BANK_CODE_NM
+        FROM
+            CAM_ERP.DJ_ERP_TAX_REQUEST A
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
+    <select id="getTaxReqStatData" parameterType="map" resultType="map">
+        /*getTaxReqStatData*/
+        SELECT
+            *
+        FROM
+            CAM_ERP.DJ_ERP_TAX_REQUEST
+        WHERE
+            REQ_TAX_SN = #{reqStatSn}
     </select>
 
     <delete id="delExcutRequstErp" parameterType="map">

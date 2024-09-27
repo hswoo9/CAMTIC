@@ -182,7 +182,12 @@ public class KukgohServiceImpl implements KukgohService {
         Map<String, Object> enaraExcData = kukgohRepository.getEnaraExcDataByEnaraProjectData(projectInfo);
         result.put("enaraExcData", enaraExcData);
 
-        Map<String, Object> enaraSendData = kukgohRepository.getErpReqData(params);
+        Map<String, Object> enaraSendData = new HashMap<>();
+        if(!params.get("sendType").equals("C")){
+            enaraSendData = kukgohRepository.getErpReqData(params);
+        } else {
+            enaraSendData = kukgohRepository.getErpTaxReqData(params);
+        }
         result.put("enaraSendData", enaraSendData);
 
         if(enaraSendData != null){
@@ -230,7 +235,15 @@ public class KukgohServiceImpl implements KukgohService {
     public Map<String, Object> sendEnara(Map<String, Object> params) {
 
         if(params.containsKey("reqStatSn") && params.get("reqStatSn") != null && !"".equals(params.get("reqStatSn").toString())) {
-            Map<String, Object> reqStatData = kukgohRepository.getReqStatData(params);
+            Map<String, Object> reqStatData = new HashMap<>();
+
+            if(!params.get("sendType").equals("C")){
+                reqStatData = kukgohRepository.getReqStatData(params);
+                kukgohRepository.delEnaraData(params);
+            } else {
+                reqStatData = kukgohRepository.getTaxReqStatData(params);
+                kukgohRepository.delEnaraTaxReq(params);
+            }
 
             kukgohRepository.delExcutRequstErp(reqStatData);
             kukgohRepository.delExcutExpItmErp(reqStatData);
@@ -241,12 +254,6 @@ public class KukgohServiceImpl implements KukgohService {
             reqStatData.put("INTRFC_ID", params.get("INTRFC_ID"));
 //            SFTPFileRemove(reqStatData);
 
-
-            if(!params.get("sendType").equals("C")){
-                kukgohRepository.delEnaraData(params);
-            } else {
-                kukgohRepository.delEnaraTaxReq(params);
-            }
         }
 
 

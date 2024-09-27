@@ -196,6 +196,15 @@ public class KukgohRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("kukgoh.getReqStatData", params);
     }
 
+    public Map<String, Object> getErpTaxReqData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("kukgoh.getErpTaxReqData", params);
+    }
+
+    public Map<String, Object> getTaxReqStatData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("kukgoh.getTaxReqStatData", params);
+    }
+
     public void delExcutRequstErp(Map<String, Object> params) {
 
         delete("kukgoh.delExcutRequstErp", params);
