@@ -34,6 +34,8 @@
 
 <input type="hidden" id="joinMember" value=""/>
 <input type="hidden" id="joinMemberSn" value=""/>
+<input type="hidden" id="partRateVer" value="" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

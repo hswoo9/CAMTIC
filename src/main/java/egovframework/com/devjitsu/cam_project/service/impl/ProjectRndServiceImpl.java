@@ -16,6 +16,7 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
+import egovframework.com.devjitsu.inside.employee.repository.EmployRepository;
 import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private CampusRepository campusRepository;
+
+    @Autowired
+    private EmployRepository employRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -468,6 +472,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setReqPartRateStatus(Map<String, Object> params) {
         projectRndRepository.updReqPartRateStatus(params);
         projectRndRepository.updReqPartRateVerToReqPartRate(params);
+
+        /** 참여율 변경 설정완료시 사업별 참여율 설정 삭제 */
+        if(params.containsKey("partRateVer")){
+            List<Map<String, Object>> checkList = employRepository.getBusnPartRatePay(params);
+
+            if(!checkList.isEmpty()){
+                employRepository.delBusnPartRatePay(params);
+            }
+        }
 
         setPsAppr(params, params.get("partRateVerSn").toString());
     }

@@ -30,6 +30,8 @@ var partRate = {
             $("#budgetAmt").val(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET));
             $("#payAmt").val(Number(rs.PAY_BUDGET));
             $("#itemAmt").val(Number(rs.ITEM_BUDGET));
+
+            $("#partRateVer").val(rs.PART_RATE_VER);
         }
 
 
@@ -573,6 +575,11 @@ var partRate = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             partRateVerSn : $("#partRateVerSn").val()
+        }
+
+        const partRateVer = $("#partRateVer").val();
+        if(partRateVer != "" && partRateVer != "1"){
+            parameters.partRateVer = partRateVer;
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setReqPartRateStatus", parameters);
