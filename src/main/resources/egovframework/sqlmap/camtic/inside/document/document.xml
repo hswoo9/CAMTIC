@@ -173,10 +173,13 @@
         SELECT
             RE.*,
             CFI.*,
+            DIS.*,
             DI.DOC_NO,
             FORMAT(RE.PROJECT_MONEY, 0) as CUSTOM_PROJECT_MONEY,
             CONCAT(RE.START_DE,' ~ ',RE.END_DE) AS CONTRACT_PERIOD,
             CONCAT(RE.DOCU_YEAR_SN,'-',RE.DOCU_NO) AS DOCU_NUM,
+            CONCAT(DIS.WARRANTY_START_DE,' ~ ',DIS.WARRANTY_END_DE) AS WARRANTY_PERIOD,
+            CONCAT(DIS.GUARANTEE_RATE,'%') AS GUARANTEE_RATE_PER,
             CASE
                 WHEN CFI.file_no IS NOT NULL THEN 'O'
                 ELSE 'X'
@@ -232,7 +235,8 @@
             CAM_MNG.DJ_PURC_CLAIM PC ON PC.CLAIM_SN = RE.CLAIM_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
-        GROUP BY RE.DOCUMENT_CONTRACT_SN
+        LEFT JOIN
+            CAM_INSIDE.DJ_DOCUMENT_INSURANCE DIS ON DIS.DOCUMENT_CONTRACT_SN = RE.DOCUMENT_CONTRACT_SN
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -1385,4 +1389,49 @@
             DOCUMENT_SN = #{documentSn}
     </select>
 
+    <insert id="setInsuranceInsert" parameterType="map">
+        /*setInsuranceInsert*/
+        INSERT INTO CAM_INSIDE.DJ_DOCUMENT_INSURANCE
+        (
+            DOCUMENT_CONTRACT_SN,
+            WARRANTY_INSURANCE_SN,
+            WARRANTY_INSURANCE_NAME,
+            WARRANTY_START_DE,
+            WARRANTY_END_DE,
+            GUARANTEE_RATE,
+            REG_EMP_SEQ,
+            REG_EMP_NAME
+        )
+        VALUES
+        <foreach collection="insurance" item="item" separator=" , ">
+            (
+                #{documentContractSn},
+                #{item.warrantyInsuranceSn},
+                #{item.warrantyInsuranceName},
+                #{item.insStartDe},
+                #{item.insEndDe},
+                #{item.guaranteeRate},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getInsuranceList" resultType="map" parameterType="map">
+        /* getInsuranceList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_DOCUMENT_INSURANCE
+        WHERE
+            DOCUMENT_CONTRACT_SN = #{documentContractSn}
+    </select>
+
+    <delete id="setInsuranceDelete" parameterType="map">
+        /* setInsuranceDelete */
+        DELETE FROM
+            CAM_INSIDE.DJ_DOCUMENT_INSURANCE
+        WHERE
+            DOCUMENT_CONTRACT_SN = #{documentContractSn}
+    </delete>
 </mapper>

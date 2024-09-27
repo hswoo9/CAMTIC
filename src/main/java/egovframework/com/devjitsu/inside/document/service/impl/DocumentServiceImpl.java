@@ -67,7 +67,10 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Map<String, Object> getDocuContractOne(Map<String, Object> params){
-        return documentRepository.getDocuContractOne(params);
+        Map<String, Object> result = documentRepository.getDocuContractOne(params);
+        result.put("insuranceArr", documentRepository.getInsuranceList(params));
+
+        return result;
     }
 
     @Override
@@ -257,6 +260,12 @@ public class DocumentServiceImpl implements DocumentService {
                 documentRepository.insOneFileInfo(fileSaveMap);
                 params.put("fileNo", fileSaveMap.get("fileNo"));
                 documentRepository.setDocuContractFileKey(params);
+
+                List<Map<String, Object>> insurance = gson.fromJson((String) params.get("insuranceArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+                if(!insurance.isEmpty()) {
+                    params.put("insurance", insurance);
+                    documentRepository.setInsuranceInsert(params);
+                }
             }else{
                 documentRepository.setDocuContractUpd(params);
 
@@ -265,6 +274,13 @@ public class DocumentServiceImpl implements DocumentService {
                 if(!area.isEmpty()) {
                     params.put("area", area);
                     documentRepository.setProductUpdate(params);
+                }
+
+                List<Map<String, Object>> insurance = gson.fromJson((String) params.get("insuranceArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+                if(!insurance.isEmpty()) {
+                    params.put("insurance", insurance);
+                    documentRepository.setInsuranceDelete(params);
+                    documentRepository.setInsuranceInsert(params);
                 }
             }
 

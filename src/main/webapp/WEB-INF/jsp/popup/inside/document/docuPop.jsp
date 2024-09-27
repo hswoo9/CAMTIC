@@ -211,6 +211,74 @@
                 </tr>
                 </thead>
             </table>
+
+            <div class="text-right" style="margin-top: 20px;">
+                <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docuContractReq.addRow()">
+                    <span class="k-button-text">추가</span>
+                </button>
+            </div>
+            <div style="width: 100%;">
+                <table class="popTable table table-bordered mb-0 mt-20">
+                    <colgroup>
+                        <col style="width: 30%;">
+                        <col style="width: auto">
+                        <col style="width: 20%;">
+                        <col style="width: 8%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>보증 보험</th>
+                        <th>보증 기간</th>
+                        <th>보증 비율</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody id="docuTbody">
+                    <tr class="docuInsurance" id="item0">
+                        <td>
+                            <input id="warrantyInsuranceSn0" style="width: 150px; margin-right:10px;">
+                            <input type="hidden" id="insuranceSn0">
+                        </td>
+                        <td>
+                            <input id="insStartDe0" style="width: 45%;">
+                            ~
+                            <input id="insEndDe0" style="width: 45%;">
+                        </td>
+                        <td>
+                            <input type="text" id="guaranteeRate0" style="width: 90%; text-align: right;"  onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
+                        </td>
+                        <td style="text-align: center">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="docuContractReq.fn_delete('0')">
+                                <span class="k-button-text">삭제</span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <%--<table class="popTable table table-bordered mb-0" id="test">
+                <thead>
+                <tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>보증 비율
+                    </th>
+                    <td>
+                        <input type="text" id="guaranteeRatio" style="width: 90%; text-align: right;"  onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>보험 기간
+                    </th>
+                    <td>
+                        <input type="text" id="insStartDe" style="width: 45%;">
+                        ~
+                        <input type="text" id="insEndDe" style="width: 45%;">
+                    </td>
+                </tr>
+
+                </tr>
+                </thead>
+            </table>--%>
             <%--<div style="margin-top: 20px; text-align: right;">
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:50px; height:27px; line-height:0;" onclick="docuContractReq.fn_areaTrAdd();">
                     추가

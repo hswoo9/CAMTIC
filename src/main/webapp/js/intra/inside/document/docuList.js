@@ -421,7 +421,19 @@ var docuContractList = {
                     field: "CO_NAME",
                     title: "계약 업체(자)",
                     width: 200
+                },{
+                    field: "WARRANTY_INSURANCE_NAME",
+                    title: "보증 보험",
+                    width: 100
+                },{
+                    field: "WARRANTY_PERIOD",
+                    title: "보증 기간",
+                    width: 200
                 }, {
+                    field: "GUARANTEE_RATE_PER",
+                    title: "보증 비율",
+                    width: 100
+                },{
                     field: "FILE_YN",
                     title: "문서",
                     width: 50

@@ -7,7 +7,8 @@ var docuContractReq = {
         addAttFiles : new Array(),
         cardList : new Array(),
         fileNoArr : new Array(),
-        fileArray : new Array()
+        fileArray : new Array(),
+        createHtmlStr : "",
     },
 
     fn_defaultScript: function(parameters){
@@ -30,10 +31,14 @@ var docuContractReq = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "projectNumber2", "zipCode", "addr", "addrDetail", "representative", "businessNumber"]);
+        customKendo.fn_textBox(["suretyInsurance", "dlvLoc", "payment", "rentalInfo", "rentalEa", "projectName", "coName", "contractAmount", "remarkCn", "projectNumber", "projectNumber2", "zipCode", "addr", "addrDetail", "representative", "businessNumber", "guaranteeRate0"]);
         customKendo.fn_datePicker("docuDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("startDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDe", 'month', "yyyy-MM-dd", new Date());
+
+        customKendo.fn_datePicker("insStartDe0", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("insEndDe0", 'month', "yyyy-MM-dd", new Date());
+
         let mainClassArr = [
             {text: "CAMTIC", value: "1"},
             {text: "JVADA", value: "2"}
@@ -65,6 +70,15 @@ var docuContractReq = {
 
         $("#docuDe, #startDe, #endDe").attr("readonly", true);
         $("#productTable").css("display", "none");
+
+
+        let insuranceArr  = [
+            {text: "계약보증", value : "1"},
+            {text: "선금보증", value: "2"},
+            {text: "하자보증", value : "3"}
+        ]
+
+        customKendo.fn_dropDownList("warrantyInsuranceSn0", insuranceArr, "text", "value", 3);
 
         var html = ""
         html += '<tr rowIndexNumber="0" class="productItem">';
@@ -205,10 +219,16 @@ var docuContractReq = {
 
         const result = customKendo.fn_customAjax("/inside/getDocuContractOne", { documentContractSn: documentContractSn, classSn : docuContractReq.global.params.classSn});
         const data = result.data;
+        const insurData = result.data.insuranceArr;
+
         if(data == null){
             return;
         }
         console.log("data", data);
+
+        if(insurData != null){
+            docuContractReq.insuranceDataSet(insurData);
+        }
 
         $("#mainClass").val(data.CLASS_SN);
         $("#class").data("kendoDropDownList").value(data.CLASS_SN);
@@ -408,6 +428,7 @@ var docuContractReq = {
         let suretyInsurance = $("#suretyInsurance").val();
         let methodSn = $("#method").val();
         let methodName = $("#method").data("kendoDropDownList").text();
+        let insuranceArr = new Array();
 
         let dlvLoc = '';
         if($("#class").val() == "1" || $("#class").val() == '2'){
@@ -425,6 +446,18 @@ var docuContractReq = {
                 bmk   		        : $(v).find('#bmk'+i).val(),
             }
             areaArr.push(areaInfo);
+        });
+
+        $.each($('.docuInsurance'), function(i, v){
+            let insuranceInfo = {
+                insuranceSn             : $(v).find("#insuranceSn" +i).val(),
+                warrantyInsuranceSn     : $(v).find("#warrantyInsuranceSn" +i).val(),
+                warrantyInsuranceName   : $(v).find("#warrantyInsuranceSn" +i).data("kendoDropDownList").text(),
+                insStartDe              : $(v).find('#insStartDe'+i).val(),
+                insEndDe                : $(v).find('#insEndDe'+i).val(),
+                guaranteeRate           : docuContractReq.uncomma($(v).find('#guaranteeRate'+i).val())
+            }
+            insuranceArr.push(insuranceInfo);
         });
 
         let data = {
@@ -466,6 +499,7 @@ var docuContractReq = {
             dlvLoc : dlvLoc,
             methodSn : methodSn,
             methodName : methodName,
+            insuranceArr : JSON.stringify(insuranceArr)
         }
 
         const documentContractSn = $("#documentContractSn").val();
@@ -492,14 +526,14 @@ var docuContractReq = {
             data.docFileName = "임대차 계약서.hwp";
         }
 
-
-
-
-
         if(classSn == "") { alert("구분이 선택되지 않았습니다."); return; }
         if(docuDe == "") { alert("계약일시가 작성되지 않았습니다."); return; }
         if(projectName == "") { alert("계약건명이 작성되지 않았습니다."); return; }
 
+        if($("#warrantyInsuranceSn0").val() == "") { alert("보증 보험을 선택해 주세요."); return; }
+        if($("#insStartDe0").val() == "") { alert("보증 시작 기간이 작성되지 않았습니다."); return; }
+        if($("#insEndDe0").val() == "") { alert("보증 종료 기간이 작성되지 않았습니다."); return; }
+        if($("#guaranteeRate0").val() == "") { alert("보증 비율이 작성되지 않았습니다."); return; }
 
         $("#docEditor").show();
 
@@ -981,4 +1015,83 @@ var docuContractReq = {
             });
         }
     },
+
+    addRow : function() {
+        const currentRows = $(".docuInsurance").length;
+
+        if (currentRows >= 3) {
+            alert("보증 보험은 최대 3개까지만 추가 가능합니다.");
+            return;
+        }
+
+        const newIndex = currentRows;
+
+        docuContractReq.global.createHtmlStr = "";
+        docuContractReq.global.createHtmlStr = "" +
+            "<tr class=\"docuInsurance newArray\" id=\"item" + newIndex + "\">" +
+            "   <td>" +
+            "       <input type=\"text\" id=\"warrantyInsuranceSn" + newIndex + "\" style=\"width: 150px; margin-right:10px;\">" +
+            "       <input type=\"hidden\" id=\"insuranceSn" + newIndex + "\">" +
+            "   </td>" +
+            "   <td>" +
+            "       <input type=\"text\" id=\"insStartDe" + newIndex + "\" style=\"width: 45%;\">" +
+            "        ~ " +
+            "       <input type=\"text\" id=\"insEndDe" + newIndex + "\" style=\"width: 45%;\">" +
+            "   </td>" +
+            "   <td>" +
+            "       <input type=\"text\" id=\"guaranteeRate" + newIndex + "\" style=\"width: 90%; text-align: right;\" onkeyup=\"docuContractReq.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\"> %" +
+            "   </td>" +
+            "   <td style=\"text-align: center\">" +
+            "       <button type=\"button\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-error\" onclick=\"docuContractReq.fn_delete(" + newIndex + ")\">" +
+            "           <span class=\"k-button-text\">삭제</span>" +
+            "       </button>" +
+            "   </td>" +
+            "</tr>";
+
+        $("#docuTbody").append(this.global.createHtmlStr);
+
+        const dataSource = [
+            {text: "계약보증", value: "1"},
+            {text: "선금보증", value: "2"},
+            {text: "하자보증", value: "3"}
+        ];
+
+        customKendo.fn_dropDownList("warrantyInsuranceSn"+ newIndex, dataSource, "text", "value", 3);
+        customKendo.fn_datePicker("insStartDe" + newIndex, 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("insEndDe" + newIndex, 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_textBox(["guaranteeRate" + newIndex]);
+    },
+
+    fn_delete: function(index) {
+        const currentRows = $(".docuInsurance").length;
+        if (currentRows > 1) {
+            $("#item" + index).remove();
+
+            $(".docuInsurance").each(function(newIndex) {
+                $(this).attr('id', "item" + newIndex);
+                $(this).find('input, button').each(function() {
+                    const oldId = $(this).attr('id');
+                    if (oldId) {
+                        const baseId = oldId.replace(/\d+$/, '');
+                        $(this).attr('id', baseId + newIndex);
+                    }
+                });
+                $(this).find('button').attr('onclick', "docuContractReq.fn_delete(" + newIndex + ")");
+            });
+        }
+    },
+
+    insuranceDataSet: function(e) {
+        $("#docuTbody tr").remove();
+
+        for (var i = 0; i < e.length; i++) {
+            docuContractReq.addRow();
+
+            $("#insuranceSn" + i).val(e[i].DOCUMENT_INSURANCE_SN);
+            $("#warrantyInsuranceSn" + i).data("kendoDropDownList").value(e[i].WARRANTY_INSURANCE_SN);
+            $("#insStartDe" + i).data("kendoDatePicker").value(new Date(e[i].WARRANTY_START_DE));
+            $("#insEndDe" + i).data("kendoDatePicker").value(new Date(e[i].WARRANTY_END_DE));
+            $("#guaranteeRate" + i).val(docuContractReq.comma(e[i].GUARANTEE_RATE));
+        }
+    }
 }

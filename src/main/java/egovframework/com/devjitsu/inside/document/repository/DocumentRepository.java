@@ -203,4 +203,10 @@ public class DocumentRepository extends AbstractDAO {
     // 접수대장 최종 결재 후 문서번호 생성
     public void setInComeDocNumUpdate(Map<String, Object> params) { update("document.setInComeDocNumUpdate", params);}
     public Map<String, Object> getUpdatedDocNum(Map<String, Object> params) {return (Map<String, Object>)selectOne("document.getUpdatedDocNum", params);}
+
+    public void setInsuranceInsert(Map<String, Object> params){insert("document.setInsuranceInsert", params);}
+
+    public List<Map<String, Object>> getInsuranceList(Map<String, Object> params) {return selectList("document.getInsuranceList", params);}
+
+    public void setInsuranceDelete(Map<String, Object> params) {update("document.setInsuranceDelete", params);}
 }
