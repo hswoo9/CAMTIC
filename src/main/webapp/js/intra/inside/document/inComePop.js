@@ -1,7 +1,9 @@
 var regisReq = {
 
     global: {
-        documentSn: ""
+        documentSn: "",
+        fileArray: [],
+        attFiles: [],
     },
 
     init: function () {
@@ -38,7 +40,7 @@ var regisReq = {
                 }
             });
             console.log("data", data);
-            regisReq.settingTempFileDataInit(data);
+            regisReq.settingTempFileDataInit(data.fileList);
             regisReq.btnSet(data);
     },
 
@@ -65,45 +67,6 @@ var regisReq = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
-    },
-
-    settingTempFileDataInit : function(e, p){
-        var html = '';
-
-        if(p == "result"){
-            if(e.file_no > 0){
-                $(".resultTh").hide();
-                html += '<tr style="text-align: center">';
-                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
-                html += '   <td>'+ e.file_ext +'</td>';
-                html += '   <td>'+ e.file_size +'</td>';
-                html += '</tr>';
-                $("#fileGrid").html(html);
-            }else{
-                $("#fileGrid").html('<tr>' +
-                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                    '</tr>');
-            }
-        } else {
-            if(e.file_no > 0){
-                $(".resultTh").show();
-                html += '<tr style="text-align: center"  class="addFile">';
-                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
-                html += '   <td>'+ e.file_ext +'</td>';
-                html += '   <td>'+ e.file_size +'</td>';
-                html += '   <td>';
-                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
-                    '			<span class="k-button-text">삭제</span>' +
-                    '		</button>';
-                html += '   </td>';
-                html += '</tr>';
-                $("#fileGrid").html(html);
-            }else{
-                $("#fileGrid").html('<tr>' +
-                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                    '</tr>');
-            }
-        }
     },
 
     saveBtn: function () {
@@ -188,21 +151,11 @@ var regisReq = {
         }
 
         //증빙파일 첨부파일
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("inComeFile", fCommon.global.attFiles[i]);
+        if(regisReq.global.attFiles != null){
+            for(var i = 0; i < regisReq.global.attFiles.length; i++){
+                formData.append("inComeFile", regisReq.global.attFiles[i]);
             }
         }
-
-        console.log(fCommon.global.attFiles.length + "파일크기");
-        if(fCommon.global.attFiles.length != 0){
-            if(fCommon.global.attFiles.length > 1){
-                alert("첨부파일은 1개만 업로드 가능합니다.");
-                return false;
-            }
-            console.log(fCommon.global.attFiles);
-        }
-
 
         if (documentSn === "") {
             if (!confirm("문서를 등록하시겠습니까?")) {
@@ -271,7 +224,141 @@ var regisReq = {
         } else {
             $(".managerTd").hide();
         }
-    }
+    },
+
+    fnUploadFile : function(e) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray2 = Array.from(regisReq.global.attFiles);
+        fileArray2.splice(e, 1);
+        fileArray2.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        regisReq.global.attFiles = dataTransfer.files;
+
+        var fileArray = [];
+        fileArray = regisReq.global.attFiles;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fileArray.length; i++) {
+                var fileName = fileArray[i].name.substring(0, fileArray[i].name.lastIndexOf("."));
+                var fileExt = fileArray[i].name.substring(fileArray[i].name.lastIndexOf(".") + 1);
+
+                size = fCommon.bytesToKB(fileArray[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regisReq.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">등록된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(regisReq.global.attFiles.length == 0){
+            regisReq.global.attFiles = new Array();
+        }
+    },
+
+    addFileInfoTable : function (){
+        $("#emptyTr").remove();
+        let size = 0;
+        let fileName = "";
+        let fileExt = "";
+
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            regisReq.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        if(regisReq.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < regisReq.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(regisReq.global.attFiles[i].size);
+                fileName = regisReq.global.attFiles[i].name.substring(0, regisReq.global.attFiles[i].name.lastIndexOf("."));
+                fileExt = regisReq.global.attFiles[i].name.substring(regisReq.global.attFiles[i].name.lastIndexOf(".")+1);
+
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regisReq.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    /** 첨부파일 데이터 세팅 */
+    settingTempFileDataInit: function(e){
+        var e = e;
+        var html = '';
+        if(e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
+                html += '   <td>'+ e[i].file_ext +'</td>';
+                html += '   <td>'+ e[i].file_size +'</td>';
+                html += '   <td>';
+                if(regisReq.global.status == "0" || regisReq.global.status == "30" || regisReq.global.status == "40") {
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			    <span class="k-button-text">삭제</span>' +
+                        '		    </button>';
+                }
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ e[i].file_path +'\', \''+ e[i].file_uuid +'\')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").html(html);
+        }else{
+            $("#fileGrid").html('<tr>' +
+                '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
+    },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var hostUrl = "";
+        if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+        var popup = window.open(hostUrl + path, name, option);
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = regisReq.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
+    },
 }
 
 function userDataSet(userArr) {

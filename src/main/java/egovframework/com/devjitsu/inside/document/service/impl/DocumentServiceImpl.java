@@ -544,7 +544,10 @@ public class DocumentServiceImpl implements DocumentService {
     // 접수대장 팝업 조회
     @Override
     public Map<String, Object> getInComeUpdateList(Map<String, Object> params) {
-        return documentRepository.getInComeUpdateList(params);
+        Map<String, Object> result = documentRepository.getInComeUpdateList(params);
+        result.put("fileList", documentRepository.getInComeUpdateFileList(params));
+
+        return result;
     }
 
     // 접수대장 팝업 수정

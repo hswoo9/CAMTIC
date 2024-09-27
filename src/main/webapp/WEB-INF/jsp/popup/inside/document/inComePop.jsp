@@ -127,14 +127,15 @@
 
         <form style="padding: 0px 30px;">
             <div class="card-header" style="padding: 5px;">
-                <h3 class="card-title"><span class="red-star"></span>수신 문서<span class="red-star" style="font-size: 10px; margin-left:12px;">*첨부 파일은 1개만 등록 가능</span></h3>
+                <h3 class="card-title"><span class="red-star"></span>수신 문서</h3>
                 <div class="card-options">
                     <div class="filebox">
                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                             <span class="k-button-text">파일첨부</span>
                         </button>
-                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                        <input type="file" id="fileList" name="fileList" onchange="regisReq.addFileInfoTable();" multiple style="display: none"/>
+                        <%--<button type="button" class="k-button k-button-solid-base" onclick="regisReq.fn_multiDownload();" style="margin-left: 5px;">일괄 다운로드</button>--%>
                     </div>
                 </div>
             </div>

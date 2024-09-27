@@ -167,11 +167,9 @@ public class DocumentRepository extends AbstractDAO {
     public void setInComeUpdate(Map<String, Object> params) {update("document.setInComeUpdate", params);
     }
 
-/*
     public List<Map<String, Object>> getInComeUpdateFileList(Map<String, Object> params) {
         return selectList("document.getInComeUpdateFileList", params);
     }
-*/
 
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return selectList("document.getCardList", params);
