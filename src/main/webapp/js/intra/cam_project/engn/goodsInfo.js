@@ -42,6 +42,7 @@ var goodsInfo = {
             $("#goodsDelvDe").val(pjtMap.DELV_DE);
             $("#delvDeHistBtn").show();
             $("#saveCk").val("Y");
+            $("#goodsDelvDe").data("kendoDatePicker").enable(false);
         } else {
             $("#delvDeHistBtn").hide();
         }
