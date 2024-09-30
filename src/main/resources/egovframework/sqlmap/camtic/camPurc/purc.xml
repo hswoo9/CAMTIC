@@ -1330,6 +1330,7 @@
                 IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
                 IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
                 REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ), '') AS EMP_NAME,
                 DI.DOC_NO,
                 (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING,
                 (SELECT MNG_SET_STAT FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING_YN,
@@ -1409,23 +1410,26 @@
                 </when>
                 <when test='"3".equals(inspectStat)'>
                     AND PA.DOC_STATUS IN (100,101)
-                    AND D.EXNP_STATUS IS NULL
+                    AND (
+                        C.ITEM_COUNT != IFNULL(E.EXNP_DOC_STATUS, 0)
+                        OR D.EXNP_STATUS != IFNULL(E.EXNP_DOC_STATUS, 0)
+                        OR E.RE_STAT != 'Y'
+                    )
                 </when>
                 <when test='"4".equals(inspectStat)'>
                     AND PA.DOC_STATUS IN (100,101)
                     AND (
-                        C.ITEM_COUNT = IFNULL(E.EXNP_DOC_STATUS, 0)
-                    AND D.EXNP_STATUS = IFNULL(E.EXNP_DOC_STATUS, 0)
-                    AND E.RE_STAT = 'Y'
+                        C.ITEM_COUNT != IFNULL(E.EXNP_DOC_STATUS, 0)
+                        OR D.EXNP_STATUS != IFNULL(E.EXNP_DOC_STATUS, 0)
+                        OR E.RE_STAT != 'Y'
                     )
-                    AND D.EXNP_STATUS IS NOT NULL
                 </when>
                 <when test='"5".equals(inspectStat)'>
                     AND PA.DOC_STATUS IN (100,101)
                     AND (
-                        C.ITEM_COUNT != IFNULL(E.EXNP_DOC_STATUS, 0)
-                     OR D.EXNP_STATUS != IFNULL(E.EXNP_DOC_STATUS, 0)
-                     OR E.RE_STAT != 'Y'
+                        C.ITEM_COUNT = IFNULL(E.EXNP_DOC_STATUS, 0)
+                        AND D.EXNP_STATUS = IFNULL(E.EXNP_DOC_STATUS, 0)
+                        AND E.RE_STAT = 'Y'
                     )
                     AND D.EXNP_STATUS IS NOT NULL
                 </when>

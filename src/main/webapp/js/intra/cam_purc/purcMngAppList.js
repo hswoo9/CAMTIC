@@ -46,8 +46,8 @@ var purcMngAppList = {
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
-            { text: "지출대기", value: "5" },
-            { text: "지출완료", value: "4" },
+            { text: "지출대기", value: "4" },
+            { text: "지출완료", value: "5" },
         ]
 
         customKendo.fn_dropDownList("inspectStat", purcMngAppList.global.dropDownDataSource, "text", "value");
@@ -191,10 +191,6 @@ var purcMngAppList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "요청부서",
-                    field: "DEPT_NAME",
-                    width: 180,
-                }, {
                     field: "PURC_TYPE",
                     title: "구매구분",
                     width: 80,
@@ -216,6 +212,10 @@ var purcMngAppList = {
                         return result
                     }
                 }, {
+                    field: "CLAIM_DE",
+                    title: "구매청구일",
+                    width: 120
+                }, {
                     title: "프로젝트명",
                     field: "PJT_NM",
                     width: 200,
@@ -227,16 +227,24 @@ var purcMngAppList = {
                         }
                     }
                 }, {
+                    title: "요청부서",
+                    field: "DEPT_NAME",
+                    width: 180,
+                }, {
+                    field: "EMP_NAME",
+                    title: "요청자",
+                    width: 120
+                }, {
+                    field: "CRM_NM",
+                    title: "업체명",
+                    width: 120
+                }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
                     width: 200,
                     template : function (e) {
                         return '<div style="font-weight: bold; text-align: left; cursor: pointer" onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.CLAIM_TITLE + '</div>'
                     }
-                }, {
-                    field: "CRM_NM",
-                    title: "업체명",
-                    width: 120
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
