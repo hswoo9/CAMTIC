@@ -545,7 +545,9 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Map<String, Object> getInComeUpdateList(Map<String, Object> params) {
         Map<String, Object> result = documentRepository.getInComeUpdateList(params);
-        result.put("fileList", documentRepository.getInComeUpdateFileList(params));
+        if(params.get("documentSn") != null && !params.get("documentSn").equals("")){
+            result.put("fileList", documentRepository.getInComeUpdateFileList(params));
+        }
 
         return result;
     }

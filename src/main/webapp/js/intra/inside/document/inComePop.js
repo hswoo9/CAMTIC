@@ -4,6 +4,7 @@ var regisReq = {
         documentSn: "",
         fileArray: [],
         attFiles: [],
+        status : "",
     },
 
     init: function () {
@@ -40,6 +41,7 @@ var regisReq = {
                 }
             });
             console.log("data", data);
+            regisReq.global.status = data.STATUS;
             regisReq.settingTempFileDataInit(data.fileList);
             regisReq.btnSet(data);
     },

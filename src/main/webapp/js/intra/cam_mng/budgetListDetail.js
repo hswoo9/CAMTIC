@@ -368,7 +368,7 @@ var bld = {
     fn_budgetDetailViewPop : function(type, bgtCd, temp){
         var url = "/mng/pop/budgetDetailView.do?pjtCd=" + $("#pjtCd").val() + "&bgtCd=" + bgtCd + "&type=" + type + "&temp=" + temp + "&strDt=" + $("#g20FrDt").val() + "&endDt=" + $("#g20ToDt").val();
         var name = "_blank";
-        var option = "width = 1000, height = 720, top = 100, left = 200, location = no";
+        var option = "width = 1250, height = 720, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
     },
