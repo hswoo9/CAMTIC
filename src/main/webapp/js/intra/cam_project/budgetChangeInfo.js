@@ -114,28 +114,50 @@ var budgetChangeInfo = {
         });
         $("#list").val(joinSn);
 
-        $("#changeDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
-            var name = "changeApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'changeApprovalPop';
-        }).trigger("submit");
+        const result = customKendo.fn_customAjax("/projectRnd/insChangeInfo", {
+            pjtSn: $("#pjtSn").val(),
+            empSeq: $("#loginEmpSeq").val(),
+            num: 1
+        });
+
+        if(result.code != 200){
+            alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            $("#pjtChSn").val(result.params.pjtChSn);
+            $("#changeDraftFrm").one("submit", function() {
+                var url = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
+                var name = "changeApprovalPop";
+                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                var popup = window.open(url, name, option);
+                this.action = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
+                this.method = 'POST';
+                this.target = 'changeApprovalPop';
+            }).trigger("submit");
+        }
     },
 
     reDrafting: function() {
-        alert("1. 열람자 지정 필수(예산담당자) \n2. 기존에 없는 비목으로 변경이 필요한 경우 전자결재 내의 한글양식에서 수정하여 사용해주시기바랍니다.");
+        const result = customKendo.fn_customAjax("/projectRnd/insChangeInfo", {
+            pjtSn: $("#pjtSn").val(),
+            empSeq: $("#loginEmpSeq").val(),
+            num: 2
+        });
 
-        $("#changeDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
-            var name = "reApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'reApprovalPop';
-        }).trigger("submit");
+        if(result.code != 200){
+            alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            $("#pjtChSn").val(result.params.pjtChSn);
+
+            alert("1. 열람자 지정 필수(예산담당자) \n2. 기존에 없는 비목으로 변경이 필요한 경우 전자결재 내의 한글양식에서 수정하여 사용해주시기바랍니다.");
+            $("#changeDraftFrm").one("submit", function() {
+                var url = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
+                var name = "reApprovalPop";
+                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                var popup = window.open(url, name, option);
+                this.action = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
+                this.method = 'POST';
+                this.target = 'reApprovalPop';
+            }).trigger("submit");
+        }
     },
 }

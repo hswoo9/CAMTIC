@@ -788,7 +788,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("pjtSn", approKey);
+        params.put("pjtChSn", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));
@@ -796,9 +796,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         params.put("empSeq", empSeq);
         params.put("num", num);
 
-        if("10".equals(docSts)) { // 상신
+        /*if("10".equals(docSts)) { // 상신
             projectRndRepository.insChangeInfo(params);
-        }
+        }*/
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectRndRepository.updateChangeApprStat(params);
@@ -881,6 +881,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         params.put("type", "참여율요청");
         params.put("frKey", pk);
         campusRepository.updPsStatus(params);
+    }
+
+    @Override
+    public void insChangeInfo(Map<String, Object> params) {
+        projectRndRepository.insChangeInfo(params);
     }
 }
 
