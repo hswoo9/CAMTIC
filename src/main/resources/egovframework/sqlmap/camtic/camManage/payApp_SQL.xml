@@ -3269,6 +3269,33 @@
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'exnp' AND DOC_ID = #{exnpDocId})
     </select>
 
+    <select id="getPayAppDocFileInfo" parameterType="map" resultType="map">
+        /*getPayAppDocFileInfo*/
+        SELECT
+            A.file_no,
+            A.file_cd,
+            A.file_uuid,
+            B.DOC_TITLE as file_org_name,
+            A.file_path,
+            A.file_size,
+            A.file_ext,
+            A.file_down_path,
+            A.emp_seq,
+            A.CONTENT_ID,
+            A.DOC_ID,
+            A.FR_KEY,
+            A.REG_EMP_SEQ,
+            A.REG_DATE,
+            A.MOD_DATE,
+            A.MOD_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B ON A.DOC_ID = B.DOC_ID
+        WHERE 1=1
+            AND B.DOC_ID = #{docId}
+    </select>
+
     <select id="getPayAppDocFileList2" parameterType="map" resultType="map">
         /*getPayAppDocFileList2*/
         SELECT
