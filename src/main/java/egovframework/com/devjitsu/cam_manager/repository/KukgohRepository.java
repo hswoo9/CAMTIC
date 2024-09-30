@@ -319,4 +319,11 @@ public class KukgohRepository extends AbstractDAO {
 
         insert("kukgoh.insEnaraTaxReq", params);
     }
+
+    public void cancelEnaraMng(Map<String, Object> params) {
+        // enara 미전송 처리
+        update("kukgoh.cancelEnaraPayAppStatus", params);
+        // enara 전송상태 삭제
+        delete("kukgoh.cancelEnaraMng", params);
+    }
 }

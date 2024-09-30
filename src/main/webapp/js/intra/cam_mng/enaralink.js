@@ -111,7 +111,10 @@ var enaralink = {
                     name : 'button',
                     template : function (){
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraStatChange(\'succ\');">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-primary" onclick="enaralink.fn_enaraCancel();">' +
+                            '	<span class="k-button-text">전송취소</span>' +
+                            '</button>'+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraStatChange(\'succ\');">' +
                             '	<span class="k-button-text">전송완료처리</span>' +
                             '</button>'+
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_enaraStatChange(\'cancle\');">' +
@@ -156,7 +159,7 @@ var enaralink = {
                             sendChk = "I";
                         }
 
-                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"' sendChk='"+sendChk+"'>";
+                        return "<input type='checkbox' id='payAppDet_"+e.PAY_APP_DET_SN+"' name='payAppDetChk' class='payAppDetChk'  value='"+e.PAY_APP_DET_SN+"' sendChk='"+sendChk+"' enaraStatus='"+e.PROCESS_RESULT_CODE+"'>";
                     },
                     width: 50
                 },
@@ -475,6 +478,7 @@ var enaralink = {
 
         var sendFlag = false;
         var sendFlag2 = false;
+        var sendFlag3 = false;
 
         var comfirmTxt = "";
         var status = "";
@@ -484,10 +488,19 @@ var enaralink = {
                 if($(this).attr("sendChk") == "I"){
                     sendFlag2 = true;
                 }
+
+                if($(this).attr("enaraStatus") == "000"){
+                    sendFlag3 = true;
+                }
             });
 
             if(sendFlag2){
                 alert("전송 진행중인 지급신청서가 포함되어 있습니다.");
+                return;
+            }
+
+            if(sendFlag3){
+                alert("E나라에 전송완료된 지급신청서가 포함되어 있습니다.");
                 return;
             }
 
@@ -558,4 +571,52 @@ var enaralink = {
         var option = "width=1200, height=300, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     },
+
+    fn_enaraCancel: function (){
+        if(!confirm("E나라에서 선삭제 후 사용해주세요.")){return;}
+        if($("input[name='payAppDetChk']:checked").length == 0){
+            alert("취소 항목을 선택해주세요.");
+            return;
+        }
+
+        var flag = true;
+        $("input[name='payAppDetChk']:checked").each(function(){
+            if($(this).attr("enaraStatus") != "000"){
+                flag = false
+            }
+        });
+
+        if(!flag){
+            alert("E나라에 전송되지 않은 지급신청서가 포함되어 있습니다.");
+            return;
+        } else {
+            if(!confirm("취소하시겠습니까?")){
+                return;
+            }
+        }
+
+        $("input[name='payAppDetChk']:checked").each(function(){
+            var data = {
+                payAppDetSn : $(this).val()
+            }
+
+            console.log(data);
+
+            $.ajax({
+                url: "/kukgoh/cancelEnaraMng",
+                data: data,
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs) {
+                },
+                error: function (e) {
+                    console.log('error : ', e);
+                }
+            });
+        });
+
+        enaralink.gridReload();
+        alert("취소되었습니다.");
+    }
 }

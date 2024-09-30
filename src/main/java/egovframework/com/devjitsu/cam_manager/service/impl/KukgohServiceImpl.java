@@ -914,4 +914,9 @@ public class KukgohServiceImpl implements KukgohService {
 
         return dataStream;
     }
+
+    @Override
+    public void cancelEnaraMng(Map<String, Object> params) {
+        kukgohRepository.cancelEnaraMng(params);
+    }
 }

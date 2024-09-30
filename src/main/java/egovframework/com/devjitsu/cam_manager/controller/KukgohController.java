@@ -479,4 +479,12 @@ public class KukgohController {
         return "jsonView";
     }
 
+    @RequestMapping("/kukgoh/cancelEnaraMng")
+    public String cancelEnaraMng(@RequestParam Map<String ,Object> params, Model model){
+        kukgohService.cancelEnaraMng(params);
+        model.addAttribute("rs", "sc");
+
+        return "jsonView";
+    }
+
 }
