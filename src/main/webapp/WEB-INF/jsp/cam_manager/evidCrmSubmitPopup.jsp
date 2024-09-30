@@ -167,6 +167,11 @@
 				if(rs.code == 200){
 					alert("전송이 완료되었습니다.");
 					$("#my-spinner").hide();
+
+					if(opener.parent.enaralink != null) {
+						opener.parent.enaralink.gridReload()
+					}
+
 					window.location.reload();
 				}
 

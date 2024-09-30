@@ -314,8 +314,8 @@ public class KukgohServiceImpl implements KukgohService {
             fileMap.put("FILE_ID", params.get("FILE_ID"));
 
             String fileOrgName = fileMap.get("file_org_name").toString().replaceAll("'", "");
-            if(fileOrgName.length() > 120){
-                fileOrgName = fileOrgName.substring(0, 120);
+            if(fileOrgName.length() > 50){
+                fileOrgName = fileOrgName.substring(0, 50);
             }
             fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileOrgName + "." + fileMap.get("file_ext").toString());
             fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("CNTC_ORG_FILE_NM").toString());
@@ -736,7 +736,7 @@ public class KukgohServiceImpl implements KukgohService {
 
             if(resEtxblData == null){
                 result.put("msg", "전송진행중");
-                result.put("etaxStat", "Y");
+                result.put("etaxStat", "N");
             } else {
                 if(resEtxblData.get("PROCESS_RESULT_CODE").equals("000")){
                     result.put("msg", "정상");
