@@ -390,9 +390,13 @@ var newResolutionSubmitPage = {
                             $("#VAT").val(0);
 
                             $("#BCNC_SE_CODE").data("kendoDropDownList").select(0);
-                            $("#BCNC_CMPNY_NM").val("캠틱종합기술원");
+                            $("#BCNC_CMPNY_NM").val("(사)캠틱종합기술원");
                             $("#BCNC_LSFT_NO").val("4028213594");
-                            $("#BCNC_ACNUT_NO").val("529230312907");
+                            $("#BCNC_ACNUT_NO").val("529130312826");
+
+                            $("#tmpBankNm").val("전북은행");
+                            $("#BCNC_BANK_CODE_NM").val("전북은행");
+                            $("#BCNC_BANK_CODE").val("037");
                         }
                     } else {
                         if(esd != null && esd != undefined){
