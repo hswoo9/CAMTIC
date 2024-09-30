@@ -340,6 +340,8 @@
         LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
             A.PJT_CD = #{PJT_CD}
+          AND
+            A.TEAM_STAT='N'
     </select>
 
     <select id="getEnaraBgtDataByPayAppData" parameterType="map" resultType="map">
