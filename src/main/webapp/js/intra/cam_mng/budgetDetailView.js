@@ -70,12 +70,8 @@ var bdv = {
                         } else {
                             title = '';
                         }
-
-                        if(e.INFO_CODE != null){
-                            return '<div style="cursor: pointer; font-weight: bold" onclick="bdv.fn_regExnpPopup('+e.EXNP_SN+', '+ e.PAY_APP_SN +', '+e.PAY_APP_TYPE+')">'+title+'</div>';
-                        } else {
-                            return '<div style="cursor: pointer; font-weight: bold">'+title+'</div>';
-                        }
+                        
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="bdv.fn_regExnpPopup('+e.EXNP_SN+', '+ e.PAY_APP_SN +', '+e.PAY_APP_TYPE+')">'+title+'</div>';
                     }
                 }, {
                     title: "신청자",
