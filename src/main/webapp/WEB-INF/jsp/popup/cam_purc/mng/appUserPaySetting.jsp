@@ -84,9 +84,13 @@
                     <span id="payFileName"></span>
                 </td>
             </c:if>
+            <div>
+                <span style="font-size: 12px; color: red;">* 추가 등록하거나 체크된 첨부파일만 구매 지급 요청서에 첨부됩니다.</span>
+            </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
-                    <col width="40%">
+                    <col width="3%">
+                    <col width="37%">
                     <col width="20%">
                     <col width="20%">
                     <col width="10%">
@@ -94,6 +98,7 @@
                 </colgroup>
                 <thead>
                 <tr>
+                    <th><input type="checkbox"  id="checkAll" name="checkAll" checked /></th>
                     <th>파일명</th>
                     <th>확장자</th>
                     <th>크기</th>
@@ -105,7 +110,7 @@
                 </thead>
                 <tbody id="fileGrid">
                 <tr id="emptyTr">
-                    <td colspan="5" style="text-align: center">등록된 파일이 없습니다.</td>
+                    <td colspan="6" style="text-align: center">등록된 파일이 없습니다.</td>
                 </tr>
                 </tbody>
             </table>

@@ -1,6 +1,7 @@
 const appUserPaySetting = {
 
     global : {
+        fileArray: [],
         attFiles : [],
         itemIndex : 1,
         createHtmlStr : "",
@@ -61,6 +62,11 @@ const appUserPaySetting = {
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=fileChk]").prop("checked", true);
+            else $("input[name=fileChk]").prop("checked", false);
+        });
 
     },
 
@@ -156,6 +162,7 @@ const appUserPaySetting = {
                     if(rs.length > 0){
                         for(var i = 0; i < rs.length; i++){
                             html += '<tr style="text-align: center">';
+                            html += '   <td><input type="checkbox" id="fileChk_'+ rs[i].file_no +'" value="'+ rs[i].file_no +'" checked name="fileChk"></td>';
                             html += '   <td style="text-align: left;">'+ rs[i].file_org_name +'</td>';
                             html += '   <td>'+ rs[i].file_ext +'</td>';
                             html += '   <td>'+ fCommon.bytesToKB(rs[i].file_size) +'</td>';
@@ -339,6 +346,16 @@ const appUserPaySetting = {
             }
         }
 
+        appUserPaySetting.global.fileArray = [];
+        $.each($("input[name='fileChk']"), function(){
+            if($(this).prop("checked")){
+                appUserPaySetting.global.fileArray.push($(this).val());
+            }
+        })
+
+        formData.append("fileArray", appUserPaySetting.global.fileArray);
+
+
         $.ajax({
             url : "/purc/setPayAppPurcReq",
             data : formData,
@@ -385,6 +402,7 @@ const appUserPaySetting = {
                     }
                 }
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td></td>';
                 html += '   <td style="text-align: left">' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
