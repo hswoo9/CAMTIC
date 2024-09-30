@@ -115,12 +115,21 @@ var depositList = {
                         var stat = "";
                         if(e.APPR_STAT == "Y") {
                             stat = "미입금";
-                            if(e.TOT_AMT == 0){
-                                stat = "미입금";
-                            } else if(e.DEPO_AMT <= e.TOT_AMT){
-                                stat = "입금완료";
-                            } else if(e.DEPO_AMT > e.TOT_AMT){
-                                stat = "부분입금";
+
+                            if(e.EVID_TYPE == "1" || e.EVID_TYPE == "3" || e.EVID_TYPE == "5") {
+                                if(e.RE_TOT_COST == 0){
+                                    stat = "미입금";
+                                } else if(e.TOT_DET_AMT <= e.RE_TOT_COST){
+                                    stat = "입금완료";
+                                } else if(e.TOT_DET_AMT > e.RE_TOT_COST){
+                                    stat = "부분입금";
+                                }
+                            } else {
+                                if(e.DOC_STATUS == "100") {
+                                    stat = "입금완료";
+                                } else {
+                                    stat = "미입금";
+                                }
                             }
 
                         } else {
