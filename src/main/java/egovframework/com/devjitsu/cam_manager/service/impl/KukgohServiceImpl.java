@@ -312,7 +312,12 @@ public class KukgohServiceImpl implements KukgohService {
             fileMap.put("TRNSC_ID", params.get("TRNSC_ID"));
             fileMap.put("FILE_SN", fileCnt);
             fileMap.put("FILE_ID", params.get("FILE_ID"));
-            fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileMap.get("file_org_name").toString().replaceAll("'", "") + "." + fileMap.get("file_ext").toString());
+
+            String fileOrgName = fileMap.get("file_org_name").toString().replaceAll("'", "");
+            if(fileOrgName.length() > 120){
+                fileOrgName = fileOrgName.substring(0, 120);
+            }
+            fileMap.put("CNTC_ORG_FILE_NM",  fileMap.get("FILE_ID") + "_" + fileOrgName + "." + fileMap.get("file_ext").toString());
             fileMap.put("CNTC_FILE_NM", params.get("TRNSC_ID") + "-" + fileMap.get("CNTC_ORG_FILE_NM").toString());
 
             fileMap.put("CNTC_CREAT_DT", params.get("CNTC_CREAT_DT"));
