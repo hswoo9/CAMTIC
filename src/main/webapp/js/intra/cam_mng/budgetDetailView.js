@@ -30,6 +30,17 @@ var bdv = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
+            toolbar: [
+                {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "지출내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -39,6 +50,7 @@ var bdv = {
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "PAY_APP_TYPE",
                     title: "문서유형",
                     width: 90,
                     template: function(e){
@@ -57,9 +69,13 @@ var bdv = {
                         }
                     }
                 }, {
-                    title: "신청건명",
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 150
+                }, {
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    title: "신청건명",
+                    width: 350,
                     template: function(e){
 
                         var title = "";
@@ -74,13 +90,13 @@ var bdv = {
                         return '<div style="cursor: pointer; font-weight: bold" onclick="bdv.fn_regExnpPopup('+e.EXNP_SN+', '+ e.PAY_APP_SN +', '+e.PAY_APP_TYPE+')">'+title+'</div>';
                     }
                 }, {
+                    field: "EMP_NAME",
                     title: "신청자",
-                    width: 70,
-                    field: "EMP_NAME"
+                    width: 70
                 }, {
+                    field: "REQ_DE",
                     title: "지출요청일",
                     width: 80,
-                    field: "REQ_DE",
                     template : function(e){
                         if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
                             return '<a href="javascript:alert(\''+e.EXNP_ISS+'\')" style="font-weight: bold">'+e.REQ_DE+'</a>';
@@ -90,6 +106,7 @@ var bdv = {
                     },
                     footerTemplate: "합계"
                 }, {
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 110,
                     template: function(e){
@@ -105,6 +122,7 @@ var bdv = {
                         return "<div style='text-align: right'>"+comma(exnpSum)+"</div>";
                     }
                 }, {
+                    field: "RE_STAT",
                     title: "상태",
                     width: 70,
                     template : function(e){
@@ -141,6 +159,17 @@ var bdv = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
+            toolbar: [
+                {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "수입내역 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -150,6 +179,7 @@ var bdv = {
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "PAY_APP_TYPE",
                     title: "구분",
                     width: 80,
                     template: function(e){
@@ -160,13 +190,17 @@ var bdv = {
                         }
                     }
                 }, {
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 150
+                }, {
+                    field: "APP_DE",
                     title: "결의일자",
                     width: 80,
-                    field: "APP_DE",
                 }, {
-                    title: "적요",
                     field: "APP_CONT",
-                    width: 250,
+                    title: "적요",
+                    width: 350,
                     template: function(e){
                         if(e.INFO_CODE != null && e.INFO_CODE != "" && e.INFO_CODE != undefined){
                             return '<div style="cursor: pointer; font-weight: bold">'+e.APP_CONT+'</div>';
@@ -179,15 +213,16 @@ var bdv = {
                         }
                     }
                 }, {
+                    field: "CRM_NM",
                     title: "거래처",
-                    width: 120,
-                    field: "CRM_NM"
+                    width: 120
                 }, {
+                    field: "EMP_NAME",
                     title: "신청자",
                     width: 80,
-                    field: "EMP_NAME",
                     footerTemplate: "합계"
                 }, {
+                    field: "TOT_COST",
                     title: "총금액",
                     width: 100,
                     template: function(e){
@@ -202,6 +237,7 @@ var bdv = {
                         return "<div style='text-align: right'>"+comma(incpSum)+"</div>";
                     }
                 }, {
+                    field: "DEPO_COST",
                     title: "입금금액",
                     width: 100,
                     template: function(e){
