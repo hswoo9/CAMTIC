@@ -10,6 +10,14 @@ var budgetPjtChoicePop = {
         budgetPjtChoicePop.mainGrid();
     },
 
+    gridReload : function(){
+        if($("#budgetPjtChoice").data("kendoGrid") != null){
+            $("#budgetPjtChoice").data("kendoGrid").destroy();
+        }
+
+        budgetPjtChoicePop.mainGrid();
+    },
+
     mainGrid : function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -52,7 +60,7 @@ var budgetPjtChoicePop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            persistSelection : true,
+            // persistSelection : true,
             columns: [
                 {
                     field : "DDTLBZ_ID",

@@ -38,7 +38,7 @@
                 <th class="text-center th-color">사업명</th>
                 <td style="display: flex;justify-content: space-between;">
                     <input type="text" id="budgetGroup" name="budgetGroup" class="k-input" style="width: 250px;">
-                    <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base">
+                    <button type="button" id="reqBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetPjtChoicePop.gridReload();">
                         <span class="k-button-text">검색</span>
                     </button>
                 </td>
