@@ -66,7 +66,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>내용</th>
+                    <th>위반내용<br><span style="color:red;">(상세히 기술요망)</span></th>
                     <td colspan="3">
                         <textArea id="poemCont"></textArea>
                     </td>
