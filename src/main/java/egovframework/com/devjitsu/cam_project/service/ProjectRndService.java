@@ -92,4 +92,6 @@ public interface ProjectRndService {
     void delDevSch(Map<String, Object> params);
 
     void carryoverApp(Map<String, Object> params);
+
+    void insChangeInfo(Map<String, Object> params);
 }

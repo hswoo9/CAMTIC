@@ -1054,6 +1054,10 @@
                 #{empSeq},
                 #{num}
             )
+
+        <selectKey keyProperty="pjtChSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_CHANGE'
+        </selectKey>
     </insert>
 
     <update id="updateChangeApprStat" parameterType="map">
@@ -1063,7 +1067,7 @@
             STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
-            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
+            PJT_CH_SN = #{pjtChSn}
     </update>
 
     <update id="updateChangeFinalApprStat" parameterType="map">
@@ -1074,7 +1078,7 @@
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
-            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
+            PJT_CH_SN = #{pjtChSn}
     </update>
 
     <update id="updateRateApprStat" parameterType="map">

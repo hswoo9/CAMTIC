@@ -1023,6 +1023,20 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/insChangeInfo")
+    public String insChangeInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.insChangeInfo(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
