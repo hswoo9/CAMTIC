@@ -131,6 +131,10 @@ public class MainController {
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(loginVO == null){
+            return "error/error";
+        }
+
         // 사용자 정보
         params.put("empSeq", loginVO.getUniqId());
         params.put("deptSeq",loginVO.getOrgnztId());
