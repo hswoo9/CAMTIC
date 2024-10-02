@@ -363,6 +363,8 @@ var approvalLine = {
             requestAmt = Number(amt);
             if(amt == null){
                 requestAmt = 0;
+            }else if(amt < 0){
+                requestAmt = 0;
             }
 
         }else if(data.menuCd == "payApp"){
