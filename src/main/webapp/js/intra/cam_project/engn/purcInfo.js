@@ -126,7 +126,10 @@ var purcInfo = {
                 buttonCount: 5
             },
             resizable : true,
-            dataBound: purcInfo.onDataBound,
+            dataBound: function(e){
+                const grid = this;
+                purcInfo.onDataBound(grid, "mainGrid");
+            },
             toolbar: [
                 {
                     name: 'button',
@@ -295,6 +298,9 @@ var purcInfo = {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.PURC_DOC_ID + ');">' +
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right' id='footerLeftSum'>0</div>";
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -338,39 +344,7 @@ var purcInfo = {
                         return status
                     },
                     footerTemplate: function(){
-                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: (commonProject.global.teamStat == "Y" ? "2" : "1")}).list;
-                        let invSum = 0;
-                        for(let i=0; i<list.length; i++){
-                            invSum += Number(list[i].EST_TOT_AMT);
-                        }
-
-                        const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
-                        const pjtMap = pjtInfo.map;
-                        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
-                            const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
-                            const res = rs.result;
-                            const estList = res.estList;
-                            let estMap = new Object();
-
-                            /** 현재 버전 견적 데이터 추출 */
-                            estMap = estList[(estList.length - 1)];
-                            console.log("estMap.VAT", estMap.VAT);
-
-                            if(estMap.VAT == "N"){
-                                invSum = Number(Math.floor(invSum * 1.1));
-                            }
-                        }
-
-                        const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
-                        let purcSum2 = 0;
-                        let leftSum = 0;
-                        for(let i=0; i<leftList.length; i++){
-                            purcSum2 += Number(leftList[i].ITEM_AMT);
-                        }
-                        leftSum = invSum - purcSum2;
-                        console.log("purcSum2", purcSum2);
-                        console.log("leftSum", leftSum);
-                        return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
+                        return "<div style='text-align: right'>부가세 합계</div>";
                     }
                 }, {
                     title : "결재선",
@@ -382,11 +356,17 @@ var purcInfo = {
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView(' + e.CLAIM_DOC_ID + ');">' +
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right' id='footerSupSum'>0</div>";
                     }
                 },{
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 200
+                    width: 200,
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>세액 합계</div>";
+                    }
                 }, {
                     field: "STATUS",
                     title: "검수",
@@ -437,7 +417,7 @@ var purcInfo = {
                         return html;
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>청구 합계</div>";
+                        return "<div style='text-align: right' id='footerVatSum'>0</div>";
                     }
                 }, {
                     field: "PURC_ITEM_AMT_SUM",
@@ -449,7 +429,7 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
+                        return "<div style='text-align: right'>청구 합계</div>";
                     }
                 }, {
                     title: "처리",
@@ -464,6 +444,9 @@ var purcInfo = {
                         } else {
                             return "";
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
                     }
                 }, {
                     field: "APPROVE_STAT_CODE",
@@ -860,7 +843,10 @@ var purcInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: purcInfo.onDataBound,
+            dataBound: function(e){
+                const grid = this;
+                purcInfo.onDataBound(grid, "subGrid");
+            },
             toolbar: [
                 {
                     name : 'excel',
@@ -971,10 +957,10 @@ var purcInfo = {
         var popup = window.open(url, name, option);
     },
 
-    onDataBound : function(){
+    onDataBound : function(grid, type){
         purcSum = 0;
 
-        var grid = this;
+        var grid = grid;
         grid.tbody.find("tr").each(function(){
             var delYn = $(this).find("input[name='reStat']").val();
 
@@ -983,6 +969,55 @@ var purcInfo = {
                 $(this).css('color', 'red');
             }
         });
+
+        if(type == "mainGrid"){
+            /** 잔여합계, 공급가액합계, 세액 합계 */
+            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: (commonProject.global.teamStat == "Y" ? "2" : "1")}).list;
+            let invSum = 0;
+            for(let i=0; i<list.length; i++){
+                invSum += Number(list[i].EST_TOT_AMT);
+            }
+
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
+            const pjtMap = pjtInfo.map;
+            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
+                const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
+                const res = rs.result;
+                const estList = res.estList;
+                let estMap = new Object();
+
+                /** 현재 버전 견적 데이터 추출 */
+                estMap = estList[(estList.length - 1)];
+                console.log("estMap.VAT", estMap.VAT);
+
+                if(estMap.VAT == "N"){
+                    invSum = Number(Math.floor(invSum * 1.1));
+                }
+            }
+
+            const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
+            let purcSum2 = 0;
+            let leftSum = 0;
+            let supSum = 0;
+            let vatSum = 0;
+            for(let i=0; i<leftList.length; i++){
+                /** 과세면 공급가액의 합계를 차감 */
+                if(pjtMap.TAX_GUBUN != null && pjtMap.TAX_GUBUN == "1"){
+                    purcSum2 += Number(leftList[i].PURC_SUP_AMT || 0);
+                }else{
+                    purcSum2 += Number(leftList[i].ITEM_AMT || 0);
+                }
+                supSum += Number(leftList[i].PURC_SUP_AMT || 0);
+                vatSum += Number(leftList[i].PURC_VAT_AMT || 0);
+            }
+            leftSum = invSum - purcSum2;
+            console.log("purcSum2", purcSum2);
+            console.log("leftSum", leftSum);
+
+            $("#footerLeftSum").text(comma(leftSum));
+            $("#footerSupSum").text(comma(supSum));
+            $("#footerVatSum").text(comma(vatSum));
+        }
     },
 
     fn_inspectionPopup : function(key, mod, claimKey){
@@ -1111,7 +1146,7 @@ var purcInfo = {
         var name = "_blank";
         var option = "width = 1820, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
 }
 
 function gridReload(){

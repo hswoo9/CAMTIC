@@ -1256,7 +1256,9 @@
     <select id="getProjectPurcReqList" parameterType="map" resultType="map">
         /*getProjectPurcReqList*/
         SELECT
-            B.ITEM_AMT
+            B.ITEM_AMT,
+            IFNULL(B.PURC_SUP_AMT, 0) AS PURC_SUP_AMT,
+            IFNULL(B.PURC_VAT_AMT, 0) AS PURC_VAT_AMT
         FROM
             CAM_MNG.DJ_PURC_CLAIM_ITEM B
         LEFT JOIN CAM_MNG.DJ_PURC_CLAIM A ON A.CLAIM_SN = B.CLAIM_SN
@@ -1266,7 +1268,9 @@
         UNION ALL
 
         SELECT
-            IFNULL((SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO), 0) AS ITEM_AMT
+            IFNULL((SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO), 0) AS ITEM_AMT,
+            IFNULL((SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO), 0) AS PURC_SUP_AMT,
+            0 AS PURC_VAT_AMT
         FROM
             DJ_CAMTIC.JPRICEINFO A
         LEFT JOIN
