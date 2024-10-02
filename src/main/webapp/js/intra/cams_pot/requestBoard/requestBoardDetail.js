@@ -119,6 +119,21 @@ var rbd = {
 			if(result.flag) {
 				alert("처리되었습니다.");
 				rbd.fnDefaultScript();
+
+				// 접수처리, 처리완료, 반려시 알람
+				if($(e).val() == "2" || $(e).val() == "3" || $(e).val() == "99"){
+					var sendData = {
+						ntTitle : "[" + $(e).find("span").text() + "] 전산보완요청",
+						ntContent : "[" + $(e).find("span").text() + "] " + rbd.global.articleDetailInfo.REQUEST_TITLE,
+						recEmpSeq : rbd.global.articleDetailInfo.REG_EMP_SEQ,
+						ntUrl : "/spot/requestBoardDetail.do?requestBoardId=" + rbd.global.articleDetailInfo.REQUEST_BOARD_ID + "&requestType=R&page=1" + "&startDt=" + $("#startDt").val() + "&endDt=" + $("#endDt").val()
+					}
+
+					var sendResult = customKendo.fn_customAjax("/common/setAlarm", sendData);
+					if(sendResult.flag){
+						socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + sendResult.alId);
+					}
+				}
 			}
 		}
 	},

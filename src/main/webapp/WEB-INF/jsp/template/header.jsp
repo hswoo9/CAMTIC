@@ -277,7 +277,7 @@
     function fn_opener(url, alId){
         if(url == "project"){
             open_in_frame('/project/viewProject.do');
-        }else if(String(url).indexOf("absentSet") > -1 || String(url).indexOf("process") > -1){
+        }else if(String(url).indexOf("absentSet") > -1 || String(url).indexOf("process") > -1 || String(url).indexOf("spot") > -1){
             open_in_frame(url);
         }else {
             window.open(url, '', 'width=900, height=850');
