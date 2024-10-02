@@ -57,7 +57,9 @@
                         WHEN HR_EXNP_STAT != 100 THEN '미결'
                     END
                 ELSE '미작성'
-            END EXCEL_PAY_EXNP_STAT
+            END EXCEL_PAY_EXNP_STAT,
+            CONCAT(SUBSTRING(AUTH_DD, 1, 4), '-', SUBSTRING(AUTH_DD, 5, 2), '-', SUBSTRING(AUTH_DD, 7, 2)) AS AUTH_DATE,
+            CONCAT(SUBSTRING(AUTH_HH, 1, 2), ':', SUBSTRING(AUTH_HH, 3, 2), ':', SUBSTRING(AUTH_HH, 5, 2)) AS AUTH_TIME
         FROM
         (
             SELECT
