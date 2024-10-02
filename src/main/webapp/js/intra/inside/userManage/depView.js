@@ -13,6 +13,7 @@ var depView = {
 
     },
 
+    /** 데이터 조회 */
     getTotalDeptChart : function(arr){
         console.log("ajax arr : ",arr);
 
@@ -32,9 +33,9 @@ var depView = {
                const empTeamList = data.empDeptTeamList.filter(function (item) {
                    return !item.hasOwnProperty("DeptName");
                });
-               console.log("totalEmployeeCount :",totalEmployeeCount);
-               console.log("empDeptList",empDeptList);
-               console.log("empTeamList",empTeamList);
+               console.log("totalEmployeeCount :", totalEmployeeCount);
+               console.log("empDeptList", empDeptList);
+               console.log("empTeamList", empTeamList);
                $("#mainChart *").remove();
                $("#teamChart *").remove();
                //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
@@ -80,6 +81,7 @@ var depView = {
             '</tr>'+
             '</table>'+
             '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>';
+
         for(var i =0;i<data.length; i++) {
             var deptId = data[i].DeptID;
             var color = depView.getColorForIndex(i);
@@ -105,11 +107,12 @@ var depView = {
                 '</td>' +
                 '</tr>';
         }
-             html+='<tr>'+
-                '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
-                '<td style="background-color: #efefef;">'+totalDeptEmpCount +'명</td>'+
-                '</tr>'+
-                '</table>';
+
+        html+='<tr>'+
+            '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
+            '<td style="background-color: #efefef;">'+totalDeptEmpCount +'명</td>'+
+            '</tr>'+
+            '</table>';
 
 
 

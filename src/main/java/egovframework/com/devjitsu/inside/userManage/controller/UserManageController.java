@@ -2119,12 +2119,12 @@ public class UserManageController {
     @RequestMapping("Inside/getDeptTeamEmpCount")
     public String getDeptTeamEmpCount (@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
-        Map<String,Object> totalEmployeeCount =userManageService.getTotalEmployeeCount(params);
+        Map<String,Object> totalEmployeeCount = userManageService.getTotalEmployeeCount(params);
 
         empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
         model.addAttribute("arr",params);
-        model.addAttribute("totalEmployeeCount",totalEmployeeCount);
-        model.addAttribute("empDeptTeamList",empDeptTeamList);
+        model.addAttribute("totalEmployeeCount", totalEmployeeCount);
+        model.addAttribute("empDeptTeamList", empDeptTeamList);
         System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
         return "jsonView";
     }

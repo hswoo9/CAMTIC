@@ -3850,35 +3850,58 @@
 
     <!-- 인사통계 - 소속현황 : 부서 정보 조회 (부서 레벨 1) -->
     <select id="getDeptEmpCount" resultType="map" parameterType="map">
-        /*getDeptEmpCount*/
+        /* getDeptEmpCount */
         SELECT
-        dept.DEPT_SEQ AS DeptID,
-        dept.DEPT_NAME AS DeptName,
-        IFNULL(SUM(CASE WHEN emp.WORK_STATUS_CODE = 'Y' THEN 1 ELSE 0 END), 0) AS DeptEmployeesCount
+            dept2.DEPT_SEQ AS DeptID,
+            dept2.DEPT_NAME AS DeptName,
+            IFNULL((D.SUM), 0) AS DeptEmployeesCount
         FROM
-        cam_hr.dj_dept_info AS dept
+            CAM_HR.DJ_DEPT_INFO dept
         LEFT JOIN
-        cam_hr.dj_emp_info AS emp
-        ON emp.DEPT_SEQ = dept.DEPT_SEQ
+            CAM_HR.DJ_EMP_INFO AS emp ON emp.DEPT_SEQ = dept.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO dept2 ON dept.PARENT_DEPT_SEQ = dept2.DEPT_SEQ
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
+        LEFT JOIN (
+            SELECT
+                deptS.DEPT_SEQ,
+                SUM(CASE WHEN empS.WORK_STATUS_CODE = 'Y' AND deptS.DEPT_LEVEL = 1 THEN 1 ELSE 0 END) AS SUM
+            FROM
+                CAM_HR.DJ_DEPT_INFO deptS
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO AS empS ON empS.DEPT_SEQ = deptS.DEPT_SEQ
+            <if test='arr != null and !"".equals(arr)'>
+                AND
+                <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
+                    ${item}
+                </foreach>
+            </if>
+            WHERE
+                deptS.DEPT_LEVEL = 1
+            AND deptS.DEPT_SEQ NOT IN (1, 2)
+            AND deptS.USE_YN = 'Y'
+            AND empS.TEMP_DIVISION != 'Y'
+            AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(empS.JOIN_DAY, '%Y%m%d')
+            GROUP BY deptS.DEPT_SEQ, deptS.DEPT_NAME
+        ) D ON D.DEPT_SEQ = dept2.DEPT_SEQ
         WHERE
-        dept.DEPT_LEVEL = 1
+            dept2.DEPT_LEVEL = 1
         AND dept.DEPT_SEQ NOT IN (1, 2)
-        AND dept.use_yn = 'Y'
+        AND dept.USE_YN = 'Y'
         AND emp.TEMP_DIVISION != 'Y'
-        GROUP BY
-        dept.DEPT_SEQ, dept.DEPT_NAME
+        AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(emp.JOIN_DAY, '%Y%m%d')
+        GROUP BY dept2.DEPT_SEQ, dept2.DEPT_NAME
         ORDER BY dept.path
     </select>
 
     <!-- 인사통계 - 소속현황 :  팀 정보 조회 (부서 레벨 2) -->
     <select id="getTeamEmpCount" resultType="map" parameterType="map">
-        /*getTeamEmpCount*/
+        /* getTeamEmpCount */
         SELECT
         dept.DEPT_SEQ AS TeamID,
         dept.PARENT_DEPT_SEQ AS ParentDeptID,
@@ -3899,7 +3922,10 @@
         dept.DEPT_LEVEL = 2
         AND dept.DEPT_SEQ NOT IN (1, 2)
         AND dept.use_yn = 'Y'
-        AND emp.TEMP_DIVISION != 'Y'
+        AND emp.TEMP_DIVISION = 'N'
+        AND emp.WORK_STATUS_CODE = 'Y'
+        AND emp.ACTIVE = 'Y'
+        AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(emp.JOIN_DAY, '%Y%m%d')
         GROUP BY
         dept.PARENT_DEPT_SEQ, dept.DEPT_NAME
         ORDER BY dept.path
@@ -4290,11 +4316,17 @@
     <select id="getTotalEmployeeCount" parameterType="map" resultType="map">
         /*getTotalEmployeeCount*/
         SELECT
-        COUNT(*) AS EmployeeCount
+            COUNT(HEI.EMP_SEQ) AS EmployeeCount
         FROM
-        cam_hr.dj_emp_info
+            CAM_HR.DJ_EMP_INFO HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-        WORK_STATUS_CODE = 'Y'
+            HEI.WORK_STATUS_CODE = 'Y'
+        AND HEI.TEMP_DIVISION = 'N'
+        AND HEI.ACTIVE = 'Y'
+        AND HDI.DEPT_SEQ NOT IN (1, 2)
+        AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
