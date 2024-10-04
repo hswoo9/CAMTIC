@@ -186,7 +186,10 @@ var rndBg = {
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
+                    data.stat2 = "Y";
                     data.gisu = year;
+                    data.startDt = $("#sbjStrDe").val();
+                    data.endDt = $("#sbjEndDe").val();
                     data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
                     data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
                     data.mgtSeq = mgtSeq;
@@ -365,7 +368,10 @@ var rndBg = {
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
+                    data.stat2 = "Y";
                     data.gisu = year;
+                    data.startDt = $("#sbjStrDe").val();
+                    data.endDt = $("#sbjEndDe").val();
                     data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
                     data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
                     data.mgtSeq = mgtSeq
@@ -433,7 +439,7 @@ var rndBg = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
+                        if(e.DIV_FG_NM == "항"){
                             calcAmSum  += Number(e.CALC_AM);
                         }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
@@ -445,10 +451,10 @@ var rndBg = {
                     title: "지출완료",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
-                            acctAm3Sum += Number(e.ACCT_AM_3);
+                        if(e.DIV_FG_NM == "항"){
+                            acctAm3Sum += Number(e.ACCT_AM_2);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
@@ -458,7 +464,7 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.WAIT_CK != null){
-                            if(e.DIV_FG_NM == "장"){
+                            if(e.DIV_FG_NM == "항"){
                                 acctAm1Sum += Number(e.WAIT_CK);
                             }
                             return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
@@ -473,7 +479,7 @@ var rndBg = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
+                        if(e.DIV_FG_NM == "항"){
                             acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
