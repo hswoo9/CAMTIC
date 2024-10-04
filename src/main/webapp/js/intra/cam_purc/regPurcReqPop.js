@@ -288,7 +288,7 @@ var prp = {
                 }
             }
         }else{
-            if($(".addFile").length == 0){
+            if(prp.global.attFiles.length == 0 && prp.global.fileArray.length == 0){
                 alert("견적서를 등록해주세요."); return;
             }
         }
