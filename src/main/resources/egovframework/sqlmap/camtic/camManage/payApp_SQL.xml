@@ -3293,7 +3293,10 @@
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B ON A.DOC_ID = B.DOC_ID
         WHERE 1=1
-            AND B.DOC_ID = #{docId}
+          AND
+            B.DOC_ID = #{docId}
+          AND
+            A.FR_KEY IS NULL
     </select>
 
     <select id="getPayAppDocFileList2" parameterType="map" resultType="map">
