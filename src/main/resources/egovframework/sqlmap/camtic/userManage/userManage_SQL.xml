@@ -4035,37 +4035,38 @@
     </select>
 
     <select id="getEmpCountsByPosition" resultType="map" parameterType="map">
-        /*getEmpCountsByPosition*/
+        /* getEmpCountsByPosition */
         SELECT
             POSITION_NAME,
             SUM(EMPLOYEE_COUNT) AS TotalPositionEmpCount
         FROM (
-                 SELECT
-                    POSITION_NAME,
-                    (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = POSITION_NAME) AS SORT,
-                    COUNT(*) AS EMPLOYEE_COUNT
-                 FROM
-                     cam_hr.dj_emp_info
-                 WHERE
-                     WORK_STATUS_CODE = 'Y'
-                   AND POSITION_NAME IS NOT NULL
-                   AND POSITION_NAME != ''
-        <if test='arr != null and !"".equals(arr)'>
-            AND
-            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
-                ${item}
-            </foreach>
-        </if>
-                 GROUP BY
-                     POSITION_NAME
-             ) AS subquery
-        GROUP BY
-            POSITION_NAME
-        ORDER BY
-            SORT
+            SELECT
+                POSITION_NAME,
+                (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = POSITION_NAME) AS SORT,
+                COUNT(*) AS EMPLOYEE_COUNT
+            FROM
+                CAM_HR.DJ_EMP_INFO
+            WHERE
+                WORK_STATUS_CODE = 'Y'
+            AND POSITION_NAME IS NOT NULL
+            AND POSITION_NAME != ''
+            AND DEPT_SEQ NOT IN (1, 2)
+            AND TEMP_DIVISION != 'Y'
+            AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(JOIN_DAY, '%Y%m%d')
+            <if test='arr != null and !"".equals(arr)'>
+                AND
+                <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                    ${item}
+                </foreach>
+            </if>
+            GROUP BY POSITION_NAME
+        ) AS subquery
+        GROUP BY POSITION_NAME
+        ORDER BY SORT
     </select>
 
     <select id="getGenderCount" parameterType="map" resultType="map">
+        /* getGenderCount */
         select
             case
                 GENDER_CODE
@@ -4078,6 +4079,9 @@
             cam_hr.dj_emp_info
         where
             WORK_STATUS_CODE = 'Y'
+        AND DEPT_SEQ NOT IN (1, 2)
+        AND TEMP_DIVISION != 'Y'
+        AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(JOIN_DAY, '%Y%m%d')
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
@@ -4089,36 +4093,39 @@
     </select>
 
     <select id="getAgeCount" parameterType="map" resultType="map">
-        select
-            case
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 15 and 25 then '15세~25세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 26 and 30 then '26세~30세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 31 and 35 then '31세~35세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 36 and 40 then '36세~40세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 41 and 45 then '41세~45세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 46 and 50 then '46세~50세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 51 and 55 then '51세~55세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 56 and 60 then '56세~60세'
-                when TIMESTAMPDIFF(year, BDAY, CURDATE()) >= 61 then '61세 이상'
-                else '기타'
-                end as age,
+        /* getAgeCount */
+        SELECT
+            CASE
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 15 AND 25 THEN '15세~25세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 26 AND 30 THEN '26세~30세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 31 AND 35 THEN '31세~35세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 36 AND 40 THEN '36세~40세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 41 AND 45 THEN '41세~45세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 46 AND 50 THEN '46세~50세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 51 AND 55 THEN '51세~55세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) BETWEEN 56 AND 60 THEN '56세~60세'
+                WHEN TIMESTAMPDIFF(YEAR, SCP.DEC_B64('KEY1', BDAY), CURDATE()) >= 61 THEN '61세 이상'
+                ELSE '기타'
+                END AS age,
             COUNT(*) as emp_count
-        from
-            cam_hr.dj_emp_info
-        where
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
             WORK_STATUS_CODE = 'Y'
+        AND DEPT_SEQ NOT IN (1, 2)
+        AND TEMP_DIVISION != 'Y'
+        AND DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(JOIN_DAY, '%Y%m%d')
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
-        group by
-            Age
+        GROUP BY Age
     </select>
 
     <select id="getDegreeCount" parameterType="map" resultType="map">
-
+        /* getDegreeCount */
         SELECT
             CM_CODE_NM AS DEGREE_CODE,
             COUNT(EMP_SEQ) AS emp_count
