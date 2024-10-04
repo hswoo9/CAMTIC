@@ -307,7 +307,7 @@ var paymentList = {
             return;
         }
 
-        paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
+        paymentList.mainGrid("/pay/getPaymentMngList", paymentList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function(key, status, auth){
