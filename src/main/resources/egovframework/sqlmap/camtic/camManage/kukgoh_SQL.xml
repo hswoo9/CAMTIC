@@ -362,6 +362,7 @@
             CAM_ERP.T_IFS_BSRSLT_EXC_INSTT_ERP A
         WHERE
             DDTLBZ_ID = #{DDTLBZ_ID}
+        ORDER BY CNTC_SN DESC LIMIT 1
     </select>
 
     <select id="getEnaraBankInfoByPayAppData" parameterType="map" resultType="map">
