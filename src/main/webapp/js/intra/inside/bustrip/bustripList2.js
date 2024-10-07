@@ -232,7 +232,7 @@ var bustList = {
                             if(e.STATUS != "100"){
                                 if(e.STATUS == "30"){
                                     return '<button type="button" class="k-button k-button-solid-error" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
-                                } else if(e.STATUS == 10){
+                                } else if(e.STATUS == 10 || e.STATUS == 20 || e.STATUS == 50){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재중</button>';
                                 } else {
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">작성중</button>';
@@ -259,7 +259,7 @@ var bustList = {
                                 }else{
                                     if(e.RS_STATUS == 100) {
                                         return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ', '+e.TRIP_CODE+')">결재완료</button>'
-                                    }else if(e.RS_STATUS == 10 || e.RS_STATUS == 50){
+                                    }else if(e.RS_STATUS == 10 || e.RS_STATUS == 20 || e.RS_STATUS == 50){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>'
                                     } else if(e.RS_STATUS == 30){
                                         return '<button type="button" class="k-button k-button-solid-error" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">반려</button>'

@@ -230,24 +230,52 @@ var depositList = {
                     field: "",
                     title: "입금완료일",
                     width: 80,
+                    template: function(e){
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        if(e.EVID_TYPE == "1" || e.EVID_TYPE == "3" || e.EVID_TYPE == "5") {
+                            if(e.TOT_DET_AMT <= e.RE_TOT_COST) {
+                                return '<div style="'+ styleTxt +'">'+ e.RE_APP_DE +'</div>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            if(e.DOC_STATUS == "100") {
+                                return '<div style="'+ styleTxt +'">'+ e.PAY_INCP_DE +'</div>';
+                            } else {
+                                return '';
+                            }
+                        }
+                    }
                 }, {
                     field: "RE_TOT_COST",
                     title: "입금금액",
                     width: 80,
                     template: function(e){
-                        var cost = e.TOT_COST;
-                        if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.RE_TOT_COST)+'</div>';
-                        } else {
+                        var cost = 0;
+                        var styleTxt = "text-align: right;";
 
-                            var styleTxt = "text-align: right;";
-
-                            if(e.OBTAIN_ORDER_TYPE == "N") {
-                                styleTxt += "text-decoration: line-through; text-decoration-color: red;";
-                            }
-
-                            return '<div style="'+ styleTxt +'">0</div>';
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
                         }
+
+                        if(e.DOC_STATUS == "100") {
+                            if(e.EVID_TYPE == "1" || e.EVID_TYPE == "3" || e.EVID_TYPE == "5") {
+                                if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                    cost = e.RE_TOT_COST;
+                                }
+                            } else {
+                                if(e.TOT_DET_AMT != null && e.TOT_DET_AMT != "" && e.TOT_DET_AMT != undefined) {
+                                    cost = e.TOT_DET_AMT;
+                                }
+                            }
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+comma(cost)+'</div>';
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -257,18 +285,22 @@ var depositList = {
                         var status = "";
                         if(e.PAY_INCP_SN != null){
                             if(e.DOC_STATUS == '100'){
-                                if(e.RE_CNT == 0){
-                                    status = "수입결의완료"
-                                } else {
-                                    if(e.RE_TOT_COST == 0){
-                                        status = "미결"
+                                if(e.EVID_TYPE == "1" || e.EVID_TYPE == "3" || e.EVID_TYPE == "5"){
+                                    if(e.RE_CNT == 0){
+                                        status = "수입결의완료"
                                     } else {
-                                        if(e.RE_TOT_COST == e.TOT_DET_AMT){
-                                            status = "입금완료"
+                                        if(e.RE_TOT_COST == 0){
+                                            status = "미결"
                                         } else {
-                                            status = "부분입금"
+                                            if(e.RE_TOT_COST == e.TOT_DET_AMT){
+                                                status = "입금완료"
+                                            } else {
+                                                status = "부분입금"
+                                            }
                                         }
                                     }
+                                } else {
+                                    status = "입금완료";
                                 }
                             } else if (e.DOC_STATUS != '0' && e.DOC_STATUS != '30' && e.DOC_STATUS != '40'){
                                 status = "수입결의결재중"

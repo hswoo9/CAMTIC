@@ -235,7 +235,7 @@ var paymentList = {
                             } else if (e.EXNP_STATUS != 0){
                                 stat = "지출대기";
                             }
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
                             stat = "결재중"
                         } else if(e.DOC_STATUS == "30"){
                             stat = "반려"

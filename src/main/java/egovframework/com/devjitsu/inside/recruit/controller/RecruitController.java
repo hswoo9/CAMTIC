@@ -1174,7 +1174,7 @@ public class RecruitController {
 
                 Map<String,Object> resultMap = classifySchoolData(schoolData);
 
-                resultMap.put("DEGREE_CODE","B0204");
+//                resultMap.put("DEGREE_CODE","B0204");
 
 
                 userManageService.setEduReqDetailInsert(resultMap);
