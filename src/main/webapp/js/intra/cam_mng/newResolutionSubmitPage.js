@@ -381,7 +381,7 @@ var newResolutionSubmitPage = {
                             $("#SBSIDY_BNKB_INDICT_CN").val(esd.SBSIDY_BNKB_INDICT_CN);
                             $("#BCNC_BNKB_INDICT_CN").val(esd.BCNC_BNKB_INDICT_CN);
                         } else {
-                            $("#EXCUT_TY_SE_CODE").val(24);
+                            // $("#EXCUT_TY_SE_CODE").val(24);
                             $("#EXCUT_SPLPC").val($("#EXCUT_VAT").val());
                             $("#SPLPC").val($("#VAT").val());
                             $("#EXCUT_SUM_AMOUNT").val($("#EXCUT_VAT").val());
