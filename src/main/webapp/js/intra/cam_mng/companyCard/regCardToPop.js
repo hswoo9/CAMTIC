@@ -248,7 +248,12 @@ var regCardToPop = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    opener.parent.statementList.mainGrid();
+
+                    if($("#type").val() == "cardList"){
+                        opener.parent.cardList.mainGrid();
+                    }else{
+                        opener.parent.statementList.mainGrid();
+                    }
                     opener.parent.$("#mainHistGrid").css("display", "none");
 
                     if($("#chkMeeting").prop("checked")){
@@ -256,7 +261,7 @@ var regCardToPop = {
                         var url = "/card/pop/regMeeting.do?cardToSn=" + rs.params.cardToSn;
 
                         var name = "blank";
-                        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
+                        var option = "width = 1000, height = 700, top = 100, left = 300, location = no";
                         var popup = window.open(url, name, option);
                     }
                     window.close();
