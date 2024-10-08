@@ -134,6 +134,7 @@ public class KukgohServiceImpl implements KukgohService {
 
         Map<String, Object> map = kukgohRepository.getEnaraPjtData(params);
         map.put("PJT_SN", params.get("pjtSn"));
+        map.put("PJT_CD", params.get("pjtCd"));
 
         kukgohRepository.insEnaraProject(map);
     }

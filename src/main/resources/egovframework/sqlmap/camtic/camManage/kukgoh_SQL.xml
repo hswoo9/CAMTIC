@@ -103,7 +103,7 @@
         LEFT JOIN CAM_ERP.T_IFR_ETXBL_REQUST_ERP H ON H.ETXBL_CONFM_NO = A.ISS_NO
         LEFT JOIN CAM_ERP.DJ_ERP_SEND I ON I.TRNSC_ID = H.TRNSC_ID
         LEFT JOIN CAM_ERP.T_IFS_ETXBL_RESULT_ERP J ON J.ETXBL_CONFM_NO = H.ETXBL_CONFM_NO
-        JOIN CAM_ERP.DJ_PROJECT_LINK K ON (SELECT t.PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT t WHERE K.PJT_SN = t.PJT_SN) = B.PJT_CD
+        JOIN CAM_ERP.DJ_PROJECT_LINK K ON K.PJT_CD = B.PJT_CD
         LEFT JOIN CAM_ERP.DJ_BUDGET_CODE L ON A.BUDGET_SN = L.BUDGET_SN
         LEFT JOIN (
             SELECT
@@ -220,24 +220,48 @@
     <select id="getProjectList" parameterType="map" resultType="map">
         /*getProjectList*/
         SELECT
-            A.PJT_SN, B.*, A.PJT_CD, A.PJT_NM
-        FROM CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_SN = B.PJT_SN
-        WHERE #{year} BETWEEN DATE_FORMAT(STR_DT, '%Y') AND DATE_FORMAT(END_DT, '%Y')
-        <if test='pjtNm != null and !"".equals(pjtNm)'>
-        AND
-            A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
-        </if>
-        <if test='"Y".equals(searchType)'>
-            AND
-            B.LNK_PJT_SN IS NOT NULL
-        </if>
-        <if test='"N".equals(searchType)'>
-            AND
-            B.LNK_PJT_SN IS NULL
-        </if>
-        AND BUSN_CLASS IN ('R', 'S')
-        AND PJT_CD IS NOT NULL
+            A.PJT_SN,
+            A.REAL_PJT_CD AS PJT_CD,
+            A.REAL_PJT_NM AS PJT_NM,
+            B.*
+        FROM (
+            SELECT
+                P.*,
+                IF(PJT_ACCOUNT_SN IS NOT NULL, CONCAT(LEFT(P.PJT_CD, 9), PA.IS_TYPE), P.PJT_CD) AS REAL_PJT_CD,
+                IF(PJT_ACCOUNT_SN IS NOT NULL,
+                    CONCAT(
+                        CASE
+                            WHEN IS_TYPE = '1' THEN '(국비) '
+                            WHEN IS_TYPE = '2' THEN '(도비) '
+                            WHEN IS_TYPE = '3' THEN '(시비) '
+                            WHEN IS_TYPE = '4' THEN '(자부담) '
+                            WHEN IS_TYPE = '5' THEN '(업체부담) '
+                            WHEN IS_TYPE = '9' THEN '(기타) '
+                        END
+                    , P.PJT_NM), P.PJT_NM) AS REAL_PJT_NM
+            FROM
+                CAM_PJT_MNG.DJ_PROJECT P
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_ACCOUNT PA ON P.PJT_SN = PA.PJT_SN
+            WHERE
+                P.BUSN_CLASS IN ('R', 'S')
+            AND P.TEAM_STAT = 'N'
+            AND P.PJT_CD IS NOT NULL
+            AND RIGHT(P.PJT_CD, 1) != 'T'
+            AND #{year} BETWEEN DATE_FORMAT(P.STR_DT, '%Y') AND DATE_FORMAT(P.END_DT, '%Y')
+        ) A
+        LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.REAL_PJT_CD = B.PJT_CD
+        WHERE
+            1=1
+            <if test='pjtNm != null and !"".equals(pjtNm)'>
+                AND A.REAL_PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+            </if>
+            <if test='"Y".equals(searchType)'>
+                AND B.LNK_PJT_SN IS NOT NULL
+            </if>
+            <if test='"N".equals(searchType)'>
+                AND A.LNK_PJT_SN IS NULL
+            </if>
         ORDER BY A.STR_DT DESC
     </select>
 
@@ -267,6 +291,7 @@
         INSERT INTO CAM_ERP.DJ_PROJECT_LINK
             (
                 PJT_SN,
+                PJT_CD,
                 CNTC_SN,
                 BSNSYEAR,
                 DDTLBZ_ID,
@@ -278,6 +303,7 @@
         VALUES
             (
                 #{PJT_SN},
+                #{PJT_CD},
                 #{CNTC_SN},
                 #{BSNSYEAR},
                 #{DDTLBZ_ID},

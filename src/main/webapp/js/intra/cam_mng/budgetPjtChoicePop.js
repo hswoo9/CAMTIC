@@ -103,7 +103,8 @@ var budgetPjtChoicePop = {
     setEnaraProject: function(sn) {
         var data = {
             cntcSn : sn,
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val()
         }
         $.ajax({
             url : "/kukgoh/setEnaraProject",
