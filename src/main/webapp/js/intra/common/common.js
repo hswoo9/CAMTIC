@@ -576,39 +576,78 @@ function exportGrid(e){
     const columnTemplates = new Array();
     const elem = document.createElement("div");
 
+    /** 숨겨지지 않은 컬럼을 필터링하여 visibleColumns 배열에 추가 */
     for (let i=0; i<columns.length; i++){
         if (!columns[i].hidden && columns[i].field){
             visibleColumns.push(columns[i]);
         }
     }
 
+    /** 템플릿 및 푸터 템플릿 컬럼을 필터링하여 columnTemplates 배열에 추가 */
     for (let i=0; i<visibleColumns.length; i++){
         if (visibleColumns[i].template){
-            columnTemplates.push({ cellIndex: i, template: kendo.template(visibleColumns[i].template) });
+            columnTemplates.push({
+                cellIndex: i,
+                template: visibleColumns[i].template ? kendo.template(visibleColumns[i].template) : null,
+                footerTemplate: visibleColumns[i].footerTemplate ? kendo.template(visibleColumns[i].footerTemplate) : null
+            });
         }
     }
 
+    /** 각 행에 대해 템플릿을 적용 */
     for (let i=1; i<sheet.rows.length; i++){
-        let footCk = false;
         const row = sheet.rows[i];
-        const dataItem = data[i - 1];
-        for (let j=0; j<columnTemplates.length; j++){
+        let dataItem = null;
 
+        /** 푸터 템플릿이 아닌 경우 데이터 아이템 할당 */
+        if(row.type != "footer" && data[i - 1]) {
+            dataItem = data[i - 1];
+        }
+
+        /** 템플릿 적용 */
+        for (let j=0; j<columnTemplates.length; j++){
             const columnTemplate = columnTemplates[j];
+
             if(row == null || row.type == null){
                 continue;
-            }if(row.type == "footer"){
-                footCk = true;
-            }else{
-                elem.innerHTML = columnTemplate.template(dataItem);
-                if (row.cells[columnTemplate.cellIndex] != undefined){
-                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+
+            let templateHTML = '';
+
+            /** 푸터 템플릿 처리 */
+            if (row.type == "footer" && columnTemplate.footerTemplate) {
+                try {
+                    const footerData = data[data.length - 1] || {};
+                    templateHTML = columnTemplate.footerTemplate(footerData);
+                } catch (error) {
+                    console.log("푸터 템플릿 처리 중 오류, i="+i + ", j="+j);
+                }
+
+            /** 일반 템플릿 처리 */
+            }else if (columnTemplate.template && dataItem != null) {
+                try {
+                    templateHTML = columnTemplate.template(dataItem);
+                } catch (error) {
+                    console.log("일반 템플릿 처리 중 오류, i="+i + ", j="+j);
                 }
             }
-        }
-        if(footCk){
-            for (let i=0; i<visibleColumns.length; i++){
-                row.cells[i].value = "";
+
+            console.log(`Template HTML for footer at row ${i}, cellIndex ${columnTemplate.cellIndex}:`, templateHTML);
+
+            elem.innerHTML = templateHTML;
+            const textContent = elem.innerText || elem.textContent;
+            console.log(`Extracted text content at row ${i}, cellIndex ${columnTemplate.cellIndex}:`, textContent.trim());
+
+            /** 셀에 텍스트를 할당 */
+            if (row.cells[columnTemplate.cellIndex] != undefined && textContent) {
+                row.cells[columnTemplate.cellIndex].value = textContent.trim();
+            }
+
+            /** 푸터 템플릿 텍스트 로그 추가 */
+            if (row.type == "footer") {
+                console.log(`Footer cell updated at row ${i}, cellIndex ${j}:`, textContent.trim());
+                console.log(`Template HTML for footer at row ${i}, cellIndex ${columnTemplate.cellIndex}:`, templateHTML);
+                console.log(`Extracted text content at row ${i}, cellIndex ${columnTemplate.cellIndex}:`, textContent.trim());
             }
         }
     }
