@@ -88,6 +88,7 @@ var regIncmRe = {
             }
         }
 
+        buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpRePop('+data.PAY_INCP_SN+')">반납결의서 작성</button>';
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#payAppBtnDiv").html(buttonHtml);
