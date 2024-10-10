@@ -324,7 +324,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="popTable table table-bordered mb-0">
+                    <table class="popTable table table-bordered">
                         <colgroup>
                             <col width="50%">
                         </colgroup>
