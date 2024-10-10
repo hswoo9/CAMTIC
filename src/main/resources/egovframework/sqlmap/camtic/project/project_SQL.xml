@@ -447,7 +447,15 @@
         ON
             A.PJT_SN = DDS.FR_PJT_SN
         WHERE
-            A.PJT_SN = #{pjtSn}
+            1 = 1
+            <choose>
+                <when test='type != null and !"".equals(type) and "approve".equals(type)'>
+                    AND A.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_CH_SN = #{pjtSn})
+                </when>
+                <otherwise>
+                    AND A.PJT_SN = #{pjtSn}
+                </otherwise>
+            </choose>
     </select>
 
     <select id="getMultiPjtList" parameterType="map" resultType="map">
