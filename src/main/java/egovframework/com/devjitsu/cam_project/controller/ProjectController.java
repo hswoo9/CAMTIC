@@ -1964,6 +1964,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/updPayAppPjtNull")
+    public String updPayAppPjtNull(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.updPayAppPjtNull(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/project/setPjtAmt")
     public String setPjtAmt(@RequestParam Map<String, Object> params, Model model){
         try{

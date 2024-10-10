@@ -4049,6 +4049,7 @@
                 </otherwise>
             </choose>
         </if>
+        AND (AA.PJT_SN = '' OR AA.PJT_SN IS NULL)
         ORDER BY AA.PAY_APP_SN DESC
     </select>
 
@@ -4058,6 +4059,14 @@
         SET
             PJT_SN = #{pjtSn}
         WHERE PAY_APP_SN IN (${payAppSnList})
+    </update>
+
+    <update id="updPayAppPjtNull" parameterType="map">
+        /*updPayAppPjtNull*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            PJT_SN = ''
+        WHERE PAY_APP_SN = #{payAppSn}
     </update>
 
     <insert id="setPjtAmt" parameterType="map">

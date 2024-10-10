@@ -1838,6 +1838,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void updPayAppPjtNull(Map<String, Object> params) {
+        projectRepository.updPayAppPjtNull(params);
+    }
+
+    @Override
     public void setPjtAmt(Map<String, Object> params) {
         projectRepository.setPjtAmt(params);
     }

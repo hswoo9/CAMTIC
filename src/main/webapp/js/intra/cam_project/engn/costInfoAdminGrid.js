@@ -9,6 +9,7 @@ var costInfoGrid = {
             $("#engnSelBtn").show();
         }else{
             $("#engnSelBtn").hide();
+            $("#grid4").data("kendoGrid").hideColumn(8);
         }
 
         /** 총 합계 */
@@ -614,6 +615,12 @@ var costInfoGrid = {
                     footerTemplate: function(){
                         return "<div id='costSumTemp' style='text-align: right'></div>";
                     }
+                },  {
+                    title: "",
+                    width: 80,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="costInfoGrid.fn_updPayAppPjtNull('+row.PAY_APP_SN+')">제외</button>';
+                    },
                 }
             ],
             dataBinding: function(){
@@ -642,5 +649,30 @@ var costInfoGrid = {
         var name = "_blank";
         var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_updPayAppPjtNull : function(key){
+        if(!confirm("지출내역에서 제외하시겠습니까?")){
+            return ;
+        }
+
+        var data = {
+            payAppSn : key
+        }
+
+        $.ajax({
+            url : "/project/updPayAppPjtNull",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("제외되었습니다.");
+                    costInfoGrid.gridReload();
+                } else {
+                    alert("저장 중 오류가 발생하였습니다.");
+                }
+            }
+        })
     }
 }
