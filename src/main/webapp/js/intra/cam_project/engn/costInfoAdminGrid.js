@@ -38,10 +38,7 @@ var costInfoGrid = {
 
         const purcList = purcResult.list;
         const bustList = bustResult.list;
-        let payList = new Array();
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            payList = payResult.list;
-        }
+        const payList = payResult.list;
 
         let purcSum = 0;
         for(let i=0; i<purcList.length; i++){
@@ -75,7 +72,6 @@ var costInfoGrid = {
             }
         }
 
-        console.log();
         let bustSum = 0;
         for(let i=0; i<bustList.length; i++){
             const bustMap = bustList[i];
@@ -94,23 +90,16 @@ var costInfoGrid = {
 
         let sumHtml = "";
         sumHtml += '<colgroup>';
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-        }else{
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="17%">';
-            sumHtml += '    <col width="17%">';
-        }
+
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+
         sumHtml += '</colgroup>';
         sumHtml += '<thead>';
         sumHtml += '<tr>';
@@ -118,10 +107,8 @@ var costInfoGrid = {
         sumHtml += '    <td id="purcSum" style="text-align: right">'+comma(Math.round(purcSum))+'</td>';
         sumHtml += '    <th style="text-align: center">출장</th>';
         sumHtml += '    <td id="bustSum" style="text-align: right">'+comma(Math.round(bustSum))+'</td>';
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            sumHtml += '    <th style="text-align: center">비용</th>';
-            sumHtml += '    <td id="costSum" style="text-align: right">'+comma(Math.round(paySum))+'</td>';
-        }
+        sumHtml += '    <th style="text-align: center">지출</th>';
+        sumHtml += '    <td id="bustSum" style="text-align: right">'+comma(Math.round(paySum))+'</td>';
         sumHtml += '    <th style="text-align: center">총 합계</th>';
         sumHtml += '    <td id="invSum" style="text-align: right">'+comma(comma(Math.round(purcSum) + Math.round((bustSum)) + Math.round(paySum)))+'</td>';
         sumHtml += '</tr>';
