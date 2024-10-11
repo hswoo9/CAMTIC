@@ -45,7 +45,7 @@ var purcMngAppList = {
         purcMngAppList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
-            { text: "결재완료", value: "3" },
+            // { text: "결재완료", value: "3" },
             { text: "지출대기", value: "4" },
             { text: "지출완료", value: "5" },
         ]
@@ -71,7 +71,7 @@ var purcMngAppList = {
         });
 
         purcMngAppList.mainGrid();
-        purcMngAppList.hiddenGrid();
+        // purcMngAppList.hiddenGrid();
 
         if($("#monCheck").is(":checked")){
             purcMngAppList.global.searchAjaxData.monCheck = "Y";
@@ -80,7 +80,7 @@ var purcMngAppList = {
 
     gridReload : function(){
         $("#mainGrid").data("kendoGrid").dataSource.read();
-        $("#hiddenGrid").data("kendoGrid").dataSource.read();
+        // $("#hiddenGrid").data("kendoGrid").dataSource.read();
 
         if($("#monCheck").is(":checked")){
             purcMngAppList.global.searchAjaxData.monCheck = "Y";
@@ -214,7 +214,7 @@ var purcMngAppList = {
                 }, {
                     field: "CLAIM_DE",
                     title: "구매청구일",
-                    width: 120
+                    width: 80
                 }, {
                     title: "프로젝트명",
                     field: "PJT_NM",
@@ -233,11 +233,11 @@ var purcMngAppList = {
                 }, {
                     field: "EMP_NAME",
                     title: "요청자",
-                    width: 120
+                    width: 80
                 }, {
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 120
+                    width: 160
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
@@ -248,16 +248,16 @@ var purcMngAppList = {
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 120
+                    width: 160
                 }, {
                     field: "GOODS_DT",
                     title: "납품예정일",
                     width: 80
-                }, {
+                }, /*{
                     field: "ORDER_DT",
                     title: "발주일",
                     width: 80
-                }, {
+                },*/ {
                     field: "EXP_DE",
                     title: "지급예정일",
                     width: 80
@@ -268,9 +268,20 @@ var purcMngAppList = {
                 //     width: 100
                 // }
                 , {
+                    field: "",
+                    title: "검수상태",
+                    width: 80,
+                    template: function(e){
+                        if(e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100"){
+                            return "검수완료";
+                        } else {
+                            return "검수 전";
+                        }
+                    },
+                }, {
                     field: "PAYMENT_METHOD",
                     title: "비용지급방식",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         let paymentMethod = "";
                         if(e.PAYMENT_METHOD == "A"){
@@ -286,7 +297,7 @@ var purcMngAppList = {
                 }, {
                     field: "TOT_AMT",
                     title: "금액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         amt1 += Number(e.TOT_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
@@ -297,7 +308,7 @@ var purcMngAppList = {
                 }, {
                     field: "REQ_AMT",
                     title: "지출요청액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         amt2 += Number(e.REQ_AMT);
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
@@ -308,7 +319,7 @@ var purcMngAppList = {
                 }, {
                     field: "EXNP_AMT",
                     title: "지출액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         amt3 += Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
@@ -319,7 +330,7 @@ var purcMngAppList = {
                 }, {
                     field: "NON_EXNP_AMT",
                     title: "미지급액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         amt4 += Number(e.TOT_AMT) - Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
@@ -435,77 +446,84 @@ var purcMngAppList = {
             columns: [
                 {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
+                }, {
+                    field: "PURC_NAME",
+                    title: "구매구분",
+                    width: 80,
+                }, {
+                    field: "CLAIM_DE",
+                    title: "구매청구일",
+                    width: 80
+                }, {
+                    title: "프로젝트명",
+                    field: "PJT_NM",
+                    width: 200,
                 }, {
                     title: "요청부서",
                     field: "DEPT_NAME",
-                    width: 120,
+                    width: 180,
                 }, {
-                    title: "구매구분",
-                    width: 60,
-                    field: "PURC_NAME"
-                }, {
-                    title: "제목",
-                    field: "CLAIM_TITLE"
+                    field: "EMP_NAME",
+                    title: "요청자",
+                    width: 80
                 }, {
                     field: "CRM_NM",
                     title: "업체명",
-                    width: 100
+                    width: 160
+                }, {
+                    title: "제목",
+                    field: "CLAIM_TITLE",
+                    width: 200,
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 100
+                    width: 160
                 }, {
-                    field: "ORDER_DT",
-                    title: "발주일",
-                    width: 70
+                    field: "GOODS_DT",
+                    title: "납품예정일",
+                    width: 80
                 }, {
                     field: "EXP_DE",
                     title: "지급예정일",
-                    width: 70
-                }
-                // , {
-                //     field: "EXNP_DE",
-                //     title: "지출예정일",
-                //     width: 100
-                // }
-                , {
+                    width: 80
+                },{
+                    field: "INSPECT_TEXT",
+                    title: "검수상태",
+                    width: 80,
+                }, {
+                    field: "PAYMENT_METHOD_NM",
                     title: "비용지급방식",
-                    width: 62,
-                    field: "PAYMENT_METHOD_NM"
+                    width: 100,
                 }, {
+                    field: "TOT_AMT",
                     title: "금액",
-                    width: 62,
-                    field : "TOT_AMT"
+                    width: 100,
                 }, {
+                    field: "REQ_AMT",
                     title: "지출요청액",
-                    width: 62,
-                    field: "REQ_AMT"
+                    width: 100,
                 }, {
+                    field: "EXNP_AMT",
                     title: "지출액",
-                    width: 62,
-                    field: "EXNP_AMT"
+                    width: 100,
                 }, {
+                    field: "NON_EXNP_AMT",
                     title: "미지급액",
-                    width: 62,
-                    field: "NOT_AMT"
+                    width: 100,
                 }, {
+                    field: "SETTING_TEXT",
                     title: "지급설정",
-                    width: 60,
-                    field: "SETTING_NM"
-                },
-                // , {
-                //     title: "첨부",
-                //     width: 60,
-                //     template : function(e) {
-                //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
-                //     }
-                // }
-                {
+                    width: 80,
+                }, {
+                    field: "REQ_STAT",
+                    title: "지출요청",
+                    width: 90,
+                }, {
+                    field: "STAT",
                     title: "상태",
-                    width: 70,
-                    field: "STATUS_NM"
+                    width: 100,
                 }
             ]
         }).data("kendoGrid");
@@ -724,6 +742,8 @@ var purcMngAppList = {
 
 
     fn_excelDownload : function (){
+        purcMngAppList.hiddenGrid();
+
         var grid = $("#hiddenGrid").data("kendoGrid");
         grid.bind("excelExport", function(e) {
             e.workbook.fileName = "구매지급관리 목록.xlsx";
