@@ -601,7 +601,7 @@ var payDetView = {
                     width: 50,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selCardCompanyInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\')" style="font-size: 12px);">' +
+                            'onclick="payDetView.fn_selCardCompanyInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.REG_NB + '\',)" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -623,9 +623,9 @@ var payDetView = {
         subAmSum = 0;
     },
 
-    fn_selCardCompanyInfo : function(trCd, trNm){
+    fn_selCardCompanyInfo : function(trCd, trNm, regNb) {
         var idx = $("#index").val();
-        opener.parent.fn_selCardCompanyInfo(trCd, trNm, idx);
+        opener.parent.fn_selCardCompanyInfo(trCd, trNm, regNb, idx);
 
         window.close();
     },

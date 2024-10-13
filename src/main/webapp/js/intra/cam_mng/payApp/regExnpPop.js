@@ -132,7 +132,7 @@ var regExnp = {
             $("#DT3").val($("#exnpDe").val());
         });
 
-        if($("#status").val() == "in"){
+        if($("#status").val() == "in" || $("#status").val() == "re"){
             $(".eviType").each(function(e){
                 $("#eviType" + e).data("kendoDropDownList").enable(true);
 
@@ -752,7 +752,7 @@ var regExnp = {
         $("#pjtCd").val(rs.PJT_CD);
         $("#budgetNm").val(rs.BUDGET_NM);
         $("#budgetSn").val(rs.BUDGET_SN);
-        $("#exnpBriefs").val(rs.APP_TITLE);
+        $("#exnpBriefs").val(rs.APP_CONT);
         $("#addExnpBriefs").val(rs.APP_CONT);
 
         $("#bnkSn").val(rs.BNK_SN);
@@ -760,16 +760,16 @@ var regExnp = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
-        if(rs.DIV_CD != ""){
-            $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
+        if(rs.BUSN_CD != ""){
+            $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         }else{
             $("#busnCd").data("kendoDropDownList").value("2000");
         }
 
         if(ls.length > 0){
             $("#payDestTb").html("");
-            $("#budgetNm").val(ls[0].BUDGET_NM);
-            $("#budgetSn").val(ls[0].BUDGET_SN);
+            // $("#budgetNm").val(ls[0].BUDGET_NM);
+            // $("#budgetSn").val(ls[0].BUDGET_SN);
         }
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
@@ -801,24 +801,24 @@ var regExnp = {
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="" class="regNo">' +
+                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="'+(item.REG_NO || "")+'" class="regNo">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="" class="crmBnkNm">' +
+                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="'+(item.CRM_BNK_NM || "")+'" class="crmBnkNm">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="" class="crmAccNo">' +
+                    '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="'+(item.CRM_ACC_NO || "")+'" class="crmAccNo">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmAccHolder' + regExnpDet.global.itemIndex + '" value="" class="crmAccHolder">' +
+                    '       <input type="text" id="crmAccHolder' + regExnpDet.global.itemIndex + '" value="'+(item.CRM_ACC_HOLDER || "")+'" class="crmAccHolder">' +
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
                     '   </td>';
-                if(rs.DIV_CD != ""){
+                if(rs.BUSN_CD != ""){
                     regExnpDet.global.createHtmlStr += "" +
                         '   <td>' +
-                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+rs.DIV_CD+'" class="busnCd">' +
+                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+rs.BUSN_CD+'" class="busnCd">' +
                         '   </td>';
                 }else{
                     regExnpDet.global.createHtmlStr += "" +

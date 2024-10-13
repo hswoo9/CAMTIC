@@ -563,7 +563,7 @@ var rndInit = {
     },
 
     changeInit: function(pjtSn){
-        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn, type: "approve"});
         const map = pjtInfo.rs;
 
         /** 사업명 */

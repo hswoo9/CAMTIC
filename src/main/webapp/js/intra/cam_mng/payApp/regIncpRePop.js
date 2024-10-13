@@ -91,6 +91,7 @@ var regIncpRe = {
             } else {
                 buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncpRe.fn_regExnpCancel('+data.PAY_INCP_SN+')">반제결의서 승인 취소</button>';
             }
+            buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpRePop('+data.PAY_INCP_SN+')">반납결의서 작성</button>';
         } else {
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
         }

@@ -203,6 +203,7 @@ var payAppChoosePop = {
         }else{
             alert("저장 되었습니다.");
             opener.costInfoGrid.gridReload();
+            this.gridReload();
         }
     }
 }

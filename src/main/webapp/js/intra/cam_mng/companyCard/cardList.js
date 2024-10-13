@@ -186,7 +186,7 @@ var cardList = {
     },
 
     fn_regCardToPop : function(trCd, baNb, cardNm){
-        var url = "/card/regCardToPop.do?trCd=" + trCd + "&baNb=" + baNb + "&trNm=" + cardNm;
+        var url = "/card/regCardToPop.do?trCd=" + trCd + "&baNb=" + baNb + "&trNm=" + cardNm + "&type=cardList";
 
         var name = "_blank";
         var option = "width = 900, height = 560, top = 200, left = 400, location = no"

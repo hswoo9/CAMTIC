@@ -146,12 +146,17 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     }
 }
 
-function fn_selCardCompanyInfo(trCd, trNm, idx){
+function fn_selCardCompanyInfo(trCd, trNm, regNb, idx){
     if(trNm == null || trNm == "" || trNm == "undefined"){
         trNm = "";
     }
 
+    if(regNb == null || regNb == "" || regNb == "undefined"){
+        regNb = "";
+    }
+
     $("#card" + idx).val(trNm);
+    $("#cardNo" + idx).val(regNb);
 }
 
 function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo){

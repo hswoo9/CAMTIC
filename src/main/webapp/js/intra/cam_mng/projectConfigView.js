@@ -86,7 +86,7 @@ var projectConfigView = {
                     title : "사업코드",
                     width : 50,
                     template : function(dataItem){
-                        return "<button type='button' class='k-button k-button-solid-base' onclick='projectConfigView.fn_btnPjtChoice("+dataItem.PJT_SN+", \""+(dataItem.DDTLBZ_ID || "")+"\");'>선택</button>";
+                        return "<button type='button' class='k-button k-button-solid-base' onclick='projectConfigView.fn_btnPjtChoice("+dataItem.PJT_SN+", \""+dataItem.PJT_CD+"\", \""+(dataItem.DDTLBZ_ID || "")+"\");'>선택</button>";
                     },
                 },
                 {
@@ -136,12 +136,12 @@ var projectConfigView = {
         }).data("kendoGrid");
     },
 
-    fn_btnPjtChoice : function(sn, cd){
+    fn_btnPjtChoice : function(pjtSn, pjtCd, cd){
         if(cd != ""){
             alert("설정이 완료된 프로젝트입니다.");
             return;
         }
-        var url = "/mng/budgetPjtChoicePop.do?pjtSn=" + sn;
+        var url = "/mng/budgetPjtChoicePop.do?pjtSn="+pjtSn+"&pjtCd="+pjtCd;
         var name = "budgetChoicePop";
         var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

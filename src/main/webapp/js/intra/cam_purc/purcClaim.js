@@ -120,6 +120,7 @@ var purcClaim = {
                 fileName : "구매청구 목록.xlsx",
                 filterable : true
             },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
@@ -185,6 +186,9 @@ var purcClaim = {
                     field: "CRM_NM",
                     title: "업체명",
                     width: 160,
+                    template: function(e){
+                        return e.CRM_NM;
+                    },
                     footerTemplate: function(e){
                         return '<div style="float: right;">합계</div>';
                     }
@@ -239,7 +243,7 @@ var purcClaim = {
                                 }
                             }
                         } else{
-                            return ""
+                            return "&nbsp;";
                         }
                     }
                 }, {

@@ -9,6 +9,7 @@ var costInfoGrid = {
             $("#engnSelBtn").show();
         }else{
             $("#engnSelBtn").hide();
+            $("#grid4").data("kendoGrid").hideColumn(8);
         }
 
         /** 총 합계 */
@@ -38,10 +39,7 @@ var costInfoGrid = {
 
         const purcList = purcResult.list;
         const bustList = bustResult.list;
-        let payList = new Array();
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            payList = payResult.list;
-        }
+        const payList = payResult.list;
 
         let purcSum = 0;
         for(let i=0; i<purcList.length; i++){
@@ -75,7 +73,6 @@ var costInfoGrid = {
             }
         }
 
-        console.log();
         let bustSum = 0;
         for(let i=0; i<bustList.length; i++){
             const bustMap = bustList[i];
@@ -94,23 +91,16 @@ var costInfoGrid = {
 
         let sumHtml = "";
         sumHtml += '<colgroup>';
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-            sumHtml += '    <col width="12.5%">';
-        }else{
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="16.5%">';
-            sumHtml += '    <col width="17%">';
-            sumHtml += '    <col width="17%">';
-        }
+
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+        sumHtml += '    <col width="12.5%">';
+
         sumHtml += '</colgroup>';
         sumHtml += '<thead>';
         sumHtml += '<tr>';
@@ -118,10 +108,8 @@ var costInfoGrid = {
         sumHtml += '    <td id="purcSum" style="text-align: right">'+comma(Math.round(purcSum))+'</td>';
         sumHtml += '    <th style="text-align: center">출장</th>';
         sumHtml += '    <td id="bustSum" style="text-align: right">'+comma(Math.round(bustSum))+'</td>';
-        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            sumHtml += '    <th style="text-align: center">비용</th>';
-            sumHtml += '    <td id="costSum" style="text-align: right">'+comma(Math.round(paySum))+'</td>';
-        }
+        sumHtml += '    <th style="text-align: center">지출</th>';
+        sumHtml += '    <td id="bustSum" style="text-align: right">'+comma(Math.round(paySum))+'</td>';
         sumHtml += '    <th style="text-align: center">총 합계</th>';
         sumHtml += '    <td id="invSum" style="text-align: right">'+comma(comma(Math.round(purcSum) + Math.round((bustSum)) + Math.round(paySum)))+'</td>';
         sumHtml += '</tr>';
@@ -627,6 +615,12 @@ var costInfoGrid = {
                     footerTemplate: function(){
                         return "<div id='costSumTemp' style='text-align: right'></div>";
                     }
+                },  {
+                    title: "",
+                    width: 80,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="costInfoGrid.fn_updPayAppPjtNull('+row.PAY_APP_SN+')">제외</button>';
+                    },
                 }
             ],
             dataBinding: function(){
@@ -655,5 +649,30 @@ var costInfoGrid = {
         var name = "_blank";
         var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_updPayAppPjtNull : function(key){
+        if(!confirm("지출내역에서 제외하시겠습니까?")){
+            return ;
+        }
+
+        var data = {
+            payAppSn : key
+        }
+
+        $.ajax({
+            url : "/project/updPayAppPjtNull",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("제외되었습니다.");
+                    costInfoGrid.gridReload();
+                } else {
+                    alert("저장 중 오류가 발생하였습니다.");
+                }
+            }
+        })
     }
 }

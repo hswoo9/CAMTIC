@@ -836,6 +836,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updPayAppChoose", params);
     }
 
+    public void updPayAppPjtNull(Map<String, Object> params) {
+        update("project.updPayAppPjtNull", params);
+    }
+
     public void setPjtAmt(Map<String, Object> params) {
         update("project.setPjtAmt", params);
     }

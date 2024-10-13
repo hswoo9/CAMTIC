@@ -1179,7 +1179,7 @@
             CAM_MNG.DJ_EXNP_DET A
         WHERE
             EXNP_SN = #{exnpSn}
-        GROUP BY TR_CD, CRM_NM
+        GROUP BY TR_CD, CRM_NM, CRM_BNK_NM, CRM_ACC_NO, CRM_ACC_HOLDER
     </select>
 
     <select id="getExnpG20List" parameterType="map" resultType="map">

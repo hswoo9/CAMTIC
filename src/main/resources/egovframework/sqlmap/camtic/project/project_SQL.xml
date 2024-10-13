@@ -447,7 +447,15 @@
         ON
             A.PJT_SN = DDS.FR_PJT_SN
         WHERE
-            A.PJT_SN = #{pjtSn}
+            1 = 1
+            <choose>
+                <when test='type != null and !"".equals(type) and "approve".equals(type)'>
+                    AND A.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_CH_SN = #{pjtSn})
+                </when>
+                <otherwise>
+                    AND A.PJT_SN = #{pjtSn}
+                </otherwise>
+            </choose>
     </select>
 
     <select id="getMultiPjtList" parameterType="map" resultType="map">
@@ -4041,6 +4049,7 @@
                 </otherwise>
             </choose>
         </if>
+        AND (AA.PJT_SN = '' OR AA.PJT_SN IS NULL)
         ORDER BY AA.PAY_APP_SN DESC
     </select>
 
@@ -4050,6 +4059,14 @@
         SET
             PJT_SN = #{pjtSn}
         WHERE PAY_APP_SN IN (${payAppSnList})
+    </update>
+
+    <update id="updPayAppPjtNull" parameterType="map">
+        /*updPayAppPjtNull*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            PJT_SN = ''
+        WHERE PAY_APP_SN = #{payAppSn}
     </update>
 
     <insert id="setPjtAmt" parameterType="map">

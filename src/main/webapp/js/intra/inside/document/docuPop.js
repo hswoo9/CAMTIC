@@ -858,14 +858,13 @@ var docuContractReq = {
 
         if(docuContractReq.global.attFiles.length > 0){
             $("#fileGrid").find(".defultTr").remove();
-            $("#fileGrid").find(".addFile").remove();
 
             var html = '';
             for (var i = 0; i < docuContractReq.global.attFiles.length; i++) {
 
                 if(docuContractReq.global.attFiles[i].fileOrgName != null) {
                     size = docuContractReq.bytesToKB(docuContractReq.global.attFiles[i].fileSize);
-                    html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                    html += '<tr style="text-align: center;padding-top: 10px;">';
                     html += '   <td>' + docuContractReq.global.attFiles[i].fileOrgName + '</td>';
                     html += '   <td>' + docuContractReq.global.attFiles[i].fileExt + '</td>';
                     html += '   <td>' + size + '</td>';
@@ -885,13 +884,14 @@ var docuContractReq = {
 
         if(docuContractReq.global.addAttFiles.length > 0){
             $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
 
             var html = '';
             for (var j = 0; j < docuContractReq.global.addAttFiles.length; j++) {
                 size = docuContractReq.bytesToKB(docuContractReq.global.addAttFiles[j].size);
-                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile'+ (diffSize + j)+'">';
-                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.split(".")[0] + '</td>';
-                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.split(".")[1] + '</td>';
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.substring(0, docuContractReq.global.addAttFiles[j].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.substring(docuContractReq.global.addAttFiles[j].name.lastIndexOf(".") + 1) + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td></td>';
                 html += '   <td>';
@@ -908,10 +908,33 @@ var docuContractReq = {
         $(v).closest("tr").remove();
         docuContractReq.global.addAttFiles.splice(inx, 1);
 
-        if($("#fileGrid").find("tr").length == 0){
-            $("#fileGrid").html('<tr class="defultTr">' +
-                '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
-                '</tr>');
+        if(docuContractReq.global.addAttFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var j = 0; j < docuContractReq.global.addAttFiles.length; j++) {
+                size = docuContractReq.bytesToKB(docuContractReq.global.addAttFiles[j].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.substring(0, docuContractReq.global.addAttFiles[j].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + docuContractReq.global.addAttFiles[j].name.substring(docuContractReq.global.addAttFiles[j].name.lastIndexOf(".") + 1) + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td></td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="docuContractReq.fnUploadFile(' + (docuContractReq.global.attFiles.length + j) + ', this, '+ j +')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        } else {
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
         }
     },
 

@@ -241,6 +241,8 @@ public interface ProjectService {
 
     void updPayAppChoose(Map<String, Object> params);
 
+    void updPayAppPjtNull(Map<String, Object> params);
+
     void setPjtAmt(Map<String, Object> params);
 
     void setPjtDelvDe(Map<String, Object> params);
