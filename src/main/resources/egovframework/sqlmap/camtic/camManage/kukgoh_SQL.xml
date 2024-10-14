@@ -794,7 +794,7 @@
         FROM CAM_MNG.DJ_PAY_APP_DET A
         LEFT JOIN CAM_MNG.DJ_ETAX_INFO B ON A.ISS_NO = B.ISS_NO
         LEFT JOIN CAM_ERP.DJ_PROJECT_LINK C ON C.PJT_CD = (SELECT PJT_CD FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = A.PAY_APP_SN)
-        WHERE PAY_APP_DET_SN = #{payAppDetSn}
+        WHERE PAY_APP_DET_SN = #{payAppDetSn} LIMIT 1
     </select>
 
     <insert id="insEtaxData" parameterType="map">
