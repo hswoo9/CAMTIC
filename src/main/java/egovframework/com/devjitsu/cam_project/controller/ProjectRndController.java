@@ -534,6 +534,12 @@ public class ProjectRndController {
         model.addAttribute("list", projectRndService.getChangeList(params));
         return "jsonView";
     }
+    @RequestMapping("/projectRnd/getChangeOne")
+    public String getChangeOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectRndService.getChangeOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
 
 
 
@@ -814,6 +820,17 @@ public class ProjectRndController {
         model.addAttribute("loginVO", login);
         model.addAttribute("processList", projectService.getProcessList(params));
         return "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop";
+    }
+
+    /** 사업정보 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/rndDelvMultiApprovalPop.do")
+    public String rndDelvMultiApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("processList", projectService.getProcessList(params));
+        return "/popup/cam_project/approvalFormPopup/rndDelvMultiApprovalPop";
     }
 
     /** 계획서보고 전자결재 페이지*/

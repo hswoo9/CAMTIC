@@ -167,6 +167,9 @@ public class ProjectRndRepository extends AbstractDAO {
     public List<Map<String, Object>> getChangeList(Map<String, Object> params) {
         return selectList("projectRnd.getChangeList", params);
     }
+    public Map<String, Object> getChangeOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectRnd.getChangeOne", params);
+    }
 
     public int getPartRateVerCount(Map<String, Object> map) {
         return (int) selectOne("projectRnd.getPartRateVerCount", map);

@@ -456,6 +456,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public List<Map<String, Object>> getChangeList(Map<String, Object> params) {
         return projectRndRepository.getChangeList(params);
     }
+    @Override
+    public Map<String, Object> getChangeOne(Map<String, Object> params) {
+        return projectRndRepository.getChangeOne(params);
+    }
 
     @Override
     public void setPartRateDetail(Map<String, Object> params) {

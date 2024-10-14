@@ -706,6 +706,16 @@
         </choose>
     </select>
 
+    <select id="getChangeOne" parameterType="map" resultType="map">
+        /* getChangeOne */
+        SELECT
+            PC.PJT_SN
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CHANGE PC
+        WHERE
+            PC.PJT_CH_SN = #{pjtChSn}
+    </select>
+
     <select id="getPartRateVerCount" parameterType="map" resultType="int">
         /*getPartRateVerCount*/
         SELECT
