@@ -193,6 +193,68 @@ var rndInit = {
         }, 1000);
     },
 
+    /** 연차보고 : 현재는 수주보고와 같음. 추후 변경 여지 있어 따로 빼놓음 */
+    delvMultiInit: function(pjtSn){
+        rndInit.globalDataSet(pjtSn, "delv");
+        const pjtInfo = rndInit.global.pjtInfo;
+        const rndInfo = rndInit.global.rndInfo;
+
+        const map = pjtInfo.rs;
+        const delvMap = rndInfo.map;
+
+        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
+
+        /** 1. 사업정보 */
+        rndInit.delvSet("delv");
+
+        /** 2. 사업 목적 및 내용 */
+        hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
+        if(map.TAX_GUBUN == "1"){
+            hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+            hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
+        }else{
+            hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+            hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST).toString().split(".")[0]));
+        }
+        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
+
+        let g20Sum = 0;
+        console.log("customG20", customG20);
+
+        /** 초기화 */
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+
+        for(let i=0; i<customG20.list.length; i++){
+            const g20Map = customG20.list[i];
+            if(g20Map.CB_CODE_NAME_1 == "인건비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += g20Map.CB_BUDGET;
+            }else if(g20Map.CB_CODE_NAME_1 == "직접비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT1', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER1', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += g20Map.CB_BUDGET;
+            }else if(g20Map.CB_CODE_NAME_1 == "간접비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT2', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER2', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += g20Map.CB_BUDGET;
+            }
+        }
+        hwpDocCtrl.putFieldText('G20_TOT', fn_numberWithCommas(g20Sum));
+
+        /** 3. 특이사항 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", " ");
+            hwpDocCtrl.moveToField('ETC', true, true, false);
+            hwpDocCtrl.setTextFile(delvMap.RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
     devInit: function(devSn){
         const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
 

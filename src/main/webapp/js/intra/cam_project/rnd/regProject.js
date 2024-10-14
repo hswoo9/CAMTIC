@@ -327,7 +327,7 @@ var regRnd = {
             }
         }
 
-        if(!mngCk){
+        if(!mngCk || $("#pjtSn").val() == ""){
             $("#pjtAmt2").data("kendoTextBox").enable(false);
         }
     },

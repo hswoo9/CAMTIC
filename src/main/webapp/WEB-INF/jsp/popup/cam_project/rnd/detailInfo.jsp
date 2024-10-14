@@ -60,6 +60,7 @@
 </form>
 
 <input type="hidden" id="rndStep1TmpCd" value="${data.PJT_TMP_CD}" />
+<input type="hidden" id="yearDataCk" name="yearDataCk" value="N">
 
 <div style="padding: 10px">
     <div id="detailBtnDiv">

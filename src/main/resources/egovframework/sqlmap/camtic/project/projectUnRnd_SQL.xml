@@ -35,7 +35,6 @@
             SECURITY,
             PARENT_PJT_SN,
             <if test='parentPjtSn != null and !"".equals(parentPjtSn)'>
-                PJT_CD,
                 PJT_TMP_CD,
             </if>
             REG_EMP_SEQ
@@ -70,7 +69,6 @@
             #{security},
             #{parentPjtSn},
             <if test='parentPjtSn != null and !"".equals(parentPjtSn)'>
-                (SELECT SPP.PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT SPP WHERE SPP.PJT_SN = #{parentPjtSn} limit 1),
                 (SELECT SPP.PJT_TMP_CD FROM CAM_PJT_MNG.DJ_PROJECT SPP WHERE SPP.PJT_SN = #{parentPjtSn} limit 1),
             </if>
             #{regEmpSeq}
