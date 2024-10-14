@@ -694,6 +694,8 @@
             DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
         WHERE
             PC.PJT_SN = #{pjtSn}
+        AND
+            PC.DOC_ID IS NOT NULL
         <choose>
             <when test='"asc".equals(order)'>
                 ORDER BY PJT_CH_SN ASC
