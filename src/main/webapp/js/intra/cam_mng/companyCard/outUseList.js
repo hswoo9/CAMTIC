@@ -130,17 +130,17 @@ var outUseList = {
                             title: "거래처",
                             width: 150,
                             template : function (e){
-                                return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
+                                return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.MAX_BUY_STS+'\')">'+e.MER_NM+'</div>'
                             },
                             footerTemplate: "합계"
                         }, {
-                            field: "AUTH_AMT",
+                            field: "FORE_AUTH_AMT",
                             title: "금액",
                             width: 80,
                             template : function (e){
-                                calcAmSum  += Number(e.AUTH_AMT);
+                                calcAmSum  += Number(e.FORE_AUTH_AMT);
 
-                                return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
+                                return '<div style="text-align: right;">' + comma(e.FORE_AUTH_AMT) + '</div>';
                             },
                             footerTemplate: function(){
                                 return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";

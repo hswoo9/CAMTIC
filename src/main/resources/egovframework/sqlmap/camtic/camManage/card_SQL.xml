@@ -7,6 +7,7 @@
         /*cardAllList*/
         SELECT
             AA.*,
+            IF(AA.FORE_USEGB = 1, AA.AUTH_AMT, AA.MAX_AUTH_AMT) AS FORE_AUTH_AMT,
             CASE
                 WHEN AA.MAX_BUY_STS = '01' THEN '매입'
                 WHEN AA.MAX_BUY_STS = '02' THEN '매입취소'
@@ -64,6 +65,7 @@
         (
             SELECT
                 A.*,
+                (SELECT AUTH_AMT FROM CAM_HR.ERP_HIST_CORPCD_USE WHERE A.AUTH_NO = AUTH_NO AND A.AUTH_HH = AUTH_HH AND A.AUTH_DD = AUTH_DD AND MAX(A.BUY_STS) = BUY_STS) AS MAX_AUTH_AMT,
                 MAX(A.BUY_STS) AS MAX_BUY_STS,
                 B.CLTTR_CD,
                 B.TR_CD,
@@ -167,6 +169,7 @@
             UNION ALL
             SELECT
                 A.*,
+                (SELECT AUTH_AMT FROM CAM_HR.ERP_HIST_CORPCD_USE WHERE A.AUTH_NO = AUTH_NO AND A.AUTH_HH = AUTH_HH AND A.AUTH_DD = AUTH_DD AND MAX(A.BUY_STS) = BUY_STS) AS MAX_AUTH_AMT,
                 MAX(A.BUY_STS) AS MAX_BUY_STS,
                 B.CLTTR_CD,
                 B.TR_CD,
@@ -276,10 +279,10 @@
         SELECT
             AA.*,
             CASE
-            WHEN AA.BUY_STS = '01' THEN '승인'
-            WHEN AA.BUY_STS = '02' THEN '승인취소'
-            WHEN AA.BUY_STS = '03' THEN '매입'
-            WHEN AA.BUY_STS = '04' THEN '매입취소'
+            WHEN AA.BUY_STS = '01' THEN '매입'
+            WHEN AA.BUY_STS = '02' THEN '매입취소'
+            WHEN AA.BUY_STS = '03' THEN '승인'
+            WHEN AA.BUY_STS = '04' THEN '승인취소'
             ELSE ''
             END BUY_STS_TXT,
             CASE
