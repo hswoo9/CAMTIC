@@ -174,13 +174,13 @@ var payCardHist = {
                     width: 80,
                     template : function(e) {
                         if(e.BUY_STS == "01") {
-                            return "매입";
-                        } else if(e.BUY_STS == "02") {
-                            return "매입취소";
-                        } else if(e.BUY_STS == "03") {
                             return "승인";
-                        } else if(e.BUY_STS == "04") {
+                        } else if(e.BUY_STS == "02") {
                             return "승인취소";
+                        } else if(e.BUY_STS == "03") {
+                            return "매입";
+                        } else if(e.BUY_STS == "04") {
+                            return "매입취소";
                         } else {
                             return "";
                         }
