@@ -62,6 +62,26 @@
                     <input type="text" id="rsPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
                 </td>
             </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>정산내역
+                </th>
+                <td colspan="3">
+                    <table class="popTable table table-bordered mb-0">
+                        <colgroup>
+                            <col width="12%">
+                            <col width="14%">
+                            <col width="14%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="15%">
+                        </colgroup>
+                        <thead id="resultHtml">
+                        </thead>
+                    </table>
+                </td>
+            </tr>
             <%--<tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>실적률
