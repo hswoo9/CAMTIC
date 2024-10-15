@@ -110,12 +110,26 @@ public class MainController {
             params.put("approveStat", "returnRetrieve");
             int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
 
+            // 메인페이지 열람 문서 검색 조건
+            LocalDate oneMonthAgo = today.minusMonths(1);
+            String formattedOneMonthAgo = oneMonthAgo.format(formatter);
+
+            params.put("searchKeyword", "A");
+            params.put("readStatus", "N");
+            params.put("startDay", formattedOneMonthAgo);
+            params.put("endDay", formattedToday);
+            params.put("groupSeq", "camtic_new");
+            params.put("compSeq", "1212");
+            params.put("docTitle", "");
+            int viewStatus = approvalUserService.getUserReadDocStorageBoxList(params).size(); //열람문서
+
             model.addAttribute("strStatus", strStatus);
             model.addAttribute("waitStatus", waitStatus);
             /*model.addAttribute("scheduleStatus", scheduleStatus);*/
             model.addAttribute("ckCheck", ckCheck);
             model.addAttribute("ckStatus", ckStatus);
             model.addAttribute("retStatus", retStatus);
+            model.addAttribute("viewStatus", viewStatus);
             model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
             model.addAttribute("loginVO", loginVO);
 
@@ -168,12 +182,26 @@ public class MainController {
         params.put("approveStat", "returnRetrieve");
         int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
 
+        // 메인페이지 열람 문서 검색 조건
+        LocalDate oneMonthAgo = today.minusMonths(1);
+        String formattedOneMonthAgo = oneMonthAgo.format(formatter);
+
+        params.put("searchKeyword", "A");
+        params.put("readStatus", "N");
+        params.put("startDay", formattedOneMonthAgo);
+        params.put("endDay", formattedToday);
+        params.put("groupSeq", "camtic_new");
+        params.put("compSeq", "1212");
+        params.put("docTitle", "");
+        int viewStatus = approvalUserService.getUserReadDocStorageBoxList(params).size();  //열람문서
+
         model.addAttribute("strStatus", strStatus);
         model.addAttribute("waitStatus", waitStatus);
         /*model.addAttribute("scheduleStatus", scheduleStatus);*/
         model.addAttribute("ckCheck", ckCheck);
         model.addAttribute("ckStatus", ckStatus);
         model.addAttribute("retStatus", retStatus);
+        model.addAttribute("viewStatus", viewStatus);
         model.addAttribute("loginVO", loginVO);
         return "indexB_cp";
     }
