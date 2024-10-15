@@ -3564,14 +3564,17 @@
             PA.*,
             CONCAT('[구매] ', MDI.DOC_NO) AS PURC_DOC_NO,
             (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN) AS ITEM_SUM,
-            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y') AS COST_SUM
+            IF(
+                PA.LINK_KEY_TYPE IN ('구매', '출장', '사전정산', '사후정산'),
+                0,
+                (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y')
+            ) AS COST_SUM
         FROM
             CAM_MNG.DJ_PAY_APP PA
         LEFT JOIN
             CAM_MNG.DJ_MNG_PURC MP ON PA.LINK_KEY = MP.PURC_SN AND LINK_KEY_TYPE = '구매'
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO MDI ON MP.DOC_ID = MDI.DOC_ID
-
         WHERE
             (
                 PA.PJT_SN = #{pjtSn}
