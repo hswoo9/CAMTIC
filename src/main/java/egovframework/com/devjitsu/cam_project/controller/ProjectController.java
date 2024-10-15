@@ -1908,6 +1908,12 @@ public class ProjectController {
                 map.put("nowExpSaleAmt", 0);
                 map.put("nowExpProfitAmt", 0);
             }
+
+            // 수행계획 - 투자금액
+            Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
+            if(getPjtDevInfo != null) {
+                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
+            }
         }
 
         model.addAttribute("list", list);

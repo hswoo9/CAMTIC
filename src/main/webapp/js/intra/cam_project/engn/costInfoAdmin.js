@@ -131,6 +131,7 @@ var costInfo = {
             '                <th style="text-align: center">기준년도</th>' +
             '                <th style="text-align: center">수주금액</th>' +
             '                <th style="text-align: center">당해년도 사업비</th>' +
+            '                <th style="text-align: center">수행계획</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
             '                <th style="text-align: center">달성 운영수익</th>' +
             '                <th style="text-align: center">예상 매출액</th>' +
@@ -160,6 +161,7 @@ var costInfo = {
                 '                <td id="PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
                 '                <td id="PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right"></td>' +
                 '                <td id="PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right"></td>' +
+                '                <td id="INV_AMT'+(i)+'" class="invAmt" style="text-align: right"></td>' +
                 '                <td id="RES_AMT'+(i)+'" class="resAmt" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right"></td>' +
                 '                <td id="DEV_AMT'+(i)+'" class="devAmt" style="text-align: right"></td>' +
@@ -173,6 +175,7 @@ var costInfo = {
                 '                <th colspan="5" style="text-align: right">합계</th>' +
                 '                <td id="PJT_AMT2_SUM" style="text-align: right"></td>' +
                 '                <td id="PJT_AMT3_SUM" style="text-align: right"></td>' +
+                '                <td id="INV_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="DEV_AMT_SUM" style="text-align: right"></td>' +
@@ -283,6 +286,9 @@ var costInfo = {
                 console.log("e.pjtAmtSetData.AMT3", e.pjtAmtSetData.AMT3);
             }
 
+            /** 수행계획 - 투자금액 */
+            $("#INV_AMT"+i).text(comma(Number(e.DEV_INV_AMT || 0)));
+
             console.log(Number(e.INV_AMT || 0));
             console.log(Number(e.incpCompAmt || 0));
 
@@ -347,5 +353,15 @@ var costInfo = {
             }
         });
         $("#DEV_NOT_INV_AMT_SUM").text(comma(sumD));
+
+        /** 수행계획 - 투자금액 합계 */
+        let sumInvAmt = 0;
+        $('td.invAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumInvAmt += value;
+            }
+        });
+        $("#INV_AMT_SUM").text(comma(sumInvAmt));
     }
 }
