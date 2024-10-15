@@ -186,6 +186,11 @@ var regUnRnd = {
                             tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                         }
                     }
+
+                    if(setParameters.COST_CLOSE_CK != "Y") {
+                        tabStrip.disable(tabStrip.tabGroup.children().eq(7));
+                    }
+                    
                 }
             } else {
                 $("#stopBtn").css("display", "none");

@@ -2027,4 +2027,15 @@ public class ProjectController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/project/setCostInfoClose")
+    public String setCostInfoClose(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setCostInfoClose(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

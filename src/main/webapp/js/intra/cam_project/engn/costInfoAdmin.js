@@ -363,5 +363,27 @@ var costInfo = {
             }
         });
         $("#INV_AMT_SUM").text(comma(sumInvAmt));
+    },
+
+    fn_costInfoClose : function(){
+
+        if(!confirm("정산서를 마감하시겠습니까?")) {
+            return;
+        }
+
+        $.ajax({
+            url: "/project/setCostInfoClose",
+            data : {
+                pjtSn : $("#pjtSn").val()
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == "200") {
+                    alert("마감되었습니다.");
+                    location.reload();
+                }
+            }
+        })
     }
 }

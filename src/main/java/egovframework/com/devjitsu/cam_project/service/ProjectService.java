@@ -254,4 +254,6 @@ public interface ProjectService {
     Map<String, Object> getPjtAmtSetData(Map<String, Object> params);
 
     void setPjtAmtDel(Map<String, Object> params);
+
+    void setCostInfoClose(Map<String, Object> params);
 }

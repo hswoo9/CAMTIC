@@ -1871,6 +1871,11 @@ public class ProjectServiceImpl implements ProjectService {
     public void setPjtAmtDel(Map<String, Object> params) {
         projectRepository.setPjtAmtDel(params);
     }
+
+    @Override
+    public void setCostInfoClose(Map<String, Object> params) {
+        projectRepository.setCostInfoClose(params);
+    }
 }
 
 

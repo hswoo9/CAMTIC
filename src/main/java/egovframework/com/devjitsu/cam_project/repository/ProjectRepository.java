@@ -864,4 +864,8 @@ public class ProjectRepository extends AbstractDAO {
     public void setPjtAmtDel(Map<String, Object> params) {
         update("project.setPjtAmtDel", params);
     }
+
+    public void setCostInfoClose(Map<String, Object> params) {
+        update("project.setCostInfoClose", params);
+    }
 }

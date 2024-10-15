@@ -4159,4 +4159,13 @@
             ACTIVE = 'N'
         WHERE AMT_SET_SN = #{amtSetSn}
     </update>
+
+    <update id="setCostInfoClose" parameterType="map">
+        /*setCostInfoClose*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            COST_CLOSE_CK = 'Y'
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

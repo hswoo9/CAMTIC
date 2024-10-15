@@ -199,6 +199,11 @@ var regRnd = {
                         }
                     }
                 }
+
+                if(setParameters.COST_CLOSE_CK != "Y") {
+                    tabStrip.disable(tabStrip.tabGroup.children().eq(7));
+                }
+
             } else {
                 $("#stopBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);

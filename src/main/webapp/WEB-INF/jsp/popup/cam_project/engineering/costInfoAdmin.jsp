@@ -37,6 +37,11 @@
 <input type="hidden" id="searchPjtSn" value="${params.pjtSn}"/>
 
 <div style="padding: 10px">
+
+    <div id="costCloseDiv" style="text-align: right; font-size: 12px;">
+        <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfo.fn_costInfoClose();">정산서 마감</button>
+    </div>
+
     <div id="costInfoDiv" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px;">
         <span id="costPjtClass"></span>
     </div>
