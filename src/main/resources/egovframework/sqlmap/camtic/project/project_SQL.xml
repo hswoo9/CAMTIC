@@ -4002,7 +4002,7 @@
 
         ) AA
         WHERE
-            AA.DOC_STATUS NOT IN (0, 30, 40)
+            AA.DOC_STATUS IN (100, 101)
             AND (PJT_NM LIKE '%년]법인운영%' OR PJT_NM LIKE '%년]기타%')
         <choose>
             <when test='"2".equals(searchDate)'>
