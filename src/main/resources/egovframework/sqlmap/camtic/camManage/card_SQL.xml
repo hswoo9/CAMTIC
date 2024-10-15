@@ -1374,8 +1374,18 @@
             A.TR_NM LIKE '%' + '_개인카드' + '%'
         </if>
         <if test='searchValue != null and !"".equals(searchValue)'>
-            AND
-            (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR scp.dec_b64('KEY1', A.CARD_BA_NB) LIKE CONCAT('%', #{searchValue}, '%'))
+            <choose>
+                <when test='"B".equals(reqType)'>
+                    <![CDATA[
+                    AND
+                    (A.TR_NM REGEXP CONCAT('(^|_|[[:<:]])', #{searchValue}, '($|_|[[:>:]])') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR scp.dec_b64('KEY1', A.CARD_BA_NB) LIKE CONCAT('%', #{searchValue}, '%'))
+                    ]]>
+                </when>
+                <otherwise>
+                    AND
+                    (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR scp.dec_b64('KEY1', A.CARD_BA_NB) LIKE CONCAT('%', #{searchValue}, '%'))
+                </otherwise>
+            </choose>
         </if>
         <if test='auth == "user" or "user".equals(auth)'>
             AND

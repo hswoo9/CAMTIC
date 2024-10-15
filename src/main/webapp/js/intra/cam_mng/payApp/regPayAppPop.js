@@ -870,10 +870,17 @@ var regPay = {
                 $("#totCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
                 $("#supCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
 
-                const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                const g20CardParams = {
                     searchValue: exnpMap.EXNP_NAME,
                     cardVal : ""
-                }).list
+                }
+
+                console.log("exnpMap.EXNP_NAME", exnpMap.EXNP_NAME);
+                if(exnpMap.EXNP_NAME.length == 2){
+                    g20CardParams.reqType = "B";
+                }
+
+                const g20CardList = customKendo.fn_customAjax("/g20/getCardList", g20CardParams).list;
 
                 if (g20CardList.length > 0) {
                     const f = g20CardList[0];
@@ -1312,7 +1319,11 @@ var regPay = {
 
                         let cData = {
                             searchValue : exnpMap.CARD_NO,
-                            cardVal : "userCard",
+                            cardVal : "userCard"
+                        }
+
+                        if(exnpMap.CARD_NO.length == 2){
+                            cData.reqType = "B";
                         }
 
                         var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
