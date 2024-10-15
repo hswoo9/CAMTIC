@@ -221,10 +221,11 @@
                 <div style="clear: both;"></div>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신중 문서</span><span style="color:#1286ff;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#c93434;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">승인 대기</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/process/processCheckList.do')">${ckStatus} 건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">반려 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxReturnDocList.do')">${retStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:20px;"><span style="color:#333;font-weight:600;">상신중 문서</span><span style="color:#1286ff;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:20px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#c93434;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:20px;"><span style="color:#333;font-weight:600;">승인 대기</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/process/processCheckList.do')">${ckStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:20px;"><span style="color:#333;font-weight:600;">반려 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxReturnDocList.do')">${retStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:20px;"><span style="color:#333;font-weight:600;">열람 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxReaderDocList.do')">${viewStatus} 건</span></div>
             </div>
         </div>
 
@@ -329,7 +330,7 @@
         </div>
     </div>
 
-    <div class="panel" style="height: 407px;">
+    <div class="panel" style="height: 406px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">주요일정</h4>
         </div>
@@ -429,7 +430,7 @@
                 </h4>
             </div>
             <div class="panel-body" style="padding: 5px;">
-                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 170px; margin: 10px auto; overflow-y: scroll">
+                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 220px; margin: 10px auto; overflow-y: scroll">
                     <div id="noticeDropdown" style="">
                         <ul class="list-group notice-list" id="alarmUl">
 
@@ -441,7 +442,7 @@
         </div>
     </div>
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
-        <div class="panel" style="margin-bottom:10px; height:345px;">
+        <div class="panel" style="margin-bottom:10px; height:344px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
             </div>
