@@ -318,7 +318,7 @@
         </div>
     </div>
 
-    <div class="panel" style="height: 489px;">
+    <div class="panel" style="height: 406px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">주요일정</h4>
         </div>
@@ -418,7 +418,7 @@
                 </h4>
             </div>
             <div class="panel-body" style="padding: 5px;">
-                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 170px; margin: 10px auto; overflow-y: scroll">
+                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 220px; margin: 10px auto; overflow-y: scroll">
                     <div id="noticeDropdown" style="">
                         <ul class="list-group notice-list" id="alarmUl">
 
@@ -430,7 +430,7 @@
         </div>
     </div>
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
-        <div class="panel" style="margin-bottom:10px; height:345px;">
+        <div class="panel" style="margin-bottom:10px; height:344px;">
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">함께보아요</h4>
             </div>
