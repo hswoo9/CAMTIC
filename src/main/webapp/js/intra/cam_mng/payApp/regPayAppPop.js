@@ -2642,6 +2642,15 @@ var regPay = {
                     if(data.budgetSn == jMap.BGT_CD && jMap.BGT_AT == "1"){
                         data.costStat = "N";
                     }
+
+                    /** 구매/출장 지급신청서 비용처리 N 디폴트 */
+                    if($("#reqType").val() == "bustrip" || $("#reqType").val() == "business" || $("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
+                        data.costStat = "N";
+                    }
+
+                    if(regPay.global.result.LINK_KEY_TYPE == "구매" || regPay.global.result.LINK_KEY_TYPE == "출장" || regPay.global.result.LINK_KEY_TYPE == "사전정산" || regPay.global.result.LINK_KEY_TYPE == "사후정산") {
+                        data.costStat = "N";
+                    }
                 }
             }
 
