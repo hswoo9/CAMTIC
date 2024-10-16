@@ -64,20 +64,20 @@
                     <td><span id="gender"></span></td>
                 </tr>
                 <tr>
-                    <th><span class="red-star">*</span>우편번호</th>
+                    <th>우편번호</th>
                     <td><input type="text" id="zipCode" style="width: 150px; margin-right: 5px;"><button class="id_check" onclick="addrSearch()" style="border: none;border-radius: 5px;">우편번호 찾기</button></td>
-                    <th><span class="red-star">*</span>주소</th>
+                    <th>주소</th>
                     <td><input type="text" id="address" style="width: 80%" disabled></td>
                 </tr>
                 <tr>
 
-                    <th><span class="red-star">*</span>상세주소</th>
+                    <th>상세주소</th>
                     <td colspan="3"><input type="text" id="addDetail" style="width: 70%"></td>
                 </tr>
                 <tr>
                     <th>자택 전화번호</th>
                     <td><input id="telNum" style="width: 150px"></td>
-                    <th><span class="red-star">*</span>이메일</th>
+                    <th>이메일</th>
                     <td><input type="email" id="email" style="width: 150px"></td>
                 </tr>
                 <tr>

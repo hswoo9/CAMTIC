@@ -147,7 +147,7 @@ const lecturePersonMng = {
             $("#gender").focus();
 
             return;
-        }else if($("#address").val()==="") {
+        }/*else if($("#address").val()==="") {
             alert("주소를 입력하세요.");
             $("#address").focus();
 
@@ -162,7 +162,7 @@ const lecturePersonMng = {
             $("#email").focus();
 
             return;
-        }else if (!$("#email").val().match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i)) {
+        }*/else if ($("#email").val() != "" && !$("#email").val().match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i)) {
             alert("올바른 이메일 형식이 아닙니다.");
             $("#email").focus();
             return;
