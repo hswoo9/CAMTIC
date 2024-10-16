@@ -106,11 +106,7 @@ var approveTobe = {
                     title : "문서번호",
                     width : "160px",
                     template : function(e){
-                        if(e.DOC_NO == null || e.DOC_NO == ""){
-                            return "-"
-                        }else{
-                            return e.DOC_NO
-                        }
+                        return "-";
                     }
                 }, {
                     title : "문서제목",

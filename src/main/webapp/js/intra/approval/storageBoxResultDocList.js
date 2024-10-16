@@ -115,10 +115,12 @@ var storageBoxResult = {
                     title : "문서번호",
                     width : 200,
                     template : function(e){
-                        if(e.DOC_NO == null || e.DOC_NO == ""){
-                            return "-"
+                        if(e.DOC_NO == null || e.DOC_NO == "" || e.APPROVE_STAT_CODE_DESC == null || e.APPROVE_STAT_CODE_DESC == ""){
+                            return "-";
+                        }else if(e.APPROVE_STAT_CODE_DESC == "최종결재" || e.APPROVE_STAT_CODE_DESC == "전결"){
+                            return e.DOC_NO;
                         }else{
-                            return e.DOC_NO
+                            return "-";
                         }
                     }
                 }, {
