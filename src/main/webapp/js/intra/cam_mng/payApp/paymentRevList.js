@@ -147,11 +147,11 @@ var paymentRevList = {
                     title: "신청자",
                     width: 80
                 }, {
-                    field: "REG_DT",
+                    field: "APP_DE",
                     title: "신청일",
                     width: 80,
                     template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                        return e.APP_DE;
                     }
                 }, {
                     field: "REQ_DE",
@@ -308,7 +308,7 @@ var paymentRevList = {
             docStatus : 100
         }
 
-        paymentRevList.mainGrid("/pay/getPaymentList", paymentRevList.global.searchAjaxData);
+        paymentRevList.mainGrid("/pay/getPaymentMngList", paymentRevList.global.searchAjaxData);
         // paymentRevList.hiddenGrid("/pay/getPaymentListForExcelDown", paymentRevList.global.searchAjaxData);
     },
 

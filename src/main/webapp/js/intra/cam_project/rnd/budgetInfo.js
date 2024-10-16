@@ -616,7 +616,7 @@ var rndBg = {
                     field: "APP_DE",
                     template: function(e){
 
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                        return e.APP_DE;
                     }
                 }, {
                     title: "지출요청일",
