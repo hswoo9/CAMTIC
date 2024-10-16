@@ -127,7 +127,7 @@
                 DATE_FORMAT(B.REG_DT, '%Y-%m-%d') BETWEEN #{strDt} AND #{endDt}
         </if>
         AND
-            LEFT(B.PJT_CD, 1) IN ('R', 'S', 'A')
+            LEFT(B.PJT_CD, 1) IN ('R', 'S', 'A', 'J')
         AND
             A.ENARA_SEND_EXCEPT = #{exceptYn}
         <if test='"A".equals(status)'>

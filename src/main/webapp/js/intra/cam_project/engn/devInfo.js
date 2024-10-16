@@ -68,7 +68,7 @@ var devInfo = {
             if(rs.list[i].PJT_STEP == "E2"){
                 pjtStepNm = "";
             } else {
-                if(rs.list[i].STATUS == "100"){
+                if(rs.list[i].STATUS == "100" || (commonProject.global.teamStat == "Y" && commonProject.global.devTeamCk == "Y")){
                     pjtStepNm += " 완료";
                 } else {
                     pjtStepNm += " 진행중";
@@ -79,7 +79,11 @@ var devInfo = {
             html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-            html += "   <td>"+rs.list[i].REG_EMP_NAME+"</td>";
+            if(commonProject.global.teamStat != "Y"){
+                html += "   <td>"+rs.list[i].REG_EMP_NAME+"</td>";
+            }else{
+                html += "   <td>"+rs.list[i].PM+"</td>";
+            }
             html += "   <td></td>";
             html += "   <td>"+pjtStepNm+"</td>";
             html += "</tr>";
