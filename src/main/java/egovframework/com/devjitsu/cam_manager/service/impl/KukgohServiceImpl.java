@@ -307,7 +307,10 @@ public class KukgohServiceImpl implements KukgohService {
         params.put("fileNoAr", fileNoAr);
 
         params.put("payAppSn", payAppData.get("PAY_APP_SN"));
+        params.put("docId", payAppData.get("DOC_ID"));
         List<Map<String,Object>> fileList = payAppRepository.getPayAppFileList(params);
+        Map<String, Object> docFileMap = payAppRepository.getPayAppDocFileInfo(params);
+        fileList.add(docFileMap);
 
         int fileCnt = 1;
 
