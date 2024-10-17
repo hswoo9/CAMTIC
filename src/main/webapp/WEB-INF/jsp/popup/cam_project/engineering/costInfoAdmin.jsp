@@ -85,43 +85,12 @@
             </thead>
         </table>
 
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 전체년도 재무실적 내역</span>
+        <table id="allPjtRow" class="popTable table table-bordered mb-0" style="">
+        </table>
+
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 재무실적 내역</span>
         <table id="pjtInfoRow" class="popTable table table-bordered mb-0">
-            <colgroup>
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-            </colgroup>
-            <thead >
-            <tr>
-                <th style="text-align: center">구분</th>
-                <th style="text-align: center">프로젝트 코드</th>
-                <th style="text-align: center">부서</th>
-                <th style="text-align: center">팀</th>
-                <th style="text-align: center">수주금액</th>
-                <th style="text-align: center">달성 매출액</th>
-                <th style="text-align: center">달성 운영수익</th>
-                <th style="text-align: center">예상 매출액</th>
-                <th style="text-align: center">예상 운영수익</th>
-            </tr>
-            <tr>
-                <td id="PJT_TYPE" style="text-align: center"></td>
-                <td id="PJT_CD2" style="text-align: center"></td>
-                <td id="PM_DEPT" style="text-align: center"></td>
-                <td id="PM_TEAM" style="text-align: center"></td>
-                <td id="PJT_AMT2" style="text-align: right"></td>
-                <td id="RES_AMT" style="text-align: right"></td>
-                <td id="RES_NOT_INV_AMT" style="text-align: right"></td>
-                <td id="DEV_AMT" style="text-align: right"></td>
-                <td id="DEV_NOT_INV_AMT" style="text-align: right"></td>
-            </tr>
-            </thead>
         </table>
 
         <div class="multiUi" style="display: none; margin-top:10px;"></div><span class="multiUi" style="display: none; font-size: 12px">◎ 전차년도 마감 현황</span>

@@ -759,7 +759,36 @@
             AND DLP.DELV_EST_DE IS NOT NULL AND DLP.DELV_DE IS NOT NULL
             GROUP BY A.PJT_SN, Y.YEAR
         ) R
-        WHERE R.PJT_SN = #{pjtSn}
+        WHERE
+        <choose>
+            <when test='"group".equals(type)'>
+                R.PJT_SN IN (
+                    SELECT
+                        PJT_SN
+                    FROM
+                        CAM_PJT_MNG.DJ_PROJECT A
+                    WHERE
+                        ACTIVE = 'Y'
+                    AND (
+                        CASE
+                            WHEN A.PARENT_PJT_SN IS NULL THEN A.PJT_SN
+                            ELSE A.PARENT_PJT_SN
+                        END
+                    ) = (
+                        SELECT
+                            CASE
+                                WHEN B.PARENT_PJT_SN IS NULL THEN B.PJT_SN
+                                ELSE B.PARENT_PJT_SN
+                            END
+                        FROM
+                            CAM_PJT_MNG.DJ_PROJECT B
+                        WHERE
+                            B.PJT_SN = #{pjtSn}
+                    )
+                )
+            </when>
+            <otherwise>R.PJT_SN = #{pjtSn}</otherwise>
+        </choose>
         ORDER BY PJT_SN, YEAR
     </select>
 

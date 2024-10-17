@@ -71,8 +71,11 @@ var costInfo = {
         /** 사업정보 */
         costInfo.step1(pjtMap);
 
-        /** 재무실적내역 */
+        /** 전체년도 재무실적내역 */
         costInfo.step2(pjtMap);
+
+        /** 재무실적내역 */
+        costInfo.step3(pjtMap);
     },
 
     step1(pjtMap){
@@ -105,8 +108,139 @@ var costInfo = {
 
     step2(pjtMap){
         const pjtSn = $("#pjtSn").val();
+        let html = '';
+        html += '<table id="pjtInfoRow" class="popTable table table-bordered mb-0">' +
+            '            <colgroup>' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '                <col width="%">' +
+            '            </colgroup>' +
+            '            <thead >' +
+            '            <tr>' +
+            '                <th style="text-align: center">구분</th>' +
+            '                <th style="text-align: center">프로젝트 코드</th>' +
+            '                <th style="text-align: center">부서</th>' +
+            '                <th style="text-align: center">팀</th>' +
+            '                <th style="text-align: center">수주금액</th>' +
+            '                <th style="text-align: center">수행계획</th>' +
+            '                <th style="text-align: center">달성 매출액</th>' +
+            '                <th style="text-align: center">달성 운영수익</th>' +
+            '                <th style="text-align: center">예상 매출액</th>' +
+            '                <th style="text-align: center">예상 운영수익</th>' +
+            '            </tr>';
 
+        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
+        const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn, type: "group"});
+        const list = result.list;
+        let count = list.length;
+        console.log("전체재무실적 list", list);
+        html +=
+            '            <tr>' +
+            '                <td id="ALL_PJT_TYPE" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="ALL_PJT_CD2" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="ALL_PM_DEPT" rowspan="'+count+'" style="text-align: center"></td>' +
+            '                <td id="ALL_PM_TEAM" rowspan="'+count+'" style="text-align: center"></td>';
 
+        html +=
+            '                <td id="ALL_PJT_AMT3_SUM" style="text-align: right"></td>' +
+            '                <td id="ALL_INV_AMT_SUM" style="text-align: right"></td>' +
+            '                <td id="ALL_RES_AMT_SUM" style="text-align: right"></td>' +
+            '                <td id="ALL_RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+            '                <td id="ALL_DEV_AMT_SUM" style="text-align: right"></td>' +
+            '                <td id="ALL_DEV_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
+            '            </tr>';
+            '            </thead>' +
+            '        </table>';
+        $("#allPjtRow").html(html);
+
+        /** 기본정보 */
+        const tmYn = pjtMap.TM_YN;
+        if(tmYn != "Y"){
+            $("#ALL_PJT_TYPE").text("수주");
+        }else{
+            $("#ALL_PJT_TYPE").text("협업");
+        }
+        $("#ALL_PJT_CD2").text(pjtMap.PJT_CD);
+        if(pjtMap.PM_EMP_SEQ != null){
+            const pmInfo = getUser(pjtMap.PM_EMP_SEQ);
+            if(pmInfo != null){
+                $("#ALL_PM_DEPT").text(pmInfo.deptNm);
+                $("#ALL_PM_TEAM").text(pmInfo.teamNm);
+            }
+        }
+
+        /** 수주금액 */
+        let sumA = 0;
+        /** 수행계획 */
+        let sumB = 0;
+
+        /** 달성매출액 */
+        let sumC = 0;
+        /** 달성운영수익 */
+        let sumD = 0;
+        /** 예상매출액 */
+        let sumE = 0;
+        /** 예상운영수익 */
+        let sumF = 0;
+
+        for(let i=0; i<list.length; i++){
+            const e = list[i];
+            sumA += Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+            sumB += Number(e.DEV_INV_AMT || 0);
+
+            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
+                
+            }else{
+                /** 달성 매출액 */
+                let asrAmt = 0;
+                if($("#taxGubun").val() == "1"){
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                }else{
+                    asrAmt = e.exnpCompAmt;
+                }
+                sumC += asrAmt + e.pjtAmtSetData.AMT0;
+
+                /** 달성운영수익 */
+                let aopAmt = 0;
+                let invSum = Number(uncomma($("#invSum").text())) || 0;
+                if($("#taxGubun").val() == "1"){
+                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
+                    aopAmt = e.incpCompAmt1 + tmpAmt;
+                }else{
+                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
+                }
+                sumD += aopAmt + e.pjtAmtSetData.AMT1;
+
+                /** 예상매출액 */
+                let devAmt = 0;
+                devAmt = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - asrAmt;
+                sumE += devAmt + e.pjtAmtSetData.AMT2;
+
+                /** 예상운영수익 */
+                let eopAmt = 0;
+                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
+                    eopAmt = e.planAmt;
+                }
+                eopAmt = eopAmt - e.incpCompAmt1;
+                sumF += eopAmt + e.pjtAmtSetData.AMT3 + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
+            }
+        }
+        $("#ALL_PJT_AMT3_SUM").text(comma(sumA));
+        $("#ALL_INV_AMT_SUM").text(comma(sumB));
+        $("#ALL_RES_AMT_SUM").text(comma(sumC));
+        $("#ALL_RES_NOT_INV_AMT_SUM").text(comma(sumD));
+        $("#ALL_DEV_AMT_SUM").text(comma(sumE));
+        $("#ALL_DEV_NOT_INV_AMT_SUM").text(comma(sumF));
+    },
+
+    step3(pjtMap){
+        const pjtSn = $("#pjtSn").val();
         let html = '';
         html += '<table id="pjtInfoRow" class="popTable table table-bordered mb-0">' +
             '            <colgroup>' +
@@ -137,6 +271,7 @@ var costInfo = {
             '                <th style="text-align: center">예상 매출액</th>' +
             '                <th style="text-align: center">예상 운영수익</th>' +
             '            </tr>';
+
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
