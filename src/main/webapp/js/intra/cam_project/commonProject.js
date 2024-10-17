@@ -207,14 +207,18 @@ var commonProject = {
         /** 엔지니어링(D) 알앤디(R) 비알앤디(S) */
         busnClass : "",
 
-        /** 협업프로젝트 계획서단계 마감인지(Y) 진행중인지(N)*/
+        /** 협업프로젝트 계획서단계 마감인지(Y) 진행중인지(N) */
         devTeamCk : "",
 
-        /** 협업프로젝트 최종마감인지(Y) 진행중인지(N)*/
+        /** 협업프로젝트 최종마감인지(Y) 진행중인지(N) */
         pjtTeamCk : "",
 
-        /** PM EMP SEQ*/
+        /** PM EMP SEQ */
         pmEmpSeq : "",
+
+        /** 자기 자신의 협업 프로젝트가 있는지(Y) 없는지(N)
+         * 원래 teamYn이 그 역할이였는데 구조가 바뀌어서 새로 만듬 */
+        teamCk : "",
     },
 
     loading : function(){
@@ -238,6 +242,7 @@ var commonProject = {
         commonProject.global.busnClass = pjtMap.BUSN_CLASS;
         commonProject.global.devTeamCk = pjtMap.DEV_TEAM_CK;
         commonProject.global.pjtTeamCk = pjtMap.PJT_TEAM_CK;
+        commonProject.global.teamCk = pjtMap.TEAM_CK;
 
         commonProject.global.pmEmpSeq = pjtMap.PM_EMP_SEQ;
     },
