@@ -92,7 +92,35 @@ var ciupR = {
             html += '<span id="num' + ciupR.global.ciupIndex + '"></span>';
         }
 
-        html += '</td>' +
+        if(e == "old" && ciupR.global.ciupIndex == 0) {
+            html += '</td>' +
+                    '<td style="text-align: right;">' +
+                        '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#unitPrice").val()) + '</span>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice1' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice1").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice2' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice2").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice3' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice3").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice4' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice4").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice5' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right" disabled value="' + ($(".oldCiupInfo").length == 0 ? comma($("#b2bPrice5").val()) : '') + '"/>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '" disabled >' +
+                    '</td>' +
+                    '<td style="text-align: center">';
+        } else {
+            html += '</td>' +
                 '<td style="text-align: right;">' +
                     '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#unitPrice").val()) + '</span>' +
                 '</td>' +
@@ -118,6 +146,8 @@ var ciupR = {
                     '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '">' +
                 '</td>' +
                 '<td style="text-align: center">';
+        }
+
         if(e == "old"){
             html += '<span id="endDt' + ciupR.global.ciupIndex + '" name="endDt' + ciupR.global.ciupIndex + '"></span>';
         }

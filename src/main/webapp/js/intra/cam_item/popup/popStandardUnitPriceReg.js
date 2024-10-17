@@ -64,7 +64,35 @@ var sdupR = {
             html += '<span id="num' + sdupR.global.sdUpIndex + '"></span>';
         }
 
-        html += '</td>' +
+        if(e == "old" && sdupR.global.sdUpIndex == 0) {
+            html += '</td>' +
+                    '<td style="text-align: right;">' +
+                        '<span id="costPrice' + sdupR.global.sdUpIndex + '">' + comma($("#costPrice").val()) + '</span>' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput unitPrice" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#unitPrice").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice1' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice1" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice1").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice2' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice2" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice2").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice3' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice3" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice3").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice4' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice4" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice4").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="b2bPrice5' + sdupR.global.sdUpIndex + '" class="numberInput b2bPrice5" style="text-align: right" value="' + ($(".oldSdupInfo").length == 0 ? comma($("#b2bPrice5").val()) : '') + '" disabled />' +
+                    '</td>' +
+                    '<td>' +
+                        '<input type="text" id="startDt' + sdupR.global.sdUpIndex + '" name="startDt' + sdupR.global.sdUpIndex + '" disabled >' +
+                    '</td>' +
+                    '<td style="text-align: center">';
+        } else {
+            html += '</td>' +
                 '<td style="text-align: right;">' +
                     '<span id="costPrice' + sdupR.global.sdUpIndex + '">' + comma($("#costPrice").val()) + '</span>' +
                 '</td>' +
@@ -90,6 +118,9 @@ var sdupR = {
                     '<input type="text" id="startDt' + sdupR.global.sdUpIndex + '" name="startDt' + sdupR.global.sdUpIndex + '">' +
                 '</td>' +
                 '<td style="text-align: center">';
+        }
+
+
         if(e == "old"){
             html += '<span id="endDt' + sdupR.global.sdUpIndex + '" name="endDt' + sdupR.global.sdUpIndex + '"></span>';
         }
