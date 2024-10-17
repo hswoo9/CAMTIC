@@ -365,7 +365,7 @@
         LEFT JOIN CAM_ERP.DJ_PROJECT_LINK B ON A.PJT_CD = B.PJT_CD
         LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
-            A.PJT_CD = #{PJT_CD}
+            LEFT(A.PJT_CD, 9) = LEFT(#{PJT_CD}, 9)
           AND
             A.TEAM_STAT='N'
     </select>
