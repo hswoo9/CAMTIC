@@ -1023,6 +1023,19 @@
 <script>
     $("#hire").val(fn_sethire('${uprList.prev_hire}','${uprList.prev_hire_mon}','${uprList.hire}','${uprList.hire_mon}'));
     function fn_sethire(prevHire, prevHireMon, hire, hireMon){
+        if(prevHire == ""){
+            prevHire = 0;
+        }
+        if(prevHireMon == ""){
+            prevHireMon = 0;
+        }
+        if(hire == ""){
+            hire = 0;
+        }
+        if(hireMon == ""){
+            hireMon = 0;
+        }
+
         var totalHire = parseInt(prevHire) + parseInt(hire);
         var totalHireMon = parseInt(prevHireMon) + parseInt(hireMon);
         if(totalHireMon > 12){
