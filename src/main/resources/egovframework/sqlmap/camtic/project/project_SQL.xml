@@ -4141,6 +4141,7 @@
         INSERT INTO CAM_PJT_MNG.DJ_DELV_DE_SET
             (
                 PJT_SN,
+                GOODS_SN,
                 DELV_DE,
                 SET_ISS,
                 REG_EMP_SEQ
@@ -4148,6 +4149,7 @@
         VALUES
             (
                 #{pjtSn},
+                #{goodsSn},
                 #{delvDe},
                 #{setIss},
                 #{regEmpSeq}
@@ -4180,10 +4182,14 @@
         /*getPjtDelvDeSetList*/
         SELECT
             *
-        FROM CAM_PJT_MNG.DJ_DELV_DE_SET
+        FROM
+            CAM_PJT_MNG.DJ_DELV_DE_SET
         WHERE
             PJT_SN = #{pjtSn}
-        AND ACTIVE = 'Y'
+        AND
+            GOODS_SN = #{goodsSn}
+        AND
+            ACTIVE = 'Y'
     </select>
 
     <select id="getPjtAmtSetData" parameterType="map" resultType="map">
@@ -4211,5 +4217,118 @@
             COST_CLOSE_CK = 'Y'
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="setPjtGoodsInfo" parameterType="map">
+        /*setPjtGoodsInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_GOODS
+            (
+                PJT_SN,
+                PJT_CD,
+                DELV_DE,
+                GOODS_NM,
+                GOODS_ISS,
+                GOODS_TOT_AMT,
+                REG_EMP_SEQ,
+                REG_DT
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{pjtCd},
+                #{delvDe},
+                #{goodsNm},
+                #{goodsIss},
+                #{goodsTotAmt},
+                #{loginEmpSeq},
+                NOW()
+            )
+
+        <selectKey keyProperty="GOODS_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_GOODS'
+        </selectKey>
+    </insert>
+
+    <update id="updPjtGoodsInfo" parameterType="map">
+        /*updPjtGoodsInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_GOODS
+        SET
+            GOODS_NM = #{goodsNm},
+            GOODS_ISS = #{goodsIss},
+            GOODS_TOT_AMT = #{goodsTotAmt},
+            MOD_EMP_SEQ = #{loginEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            GOODS_SN = #{goodsSn}
+    </update>
+
+    <insert id="setGoodsSubInfo" parameterType="map">
+        /*setGoodsSubInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_GOODS_SUB
+            (
+                GOODS_SN,
+                PROD_NM,
+                PROD_CNT,
+                UNIT,
+                UNIT_AMT,
+                SUP_AMT,
+                ETC
+            )
+        VALUES
+            (
+                #{goodsSn},
+                #{prodNm},
+                #{prodCnt},
+                #{unit},
+                #{unitAmt},
+                #{supAmt},
+                #{etc}
+            )
+    </insert>
+
+    <select id="getPjtGoodsList" parameterType="map" resultType="map">
+        /*getPjtGoodsList*/
+        SELECT
+            ROW_NUMBER() OVER (PARTITION BY A.PJT_SN ORDER BY A.GOODS_SN ASC ) AS ROW_NUM,
+            A.*,
+            IFNULL((SELECT DELV_DE FROM CAM_PJT_MNG.DJ_DELV_DE_SET WHERE GOODS_SN = A.GOODS_SN ORDER BY DELV_DE_SET_SN DESC LIMIT 1), A.DELV_DE) AS CNG_DELV_DE,
+            IF(A.GOODS_STAT = 'Y', '확정', '미확정') AS GOODS_STAT_TXT,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME,
+            DATE_FORMAT(A.REG_DT,'%Y-%m-%d') AS REG_DATE
+        FROM CAM_PJT_MNG.DJ_PJT_GOODS A
+        WHERE
+            A.PJT_SN = #{pjtSn}
+        ORDER BY A.GOODS_SN ASC
+    </select>
+
+    <select id="getPjtGoodsInfo" parameterType="map" resultType="map">
+        /*getPjtGoodsInfo*/
+        SELECT
+            A.*,
+            IFNULL((SELECT DELV_DE FROM CAM_PJT_MNG.DJ_DELV_DE_SET WHERE GOODS_SN = A.GOODS_SN ORDER BY DELV_DE_SET_SN DESC LIMIT 1), A.DELV_DE) AS CNG_DELV_DE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_GOODS A
+        WHERE
+            A.GOODS_SN = #{goodsSn}
+    </select>
+
+    <select id="getPjtGoodsSubList" parameterType="map" resultType="map">
+        /*getPjtGoodsSubList*/
+        SELECT
+            A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_GOODS_SUB A
+        WHERE
+            A.GOODS_SN = #{goodsSn}
+    </select>
+
+    <delete id="delPjtGoodsSubInfo" parameterType="map">
+        /*delPjtGoodsSubInfo*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_GOODS_SUB WHERE GOODS_SN = #{goodsSn}
+    </delete>
+
+    <update id="setGoodsConfirm" parameterType="map">
+        /*setGoodsConfirm*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_GOODS SET GOODS_STAT = 'Y' WHERE GOODS_SN = #{goodsSn}
     </update>
 </mapper>

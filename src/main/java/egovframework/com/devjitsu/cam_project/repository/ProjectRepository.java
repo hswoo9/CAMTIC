@@ -868,4 +868,45 @@ public class ProjectRepository extends AbstractDAO {
     public void setCostInfoClose(Map<String, Object> params) {
         update("project.setCostInfoClose", params);
     }
+
+    public void setPjtGoodsInfo(Map<String, Object> params) {
+
+        insert("project.setPjtGoodsInfo", params);
+    }
+
+    public void updPjtGoodsInfo(Map<String, Object> params) {
+
+        update("project.updPjtGoodsInfo", params);
+    }
+
+    public void setGoodsSubInfo(Map<String, Object> params) {
+
+        insert("project.setGoodsSubInfo", params);
+    }
+
+    public List<Map<String, Object>> getPjtGoodsList(Map<String, Object> params) {
+
+        return selectList("project.getPjtGoodsList", params);
+    }
+
+    public Map<String, Object> getPjtGoodsInfo(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("project.getPjtGoodsInfo", params);
+    }
+
+    public List<Map<String, Object>> getPjtGoodsSubList(Map<String, Object> params) {
+
+        return selectList("project.getPjtGoodsSubList", params);
+    }
+
+
+    public void delPjtGoodsSubInfo(Map<String, Object> params) {
+
+        delete("project.delPjtGoodsSubInfo", params);
+    }
+
+    public void setGoodsConfirm(Map<String, Object> params) {
+
+        update("project.setGoodsConfirm", params);
+    }
 }

@@ -1181,10 +1181,19 @@ public class ProjectServiceImpl implements ProjectService {
         Map<String, Object> devMap = projectRepository.getDevData(params);
         params.put("devSn", devMap.get("DEV_SN"));
 
-        projectRepository.updEstInfo(params);
-        projectRepository.delEstSub(params);
+//        projectRepository.updEstInfo(params);
+//        projectRepository.delEstSub(params);
 
         projectRepository.updProject(params);
+
+        if(params.containsKey("goodsSn")) {
+            projectRepository.updPjtGoodsInfo(params);
+            projectRepository.delPjtGoodsSubInfo(params);
+
+            params.put("GOODS_SN", params.get("goodsSn"));
+        } else {
+            projectRepository.setPjtGoodsInfo(params);
+        }
 
         return params;
     }
@@ -1875,6 +1884,31 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void setCostInfoClose(Map<String, Object> params) {
         projectRepository.setCostInfoClose(params);
+    }
+
+    @Override
+    public void setGoodsSubInfo(Map<String, Object> params) {
+        projectRepository.setGoodsSubInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtGoodsList(Map<String, Object> params) {
+        return projectRepository.getPjtGoodsList(params);
+    }
+
+    @Override
+    public Map<String, Object> getPjtGoodsSubList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("goodsInfo", projectRepository.getPjtGoodsInfo(params));
+        result.put("goodsSubList", projectRepository.getPjtGoodsSubList(params));
+
+        return result;
+    }
+
+    @Override
+    public void setGoodsConfirm(Map<String, Object> params) {
+        projectRepository.setGoodsConfirm(params);
     }
 }
 

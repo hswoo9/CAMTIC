@@ -32,13 +32,63 @@
 <input type="hidden" id="saveCk" value="N"/>
 
 <div style="padding: 10px">
+    <div style="float: left;" id="goodsTxtDiv">
+        <span style="font-size: 12px; color: red;">* 추가 버튼을 클릭하여 납품을 진행해주세요. 작성 후 저장 버튼을 클릭해야 적용됩니다.</span>
+    </div>
     <div id="btnDiv">
         <button type="button" id="teamAppBtn" style="display:none; float: right;" class="k-button k-button-solid-base" onclick="goodsInfo.fn_teamProjectApp()">프로젝트 마감</button>
-        <button type="button" id="delvDeHistBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="goodsInfo.pjtDelvDeSetPop()">납품일자 변경</button>
-        <button type="button" id="saveBtn2" style="float: right; margin-right: 5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="goodsInfo.fn_save()">저장</button>
-        <button type="button" id="printBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="goodsInfo.goodsPrintPop()">인쇄</button>
+        <button type="button" id="goodsAddBtn" style="float: right;" class="k-button k-button-solid-base" onclick="goodsInfo.fn_goodsAdd()">추가</button>
+<%--        <button type="button" id="delvDeHistBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="goodsInfo.pjtDelvDeSetPop()">납품일자 변경</button>--%>
+
+<%--        <button type="button" id="printBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="goodsInfo.goodsPrintPop()">인쇄</button>--%>
     </div>
-    <div class="table-responsive">
+
+    <div class="table-responsive" style="" id="versionDiv">
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="7%">
+                <col width="20%">
+                <col width="15%">
+                <col width="15%">
+                <col width="15%">
+                <col width="7%">
+                <col width="7%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th scope="row" class="text-center th-color">번호</th>
+                <th scope="row" class="text-center th-color">품명</th>
+                <th scope="row" class="text-center th-color">납품금액</th>
+                <th scope="row" class="text-center th-color">납품일자</th>
+                <th scope="row" class="text-center th-color">신청일자</th>
+                <th scope="row" class="text-center th-color">상태</th>
+                <th scope="row" class="text-center th-color">인쇄</th>
+            </tr>
+            </thead>
+            <tbody id="goodsInfoTbody">
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        납품 내역이 없습니다.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: right; font-weight: bold; font-size: 12px; margin-top: 3px;">
+            <span>견적가 : <span id="estExpAmt">0</span> 원&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>총 납품 확정금액 : <span id="allGoodsAmt">0</span> 원&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>납품잔액 : <span id="balGoodsAmt">0</span> 원</span>
+        </div>
+    </div>
+
+    <div class="table-responsive" id="inputDiv" style="display: none; margin-top: 20px;">
+        <div style="float: left;">
+            <span style="font-size: 12px; color: red;">* 확정 후 다음 납품 진행 가능</span>
+        </div>
+        <div style="float: right;">
+            <button type="button" id="confirmBtn" style="display:none; margin-right: 5px; margin-bottom: 5px;" class="k-button k-button-solid-primary" onclick="goodsInfo.fn_goodsConfirm()">납품 확정</button>
+            <button type="button" id="delvDeHistBtn" style="display:none; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-info" onclick="goodsInfo.pjtDelvDeSetPop()">납품일자 변경</button>
+            <button type="button" id="saveBtn2" style="margin-right: 5px; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="goodsInfo.fn_save()">저장</button>
+        </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="15%">
@@ -80,7 +130,8 @@
                     <span class="red-star"></span>품명
                 </th>
                 <td colspan="3">
-                    <input type="text" id="goodsPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 100%;" />
+                    <input type="hidden" id="goodsPjtNmTemp" value="${hashMap.PJT_NM}" style="width: 100%;" />
+                    <input type="text" id="goodsPjtNm" value="${hashMap.PJT_NM}" style="width: 100%;" />
                 </td>
             </tr>
             <tr>
@@ -88,7 +139,7 @@
                     <span class="red-star"></span>특이사항
                 </th>
                 <td colspan="3">
-                    <textarea type="text" id="goodsIss" style="width: 100%;">${hashMap.GOODS_ISS}</textarea>
+                    <textarea type="text" id="goodsIss" style="width: 100%;"></textarea>
                 </td>
             </tr>
             <tr>

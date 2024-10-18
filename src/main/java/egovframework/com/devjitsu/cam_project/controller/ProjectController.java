@@ -752,6 +752,18 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/engn/setGoodsSubInfo")
+    public String setGoodsSubInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setGoodsSubInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/delPjtBustrip")
     public String delPjtBustrip(@RequestParam Map<String, Object> params, Model model){
         try{
@@ -2032,6 +2044,31 @@ public class ProjectController {
     public String setCostInfoClose(@RequestParam Map<String, Object> params, Model model){
         try{
             projectService.setCostInfoClose(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getPjtGoodsList")
+    public String getPjtGoodsList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectService.getPjtGoodsList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getPjtGoodsSubList")
+    public String getPjtGoodsSubList(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectService.getPjtGoodsSubList(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/setGoodsConfirm")
+    public String setGoodsConfirm(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setGoodsConfirm(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

@@ -29,6 +29,7 @@ var pjtDelvDeSet = {
                 },
                 parameterMap: function(data) {
                     data.pjtSn = $("#pjtSn").val();
+                    data.goodsSn = $("#goodsSn").val();
                     return data;
                 }
             },
@@ -69,11 +70,17 @@ var pjtDelvDeSet = {
     },
 
     fn_save: function(){
+
+        if(!confirm("저장하시겠습니까?")) {
+            return;
+        }
+
         const data = {
             pjtSn: $("#pjtSn").val(),
             regEmpSeq: $("#regEmpSeq").val(),
             delvDe: $("#delvDe").val(),
-            setIss: $("#setIss").val()
+            setIss: $("#setIss").val(),
+            goodsSn : $("#goodsSn").val()
         }
 
         const result = customKendo.fn_customAjax("/project/setPjtDelvDe", data);

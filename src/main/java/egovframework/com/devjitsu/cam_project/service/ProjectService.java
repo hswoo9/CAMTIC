@@ -256,4 +256,12 @@ public interface ProjectService {
     void setPjtAmtDel(Map<String, Object> params);
 
     void setCostInfoClose(Map<String, Object> params);
+
+    void setGoodsSubInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtGoodsList(Map<String, Object> params);
+
+    Map<String, Object> getPjtGoodsSubList(Map<String, Object> params);
+
+    void setGoodsConfirm(Map<String, Object> params);
 }

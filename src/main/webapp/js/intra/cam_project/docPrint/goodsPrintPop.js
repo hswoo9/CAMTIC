@@ -50,10 +50,14 @@ const goodsPrint = {
         const rs2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
         const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
 
-        const ests = customKendo.fn_customAjax("/project/getStep1Data", data);
+        // const ests = customKendo.fn_customAjax("/project/getStep1Data", data);
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const delvMap = result.delvMap;
-        var estSubList = ests.result.estSubList;
+        // var estSubList = ests.result.estSubList;
+
+        const goodRs = customKendo.fn_customAjax("/project/getPjtGoodsSubList", {goodsSn: goodsPrint.global.params.goodsSn});
+        const gData = goodRs.data.goodsInfo;
+        const gList = goodRs.data.goodsSubList;
 
         const map = rs.hashMap;
         const res = rs.result;
@@ -68,7 +72,8 @@ const goodsPrint = {
         console.log(estList);
 
         /** 1. 납품 표 */
-        goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.GOODS_DT);
+        // goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.GOODS_DT);
+        goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", gData.CNG_DELV_DE);
         goodsPrint.global.hwpCtrl.PutFieldText("PJT_CD", pjtMap.PJT_CD);
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_NM", pjtMap.CRM_NM);
 
@@ -83,7 +88,8 @@ const goodsPrint = {
         }
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_MEM_NM", crm_mem_text);
         goodsPrint.global.hwpCtrl.PutFieldText("FAX", pjtMap.FAX);
-        goodsPrint.global.hwpCtrl.PutFieldText("PJT_NM", pjtMap.PJT_NM);
+        // goodsPrint.global.hwpCtrl.PutFieldText("PJT_NM", pjtMap.PJT_NM);
+        goodsPrint.global.hwpCtrl.PutFieldText("PJT_NM", gData.GOODS_NM);
 
         /** 2. CRM 정보 */
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
@@ -105,14 +111,14 @@ const goodsPrint = {
 
         /** 3. 납품 리스트 */
         let supAmtSum = 0;
-        for(let i=0; i<estSubList.length; i++){
-            goodsPrint.global.hwpCtrl.PutFieldText("PROD_NM"+i, String(estSubList[i].PROD_NM));
-            goodsPrint.global.hwpCtrl.PutFieldText("UNIT_AMT"+i, fn_numberWithCommas(estSubList[i].UNIT_AMT));
-            goodsPrint.global.hwpCtrl.PutFieldText("PROD_CNT"+i, String(estSubList[i].PROD_CNT));
-            goodsPrint.global.hwpCtrl.PutFieldText("UNIT"+i, estSubList[i].UNIT);
-            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT"+i, fn_numberWithCommas(estSubList[i].SUP_AMT));
-            goodsPrint.global.hwpCtrl.PutFieldText("ETC"+i, estSubList[i].ETC);
-            supAmtSum += estSubList[i].SUP_AMT;
+        for(let i=0; i<gList.length; i++){
+            goodsPrint.global.hwpCtrl.PutFieldText("PROD_NM"+i, String(gList[i].PROD_NM));
+            goodsPrint.global.hwpCtrl.PutFieldText("UNIT_AMT"+i, fn_numberWithCommas(gList[i].UNIT_AMT));
+            goodsPrint.global.hwpCtrl.PutFieldText("PROD_CNT"+i, String(gList[i].PROD_CNT));
+            goodsPrint.global.hwpCtrl.PutFieldText("UNIT"+i, gList[i].UNIT);
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT"+i, fn_numberWithCommas(gList[i].SUP_AMT));
+            goodsPrint.global.hwpCtrl.PutFieldText("ETC"+i, gList[i].ETC);
+            supAmtSum += gList[i].SUP_AMT;
         }
 
         /** 견적가 500*/
@@ -140,7 +146,8 @@ const goodsPrint = {
         }
 
         /** 5. 기타사항 */
-        goodsPrint.global.hwpCtrl.PutFieldText("ETC", pjtMap.GOODS_ISS == undefined ? "" : String(pjtMap.GOODS_ISS));
+        // goodsPrint.global.hwpCtrl.PutFieldText("ETC", pjtMap.GOODS_ISS == undefined ? "" : String(pjtMap.GOODS_ISS));
+        goodsPrint.global.hwpCtrl.PutFieldText("ETC", gData.GOODS_ISS == undefined ? "" : String(gData.GOODS_ISS));
         goodsPrint.global.hwpCtrl.PutFieldText("DELV_PAY", delvMap.DELV_PAY);
     },
 

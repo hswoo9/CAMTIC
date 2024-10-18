@@ -22,6 +22,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
+<input type="hidden" id="goodsSn" value="${params.goodsSn}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">

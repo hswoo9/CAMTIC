@@ -7,7 +7,7 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="/js/intra/cam_project/docPrint/goodsPrintPop.js"></script>
+<script type="text/javascript" src="/js/intra/cam_project/docPrint/goodsPrintPop.js?v=1"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
