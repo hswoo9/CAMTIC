@@ -53,6 +53,11 @@
                         <td>
                             <input type="text" id="status" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){enaralink.gridReload()}"/>
+                        </td>
                     </tr>
                 </table>
 

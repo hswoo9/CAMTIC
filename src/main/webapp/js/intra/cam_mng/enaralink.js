@@ -45,16 +45,19 @@ var enaralink = {
         $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
         $("#endMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
 
+        enaralink.global.dropDownDataSource = [
+            { text: "결의자", value: "A" },
+            { text: "문서번호", value: "B" },
+            { text: "문서제목", value: "C" },
+            { text: "프로젝트명", value: "D" },
+        ]
+        customKendo.fn_dropDownList("searchKeyword", enaralink.global.dropDownDataSource, "text", "value");
 
         enaralink.mainGrid();
     },
 
     gridReload : function(){
-        if($("#sendResolutionGrid").data("kendoGrid") != null){
-            $("#sendResolutionGrid").data("kendoGrid").destroy();
-        }
-
-        enaralink.mainGrid();
+        $("#sendResolutionGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid : function(){
@@ -76,6 +79,8 @@ var enaralink = {
                     if($("#searchType").val() == "emp"){
                         data.empSeq = $("#myEmpSeq").val();
                     }
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
 
                     return data;
                 }
