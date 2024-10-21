@@ -3139,6 +3139,7 @@
         )
         AND HEI.WORK_STATUS_CODE = 'Y'
         AND HEI.ACTIVE = 'Y'
+        AND HEI.TEMP_DIVISION != 'Y'
         ORDER BY
             b_day ASC,
             EMP_NAME_KR ASC
