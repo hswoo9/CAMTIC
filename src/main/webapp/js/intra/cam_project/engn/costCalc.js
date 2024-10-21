@@ -101,12 +101,13 @@ var costCalc = {
             console.log("realUseAmt2", e.realUseAmt2);
             console.log("realUseAmt3", e.realUseAmt3);
         }else{
-            if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+            /*if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
                 let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
                 aopAmt = e.incpCompAmt1 + tmpAmt;
             }else{
                 aopAmt = e.incpCompAmt1 + Number(e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
-            }
+            }*/
+            aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
             /*
             console.log("incpCompAmt1", e.incpCompAmt1);
             console.log("incpCompAmt2", e.incpCompAmt2);
@@ -166,5 +167,22 @@ var costCalc = {
         }
         amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
         return amt;
+    },
+
+    /** 직접비 수익률 */
+    directProfitRate: function(e){
+        /** 직접비 수익율 : ( 수행계획서 상 예상비용 - 직접비 예산 ) / 직접비 예산 */
+        let per = 0;
+        let directAmt = Number(e.useAmt || 0);
+        let invAmt = costCalc.nowInvAmt(e);
+        console.log("directAmt", directAmt);
+        console.log("invAmt", invAmt);
+        per = (Number(invAmt) - directAmt) / directAmt;
+        console.log("per", per);
+
+        if(directAmt == 0){
+            per = 0;
+        }
+        return per;
     }
 }

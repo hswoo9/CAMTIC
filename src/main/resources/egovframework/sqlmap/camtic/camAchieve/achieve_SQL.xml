@@ -1024,6 +1024,11 @@
         SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1' AND S.ACTIVE = 'Y'
     </select>
 
+    <select id="getUseExnpAmt" parameterType="map" resultType="map">
+        /*getUseExnpAmt*/
+        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '2' AND S.ACTIVE = 'Y'
+    </select>
+
     <select id="getGoodsAmt" parameterType="map" resultType="map">
         /*getGoodsAmt*/
         SELECT IFNULL(SUM(GOODS_TOT_AMT), 0) AS GOODS_TOT_SUM FROM CAM_PJT_MNG.DJ_PJT_GOODS WHERE PJT_SN = #{pjtSn}

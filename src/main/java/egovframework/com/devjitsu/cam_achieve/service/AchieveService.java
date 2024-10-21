@@ -40,6 +40,7 @@ public interface AchieveService {
     Map<String, Object> getRealUseExnpAmt3(Map<String, Object> params);
 
     Map<String, Object> getPlanExnpAmt(Map<String, Object> params);
+    Map<String, Object> getUseExnpAmt(Map<String, Object> params);
 
     Map<String, Object> getGoodsAmt(Map<String, Object> params);
 
