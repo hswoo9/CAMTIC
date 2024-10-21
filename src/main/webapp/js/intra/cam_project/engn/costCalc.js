@@ -14,7 +14,11 @@ var costCalc = {
             amt = Number(e.REAL_PJT_AMT);
         }else{
             if(["A", "B", "D"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
-                amt = Number(e.ALL_PJT_AMT);
+                if(e.YEAR_CLASS == "M"){
+                    amt = Number(e.ALL_PJT_AMT);
+                }else{
+                    amt = Number(e.PJT_AMT);
+                }
             } else {
                 amt = 0;
             }
@@ -54,23 +58,25 @@ var costCalc = {
     resSaleAmt: function(e){
         /**
          * 엔지니어링
-         * 전체 : 정산서 마감이 되고 견적금액
+         * 전체 : 정산서 마감이 되고 납품 저장 금액
          *
          * 알앤디/비알앤디
          * 전체 : 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
          * */
         let amt = 0;
+        let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            amt = Number(e.exnpCompAmt || 0);
+            if(e.COST_CLOSE_CK == "Y"){
+                asrAmt = Number(e.goodsTotAmt || 0);
+            }
         }else{
-            let asrAmt = 0;
             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
                 asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
             }else{
                 asrAmt = e.exnpCompAmt;
             }
-            amt = asrAmt + e.pjtAmtSetData.AMT0;
         }
+        amt = asrAmt + Number(e.pjtAmtSetData.AMT0 || 0);
         return amt;
     },
 
@@ -85,17 +91,22 @@ var costCalc = {
          * 전체 : 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
          * */
         let amt = 0;
+        let aopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            amt = Number(e.incpCompAmt || 0);
+            let asrAmt = costCalc.resSaleAmt(e);
+            if(asrAmt > 0){
+                aopAmt = asrAmt - Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }
+            console.log("realUseAmt", e.realUseAmt);
+            console.log("realUseAmt2", e.realUseAmt2);
+            console.log("realUseAmt3", e.realUseAmt3);
         }else{
-            let aopAmt = 0;
             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
                 let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
                 aopAmt = e.incpCompAmt1 + tmpAmt;
             }else{
                 aopAmt = e.incpCompAmt1 + Number(e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
             }
-            amt = aopAmt + Number(e.pjtAmtSetData.AMT1 || 0);
             /*
             console.log("incpCompAmt1", e.incpCompAmt1);
             console.log("incpCompAmt2", e.incpCompAmt2);
@@ -106,6 +117,7 @@ var costCalc = {
             console.log("pjtAmtSetData", e.pjtAmtSetData);
             */
         }
+        amt = aopAmt + Number(e.pjtAmtSetData.AMT1 || 0);
         return amt;
     },
 
@@ -119,13 +131,13 @@ var costCalc = {
          * 전체 : 예상매출 = 당해년도 사업비 - 달성 매출액
          * */
         let amt = 0;
+        let devAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            amt = Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0);
+            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
         }else{
-            let devAmt = 0;
-            devAmt = Number(costCalc.nowPjtAmt(e)) - Number(costCalc.resSaleAmt(e));
-            amt = devAmt + Number(e.pjtAmtSetData.AMT2 || 0);
+            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
         }
+        amt = devAmt + Number(e.pjtAmtSetData.AMT2 || 0);
         return amt;
     },
 
@@ -139,20 +151,20 @@ var costCalc = {
          * 전체 : 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
          * */
         let amt = 0;
+        let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            amt = Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0);
+            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - costCalc.resProfitAmt(e);
         }else{
-            let eopAmt = 0;
             if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
                 eopAmt = e.planAmt;
             }
             eopAmt = eopAmt - e.incpCompAmt1;
-            amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
             /*
             console.log("eopAmt", eopAmt);
             console.log("e.pjtAmtSetData.AMT3", e.pjtAmtSetData.AMT3);
             */
         }
+        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
         return amt;
     }
 }

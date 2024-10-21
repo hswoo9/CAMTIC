@@ -809,20 +809,22 @@
         /*getPurcReqClaimList2*/
         SELECT
             IFNULL(SUM(
-                    CASE
-                        WHEN RE.CLAIM_STATUS = 'CAYSY' THEN
-                            CASE
-                                WHEN RE.ORG_YN = 'N' THEN
-                                    CAST(RE.PURC_ITEM_AMT_SUM AS DECIMAL)
-                                ELSE
-                                    CASE
-                                        WHEN RE.InTax = '0' THEN
-                                            CAST(RE.PURC_ITEM_AMT_SUM AS DECIMAL) + CAST(ROUND(RE.PURC_ITEM_AMT_SUM / 10) AS DECIMAL)
-                                        WHEN RE.InTax = '1' OR RE.InTax = '2' THEN
-                                            CAST(RE.PURC_ITEM_AMT_SUM AS DECIMAL)
-                                        END
+                CASE
+                    WHEN RE.ORG_YN = 'N' THEN
+                        CASE
+                            WHEN #{busnClass} IN ('D', 'V') THEN ROUND(RE.PURC_SUP_AMT)
+                            ELSE ROUND(RE.PURC_ITEM_AMT_SUM)
+                        END
+                    ELSE
+                        CASE
+                            WHEN #{busnClass} IN ('D', 'V') THEN ROUND(RE.PURC_ITEM_AMT_SUM)
+                            ELSE
+                                CASE
+                                    WHEN RE.InTax = '0' THEN ROUND(RE.PURC_ITEM_AMT_SUM) + ROUND(RE.PURC_ITEM_AMT_SUM / 10)
+                                    WHEN RE.InTax IN ('1', '2') THEN ROUND(RE.PURC_ITEM_AMT_SUM)
                                 END
                         END
+                END
             ), 0) AS PURC_SUM
         FROM (
                  SELECT
@@ -1020,6 +1022,11 @@
     <select id="getPlanExnpAmt" parameterType="map" resultType="map">
         /*getPlanExnpAmt*/
         SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1' AND S.ACTIVE = 'Y'
+    </select>
+
+    <select id="getGoodsAmt" parameterType="map" resultType="map">
+        /*getGoodsAmt*/
+        SELECT IFNULL(SUM(GOODS_TOT_AMT), 0) AS GOODS_TOT_SUM FROM CAM_PJT_MNG.DJ_PJT_GOODS WHERE PJT_SN = #{pjtSn}
     </select>
 
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
