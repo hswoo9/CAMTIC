@@ -191,51 +191,25 @@ var costInfo = {
 
         for(let i=0; i<list.length; i++){
             const e = list[i];
+            console.log("전체 재무실적 list", list);
 
-            /** 수주금액 */
-            sumA += Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+            /** 수주금액(당해년도 사업비 합계) */
+            sumA += costCalc.nowPjtAmt(e);
 
             /** 수행계획 */
-            if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
-                sumB += Number(e.DEV_INV_AMT || 0);
-            }
+            sumB += costCalc.nowInvAmt(e);
 
-            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
-                
-            }else{
-                /** 달성 매출액 */
-                let asrAmt = 0;
-                if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
-                }else{
-                    asrAmt = e.exnpCompAmt;
-                }
-                sumC += asrAmt + e.pjtAmtSetData.AMT0;
+            /** 달성 매출액 */
+            sumC += costCalc.resSaleAmt(e);
 
-                /** 달성운영수익 */
-                let aopAmt = 0;
-                let invSum = Number(uncomma($("#invSum").text())) || 0;
-                if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
-                    aopAmt = e.incpCompAmt1 + tmpAmt;
-                }else{
-                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
-                }
-                sumD += aopAmt + e.pjtAmtSetData.AMT1;
+            /** 달성운영수익 */
+            sumD += costCalc.resProfitAmt(e);
 
-                /** 예상매출액 */
-                let devAmt = 0;
-                devAmt = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - asrAmt;
-                sumE += devAmt + e.pjtAmtSetData.AMT2;
+            /** 예상매출액 */
+            sumE += costCalc.devSaleAmt(e);
 
-                /** 예상운영수익 */
-                let eopAmt = 0;
-                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
-                    eopAmt = e.planAmt;
-                }
-                eopAmt = eopAmt - e.incpCompAmt1;
-                sumF += eopAmt + e.pjtAmtSetData.AMT3 + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
-            }
+            /** 예상운영수익 */
+            sumF += costCalc.devProfitAmt(e);
         }
         $("#ALL_PJT_AMT3_SUM").text(comma(sumA));
         $("#ALL_INV_AMT_SUM").text(comma(sumB));
@@ -387,201 +361,66 @@ var costInfo = {
 
         for(let i=0; i<count; i++){
             const e = list[i];
-            console.log("eeee", e);
+            console.log("재무실적 상세 데이터 : ", e);
 
-            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
-                /** 수주금액 */
-                $("#PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
-                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
+            /** 수주금액 */
+            $("#PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
-                /** 달성매출액 */
-                $("#RES_AMT"+i).text(comma(Number(e.exnpCompAmt || 0)));
-                /** - Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) */
+            /** 당해년도 사업비 */
+            $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
-                /** 달성운영수익 */
-                $("#RES_NOT_INV_AMT"+i).text(comma(Number(e.incpCompAmt || 0)));
+            /** 수행계획 */
+            $("#INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
 
-                /** 예상매출액 */
-                $("#DEV_AMT"+i).text(comma(Number(Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0))));
+            /** 달성 매출액 */
+            $("#RES_AMT"+i).text(comma(costCalc.resSaleAmt(e)));
 
-                /** 예상운영수익 */
-                $("#DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0)));
-                /** - Number(e.befExpProfitAmt || 0) - Number(e.befExpSaleAmt || 0) */
+            /** 달성 운영수익 */
+            $("#RES_NOT_INV_AMT"+i).text(comma(costCalc.resProfitAmt(e)));
 
-            }else{
-                /**
-                 * ** 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
-                 * ** 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
-                 * ** 예상매출 = 당해년도 사업비 - 달성 매출액
-                 * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
-                 * */
+            /** 예상 매출액 */
+            $("#DEV_AMT"+i).text(comma(costCalc.devSaleAmt(e)));
 
-                /** 수주금액 */
-                if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
-                    $("#PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
+            /** 예상 운영수익 */
+            $("#DEV_NOT_INV_AMT"+i).text(comma(costCalc.devProfitAmt(e)));
 
-                    /** 수행계획 - 투자금액 */
-                    $("#INV_AMT"+i).text(comma(Number(e.DEV_INV_AMT || 0)));
-                } else {
-                    $("#PJT_AMT2"+i).text(0);
-
-                    /** 수행계획 - 투자금액 */
-                    $("#INV_AMT"+i).text(0);
-                }
-                $("#PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
-
-                /** 달성 매출액 */
-                let asrAmt = 0;
-                if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
-                }else{
-                    asrAmt = e.exnpCompAmt;
-                }
-                $("#RES_AMT"+i).text(comma(asrAmt + e.pjtAmtSetData.AMT0));
-
-                /** 달성운영수익 */
-                let aopAmt = 0;
-                let invSum = Number(uncomma($("#invSum").text())) || 0;
-                if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
-                    aopAmt = e.incpCompAmt1 + tmpAmt;
-                }else{
-                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
-                }
-                console.log("incpCompAmt1", e.incpCompAmt1);
-                console.log("incpCompAmt2", e.incpCompAmt2);
-                console.log("realUseAmt", e.realUseAmt);
-                console.log("realUseAmt2", e.realUseAmt2);
-                console.log("realUseAmt3", e.realUseAmt3);
-                console.log("aopAmt", aopAmt);
-                console.log("pjtAmtSetData", e.pjtAmtSetData);
-                $("#RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1));
-
-                /** 예상매출액 */
-                let devAmt = 0;
-                devAmt = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - asrAmt;
-                $("#DEV_AMT"+i).text(comma(devAmt + e.pjtAmtSetData.AMT2));
-
-                /** 예상운영수익 */
-                let eopAmt = 0;
-                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
-                    eopAmt = e.planAmt;
-                }
-                eopAmt = eopAmt - e.incpCompAmt1;
-                $("#DEV_NOT_INV_AMT"+i).text(comma(eopAmt + e.pjtAmtSetData.AMT3 + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0)));
-
-                console.log("eopAmt", eopAmt);
-                console.log("e.pjtAmtSetData.AMT3", e.pjtAmtSetData.AMT3);
-            }
-
-            console.log(Number(e.INV_AMT || 0));
-            console.log(Number(e.incpCompAmt || 0));
-
+            /*
+            console.log("INV_AMT", Number(e.INV_AMT || 0));
+            console.log("incpCompAmt", Number(e.incpCompAmt || 0));
             console.log("befExpSaleAmt", Number(e.befExpSaleAmt || 0));
             console.log("nowExpSaleAmt", Number(e.nowExpSaleAmt || 0));
             console.log("befExpProfitAmt", Number(e.befExpProfitAmt || 0));
             console.log("nowExpProfitAmt", Number(e.nowExpProfitAmt || 0));
+            */
         }
 
         for(let i=0; i<list2.length; i++){
             const e = list2[i];
-            console.log("eeee2", e);
+            console.log("협업 재무실적 상세 데이터 : ", e);
 
-            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
-                /** 수주금액 */
-                $("#TEAM_PJT_AMT2"+i).text(comma(e.REAL_PJT_AMT));
-                $("#TEAM_PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT));
+            /** 수주금액 */
+            $("#TEAM_PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
-                /** 달성매출액 */
-                $("#TEAM_RES_AMT"+i).text(comma(Number(e.exnpCompAmt || 0)));
-                /** - Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) */
+            /** 당해년도 사업비 */
+            $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
-                /** 달성운영수익 */
-                $("#TEAM_RES_NOT_INV_AMT"+i).text(comma(Number(e.incpCompAmt || 0)));
+            /** 수행계획 */
+            $("#TEAM_INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
 
-                /** 예상매출액 */
-                $("#TEAM_DEV_AMT"+i).text(comma(Number(Number(e.REAL_PJT_AMT || 0) - Number(e.exnpCompAmt || 0))));
+            /** 달성 매출액 */
+            $("#TEAM_RES_AMT"+i).text(comma(costCalc.resSaleAmt(e)));
 
-                /** 예상운영수익 */
-                $("#TEAM_DEV_NOT_INV_AMT"+i).text(comma(Number(e.REAL_PJT_AMT || 0) - Number(e.INV_AMT || 0) - Number(e.incpCompAmt || 0)));
-                /** - Number(e.befExpProfitAmt || 0) - Number(e.befExpSaleAmt || 0) */
+            /** 달성 운영수익 */
+            $("#TEAM_RES_NOT_INV_AMT"+i).text(comma(costCalc.resProfitAmt(e)));
 
-            }else{
-                /**
-                 * ** 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
-                 * ** 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
-                 * ** 예상매출 = 당해년도 사업비 - 달성 매출액
-                 * ** 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
-                 * */
+            /** 예상 매출액 */
+            $("#TEAM_DEV_AMT"+i).text(comma(costCalc.devSaleAmt(e)));
 
-                /** 수주금액 */
-                if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
-                    $("#TEAM_PJT_AMT2"+i).text(comma(e.ALL_PJT_AMT));
-
-                    /** 수행계획 - 투자금액 */
-                    $("#TEAM_INV_AMT"+i).text(comma(Number(e.DEV_INV_AMT || 0)));
-                } else {
-                    $("#TEAM_PJT_AMT2"+i).text(0);
-
-                    /** 수행계획 - 투자금액 */
-                    $("#TEAM_INV_AMT"+i).text(0);
-                }
-                $("#TEAM_PJT_AMT3"+i).text(comma(e.REAL_PJT_AMT + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0)));
-
-                /** 달성 매출액 */
-                let asrAmt = 0;
-                if($("#taxGubun").val() == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
-                }else{
-                    asrAmt = e.exnpCompAmt;
-                }
-                $("#TEAM_RES_AMT"+i).text(comma(asrAmt + e.pjtAmtSetData.AMT0));
-
-                /** 달성운영수익 */
-                let aopAmt = 0;
-                let invSum = Number(uncomma($("#invSum").text())) || 0;
-                if($("#taxGubun").val() == "1"){
-                    let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
-                    aopAmt = e.incpCompAmt1 + tmpAmt;
-                }else{
-                    aopAmt = e.incpCompAmt1 + (e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
-                }
-                console.log("incpCompAmt1", e.incpCompAmt1);
-                console.log("incpCompAmt2", e.incpCompAmt2);
-                console.log("realUseAmt", e.realUseAmt);
-                console.log("realUseAmt2", e.realUseAmt2);
-                console.log("realUseAmt3", e.realUseAmt3);
-                console.log("aopAmt", aopAmt);
-                console.log("pjtAmtSetData", e.pjtAmtSetData);
-                $("#TEAM_RES_NOT_INV_AMT"+i).text(comma(aopAmt + e.pjtAmtSetData.AMT1));
-
-                /** 예상매출액 */
-                let devAmt = 0;
-                devAmt = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - asrAmt;
-                $("#TEAM_DEV_AMT"+i).text(comma(devAmt + e.pjtAmtSetData.AMT2));
-
-                /** 예상운영수익 */
-                let eopAmt = 0;
-                if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
-                    eopAmt = e.planAmt;
-                }
-                eopAmt = eopAmt - e.incpCompAmt1;
-                $("#TEAM_DEV_NOT_INV_AMT"+i).text(comma(eopAmt + e.pjtAmtSetData.AMT3 + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0)));
-
-                console.log("eopAmt", eopAmt);
-                console.log("e.pjtAmtSetData.AMT3", e.pjtAmtSetData.AMT3);
-            }
-
-            console.log(Number(e.INV_AMT || 0));
-            console.log(Number(e.incpCompAmt || 0));
-
-            console.log("befExpSaleAmt", Number(e.befExpSaleAmt || 0));
-            console.log("nowExpSaleAmt", Number(e.nowExpSaleAmt || 0));
-            console.log("befExpProfitAmt", Number(e.befExpProfitAmt || 0));
-            console.log("nowExpProfitAmt", Number(e.nowExpProfitAmt || 0));
+            /** 예상 운영수익 */
+            $("#TEAM_DEV_NOT_INV_AMT"+i).text(comma(costCalc.devProfitAmt(e)));
         }
 
-        /** 합계 */
+        /** 수주금액 합계 */
         let sumE = 0;
         $('td.pjtAmt2').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -592,6 +431,7 @@ var costInfo = {
         });
         $("#PJT_AMT2_SUM").text(comma(sumE));
 
+        /** 당해년도 사업비 합계 */
         let sumF = 0;
         $('td.pjtAmt3').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -599,8 +439,19 @@ var costInfo = {
                 sumF += value;
             }
         });
-        $("#PJT_AMT3_SUM").text(comma(sumF));
+        $("#PJT_AMT3_SUM").text(comma(sumF))
 
+        /** 수행계획 합계 */
+        let sumInvAmt = 0;
+        $('td.invAmt').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumInvAmt += value;
+            }
+        });
+        $("#INV_AMT_SUM").text(comma(sumInvAmt));
+
+        /** 달성 매출액 합계 */
         let sumA = 0;
         $('td.resAmt').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -610,6 +461,7 @@ var costInfo = {
         });
         $("#RES_AMT_SUM").text(comma(sumA));
 
+        /** 달성 운영수익 합계 */
         let sumB = 0;
         $('td.resNotInvAmt').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -619,6 +471,7 @@ var costInfo = {
         });
         $("#RES_NOT_INV_AMT_SUM").text(comma(sumB));
 
+        /** 예상 매출액 합계 */
         let sumC = 0;
         $('td.devAmt').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -628,6 +481,7 @@ var costInfo = {
         });
         $("#DEV_AMT_SUM").text(comma(sumC));
 
+        /** 예상 운영수익 합계 */
         let sumD = 0;
         $('td.devNotInvAmt').each(function() {
             const value = Number(uncommaN($(this).text()));
@@ -636,16 +490,6 @@ var costInfo = {
             }
         });
         $("#DEV_NOT_INV_AMT_SUM").text(comma(sumD));
-
-        /** 수행계획 - 투자금액 합계 */
-        let sumInvAmt = 0;
-        $('td.invAmt').each(function() {
-            const value = Number(uncommaN($(this).text()));
-            if (!isNaN(value)) {
-                sumInvAmt += value;
-            }
-        });
-        $("#INV_AMT_SUM").text(comma(sumInvAmt));
     },
 
     fn_costInfoClose : function(){

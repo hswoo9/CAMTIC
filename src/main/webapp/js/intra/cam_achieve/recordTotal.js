@@ -11,9 +11,6 @@ let aftProfitAmtSum=0;
 
 var recordTotal = {
 
-
-
-
     fn_defaultScript: function(){
         var pjtYear = customKendo.fn_customAjax("/project/getPjtYear", {});
         customKendo.fn_dropDownList("pjtYear", pjtYear.list, "TEXT", "YEAR");
@@ -84,8 +81,6 @@ var recordTotal = {
 
         recordTotal.mainGrid();
     },
-
-
 
     mainGrid: function (){
         let dataSource = new kendo.data.DataSource({
@@ -217,15 +212,8 @@ var recordTotal = {
                     title: "수주금액",
                     width: 100,
                     template: function(e){
-                        let amt = Number(e.REAL_PJT_AMT || 0);
-
-                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "D"){
-                            if(e.YEAR_CLASS == "M" && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
-                                amt = Number(e.ALL_PJT_AMT || 0);
-                            }else{
-                                amt = 0;
-                            }
-                        }
+                        let amt = 0;
+                        amt = costCalc.allPjtAmt(e);
 
                         pjtAmt2Sum += amt;
                         return '<div style="text-align: right;">'+comma(amt)+'</div>';
@@ -238,12 +226,11 @@ var recordTotal = {
                     title: "총사업비",
                     width: 100,
                     template: function(e){
-                        var totalCost = 0;
-                        var totalCost2 = 0;
-                        totalCost = Number(e.REAL_PJT_AMT || 0);
-                        totalCost2 = totalCost + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
-                        pjtAmtSum += Number(totalCost2 || 0);
-                        return '<div style="text-align: right;">'+comma(totalCost2)+'</div>';
+                        let amt = 0;
+                        amt = costCalc.allPjtAmt(e);
+
+                        pjtAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(pjtAmtSum)+"</div>";
@@ -252,16 +239,11 @@ var recordTotal = {
                     title: "매출액",
                     width: 100,
                     template: function(e){
-                        let asrAmt = 0;
-                        let asrAmt2 = 0;
-                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                            asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
-                        }else{
-                            asrAmt = e.exnpCompAmt;
-                        }
-                        asrAmt2 = asrAmt + Number(e.pjtAmtSetData.AMT0);
-                        exnpCompAmtSum += asrAmt2;
-                        return '<div style="text-align: right;">'+comma(asrAmt2)+'</div>';
+                        let amt = 0;
+                        amt = costCalc.resSaleAmt(e);
+
+                        exnpCompAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(exnpCompAmtSum)+"</div>";
@@ -270,17 +252,11 @@ var recordTotal = {
                     title: "운영수익",
                     width: 100,
                     template: function(e){
-                        let aopAmt = 0;
-                        let aopAmt2 = 0;
-                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                            let tmpAmt = Number((((e.incpCompAmt2 || 0) - (e.realUseAmt || 0) - (e.realUseAmt2 || 0) - (e.realUseAmt3 || 0)) * 10 / 11).toString().split(".")[0]);
-                            aopAmt = (e.incpCompAmt1 || 0) + tmpAmt;
-                        }else{
-                            aopAmt = (e.incpCompAmt1 || 0) + ((e.incpCompAmt2 || 0) - (e.realUseAmt || 0) - (e.realUseAmt2 || 0) - (e.realUseAmt3 || 0));
-                        }
-                        aopAmt2 = aopAmt + Number(e.pjtAmtSetData.AMT1);
-                        incpCompAmtSum += aopAmt2;
-                        return '<div style="text-align: right;">'+comma(aopAmt2)+'</div>';
+                        let amt = 0;
+                        amt = costCalc.resProfitAmt(e);
+
+                        incpCompAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(incpCompAmtSum)+"</div>";
@@ -289,18 +265,11 @@ var recordTotal = {
                     title: "예상매출액",
                     width: 100,
                     template: function(e){
-                        let devAmt = 0;
-                        let devAmt2 = 0;
-                        let asrAmt = 0;
-                        if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                            asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
-                        }else{
-                            asrAmt = e.exnpCompAmt;
-                        }
-                        console.log("asrAmt", asrAmt);
-                        devAmt2 = Number(e.REAL_PJT_AMT || 0) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0) - Number(asrAmt) + Number(e.pjtAmtSetData.AMT2);
-                        tmpSaleAmtSum += devAmt2;
-                        return '<div style="text-align: right;">'+comma(devAmt2)+'</div>';
+                        let amt = 0;
+                        amt = costCalc.devSaleAmt(e);
+
+                        tmpSaleAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpSaleAmtSum)+"</div>";
@@ -309,14 +278,11 @@ var recordTotal = {
                     title: "예상수익",
                     width: 100,
                     template: function(e){
-                        let eopAmt = 0;
-                        let eopAmt2 = 0;
-                        if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
-                            eopAmt = (e.planAmt || 0);
-                        }
-                        eopAmt2 = eopAmt - (e.incpCompAmt1 || 0) + Number(e.pjtAmtSetData.AMT3) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
-                        tmpProfitAmtSum += Number(eopAmt2);
-                        return '<div style="text-align: right;">'+comma(eopAmt2)+'</div>';
+                        let amt = 0;
+                        amt = costCalc.devProfitAmt(e);
+
+                        tmpProfitAmtSum += Number(amt);
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(tmpProfitAmtSum)+"</div>";
