@@ -171,6 +171,7 @@ public class AchieveController {
             params.put("pjtSn", map.get("PJT_SN"));
             params.put("reqType", "achieve");
             params.put("reqYear", map.get("YEAR"));
+            params.put("busnClass", map.get("BUSN_CLASS"));
 
             if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
                 Map<String, Object> exnpMap = achieveService.getExnpCompAmt(params);
@@ -229,6 +230,17 @@ public class AchieveController {
                 }
 
             } else {
+                /** 매출(납품 저장 금액) */
+                Map<String, Object> goodsMap = achieveService.getGoodsAmt(params);
+                map.put("goodsTotAmt", goodsMap.get("GOODS_TOT_SUM"));
+
+                /** 비용(지출, 구매, 출장)*/
+                Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
+                Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
+                Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
+                map.put("realUseAmt", realUseMap2.get("COST_SUM"));
+                map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
+                map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
 
                 Map<String, Object> resultStat = achieveService.getResultProject(params);
                 List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
@@ -286,6 +298,12 @@ public class AchieveController {
 
                 map.put("nowExpSaleAmt", 0);
                 map.put("nowExpProfitAmt", 0);
+            }
+
+            // 수행계획 - 투자금액
+            Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
+            if(getPjtDevInfo != null) {
+                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
             }
         }
 
