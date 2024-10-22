@@ -141,7 +141,7 @@
             </otherwise>
         </choose>
         <if test="empSeq != null and !''.equals(empSeq)">
-            AND (A.REG_EMP_SEQ = #{empSeq} OR A.EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq}) IS NOT NULL)
+            AND (A.REG_EMP_SEQ = #{empSeq} OR A.EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq} LIMIT 1) IS NOT NULL)
         </if>
         <if test='cardToBustrip != null and !"".equals(cardToBustrip) and "Y".equals(cardToBustrip)'>
             AND A.STATUS = 100
