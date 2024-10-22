@@ -358,10 +358,13 @@ var unRndInit = {
         const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devMap.DEV_SN});
         /** 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
+
         /** 구매/비용내역 */
-        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
+        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
         /** 출장/비용내역 */
-        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
+        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
+        /** 지출/비용내역 */
+        const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn});
 
         /** 사업예산 */
         const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
@@ -470,18 +473,57 @@ var unRndInit = {
             const resPurcList = resPurcResult.list;
             let resInvSum = 0;
             for(let i=0; i<resPurcList.length; i++){
-                const map = resPurcList[i];
-                if(map.CLAIM_STATUS == "CAYSY"){
-                    resInvSum += Number(map.PURC_ITEM_AMT_SUM);
+                const resPurcMap = resPurcList[i];
+                if(resPurcMap.ORG_YN == "N"){
+                    if(map.busnClass == "D" || map.busnClass == "V"){
+                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
+                    }else{
+                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
+                    }
+                }else{
+                    let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);
+                    let amt2 = Math.round(amt/10);
+                    let itemAmt = 0;
+
+                    if(map.busnClass == "D" || map.busnClass == "V"){
+                        itemAmt = amt;
+                    }else{
+                        if(e.InTax == "0"){     // 부가세 미포함
+                            itemAmt = amt + amt2;
+                        }else if(e.InTax == "1"){  // 부가세 포함
+                            itemAmt = amt;
+                        }else if(e.InTax == "2"){ // 면세
+                            itemAmt = amt;
+                        }
+                    }
+                    resInvSum += Math.round(itemAmt);
                 }
             }
+            console.log("구매결과 합계 값 : ", resInvSum);
+
             const bustList = tripResult.list;
+            let bustSum = 0;
             for(let i=0; i<bustList.length; i++){
                 const bustMap = bustList[i];
-                if(bustMap.RS_STATUS == "100"){
+                if(bustMap.TRIP_CODE != "4"){
                     resInvSum  += Number(bustMap.RES_EXNP_SUM);
+                    bustSum  += Number(bustMap.RES_EXNP_SUM);
+                } else {
+                    resInvSum  += Number(bustMap.OVER_TOT_COST);
+                    bustSum  += Number(bustMap.RES_EXNP_SUM);
                 }
             }
+            console.log("출장결과 합계 값 : ", bustSum);
+
+            const exnpList = exnpResult.list;
+            let exnpSum = 0;
+            for(let i=0; i<exnpList.length; i++){
+                const exnpMap = exnpList[i];
+                resInvSum += Number(exnpMap.COST_SUM);
+                exnpSum += Number(exnpMap.COST_SUM);
+            }
+            console.log("지출결과 합계 값 : ", exnpSum);
+
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('RES_INV_AMT', resInvSum == 0 ? "0" : fn_numberWithCommas(resInvSum));
             let resInvPer = (resInvSum / map.PJT_AMT * 100);

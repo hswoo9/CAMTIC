@@ -65,6 +65,7 @@ var resultInfo = {
 
             const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
             const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
+            const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn});
 
             /** 초기계획 시작 */
             const purcList = purcResult.list;
@@ -90,16 +91,29 @@ var resultInfo = {
             let resInvSum = 0;
             for(let i=0; i<resPurcList.length; i++){
                 const resPurcMap = resPurcList[i];
-                if(resPurcMap.CLAIM_STATUS == "CAYSY"){
-                    if(resPurcMap.ORG_YN == 'N'){
+                if(resPurcMap.ORG_YN == "N"){
+                    if(commonProject.global.busnClass == "D" || commonProject.global.busnClass == "V"){
                         resInvSum += Number(resPurcMap.PURC_SUP_AMT);
-                    } else {
-                        let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);
-                        let amt2 = Math.round(amt/10);
-                        let itemAmt = 0;
-                        itemAmt = amt;
-                        resInvSum += Number(itemAmt);
+                    }else{
+                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
                     }
+                }else{
+                    let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);
+                    let amt2 = Math.round(amt/10);
+                    let itemAmt = 0;
+
+                    if(commonProject.global.busnClass == "D" || commonProject.global.busnClass == "V"){
+                        itemAmt = amt;
+                    }else{
+                        if(e.InTax == "0"){     // 부가세 미포함
+                            itemAmt = amt + amt2;
+                        } else if(e.InTax == "1"){  // 부가세 포함
+                            itemAmt = amt;
+                        } else  if(e.InTax == "2"){ // 면세
+                            itemAmt = amt;
+                        }
+                    }
+                    resInvSum += Math.round(itemAmt);
                 }
             }
             console.log("구매결과 합계 값 : ", resInvSum);
@@ -117,6 +131,16 @@ var resultInfo = {
                 }
             }
             console.log("출장결과 합계 값 : ", bustSum);
+
+            const exnpList = exnpResult.list;
+            let exnpSum = 0;
+            for(let i=0; i<exnpList.length; i++){
+                const exnpMap = exnpList[i];
+                resInvSum += Number(exnpMap.COST_SUM);
+                exnpSum += Number(exnpMap.COST_SUM);
+            }
+            console.log("지출결과 합계 값 : ", exnpSum);
+
             let resInvPer = (resInvSum / map.PJT_AMT * 100);
 
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
