@@ -1820,6 +1820,7 @@ public class ProjectController {
                 Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
                 Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
+                Map<String, Object> useMap = achieveService.getUseExnpAmt(params);
                 Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
                 Map<String, Object> projectPaySetData1 = new HashMap<>();
                 Map<String, Object> projectPaySetData2 = new HashMap<>();
@@ -1838,6 +1839,7 @@ public class ProjectController {
                 map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
                 map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
                 map.put("planAmt", planMap.get("TOT_COST"));
+                map.put("useAmt", useMap.get("TOT_COST"));
                 map.put("pjtAmtSetData", getPjtAmtSetData);
 
                 if(projectPaySetData1 != null) {
