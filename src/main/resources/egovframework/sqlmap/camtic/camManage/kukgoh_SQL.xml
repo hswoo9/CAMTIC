@@ -864,11 +864,15 @@
     <select id="sendResultEtaxData" parameterType="map" resultType="map">
         /*sendResultEtaxData*/
         SELECT
-            *
+            A.*,
+            B.RSP_MSG,
+            B.RSP_CD
         FROM
             CAM_ERP.T_IFR_ETXBL_REQUST_ERP A
+        LEFT JOIN CAM_ERP.DJ_ERP_SEND B ON A.TRNSC_ID = B.TRNSC_ID
         WHERE
-            ETXBL_CONFM_NO = #{ISS_NO}
+            A.ETXBL_CONFM_NO = #{ISS_NO}
+        ORDER BY A.CNTC_SN DESC
         LIMIT 1
     </select>
 
@@ -924,4 +928,9 @@
         /*cancelEnaraPayAppStatus*/
         UPDATE CAM_MNG.DJ_PAY_APP_DET SET ENARA_MNG_STAT = 'N' WHERE PAY_APP_DET_SN = #{payAppDetSn}
     </update>
+
+    <delete id="delEtxblRequstErp" parameterType="map">
+        /*delEtxblRequstErp*/
+        DELETE FROM CAM_ERP.T_IFR_ETXBL_REQUST_ERP WHERE ETXBL_CONFM_NO = #{ETXBL_CONFM_NO}
+    </delete>
 </mapper>

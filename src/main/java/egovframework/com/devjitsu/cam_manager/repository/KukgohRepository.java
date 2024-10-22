@@ -326,4 +326,10 @@ public class KukgohRepository extends AbstractDAO {
         // enara 전송상태 삭제
         delete("kukgoh.cancelEnaraMng", params);
     }
+
+
+    public void delEtxblRequstErp(Map<String, Object> params) {
+
+        delete("kukgoh.delEtxblRequstErp", params);
+    }
 }

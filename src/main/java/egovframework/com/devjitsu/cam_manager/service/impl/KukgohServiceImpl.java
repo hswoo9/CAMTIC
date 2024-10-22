@@ -709,6 +709,8 @@ public class KukgohServiceImpl implements KukgohService {
         parameters.put("ETXBL_CONFM_NO", params.get("issNo"));
         parameters.put("payAppDetSn", params.get("payAppDetSn"));
 
+        kukgohRepository.delEtxblRequstErp(parameters);
+
         kukgohRepository.insEtaxData(parameters);
         kukgohRepository.insEnaraSendTemp(parameters);
 
@@ -744,6 +746,13 @@ public class KukgohServiceImpl implements KukgohService {
             if(resEtxblData == null){
                 result.put("msg", "전송진행중");
                 result.put("etaxStat", "N");
+
+                if(reqEtxblData.containsKey("RSP_CD")) {
+                    if(!reqEtxblData.get("RSP_CD").equals("SUCC")) {
+                        result.put("msg", "전송실패");
+                        result.put("etaxStat", "Y");
+                    }
+                }
             } else {
                 if(resEtxblData.get("PROCESS_RESULT_CODE").equals("000")){
                     result.put("msg", "정상");
