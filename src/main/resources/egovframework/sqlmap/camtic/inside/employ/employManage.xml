@@ -721,8 +721,31 @@
                 ON A.PART_EMP_SEQ = C.EMP_SEQ
             LEFT JOIN CAM_INSIDE.DJ_PAY_ROLL_LEGER D
                 ON C.DUZON_CODE = D.ERP_EMP_CD AND D.BASE_YEAR_MONTH = #{bsYm}
+            LEFT JOIN
+                (SELECT
+                     PJT_SN,
+                     EMP_SEQ,
+                     MON_SAL,
+                     CASE
+                         WHEN RIGHT(#{bsYm}, 2) = '01' THEN MON_PAY_1
+                         WHEN RIGHT(#{bsYm}, 2) = '02' THEN MON_PAY_2
+                         WHEN RIGHT(#{bsYm}, 2) = '03' THEN MON_PAY_3
+                         WHEN RIGHT(#{bsYm}, 2) = '04' THEN MON_PAY_4
+                         WHEN RIGHT(#{bsYm}, 2) = '05' THEN MON_PAY_5
+                         WHEN RIGHT(#{bsYm}, 2) = '06' THEN MON_PAY_6
+                         WHEN RIGHT(#{bsYm}, 2) = '07' THEN MON_PAY_7
+                         WHEN RIGHT(#{bsYm}, 2) = '08' THEN MON_PAY_8
+                         WHEN RIGHT(#{bsYm}, 2) = '09' THEN MON_PAY_9
+                         WHEN RIGHT(#{bsYm}, 2) = '10' THEN MON_PAY_10
+                         WHEN RIGHT(#{bsYm}, 2) = '11' THEN MON_PAY_11
+                         WHEN RIGHT(#{bsYm}, 2) = '12' THEN MON_PAY_12
+                         END AS MON_SAL_RE
+                 FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE BS_YEAR = LEFT(#{bsYm}, 4)) E
+                ON A.PJT_SN = E.PJT_SN AND A.PART_EMP_SEQ = E.EMP_SEQ AND A.MON_SAL = E.MON_SAL
             WHERE
                 A.PJT_SN = #{pjtSn}
+              AND
+                E.MON_SAL_RE != 0
               AND
                 #{bsYm} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y-%m') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y-%m')
               AND A.PART_RATE_VER_SN = (
