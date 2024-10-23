@@ -418,7 +418,7 @@ const lectureReq = {
                     src += "&pk="+result.lecSn;
                 }
                 window.location = src;
-                opener.unRndLectList.mainGrid();
+                opener.lectList.mainGrid();
             }
         }else if(typeValue == "con"){
             const data = {
@@ -510,11 +510,17 @@ const lectureReq = {
                 window.close();
             } else {
                 alert("단위사업이 등록되었습니다.");
-                let src = "/projectUnRnd/lectureReqPop.do?pjtSn="+$("#pjtSn").val();
+                let src = "/projectUnRnd/lectureReqPop.do?pjtSn="+$("#pjtSn").val() + "&busnClass=" + $("#busnClass").val();
                 src += "&type=con";
-                src += "&pk="+result.conSn;
+
+                if ($("#pk").val() != "") {
+                    src += "&pk="+$("#pk").val();
+                } else {
+                    src += "&pk="+result.conSn;
+                }
+
                 window.location = src;
-                opener.unRndLectList.mainGrid();
+                opener.lectList.consultingGrid();
             }
         }
     },

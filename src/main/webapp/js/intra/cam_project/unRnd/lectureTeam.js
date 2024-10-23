@@ -225,7 +225,7 @@ const lectureTeam = {
 
                 if(rs.code == 200){
                     alert("단위사업이 등록되었습니다.");
-                    opener.unRndLectList.mainGrid();
+                    opener.lectList.unitMainGrid();
                     window.close();
                 }
             }
