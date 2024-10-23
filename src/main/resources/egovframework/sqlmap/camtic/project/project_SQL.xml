@@ -4,6 +4,7 @@
 <mapper namespace="project">
 
     <select id="getProjectInfo" parameterType="map" resultType="map">
+        /*getProjectInfo*/
         SELECT
             A.*,
             DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS PJT_START_DT,

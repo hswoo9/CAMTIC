@@ -838,6 +838,16 @@ public class ProjectUnRndController {
         return "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop";
     }
 
+    /** 연차보고 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/unRndDelvMultiApprovalPop.do")
+    public String unRndDelvMultiApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/unRndDelvMultiApprovalPop";
+    }
+
     /** 계획서보고 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/unRndDevApprovalPop.do")
     public String unRndDevApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

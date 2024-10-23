@@ -452,7 +452,7 @@ var unRndDetail = {
                 this.fn_kendoUIEnableSet()
             }
 
-            if(unRndMap != null && unRndMap.PARENT_PJT_SN != null){
+            if(unRndMap != null && pjtMap.PARENT_PJT_SN != null){
                 $("#yearDataCk").val("Y");
             }
         }else{
