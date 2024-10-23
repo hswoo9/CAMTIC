@@ -25,4 +25,6 @@ public interface MessageService {
     void delMailDet(Map<String, Object> params);
     void setMailDetCom(Map<String, Object> params);
     void sendFms(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+
+    void joiningAnnivSendMail(Map<String, Object> params, String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW);
 }

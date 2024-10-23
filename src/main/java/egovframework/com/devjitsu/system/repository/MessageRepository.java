@@ -42,4 +42,8 @@ public class MessageRepository extends AbstractDAO {
     public void setMailDetIns(Map<String, Object> params) { insert("message.setMailDetIns", params); }
     public void setMailDetCom(Map<String, Object> params) { update("message.setMailDetCom", params); }
     public void setMailDetDel(Map<String, Object> params) { delete("message.setMailDetDel", params); }
+
+    public List<Map<String, Object>> getJoiningAnnivList() {
+        return selectList("message.getJoiningAnnivList", null);
+    }
 }

@@ -256,6 +256,82 @@ public class MailUtil {
 
     }
 
+    public void joiningAnnivSendMail(Map<String, Object> params, String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws MessagingException, IOException {
+        String host = SMTPServer;
+        int port = SMTPPort;
+
+        String email = SMTPID;
+        String password = SMTPPW;
+
+        String recipient = params.get("receiveEml").toString();     // 수신자
+        InternetAddress[] recipientArr = new InternetAddress[0];
+
+        recipientArr = new InternetAddress[1];
+        recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
+
+        String sender = params.get("sendEml").toString();           // 발신자
+        String subject = params.get("subject").toString();          // 제목
+        String contents = params.get("contents").toString();        // 내용
+
+        String mailTmp = "";
+
+        mailTmp += "<!doctype html public '- / /w3c / /dtd xhtml 1.0 transitional / /en' 'http: / /www.w3.org /tr /xhtml1 /dtd /xhtml1-transitional.dtd'>";
+        mailTmp += "<html xmlns='http://www.w3.org/1999/xhtml'>";
+        mailTmp += "<head>";
+        mailTmp += "    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
+        mailTmp += "    <title>메일설정</title>";
+        mailTmp += "    <link href='http://www.camtic.or.kr/camtic/style/style_2011.css' type='text/css' rel='stylesheet'>";
+        mailTmp += "    <style type='text/css'>";
+        mailTmp += "        body {";
+        mailTmp += "	margin-left: 0px;";
+        mailTmp += "	margin-top: 0px;";
+        mailTmp += "	background-image: url();";
+        mailTmp += "	background-repeat: no-repeat;";
+        mailTmp += "        }";
+        mailTmp += "    </style>";
+        mailTmp += "</head>";
+        mailTmp += "";
+        mailTmp += "<body>";
+
+        mailTmp += contents;
+
+        mailTmp += "</body>";
+        mailTmp += "</html>";
+
+
+        // SMTP 서버 설정 정보 세팅
+        Properties props = System.getProperties();
+
+        // smtp 서버
+        props.put("mail.smtp.host", host);
+
+        // smtp 포트
+        props.put("mail.smtp.port", port);
+        props.put("mail.debug", "true");
+
+        Session session = Session.getDefaultInstance(props);
+
+        //MimeMessage 생성 & 메일 세팅
+        Message mimeMessage = new MimeMessage(session);
+        mimeMessage.setFrom(new InternetAddress(sender)); // 발신자
+
+        /** 다중 보낼때
+         * recipient 에 스트링 배열
+         mimeMessage.addRecipients(Message.RecipientType.TO, new InternetAddress(recipient));
+         */
+        mimeMessage.addRecipients(Message.RecipientType.TO, recipientArr);
+
+        mimeMessage.setSubject(subject); // 제목
+        mimeMessage.setContent(mailTmp, "text/html; charset=utf-8"); // 내용
+
+        Transport transport = session.getTransport("smtp");
+        transport.connect(host, "", "");
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        transport.close();
+//        Transport.send(mimeMessage);
+
+    }
+
     private String changeContents(Map<String, Object> param, String formatString) throws Exception{
         StrSubstitutor sub = new StrSubstitutor(param);
         return sub.replace(formatString);
