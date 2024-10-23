@@ -822,7 +822,7 @@ public class ProjectRndController {
         return "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop";
     }
 
-    /** 사업정보 전자결재 페이지*/
+    /** 연차보고 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/rndDelvMultiApprovalPop.do")
     public String rndDelvMultiApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
