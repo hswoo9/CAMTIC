@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.system.repository.MessageRepository;
 import egovframework.com.devjitsu.system.service.MessageService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -56,6 +57,9 @@ public class messageController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -409,6 +413,20 @@ public class messageController {
         model.addAttribute("result", result);
         return "jsonView";
     }
+
+    /** 입사 기념일 메일링 */
+    @RequestMapping("/callback/joiningAnnivMail")
+    public String joiningAnnivMail (){
+
+        List<Map<String, Object>> list = messageRepository.getJoiningAnnivList();
+
+        for(Map<String, Object> map : list){
+            messageService.joiningAnnivSendMail(map, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+        }
+
+        return "SUCCESS";
+    }
+
 
     @RequestMapping("/test/testB")
     public String testB(){
