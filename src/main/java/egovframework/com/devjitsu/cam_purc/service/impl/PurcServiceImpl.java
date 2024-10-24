@@ -1417,18 +1417,6 @@ public class PurcServiceImpl implements PurcService {
             map.put("evidType", payItemArr.get(0).get("evidType"));
             purcRepository.insPayAppPurcReq(map);
 
-            // 구매 담당자가 선택한 첨부파일만 복제
-            if(params.containsKey("fileArray")){
-                String[] fileArr = params.get("fileArray").toString().split(",");
-                for(int i=0; i < fileArr.length; i++){
-                    Map<String, Object> tempParams = new HashMap<>();
-                    tempParams.put("fileCd", "payClaim");
-                    tempParams.put("fileNo", fileArr[i]);
-                    tempParams.put("contentId", maxIdx);
-                    purcRepository.insPurcFileCopy(tempParams);
-                }
-            }
-
             // 구매요청+청구+검수 첨부파일 복제
 //            if(map.containsKey("claimSn")){
 //
@@ -1473,6 +1461,18 @@ public class PurcServiceImpl implements PurcService {
 
         params.put("ceGwIdx", maxIdx);
         purcRepository.insClaimExnpGroupIdx(params);
+
+        // 구매 담당자가 선택한 첨부파일만 복제
+        if(params.containsKey("fileArray")){
+            String[] fileArr = params.get("fileArray").toString().split(",");
+            for(int i=0; i < fileArr.length; i++){
+                Map<String, Object> tempParams = new HashMap<>();
+                tempParams.put("fileCd", "payClaim");
+                tempParams.put("fileNo", fileArr[i]);
+                tempParams.put("contentId", maxIdx);
+                purcRepository.insPurcFileCopy(tempParams);
+            }
+        }
 
         MainLib mainLib = new MainLib();
         if(fileList.length > 0){

@@ -547,7 +547,7 @@ var lectList = {
     },
 
     lectureTeamPop: function(pjtSn, pk){
-        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn;
+        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn + "&busnClass=" + $("#busnClass").val();
         if(pk != null && pk != ""){
             url += "&pjtUnitSn="+pk;
         }

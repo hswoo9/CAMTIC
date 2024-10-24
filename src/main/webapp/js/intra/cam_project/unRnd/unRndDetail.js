@@ -397,12 +397,16 @@ var unRndDetail = {
             type : "post",
             dataType : "json",
             success : function (rs){
+                let url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
+                if($("#yearDataCk").val() == "Y"){
+                    url = "/popup/cam_project/approvalFormPopup/unRndDelvMultiApprovalPop.do";
+                }
+
                 $("#unRndDelvDraftFrm").one("submit", function(){
-                    const url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
                     const name = "_self";
                     const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
                     window.open(url, name, option);
-                    this.action = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
+                    this.action = url;
                     this.method = 'POST';
                     this.target = '_self';
                 }).trigger("submit");
@@ -413,8 +417,8 @@ var unRndDetail = {
     fn_buttonSet : function(unRndMap, pjtMap){
         $(".budgetBtn").show();
         let buttonHtml = "";
-        if(unRndMap != null && pjtMap.PARENT_PJT_SN == null){
-            let status = unRndMap.STATUS
+        if(unRndMap != null){
+            let status = unRndMap.STATUS;
             if(status == "0" && unRndMap.PEO_RES_COST != null){
                 buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModalUnRnd()\">상신</button>";
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
@@ -446,6 +450,10 @@ var unRndDetail = {
 
             if(status == "10" || status == "20" || status == "50" || status == "100"){
                 this.fn_kendoUIEnableSet()
+            }
+
+            if(unRndMap != null && pjtMap.PARENT_PJT_SN != null){
+                $("#yearDataCk").val("Y");
             }
         }else{
             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";

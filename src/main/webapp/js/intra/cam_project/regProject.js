@@ -49,6 +49,7 @@ var regPrj = {
         var tab12Url ="/intra/cam_project/depositInfo.do"; // 12입금관리
         var tab13Url = "/intra/cam_project/costInfoAdmin.do"; // 13정산서
         var tab14Url = "/intra/cam_project/equipInfo.do";  // 14장비
+        var tab15Url = "/projectUnRnd/lectureList.do";     // 15단위사업
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -66,6 +67,7 @@ var regPrj = {
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
             tab14Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab15Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -83,6 +85,7 @@ var regPrj = {
             tab12Url += "&engnSn=" + setParameters.ENGN_SN;
             tab13Url += "&engnSn=" + setParameters.ENGN_SN;
             tab14Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab15Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
         let dataSource;
@@ -115,7 +118,8 @@ var regPrj = {
                 {name: "구매", url: tab11Url},
                 {name: "입금관리", url: tab12Url},
                 {name: "정산서", url: tab13Url},
-                {name: "장비", url: tab14Url}
+                {name: "장비", url: tab14Url},
+                {name: "단위사업", url: tab15Url},
             ]
         }
 
@@ -240,6 +244,7 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(12));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(13));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(14));
                 }
 
                 if(setParameters.PJT_STEP >= "E1"){

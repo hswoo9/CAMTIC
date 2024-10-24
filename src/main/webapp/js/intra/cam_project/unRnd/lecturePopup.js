@@ -11,7 +11,7 @@ var lecturePop = {
     },
 
     fn_consultingReqPop: function(pjtSn, pk){
-        let url = "/projectUnRnd/lectureReqPop.do?pjtSn="+pjtSn;
+        let url = "/projectUnRnd/lectureReqPop.do?pjtSn="+pjtSn + "&busnClass=" + $("#busnClass").val();
         url += "&type=con";
         if(pk != null && pk != ""){
             url += "&pk="+pk;
@@ -152,7 +152,7 @@ var lecturePop = {
     },
 
     lectureTeamPop: function(pjtSn, pk){
-        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn;
+        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn + "&busnClass=" + $("#busnClass").val();
         if(pk != null && pk != ""){
             url += "&pjtUnitSn="+pk;
         }

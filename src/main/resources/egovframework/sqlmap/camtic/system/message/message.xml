@@ -229,4 +229,36 @@
         WHERE
             MAIL_HIST_DET_SN = #{mailHistDetSn}
     </delete>
+
+    <select id="getJoiningAnnivList" parameterType="map" resultType="map">
+        /*getJoiningAnnivList*/
+        SELECT
+            EMP_SEQ,
+            EMP_NAME_KR,
+            scp.dec_b64('KEY1', EMAIL_ADDR) AS EMAIL_ADDR,
+            JOIN_DAY,
+            DATE_FORMAT(NOW(), '%Y-%m-%d') AS TODAY,
+            TIMESTAMPDIFF(YEAR, DATE_FORMAT(JOIN_DAY, '%Y-%m-%d'), DATE_FORMAT(NOW(), '%Y-%m-%d')) AS ANNIV_YEAR,
+            (TIMESTAMPDIFF(YEAR, DATE_FORMAT(JOIN_DAY, '%Y-%m-%d'), DATE_FORMAT(NOW(), '%Y-%m-%d')) % 5) AS ANNIV_YEAR_DIV,
+            POSITION_NAME,
+            DUTY_NAME,
+            WORK_STATUS_CODE,
+            TEMP_DIVISION
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            1=1
+        AND
+            ACTIVE = 'Y'
+        AND
+            WORK_STATUS_CODE = 'Y'
+        AND
+            ( (DIVISION IN(0)) OR (DIVISION IN(4) AND DIVISION_SUB IN(1)) )
+        AND
+            TEMP_DIVISION = 'N'
+        AND
+            DATE_FORMAT(NOW(), '%m-%d') = DATE_FORMAT(JOIN_DAY, '%m-%d')
+        AND
+            TIMESTAMPDIFF(YEAR, DATE_FORMAT(JOIN_DAY, '%Y-%m-%d'), DATE_FORMAT(NOW(), '%Y-%m-%d')) > 0
+    </select>
 </mapper>

@@ -1,17 +1,32 @@
 var ub = {
     fn_projectTypeSet: function(){
         let projectDataSource =customKendo.fn_customAjax("/project/getProjectList", {
-            busnClass: "S"
+            // busnClass: "S",
+            busnClass : $("#busnClass").val()
         }).list
         customKendo.fn_dropDownList("projectType", projectDataSource, "BS_TITLE", "PJT_SN", 2);
+
+        if($("#busnClass").val() == "S"){
+            customKendo.fn_dropDownList("projectType", projectDataSource, "BS_TITLE", "PJT_SN", 2);
+        } else {
+            customKendo.fn_dropDownList("projectType", projectDataSource, "PJT_NM", "PJT_SN", 2);
+        }
+
         $("#projectType").data("kendoDropDownList").value($("#pjtSn").val());
     },
 
     fn_conProjectTypeSet: function(){
         let conProjectDataSource =customKendo.fn_customAjax("/project/getProjectList", {
-            busnClass: "S"
+            // busnClass: "S"
+            busnClass: $("#busnClass").val()
         }).list
-        customKendo.fn_dropDownList("conProjectType", conProjectDataSource, "BS_TITLE", "PJT_SN", 2);
+
+        if($("#busnClass").val() == "S") {
+            customKendo.fn_dropDownList("conProjectType", conProjectDataSource, "BS_TITLE", "PJT_SN", 2);
+        } else {
+            customKendo.fn_dropDownList("conProjectType", conProjectDataSource, "PJT_NM", "PJT_SN", 2);
+        }
+
         $("#conProjectType").data("kendoDropDownList").value($("#pjtSn").val());
     },
 

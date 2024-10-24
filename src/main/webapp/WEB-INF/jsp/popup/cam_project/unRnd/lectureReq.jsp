@@ -33,6 +33,7 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
+<input type="hidden" id="busnClass" value="${params.busnClass}"/>
 <input type="hidden" id="type" name="type" />
 
 

@@ -86,7 +86,7 @@
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.unitGridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectList.unitGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }

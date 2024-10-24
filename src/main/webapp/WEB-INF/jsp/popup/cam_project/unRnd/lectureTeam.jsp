@@ -23,6 +23,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
 <input type="hidden" id="pjtUnitSn" value="${params.pjtUnitSn}"/>
+<input type="hidden" id="busnClass" value="${params.busnClass}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
 

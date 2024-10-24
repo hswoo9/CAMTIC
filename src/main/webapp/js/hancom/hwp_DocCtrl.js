@@ -538,6 +538,10 @@ var hwpDocCtrl = {
             const pjtSn = data.approKey.split("_")[1];
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             rndInit.delvMultiInit(pjtSn);
+        } else if(data.menuCd == "unRndDelvMulti") {
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            unRndInit.delvMultiInit(pjtSn);
         } else if(data.menuCd == "unRndDev") {
             const devSn = data.approKey.split("_")[1];
             if (devSn == null || devSn == undefined || devSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
@@ -782,6 +786,12 @@ var hwpDocCtrl = {
             const pjtSn = pk;
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
             rndInit.delvMultiInit(pjtSn);
+
+        } else if(data.menuCd == "unRndDelvMulti") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            unRndInit.delvMultiInit(pjtSn);
 
         } else if(data.menuCd == "dev") {
 
