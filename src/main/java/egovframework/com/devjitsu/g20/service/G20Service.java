@@ -51,4 +51,7 @@ public interface G20Service {
     void delG20Error(Map<String, Object> params);
 
     List<Map<String, Object>> getG20BudgetSum(Map<String, Object> params);
+
+
+    List<Map<String, Object>> getSubjectList2(Map<String, Object> params);
 }

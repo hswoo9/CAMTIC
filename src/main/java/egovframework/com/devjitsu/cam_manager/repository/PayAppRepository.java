@@ -666,4 +666,8 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getExnpDepoListExcelDown(Map<String, Object> params) {
         return selectList("payApp.getExnpDepoListExcelDown", params);
     }
+
+    public List<Map<String, Object>> getTestPayList(Map<String, Object> params) {
+        return selectList("payApp.getTestPayList", params);
+    }
 }
