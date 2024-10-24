@@ -2438,7 +2438,7 @@ var regPay = {
             payExnpDe : $("#payExnpDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
-            appTitle : $("#appTitle").val(),
+            appTitle : $("#appTitle").val().replace(/\t/g, ''),
             appCont : $("#appCont").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
