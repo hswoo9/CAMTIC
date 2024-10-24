@@ -140,6 +140,8 @@ var exnpList = {
                             return "직원지급";
                         } else if(e.EVI_TYPE == 5){
                             return "소득신고자";
+                        } else if(e.EVI_TYPE == 9){
+                            return "기타소득자";
                         } else {
                             return "기타";
                         }
@@ -234,10 +236,18 @@ var exnpList = {
                     width: 60,
                     template: function(e){
                         var status = "";
-                        if(e.RE_STAT == "Y"){
-                            status = "승인";
+                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
+                            if(e.DOC_STATUS == "100"){
+                                status = "승인";
+                            } else {
+                                status = "미결";
+                            }
                         } else {
-                            status = "미결";
+                            if(e.RE_STAT == "Y"){
+                                status = "승인";
+                            } else {
+                                status = "미결";
+                            }
                         }
 
                         return status;
