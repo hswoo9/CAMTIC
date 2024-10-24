@@ -229,12 +229,12 @@ var exnpList = {
                         return status;
                     }
                 }, {
-                    field: "DOC_STATUS",
+                    field: "RE_STAT",
                     title: "승인상태",
                     width: 60,
                     template: function(e){
                         var status = "";
-                        if(e.DOC_STATUS == "100"){
+                        if(e.RE_STAT == "Y"){
                             status = "승인";
                         } else {
                             status = "미결";

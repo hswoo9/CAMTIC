@@ -1560,10 +1560,10 @@
         </if>
 
         <if test='"1".equals(searchDept2)'>
-            AND A.DOC_STATUS IN (100,101)
+            AND A.RE_STAT = 'Y'
         </if>
         <if test='"2".equals(searchDept2)'>
-            AND A.DOC_STATUS NOT IN (100,101)
+            AND A.RE_STAT = 'N'
         </if>
 
         <choose>
