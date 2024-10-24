@@ -7,9 +7,7 @@ import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
 import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.krb5.internal.PAData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
