@@ -270,13 +270,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum += Number(e.ACCT_AM_3 - e.RETURN_AMT);
+                            acctAm2Sum += Number(e.COMPLETE_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3 - e.RETURN_AMT)+"</div>";
-                        // if(e.DIV_FG_NM == "장"){
-                        //     acctAm2Sum += Number(e.ACCT_AM_2 - e.RETURN_AMT);
-                        // }
-                        // return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.COMPLETE_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -287,9 +283,9 @@ var rndBg = {
                     template: function(e){
                         if(e.FULL_WAIT_CK != null){
                             if(e.DIV_FG_NM == "장"){
-                                acctAm1Sum += Number(e.FULL_WAIT_CK);
+                                acctAm1Sum += Number(e.WAIT_AMT);
                             }
-                            return "<div style='text-align: right'>"+comma(e.FULL_WAIT_CK)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.WAIT_AMT)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
@@ -301,18 +297,8 @@ var rndBg = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        // if(e.FULL_WAIT_CK != null){
-                        //     return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK - e.RETURN_AMT)+"</div>";
-                        // } else {
-                        //     return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
-                        // }
                         var amtTxt = 0;
-                        if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT);
-                        } else {
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK - e.RETURN_AMT)+"</div>";
-                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
-                        }
+                        amtTxt = comma(e.APPROVAL_AMT);
 
                         return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'B\')">'+amtTxt+'</a></div>';
                     },
@@ -324,17 +310,13 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         var amtTxt = 0;
-                        if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT)));
-                        } else {
-                            amtTxt = comma(Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK - e.RETURN_AMT)));
-                        }
+                        amtTxt = comma(Number(e.CALC_AM - e.APPROVAL_AMT));
 
                         if(e.DIV_FG_NM == "장"){
                             if(e.FULL_WAIT_CK != null){
-                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.FULL_WAIT_CK - e.RETURN_AMT));
+                                subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
                             } else {
-                                subAmSum += Number(e.CALC_AM - (e.ACCT_AM_3 + e.WAIT_CK - e.RETURN_AMT));
+                                subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
                             }
                         }
                         return "<div style='text-align: right'>"+comma(amtTxt)+"</div>";
@@ -452,9 +434,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "항"){
-                            acctAm3Sum += Number(e.ACCT_AM_2);
+                            acctAm3Sum += Number(e.COMPLETE_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.COMPLETE_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
@@ -465,9 +447,9 @@ var rndBg = {
                     template: function(e){
                         if(e.WAIT_CK != null){
                             if(e.DIV_FG_NM == "항"){
-                                acctAm1Sum += Number(e.WAIT_CK);
+                                acctAm1Sum += Number(e.WAIT_AMT);
                             }
-                            return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.WAIT_AMT)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
@@ -480,9 +462,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "항"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
+                            acctAm2Sum  += Number(e.APPROVAL_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.APPROVAL_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -492,9 +474,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
+                            subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK)))+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - e.APPROVAL_AMT))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";

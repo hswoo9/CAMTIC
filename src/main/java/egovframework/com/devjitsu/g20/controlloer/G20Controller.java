@@ -150,7 +150,8 @@ public class G20Controller {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         params.put("erpCompSeq", "1212");
-        List<Map<String, Object>> list = g20Service.getSubjectList(params);
+//        List<Map<String, Object>> list = g20Service.getSubjectList(params);
+        List<Map<String, Object>> list = g20Service.getSubjectList2(params);
 
         model.addAttribute("list", list);
         return "jsonView";

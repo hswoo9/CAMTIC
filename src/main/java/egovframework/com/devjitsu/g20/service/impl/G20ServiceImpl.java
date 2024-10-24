@@ -577,6 +577,13 @@ public class G20ServiceImpl implements G20Service {
 
         List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
 
+        List<Map<String, Object>> list = new ArrayList<>();
+        if(params.get("temp").equals("1")) {
+            list = payAppRepository.getIncpBudgetList(params);
+        } else {
+            list = payAppRepository.getExnpBudgetList(params);
+        }
+
         List<Map<String, Object>> result = new ArrayList<>();
 
         if(params.containsKey("stat")){
@@ -588,7 +595,6 @@ public class G20ServiceImpl implements G20Service {
 
                 if(params.get("temp").equals("1")){     // 수입예산
                     if(!"0".equals(map.get("DIV_FG"))){
-                        List<Map<String, Object>> list = payAppRepository.getTestPayList(params);
 
                         long completeAmt = 0;
                         long waitAmt = 0;
@@ -613,56 +619,43 @@ public class G20ServiceImpl implements G20Service {
                         }
 
 
-                        // 입금완료
-                        map.put("COMPLETE_AMT", completeAmt);
-                        map.put("WAIT_AMT", waitAmt);
-                        map.put("APPROVAL_AMT", approvalAmt);
+                        map.put("COMPLETE_AMT", completeAmt);       // 입금완료
+                        map.put("WAIT_AMT", waitAmt);               // 입금대기
+                        map.put("APPROVAL_AMT", approvalAmt);       // 승인
 
                         result.add(map);
                     }
                 } else {   // 지출예산
-//                    if(!"0".equals(map.get("DIV_FG"))){
-//
-//                        long paySum = 0;
-//                        long compPaySum = 0;
-//                        long approvePaySum = 0;
-//
-//                        int jangSum = 0;
-//                        int gwanSum = 0;
-//
-//                        long completeAmt = 0;
-//                        long waitAmt = 0;
-//                        long approvalAmt = 0;
-//
-//                        List<Map<String, Object>> list = new ArrayList<>();
-//
-//
-//                        for(Map<String, Object> tMap : list){
-//                            if(map.get("BGT_CD").toString().equals(tMap.get("BUDGET_SN").toString())){
-//                                completeAmt = Long.parseLong(tMap.get("COMPLETE_AMT").toString());
-//                                waitAmt = Long.parseLong(tMap.get("WAIT_AMT").toString());
-//                                approvalAmt = Long.parseLong(tMap.get("APPROVAL_AMT").toString());
-//                            }
-//                            if(map.get("BGT_CD").toString().equals(tMap.get("JANG_SN").toString())){
-//                                completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
-//                                waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
-//                                approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
-//                            }
-//                            if(map.get("BGT_CD").toString().equals(tMap.get("GWAN_SN").toString())){
-//                                completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
-//                                waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
-//                                approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
-//                            }
-//                        }
-//
-//
-//                        // 입금완료
-//                        map.put("COMPLETE_AMT", completeAmt);
-//                        map.put("WAIT_AMT", waitAmt);
-//                        map.put("APPROVAL_AMT", approvalAmt);
-//
-//                        result.add(map);
-//                    }
+                    if(!"0".equals(map.get("DIV_FG"))){
+                        long completeAmt = 0;
+                        long waitAmt = 0;
+                        long approvalAmt = 0;
+
+                        for(Map<String, Object> tMap : list){
+                            if(map.get("BGT_CD").toString().equals(tMap.get("BUDGET_SN").toString())){
+                                completeAmt = Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                waitAmt = Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                approvalAmt = Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                            }
+                            if(map.get("BGT_CD").toString().equals(tMap.get("JANG_SN").toString())){
+                                completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                            }
+                            if(map.get("BGT_CD").toString().equals(tMap.get("GWAN_SN").toString())){
+                                completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                            }
+                        }
+
+
+                        map.put("COMPLETE_AMT", completeAmt);       // 지출완료
+                        map.put("WAIT_AMT", waitAmt);               // 지출대기
+                        map.put("APPROVAL_AMT", approvalAmt);       // 승인
+
+                        result.add(map);
+                    }
                 }
             }
         } else {
@@ -671,7 +664,9 @@ public class G20ServiceImpl implements G20Service {
                     if(!"0".equals(map.get("DIV_FG"))){
 
                         if(map.get("DIV_FG").equals("3")) {
-                            List<Map<String, Object>> list = new ArrayList<>();
+
+                            String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
+                            String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
 
                             long completeAmt = 0;
                             long waitAmt = 0;
@@ -695,6 +690,15 @@ public class G20ServiceImpl implements G20Service {
                                 }
                             }
 
+                            for(Map<String, Object> subject : budgetList) {
+                                if (bgt1Cd.equals(subject.get("BGT_CD"))) {
+                                    map.put("BGT1_NM", subject.get("BGT_NM"));
+                                }
+
+                                if(bgt2Cd.equals(subject.get("BGT_CD"))) {
+                                    map.put("BGT2_NM", subject.get("BGT_NM"));
+                                }
+                            }
 
                             // 입금완료
                             map.put("COMPLETE_AMT", completeAmt);
@@ -708,140 +712,52 @@ public class G20ServiceImpl implements G20Service {
 
                     }
                 } else {    // 지출예산
-//                    if(!"0".equals(map.get("DIV_FG"))){
-//
-//                        if(map.get("DIV_FG").equals("3")){
-//                            String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
-//                            String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
-//
-//                            long paySum = 0;
-//                            long compPaySum = 0;
-//                            long approvePaySum = 0;
-//
-//                            for (int i=0; i<payWaitList.size(); i++){
-//                                if(map.get("BGT_CD").toString().equals(payWaitList.get(i).get("BUDGET_SN")) && "N".equals(payWaitList.get(i).get("REVERT_YN").toString())){
-//                                    long payAmount = Long.parseLong(payWaitList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payWaitList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    paySum += payAmount;
-////                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payWaitList.get(i).get("JANG_SN")) && "N".equals(payWaitList.get(i).get("REVERT_YN").toString())){
-//                                    long payAmount = Long.parseLong(payWaitList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payWaitList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    paySum += payAmount;
-////                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payWaitList.get(i).get("GWAN_SN")) && "N".equals(payWaitList.get(i).get("REVERT_YN").toString())){
-//                                    long payAmount = Long.parseLong(payWaitList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payWaitList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    paySum += payAmount;
-////                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
-//                                }
-//                            }
-//
-//                            for(int i = 0; i < payCompleteList.size() ; i++){
-//                                if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("BUDGET_SN").toString())){
-//                                    long payAmount = Long.parseLong(payCompleteList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payCompleteList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    compPaySum += payAmount;
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("JANG_SN").toString())){
-//                                    long payAmount = Long.parseLong(payCompleteList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payCompleteList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    compPaySum += payAmount;
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("GWAN_SN").toString())){
-//                                    long payAmount = Long.parseLong(payCompleteList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payCompleteList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    compPaySum += payAmount;
-//                                }
-//                            }
-//
-//                            for(int i = 0; i < payApproveList.size(); i++){
-//                                if(map.get("BGT_CD").toString().equals(payApproveList.get(i).get("BUDGET_SN").toString())){
-//                                    long payAmount = Long.parseLong(payApproveList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payApproveList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    approvePaySum += payAmount;
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payApproveList.get(i).get("JANG_SN").toString())){
-//                                    long payAmount = Long.parseLong(payApproveList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payApproveList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    approvePaySum += payAmount;
-//                                }
-//
-//                                if(map.get("BGT_CD").toString().equals(payApproveList.get(i).get("GWAN_SN").toString())){
-//                                    long payAmount = Long.parseLong(payApproveList.get(i).get("TOT_COST").toString());
-//
-//                                    // 여입결의서
-//                                    if("2".equals(payApproveList.get(i).get("PAY_APP_TYPE").toString())){
-//                                        payAmount = payAmount * -1;
-//                                    }
-//
-//                                    approvePaySum += payAmount;
-//                                }
-//                            }
-//
-//                            map.put("WAIT_CK", paySum);
-//                            map.put("ACCT_AM_3", compPaySum);
-//                            map.put("ACCT_AM_2", approvePaySum);
-//
-//                            for(Map<String, Object> subject : budgetList) {
-//                                if (bgt1Cd.equals(subject.get("BGT_CD"))) {
-//                                    map.put("BGT1_NM", subject.get("BGT_NM"));
-//                                }
-//
-//                                if(bgt2Cd.equals(subject.get("BGT_CD"))) {
-//                                    map.put("BGT2_NM", subject.get("BGT_NM"));
-//                                }
-//                            }
-//                            result.add(map);
-//                        }
-//                    }
+                    if(!"0".equals(map.get("DIV_FG"))){
+
+                        if(map.get("DIV_FG").equals("3")) {
+                            String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
+                            String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
+
+                            long completeAmt = 0;
+                            long waitAmt = 0;
+                            long approvalAmt = 0;
+
+                            for(Map<String, Object> tMap : list){
+                                if(map.get("BGT_CD").toString().equals(tMap.get("BUDGET_SN").toString())){
+                                    completeAmt = Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                    waitAmt = Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                    approvalAmt = Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                                }
+                                if(map.get("BGT_CD").toString().equals(tMap.get("JANG_SN").toString())){
+                                    completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                    waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                    approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                                }
+                                if(map.get("BGT_CD").toString().equals(tMap.get("GWAN_SN").toString())){
+                                    completeAmt += Long.parseLong(tMap.get("COMPLETE_AMT").toString());
+                                    waitAmt += Long.parseLong(tMap.get("WAIT_AMT").toString());
+                                    approvalAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
+                                }
+                            }
+
+                            for(Map<String, Object> subject : budgetList) {
+                                if (bgt1Cd.equals(subject.get("BGT_CD"))) {
+                                    map.put("BGT1_NM", subject.get("BGT_NM"));
+                                }
+
+                                if(bgt2Cd.equals(subject.get("BGT_CD"))) {
+                                    map.put("BGT2_NM", subject.get("BGT_NM"));
+                                }
+                            }
+
+                            map.put("COMPLETE_AMT", completeAmt);       // 지출완료
+                            map.put("WAIT_AMT", waitAmt);               // 지출대기
+                            map.put("APPROVAL_AMT", approvalAmt);       // 승인
+
+                            result.add(map);
+
+                        }
+                    }
                 }
             }
         }

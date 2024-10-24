@@ -208,22 +208,8 @@ var bgView = {
                         console.log("e", e);
                         var subAm = "";
                         if(e.DIV_FG_NM == "항"){
-                            if($("#status").val() != "incp"){
-                                if($("#payAppType").val() == "4" || ($("input[name='budgetType']:checked").val() == "1" && $("#status").val() == "alt")){
-                                    subAm += Number(e.SUB_AM);
-                                    subAmSum += Number(e.SUB_AM);
-                                } else {
-                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
-                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
-                                    if($("#payAppType").val() == "3"){
-                                        subAm += Number(e.RETURN_AMT);
-                                        subAmSum += Number(e.RETURN_AMT);
-                                    }
-                                }
-                            } else {
-                                subAmSum += Number(e.SUB_AM);
-                                subAm = Number(e.SUB_AM);
-                            }
+                            subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
+                            subAm = Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
                         return "<div style='text-align: right'>"+comma(subAm)+"</div>";
                     },
@@ -239,20 +225,8 @@ var bgView = {
                         var subAm = 0;
 
                         if(e.DIV_FG_NM == "항"){
-                            if($("#status").val() != "incp"){
-                                if($("#payAppType").val() == "4" || ($("input[name='budgetType']:checked").val() == "1" && $("#status").val() == "alt")){
-                                    subAm += Number(e.SUB_AM);
-                                } else {
-                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
-                                }
-                            } else {
-                                subAm = Number(e.SUB_AM);
-                            }
+                            subAm = Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
-                        console.log(e.SUB_AM);
-                        console.log(e.CALC_AM);
-                        console.log(e.WAIT_CK);
-                        console.log(subAm);
 
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + subAm + '\')">선택</button>';
                     }

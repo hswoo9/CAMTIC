@@ -291,9 +291,9 @@ var bcd = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "항"){
-                            acctAm3Sum += Number(e.ACCT_AM_2);
+                            acctAm3Sum += Number(e.COMPLETE_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.COMPLETE_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
@@ -304,9 +304,9 @@ var bcd = {
                     template: function(e){
                         if(e.WAIT_CK != null){
                             if(e.DIV_FG_NM == "항"){
-                                acctAm1Sum += Number(e.WAIT_CK);
+                                acctAm1Sum += Number(e.WAIT_AMT);
                             }
-                            return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.WAIT_AMT)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
@@ -319,9 +319,9 @@ var bcd = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "항"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
+                            acctAm2Sum  += Number(e.APPROVAL_AMT);
                         }
-                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bcd.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'A\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
+                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bcd.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'A\')">'+comma(e.APPROVAL_AMT)+'</a></div>';
                         // return '<div style="text-align: right;font-weight: bold;">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</div>';
                     },
                     footerTemplate: function(){
@@ -332,9 +332,9 @@ var bcd = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
+                            subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK)))+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - e.APPROVAL_AMT))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
