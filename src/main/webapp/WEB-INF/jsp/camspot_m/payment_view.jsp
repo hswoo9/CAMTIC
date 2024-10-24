@@ -767,7 +767,17 @@
             }
         }
 
-        documentHwpDataCtrl()
+        /** 접수대장 최종 결재 후 문서번호 생성 */
+        if(list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId
+            && docView.global.rs.docInfo.FORM_ID == "194"){
+
+            const result = customKendo.fn_customAjax("/inside/setInComeDocNumUpdate", {documentSn: docView.global.params.approKey.replace('camticInCome_', '')});
+            if(result.flag){
+                hwpDocCtrl.putFieldText("INCOME_NUM", result.updatedDocNum);
+            }
+        }
+
+        documentHwpDataCtrl();
     }
 
     function documentHwpDataCtrl(){
