@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdmin.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdminGrid.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdminTeamGrid.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdminPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costCalc.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
@@ -36,15 +37,12 @@
 <input type="hidden" id="searchValue" />
 
 <input type="hidden" id="searchPjtSn" value="${params.pjtSn}"/>
+<input type="hidden" id="searchTeamPjtSn" value="${params.pjtSn}"/>
 
 <div style="padding: 10px">
 
     <div id="costCloseDiv" style="text-align: right; font-size: 12px;">
         <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfo.fn_costInfoClose();">정산서 마감</button>
-    </div>
-
-    <div id="costInfoDiv" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px;">
-        <span id="costPjtClass"></span>
     </div>
 
     <div class="table-responsive">
@@ -122,6 +120,10 @@
         </table>
         <button type="button" class="k-button k-button-solid-info" style="font-size:12px; margin-top:5px;" onclick="costInfoPop.pjtAmtSetPop()">매출수익설정</button>
 
+        <div id="divBox1" class="team" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px; margin: 20px 0;">
+            수주부서
+        </div>
+
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 총 합계</span>
         <table id="sumTable" class="popTable table table-bordered mb-0"></table>
 
@@ -133,11 +135,27 @@
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
         <div id="grid4"></div>
+
+        <div id="divBox2" class="team" style="display: none; background-color: #eef6ff; padding: 10px; font-size: 13px; margin: 20px 0;">
+            협업부서
+        </div>
+
+        <div class="team" style="margin-top:10px; display: none;"></div><span class="team" style="font-size: 12px; display: none;">◎ 총 합계</span>
+        <table id="teamSumTable" class="team popTable table table-bordered mb-0" style="display: none;"></table>
+
+        <div class="team" style="margin-top:10px; display: none;"></div><span class="team" style="font-size: 12px; display: none;">◎ 구매내역</span>
+        <div id="teamGrid2"></div>
+
+        <div class="team" style="margin-top:10px; display: none;"></div><span class="team" style="font-size: 12px; display: none;">◎ 출장내역</span>
+        <div id="teamGrid3"></div>
+
+        <div class="team" style="margin-top:10px; display: none;"></div><span class="team" style="font-size: 12px; display: none;">◎ 지출내역</span>
+        <div id="teamGrid4"></div>
     </div>
 
-    <input type="hidden" id="purcSumTemp2"/>
-    <input type="hidden" id="bustSumTemp2"/>
-    <input type="hidden" id="costSumTemp2"/>
+    <input type="hidden" id="teamPurcSumTemp2"/>
+    <input type="hidden" id="teamBustSumTemp2"/>
+    <input type="hidden" id="teamCostSumTemp2"/>
 </div>
 
 <script>
