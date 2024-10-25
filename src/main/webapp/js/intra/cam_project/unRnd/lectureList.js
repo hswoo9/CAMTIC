@@ -483,13 +483,24 @@ var lectList = {
                 },*/
                 {
                     field: "CON_TITLE_PR",
-                    title: "과제명"
+                    title: "과제명",
+                }, {
+                    field: "CON_ADDR",
+                    title: "기업명",
+                    width: "12%"
                 }, {
                     field: "CON_STR_DE",
                     title: "협약기간",
                     width: "15%",
                     template: function(e){
                         return e.CON_STR_DE + "~" + e.CON_END_DE;
+                    }
+                }, {
+                    field: "CON_COST",
+                    title: "컨설팅 비용",
+                    width: "10%",
+                    template: function(e){
+                        return '<div style="text-align: right;">'+comma(e.CON_COST)+'</div>';
                     }
                 }, {
                     field: "LEC_STATUS_NAME",
