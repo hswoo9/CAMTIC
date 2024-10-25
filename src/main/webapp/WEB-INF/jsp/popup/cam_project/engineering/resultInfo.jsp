@@ -123,8 +123,9 @@
             </th>
             <td colspan="3">
                 <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>
-                <input type="file" id="devFile" name="devFile" onchange="fileChange(this)" style="display: none">
-                <span id="devFileName"></span>
+                <input type="file" id="devFile" name="devFile" onchange="resultInfo.fileListChange()" style="display: none" multiple>
+                <ul id="ulSetFileName" style="padding-left: 20px;"></ul>
+                <ul id="ulFileName" style="padding-left: 20px;"></ul>
             </td>
             <tr>
                 <th scope="row" class="text-center th-color">

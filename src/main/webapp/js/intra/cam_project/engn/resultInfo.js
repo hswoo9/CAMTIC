@@ -1,5 +1,10 @@
 var resultInfo = {
 
+    global : {
+        fileArray: [],
+        attFiles: []
+    },
+
     fn_defaultScript: function(){
         commonProject.setPjtStat();
         customKendo.fn_textBox(["rsPjtSn", "rsPjtNm", "rsActEquip"]);
@@ -346,11 +351,19 @@ var resultInfo = {
             $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
         }
 
-        if(result.devFileList != null){
-            var fileHtml = "";
-            fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+result.devFileList.file_path+result.devFileList.file_uuid+ '\', \''+result.devFileList.file_org_name+'.'+result.devFileList.file_ext+'\')">'+result.devFileList.file_org_name+ '.' + result.devFileList.file_ext + '</span>'
+        if(result.devFileList.length > 0){
+            resultInfo.global.fileArray = result.devFileList;
+            var html = '';
 
-            $("#devFileName").html(fileHtml);
+            for(var i = 0; i < result.devFileList.length; i++){
+                html += '<li>';
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+result.devFileList[i].file_path+result.devFileList[i].file_uuid+'\', \''+result.devFileList[i].file_org_name+'.'+result.devFileList[i].file_ext+'\')">'+result.devFileList[i].file_org_name+'.'+result.devFileList[i].file_ext+'</span>';
+                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="commonFileDel(' + result.devFileList[i].file_no + ', this)">';
+                html += '</li>';
+            }
+            $("#ulSetFileName").append(html);
+        } else {
+            $("#ulSetFileName").empty();
         }
 
         var equipmentNameList = "";
@@ -384,7 +397,7 @@ var resultInfo = {
         let buttonHtml = "";
         if(resMap.STATUS == "0"){
             buttonHtml += '<button type="button" id="resSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            if($("#devFileName").text() != ""){
+            if(resultInfo.global.fileArray.length > 0){
                 buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
             }
         }else if(resMap.STATUS == "10" || resMap.STATUS == "20" || resMap.STATUS == "50"){
@@ -445,20 +458,20 @@ var resultInfo = {
         fd.append("nextStepValue", data.nextStepValue);
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            if($("#devFileName").text() == ""){
+            if(resultInfo.global.fileArray.length == "0" && resultInfo.global.attFiles.length == "0"){
                 alert("제출문서를 등록해주세요.");
                 return;
             }
         }else{
-            if($("#devFileName").text() == ""){
+            if(resultInfo.global.fileArray.length == "0" && resultInfo.global.attFiles.length == "0"){
                 alert("납품서를 등록해주세요.");
                 return;
             }
         }
 
-        if($("#devFile")[0].files.length == 1){
-            fd.append("devFile", $("#devFile")[0].files[0]);
-        }
+        // if($("#devFile")[0].files.length == 1){
+        //     fd.append("devFile", $("#devFile")[0].files[0]);
+        // }
 
         if($("#designImg")[0].files.length == 1){
             fd.append("designImg", $("#designImg")[0].files[0]);
@@ -466,6 +479,12 @@ var resultInfo = {
 
         if($("#prodImg")[0].files.length == 1){
             fd.append("prodImg", $("#prodImg")[0].files[0]);
+        }
+
+        if(resultInfo.global.attFiles != null){
+            for(var i = 0; i < resultInfo.global.attFiles.length; i++){
+                fd.append("devFile", resultInfo.global.attFiles[i]);
+            }
         }
 
         $.ajax({
@@ -488,6 +507,61 @@ var resultInfo = {
 
     fileChange: function(e){
         $(e).next().text($(e)[0].files[0].name);
+    },
+
+    fileListChange: function(){
+        for(var i = 0; i < $("input[name='devFile']")[0].files.length; i++){
+            resultInfo.global.attFiles.push($("input[name='devFile']")[0].files[i]);
+        }
+
+        $("#ulFileName").empty();
+        if(resultInfo.global.attFiles.length > 0){
+            var html = '';
+            for (var i = 0; i < resultInfo.global.attFiles.length; i++) {
+                html += '<li>'
+                html += resultInfo.global.attFiles[i].name.substring(0, resultInfo.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += resultInfo.global.attFiles[i].name.substring(resultInfo.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="resultInfo.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulSetFileName").css('margin-bottom', 0);
+            $("#ulFileName").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(resultInfo.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        resultInfo.global.attFiles = dataTransfer.files;
+
+        if(resultInfo.global.attFiles.length > 0){
+            $("#ulFileName").empty();
+
+            var html = '';
+            for (var i = 0; i < resultInfo.global.attFiles.length; i++) {
+                html += '<li>'
+                html += resultInfo.global.attFiles[i].name.substring(0, resultInfo.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += resultInfo.global.attFiles[i].name.substring(resultInfo.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="resultInfo.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulFileName").append(html);
+        } else {
+            $("#ulFileName").empty();
+        }
+
+        if(resultInfo.global.attFiles.length == 0){
+            resultInfo.global.attFiles = new Array();
+        }
+
+        resultInfo.global.attFiles = Array.from(resultInfo.global.attFiles);
     },
 
     resDrafting: function(){

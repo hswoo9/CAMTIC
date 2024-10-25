@@ -840,6 +840,21 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectUnRndRepository.updateUnRndResApprStat(params);
+
+            /** STEP1. pjtSn 으로 resultData 호출 */
+            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
+            if (resultMap != null && !resultMap.isEmpty()) {
+                params.put("contentId", "prjEngnRs_" + resultMap.get("RS_SN"));
+                params.put("fileCd", "engnRsFile");
+
+                for(Map<String, Object> fMap : commonRepository.getFileList(params)) {
+                    params.put("fileNo", fMap.get("file_no"));
+                    projectRepository.setResultFileDocNm(params);
+                }
+            }
+
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectUnRndRepository.updateUnRndResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
@@ -918,15 +933,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             }
 
             /** STEP1. pjtSn 으로 resultData 호출 */
-            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+            /*Map<String, Object> resultMap = projectRepository.getResultInfo(params);*/
 
             /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
-            if (resultMap != null && !resultMap.isEmpty()) {
+            /*if (resultMap != null && !resultMap.isEmpty()) {
                 if(resultMap.containsKey("DEV_FILE_SN")){
                     params.put("fileNo", resultMap.get("DEV_FILE_SN").toString());
                     projectRepository.setResultFileDocNm(params);
                 }
-            }
+            }*/
 
             /** STEP1. pjtSn 으로 purcFile 호출 */
             /*List<Map<String, Object>> purcFiles = purcRepository.getProjectReqFile(params);*/

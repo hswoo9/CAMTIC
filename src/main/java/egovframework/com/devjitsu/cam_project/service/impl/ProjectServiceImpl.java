@@ -883,6 +883,21 @@ public class ProjectServiceImpl implements ProjectService {
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
             projectRepository.updateResApprStat(params);
+
+            /** STEP1. pjtSn 으로 resultData 호출 */
+            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
+            if (resultMap != null && !resultMap.isEmpty()) {
+                params.put("contentId", "prjEngnRs_" + resultMap.get("RS_SN"));
+                params.put("fileCd", "engnRsFile");
+
+                for(Map<String, Object> fMap : commonRepository.getFileList(params)) {
+                    params.put("fileNo", fMap.get("file_no"));
+                    projectRepository.setResultFileDocNm(params);
+                }
+            }
+
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateResApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
@@ -964,15 +979,17 @@ public class ProjectServiceImpl implements ProjectService {
             }
 
             /** STEP1. pjtSn 으로 resultData 호출 */
-            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+            /*Map<String, Object> resultMap = projectRepository.getResultInfo(params);*/
 
             /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
-            if (resultMap != null && !resultMap.isEmpty()) {
+            /*if (resultMap != null && !resultMap.isEmpty()) {
                 if(resultMap.containsKey("DEV_FILE_SN")){
                     params.put("fileNo", resultMap.get("DEV_FILE_SN").toString());
-                    projectRepository.setResultFileDocNm(params);
                 }
-            }
+
+                params.put("contentId", "prjEngnRs_" + resultMap.get("RS_SN"));
+                projectRepository.setResultFileDocNm(params);
+            }*/
 
             /** STEP1. pjtSn 으로 purcFile 호출 */
             /*List<Map<String, Object>> purcFiles = purcRepository.getProjectReqFile(params);*/
@@ -1222,26 +1239,21 @@ public class ProjectServiceImpl implements ProjectService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile devFile = request.getFile("devFile");
+        MultipartFile[] devFile = request.getFiles("devFile").toArray(new MultipartFile[0]);
         MultipartFile designImg = request.getFile("designImg");
         MultipartFile prodImg = request.getFile("prodImg");
 
-        if(devFile != null){
-            if(!devFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(devFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
-                fileInsMap.put("crmSn", params.get("rsSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("rsSn", params.get("rsSn"));
-                fileInsMap.put("file_no", fileInsMap.get("file_no"));
-                projectRepository.updResultDevFile(fileInsMap);
+        if(devFile.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(devFile, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
+            commonRepository.insFileInfo(list);
         }
 
         if(designImg != null){
@@ -1305,6 +1317,13 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("devFileList", projectRepository.getGoodsFile(map));
         result.put("designFileList", projectRepository.getDesignFile(map));
         result.put("prodFileList", projectRepository.getProdFile(map));
+
+        if(map != null) {
+            params.put("fileCd", "engnRsFile");
+            params.put("contentId", "prjEngnRs_" + map.get("RS_SN"));
+            result.put("devFileList", commonRepository.getFileList(params));
+        }
+
         return result;
     }
 

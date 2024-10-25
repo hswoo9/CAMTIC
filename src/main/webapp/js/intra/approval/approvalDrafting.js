@@ -1740,8 +1740,24 @@ var draft = {
                 }
             }
 
-            tempArr[count] = result4.result.devFileList;
-            count ++;
+            // tempArr[count] = result4.result.devFileList;
+            // count ++;
+
+            if(result4.result.devFileList != null){
+                var devFile = result4.result.devFileList;
+
+                for(var i = 0; i < devFile.length; i++){
+                    if(result4.result.map.DEV_FILE_SN != null) {
+                        if(result4.result.map.DEV_FILE_SN <= devFile[i].file_no) {
+                            tempArr[count] = devFile[i];
+                            count ++;
+                        }
+                    } else {
+                        tempArr[count] = devFile[i];
+                        count ++;
+                    }
+                }
+            }
 
             /*const purcList = result5.list;
             for(let i=0; i<purcList.length; i++){
