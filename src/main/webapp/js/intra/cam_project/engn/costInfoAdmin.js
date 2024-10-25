@@ -31,26 +31,9 @@ var costInfo = {
         console.log(list);
 
         if(list.length > 1){
-            const arr = [];
-            for(let i=0; i<list.length; i++){
-                const map = list[i];
-                const data = {
-                    label: map.DEPT_NAME,
-                    value: map.PJT_SN
-                };
-                arr.push(data);
-            }
-
-            $("#costInfoDiv").show();
-
-            customKendo.fn_radioGroup("costPjtClass", arr, "horizontal");
-            $("#costPjtClass").data("kendoRadioGroup").value(pjtSn);
-
-            $("#costPjtClass").data("kendoRadioGroup").bind("change", function(){
-                costInfo.dataSet($("#costPjtClass").data("kendoRadioGroup").value());
-                $("#searchPjtSn").val($("#costPjtClass").data("kendoRadioGroup").value());
-                costInfoGrid.gridReload();
-            })
+            $("#searchTeamPjtSn").val(list[1].PJT_SN);
+            $(".team").show();
+            costInfoTeamGrid.teamGrid(list[1].PJT_SN);
         }
     },
 
@@ -197,7 +180,10 @@ var costInfo = {
             sumA += costCalc.nowPjtAmt(e);
 
             /** 수행계획 */
-            sumB += costCalc.nowInvAmt(e);
+            if(i==0){
+                sumB += e.DEV_INV_AMT || 0;
+            }
+            //sumB += costCalc.nowInvAmt(e);
 
             /** 달성 매출액 */
             sumC += costCalc.resSaleAmt(e);
@@ -284,6 +270,7 @@ var costInfo = {
         }
 
         let list2 = [];
+        let teamEmpSeq = 0;
         if(commonProject.global.teamCk == "Y"){
             const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn, type: "team"});
             const list = result.list;
@@ -303,6 +290,8 @@ var costInfo = {
                 if(i != 0){
                     html +=
                         '            <tr>';
+                }else{
+                    teamEmpSeq = e.PM_EMP_SEQ;
                 }
                 html +=
                     '                <td id="TEAM_PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
@@ -351,11 +340,20 @@ var costInfo = {
             $("#PJT_TYPE").text("협업");
         }
         $("#PJT_CD2").text(pjtMap.PJT_CD);
+        $("#TEAM_PJT_CD2").text(pjtMap.PJT_CD);
         if(pjtMap.PM_EMP_SEQ != null){
             const pmInfo = getUser(pjtMap.PM_EMP_SEQ);
             if(pmInfo != null){
                 $("#PM_DEPT").text(pmInfo.deptNm);
                 $("#PM_TEAM").text(pmInfo.teamNm);
+            }
+        }
+
+        if(teamEmpSeq != 0){
+            const pmInfo = getUser(teamEmpSeq);
+            if(pmInfo != null){
+                $("#TEAM_PM_DEPT").text(pmInfo.deptNm);
+                $("#TEAM_PM_TEAM").text(pmInfo.teamNm);
             }
         }
 
