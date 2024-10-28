@@ -153,6 +153,10 @@
         <div id="teamGrid4"></div>
     </div>
 
+    <input type="hidden" id="purcSumTemp2"/>
+    <input type="hidden" id="bustSumTemp2"/>
+    <input type="hidden" id="costSumTemp2"/>
+
     <input type="hidden" id="teamPurcSumTemp2"/>
     <input type="hidden" id="teamBustSumTemp2"/>
     <input type="hidden" id="teamCostSumTemp2"/>
