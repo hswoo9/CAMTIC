@@ -4351,7 +4351,7 @@
                 WHERE A.DOC_STATUS IN ('100', '101')
                   AND B.EVID_TYPE IN ('1', '3', '5' , '6')
                 AND A.PJT_CD = #{pjtCd}
-                AND A.APP_DE BETWEEN #{fromDate} AND #{toDate}
+                AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
@@ -4373,7 +4373,7 @@
                          INNER JOIN CAM_MNG.DJ_PAY_INCP_DET  B ON A.PAY_INCP_SN = B.PAY_INCP_SN
                 WHERE A.DOC_STATUS in ('100', '101')
                 AND A.PJT_CD = #{pjtCd}
-                AND A.APP_DE BETWEEN #{fromDate} AND #{toDate}
+                AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
@@ -4391,7 +4391,7 @@
                 WHERE A.DOC_STATUS IN (100, 101)
                   AND A.PAY_APP_TYPE = '3'
                   AND A.PJT_CD = #{pjtCd}
-                  AND A.EXNP_DE BETWEEN #{fromDate} AND #{toDate}
+                  AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
             ) A
         GROUP BY A.PJT_CD
                , A.JANG_SN
@@ -4455,7 +4455,7 @@
                 WHERE A.DOC_STATUS IN ('100', '101')
                   AND A.PAY_APP_TYPE = '1'
                   AND A.PJT_CD = #{pjtCd}
-                  AND A.EXNP_DE BETWEEN #{fromDate} AND #{toDate}
+                  AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
@@ -4482,7 +4482,7 @@
                 WHERE A.PAY_APP_TYPE = '1'
                   AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102') -- 반려, 회수, 상신취소, 삭제, 결재안함
                   AND A.PJT_CD = #{pjtCd}
-                  AND A.APP_DE BETWEEN #{fromDate} AND #{toDate}
+                  AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
@@ -4505,7 +4505,7 @@
                 where A.DOC_STATUS IN (100, 101)
                   AND A.PAY_APP_TYPE = '2' -- 여입신청서
                   AND A.PJT_CD = #{pjtCd}
-                  AND A.EXNP_DE BETWEEN #{fromDate} AND #{toDate}
+                  AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
 
             ) A
         GROUP BY A.PJT_CD
