@@ -216,11 +216,6 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectData(Map<String, Object> params) {
         return projectRepository.getProjectData(params);
     }
-    @Override
-    public List<Map<String, Object>> getProjectDataByAchieve(Map<String, Object> params) {
-        return projectRepository.getProjectDataByAchieve(params);
-    }
-
 
     @Override
     public void setEstInfo(Map<String, Object> params) {
