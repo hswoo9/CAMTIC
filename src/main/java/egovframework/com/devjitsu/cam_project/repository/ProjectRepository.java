@@ -70,9 +70,6 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getProjectData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getProjectData", params);
     }
-    public List<Map<String, Object>> getProjectDataByAchieve(Map<String, Object> params) {
-        return selectList("project.getProjectDataByAchieve", params);
-    }
 
     public void insEngnEstInfo(Map<String, Object> params) {
         insert("project.insEngnEstInfo", params);

@@ -42,7 +42,7 @@
 <div style="padding: 10px">
 
     <div id="costCloseDiv" style="text-align: right; font-size: 12px;">
-        <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfo.fn_costInfoClose();">정산서 마감</button>
+        <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfoAdmin.fn_costInfoClose();">정산서 마감</button>
     </div>
 
     <div class="table-responsive">
@@ -163,7 +163,7 @@
 </div>
 
 <script>
-    costInfo.fn_defaultScript();
+    costInfoAdmin.fn_defaultScript();
 </script>
 </body>
 </html>

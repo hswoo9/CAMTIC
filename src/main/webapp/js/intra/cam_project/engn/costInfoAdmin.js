@@ -1,4 +1,4 @@
-var costInfo = {
+var costInfoAdmin = {
 
     global : {
         searchAjaxData2 : "",
@@ -11,13 +11,13 @@ var costInfo = {
         commonProject.setPjtStat();
 
         /** UI 세팅 */
-        costInfo.pageSet();
+        costInfoAdmin.pageSet();
 
         /** 켄도그리드 세팅 */
         costInfoGrid.mainGrid();
         
         /** 데이터 세팅 */
-        costInfo.dataSet();
+        costInfoAdmin.dataSet();
     },
 
     pageSet: function(){
@@ -52,13 +52,13 @@ var costInfo = {
         }
 
         /** 사업정보 */
-        costInfo.step1(pjtMap);
+        costInfoAdmin.step1(pjtMap);
 
         /** 전체년도 재무실적내역 */
-        costInfo.step2(pjtMap);
+        costInfoAdmin.step2(pjtMap);
 
         /** 재무실적내역 */
-        costInfo.step3(pjtMap);
+        costInfoAdmin.step3(pjtMap);
     },
 
     step1(pjtMap){
@@ -119,7 +119,7 @@ var costInfo = {
             '            </tr>';
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
-        const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn, type: "group"});
+        const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, type: "group"});
         const list = result.list;
         let count = list.length;
         console.log("전체재무실적 list", list);
@@ -239,7 +239,7 @@ var costInfo = {
             '            </tr>';
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
-        const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn});
+        const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn});
         const list = result.list;
         let count = list.length;
         console.log("재무실적 list", list);
@@ -272,7 +272,7 @@ var costInfo = {
         let list2 = [];
         let teamEmpSeq = 0;
         if(commonProject.global.teamCk == "Y"){
-            const result = customKendo.fn_customAjax("/project/getPjtCostData", {pjtSn: pjtSn, type: "team"});
+            const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, type: "team"});
             const list = result.list;
             list2 = list;
             let count = list.length;

@@ -274,6 +274,7 @@ public class AchieveController {
                         for(Map<String, Object> invMap : invList) {
                             invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
                         }
+
                         map.put("tmpSaleAmt", map.get("REAL_PJT_AMT"));
                         map.put("tmpProfitAmt", Integer.parseInt(map.get("REAL_PJT_AMT").toString()) - invSum);
                     } else {
@@ -294,6 +295,11 @@ public class AchieveController {
                     map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
                     map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
                 } else {
+                    map.put("befExpSaleAmt", 0);
+                    map.put("befExpProfitAmt", 0);
+
+                    map.put("aftSaleAmt", 0);
+                    map.put("aftProfitAmt", 0);
                 }*/
                 map.put("befExpSaleAmt", 0);
                 map.put("befExpProfitAmt", 0);

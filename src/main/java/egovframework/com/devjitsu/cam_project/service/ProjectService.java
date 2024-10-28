@@ -27,7 +27,6 @@ public interface ProjectService {
     void delProject(Map<String, Object> params);
 
     Map<String, Object> getProjectData(Map<String, Object> params);
-    List<Map<String, Object>> getProjectDataByAchieve(Map<String, Object> params);
 
     void setEstInfo(Map<String, Object> params);
     void setEstInfoDel(Map<String, Object> params);
