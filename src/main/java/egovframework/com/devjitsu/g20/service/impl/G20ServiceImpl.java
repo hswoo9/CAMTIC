@@ -568,14 +568,13 @@ public class G20ServiceImpl implements G20Service {
             params.put("toDate", listMap.get(0).get("toDate"));
         }
 
-        params.put("fromDate", params.get("fromDate").toString().substring(0,4) + "-" + params.get("fromDate").toString().substring(4,6) + "-" + params.get("fromDate").toString().substring(6,8));
-        params.put("toDate", params.get("toDate").toString().substring(0,4) + "-" + params.get("toDate").toString().substring(4,6) + "-" + params.get("toDate").toString().substring(6,8));
-
         params.put("pjtCd", params.get("mgtSeq"));
         params.put("mgtSeq", params.get("mgtSeq") + "|");
 
-
         List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
+
+        params.put("fromDate", params.get("fromDate").toString().substring(0,4) + "-" + params.get("fromDate").toString().substring(4,6) + "-" + params.get("fromDate").toString().substring(6,8));
+        params.put("toDate", params.get("toDate").toString().substring(0,4) + "-" + params.get("toDate").toString().substring(4,6) + "-" + params.get("toDate").toString().substring(6,8));
 
         List<Map<String, Object>> list = new ArrayList<>();
         if(params.get("temp").equals("1")) {
