@@ -84,8 +84,8 @@
             </thead>
         </table>
 
-        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 전체년도 재무실적 내역</span>
-        <table id="allPjtRow" class="popTable table table-bordered mb-0" style="">
+        <div class="notTeam" style="margin-top:10px;"></div><span class="notTeam" style="font-size: 12px;">◎ 전체년도 재무실적 내역</span>
+        <table id="allPjtRow" class="notTeam popTable table table-bordered mb-0" style="">
         </table>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 재무실적 내역</span>

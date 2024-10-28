@@ -212,13 +212,13 @@ public class AchieveController {
                 }
 
                 // 해당년도 전년도 설정액
-                if(projectPaySetData1 != null) {
+                if(projectPaySetData1 != null){
                     map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
                     map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
                 }
 
                 // 해당년도 당해년도 설정액
-                if(projectPaySetData2 != null) {
+                if(projectPaySetData2 != null){
                     map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
                     map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
                 }
@@ -243,13 +243,13 @@ public class AchieveController {
                 Map<String, Object> projectPaySetData2 = achieveService.getProjectPayNow(params);
 
                 // 해당년도 전년도 설정액
-                if(projectPaySetData1 != null) {
+                if(projectPaySetData1 != null){
                     map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
                     map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
                 }
 
                 // 해당년도 당해년도 설정액
-                if(projectPaySetData2 != null) {
+                if(projectPaySetData2 != null){
                     map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
                     map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
                 }

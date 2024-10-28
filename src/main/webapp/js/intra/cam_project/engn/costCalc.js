@@ -3,7 +3,8 @@ var costCalc = {
     allPjtAmt: function(e){
         /** 
          * 엔지니어링
-         * 전체 : 동일 년도면 수주금액, 아니면 0원
+         * 수주 : 동일 년도면 수주금액, 아니면 0원
+         * 협업 : 협업은 수주X, 0원
          * 
          * 알앤디/비알앤디
          * 단년 : 당해년도 사업비
@@ -22,6 +23,10 @@ var costCalc = {
             } else {
                 amt = 0;
             }
+        }
+
+        if(e.TEAM_STAT == "Y"){
+            amt = 0;
         }
         return amt;
     },

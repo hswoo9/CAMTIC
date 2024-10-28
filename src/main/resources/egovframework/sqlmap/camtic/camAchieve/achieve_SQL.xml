@@ -1044,7 +1044,7 @@
             1=1
         <if test='pjtSn != null and pjtSn != ""'>
             <choose>
-                <when test='"group".equals(type)'>
+                <when test='"group".equals(typeCk)'>
                     AND V.PJT_SN IN (
                         SELECT
                             PJT_SN
@@ -1070,7 +1070,7 @@
                         )
                     )
                 </when>
-                <when test='"team".equals(type)'>
+                <when test='"team".equals(typeCk)'>
                     AND V.PJT_SN IN (
                         SELECT
                             PJT_SN
@@ -1139,7 +1139,7 @@
             AND V.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
         <if test='type != null and !"".equals(type)'>
-            AND V.BUSN_CLASS IN ('S', 'R') AND V.PJT_CD IS NOT NULL
+            AND V.BUSN_CLASS IN ('R', 'S') AND V.PJT_CD IS NOT NULL
         </if>
         ORDER BY V.PJT_SN, V.YEAR
     </select>
@@ -1159,14 +1159,15 @@
     <select id="getPjtDevSn" parameterType="map" resultType="map">
         /*getPjtDevSn*/
         SELECT
-            *
+            PD.*
         FROM
-            CAM_PJT_MNG.DJ_PJT_DEV
+            CAM_PJT_MNG.DJ_PJT_DEV PD
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON PD.PJT_SN = P.PJT_SN
         WHERE
-            PJT_SN = #{pjtSn}
+            PD.PJT_SN = #{pjtSn}
         AND
-            STATUS IN (100, 101)
-        ORDER BY DEV_SN DESC
+            (PD.STATUS IN (100, 101) OR (P.TEAM_STAT = 'Y') AND P.DEV_TEAM_CK = 'Y')
+        ORDER BY PD.DEV_SN DESC
         LIMIT 1
     </select>
 

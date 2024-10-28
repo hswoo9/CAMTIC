@@ -55,7 +55,11 @@ var costInfoAdmin = {
         costInfoAdmin.step1(pjtMap);
 
         /** 전체년도 재무실적내역 */
-        costInfoAdmin.step2(pjtMap);
+        if(commonProject.global.teamStat == "Y"){
+            $(".notTeam").hide();
+        }else{
+            costInfoAdmin.step2(pjtMap);
+        }
 
         /** 재무실적내역 */
         costInfoAdmin.step3(pjtMap);
@@ -119,7 +123,7 @@ var costInfoAdmin = {
             '            </tr>';
 
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
-        const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, type: "group"});
+        const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, typeCk: "group"});
         const list = result.list;
         let count = list.length;
         console.log("전체재무실적 list", list);
@@ -272,7 +276,7 @@ var costInfoAdmin = {
         let list2 = [];
         let teamEmpSeq = 0;
         if(commonProject.global.teamCk == "Y"){
-            const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, type: "team"});
+            const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, typeCk: "team"});
             const list = result.list;
             list2 = list;
             let count = list.length;
