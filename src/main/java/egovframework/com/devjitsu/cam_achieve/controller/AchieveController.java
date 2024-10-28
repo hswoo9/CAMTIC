@@ -166,25 +166,43 @@ public class AchieveController {
         List<Map<String, Object>> list = new ArrayList<>();
         list = achieveService.getProjectListByAchieve(params);
 
-        for(Map<String, Object> map : list) {
+        for(Map<String, Object> map: list){
+
+            // 특정 금액을 조회하기 위해 파라미터 추가
             params.put("pjtCd", map.get("PJT_CD"));
             params.put("pjtSn", map.get("PJT_SN"));
             params.put("reqType", "achieve");
             params.put("reqYear", map.get("YEAR"));
             params.put("busnClass", map.get("BUSN_CLASS"));
 
-            if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))) {
+            /** 알앤디/비알앤디 */
+            if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))){
+
+                // 달성 매출액
                 Map<String, Object> exnpMap = achieveService.getExnpCompAmt(params);
+                map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
+
+                // 달성 매출액
                 Map<String, Object> incpMap = achieveService.getIncpCompAmt(params);
+                map.put("incpCompAmt1", incpMap.get("TOT_COST"));
+
+                // 달성 운영수익
                 Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
-                Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
-                Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
-                Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
+                map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
+
+                // 수익설정 예산
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
+                map.put("planAmt", planMap.get("TOT_COST"));
+
+                // 직접비 예산
                 Map<String, Object> useMap = achieveService.getUseExnpAmt(params);
-                Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
+                map.put("useAmt", useMap.get("TOT_COST"));
+
+                // 전/차년도 설정
                 Map<String, Object> projectPaySetData1 = new HashMap<>();
                 Map<String, Object> projectPaySetData2 = new HashMap<>();
+
+                // 다년프로젝트 체크해서 쿼리 분기
                 if("C".equals(map.get("TEXT")) && "M".equals(map.get("YEAR_CLASS"))){
                     projectPaySetData1 = achieveService.getProjectPayBefMul(params);
                     projectPaySetData2 = achieveService.getProjectPayNowMul(params);
@@ -193,119 +211,56 @@ public class AchieveController {
                     projectPaySetData2 = achieveService.getProjectPayNow(params);
                 }
 
-                map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
-                map.put("incpCompAmt1", incpMap.get("TOT_COST"));
-                map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
-                map.put("realUseAmt", realUseMap2.get("COST_SUM"));
-                map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
-                map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
-                map.put("planAmt", planMap.get("TOT_COST"));
-                map.put("useAmt", useMap.get("TOT_COST"));
-                map.put("pjtAmtSetData", getPjtAmtSetData);
-
+                // 해당년도 전년도 설정액
                 if(projectPaySetData1 != null) {
                     map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
                     map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
-                } else {
-                    map.put("befExpSaleAmt", 0);
-                    map.put("befExpProfitAmt", 0);
                 }
 
+                // 해당년도 당해년도 설정액
                 if(projectPaySetData2 != null) {
                     map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
                     map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
-                } else {
-                    map.put("nowExpSaleAmt", 0);
-                    map.put("nowExpProfitAmt", 0);
                 }
 
+                // 리스트용 전/차년도 설정액
                 if(projectPaySetData2 != null){
-                    map.put("befExpSaleAmt2", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
-                    map.put("befExpProfitAmt2", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
-                    map.put("aftSaleAmt2", projectPaySetData2.get("AFT_SALE_AMT"));
-                    map.put("aftProfitAmt2", projectPaySetData2.get("AFT_PROFIT_AMT"));
-                }else{
-                    map.put("befExpSaleAmt2", 0);
-                    map.put("befExpProfitAmt2", 0);
-                    map.put("aftSaleAmt2", 0);
-                    map.put("aftProfitAmt2", 0);
+                    map.put("listBefSale", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
+                    map.put("listBefProfit", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
+                    map.put("listAftSale", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("listAftProfit", projectPaySetData2.get("AFT_PROFIT_AMT"));
                 }
 
-            } else {
-                /** 매출(납품 저장 금액) */
+            /** 엔지니어링/용역기타 */
+            }else{
+
+                // 납품액
                 Map<String, Object> goodsMap = achieveService.getGoodsAmt(params);
                 map.put("goodsTotAmt", goodsMap.get("GOODS_TOT_SUM"));
 
-                /** 비용(지출, 구매, 출장)*/
-                Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
-                Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
-                Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
-                map.put("realUseAmt", realUseMap2.get("COST_SUM"));
-                map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
-                map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
+                // 전/차년도 설정
+                Map<String, Object> projectPaySetData1 = achieveService.getProjectPayBef(params);
+                Map<String, Object> projectPaySetData2 = achieveService.getProjectPayNow(params);
 
-                Map<String, Object> resultStat = achieveService.getResultProject(params);
-                List<Map<String, Object>> purcList = purcService.getPurcReqClaimList(params);
-
-                if(resultStat != null){
-                    int resInvSum = 0;
-                    map.put("exnpCompAmt", map.get("PJT_AMT"));
-
-                    for(Map<String, Object> purcMap : purcList) {
-                        if("CAYSY".equals(purcMap.get("CLAIM_STATUS"))){
-                            resInvSum += Double.parseDouble(purcMap.get("PURC_ITEM_AMT_SUM").toString());
-                        }
-                    }
-
-                    map.put("incpCompAmt", resInvSum);
-                    map.put("tmpSaleAmt", 0);
-                    map.put("tmpProfitAmt", 0);
-                } else {
-                    map.put("exnpCompAmt", 0);
-                    map.put("incpCompAmt", 0);
-
-                    Map<String, Object> getPjtDevSn = achieveService.getPjtDevSn(params);
-
-                    if(getPjtDevSn != null) {
-                        params.put("devSn", getPjtDevSn.get("DEV_SN"));
-                        List<Map<String, Object>> invList = projectService.getInvList(params);
-
-                        int invSum = 0;
-                        for(Map<String, Object> invMap : invList) {
-                            invSum += Integer.parseInt(invMap.get("EST_TOT_AMT").toString());
-                        }
-
-                        map.put("tmpSaleAmt", map.get("REAL_PJT_AMT"));
-                        map.put("tmpProfitAmt", Integer.parseInt(map.get("REAL_PJT_AMT").toString()) - invSum);
-                    } else {
-                        map.put("tmpSaleAmt", map.get("REAL_PJT_AMT"));
-                        map.put("tmpProfitAmt", 0);
-                    }
+                // 해당년도 전년도 설정액
+                if(projectPaySetData1 != null) {
+                    map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
+                    map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
                 }
 
-                Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
-                map.put("pjtAmtSetData", getPjtAmtSetData);
+                // 해당년도 당해년도 설정액
+                if(projectPaySetData2 != null) {
+                    map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                }
 
-                /*Map<String, Object> projectPaySetData = achieveService.getProjectPaySet(params);
-
-                if(projectPaySetData != null) {
-                    map.put("befExpSaleAmt", projectPaySetData.get("BEF_EXP_SALE_AMT"));
-                    map.put("befExpProfitAmt", projectPaySetData.get("BEF_EXP_PROFIT_AMT"));
-
-                    map.put("aftSaleAmt", projectPaySetData.get("AFT_SALE_AMT"));
-                    map.put("aftProfitAmt", projectPaySetData.get("AFT_PROFIT_AMT"));
-                } else {
-                    map.put("befExpSaleAmt", 0);
-                    map.put("befExpProfitAmt", 0);
-
-                    map.put("aftSaleAmt", 0);
-                    map.put("aftProfitAmt", 0);
-                }*/
-                map.put("befExpSaleAmt", 0);
-                map.put("befExpProfitAmt", 0);
-
-                map.put("nowExpSaleAmt", 0);
-                map.put("nowExpProfitAmt", 0);
+                // 리스트용 전/차년도 설정액
+                if(projectPaySetData2 != null){
+                    map.put("listBefSale", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
+                    map.put("listBefProfit", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
+                    map.put("listAftSale", projectPaySetData2.get("AFT_SALE_AMT"));
+                    map.put("listAftProfit", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                }
             }
 
             // 수행계획 - 투자금액
@@ -313,6 +268,18 @@ public class AchieveController {
             if(getPjtDevInfo != null) {
                 map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
             }
+
+            // 비용 (순서대로 지출, 구매, 출장)
+            Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
+            Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
+            Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
+            map.put("realUseAmt", realUseMap2.get("COST_SUM"));
+            map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
+            map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
+
+            // 매출수익설정
+            Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
+            map.put("pjtAmtSetData", getPjtAmtSetData);
         }
 
         model.addAttribute("list", list);

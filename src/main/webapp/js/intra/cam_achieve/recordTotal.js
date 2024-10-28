@@ -291,8 +291,10 @@ var recordTotal = {
                     title: "전년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        befExpSaleAmtSum += Number(e.befExpSaleAmt2 || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.befExpSaleAmt2 || 0))+'</div>';
+                        let amt = Number(e.listBefSale || 0);
+
+                        befExpSaleAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpSaleAmtSum)+"</div>";
@@ -301,8 +303,10 @@ var recordTotal = {
                     title: "전년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        befExpProfitAmtSum += Number(e.befExpProfitAmt2 || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.befExpProfitAmt2 || 0))+'</div>';
+                        let amt = Number(e.listBefProfit || 0);
+
+                        befExpProfitAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(befExpProfitAmtSum)+"</div>";
@@ -311,8 +315,10 @@ var recordTotal = {
                     title: "차년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        aftSaleAmtSum += Number(e.aftSaleAmt2 || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.aftSaleAmt2 || 0))+'</div>';
+                        let amt = Number(e.listAftSale || 0);
+
+                        aftSaleAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftSaleAmtSum)+"</div>";
@@ -321,8 +327,10 @@ var recordTotal = {
                     title: "차년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        aftProfitAmtSum += Number(e.aftProfitAmt2 || 0);
-                        return '<div style="text-align: right;">'+comma(Number(e.aftProfitAmt2 || 0))+'</div>';
+                        let amt = Number(e.listAftProfit || 0);
+
+                        aftProfitAmtSum += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(aftProfitAmtSum)+"</div>";
