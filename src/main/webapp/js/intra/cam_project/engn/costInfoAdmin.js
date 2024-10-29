@@ -180,14 +180,14 @@ var costInfoAdmin = {
             const e = list[i];
             console.log("전체 재무실적 list", list);
 
-            /** 수주금액(당해년도 사업비 합계) */
-            sumA += costCalc.nowPjtAmt(e);
+            /** 수주금액 */
+            sumA += costCalc.allPjtAmt(e);
 
             /** 수행계획 */
-            if(i==0){
-                sumB += e.DEV_INV_AMT || 0;
-            }
-            //sumB += costCalc.nowInvAmt(e);
+            //if(i==0){
+            //    sumB += e.DEV_INV_AMT || 0;
+            //}
+            sumB += costCalc.nowInvAmt(e);
 
             /** 달성 매출액 */
             sumC += costCalc.resSaleAmt(e);

@@ -1045,7 +1045,7 @@
         <if test='pjtSn != null and pjtSn != ""'>
             <choose>
                 <when test='"group".equals(typeCk)'>
-                    AND V.PJT_SN IN (
+                    AND (V.PJT_SN IN (
                         SELECT
                             PJT_SN
                         FROM
@@ -1069,6 +1069,15 @@
                             B.PJT_SN = #{pjtSn}
                         )
                     )
+                    OR V.PJT_SN IN (
+                        SELECT
+                            PJT_SN
+                        FROM
+                            CAM_PJT_MNG.DJ_PROJECT A
+                        WHERE
+                            ACTIVE = 'Y'
+                        AND PNT_PJT_SN = #{pjtSn}
+                    ))
                 </when>
                 <when test='"team".equals(typeCk)'>
                     AND V.PJT_SN IN (
