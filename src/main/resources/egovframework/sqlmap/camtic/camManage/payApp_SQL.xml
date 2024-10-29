@@ -4458,9 +4458,12 @@
                                 THEN B.TOT_COST
                             ELSE 0
                     END                                                 as PAY_APP_APPROVAL_AMT -- 지금신청 승인금액
-                     , B.TOT_COST                                            AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
-                     , 0                                                     AS CREDIT_AMT           -- 여신금액
-                -- SELECT *
+                     , CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
+                                THEN B.TOT_COST
+                            ELSE 0
+                    END                                            AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
+                    , 0                                                     AS CREDIT_AMT           -- 여신금액
+            -- SELECT *
                 FROM CAM_MNG.DJ_PAY_APP A
                          INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
                 WHERE A.PAY_APP_TYPE = '1'
