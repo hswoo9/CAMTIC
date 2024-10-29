@@ -2376,11 +2376,11 @@
         /*getExcelItemInfoList*/
         SELECT
             WHC.ITEM_CD_NM AS WH_CD_NM,
-            ITEM_NAME,
-            CURRENT_INVEN,
-            ACTUAL_INVEN,
-            INVEN_AJM,
-            IFNULL(INVEN_AJM_NOTE, '') AS INVEN_AJM_NOTE
+            IM.ITEM_NAME,
+            II.CURRENT_INVEN,
+            II.ACTUAL_INVEN,
+            IM.INVEN_AJM,
+            IFNULL(IM.INVEN_AJM_NOTE, '') AS INVEN_AJM_NOTE
         FROM
             CAM_ITEM.DJ_ITEM_INVENTORY II
                 JOIN

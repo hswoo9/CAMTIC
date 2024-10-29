@@ -307,6 +307,11 @@ var invenStAdmin = {
     },
 
     fn_invenAdjustment : function (){
+        if($('input[name="agiPk"]:checked').length == 0) {
+            alert("선택된 항목이 없습니다.");
+            return;
+        }
+
         var invenSn = "";
         $('input[name="agiPk"]:checked').each(function(){
             invenSn += $(this).val() + ",";
