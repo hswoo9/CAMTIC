@@ -53,7 +53,11 @@ var costCalc = {
          * 공통 : 동일 년도면 투자금액, 아니면 0원
          * */
         let amt = 0;
-        if(["A", "B", "D"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+        if(["D"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+            amt = Number(e.DEV_INV_AMT || 0);
+        }else if(["A", "B"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+            amt = Number(e.DEV_INV_AMT || 0);
+        }else if(["C"].includes(e.TEXT)){
             amt = Number(e.DEV_INV_AMT || 0);
         }
         return amt;
