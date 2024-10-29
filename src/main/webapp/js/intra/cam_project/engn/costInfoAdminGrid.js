@@ -580,11 +580,17 @@ var costInfoGrid = {
                         return "<div style='text-align: right'>"+ comma(data.ITEM_SUM.sum) +"</div>";
                     }
                 }, {
-                    title: "구매/출장 문서번호",
-                    width: 160,
+                    title: "구분",
+                    width: 120,
                     template : function(row){
-                        if(row.PURC_DOC_NO != null){
-                            return row.PURC_DOC_NO;
+                        if(row.LINK_KEY_TYPE != null){
+                            if(row.LINK_KEY_TYPE == "구매" || row.LINK_KEY_TYPE == "출장") {
+                                return row.LINK_KEY_TYPE;
+                            } else if(row.LINK_KEY_TYPE == "사전정산" || row.LINK_KEY_TYPE == "사후정산") {
+                                return "출장";
+                            } else {
+                                return "-";
+                            }
                         } else {
                             return "-";
                         }
