@@ -279,7 +279,7 @@ var newResolutionSubmitPage = {
                 $("#EXCUT_VAT").val(pad.VAT_COST);
                 $("#EXCUT_SUM_AMOUNT").val(pad.TOT_COST);
                 $("#INTRFC_ID").val("IF-EXE-EFR-0074");
-                $("#PJT_CD").val(pi.PJT_CD);
+                $("#PJT_CD").val(pad.PJT_CD);
                 $("#PREPAR").val("") // 예비
                 $("#EXCUT_EXPITM_TAXITM_CNT").val(1) // 집행연계ID별 비목세목 건수
                 $("#EXCUT_TAXITM_CNTC_ID").val("") //EXCUT_TAXITM_CNTC_ID 집행비목세목연계ID
@@ -319,6 +319,14 @@ var newResolutionSubmitPage = {
                 if(pad.EVID_TYPE == "1" || pad.EVID_TYPE == "2"){
                     $("#PRUF_SE_NO").val(pad.ISS_NO || "");
 
+                }
+
+                if($("#PJT_CD").val().slice(-1) == "2"){
+                    $("#FNRSC_SE_CODE").data("kendoDropDownList").select(1);
+                } else if($("#PJT_CD").val().slice(-1) == "3"){
+                    $("#FNRSC_SE_CODE").data("kendoDropDownList").select(2);
+                } else {
+                    $("#FNRSC_SE_CODE").data("kendoDropDownList").select(0);
                 }
 
                 if(efed != null && efed != undefined){
