@@ -11,8 +11,8 @@ var costCalc = {
          * 다년 : 동일 년도면 총 수주금액, 아니면 0원
          * */
         let amt = 0;
-        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            amt = Number(e.REAL_PJT_AMT);
+        if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+            amt = Number(e.PJT_AMT);
         }else{
             if(["A", "B", "D"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
                 if(e.YEAR_CLASS == "M"){
@@ -44,6 +44,16 @@ var costCalc = {
          * */
         let amt = 0;
         amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+
+        /*if(e.TEAM_CK == "Y"){
+            for(let i=0; i<list.length; i++){
+                const iMap = list[i];
+                if(iMap.TEAM_STAT == "Y"){
+                    let teamAmt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+                    amt =- teamAmt;
+                }
+            }
+        }*/
         return amt;
     },
 
