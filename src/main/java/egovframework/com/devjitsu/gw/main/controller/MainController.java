@@ -102,8 +102,8 @@ public class MainController {
 
             params.put("inspectStat", "N");
             params.put("searchValue", "");
-            params.put("strDe", "2020-01-01");
-            params.put("endDe", "2029-12-31");
+//            params.put("strDe", "2020-01-01");
+//            params.put("endDe", "2029-12-31");
             Map<String, Object> ckCheck = processService.getAuthorityPsCheck(params);
 
             int ckStatus = processService.getPsCheckList(params).size();
@@ -175,8 +175,8 @@ public class MainController {
 
         params.put("inspectStat", "N");
         params.put("searchValue", "");
-        params.put("strDe", "2020-01-01");
-        params.put("endDe", "2029-12-31");
+//        params.put("strDe", "2020-01-01");
+//        params.put("endDe", "2029-12-31");
         int ckStatus = processService.getPsCheckList(params).size();
 
         params.put("approveStat", "returnRetrieve");

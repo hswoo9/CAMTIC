@@ -14,7 +14,9 @@
             WHERE
                 RCV_EMP_SEQ LIKE CONCAT('%|', #{empSeq}, '|%')
             AND REV_STAT = 'N'
-            AND DATE_FORMAT(A.REG_DT, '%Y-%m-%d') BETWEEN #{strDe} AND #{endDe}
+            <if test='strDe != null and !"".equals(strDe) and endDe != null and !"".equals(endDe)'>
+                AND DATE_FORMAT(A.REG_DT, '%Y-%m-%d') BETWEEN #{strDe} AND #{endDe}
+            </if>
             <if test='!"".equals(inspectStat)'>
                 AND PS_STAT = #{inspectStat}
             </if>
