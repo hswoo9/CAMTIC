@@ -394,7 +394,7 @@ var pri = {
         formData.append("claimSn", $("#claimSn").val())
         formData.append("status", "100");
 
-        if(pri.global.fileArray == 0){
+        if(pri.global.fileArray == 0 && fCommon.global.attFiles.length == 0){
             alert("검수사진이 등록되지 않았습니다."); return;
         }
 
