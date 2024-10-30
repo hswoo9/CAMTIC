@@ -28,7 +28,6 @@ var costInfoAdmin = {
         const pjtSn = $("#pjtSn").val();
         const result = customKendo.fn_customAjax("/project/getTeamPjtList", {pjtSn: pjtSn});
         const list = result.list;
-        console.log(list);
 
         if(list.length > 1){
             $("#searchTeamPjtSn").val(list[1].PJT_SN);
@@ -41,7 +40,7 @@ var costInfoAdmin = {
         const pjtSn = $("#pjtSn").val();
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const pjtMap = result.map;
-        console.log("pjtMap", pjtMap);
+        console.log("프로젝트 데이터", pjtMap);
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
             const e = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn}).rs;
@@ -178,15 +177,11 @@ var costInfoAdmin = {
 
         for(let i=0; i<list.length; i++){
             const e = list[i];
-            console.log("전체 재무실적 list", list);
 
             /** 수주금액 */
             sumA += costCalc.allPjtAmt(e);
 
             /** 수행계획 */
-            //if(i==0){
-            //    sumB += e.DEV_INV_AMT || 0;
-            //}
             sumB += costCalc.nowInvAmt(e);
 
             /** 달성 매출액 */
@@ -201,6 +196,7 @@ var costInfoAdmin = {
             /** 예상운영수익 */
             sumF += costCalc.devProfitAmt(e);
         }
+
         $("#ALL_PJT_AMT3_SUM").text(comma(sumA));
         $("#ALL_INV_AMT_SUM").text(comma(sumB));
         $("#ALL_RES_AMT_SUM").text(comma(sumC));
@@ -385,15 +381,6 @@ var costInfoAdmin = {
 
             /** 예상 운영수익 */
             $("#DEV_NOT_INV_AMT"+i).text(comma(costCalc.devProfitAmt(e)));
-
-            /*
-            console.log("INV_AMT", Number(e.INV_AMT || 0));
-            console.log("incpCompAmt", Number(e.incpCompAmt || 0));
-            console.log("befExpSaleAmt", Number(e.befExpSaleAmt || 0));
-            console.log("nowExpSaleAmt", Number(e.nowExpSaleAmt || 0));
-            console.log("befExpProfitAmt", Number(e.befExpProfitAmt || 0));
-            console.log("nowExpProfitAmt", Number(e.nowExpProfitAmt || 0));
-            */
         }
 
         for(let i=0; i<list2.length; i++){
@@ -428,7 +415,6 @@ var costInfoAdmin = {
             const value = Number(uncommaN($(this).text()));
             if (!isNaN(value)) {
                 sumE += value;
-                console.log()
             }
         });
         $("#PJT_AMT2_SUM").text(comma(sumE));

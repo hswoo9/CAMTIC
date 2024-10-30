@@ -116,26 +116,8 @@ var costCalc = {
             if(asrAmt > 0){
                 aopAmt = asrAmt - Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
             }
-            console.log("realUseAmt", e.realUseAmt);
-            console.log("realUseAmt2", e.realUseAmt2);
-            console.log("realUseAmt3", e.realUseAmt3);
         }else{
-            /*if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                let tmpAmt = Number(((e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3) * 10 / 11).toString().split(".")[0]);
-                aopAmt = e.incpCompAmt1 + tmpAmt;
-            }else{
-                aopAmt = e.incpCompAmt1 + Number(e.incpCompAmt2 - e.realUseAmt - e.realUseAmt2 - e.realUseAmt3);
-            }*/
             aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
-            /*
-            console.log("incpCompAmt1", e.incpCompAmt1);
-            console.log("incpCompAmt2", e.incpCompAmt2);
-            console.log("realUseAmt", e.realUseAmt);
-            console.log("realUseAmt2", e.realUseAmt2);
-            console.log("realUseAmt3", e.realUseAmt3);
-            console.log("aopAmt", aopAmt);
-            console.log("pjtAmtSetData", e.pjtAmtSetData);
-            */
         }
         amt = aopAmt + Number(e.pjtAmtSetData.AMT1 || 0);
         return amt;
@@ -165,7 +147,7 @@ var costCalc = {
     devProfitAmt: function(e){
         /**
          * 엔지니어링
-         * 전체 : 당해년도사업비-투자내역-달성운영수익-차년도운영수익
+         * 전체 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
          *
          * 알앤디/비알앤디
          * 전체 : 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
@@ -173,18 +155,25 @@ var costCalc = {
         let amt = 0;
         let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - costCalc.resProfitAmt(e);
+            let amt0 = costCalc.nowPjtAmt(e);
+            let amt1 = costCalc.nowInvAmt(e);
+            let amt2 = costCalc.resProfitAmt(e);
+            eopAmt = amt0 - amt1 - amt2;
+
+            console.log("당해년도 사업비 : ", amt0);
+            console.log("투자내역 : ", amt1);
+            console.log("달성운영수익 : ", amt2);;
         }else{
             if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
                 eopAmt = e.planAmt;
             }
             eopAmt = eopAmt - e.incpCompAmt1;
-            /*
-            console.log("eopAmt", eopAmt);
-            console.log("e.pjtAmtSetData.AMT3", e.pjtAmtSetData.AMT3);
-            */
         }
-        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
+        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0)
+        console.log("차년도운영수익 : ", e.nowExpProfitAmt || 0);
+        console.log("전년도운영수익 : ", e.befExpProfitAmt || 0);
+
+        console.log("예상 운영수익 계산 함수 devProfitAmt() 끝...");
         return amt;
     },
 
@@ -194,14 +183,13 @@ var costCalc = {
         let per = 0;
         let directAmt = Number(e.useAmt || 0);
         let invAmt = costCalc.nowInvAmt(e);
-        console.log("directAmt", directAmt);
-        console.log("invAmt", invAmt);
         per = (Number(invAmt) - directAmt) / directAmt;
-        console.log("per", per);
 
         if(directAmt == 0){
             per = 0;
         }
+        console.log("직접비 수익률 : ", per);
+
         return per;
     }
 }
