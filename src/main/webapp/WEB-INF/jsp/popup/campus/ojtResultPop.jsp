@@ -53,7 +53,7 @@
                             <tr>
                                 <th><span class="red-star">*</span>지도일시</th>
                                 <td>
-                                    <input type="text" id="ojtDt" style="width: 150px"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
+                                    <input type="text" id="ojtDt" style="width: 18%"> <input type="text" id="startTime" style="width: 18%"> ~ <input type="text" id="endTime" style="width: 18%">
                                 </td>
                             </tr>
                             <tr>
