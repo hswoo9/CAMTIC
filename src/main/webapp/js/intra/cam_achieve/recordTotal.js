@@ -227,7 +227,7 @@ var recordTotal = {
                     width: 100,
                     template: function(e){
                         let amt = 0;
-                        amt = costCalc.allPjtAmt(e);
+                        amt = costCalc.nowPjtAmt(e);
 
                         pjtAmtSum += amt;
                         return '<div style="text-align: right;">'+comma(amt)+'</div>';
