@@ -86,11 +86,7 @@ var costCalc = {
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             if(e.COST_CLOSE_CK == "Y"){
-                if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.goodsTotAmt * 10 / 11).toString().split(".")[0]);
-                }else{
-                    asrAmt = e.goodsTotAmt;
-                }
+                asrAmt = e.goodsTotAmt;
             }
         }else{
             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
