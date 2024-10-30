@@ -25,7 +25,7 @@ var resultInfo = {
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
             $("#resName").text("결과보고서/납품서");
-        }
+        };
 
         resultInfo.fn_setData();
         resultInfo.fn_setHtml();
@@ -341,7 +341,6 @@ var resultInfo = {
 
         var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
         var result = resultMap.result;
-        console.log(resultMap);
 
         if(result.designFileList != null){
             $("#designImgName").text(result.designFileList.file_org_name + "." +result.designFileList.file_ext);
@@ -351,7 +350,7 @@ var resultInfo = {
             $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
         }
 
-        if(result.devFileList.length > 0){
+        if(result.devFileList != null && result.devFileList.length > 0){
             resultInfo.global.fileArray = result.devFileList;
             var html = '';
 
@@ -368,8 +367,10 @@ var resultInfo = {
 
         var equipmentNameList = "";
 
-        for(var i = 0 ; i < resultMap.equipList.length; i++){
-            equipmentNameList = resultMap.equipList[i].EQIPMN_NAME + ",";
+        if(resultMap.equipList != null){
+            for(var i = 0 ; i < resultMap.equipList.length; i++){
+                equipmentNameList = resultMap.equipList[i].EQIPMN_NAME + ",";
+            }
         }
 
         if(result.map != null){
