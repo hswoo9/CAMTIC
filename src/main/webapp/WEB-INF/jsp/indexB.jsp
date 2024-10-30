@@ -279,6 +279,7 @@
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
                     <li><a href="#tab5" data-toggle="tab" onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li><a href="#tab6" data-toggle="tab" onclick="getActiveList('tab6Ul', '46')"><strong style="font-size:14px;">사우회</strong></a></li>
                     <li>
                         <div>
                             <i class="k-i-plus k-icon" style="cursor: pointer; float: right;font-size:20px; margin:35px 20px 0 0;" onclick="goMoreView2();"></i>
@@ -325,6 +326,13 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="tab-pane" id="tab6">
+                        <div class="panel-body" style="padding:0 10px;">
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab6Ul">
+
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -343,28 +351,28 @@
             <div class="card">
                 <!-- 메일함 -->
                 <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#tab6" data-toggle="tab" onclick="getscheduleList('schedule1Ul','CS');"><strong style="font-size:14px;">법인일정</strong></a></li>
-                    <li><a href="#tab7" data-toggle="tab" onclick="getscheduleList('schedule2Ul','ES');"><strong style="font-size:14px;">직원일정</strong></a></li>
-                    <li><a href="#tab8" data-toggle="tab" onclick="getOpenStudy();"><strong style="font-size:14px;">오픈스터디</strong></a></li>
+                    <li class="active"><a href="#tab7" data-toggle="tab" onclick="getscheduleList('schedule1Ul','CS');"><strong style="font-size:14px;">법인일정</strong></a></li>
+                    <li><a href="#tab8" data-toggle="tab" onclick="getscheduleList('schedule2Ul','ES');"><strong style="font-size:14px;">직원일정</strong></a></li>
+                    <li><a href="#tab9" data-toggle="tab" onclick="getOpenStudy();"><strong style="font-size:14px;">오픈스터디</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab6" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane active" id="tab7" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;" id="schedule1Ul">
 
                             </ul>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab7" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane" id="tab8" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;" id="schedule2Ul">
 
                             </ul>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab8" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane" id="tab9" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;" id="schedule3Ul">
 
@@ -1210,7 +1218,9 @@
         }else if(moreId2 == "tab4Ul"){ //오픈스터디
             open_in_frame('/board/normalBoardList.do?boardId=42');
         }else if(moreId2 == "tab5Ul"){ //오픈스터디
-            open_in_frame('/board/normalBoardList.do?boardId=43')
+            open_in_frame('/board/normalBoardList.do?boardId=43');
+        }else if(moreId2 == "tab6Ul") { //오픈스터디
+            open_in_frame('/board/normalBoardList.do?boardId=46');
         }
     }
 
