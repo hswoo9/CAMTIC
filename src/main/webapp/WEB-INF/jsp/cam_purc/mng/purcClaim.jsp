@@ -44,25 +44,32 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="23%">
-                        <col width="10%">
-                        <col width="23%">
-                        <col width="10%">
-                        <col width="24%">
+                        <col width="5%">
+                        <col width="25%">
+                        <col width="5%">
+                        <col width="8%">
+                        <col width="5%">
+                        <col width="8%">
+                        <col width="5%">
+                        <col width="25%">
                     </colgroup>
                     <tr>
                         <%--<th class="text-center th-color">조회유형</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
                         </td>--%>
+                        <th class="text-center th-color">기간</th>
+                        <td>
+                            <input type="text" id="searchDate" style="width: 30%;"/>
+                            <input type="text" id="startDt" style="width: 31%;"> ~ <input type="text" id="endDt" style="width: 31%;">
+                        </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="busnClass" style="width: 150px;">
+                            <input type="text" id="busnClass" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">진행상태</th>
                         <td>
-                            <input type="text" id="inspectStat" style="width: 150px;">
+                            <input type="text" id="inspectStat" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

@@ -11,6 +11,34 @@ var purcClaim = {
         customKendo.fn_dropDownList("searchDept", purcClaim.global.dropDownDataSource, "text", "value");
         // $("#searchDept").data("kendoDropDownList").bind("change", purcClaim.gridReload);
 
+        let dropDownDataSource2 = [
+            { text: "청구일", value: "1" },
+            { text: "납품(예정)일", value: "2" },
+        ]
+
+        var d = new Date();
+        var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
+
+        var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
+
+        customKendo.fn_dropDownList("searchDate", dropDownDataSource2, "text", "value", 3);
+        customKendo.fn_datePicker("startDt", "depth", "yyyy-MM-dd", bdStr);
+        customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date());
+
+        $("#searchDate").data("kendoDropDownList").bind("change", purcClaim.gridReload);
+        $("#startDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#startDt").val());
+            }
+            purcClaim.gridReload();
+        });
+        $("#endDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#startDt").val($("#endDt").val());
+            }
+            purcClaim.gridReload();
+        });
+
         purcClaim.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
             { text: "제목", value: "CLAIM_TITLE" },
@@ -70,6 +98,11 @@ var purcClaim = {
                     data.searchValue =  $("#searchValue").val();
                     data.inspectStat =  $("#inspectStat").data("kendoDropDownList").value();
                     data.busnClass =  $("#busnClass").val();
+
+                    data.searchDate = $("#searchDate").val();
+                    data.strDe = $("#startDt").val();
+                    data.endDe = $("#endDt").val();
+
                     return data;
                 }
             },

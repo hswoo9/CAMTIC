@@ -1032,6 +1032,14 @@
                 AND ABC.PURC_TYPE = 'V'
             </when>
         </choose>
+        <choose>
+            <when test='"1".equals(searchDate)'>
+                AND DATE_FORMAT(ABC.CLAIM_DE, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{strDe}, '%Y-%m-%d') AND DATE_FORMAT(#{endDe}, '%Y-%m-%d')
+            </when>
+            <when test='"2".equals(searchDate)'>
+                AND DATE_FORMAT(ABC.GOODS_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{strDe}, '%Y-%m-%d') AND DATE_FORMAT(#{endDe}, '%Y-%m-%d')
+            </when>
+        </choose>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
             AND DATE_FORMAT(ABC.CLAIM_DE, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
         </if>
