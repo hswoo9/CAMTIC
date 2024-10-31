@@ -46,6 +46,7 @@ var userPersonList2 = {
             dataValueField: "value",
             dataSource: [
                 {text: "성명", value: "EMP_NAME_KR"},
+                {text: "사번", value: "ERP_EMP_SEQ"},
                 {text: "직급", value: "POSITION_NAME"},
                 {text: "등급", value: "등급"},
                 {text: "직책", value: "직책"},
