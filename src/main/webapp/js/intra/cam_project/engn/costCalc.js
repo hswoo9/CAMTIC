@@ -47,7 +47,12 @@ var costCalc = {
         if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
             amt = Number(e.REAL_PJT_AMT);
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
-            amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+            /** 마감 됐는지 체크 */
+            if(e.DEADLINE_YN != NULL && e.DEADLINE_YN == "Y"){
+                amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+            }else{
+                amt = Number(e.REAL_PJT_AMT);
+            }
         }else{
             amt = 0;
         }
@@ -137,7 +142,7 @@ var costCalc = {
         let amt = 0;
         let devAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e) - Number(e.nowExpSaleAmt || 0) + Number(e.befExpSaleAmt || 0);
         }else{
             devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
         }

@@ -229,6 +229,7 @@ public class AchieveController {
                     map.put("listBefProfit", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
                     map.put("listAftSale", projectPaySetData2.get("AFT_SALE_AMT"));
                     map.put("listAftProfit", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("DEADLINE_YN", projectPaySetData2.get("DEADLINE_YN"));
                 }
 
             /** 엔지니어링/용역기타 */
@@ -260,6 +261,7 @@ public class AchieveController {
                     map.put("listBefProfit", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
                     map.put("listAftSale", projectPaySetData2.get("AFT_SALE_AMT"));
                     map.put("listAftProfit", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("DEADLINE_YN", projectPaySetData2.get("DEADLINE_YN"));
                 }
             }
 

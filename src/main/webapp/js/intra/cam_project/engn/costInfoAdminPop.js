@@ -35,7 +35,7 @@ var costInfoPop = {
                 var htmlStr =
                     '<div class="mb-10" style="text-align: right;">' +
                     '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">마감</button>' +
-                    '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
+                    '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#yearEndDialog \').data(\'kendoWindow\').close()">닫기</button>' +
                     '</div>' +
                     '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
                     '	<colgroup>' +
