@@ -43,17 +43,19 @@ var costCalc = {
          * 공통 : 수주금액 - 전년도 매출액 - 차년도 매출액
          * */
         let amt = 0;
-        amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
 
-        /*if(e.TEAM_CK == "Y"){
-            for(let i=0; i<list.length; i++){
-                const iMap = list[i];
-                if(iMap.TEAM_STAT == "Y"){
-                    let teamAmt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
-                    amt =- teamAmt;
-                }
-            }
-        }*/
+        if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+            amt = Number(e.REAL_PJT_AMT);
+        }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
+            amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+        }else{
+            amt = 0;
+        }
+
+        if(e.TEAM_STAT == "Y"){
+            amt = 0;
+        }
+
         return amt;
     },
 
