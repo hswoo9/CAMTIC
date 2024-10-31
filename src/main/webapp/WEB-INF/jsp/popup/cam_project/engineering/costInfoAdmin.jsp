@@ -42,6 +42,7 @@
 <div style="padding: 10px">
 
     <div id="costCloseDiv" style="text-align: right; font-size: 12px;">
+        <button type="button" class="k-button k-button-solid-info" id="costTempBtn" onclick="costInfoPop.openModal();">회계년도 마감</button>
         <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfoAdmin.fn_costInfoClose();">정산서 마감</button>
     </div>
 
@@ -161,7 +162,7 @@
     <input type="hidden" id="teamBustSumTemp2"/>
     <input type="hidden" id="teamCostSumTemp2"/>
 </div>
-
+<div id="yearEndDialog"></div>
 <script>
     costInfoAdmin.fn_defaultScript();
 </script>

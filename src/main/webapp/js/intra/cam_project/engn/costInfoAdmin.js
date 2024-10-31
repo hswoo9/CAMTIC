@@ -3,7 +3,9 @@ var costInfoAdmin = {
     global : {
         searchAjaxData2 : "",
         searchAjaxData3 : "",
-        searchAjaxData4 : ""
+        searchAjaxData4 : "",
+
+        allPjtList : []
     },
 
     fn_defaultScript: function(){
@@ -18,6 +20,9 @@ var costInfoAdmin = {
         
         /** 데이터 세팅 */
         costInfoAdmin.dataSet();
+
+        /** 회계년도 마감 팝업 */
+        costInfoPop.yearEndPop();
     },
 
     pageSet: function(){
@@ -124,6 +129,7 @@ var costInfoAdmin = {
         /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, typeCk: "group"});
         const list = result.list;
+        costInfoAdmin.global.allPjtList = list;
         let count = list.length;
         console.log("전체재무실적 list", list);
         html +=
