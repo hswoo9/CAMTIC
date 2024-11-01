@@ -226,15 +226,38 @@ var purcInfo = {
                     field: "EMP_NAME_KR",
                     title: "요청자",
                     width: 80,
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>투자금액</div>";
-                    }
                 }, {
                     field: "PURC_REQ_PURPOSE",
                     title: "목적",
                     width: 450,
                     template : function(e){
                         return '<div style="text-align: left;"><input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE + '</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>투자금액</div>";
+                    }
+                }, {
+                    field: "STATUS",
+                    title: "구매요청서",
+                    width: 100,
+                    template : function(e){
+                        var status = "";
+                        if(e.ORG_YN == 'N'){
+                            /** 구매요청서 */
+                            if(e.PURC_SN != null){
+                                if(e.DOC_STATUS == "100"){
+                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                                } else {
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                                }
+                            } else {
+                                status = '';
+                            }
+                        } else {
+                            status = '이관 데이터';
+                        }
+
+                        return status;
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: (commonProject.global.teamStat == "Y" ? "2" : "1")}).list;
@@ -262,32 +285,6 @@ var purcInfo = {
                         console.log("Math.round(invSum)", Math.round(invSum));
                         return "<div style='text-align: right'>"+comma(Math.round(invSum))+"</div>";
                     }
-                }, {
-                    field: "STATUS",
-                    title: "구매요청서",
-                    width: 100,
-                    template : function(e){
-                        var status = "";
-                        if(e.ORG_YN == 'N'){
-                            /** 구매요청서 */
-                            if(e.PURC_SN != null){
-                                if(e.DOC_STATUS == "100"){
-                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
-                                } else {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
-                                }
-                            } else {
-                                status = '';
-                            }
-                        } else {
-                            status = '이관 데이터';
-                        }
-
-                        return status;
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>잔여금액</div>";
-                    }
                 },{
                     title : "결재선",
                     width : 80,
@@ -300,7 +297,7 @@ var purcInfo = {
                             '</button>';
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right' id='footerLeftSum'>0</div>";
+                        return "<div style='text-align: right'>공급가 합계</div>";
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -344,7 +341,7 @@ var purcInfo = {
                         return status
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>부가세 합계</div>";
+                        return "<div style='text-align: right' id='footerSupSum'>0</div>";
                     }
                 }, {
                     title : "결재선",
@@ -358,14 +355,14 @@ var purcInfo = {
                             '</button>';
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right' id='footerSupSum'>0</div>";
+                        return "<div style='text-align: right'>세액 합계</div>";
                     }
                 },{
                     field: "CRM_NM",
                     title: "업체명",
                     width: 200,
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>세액 합계</div>";
+                        return "<div style='text-align: right' id='footerVatSum'>0</div>";
                     }
                 }, {
                     field: "STATUS",
@@ -417,7 +414,7 @@ var purcInfo = {
                         return html;
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right' id='footerVatSum'>0</div>";
+                        return "<div style='text-align: right'>청구 합계</div>";
                     }
                 }, {
                     field: "PURC_ITEM_AMT_SUM",
@@ -429,7 +426,7 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>청구 합계</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
                     }
                 }, {
                     title: "처리",
@@ -446,7 +443,7 @@ var purcInfo = {
                         }
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(Math.round(purcSum))+"</div>";
+                        return "<div style='text-align: right'>잔여금액</div>";
                     }
                 }, {
                     field: "APPROVE_STAT_CODE",
@@ -486,6 +483,9 @@ var purcInfo = {
                         } else {
                             return '-';
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right' id='footerLeftSum'>0</div>";
                     }
                 }/*, {
                     field: "DOC_STATUS",
@@ -1002,11 +1002,12 @@ var purcInfo = {
             let vatSum = 0;
             for(let i=0; i<leftList.length; i++){
                 /** 과세면 공급가액의 합계를 차감 */
-                if(pjtMap.TAX_GUBUN != null && pjtMap.TAX_GUBUN == "1"){
-                    purcSum2 += Number(leftList[i].PURC_SUP_AMT || 0);
-                }else{
+                /** (20241101 변경) 잔여금액 = 투자금액 - 청구합계 */
+                // if(pjtMap.TAX_GUBUN != null && pjtMap.TAX_GUBUN == "1"){
+                //     purcSum2 += Number(leftList[i].PURC_SUP_AMT || 0);
+                // }else{
                     purcSum2 += Number(leftList[i].ITEM_AMT || 0);
-                }
+                // }
                 supSum += Number(leftList[i].PURC_SUP_AMT || 0);
                 vatSum += Number(leftList[i].PURC_VAT_AMT || 0);
             }

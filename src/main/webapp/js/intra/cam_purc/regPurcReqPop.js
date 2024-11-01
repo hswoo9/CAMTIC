@@ -934,11 +934,11 @@ var prp = {
             let purcSum = 0;
             let leftSum = 0;
             for(let i=0; i<leftList.length; i++){
-                if(pjtMap.TAX_GUBUN != null && pjtMap.TAX_GUBUN == "1"){
-                    purcSum += Number(leftList[i].PURC_SUP_AMT || 0);
-                }else{
+                // if(pjtMap.TAX_GUBUN != null && pjtMap.TAX_GUBUN == "1"){
+                //     purcSum += Number(leftList[i].PURC_SUP_AMT || 0);
+                // }else{
                     purcSum += Number(leftList[i].ITEM_AMT || 0);
-                }
+                // }
             }
             leftSum = invSum - purcSum;
             /**
