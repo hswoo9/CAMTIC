@@ -1057,8 +1057,12 @@ var regExnp = {
             contentType: false,
             processData: false,
             enctype : 'multipart/form-data',
-            async: false,
+            // async: false,
+            beforeSend : function(){
+                $("#my-spinner").show();
+            },
             success : function(rs){
+                $("#my-spinner").hide();
                 if(rs.code == 200){
                     var url = "";
                     if($("#status").val() == "rev"){
