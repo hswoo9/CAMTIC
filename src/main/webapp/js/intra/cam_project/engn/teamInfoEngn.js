@@ -175,7 +175,13 @@ var teamEngn = {
         const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
 
         /** 자가 예상수익 */
-        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
+        let myIncomePer;
+
+        if(myAmt == 0){
+            myIncomePer = 0 + "%";
+        }else{
+            myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
+        }
 
         $("#myTmSn").val(myMap.TM_SN);
 

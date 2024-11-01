@@ -131,7 +131,13 @@ const teamPrintPop = {
         /** 자가 배분비율 */
         const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
         /** 자가 예상수익 */
-        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
+        let myIncomePer;
+
+        if(myAmt == 0){
+            myIncomePer = 0 + "%";
+        }else{
+            myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
+        }
 
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
