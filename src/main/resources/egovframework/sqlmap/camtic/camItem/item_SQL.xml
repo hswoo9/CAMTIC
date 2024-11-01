@@ -185,12 +185,12 @@
                 WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'
                 ELSE '미입금'
             END AS DOC_STATUS_TEXT,
-            (
-                SELECT
+            IFNULL(
+                (SELECT
                     SUM(SS.AMT)
                 FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
-                WHERE (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
-            ) AS TOT_AMT
+                WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ), 0) AS TOT_AMT
         FROM
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
         JOIN
