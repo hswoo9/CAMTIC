@@ -44,7 +44,7 @@ var teamAjax = {
             modEmpSeq : $("#regEmpSeq").val()
         }
 
-        if(parameters.myInvAmt == "" || parameters.myInvAmt == 0 || parameters.myInvAmt == null){
+        if(parameters.myInvAmt == "" ||  parameters.myInvAmt == null){
             alert("예상비용이 입력되지 않았습니다."); return;
         }
 

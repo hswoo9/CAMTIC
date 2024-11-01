@@ -34,7 +34,8 @@ var storageBoxReader = {
             dataSource: [
                 { text: "문서명", value: "A" },
                 { text: "문서번호", value: "B" },
-                { text: "문서종류", value: "C" }
+                { text: "문서종류", value: "C" },
+                { text: "기안자", value: "D" }
             ]
         });
 
