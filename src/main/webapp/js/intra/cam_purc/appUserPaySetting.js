@@ -7,6 +7,7 @@ const appUserPaySetting = {
         createHtmlStr : "",
         reqAmt : 0,
         reqAmtTotal : 0,
+        fileChkArr : [],
     },
 
     fn_DefaultScript: function() {
@@ -144,6 +145,7 @@ const appUserPaySetting = {
     },
 
     settingTempFileDataInit : function(array){
+        appUserPaySetting.global.fileArray = [];
         var data = {};
         var html = '';
 
@@ -156,37 +158,52 @@ const appUserPaySetting = {
                 data: data,
                 type : "post",
                 dataType : "json",
+                async : false,
                 success : function(rs){
-                    var rs = rs.list;
-
-                    if(rs.length > 0){
-                        for(var i = 0; i < rs.length; i++){
-                            html += '<tr style="text-align: center">';
-                            html += '   <td><input type="checkbox" id="fileChk_'+ rs[i].file_no +'" value="'+ rs[i].file_no +'" checked name="fileChk"></td>';
-                            html += '   <td style="text-align: left;">'+ rs[i].file_org_name +'</td>';
-                            html += '   <td>'+ rs[i].file_ext +'</td>';
-                            html += '   <td>'+ fCommon.bytesToKB(rs[i].file_size) +'</td>';
-                            html += '   <td>';
-                            html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ rs[i].file_path +'\', \''+ rs[i].file_uuid +'\')">';
-                            html += '   </td>';
-                            html += '   <td>';
-                            // if(status != 100){
-                            //     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ rs[i].file_no +', this)">' +
-                            //         '			    <span class="k-button-text">삭제</span>' +
-                            //         '		    </button>';
-                            // }
-                            html += '   </td>';
-                            html += '</tr>';
+                    if(rs.list.length > 0) {
+                        for(var i = 0; i < rs.list.length; i++){
+                            appUserPaySetting.global.fileArray.push(rs.list[i]);
                         }
-                        $("#fileGrid").html(html);
-                    }else{
-                        $("#fileGrid").html('<tr class="defultTr">' +
-                            '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                            '</tr>');
                     }
                 }
             })
         });
+
+        $.ajax({
+            url : "/purc/getCrmFileList",
+            data: { claimSn : array[0] },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                if(rs.list.length > 0) {
+                    for(var i = 0; i < rs.list.length; i++){
+                        appUserPaySetting.global.fileArray.push(rs.list[i]);
+                    }
+                }
+            }
+        });
+
+        if(appUserPaySetting.global.fileArray.length > 0){
+            for(var i = 0; i < appUserPaySetting.global.fileArray.length; i++){
+                html += '<tr style="text-align: center">';
+                html += '   <td><input type="checkbox" id="fileChk_'+ appUserPaySetting.global.fileArray[i].file_no +'" value="'+ appUserPaySetting.global.fileArray[i].file_no +'" checked name="fileChk"></td>';
+                html += '   <td style="text-align: left;">'+ appUserPaySetting.global.fileArray[i].file_org_name +'</td>';
+                html += '   <td>'+ appUserPaySetting.global.fileArray[i].file_ext +'</td>';
+                html += '   <td>'+ fCommon.bytesToKB(appUserPaySetting.global.fileArray[i].file_size) +'</td>';
+                html += '   <td>';
+                html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="fileViewer(\''+ appUserPaySetting.global.fileArray[i].file_path +'\', \''+ appUserPaySetting.global.fileArray[i].file_uuid +'\')">';
+                html += '   </td>';
+                html += '   <td>';
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").html(html);
+        }else{
+            $("#fileGrid").html('<tr class="defultTr">' +
+                '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
     },
 
     fn_delRow : function(idx){
@@ -346,14 +363,14 @@ const appUserPaySetting = {
             }
         }
 
-        appUserPaySetting.global.fileArray = [];
+        appUserPaySetting.global.fileChkArr = [];
         $.each($("input[name='fileChk']"), function(){
             if($(this).prop("checked")){
-                appUserPaySetting.global.fileArray.push($(this).val());
+                appUserPaySetting.global.fileChkArr.push($(this).val());
             }
         })
 
-        formData.append("fileArray", appUserPaySetting.global.fileArray);
+        formData.append("fileArray", appUserPaySetting.global.fileChkArr);
 
 
         $.ajax({

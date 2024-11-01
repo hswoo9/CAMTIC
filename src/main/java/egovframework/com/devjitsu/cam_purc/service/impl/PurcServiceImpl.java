@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_purc.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
@@ -46,6 +47,9 @@ public class PurcServiceImpl implements PurcService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private CrmRepository crmRepository;
 
     @Autowired
     private ApprovalUserRepository approvalUserRepository;
@@ -1133,6 +1137,26 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getCrmFileList(Map<String, Object> params) {
+        List<Map<String, Object>> result = new ArrayList<>();
+        params.put("crmSn", purcRepository.getPurcClaimData(params).get("CRM_SN"));
+
+        Map<String, Object> crmMap = crmRepository.getCrmAccounting(params);
+        if(crmMap != null) {
+            if(crmMap.containsKey("FILE1_NO")) {
+                params.put("fileNo", crmMap.get("FILE1_NO"));
+                result.add(commonRepository.getContentFileOne(params));
+            }
+            if(crmMap.containsKey("FILE2_NO")) {
+                params.put("fileNo", crmMap.get("FILE2_NO"));
+                result.add(commonRepository.getContentFileOne(params));
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> purcFileList(Map<String, Object> params) {
         List<Map<String, Object>> list = new ArrayList<>();
 
@@ -1332,6 +1356,14 @@ public class PurcServiceImpl implements PurcService {
                 list.add(map);
             }
         }
+
+//        params.put("crmSn", tempMap.get("CRM_SN"));
+//        Map<String, Object> crmAccMap = crmRepository.getCrmAccounting(params);
+//        if(crmAccMap != null){
+//            if(crmAccMap.containsKey("FILE1_NO")){
+//                params.put("fileNo", crmAccMap.containsKey())
+//            }
+//        }
 
         return list;
     }

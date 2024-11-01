@@ -1084,4 +1084,9 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getCrmFileList")
+    public String getCrmFileData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getCrmFileList(params));
+        return "jsonView";
+    }
 }
