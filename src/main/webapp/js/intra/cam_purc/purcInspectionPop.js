@@ -373,20 +373,38 @@ var pri = {
 
         if($("#inspectDt").val() == ""){ alert("검수날짜가 작성되지 않았습니다"); return; }
 
-        var result = customKendo.fn_customFormDataAjax("/purc/updPurcClaimInspect.do", formData);
-        if(result.flag){
-            if(fCommon.global.attFiles.length != 0){
-                pri.setInspectApp('100');
-            } else {
-                alert("저장되었습니다.");
-            }
-            try {
-                opener.parent.prm.gridReload();
-            }catch{
+        $.ajax({
+            url : "/purc/updPurcClaimInspect.do",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            // async : false,
+            beforeSend : function(){
+                $("#my-spinner").show();
+            },
+            success : function(rs) {
+                $("#my-spinner").hide();
+                if(fCommon.global.attFiles.length != 0 || pri.global.fileArray != 0){
+                    pri.setInspectApp('100');
+                } else {
+                    alert("저장되었습니다.");
+                }
+                try {
+                    opener.parent.prm.gridReload();
+
+                }catch{
+
+                }
+
+                location.reload();
+            },
+            error :function (e) {
 
             }
-            location.reload();
-        }
+        });
     },
 
     setInspectApp : function(status){
@@ -403,7 +421,7 @@ var pri = {
             alert("검수처리가 완료되었습니다.");
             if(opener.parent.purcClaim != null){
                 opener.parent.purcClaim.gridReload();
-            } else {
+            } else if (opener.parent.purcInfo != null){
                 opener.parent.purcInfo.gridReload();
             }
             window.close();
