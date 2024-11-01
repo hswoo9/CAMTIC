@@ -153,7 +153,7 @@ var teamReq = {
             alert("배분금액 입력되지 않았습니다."); return;
         }
 
-        if(parameters.tmInvAmt == "" || parameters.tmInvAmt == 0 || parameters.tmInvAmt == null){
+        if(parameters.tmInvAmt == "" || parameters.tmInvAmt == null){
             alert("예상비용이 입력되지 않았습니다."); return;
         }
 
