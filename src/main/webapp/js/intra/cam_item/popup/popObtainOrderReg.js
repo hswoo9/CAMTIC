@@ -45,10 +45,13 @@ var oor = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="priceSel' + oor.global.oorIndex + '" class="numberInput priceSel" style="width: 45%" onchange="oor.priceChange(' + oor.global.oorIndex + ')">' +
-            '       <input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 50%;margin-left: 10px" value="0">' +
+            '       <input type="text" id="unitPrice' + oor.global.oorIndex + '" class="numberInput unitPrice" style="text-align: right;width: 45%;margin-left: 10px" value="0">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="amt' + oor.global.oorIndex + '" class="amt numberInput" style="text-align: right" readonly value="0">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="foreGb' + oor.global.oorIndex + '" class="foreGb">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="rmk' + oor.global.oorIndex + '" class="rmk">' +
@@ -75,6 +78,16 @@ var oor = {
                 {text: "b2b단가3", value: "3"},
                 {text: "b2b단가4", value: "4"},
                 {text: "b2b단가5", value: "5"}
+            ],
+            index: 0,
+        });
+
+        $("#foreGb"+ oor.global.oorIndex).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "국내", value: "D"},
+                {text: "국외", value: "F"},
             ],
             index: 0,
         });
@@ -206,7 +219,8 @@ var oor = {
                         unitPrice : oor.uncomma($(this).find("#unitPrice" + i).val()),
                         amt : oor.uncomma($(this).find("#amt" + i).val()),
                         rmk : $(this).find("#rmk" + i).val(),
-                        empSeq : $("#empSeq").val()
+                        empSeq : $("#empSeq").val(),
+                        foreGb : $(this).find("#foreGb" + i).data("kendoDropDownList").value(),
                     }
 
                     orArr.push(arrData);

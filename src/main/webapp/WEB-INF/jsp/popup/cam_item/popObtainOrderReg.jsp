@@ -80,13 +80,14 @@
             </div>
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
-                    <col style="width: 14%;">
+                    <col style="width: 12%;">
                     <col style="width: 10%;">
                     <col style="width: 8%;">
                     <col style="width: 7%;">
                     <col style="width: 5%;">
-                    <col style="width: 17%;">
+                    <col style="width: 15%;">
                     <col style="width: 7%;">
+                    <col style="width: 5%;">
                     <col style="width: 7%;">
                     <col style="width: 3%;">
                 </colgroup>
@@ -99,6 +100,7 @@
                     <th>수주량</th>
                     <th>단가</th>
                     <th>수주금액</th>
+                    <th>구분</th>
                     <th>비고</th>
                     <th></th>
                 </tr>
@@ -108,7 +110,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td colspan="6" style="text-align: right;">
+                    <td colspan="7" style="text-align: right;">
                         <strong>합계:</strong>
                     </td>
                     <td id="totalAmt" style="text-align: right;"></td>

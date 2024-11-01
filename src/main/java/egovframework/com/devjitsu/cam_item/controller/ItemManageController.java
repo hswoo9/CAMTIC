@@ -373,7 +373,6 @@ public class ItemManageController {
         return "jsonView";
     }
 
-
     /**
      * 수주 인쇄 팝업
      * @param params
@@ -411,6 +410,12 @@ public class ItemManageController {
     @RequestMapping("/item/getEstPrintSn.do")
     public String getEstPrintSn(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("rs", itemManageService.getEstPrintSn(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/getEstimateRmk")
+    public String getEstimateRmk(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", itemManageService.getEstimateRmk(params));
         return "jsonView";
     }
 

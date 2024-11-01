@@ -24,6 +24,8 @@ var popSelEstimate = {
         });
 
         popSelEstimate.gridReload();
+
+        popSelEstimate.fn_rmkSet();
     },
 
     popMainGrid : function (url, params) {
@@ -57,6 +59,7 @@ var popSelEstimate = {
                 }, {
                     title: "메일전송",
                     field: "CRM_NM",
+                    width: 80,
                     template : function (e){
                         if(e.MAIL_YN == "Y"){
                             return "전송완료"
@@ -66,18 +69,23 @@ var popSelEstimate = {
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
+                    width: 150,
                 }, {
                     title: "수주일자",
                     field: "ORDER_DT",
+                    width: 80,
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
+                    width: 150,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
+                    width: 150,
                 }, {
                     title: "수주량",
                     field: "ORDER_VOLUME",
+                    width: 60,
                     template : function (e){
                         var str = "";
                         if(e.ORDER_VOLUME != null && e.ORDER_VOLUME != ""){
@@ -98,6 +106,7 @@ var popSelEstimate = {
                 }, {
                     title: "단가",
                     field: "UNIT_PRICE",
+                    width: 100,
                     template : function (e){
                         var str = "";
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
@@ -118,6 +127,7 @@ var popSelEstimate = {
                 }, {
                     title: "수주금액",
                     field: "AMT",
+                    width: 100,
                     template: function(e){
                         var str = "";
                         if(e.AMT != null && e.AMT != ""){
@@ -178,11 +188,24 @@ var popSelEstimate = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "구분",
+                    field: "FORE_GB",
+                    width: 60,
+                    template: function(e){
+                        if(e.FORE_GB == "D") {
+                            return "국내";
+                        } else {
+                            return "국외";
+                        }
+                    }
+                }, {
                     title: "비고",
                     field: "RMK",
+                    width: 120,
                 }, {
                     title: "마감구분",
                     field: "DEADLINE",
+                    width: 80,
                     template : function (e){
                         if(e.DEADLINE == "Y"){
                             return "마감"
@@ -192,6 +215,7 @@ var popSelEstimate = {
                     },
                 }, {
                     title: "등록자",
+                    width: 60,
                     field: "EMP_NAME_KR",
                 }
             ],
@@ -222,14 +246,15 @@ var popSelEstimate = {
 
         var ooSnArr = "";
         $.each($("input[name='ooSn']:checked"), function(){
-            ooSnArr += "," + $(this).val()
+            ooSnArr += "," + $(this).val();
         })
 
         popSelEstimate.global.saveAjaxData = {
             crmSn : $("#crmSn").val(),
             obtainOrderSn : ooSnArr.substr(1),
             rmk : CKEDITOR.instances.rmk.getData(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            ooSn : $("#obtainOrderSn").val()
         }
 
         var result = customKendo.fn_customAjax("/item/setItemEstPrint.do", popSelEstimate.global.saveAjaxData);
@@ -274,4 +299,17 @@ var popSelEstimate = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    fn_rmkSet : function(){
+        $.ajax({
+            type: "post",
+            url: "/item/getEstimateRmk",
+            data: {
+                obtainOrderSn : $("#obtainOrderSn").val()
+            },
+            success: function(result){
+                CKEDITOR.instances.rmk.setData(result.rs.RMK);
+            }
+        })
+    }
 }

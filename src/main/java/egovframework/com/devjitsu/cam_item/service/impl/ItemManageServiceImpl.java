@@ -179,6 +179,7 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setItemEstPrint(Map<String, Object> params) {
         itemManageRepository.setItemEstPrint(params);
+        itemManageRepository.updItemEstPrintPK(params);
     }
 
     @Override
@@ -188,6 +189,19 @@ public class ItemManageServiceImpl implements ItemManageService {
         returnMap.put("obtainOrderList", itemManageRepository.getObtainOrderList(params));
 
         return returnMap;
+    }
+
+    @Override
+    public Map<String, Object> getEstimateRmk(Map<String, Object> params) {
+        Map<String, Object> ooMap = itemManageRepository.getObtainOrder(params);
+
+        if(ooMap != null) {
+            if(ooMap.containsKey("EST_PRINT_SN")) {
+                params.put("estPrintSn", ooMap.get("EST_PRINT_SN"));
+            }
+        }
+
+        return itemManageRepository.getEstPrintSn(params);
     }
 
     @Override

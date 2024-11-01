@@ -523,6 +523,7 @@
             UNIT_PRICE,
             AMT,
             RMK,
+            FORE_GB,
             REG_EMP_SEQ
         )
         VALUES
@@ -536,6 +537,7 @@
             #{unitPrice},
             #{amt},
             #{rmk},
+            #{foreGb},
             #{empSeq}
         )
     </insert>
@@ -570,6 +572,7 @@
             ORDER_REMAIN = (select (#{orderVolume} - DELIVERY_AMT) from cam_item.dj_item_obtain_order where obtain_order_sn = #{obtainOrderSn}),
             AMT = #{amt},
             RMK = #{rmk},
+            FORE_GB = #{foreGb},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
@@ -609,6 +612,16 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_EST_PRINT'
         </selectKey>
     </insert>
+
+    <update id="updItemEstPrintPK" parameterType="map">
+        /*updItemEstPrintPK*/
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            EST_PRINT_SN = #{estPrintSn}
+        WHERE
+            (REG_EMP_SEQ, DATE_FORMAT(REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = #{ooSn})
+    </update>
 
     <select id="getEstPrintSn" parameterType="map" resultType="map">
         /* getEstPrintSn */

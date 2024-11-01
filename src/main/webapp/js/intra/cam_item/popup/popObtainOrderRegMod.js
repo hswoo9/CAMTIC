@@ -20,6 +20,15 @@ var oorm = {
             $("#amt").val(oorm.comma(Number(whVolume * unitPrice)));
         });
 
+        $("#foreGb").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "국내", value: "D"},
+                {text: "국외", value: "F"},
+            ],
+        });
+
         oorm.getObtainOrder();
     },
 
@@ -41,6 +50,7 @@ var oorm = {
             $("#unitPrice").val(oorm.comma(result.rs.UNIT_PRICE));
             $("#amt").val(oorm.comma(result.rs.AMT));
             $("#rmk").val(result.rs.RMK);
+            $("#foreGb").data("kendoDropDownList").value(result.rs.FORE_GB);
         }
     },
 
@@ -79,6 +89,7 @@ var oorm = {
                 unitPrice : oorm.uncomma($("#unitPrice").val()),
                 amt : oorm.uncomma($("#amt").val()),
                 rmk : $("#rmk").val(),
+                foreGb : $("#foreGb").data("kendoDropDownList").value(),
                 empSeq : $("#empSeq").val()
             }
 

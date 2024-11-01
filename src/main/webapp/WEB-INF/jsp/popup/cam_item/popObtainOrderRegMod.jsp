@@ -90,9 +90,14 @@
                 </tr>
                 <tr>
                     <th>금액</th>
-                    <td colspan="3">
+                    <td>
                         <input type="text" id="amt" name="amt" class="amt numberInput" style="text-align: right" disabled>
                     </td>
+                    <th>구분</th>
+                    <td>
+                        <input type="text" id="foreGb" name="foreGb" class="foreGb">
+                    </td>
+                </tr>
                 <tr>
                     <th>비고</th>
                     <td colspan="3">
