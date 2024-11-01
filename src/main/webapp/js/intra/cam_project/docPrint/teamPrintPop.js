@@ -82,9 +82,9 @@ const teamPrintPop = {
         teamPrintPop.global.hwpCtrl.PutFieldText('PJT_NM', pjtMap.PJT_NM);
         teamPrintPop.global.hwpCtrl.PutFieldText('CRM_NM', pjtMap.CRM_NM);
 
-        if(pjtMap.BUSN_CLASS == "D"){
+        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
             teamPrintPop.global.hwpCtrl.PutFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
-            teamPrintPop.global.hwpCtrl.PutFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
+            teamPrintPop.global.hwpCtrl.PutFieldText("PJT_DT", delvMap.DELV_EST_DE + " ~ " + delvMap.DELV_DE);
         }else if(pjtMap.BUSN_CLASS == "R"){
             teamPrintPop.global.hwpCtrl.PutFieldText('PM_EMP_NM', rndMap.MNG_EMP_NAME);
             teamPrintPop.global.hwpCtrl.PutFieldText("PJT_DT", pjtMap.PJT_START_DT + " ~ " + pjtMap.PJT_END_DT);
