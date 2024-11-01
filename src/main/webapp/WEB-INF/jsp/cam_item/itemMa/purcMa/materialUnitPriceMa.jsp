@@ -27,7 +27,7 @@
                     <tr>
                         <th class="text-center th-color">업체</th>
                         <td>
-                            <input type="hidden" id="crmSn" name="crmSn" onchange="mup.gridReload();">
+                            <input type="hidden" id="crmSn" name="crmSn" onchange="mup.mainGrid();">
                             <input type="text" id="crmNm" style="width: 200px;">
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCamCrmList()">
                                 조회
@@ -39,7 +39,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 15%;"/>
-                            <input type="text" id="searchValue" style="width: 30%;" onkeypress="if(window.event.keyCode==13){mup.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 30%;" onkeypress="if(window.event.keyCode==13){mup.mainGrid()}"/>
                         </td>
                     </tr>
                 </table>
