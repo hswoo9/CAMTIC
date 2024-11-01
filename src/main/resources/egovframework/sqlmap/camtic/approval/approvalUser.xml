@@ -401,6 +401,10 @@
                 AND
                 FORM.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
             </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND
+                DI.DRAFT_EMP_NAME LIKE CONCAT('%', #{docTitle},'%')
+            </when>
             <otherwise>
                 AND
                 (
