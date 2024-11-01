@@ -67,16 +67,18 @@ var costCalc = {
     /** 수행계획 최신 Ver 투자금액 */
     nowInvAmt: function(e){
         /**
-         * 공통 : 동일 년도면 투자금액, 아니면 0원
+         * 공통 : 수주년도면 비용, 차년도면 수행계획 - 비용
+         * 사업 종료 : 종료시에는 해당 년도 비용
          * */
         let amt = 0;
-        if(["D"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+        if(["C"].includes(e.TEXT)){
             amt = Number(e.DEV_INV_AMT || 0);
-        }else if(["A", "B"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-            amt = Number(e.DEV_INV_AMT || 0);
-        }else if(["C"].includes(e.TEXT)){
-            amt = Number(e.DEV_INV_AMT || 0);
+        }else if(["A", "B", "D"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+            amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+        }else if(["A", "B", "D"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
+            amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
         }
+
         return amt;
     },
 
@@ -154,7 +156,8 @@ var costCalc = {
     devProfitAmt: function(e){
         /**
          * 엔지니어링
-         * 전체 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 수주년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 차년도 : 전년도에 설정한 차년도 운영수익
          *
          * 알앤디/비알앤디
          * 전체 : 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
@@ -162,14 +165,18 @@ var costCalc = {
         let amt = 0;
         let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            let amt0 = costCalc.nowPjtAmt(e);
-            let amt1 = costCalc.nowInvAmt(e);
+            let amt0 = Number(e.PJT_AMT || 0);
+            let amt1 = Number(e.DEV_INV_AMT || 0);
             let amt2 = costCalc.resProfitAmt(e);
             eopAmt = amt0 - amt1 - amt2;
 
             console.log("당해년도 사업비 : ", amt0);
             console.log("투자내역 : ", amt1);
-            console.log("달성운영수익 : ", amt2);;
+            console.log("달성운영수익 : ", amt2);
+
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
+                eopAmt = amt2;
+            }
         }else{
             if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
                 eopAmt = e.planAmt;
@@ -189,7 +196,7 @@ var costCalc = {
         /** 직접비 수익율 : ( 수행계획서 상 예상비용 - 직접비 예산 ) / 직접비 예산 */
         let per = 0;
         let directAmt = Number(e.useAmt || 0);
-        let invAmt = costCalc.nowInvAmt(e);
+        let invAmt = Number(e.DEV_INV_AMT || 0);
         per = (Number(invAmt) - directAmt) / directAmt;
 
         if(directAmt == 0){
