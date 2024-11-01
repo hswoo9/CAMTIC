@@ -10,8 +10,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">수주현황</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > 수주관리 > 수주현황</div>
+            <h4 class="panel-title">주문현황</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 수주관리 > 주문현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -52,6 +52,14 @@
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oosl.gridReload()}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">품번</th>
+                        <td colspan="7">
+                            <input type="text" id="categoryA" name="categoryA" style="width: 120px">
+                            <input type="text" id="categoryB" name="categoryB" style="width: 120px">
+                            <input type="text" id="categoryC" name="categoryC" style="width: 120px">
                         </td>
                     </tr>
                 </table>

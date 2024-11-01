@@ -8,7 +8,7 @@ var oosl = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(oosl.global.now.setMonth(oosl.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", "decade", "yyyy-MM-dd", new Date(today.setFullYear(today.getFullYear(),0,1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         oosl.global.dropDownDataSource = [
@@ -23,12 +23,107 @@ var oosl = {
 
         oosl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
-            { text : "품명", value : "ITEM_NAME" }
+            { text : "품명", value : "ITEM_NAME" },
+            { text : "업체명", value : "CRM_NM" }
         ]
         customKendo.fn_dropDownList("searchKeyword", oosl.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", oosl.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
+
+
+        oosl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "A"}).list;
+        oosl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+        $("#categoryA").kendoDropDownList({
+            dataSource : oosl.global.dropDownDataSource,
+            dataTextField: "CATEGORY_CODE_NM",
+            dataValueField: "ITEM_CATEGORY_SN",
+            change : function(){
+                oosl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "B", parentCode: $("#categoryA").val()}).list;
+                oosl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+
+                if($("#categoryA").val() != ""){
+                    $("#categoryC").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+
+                    $("#categoryB").kendoDropDownList({
+                        dataSource : oosl.global.dropDownDataSource,
+                        dataTextField: "CATEGORY_CODE_NM",
+                        dataValueField: "ITEM_CATEGORY_SN",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        change : function(){
+                            oosl.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "C", parentCode: $("#categoryB").val()}).list;
+                            oosl.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : "", CATEGORY_CODE : ""});
+
+                            if($("#categoryA").val() != "" && $("#categoryB").val() != ""){
+                                $("#categoryC").kendoDropDownList({
+                                    dataSource : oosl.global.dropDownDataSource,
+                                    dataTextField: "CATEGORY_CODE_NM",
+                                    dataValueField: "ITEM_CATEGORY_SN",
+                                    CATEGORY_CODE : "CATEGORY_CODE",
+                                    change : function(){
+                                        oosl.gridReload();
+                                    }
+                                });
+                            }
+
+                            oosl.gridReload();
+                        }
+                    });
+                } else {
+                    $("#categoryB").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+                    $("#categoryC").kendoDropDownList({
+                        dataTextField: "TEXT",
+                        dataValueField: "VALUE",
+                        CATEGORY_CODE : "CATEGORY_CODE",
+                        dataSource: [
+                            {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+                        ],
+                        index: 0,
+                    });
+                }
+
+                oosl.gridReload();
+            }
+        });
+
+        $("#categoryB").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            CATEGORY_CODE : "CATEGORY_CODE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+            ],
+            index: 0,
+        });
+
+        $("#categoryC").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            CATEGORY_CODE : "CATEGORY_CODE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: '', CATEGORY_CODE : ""}
+            ],
+            index: 0,
+        });
+
+
+
 
         oosl.gridReload();
     },
@@ -348,6 +443,10 @@ var oosl = {
     },
 
     gridReload: function (){
+        var categoryA = $("#categoryA").data("kendoDropDownList");
+        var categoryB = $("#categoryB").data("kendoDropDownList");
+        var categoryC = $("#categoryC").data("kendoDropDownList");
+
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
@@ -360,7 +459,13 @@ var oosl = {
             unpaidType : $("#unpaidType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            regEmpSeq : $("#regEmpSeq").val()
+            regEmpSeq : $("#regEmpSeq").val(),
+
+            category :
+                categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
+                categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
+                categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE
+
         }
 
         oosl.mainGrid("/item/getObtainOrderMaster.do", oosl.global.searchAjaxData);

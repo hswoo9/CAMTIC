@@ -281,11 +281,19 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                <choose>
+                    <when test='"CRM_NM".equals(searchKeyword)'>
+                        AND CI.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <otherwise>
+                        AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                    </otherwise>
+                </choose>
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
+                    CI.CRM_NM LIKE CONCAT('%', #{searchValue}, '%') OR
                     IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                     IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
                     )
