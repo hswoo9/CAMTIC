@@ -8,19 +8,20 @@ var oorl = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(oorl.global.now.setMonth(oorl.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(today.setFullYear(today.getFullYear(),0,1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         oorl.global.dropDownDataSource = [
-            { text : "개시", value : "N" },
-            { text : "마감", value : "Y" }
+            { text : "견적진행중", value : "N" },
+            { text : "견적마감", value : "Y" }
         ]
         customKendo.fn_dropDownList("deadLine", oorl.global.dropDownDataSource, "text", "value");
         $("#deadLine").data("kendoDropDownList").bind("change", oorl.gridReload);
 
         oorl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
-            { text : "품명", value : "ITEM_NAME" }
+            { text : "품명", value : "ITEM_NAME" },
+            { text : "업체명", value : "CRM_NM" }
         ]
         customKendo.fn_dropDownList("searchKeyword", oorl.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", oorl.gridReload);
@@ -350,22 +351,19 @@ var oorl = {
                             return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
                         }
                     }
-                }, {
-                    title: "재고",
-                    field: "OVERALL_INVEN",
-                    width: 100,
-                    template : function (e){
-                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
-                            return oorl.comma(e.OVERALL_INVEN);
-                        }else{
-                            return "0";
+                },{
+                    title: "규격",
+                    field: "STANDARD",
+                    width: 120,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.STANDARD + "</span>"
+                        }else {
+                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.STANDARD + '</a>'
                         }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
                     }
-                }, {
-                    title: "수주량",
+                },{
+                    title: "견적 수량",
                     field: "ORDER_VOLUME",
                     width: 100,
                     template : function (e){
@@ -385,7 +383,7 @@ var oorl = {
                     attributes : {
                         style : "text-align : right;"
                     }
-                }, {
+                },{
                     title: "단가",
                     width: 100,
                     field: "UNIT_PRICE",
@@ -400,14 +398,14 @@ var oorl = {
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
                         }else {
-                            return str
+                            return str;
                         }
                     },
                     attributes : {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "수주금액",
+                    title: "견적금액 (원)", // 수주금액
                     width: 100,
                     field: "AMT",
                     template: function(e){
@@ -422,6 +420,20 @@ var oorl = {
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
                         }else {
                             return str
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                },{
+                    title: "재고수량",
+                    field: "OVERALL_INVEN",
+                    width: 100,
+                    template : function (e){
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return oorl.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
                         }
                     },
                     attributes : {
@@ -474,27 +486,27 @@ var oorl = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "납기예정일",
+                    field: "DUE_DT",
+                    width: 160,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.DUE_DT + "</span>";
+                        }else {
+                            return e.DUE_DT;
+                        }
+                    }
+                },{
                     title: "비고",
                     field: "RMK",
                     width: 160,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.RMK + "</span>"
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.RMK + "</span>";
                         }else {
-                            return e.RMK
+                            return e.RMK;
                         }
                     }
-                }, {
-                    title: "수주구분",
-                    field: "OBTAIN_ORDER_TYPE",
-                    width: 80,
-                    template : function (e){
-                        if(e.OBTAIN_ORDER_TYPE == "Y"){
-                            return "정상"
-                        }else{
-                            return "취소";
-                        }
-                    },
                 }, {
                     title: "입금처리요청서",
                     field: "PAY_DEPO_SN",
@@ -517,11 +529,22 @@ var oorl = {
                     width: 80,
                     template : function (e){
                         if(e.DEADLINE == "Y"){
-                            return "마감"
+                            return "견적마감";
                         }else {
-                            return "개시";
+                            return "견적진행중";
                         }
                     },
+                }, {
+                    title: "수주구분",
+                    field: "OBTAIN_ORDER_TYPE",
+                    width: 80,
+                    template : function (e){
+                        if(e.OBTAIN_ORDER_TYPE == "Y"){
+                            return "정상";
+                        }else{
+                            return "취소";
+                        }
+                    }
                 }
             ],
             dataBound: function() {

@@ -325,6 +325,7 @@
             EI.EMP_NAME_KR,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            IM.STANDARD,
             IUC.ITEM_CD_NM AS UNIT,
             (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
             CI.CRM_SN,

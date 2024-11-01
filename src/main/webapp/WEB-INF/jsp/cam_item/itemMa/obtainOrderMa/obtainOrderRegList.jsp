@@ -16,8 +16,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">수주등록</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > 수주관리 > 수주등록</div>
+            <h4 class="panel-title">견적등록</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 수주관리 > 견적등록</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -45,7 +45,7 @@
                                 초기화
                             </button>
                         </td>
-                        <th class="text-center th-color">수주일</th>
+                        <th class="text-center th-color">견적일</th>
                         <td>
                             <input type="text" id="startDt" style="width: 45%;"> ~
                             <input type="text" id="endDt" style="width: 45%;">
