@@ -14,124 +14,168 @@ var mup = {
             { text : "안전재고", value : "SAFETY_INVEN" },
         ]
         customKendo.fn_dropDownList("searchKeyword", mup.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", mup.gridReload);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", mup.mainGrid);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        mup.gridReload("load");
+        mup.mainGrid("load");
+
     },
 
-    mainGrid: function(url, params){
-        $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
-            height: 508,
-            sortable: true,
-            selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
+    mainGrid: function(e){
+        var url = '';
+        if($("#crmSn").val()){
+            url = '/item/getMaterialUnitPriceList.do';
+        }else{
+            url = '';
+        }
+
+        if(!$("#crmSn").val() && e != "load"){
+                alert("업체를 선택해주세요");
+
+            return;
+        }else{
+            const dataSource = new kendo.data.DataSource({
+                serverPaging: false,
+                transport: {
+                    read : {
+                        url : url,
+                        dataType : "json",
+                        type : "post"
+                    },
+                    parameterMap: function(data) {
+                        data.crmSn = $("#crmSn").val();
+                        data.busClass = "W";
+                        data.searchKeyword = $("#searchKeyword").val();
+                        data.searchValue = $("#searchValue").val();
+
+                        return data;
                     }
-                }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
-                }
-            ],
-            excel : {
-                fileName : "자재단가관리.xlsx",
-                filterable : true
-            },
-            columns: [
-                {
-                    title: "순번",
-                    template: "#= --record #",
-                    width: 50
-                }, {
-                    title: "품번",
-                    field: "ITEM_NO",
-                    width: 180,
-                }, {
-                    title: "품명",
-                    field: "ITEM_NAME",
-                    width: 180
-                }, {
-                    title: "규격",
-                    field: "STANDARD",
-                    width: 180
-                }, {
-                    title: "적용시작일자",
-                    field: "START_DT",
-                    width: 100
-                }, {
-                    title: "적용종료일자",
-                    field: "END_DT",
-                    width: 100
-                }, {
-                    title: "변경차수",
-                    field: "CHANGE_NUM",
-                    width: 100,
-                    template : function(e){
-                        if(e.CHANGE_NUM != null){
-                            return e.CHANGE_NUM
-                        }else{
-                            return '0'
+                },
+                schema : {
+                    data: function (data) {
+                        return data.list;
+                    },
+                    total: function (data) {
+                        return data.list.length;
+                    },
+                },
+                page: 1,
+                pageSizes: "ALL",
+            });
+
+            $("#mainGrid").kendoGrid({
+                /*dataSource: customKendo.fn_gridDataSource2(url, params),*/
+                dataSource : dataSource,
+                height: 508,
+                sortable: true,
+                selectable: "row",
+                pageable: {
+                    refresh: true,
+                    pageSizes : [ 10, 20, 50, "ALL" ],
+                    buttonCount: 5
+                },
+                noRecords: {
+                    template: "데이터가 존재하지 않습니다."
+                },
+                toolbar: [
+                    {
+                        name: 'button',
+                        template: function(){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.mainGrid()">' +
+                                '	<span class="k-button-text">조회</span>' +
+                                '</button>';
                         }
+                    }, {
+                        name : 'excel',
+                        text: '엑셀다운로드'
                     }
-                }, {
-                    title: "단가",
-                    field: "UNIT_PRICE",
-                    width: 100,
-                    template : function (e){
-                        if(e.CIU_UNIT_PRICE != null && e.CIU_UNIT_PRICE != ""){
-                            return mup.comma(e.CIU_UNIT_PRICE);
-                        }else{
-                            if(e.MSU_UNIT_PRICE != null && e.MSU_UNIT_PRICE != ""){
-                                return mup.comma(e.MSU_UNIT_PRICE);
+                ],
+                excel : {
+                    fileName : "자재단가관리.xlsx",
+                    filterable : true
+                },
+                columns: [
+                    {
+                        title: "순번",
+                        template: "#= --record #",
+                        width: 50
+                    }, {
+                        title: "품번",
+                        field: "ITEM_NO",
+                        width: 180,
+                    }, {
+                        title: "품명",
+                        field: "ITEM_NAME",
+                        width: 180
+                    }, {
+                        title: "규격",
+                        field: "STANDARD",
+                        width: 180
+                    }, {
+                        title: "적용시작일자",
+                        field: "START_DT",
+                        width: 100
+                    }, {
+                        title: "적용종료일자",
+                        field: "END_DT",
+                        width: 100
+                    }, {
+                        title: "변경차수",
+                        field: "CHANGE_NUM",
+                        width: 100,
+                        template : function(e){
+                            if(e.CHANGE_NUM != null){
+                                return e.CHANGE_NUM
                             }else{
-                                return "";
+                                return '0'
                             }
                         }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
+                    }, {
+                        title: "단가",
+                        field: "UNIT_PRICE",
+                        width: 100,
+                        template : function (e){
+                            if(e.CIU_UNIT_PRICE != null && e.CIU_UNIT_PRICE != ""){
+                                return mup.comma(e.CIU_UNIT_PRICE);
+                            }else{
+                                if(e.MSU_UNIT_PRICE != null && e.MSU_UNIT_PRICE != ""){
+                                    return mup.comma(e.MSU_UNIT_PRICE);
+                                }else{
+                                    return "";
+                                }
+                            }
+                        },
+                        attributes : {
+                            style : "text-align : right;"
+                        }
+                    }, {
+                        title: "비고",
+                        field: "RMK",
+                        width: 300,
+                    }, {
+                        title: "단가관리",
+                        width: 100,
+                        template: function(e){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(this)">' +
+                                '	<span class="k-button-text">단가관리</span>' +
+                                '</button>';
+                        }
                     }
-                }, {
-                    title: "비고",
-                    field: "RMK",
-                    width: 300,
-                }, {
-                    title: "단가관리",
-                    width: 100,
-                    template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(this)">' +
-                            '	<span class="k-button-text">단가관리</span>' +
-                            '</button>';
-                    }
+                ],
+                dataBinding: function(){
+                    record = fn_getRowNum(this, 3);
                 }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 3);
-            }
-        }).data("kendoGrid");
+            }).data("kendoGrid");
 
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=crmSn]").prop("checked", true);
-            else $("input[name=crmSn]").prop("checked", false);
-        });
+            $("#checkAll").click(function(){
+                if($(this).is(":checked")) $("input[name=crmSn]").prop("checked", true);
+                else $("input[name=crmSn]").prop("checked", false);
+            });
+        }
     },
 
-    gridReload: function (e){
+    /*gridReload: function (e){
         var url = "";
         if(!$("#crmSn").val() && e != "load"){
             alert("업체를 선택해주세요");
@@ -152,7 +196,7 @@ var mup = {
         }
 
         mup.mainGrid(url, mup.global.searchAjaxData);
-    },
+    },*/
 
     comma: function(str) {
         str = String(str);
@@ -174,7 +218,7 @@ var mup = {
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
-        mup.gridReload()
+        mup.mainGrid();
     },
 
     fn_popCrmItemUnitPriceReg : function (e){
@@ -186,6 +230,7 @@ var mup = {
     },
 }
 
+/*
 function gridReload(){
-    mup.gridReload();
-}
+    mup.mainGrid();
+}*/

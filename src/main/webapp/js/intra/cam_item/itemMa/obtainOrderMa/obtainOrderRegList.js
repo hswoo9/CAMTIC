@@ -154,7 +154,8 @@ var oorl = {
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            page: 1,
+            pageSizes: "ALL",
         });
 
         $("#mainGrid").kendoGrid({

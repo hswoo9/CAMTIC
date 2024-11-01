@@ -215,6 +215,7 @@ public class AchieveController {
                 if(projectPaySetData1 != null){
                     map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
                     map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
+                    map.put("BEF_DEADLINE_YN", projectPaySetData1.get("DEADLINE_YN"));
                 }
 
                 // 해당년도 당해년도 설정액
@@ -247,6 +248,7 @@ public class AchieveController {
                 if(projectPaySetData1 != null){
                     map.put("befExpSaleAmt", projectPaySetData1.get("AFT_SALE_AMT"));
                     map.put("befExpProfitAmt", projectPaySetData1.get("AFT_PROFIT_AMT"));
+                    map.put("BEF_DEADLINE_YN", projectPaySetData1.get("DEADLINE_YN"));
                 }
 
                 // 해당년도 당해년도 설정액
@@ -278,6 +280,24 @@ public class AchieveController {
             map.put("realUseAmt", realUseMap2.get("COST_SUM"));
             map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
             map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
+
+            // 전년도 비용 (순서대로 지출, 구매, 출장)
+            if (map.get("YEAR") != null){
+                try {
+                    String yearStr = map.get("YEAR").toString();
+                    int year = Integer.parseInt(yearStr);
+                    params.put("reqYear", year - 1);
+
+                    Map<String, Object> befRealUseMap2 = achieveService.getRealUseExnpAmt(params);
+                    Map<String, Object> befRealUseMap3 = achieveService.getRealUseExnpAmt2(params);
+                    Map<String, Object> befRealUseMap4 = achieveService.getRealUseExnpAmt3(params);
+                    map.put("befRealUseAmt", befRealUseMap2.get("COST_SUM"));
+                    map.put("befRealUseAmt2", befRealUseMap3.get("PURC_SUM"));
+                    map.put("befRealUseAmt3", befRealUseMap4.get("BUST_SUM"));
+                } catch (NumberFormatException e) {
+                    System.err.println("error");
+                }
+            }
 
             // 매출수익설정
             Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);

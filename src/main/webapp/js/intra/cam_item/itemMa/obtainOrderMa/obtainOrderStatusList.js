@@ -8,7 +8,7 @@ var oosl = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_datePicker("startDt", "decade", "yyyy-MM-dd", new Date(today.setFullYear(today.getFullYear(),0,1)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(today.setFullYear(today.getFullYear(),0,1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         oosl.global.dropDownDataSource = [
@@ -19,7 +19,7 @@ var oosl = {
             { text : "진행중", value : "Y" },
         ]
         customKendo.fn_dropDownList("unpaidType", oosl.global.dropDownDataSource, "text", "value");
-        $("#unpaidType").data("kendoDropDownList").bind("change", oosl.gridReload);
+        $("#unpaidType").data("kendoDropDownList").bind("change", oosl.mainGrid);
 
         oosl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
@@ -27,7 +27,7 @@ var oosl = {
             { text : "업체명", value : "CRM_NM" }
         ]
         customKendo.fn_dropDownList("searchKeyword", oosl.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", oosl.gridReload);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", oosl.mainGrid);
 
         customKendo.fn_textBox(["searchValue"]);
 
@@ -69,12 +69,12 @@ var oosl = {
                                     dataValueField: "ITEM_CATEGORY_SN",
                                     CATEGORY_CODE : "CATEGORY_CODE",
                                     change : function(){
-                                        oosl.gridReload();
+                                        oosl.mainGrid();
                                     }
                                 });
                             }
 
-                            oosl.gridReload();
+                            oosl.mainGrid();
                         }
                     });
                 } else {
@@ -98,7 +98,7 @@ var oosl = {
                     });
                 }
 
-                oosl.gridReload();
+                oosl.mainGrid();
             }
         });
 
@@ -125,12 +125,50 @@ var oosl = {
 
 
 
-        oosl.gridReload();
+        oosl.mainGrid();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getObtainOrderMaster.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    var categoryA = $("#categoryA").data("kendoDropDownList");
+                    var categoryB = $("#categoryB").data("kendoDropDownList");
+                    var categoryC = $("#categoryC").data("kendoDropDownList");
+
+                    data.crmSn = $("#crmSn").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.deadLine = "Y";
+                    data.unpaidType = $("#unpaidType").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.category =  categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
+                        categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
+                        categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,/*customKendo.fn_gridDataSource2(url, params, "ALL"),*/
             height : 508,
             sortable: true,
             selectable: "row",
@@ -148,7 +186,7 @@ var oosl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oosl.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oosl.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -442,7 +480,7 @@ var oosl = {
         });
     },
 
-    gridReload: function (){
+    /*gridReload: function (){
         var categoryA = $("#categoryA").data("kendoDropDownList");
         var categoryB = $("#categoryB").data("kendoDropDownList");
         var categoryC = $("#categoryC").data("kendoDropDownList");
@@ -469,12 +507,12 @@ var oosl = {
         }
 
         oosl.mainGrid("/item/getObtainOrderMaster.do", oosl.global.searchAjaxData);
-    },
+    },*/
 
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
-        oosl.gridReload()
+        oosl.mainGrid();
     },
 
     fn_popObtainOrderReg : function (){

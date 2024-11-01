@@ -9,23 +9,52 @@ var invenSt = {
     fn_defaultScript : function (){
         invenSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", invenSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", invenSt.gridReload);
+        $("#whCd").data("kendoDropDownList").bind("change", invenSt.mainGrid);
 
         invenSt.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
         customKendo.fn_dropDownList("searchKeyword", invenSt.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", invenSt.gridReload);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", invenSt.mainGrid);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        invenSt.gridReload();
+        invenSt.mainGrid();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getItemInvenList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.whCd = $("#whCd").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.inspection = "Y";
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height: 508,
             sortable: true,
             selectable: "row",
@@ -41,7 +70,7 @@ var invenSt = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenSt.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenSt.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -155,7 +184,7 @@ var invenSt = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    /*gridReload: function (){
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
@@ -168,7 +197,7 @@ var invenSt = {
         }
 
         invenSt.mainGrid("/item/getItemInvenList.do", invenSt.global.searchAjaxData);
-    },
+    },*/
 
     comma: function(str) {
         str = String(str);

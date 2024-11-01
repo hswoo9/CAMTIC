@@ -9,14 +9,53 @@ var invenStAdmin = {
     fn_defaultScript : function (){
 
         customKendo.fn_datePicker("searchDt", "depth", "yyyy-MM-dd", new Date());
-        $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.gridReload);
+        $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.mainGrid);
 
-        invenStAdmin.gridReload();
+        invenStAdmin.mainGrid();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        var date = new Date($("#searchDt").val());
+        var nowStrDt = new Date(date.getFullYear(), date.getMonth(), 1);
+        var nowEndDt = new Date(date.getFullYear(), date.getMonth()+1, 0);
+
+        var befDate = new Date($("#searchDt").val());
+        var befStrDt = new Date(befDate.getFullYear(), befDate.getMonth() - 1, 1);
+        var befEndDt = new Date(befDate.getFullYear(), befDate.getMonth(), 0);
+
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getItemInvenAdminList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.searchDt = $("#searchDt").val();
+                    data.nowStrDt = nowStrDt.getFullYear() + "-" + ('0' + ((nowStrDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (nowStrDt.getDate())).slice(-2); //nowMon firstDay,
+                    data.nowEndDt = nowEndDt.getFullYear() + "-" + ('0' + ((nowEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (nowEndDt.getDate())).slice(-2); //nowMon lastDay,
+                    data.befStrDt = befStrDt.getFullYear() + "-" + ('0' + ((befStrDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befStrDt.getDate())).slice(-2);   //befMon firstDay,
+                    data.befEndDt = befEndDt.getFullYear() + "-" + ('0' + ((befEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befEndDt.getDate())).slice(-2);   //befMon lastDay,
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            /*dataSource: customKendo.fn_gridDataSource2(url, params),*/
+            dataSource: dataSource,
             height: 508,
             sortable: true,
             selectable: "row",
@@ -67,7 +106,7 @@ var invenStAdmin = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -325,7 +364,7 @@ var invenStAdmin = {
         var popup = window.open(url, name, option);
     },
 
-    gridReload: function (){
+    /*gridReload: function (){
 
         var date = new Date($("#searchDt").val());
         var nowStrDt = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -344,7 +383,7 @@ var invenStAdmin = {
         };
 
         invenStAdmin.mainGrid("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData);
-    },
+    },*/
 
     comma: function(str) {
         str = String(str);
