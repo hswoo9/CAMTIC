@@ -403,7 +403,7 @@ public class BustripServiceImpl implements BustripService {
             if("Y".equals(params.get("companionChangeCheck"))) {
                 if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
 
-                    bustripRepository.delBustripResCompanion(params);
+//                    bustripRepository.delBustripResCompanion(params);
 
                     compEmpSeq = params.get("compEmpSeq").toString();
 
