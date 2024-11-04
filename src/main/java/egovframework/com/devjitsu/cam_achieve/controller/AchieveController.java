@@ -256,6 +256,24 @@ public class AchieveController {
                     map.put("DEADLINE_YN", projectPaySetData2.get("DEADLINE_YN"));
                 }
 
+                // 전체년도 비용 (순서대로 지출, 구매, 출장)
+                if (map.get("YEAR") != null){
+                    try {
+                        String yearStr = map.get("YEAR").toString();
+                        int year = Integer.parseInt(yearStr);
+                        params.put("reqYear", year - 1);
+
+                        Map<String, Object> allRealUseMap2 = achieveService.getRealUseExnpAmt(params);
+                        Map<String, Object> allRealUseMap3 = achieveService.getRealUseExnpAmt2(params);
+                        Map<String, Object> allRealUseMap4 = achieveService.getRealUseExnpAmt3(params);
+                        map.put("allRealUseAmt", allRealUseMap2.get("COST_SUM"));
+                        map.put("allRealUseAmt2", allRealUseMap3.get("PURC_SUM"));
+                        map.put("allRealUseAmt3", allRealUseMap4.get("BUST_SUM"));
+                    } catch (NumberFormatException e) {
+                        System.err.println("error");
+                    }
+                }
+
             /** 엔지니어링/용역기타 */
             }else{
 

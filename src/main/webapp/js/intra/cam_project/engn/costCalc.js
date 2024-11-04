@@ -96,7 +96,8 @@ var costCalc = {
     resSaleAmt: function(e){
         /**
          * 엔지니어링
-         * 전체 : 정산서 마감이 되고 납품 저장 금액
+         * 수주년도 : 0원
+         * 차년도 : 정산서 마감이 되고 납품 저장 금액
          *
          * 알앤디/비알앤디
          * 수주년도 : 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
@@ -108,7 +109,7 @@ var costCalc = {
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 종료유무 */
-            if(e.COST_CLOSE_CK == "Y"){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR && e.COST_CLOSE_CK == "Y"){
                 asrAmt = e.goodsTotAmt;
             }
         }else{
@@ -136,28 +137,44 @@ var costCalc = {
     resProfitAmt: function(e){
         /**
          * 엔지니어링
-         * 0원 : 0
-         * 나머지 : 달성매출액 - 비용 - 예상수익
+         * 사업종료 전 : 0원
+         * 사업종료 후 : 달성매출액 - 비용
          *
          * 알앤디/비알앤디
-         * 전체 : 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율)
+         * 수주년도 : 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율)
+         * 차년도 : 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율) - 전년도 운영수익
+         * 사업종료 : 지출완료 합계 - 비용합계 - 전년도 운영수익
+         * 
+         * 공통 : 매출수익설정의 달성운영수익 금액 추가
          * */
         let amt = 0;
         let aopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             let asrAmt = costCalc.resSaleAmt(e);
             if(asrAmt > 0){
-                aopAmt = asrAmt - Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+                aopAmt = asrAmt - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
             }
         }else{
-            aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
+            }else{
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    let allAsrAmt = 0;
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
+                    }else{
+                        allAsrAmt = e.exnpCompAmt;
+                    }
+                    aopAmt = allAsrAmt - (Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)) - Number(e.befExpProfitAmt || 0);
+                }else{
+                    aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e)) - Number(e.befExpProfitAmt || 0);
+                }
+            }
         }
         amt = aopAmt + Number(e.pjtAmtSetData.AMT1 || 0);
-
-        console.log("수익설정 지출완료금액", e.incpCompAmt1);
-        console.log("비용설정 지출완료금액", e.incpCompAmt2);
-        console.log("직접비 수익율", costCalc.directProfitRate(e));
-        console.log("(비용설정 지출완료금액 * 직접비수익율)", (Number(e.incpCompAmt2) * costCalc.directProfitRate(e)));
+        
         return amt;
     },
 

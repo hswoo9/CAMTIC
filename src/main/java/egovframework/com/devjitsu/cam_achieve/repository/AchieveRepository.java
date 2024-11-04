@@ -168,6 +168,19 @@ public class AchieveRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("achieve.getRealUseExnpAmt3", params);
     }
 
+    public Map<String, Object> getRealUseExnpAllAmt(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAllAmt", params);
+    }
+    public Map<String, Object> getRealUseExnpAllAmt2(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAllAmt2", params);
+    }
+    public Map<String, Object> getRealUseExnpAllAmt3(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getRealUseExnpAllAmt3", params);
+    }
+
     public Map<String, Object> getPlanExnpAmt(Map<String, Object> params) {
 
         return (Map<String, Object>) selectOne("achieve.getPlanExnpAmt", params);

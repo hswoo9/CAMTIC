@@ -480,6 +480,19 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public Map<String, Object> getRealUseExnpAllAmt(Map<String, Object> params) {
+        return achieveRepository.getRealUseExnpAllAmt(params);
+    }
+    @Override
+    public Map<String, Object> getRealUseExnpAllAmt2(Map<String, Object> params) {
+        return achieveRepository.getRealUseExnpAllAmt2(params);
+    }
+    @Override
+    public Map<String, Object> getRealUseExnpAllAmt3(Map<String, Object> params) {
+        return achieveRepository.getRealUseExnpAllAmt3(params);
+    }
+
+    @Override
     public Map<String, Object> getPlanExnpAmt(Map<String, Object> params) {
         return achieveRepository.getPlanExnpAmt(params);
     }

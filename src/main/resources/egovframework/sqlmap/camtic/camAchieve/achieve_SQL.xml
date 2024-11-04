@@ -1033,6 +1033,230 @@
         ) RE
     </select>
 
+    <select id="getRealUseExnpAllAmt" parameterType="map" resultType="map">
+        /*getRealUseExnpAmt*/
+        SELECT
+            IFNULL(SUM((SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y')), 0) AS COST_SUM
+        FROM
+            CAM_MNG.DJ_PAY_APP PA
+        WHERE
+            (
+                PA.PJT_SN = #{pjtSn}
+                    OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                )
+                AND PA.DOC_STATUS NOT IN (0, 30, 40)
+    </select>
+
+    <select id="getRealUseExnpAllAmt2" parameterType="map" resultType="map">
+        /*getPurcReqClaimList2*/
+        SELECT
+            IFNULL(SUM(
+                           CASE
+                               WHEN RE.ORG_YN = 'N' THEN
+                                   CASE
+                                       WHEN #{busnClass} IN ('D', 'V') THEN ROUND(RE.PURC_SUP_AMT)
+                                       ELSE ROUND(RE.PURC_ITEM_AMT_SUM)
+                                       END
+                               ELSE
+                                   CASE
+                                       WHEN #{busnClass} IN ('D', 'V') THEN ROUND(RE.PURC_ITEM_AMT_SUM)
+                                       ELSE
+                                           CASE
+                                               WHEN RE.InTax = '0' THEN ROUND(RE.PURC_ITEM_AMT_SUM) + ROUND(RE.PURC_ITEM_AMT_SUM / 10)
+                                               WHEN RE.InTax IN ('1', '2') THEN ROUND(RE.PURC_ITEM_AMT_SUM)
+                                               END
+                                       END
+                               END
+                   ), 0) AS PURC_SUM
+        FROM (
+                 SELECT
+                     IFNULL(DI.DOC_NO,(SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID)) AS DOC_NO,
+                     IFNULL(B.PURC_REQ_DATE, A.CLAIM_DE) as PURC_REQ_DATE,
+                     (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ) AS EMP_NAME_KR,
+                     IFNULL(B.PURC_REQ_PURPOSE, A.PURC_REQ_PURPOSE) AS PURC_REQ_PURPOSE,
+                     A.PURC_SN,
+                     B.STATUS,
+                     B.DOC_STATUS,
+                     '' AS InTax,
+                     IFNULL((SELECT SUM(PURC_SUP_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_SUP_AMT,
+                     IFNULL((SELECT SUM(ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM,
+                     IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
+                     'CAYSY' AS CLAIM_STATUS,
+                     A.CLAIM_SN,
+                     A.STATUS AS CLAIM_DOC_STATUS,
+                     A.DOC_ID AS CLAIM_DOC_ID,
+                     (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY,
+                     IFNULL(B.INSPECT_YN, A.INSPECT_YN) AS INSPECT_YN,
+                     A.INSPECT_STATUS,
+                     IFNULL(B.PAYMENT_METHOD, A.PAYMENT_METHOD) AS PAYMENT_METHOD,
+                     A.ORDER_DT,
+                     B.REG_DATE,
+                     A.CRM_NM,
+                     'N' AS ORG_YN,
+                     (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
+            FROM
+                CAM_MNG.DJ_PURC_CLAIM A
+            LEFT JOIN
+                CAM_MNG.DJ_MNG_PURC B ON A.PURC_SN = B.PURC_SN
+            LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
+        WHERE
+            A.PJT_SN = #{pjtSn}
+
+        UNION ALL
+
+        SELECT
+            A.JDocNo AS DOC_NO,
+            DATE_FORMAT(A.JReqDate, '%Y-%m-%d') AS PURC_REQ_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.ReqUserID) AS EMP_NAME_KR,
+            A.JReason AS PURC_REQ_PURPOSE,
+            '' as PURC_SN,
+            '' as STATUS,
+            '' as DOC_STATUS,
+            A.InTax,
+            '' AS PURC_SUP_AMT,
+            (SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO) AS PURC_ITEM_AMT_SUM,
+            '' AS APPROVE_STAT_CODE,
+            'CAYSY' AS CLAIM_STATUS,
+            '' AS CLAIM_SN,
+            '' AS CLAIM_DOC_STATUS,
+            '' AS CLAIM_DOC_ID,
+            '' AS APPRO_KEY,
+            '' as INSPECT_YN,
+            '' as INSPECT_STATUS,
+            '' as PAYMENT_METHOD,
+            '' as ORDER_DT,
+            DATE_FORMAT(A.JReqDate, '%Y-%m-%d') as REG_DATE,
+            '' AS CRM_NM,
+            'Y' AS ORG_YN,
+            ''
+        FROM
+            DJ_CAMTIC.JPRICEINFO A
+                LEFT JOIN
+            DJ_CAMTIC.PROJECTACCEPTINFO B ON A.JCode = B.ProjectCode
+        WHERE
+            A.JState != 1
+            AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            ) RE
+        ORDER BY RE.PURC_REQ_DATE DESC
+    </select>
+
+    <select id="getRealUseExnpAllAmt3" parameterType="map" resultType="map">
+        /*getPurcReqClaimList3*/
+        SELECT
+            IFNULL(SUM(
+                           CASE
+                               WHEN RE.TRIP_CODE != '4' THEN
+                                   CAST(RE.RES_EXNP_SUM AS DECIMAL)
+                               ELSE
+                                   CAST(RE.OVER_TOT_COST AS DECIMAL)
+                               END
+                   ), 0) AS BUST_SUM
+        FROM (
+                 SELECT
+                     A.HR_BIZ_REQ_ID,
+                     B.HR_BIZ_REQ_RESULT_ID,
+                     IFNULL(B.TRIP_CODE, A.TRIP_CODE) AS TRIP_CODE,
+                     IFNULL(B.BUSN_NAME, A.BUSN_NAME) AS BUSN_NAME,
+                     A.EMP_NAME,
+                     IFNULL(B.VISIT_CRM, A.VISIT_CRM) AS VISIT_CRM,
+                     IFNULL(B.VISIT_LOC, A.VISIT_LOC) AS VISIT_LOC,
+                     IFNULL(B.VISIT_LOC_SUB, A.VISIT_LOC_SUB) AS VISIT_LOC_SUB,
+                     IFNULL(B.TRIP_DAY_FR, A.TRIP_DAY_FR) AS TRIP_DAY_FR,
+                     IFNULL(B.TRIP_TIME_FR, A.TRIP_TIME_FR) AS TRIP_TIME_FR,
+                     IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO) AS TRIP_DAY_TO,
+                     IFNULL(B.TRIP_TIME_TO, A.TRIP_TIME_TO) AS TRIP_TIME_TO,
+                     IFNULL(B.USE_TRSPT, A.USE_TRSPT) AS USE_TRSPT,
+                     IFNULL(B.USE_TRSPT_RMK, A.USE_TRSPT_RMK) AS USE_TRSPT_RMK,
+                     IFNULL((SELECT SUM(REPLACE(TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP WHERE HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID), 0 ) AS OVER_TOT_COST,
+                     IFNULL((SELECT SUM(REPLACE(TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP WHERE HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID AND HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS BF_OVER_TOT_COST,
+                     A.STATUS,
+                     A.BF_PAY_APP_SN,
+                     B.STATUS AS RS_STATUS,
+                     A.PJT_SN,
+                     A.BF_EXP_STAT,
+                     B.EXP_STAT,
+                     B.PAY_APP_SN,
+                     IFNULL((
+                                SELECT
+                                    SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
+                                FROM
+                                    CAM_INSIDE.DJ_HR_BIZ_EXNP BE
+                                WHERE
+                                    BE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
+                            ), 0) AS RES_EXNP_SUM,
+                     IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE A.HR_BIZ_REQ_ID = SHBC.HR_BIZ_REQ_ID AND SHBC.HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS COMPANION,
+                     IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE B.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION2,
+                     (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = B.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
+                     (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" LIMIT 1) AS EXNP_DOC_STATUS,
+             (SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_RE_STAT,
+             (SELECT DT3 FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS DT3,
+             C.PAY_EXNP_DE,
+             C.DOC_STATUS,
+             IFNULL(D.DOC_STATUS, 0) AS BF_DOC_STATUS,
+             DATE_FORMAT(C.APPROVAL_DATE, '%Y-%m-%d') AS APPROVAL_DATE,
+            'N' as ORG_YN
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+            LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
+        ON
+            A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            LEFT JOIN
+            CAM_MNG.DJ_PAY_APP C
+            ON
+            B.PAY_APP_SN = C.PAY_APP_SN
+            LEFT JOIN
+            CAM_MNG.DJ_PAY_APP D
+            ON
+            A.BF_PAY_APP_SN = D.PAY_APP_SN
+        WHERE A.PJT_SN = #{pjtSn}
+        UNION
+        SELECT
+            bb.SeqNo AS HR_BIZ_REQ_ID,
+            '' AS HR_BIZ_REQ_RESULT_ID,
+            bb.IsType AS TRIP_CODE,
+            '' as BUSN_NAME,
+            (SELECT userName FROM DJ_CAMTIC.TripInfo a LEFT JOIN DJ_CAMTIC.tripuser b ON a.SeqNo = b.TripNum WHERE a.SeqNo = bb.SeqNo LIMIT 1) AS EMP_NAME,
+            bb.LocationEx AS VISIT_CRM,
+            bb.Location AS VISIT_LOC,
+            bb.LocationPass AS VISIT_LOC_SUB,
+            ifnull(bb.SDate, bb.ResultSDate) AS TRIP_DAY_FR,
+            concat(bb.STimeY,':',bb.STimeM) AS TRIP_TIME_FR,
+            ifnull(bb.EDate, bb.ResultEDate) AS TRIP_DAY_TO,
+            concat(bb.ETimeY,':',bb.ETimeM) AS TRIP_TIME_TO,
+            bb.IsCar AS USE_TRSPT,
+            bb.IsCarText AS USE_TRSPT_RMK,
+            bb.IsPayMoney AS OVER_TOT_COST,
+            '' AS BF_OVER_TOT_COST,
+            '' AS STATUS,
+            '' AS BF_PAY_APP_SN,
+            '100' AS RS_STATUS,
+            aa.ProjectCode AS PJT_SN,
+            '' AS BF_EXP_STAT,
+            '' AS EXNP_STAT,
+            '' AS PAY_APP_SN,
+            bb.IsPayMoney AS RES_EXNP_SUM,
+            (SELECT COUNT(*) FROM DJ_CAMTIC.TripInfo a LEFT JOIN DJ_CAMTIC.tripuser b ON a.SeqNo = b.TripNum WHERE a.SeqNo = bb.SeqNo) - 1 AS COMPANION,
+            '' AS COMPANION2,
+            '' AS EXNP_STATUS,
+            '' AS EXNP_DOC_STATUS,
+            '' AS EXNP_RE_STAT,
+            '' AS DT3,
+            '' as PAY_EXNP_DE,
+            '' as DOC_STATUS,
+            '' AS BF_DOC_STATUS,
+            '' AS APPROVAL_DATE,
+            'Y' as ORG_YN
+        FROM
+            DJ_CAMTIC.ProjectAcceptInfo aa
+            LEFT JOIN
+            DJ_CAMTIC.TripInfo bb ON aa.IntraCode = bb.ObjectCode
+        WHERE bb.ObjectCode IS NOT NULL
+          AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            ) RE
+    </select>
+
     <select id="getPlanExnpAmt" parameterType="map" resultType="map">
         /*getPlanExnpAmt*/
         SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1' AND S.ACTIVE = 'Y'
