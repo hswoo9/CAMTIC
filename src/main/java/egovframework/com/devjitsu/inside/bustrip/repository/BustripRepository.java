@@ -28,6 +28,10 @@ public class BustripRepository extends AbstractDAO {
         insert("bustrip.insBustripResCompanion", params);
     }
 
+    public void delBustripResCompanion(Map<String, Object> params) {
+        delete("bustrip.delBustripResCompanion", params);
+    }
+
     public void delBustripReq(Map<String, Object> params) {
         delete("bustrip.delBustripReq", params);
         delete("bustrip.delBustripCompn", params);
