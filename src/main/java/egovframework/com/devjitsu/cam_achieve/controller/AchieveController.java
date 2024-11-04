@@ -256,19 +256,6 @@ public class AchieveController {
                     map.put("DEADLINE_YN", projectPaySetData2.get("DEADLINE_YN"));
                 }
 
-                // 전년도 달성 매출액
-                if (map.get("YEAR") != null){
-                    try {
-                        String yearStr = map.get("YEAR").toString();
-                        int year = Integer.parseInt(yearStr);
-                        params.put("reqYear", year - 1);
-
-                        Map<String, Object> exnpMap2 = achieveService.getExnpCompAmt(params);
-                        map.put("befExnpCompAmt", exnpMap2.get("TOT_COST"));
-                    } catch (NumberFormatException e) {
-                        System.err.println("error");
-                    }
-                }
             /** 엔지니어링/용역기타 */
             }else{
 

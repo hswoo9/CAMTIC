@@ -36,25 +36,19 @@ var costCalc = {
     /** 당해년도 사업비 */
     nowPjtAmt: function(e){
         /**
-         * 엔지니어링
-         * 전체 : 동일 년도면 수주금액, 아니면 0원
-         *
          * 알앤디/비알앤디
-         * 전체 : 당해년도 사업비
-         * 
-         * 공통 : 수주금액 - 전년도 매출액 - 차년도 매출액
+         * 수주년도 : 당해년도 사업비 - 차년도 매출액
+         * 차년도 : 수주금액 - 전년도에 설정한 차년도 매출액
          * */
         let amt = 0;
 
         if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
             amt = Number(e.REAL_PJT_AMT);
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
-            /** 마감 됐는지 체크 */
-            console.log("e.DEADLINE_YN", e.DEADLINE_YN);
-            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                amt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
             }else{
-                amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
+                amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
             }
         }else{
             amt = 0;
