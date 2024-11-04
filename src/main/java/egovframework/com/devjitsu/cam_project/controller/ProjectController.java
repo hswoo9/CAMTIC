@@ -1905,6 +1905,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setCostInfoYearEnd")
+    public String setCostInfoYearEnd(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setCostInfoYearEnd(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getPjtGoodsList")
     public String getPjtGoodsList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = projectService.getPjtGoodsList(params);

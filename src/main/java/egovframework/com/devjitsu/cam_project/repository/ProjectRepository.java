@@ -906,4 +906,31 @@ public class ProjectRepository extends AbstractDAO {
 
         update("project.setGoodsConfirm", params);
     }
+
+    public List<Map<String, Object>> getPaySetNow(Map<String, Object> params) {
+        return selectList("project.getPaySetNow", params);
+    }
+    public List<Map<String, Object>> getPaySetNext(Map<String, Object> params) {
+        return selectList("project.getPaySetNext", params);
+    }
+
+    public void setPaySetNowIns(Map<String, Object> params) {
+
+        insert("project.setPaySetNowIns", params);
+    }
+
+    public void setPaySetNowUpd(Map<String, Object> params) {
+
+        update("project.setPaySetNowUpd", params);
+    }
+
+    public void setPaySetNextIns(Map<String, Object> params) {
+
+        insert("project.setPaySetNextIns", params);
+    }
+
+    public void setPaySetNextUpd(Map<String, Object> params) {
+
+        update("project.setPaySetNextUpd", params);
+    }
 }

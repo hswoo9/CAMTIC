@@ -486,8 +486,60 @@ var costInfoAdmin = {
         $("#DEV_NOT_INV_AMT_SUM").text(comma(sumD));
     },
 
-    fn_costInfoClose : function(){
+    fn_yearEnd: function(){
+        if(!confirm("회계년도를 마감하시겠습니까?")) {
+            return;
+        }
 
+        const reqYear = $("#targetYear").data("kendoDropDownList").value();
+        if(reqYear == null){
+            alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다.");
+            return;
+        }
+
+        let nextSaleAmt = 0;
+        let nextProfitAmt = 0;
+        let nowSaleAmt = 0;
+        let nowProfitAmt = 0;
+
+        const list = costInfoAdmin.global.allPjtList;
+        for(let i=0; i<list.length; i++){
+            const iMap = list[i];
+            if(iMap.YEAR == reqYear){
+                nextSaleAmt = costCalc.devSaleAmt(iMap);
+                nextProfitAmt = costCalc.devProfitAmt(iMap);
+            }else if(iMap.YEAR == reqYear + 1){
+                nowSaleAmt = costCalc.resSaleAmt(iMap);
+                nowProfitAmt = costCalc.resProfitAmt(iMap);
+            }
+        }
+
+        const data = {
+            pjtSn: $("#pjtSn").val(),
+            reqYear: reqYear,
+            nextYear: Number(reqYear) + 1,
+            nextSaleAmt: nextSaleAmt,
+            nextProfitAmt: nextProfitAmt,
+            nowSaleAmt: nowSaleAmt,
+            nowProfitAmt: nowProfitAmt,
+            regEmpSeq: $("#empSeq").val()
+        }
+
+        $.ajax({
+            url: "/project/setCostInfoYearEnd",
+            data: data,
+            type: "post",
+            dataType: "json",
+            success: function(rs){
+                if(rs.code == "200") {
+                    alert("마감되었습니다.");
+                    location.reload();
+                }
+            }
+        })
+    },
+
+    fn_costInfoClose: function(){
         if(!confirm("정산서를 마감하시겠습니까?")) {
             return;
         }

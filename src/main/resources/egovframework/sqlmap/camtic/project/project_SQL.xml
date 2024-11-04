@@ -4181,4 +4181,101 @@
         /*setGoodsConfirm*/
         UPDATE CAM_PJT_MNG.DJ_PJT_GOODS SET GOODS_STAT = 'Y' WHERE GOODS_SN = #{goodsSn}
     </update>
+
+    <select id="getPaySetNow" parameterType="map" resultType="map">
+        /* getPaySetNow */
+        SELECT
+            *
+        FROM CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR = #{reqYear}
+    </select>
+
+    <select id="getPaySetNext" parameterType="map" resultType="map">
+        /* getPaySetNext */
+        SELECT
+            *
+        FROM CAM_PJT_MNG.DJ_PJT_PAY_SET
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR = #{nextYear}
+    </select>
+
+    <insert id="setPaySetNowIns" parameterType="map">
+        /* setPaySetNowIns */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PAY_SET
+        (
+            PJT_SN,
+            YEAR,
+            BEF_EXP_SALE_AMT,
+            BEF_EXP_PROFIT_AMT,
+            AFT_SALE_AMT,
+            AFT_PROFIT_AMT,
+            DEADLINE_YN,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{reqYear},
+            0,
+            0,
+            #{nextSaleAmt},
+            #{nextProfitAmt},
+            'Y',
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setPaySetNowUpd" parameterType="map">
+        /* setPaySetNowUpd */
+        UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
+        SET
+            AFT_SALE_AMT = #{nextSaleAmt},
+            AFT_PROFIT_AMT = #{nextProfitAmt},
+            DEADLINE_YN = 'Y',
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR = #{reqYear}
+    </update>
+
+    <insert id="setPaySetNextIns" parameterType="map">
+        /* setPaySetNextIns */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PAY_SET
+        (
+            PJT_SN,
+            YEAR,
+            BEF_EXP_SALE_AMT,
+            BEF_EXP_PROFIT_AMT,
+            AFT_SALE_AMT,
+            AFT_PROFIT_AMT,
+            DEADLINE_YN,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{nextYear},
+            #{nowSaleAmt},
+            #{nowProfitAmt},
+            0,
+            0,
+            'N',
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setPaySetNextUpd" parameterType="map">
+        /* setPaySetNextUpd */
+        UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
+        SET
+            BEF_EXP_SALE_AMT = #{nowSaleAmt},
+            BEF_EXP_PROFIT_AMT = #{nowProfitAmt},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND YEAR = #{nextYear}
+    </update>
 </mapper>

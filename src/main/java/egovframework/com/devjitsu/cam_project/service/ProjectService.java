@@ -256,6 +256,8 @@ public interface ProjectService {
 
     void setCostInfoClose(Map<String, Object> params);
 
+    void setCostInfoYearEnd(Map<String, Object> params);
+
     void setGoodsSubInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getPjtGoodsList(Map<String, Object> params);

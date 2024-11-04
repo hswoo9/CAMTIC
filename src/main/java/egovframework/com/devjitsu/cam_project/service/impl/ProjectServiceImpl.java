@@ -1901,6 +1901,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setCostInfoYearEnd(Map<String, Object> params) {
+        List<Map<String, Object>> nowList = projectRepository.getPaySetNow(params);
+        if(nowList.isEmpty()){
+            projectRepository.setPaySetNowIns(params);
+        }else{
+            projectRepository.setPaySetNowUpd(params);
+        }
+
+        List<Map<String, Object>> nextList = projectRepository.getPaySetNext(params);
+        if(nextList.isEmpty()){
+            projectRepository.setPaySetNextIns(params);
+        }else{
+            projectRepository.setPaySetNextUpd(params);
+        }
+    }
+
+    @Override
     public void setGoodsSubInfo(Map<String, Object> params) {
         projectRepository.setGoodsSubInfo(params);
     }
