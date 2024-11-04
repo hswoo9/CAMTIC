@@ -8,8 +8,17 @@ var invenStAdmin = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_datePicker("searchDt", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("searchDt", "year", "yyyy-MM", new Date());
         $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.mainGrid);
+
+        invenStAdmin.global.dropDownDataSource = [
+            { text : "창고명", value : "WH_CD_NM" },
+            { text : "품명", value : "ITEM_NAME" }
+        ]
+        customKendo.fn_dropDownList("searchKeyword", invenStAdmin.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", invenStAdmin.mainGrid);
+
+        customKendo.fn_textBox(["searchValue"]);
 
         invenStAdmin.mainGrid();
     },
@@ -37,6 +46,9 @@ var invenStAdmin = {
                     data.nowEndDt = nowEndDt.getFullYear() + "-" + ('0' + ((nowEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (nowEndDt.getDate())).slice(-2); //nowMon lastDay,
                     data.befStrDt = befStrDt.getFullYear() + "-" + ('0' + ((befStrDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befStrDt.getDate())).slice(-2);   //befMon firstDay,
                     data.befEndDt = befEndDt.getFullYear() + "-" + ('0' + ((befEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befEndDt.getDate())).slice(-2);   //befMon lastDay,
+
+                    data.searchValue = $("#searchValue").val();
+                    data.searchKeyword = $("#searchKeyword").data("kendoDropDownList").value();
 
                     return data;
                 }
@@ -134,6 +146,13 @@ var invenStAdmin = {
                     field: "ITEM_NAME",
                     width: 100
                 }, {
+                    title: "원가",
+                    field: "COST_PRICE",
+                    width: 80,
+                    template: function (e){
+                        return '<div style="text-align: right;">' + invenStAdmin.comma(e.COST_PRICE) + '</div>';
+                    }
+                }, {
                     title: "단위",
                     field: "STANDARD",
                     width: 50
@@ -142,7 +161,7 @@ var invenStAdmin = {
                     columns: [
                         {
                             title: "전월 재고수량",
-                            width: 70,
+                            width: 80,
                             template : function (e){
                                 if(e.BEF_TOT_CNT < 0){
                                     return "<span style='color: red'>" + invenStAdmin.comma(e.BEF_TOT_CNT) + "</span>";
@@ -175,10 +194,13 @@ var invenStAdmin = {
                             title: "현재고",
                             width: 70,
                             template : function (e){
-                                if(e.TOT_CNT < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.TOT_CNT) + "</span>";
+                                var totCnt = 0;
+                                totCnt = Number(e.BEF_TOT_CNT) + Number(e.TOT_CNT);
+
+                                if(totCnt < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(totCnt) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.TOT_CNT);
+                                    return invenStAdmin.comma(totCnt);
                                 }
                             },
                             attributes : {
@@ -199,12 +221,12 @@ var invenStAdmin = {
                             }
                         }, {
                             title: "실사재고수량",
-                            width: 70,
+                            width: 80,
                             template : function (e){
-                                if(e.REAL_CNT < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.REAL_CNT) + "</span>";
+                                if(e.REAL_CNT_2 < 0 || e.REAL_CNT_2 < e.SAFE_CNT){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.REAL_CNT_2) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.REAL_CNT);
+                                    return invenStAdmin.comma(e.REAL_CNT_2);
                                 }
                             },
                             attributes : {

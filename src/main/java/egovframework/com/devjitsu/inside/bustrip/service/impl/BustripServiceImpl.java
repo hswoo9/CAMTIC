@@ -402,6 +402,9 @@ public class BustripServiceImpl implements BustripService {
 
             if("Y".equals(params.get("companionChangeCheck"))) {
                 if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+
+                    bustripRepository.delBustripResCompanion(params);
+
                     compEmpSeq = params.get("compEmpSeq").toString();
 
                     compEmpSeqArr = compEmpSeq.split(",");
@@ -426,6 +429,9 @@ public class BustripServiceImpl implements BustripService {
 
             if("Y".equals(params.get("companionChangeCheck"))) {
                 if(params.get("compEmpSeq") != null && !params.get("compEmpSeq").equals("")){
+
+                    bustripRepository.delBustripCompanion(params);
+
                     compEmpSeq = params.get("compEmpSeq").toString();
 
                     compEmpSeqArr = compEmpSeq.split(",");

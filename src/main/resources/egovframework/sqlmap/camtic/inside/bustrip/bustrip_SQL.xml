@@ -449,6 +449,11 @@
             )
     </insert>
 
+    <delete id="delBustripResCompanion" parameterType="map">
+        /*delBustripResCompanion*/
+        DELETE FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </delete>
+
     <select id="getBustripReqInfo" parameterType="map" resultType="map">
         /* getBustripReqInfo */
         SELECT
