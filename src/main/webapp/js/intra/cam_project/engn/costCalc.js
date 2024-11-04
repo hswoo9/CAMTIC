@@ -48,7 +48,8 @@ var costCalc = {
             amt = Number(e.REAL_PJT_AMT);
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
             /** 마감 됐는지 체크 */
-            if(e.DEADLINE_YN != NULL && e.DEADLINE_YN == "Y"){
+            console.log("e.DEADLINE_YN", e.DEADLINE_YN);
+            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                 amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
             }else{
                 amt = Number(e.REAL_PJT_AMT);
@@ -116,7 +117,7 @@ var costCalc = {
          * 나머지 : 달성매출액 - 비용 - 예상수익
          *
          * 알앤디/비알앤디
-         * 전체 : 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 - 비용총합계)
+         * 전체 : 달성 운영수익 = 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율)
          * */
         let amt = 0;
         let aopAmt = 0;
@@ -126,9 +127,14 @@ var costCalc = {
                 aopAmt = asrAmt - Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
             }
         }else{
-            aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
+            aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
         }
         amt = aopAmt + Number(e.pjtAmtSetData.AMT1 || 0);
+
+        console.log("수익설정 지출완료금액", e.incpCompAmt1);
+        console.log("비용설정 지출완료금액", e.incpCompAmt2);
+        console.log("직접비 수익율", costCalc.directProfitRate(e));
+        console.log("(비용설정 지출완료금액 * 직접비수익율)", (Number(e.incpCompAmt2) * costCalc.directProfitRate(e)));
         return amt;
     },
 
@@ -143,6 +149,7 @@ var costCalc = {
          * */
         let amt = 0;
         let devAmt = 0;
+        console.log("eeeeeeeeeee", e);
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e) - Number(e.nowExpSaleAmt || 0) + Number(e.befExpSaleAmt || 0);
         }else{
@@ -191,18 +198,22 @@ var costCalc = {
         return amt;
     },
 
-    /** 직접비 수익률 */
+    /** 직접비 수익율 */
     directProfitRate: function(e){
-        /** 직접비 수익율 : ( 수행계획서 상 예상비용 - 직접비 예산 ) / 직접비 예산 */
+        /** 
+         * 예상 직접비 수익 : 수익/비용설정 시 비용 총계 - 수행계획 투자금액
+         * 직접비 수익율 : 예상 직접비 수익 / 수익/비용설정 시 비용 총계 */
         let per = 0;
-        let directAmt = Number(e.useAmt || 0);
-        let invAmt = Number(e.DEV_INV_AMT || 0);
-        per = (Number(invAmt) - directAmt) / directAmt;
+        const directAmt = Number(e.useAmt || 0);
+        const invAmt = Number(e.DEV_INV_AMT || 0);
+        const expAmt = directAmt - invAmt;
 
         if(directAmt == 0){
-            per = 0;
+            per = 100;
+        }else{
+            per = (Number(expAmt / directAmt * 100).toFixed(1)) / 100;
         }
-        console.log("직접비 수익률 : ", per);
+        console.log("직접비 수익율 : ", per);
 
         return per;
     }
