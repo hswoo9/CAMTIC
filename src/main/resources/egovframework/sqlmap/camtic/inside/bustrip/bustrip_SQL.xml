@@ -1595,6 +1595,7 @@
 
     <select id="getProjectBustList" parameterType="map" resultType="map">
         /*getProjectBustList*/
+        SELECT R.* FROM (
         SELECT
             A.HR_BIZ_REQ_ID,
             B.HR_BIZ_REQ_RESULT_ID,
@@ -1698,6 +1699,8 @@
         WHERE bb.ObjectCode IS NOT NULL
         AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
         </if>
+        ) R
+        ORDER BY TRIP_DAY_FR DESC, TRIP_TIME_FR DESC, TRIP_DAY_TO DESC, TRIP_TIME_TO DESC
     </select>
 
     <select id="getProjectBustMetList" parameterType="map" resultType="map">
