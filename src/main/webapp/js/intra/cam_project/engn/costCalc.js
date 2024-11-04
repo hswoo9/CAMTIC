@@ -64,16 +64,26 @@ var costCalc = {
     /** 수행계획 최신 Ver 투자금액 */
     nowInvAmt: function(e){
         /**
-         * 공통 : 수주년도면 비용, 차년도면 수행계획 - 비용
-         * 사업 종료 : 종료시에는 해당 년도 비용
+         * 마감전 수주년도 : 투자금액
+         * 수주년도 : 당해년도 비용
+         * 차년도 : 총 수행계획금액 - 전년도 비용
+         * 사업 종료 후 차년도 : 당해년도 비용
          * */
         let amt = 0;
-        if(["C"].includes(e.TEXT)){
-            amt = Number(e.DEV_INV_AMT || 0);
-        }else if(["A", "B", "D"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-            amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
-        }else if(["A", "B", "D"].includes(e.TEXT) && e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
-            amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+        if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+            /** 마감유무 */
+            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }else{
+                amt = Number(e.DEV_INV_AMT || 0);
+            }
+        }else{
+            /** 종료유무 */
+            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }else{
+                amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+            }
         }
 
         return amt;
