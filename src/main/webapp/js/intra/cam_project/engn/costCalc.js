@@ -45,6 +45,7 @@ var costCalc = {
         if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
             amt = Number(e.REAL_PJT_AMT);
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
+            /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 amt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
             }else{
@@ -70,6 +71,8 @@ var costCalc = {
          * 사업 종료 후 차년도 : 당해년도 비용
          * */
         let amt = 0;
+
+        /** 수주년도/차년도 구분 */
         if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
             /** 마감유무 */
             if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
@@ -98,29 +101,34 @@ var costCalc = {
          * 알앤디/비알앤디
          * 수주년도 : 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
          * 차년도 : 전체 달성 매출액 - 전년도 달성 매출액
+         * 
+         * 공통 : 매출수익설정의 달성매출액 금액 추가
          * */
         let amt = 0;
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
+            /** 종료유무 */
             if(e.COST_CLOSE_CK == "Y"){
                 asrAmt = e.goodsTotAmt;
             }
         }else{
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number((e.befExnpCompAmt * 10 / 11).toString().split(".")[0]);
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
                 }else{
                     asrAmt = e.exnpCompAmt;
                 }
             }else{
                 if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.befExpSaleAmt || 0);
                 }else{
                     asrAmt = e.exnpCompAmt;
                 }
             }
         }
         amt = asrAmt + Number(e.pjtAmtSetData.AMT0 || 0);
+        
         return amt;
     },
 
