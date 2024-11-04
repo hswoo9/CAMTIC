@@ -175,6 +175,25 @@ public class AchieveController {
             params.put("reqYear", map.get("YEAR"));
             params.put("busnClass", map.get("BUSN_CLASS"));
 
+            /** 공통 */
+            // 수행계획 - 투자금액
+            Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
+            if(getPjtDevInfo != null) {
+                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
+            }
+
+            // 비용 (순서대로 지출, 구매, 출장)
+            Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
+            Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
+            Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
+            map.put("realUseAmt", realUseMap2.get("COST_SUM"));
+            map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
+            map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
+
+            // 매출수익설정
+            Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
+            map.put("pjtAmtSetData", getPjtAmtSetData);
+
             /** 알앤디/비알앤디 */
             if("R".equals(map.get("BUSN_CLASS")) || "S".equals(map.get("BUSN_CLASS"))){
 
@@ -182,11 +201,15 @@ public class AchieveController {
                 Map<String, Object> exnpMap = achieveService.getExnpCompAmt(params);
                 map.put("exnpCompAmt", exnpMap.get("TOT_COST"));
 
-                // 달성 매출액
+                // 전체 매출액
+                Map<String, Object> exnpAllMap = achieveService.getExnpCompAmtAll(params);
+                map.put("exnpCompAmtAll", exnpAllMap.get("TOT_COST"));
+
+                // 수익설정 지출합계
                 Map<String, Object> incpMap = achieveService.getIncpCompAmt(params);
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
 
-                // 달성 운영수익
+                // 지출설정 지출합계
                 Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
                 map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
 
@@ -233,6 +256,19 @@ public class AchieveController {
                     map.put("DEADLINE_YN", projectPaySetData2.get("DEADLINE_YN"));
                 }
 
+                // 전년도 달성 매출액
+                if (map.get("YEAR") != null){
+                    try {
+                        String yearStr = map.get("YEAR").toString();
+                        int year = Integer.parseInt(yearStr);
+                        params.put("reqYear", year - 1);
+
+                        Map<String, Object> exnpMap2 = achieveService.getExnpCompAmt(params);
+                        map.put("befExnpCompAmt", exnpMap2.get("TOT_COST"));
+                    } catch (NumberFormatException e) {
+                        System.err.println("error");
+                    }
+                }
             /** 엔지니어링/용역기타 */
             }else{
 
@@ -267,20 +303,6 @@ public class AchieveController {
                 }
             }
 
-            // 수행계획 - 투자금액
-            Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
-            if(getPjtDevInfo != null) {
-                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
-            }
-
-            // 비용 (순서대로 지출, 구매, 출장)
-            Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
-            Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
-            Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
-            map.put("realUseAmt", realUseMap2.get("COST_SUM"));
-            map.put("realUseAmt2", realUseMap3.get("PURC_SUM"));
-            map.put("realUseAmt3", realUseMap4.get("BUST_SUM"));
-
             // 전년도 비용 (순서대로 지출, 구매, 출장)
             if (map.get("YEAR") != null){
                 try {
@@ -298,10 +320,6 @@ public class AchieveController {
                     System.err.println("error");
                 }
             }
-
-            // 매출수익설정
-            Map<String, Object> getPjtAmtSetData = projectService.getPjtAmtSetData(params);
-            map.put("pjtAmtSetData", getPjtAmtSetData);
         }
 
         model.addAttribute("list", list);

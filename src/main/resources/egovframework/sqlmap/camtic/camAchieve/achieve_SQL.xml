@@ -760,6 +760,20 @@
         AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND S.ACTIVE = 'Y')
     </select>
 
+    <select id="getExnpCompAmtAll" parameterType="map" resultType="map">
+        /*getExnpCompAmtAll*/
+        SELECT
+            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+                LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+          AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
+          AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND S.ACTIVE = 'Y')
+    </select>
+
     <select id="getIncpCompAmt" parameterType="map" resultType="map">
         /*getIncpCompAmt*/
         SELECT

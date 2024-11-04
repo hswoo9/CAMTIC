@@ -140,6 +140,10 @@ public class AchieveRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("achieve.getExnpCompAmt", params);
     }
+    public Map<String, Object> getExnpCompAmtAll(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("achieve.getExnpCompAmtAll", params);
+    }
 
     public Map<String, Object> getIncpCompAmt(Map<String, Object> params) {
 

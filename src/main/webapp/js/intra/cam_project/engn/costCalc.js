@@ -54,7 +54,7 @@ var costCalc = {
             if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                 amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
             }else{
-                amt = Number(e.REAL_PJT_AMT);
+                amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0) - Number(e.nowExpSaleAmt || 0);
             }
         }else{
             amt = 0;
@@ -92,7 +92,8 @@ var costCalc = {
          * 전체 : 정산서 마감이 되고 납품 저장 금액
          *
          * 알앤디/비알앤디
-         * 전체 : 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
+         * 수주년도 : 달성 매출액 = 지출완료금액(과세일시 나누기 1.1)
+         * 차년도 : 전체 달성 매출액 - 전년도 달성 매출액
          * */
         let amt = 0;
         let asrAmt = 0;
@@ -101,10 +102,18 @@ var costCalc = {
                 asrAmt = e.goodsTotAmt;
             }
         }else{
-            if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
+                if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number((e.befExnpCompAmt * 10 / 11).toString().split(".")[0]);
+                }else{
+                    asrAmt = e.exnpCompAmt;
+                }
             }else{
-                asrAmt = e.exnpCompAmt;
+                if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                }else{
+                    asrAmt = e.exnpCompAmt;
+                }
             }
         }
         amt = asrAmt + Number(e.pjtAmtSetData.AMT0 || 0);
@@ -169,7 +178,8 @@ var costCalc = {
          * 차년도 : 전년도에 설정한 차년도 운영수익
          *
          * 알앤디/비알앤디
-         * 전체 : 예상수익 = 수익설정 예산액 - 수익설정 지출완료금액
+         * 전체 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 마감시 : 0
          * */
         let amt = 0;
         let eopAmt = 0;
@@ -187,12 +197,25 @@ var costCalc = {
                 eopAmt = amt2;
             }
         }else{
-            if(e.REAL_PJT_AMT != null && e.REAL_PJT_AMT != 0){
-                eopAmt = e.planAmt;
+            let amt0 = costCalc.nowPjtAmt(e);
+            let amt1 = Number(e.DEV_INV_AMT || 0);
+            let amt2 = costCalc.resProfitAmt(e);
+            eopAmt = amt0 - amt1 - amt2;
+
+            console.log("당해년도 사업비 : ", amt0);
+            console.log("투자내역 : ", amt1);
+            console.log("달성운영수익 : ", amt2);
+
+            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                eopAmt = 0;
             }
-            eopAmt = eopAmt - e.incpCompAmt1;
         }
-        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0)
+        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
+
+        if((e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S") && e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+            amt = 0;
+        }
+
         console.log("차년도운영수익 : ", e.nowExpProfitAmt || 0);
         console.log("전년도운영수익 : ", e.befExpProfitAmt || 0);
 

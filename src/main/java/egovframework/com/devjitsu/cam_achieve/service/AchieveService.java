@@ -30,6 +30,7 @@ public interface AchieveService {
     List<Map<String, Object>> getProjectListByAchieve(Map<String, Object> params);
 
     Map<String, Object> getExnpCompAmt(Map<String, Object> params);
+    Map<String, Object> getExnpCompAmtAll(Map<String, Object> params);
 
     Map<String, Object> getIncpCompAmt(Map<String, Object> params);
 
