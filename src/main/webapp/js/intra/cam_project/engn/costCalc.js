@@ -229,52 +229,64 @@ var costCalc = {
     devProfitAmt: function(e){
         /**
          * 엔지니어링
-         * 수주년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 마감전 수주년도 : 총 수행계획금액 - 차년도 운영수익
+         * 수주년도 : 0원
          * 차년도 : 전년도에 설정한 차년도 운영수익
+         * 사업 종료 후 차년도 : 0원
          *
          * 알앤디/비알앤디
-         * 전체 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
-         * 마감시 : 0
+         * 마감전 수주년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 수주년도 : 0원
+         * 차년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 사업 종료 후 차년도 : 0원
+         *
+         * 공통 : 매출수익설정의 예상 운영수익 금액 추가
          * */
         let amt = 0;
         let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            let amt0 = Number(e.PJT_AMT || 0);
-            let amt1 = Number(e.DEV_INV_AMT || 0);
-            let amt2 = costCalc.resProfitAmt(e);
-            eopAmt = amt0 - amt1 - amt2;
-
-            console.log("당해년도 사업비 : ", amt0);
-            console.log("투자내역 : ", amt1);
-            console.log("달성운영수익 : ", amt2);
-
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
-                eopAmt = amt2;
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    eopAmt = 0;
+                }else{
+                    eopAmt = costCalc.allPjtAmt(e) - Number(e.nowExpProfitAmt || 0);
+                }
+            }else{
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    eopAmt = 0;
+                }else{
+                    eopAmt = Number(e.befExpProfitAmt || 0);
+                }
             }
         }else{
-            let amt0 = costCalc.nowPjtAmt(e);
-            let amt1 = Number(e.DEV_INV_AMT || 0);
-            let amt2 = costCalc.resProfitAmt(e);
-            eopAmt = amt0 - amt1 - amt2;
-
-            console.log("당해년도 사업비 : ", amt0);
-            console.log("투자내역 : ", amt1);
-            console.log("달성운영수익 : ", amt2);
-
-            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                eopAmt = 0;
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    eopAmt = 0;
+                }else{
+                    let amt0 = costCalc.nowPjtAmt(e);
+                    let amt1 = Number(e.DEV_INV_AMT || 0);
+                    let amt2 = costCalc.resProfitAmt(e);
+                    eopAmt = amt0 - amt1 - amt2 - Number(e.nowExpProfitAmt || 0);
+                }
+            }else{
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    eopAmt = 0;
+                }else{
+                    let amt0 = costCalc.nowPjtAmt(e);
+                    let amt1 = Number(e.DEV_INV_AMT || 0);
+                    let amt2 = costCalc.resProfitAmt(e);
+                    eopAmt = amt0 - amt1 - amt2 + Number(e.befExpProfitAmt || 0);
+                }
             }
         }
-        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0) + Number(e.befExpProfitAmt || 0) - Number(e.nowExpProfitAmt || 0);
+        amt = eopAmt + Number(e.pjtAmtSetData.AMT3 || 0);
 
-        if((e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S") && e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-            amt = 0;
-        }
-
-        console.log("차년도운영수익 : ", e.nowExpProfitAmt || 0);
-        console.log("전년도운영수익 : ", e.befExpProfitAmt || 0);
-
-        console.log("예상 운영수익 계산 함수 devProfitAmt() 끝...");
         return amt;
     },
 
