@@ -182,20 +182,46 @@ var costCalc = {
     devSaleAmt: function(e){
         /**
          * 엔지니어링
-         * 전체 : 수주금액 - 달성 매출액 - 차년도 매출액
+         * 마감전 수주년도 : 수주금액 - 차년도 매출액
+         * 수주년도 : 0원
+         * 차년도 : 전년도에 설정한 차년도 매출액
+         * 사업 종료 후 차년도 : 0원
          *
          * 알앤디/비알앤디
          * 전체 : 예상매출 = 당해년도 사업비 - 달성 매출액
+         * 사업 종료 : 0원
+         *
+         * 공통 : 매출수익설정의 예상 매출액 금액 추가
          * */
         let amt = 0;
         let devAmt = 0;
-        console.log("eeeeeeeeeee", e);
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e) - Number(e.nowExpSaleAmt || 0) + Number(e.befExpSaleAmt || 0);
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    devAmt = 0;
+                }else{
+                    devAmt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
+                }
+            }else{
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    devAmt = 0;
+                }else{
+                    devAmt = Number(e.befExpSaleAmt || 0);
+                }
+            }
         }else{
-            devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+            /** 종료유무 */
+            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                devAmt = 0;
+            }else{
+                devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+            }
         }
         amt = devAmt + Number(e.pjtAmtSetData.AMT2 || 0);
+
         return amt;
     },
 
