@@ -23,7 +23,7 @@ var costInfoPop = {
         }
 
         $("#yearEndDialog").kendoWindow({
-            title : "회계년도 마감",
+            title : "회계연도 마감",
             width: "700px",
             visible: false,
             modal: true,

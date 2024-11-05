@@ -21,7 +21,7 @@ var costInfoAdmin = {
         /** 데이터 세팅 */
         costInfoAdmin.dataSet();
 
-        /** 회계년도 마감 팝업 */
+        /** 회계연도 마감 팝업 */
         costInfoPop.yearEndPop();
     },
 
@@ -487,7 +487,7 @@ var costInfoAdmin = {
     },
 
     fn_yearEnd: function(){
-        if(!confirm("회계년도를 마감하시겠습니까?")) {
+        if(!confirm("회계연도를 마감하시겠습니까?")) {
             return;
         }
 
