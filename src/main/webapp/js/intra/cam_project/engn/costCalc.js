@@ -159,7 +159,7 @@ var costCalc = {
         }else{
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e));
+                aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100);
             }else{
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
@@ -305,7 +305,7 @@ var costCalc = {
         if(directAmt == 0){
             per = 100;
         }else{
-            per = (Number(expAmt / directAmt * 100).toFixed(1)) / 100;
+            per = (Number(expAmt / directAmt * 100).toFixed(1));
         }
         console.log("직접비 수익율 : ", per);
 
