@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -997,8 +998,19 @@ public class PayAppServiceImpl implements PayAppService {
                         int ndepAm = (int) (totAmt * 0.6);
                         data.put("NDEP_AM", 0);
                         data.put("INAD_AM", 0);
-                        data.put("INTX_AM", totAmt * 0.03);
-                        data.put("RSTX_AM", (totAmt * 0.03) / 10);
+
+                        int intxAmTmp = (int) (totAmt * 0.03);
+                        BigDecimal intxAmTmp2 = new BigDecimal(intxAmTmp);
+                        BigDecimal intxAm = new BigDecimal(intxAmTmp2.setScale(-1, BigDecimal.ROUND_DOWN).intValue());
+
+                        data.put("INTX_AM", intxAm);
+
+                        int rsTxAmTmp = (Integer.parseInt(String.valueOf(intxAm)) / 10);
+                        BigDecimal rsTxAmTmp2 = new BigDecimal(rsTxAmTmp);
+                        BigDecimal rsTxAm = new BigDecimal(rsTxAmTmp2.setScale(-1, BigDecimal.ROUND_DOWN).intValue());
+
+                        data.put("RSTX_AM", rsTxAm);
+
                         data.put("ETCDUMMY1", "");
 
                         if(hearnerMap == null){
@@ -1025,9 +1037,18 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("INAD_AM", totAmt - ndepAm);
 
                         if(totAmt > 125000){
-                            int intxAm = (int) ((totAmt  - (totAmt * 0.6)) * 0.2);
+                            int intxAmTmp = (int) ((totAmt  - (totAmt * 0.6)) * 0.2);
+                            BigDecimal intxAmTmp2 = new BigDecimal(intxAmTmp);
+                            BigDecimal intxAm = new BigDecimal(intxAmTmp2.setScale(-1, BigDecimal.ROUND_DOWN).intValue());
+
                             data.put("INTX_AM", intxAm);
-                            data.put("RSTX_AM", intxAm / 10);
+
+                            int rsTxAmTmp = (Integer.parseInt(String.valueOf(intxAm)) / 10);
+                            BigDecimal rsTxAmTmp2 = new BigDecimal(rsTxAmTmp);
+                            BigDecimal rsTxAm = new BigDecimal(rsTxAmTmp2.setScale(-1, BigDecimal.ROUND_DOWN).intValue());
+
+                            data.put("RSTX_AM", rsTxAm);
+
                         } else {
                             data.put("INTX_AM", 0);
                             data.put("RSTX_AM", 0);
