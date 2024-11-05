@@ -4065,6 +4065,9 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             COST_CLOSE_CK = 'Y'
+        <if test='costCloseCk != null and !"".equals(costCloseCk)'>
+            , COST_CLOSE_DT = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        </if>
         WHERE
             PJT_SN = #{pjtSn}
     </update>

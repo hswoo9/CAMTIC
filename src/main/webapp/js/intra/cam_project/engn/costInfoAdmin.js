@@ -544,11 +544,16 @@ var costInfoAdmin = {
             return;
         }
 
+        const data = {
+            pjtSn : $("#pjtSn").val()
+        }
+        if(commonProject.global.costCloseCk == 'Y'){
+            data.costCloseCk = "Y"
+        }
+
         $.ajax({
             url: "/project/setCostInfoClose",
-            data : {
-                pjtSn : $("#pjtSn").val()
-            },
+            data : data,
             type : "post",
             dataType : "json",
             success : function(rs){
