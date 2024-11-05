@@ -427,8 +427,7 @@ var goodsInfo = {
 
         $("#goodsTotAmt").val(0);
 
-        var now = new Date();
-        $("#goodsDelvDe").val(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate());
+        $("#goodsDelvDe").data("kendoDatePicker").value(new Date());
         $("#goodsDelvDe").data().kendoDatePicker.enable(true);
 
         $(".goodsProdNm").removeClass("k-disabled").val("");
