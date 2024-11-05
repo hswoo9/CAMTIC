@@ -217,8 +217,12 @@ public class messageController {
             Map<String, Object> message = messages.get(i);
             if (message.get("dest_phone") != null && !"".equals(message.get("dest_phone"))) {
                 Map<String, Object> map = new HashMap<String, Object>();
+
+                String msgContent = message.get("msg_content").toString();
+                msgContent = msgContent.replaceAll(" ", " ");
+
                 map.put("dest_phone", message.get("dest_phone"));
-                map.put("msg_content", message.get("msg_content"));
+                map.put("msg_content", msgContent);
                 map.put("pkDate", message.get("pkDate"));
                 map.put("callBack", message.get("callBack"));
                 map.put("loginEmpSeq", loginVO.getUniqId());
