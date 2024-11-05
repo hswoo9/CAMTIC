@@ -772,6 +772,7 @@
         INSERT INTO CAM_MNG.DJ_PURC_CLAIM
             (
                 PURC_SN,
+                PURC_ITEM_SN,
                 CLAIM_EMP_SEQ,
                 PURC_EMP_SEQ,
                 PURC_TYPE,
@@ -806,6 +807,7 @@
                 <if test="purcSn == null or purcSn.equals('')">
                     NULL,
                 </if>
+                #{purcItemSn},
                 #{loginEmpSeq},
                 #{purcEmpSeq},
                 #{purcType},
@@ -1293,6 +1295,15 @@
         UPDATE CAM_MNG.DJ_MNG_PURC_ITEM
         SET
             CLAIM_STAT = 'Y'
+        WHERE
+            PURC_ITEM_SN = #{item}
+    </update>
+
+    <update id="updPurcItemStatusCancel" parameterType="map">
+        /*updPurcItemStatusCancel*/
+        UPDATE CAM_MNG.DJ_MNG_PURC_ITEM
+        SET
+            CLAIM_STAT = 'N'
         WHERE
             PURC_ITEM_SN = #{item}
     </update>

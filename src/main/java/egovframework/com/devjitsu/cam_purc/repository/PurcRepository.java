@@ -158,6 +158,10 @@ public class PurcRepository extends AbstractDAO {
         update("purc.updPurcItemStatusChange", params);
     }
 
+    public void updPurcItemStatusCancel(Map<String, Object> params) {
+        update("purc.updPurcItemStatusCancel", params);
+    }
+
     public Map<String, Object> getClaimData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("purc.getClaimData", params);
     }

@@ -466,6 +466,11 @@ public class PurcServiceImpl implements PurcService {
         }
 
         if(!params.containsKey("claimSn")){
+
+            if(!params.containsKey("purcItemSn")){
+                params.put("purcItemSn", null);
+            }
+
             purcRepository.insPurcClaimData(params);
 
             // 구매요청 첨부파일 복제
@@ -618,11 +623,21 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public void delPurcClaimData(Map<String, Object> params) {
         Map<String, Object> result = purcRepository.getClaimData(params);
+
         purcRepository.delPurcClaimData(params);
 
         if(result.get("DOC_ID") != null){
             params.put("docId", result.get("DOC_ID"));
             approvalUserRepository.setDocDel(params);
+        }
+
+        if(result.get("PURC_ITEM_SN") != null){
+            String[] itemAr = result.get("PURC_ITEM_SN").toString().split(",");
+
+            for(String item : itemAr){
+                params.put("item", item);
+                purcRepository.updPurcItemStatusCancel(params);
+            }
         }
     }
 

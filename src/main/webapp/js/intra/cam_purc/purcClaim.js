@@ -313,7 +313,7 @@ var purcClaim = {
                 }, {
                     width: 60,
                     template: function (e){
-                        if(e.PURC_SN == null && (e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40) && e.CLAIM_EMP_SEQ == $("#regEmpSeq").val()){
+                        if(/*e.PURC_SN == null &&*/ (e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40) && e.CLAIM_EMP_SEQ == $("#regEmpSeq").val()){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="purcClaim.fn_delete(' + e.CLAIM_SN + ')">' +
                                 '	<span class="k-button-text">삭제</span>' +
                                 '</button>';

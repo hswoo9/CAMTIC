@@ -781,6 +781,10 @@ var reqCl = {
             purcLink : $("#purcLink").val(),
         }
 
+        if($("#itemSn").val() != "" && $("#itemSn").val() != null){
+            parameters.purcItemSn = $("#itemSn").val();
+        }
+
         if($("#priPay").is(":checked")){
             parameters.priPay = "Y";
         } else {
