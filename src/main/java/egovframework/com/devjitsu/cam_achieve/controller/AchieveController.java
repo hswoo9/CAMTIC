@@ -183,6 +183,13 @@ public class AchieveController {
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
+            if("Y".equals(map.get("COST_CLOSE_CK"))){
+                if(map.get("COST_CLOSE_DT") != null){
+                    params.put("costCloseDt", map.get("COST_CLOSE_DT"));
+                }else{
+                    params.put("costCloseDt", map.get("LIST_END_DE"));
+                }
+            }
             Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
             Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
             Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);

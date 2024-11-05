@@ -199,19 +199,19 @@ var costCalc = {
         let devAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                /** 마감유무 */
-                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    devAmt = 0;
-                }else{
-                    devAmt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
-                }
-            }else{
+            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     devAmt = 0;
                 }else{
                     devAmt = Number(e.befExpSaleAmt || 0);
+                }
+            }else{
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    devAmt = 0;
+                }else{
+                    devAmt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
                 }
             }
         }else{
@@ -248,19 +248,19 @@ var costCalc = {
         let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                /** 마감유무 */
-                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    eopAmt = 0;
-                }else{
-                    eopAmt = costCalc.allPjtAmt(e) - Number(e.nowExpProfitAmt || 0);
-                }
-            }else{
+            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
                 }else{
                     eopAmt = Number(e.befExpProfitAmt || 0);
+                }
+            }else{
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    eopAmt = 0;
+                }else{
+                    eopAmt = costCalc.allPjtAmt(e) - Number(e.nowExpProfitAmt || 0);
                 }
             }
         }else{

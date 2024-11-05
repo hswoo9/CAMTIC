@@ -817,6 +817,11 @@
         )
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
         AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
+        <if test='costCloseDt != null and !"".equals(costCloseDt)'>
+        <![CDATA[
+            AND PA.PAY_EXNP_DE <= #{costCloseDt}
+        ]]>
+        </if>
     </select>
 
     <select id="getRealUseExnpAmt2" parameterType="map" resultType="map">
@@ -875,6 +880,11 @@
         WHERE
             A.PJT_SN = #{pjtSn}
           AND YEAR(A.CLAIM_DE) = #{reqYear}
+        <if test='costCloseDt != null and !"".equals(costCloseDt)'>
+        <![CDATA[
+            AND A.CLAIM_DE <= #{costCloseDt}
+        ]]>
+        </if>
 
         UNION ALL
 
@@ -911,6 +921,11 @@
             A.JState != 1
             AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
           AND YEAR(A.JReqDate) = #{reqYear}
+        <if test='costCloseDt != null and !"".equals(costCloseDt)'>
+        <![CDATA[
+            AND A.JReqDate <= #{costCloseDt}
+        ]]>
+        </if>
         ) RE
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>
@@ -1030,6 +1045,11 @@
         WHERE bb.ObjectCode IS NOT NULL
           AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
           AND YEAR(ifnull(bb.EDate, bb.ResultEDate)) = #{reqYear}
+        <if test='costCloseDt != null and !"".equals(costCloseDt)'>
+        <![CDATA[
+            AND ifnull(bb.EDate, bb.ResultEDate) <= #{costCloseDt}
+        ]]>
+        </if>
         ) RE
     </select>
 
