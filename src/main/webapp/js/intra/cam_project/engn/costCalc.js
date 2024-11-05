@@ -109,7 +109,7 @@ var costCalc = {
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 종료유무 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR && e.COST_CLOSE_CK == "Y"){
+            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR && e.COST_CLOSE_CK == "Y"){
                 asrAmt = e.goodsTotAmt;
             }
         }else{
