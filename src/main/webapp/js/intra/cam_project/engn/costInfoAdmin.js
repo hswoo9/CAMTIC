@@ -221,9 +221,11 @@ var costInfoAdmin = {
             '                <col width="%">' +
             '                <col width="%">' +
             '                <col width="%">' +
-            '                <col width="%">' +
-            '                <col width="%">' +
-            '                <col width="%">' +
+            '                <col width="%">' ;
+        if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+            html += '                <col width="%">';
+        }
+        html += '                <col width="%">' +
             '                <col width="%">' +
             '                <col width="%">' +
             '                <col width="%">' +
@@ -235,9 +237,12 @@ var costInfoAdmin = {
             '                <th style="text-align: center">부서</th>' +
             '                <th style="text-align: center">팀</th>' +
             '                <th style="text-align: center">기준년도</th>' +
-            '                <th style="text-align: center">수주금액</th>' +
-            '                <th style="text-align: center">당해년도 사업비</th>' +
-            '                <th style="text-align: center">수행계획</th>' +
+            '                <th style="text-align: center">수주금액</th>';
+
+        if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+            html += '                <th style="text-align: center">당해년도 사업비</th>';
+        }
+        html += '                <th style="text-align: center">수행계획</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
             '                <th style="text-align: center">달성 운영수익</th>' +
             '                <th style="text-align: center">예상 매출액</th>' +
@@ -265,8 +270,11 @@ var costInfoAdmin = {
             }
             html +=
                 '                <td id="PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
-                '                <td id="PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right"></td>' +
-                '                <td id="PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right"></td>' +
+                '                <td id="PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right"></td>';
+            if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+                html += '                <td id="PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right"></td>';
+            }
+            html +=
                 '                <td id="INV_AMT'+(i)+'" class="invAmt" style="text-align: right"></td>' +
                 '                <td id="RES_AMT'+(i)+'" class="resAmt" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right"></td>' +
@@ -302,9 +310,12 @@ var costInfoAdmin = {
                 html +=
                     '                <td id="TEAM_PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
                     '                <td id="TEAM_PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right">' +
-                    '                </td>' +
+                    '                </td>';
+                if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+                    html += '                <td id="TEAM_PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right">' +
+                        '                </td>';
+                }
+                html +=
                     '                <td id="TEAM_INV_AMT'+(i)+'" class="invAmt" style="text-align: right">' +
                     '                </td>' +
                     '                <td id="TEAM_RES_AMT'+(i)+'" class="resAmt" style="text-align: right">' +
@@ -323,8 +334,11 @@ var costInfoAdmin = {
             html +=
                 '            <tr>' +
                 '                <th colspan="5" style="text-align: right">합계</th>' +
-                '                <td id="PJT_AMT2_SUM" style="text-align: right"></td>' +
-                '                <td id="PJT_AMT3_SUM" style="text-align: right"></td>' +
+                '                <td id="PJT_AMT2_SUM" style="text-align: right"></td>';
+            if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+                html += '                <td id="PJT_AMT3_SUM" style="text-align: right"></td>';
+            }
+            html +=
                 '                <td id="INV_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_AMT_SUM" style="text-align: right"></td>' +
                 '                <td id="RES_NOT_INV_AMT_SUM" style="text-align: right"></td>' +
@@ -371,7 +385,9 @@ var costInfoAdmin = {
             $("#PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
             /** 당해년도 사업비 */
-            $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
+            if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+                $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
+            }
 
             /** 수행계획 */
             $("#INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
@@ -397,7 +413,9 @@ var costInfoAdmin = {
             $("#TEAM_PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
             /** 당해년도 사업비 */
-            $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
+            if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+                $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
+            }
 
             /** 수행계획 */
             $("#TEAM_INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
@@ -426,14 +444,16 @@ var costInfoAdmin = {
         $("#PJT_AMT2_SUM").text(comma(sumE));
 
         /** 당해년도 사업비 합계 */
-        let sumF = 0;
-        $('td.pjtAmt3').each(function() {
-            const value = Number(uncommaN($(this).text()));
-            if (!isNaN(value)) {
-                sumF += value;
-            }
-        });
-        $("#PJT_AMT3_SUM").text(comma(sumF))
+        if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+            let sumF = 0;
+            $('td.pjtAmt3').each(function() {
+                const value = Number(uncommaN($(this).text()));
+                if (!isNaN(value)) {
+                    sumF += value;
+                }
+            });
+            $("#PJT_AMT3_SUM").text(comma(sumF));
+        }
 
         /** 수행계획 합계 */
         let sumInvAmt = 0;
