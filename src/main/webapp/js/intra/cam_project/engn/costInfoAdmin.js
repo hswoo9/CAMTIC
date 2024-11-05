@@ -77,7 +77,7 @@ var costInfoAdmin = {
         $("#PJT_NM").text(pjtMap.PJT_NM);
         $("#PM").text(pjtMap.PM);
         $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
-        $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);
+        $("#PJT_END_DT").text(pjtMap.PJT_END_DT);
         $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
 
         let sbjText = "미사용";
@@ -547,7 +547,7 @@ var costInfoAdmin = {
         const data = {
             pjtSn : $("#pjtSn").val()
         }
-        if(commonProject.global.costCloseCk == 'Y'){
+        if(commonProject.global.costCloseCk == "Y"){
             data.costCloseCk = "Y"
         }
 
