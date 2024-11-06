@@ -222,11 +222,33 @@ var oorl = {
             },
             columns: [
                 {
-                    title: "순번",
+                    title: "연번",
                     template: "#= --record #",
                     width: 50
+                },{
+                    title: "진행상태",
+                    field: "DEADLINE",
+                    width: 80,
+                    template : function (e){
+                        if(e.DEADLINE == "Y"){
+                            return "견적마감";
+                        }else {
+                            return "견적진행중";
+                        }
+                    },
+                },{
+                    title: "견적일",
+                    field: "ORDER_DT",
+                    width: 160,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
+                        }else {
+                            return e.ORDER_DT
+                        }
+                    }
                 }, {
-                    title: "거래처",
+                    title: "거래처명",
                     field: "CRM_NM",
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
@@ -240,25 +262,44 @@ var oorl = {
                     field: "TOT_AMT",
                     width: 120,
                     template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.TOT_AMT) + '</div>';
+                        return '<div style="text-align: right;">' + comma(e.TOT_AMT) + '원</div>';
                     }
                 }, {
-                    title: "수주일자",
-                    field: "ORDER_DT",
-                    width: 160,
+                    title: "납기예정일",
+                    field: "DUE_DT",
+                    width: 120,
                     template : function(e){
-                        if(e.OBTAIN_ORDER_TYPE == "N"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
-                        }else {
-                            return e.ORDER_DT
-                        }
+                        return  e.DUE_DT;
                     }
-                }, {
+                },
+                {
+                    title: "입금완료액",
+                    field: "COM_AMT",
+                    width: 120,
+                    template : function(e){
+                        return '<div style="text-align: right;">' + comma(e.COM_AMT) + '원</div>';
+                    }
+                },{
+                    title: "입금예정액",
+                    field: "",
+                    width: 120,
+                    template : function(e){
+                        var amt = e.TOT_AMT - e.COM_AMT;
+                        return '<div style="text-align: right;">' + comma(amt) + '원</div>';
+                    }
+                },{
                     width: 160,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this, '+e.OBTAIN_ORDER_SN+')">' +
-                            '	<span class="k-button-text">견적서</span>' +
-                            '</button>';
+                        if(e.DEADLINE == "Y"){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="oorl.fn_popSelEstimate(this, '+e.OBTAIN_ORDER_SN+')">' +
+                                '	<span class="k-button-text">견적서</span>' +
+                                '</button>';
+                        }else {
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this, '+e.OBTAIN_ORDER_SN+')">' +
+                                '	<span class="k-button-text">견적서</span>' +
+                                '</button>';
+                        }
+
                     }
                 }, {
                     title: "등록자",
