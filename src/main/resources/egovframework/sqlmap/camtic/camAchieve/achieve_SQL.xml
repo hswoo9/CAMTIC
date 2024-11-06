@@ -963,7 +963,7 @@
                       AND A.PAY_APP_TYPE = '2'
                       AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                 ) A
-           WHERE A.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '2' AND S.ACTIVE = 'Y')
+           WHERE A.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '1' AND S.ACTIVE = 'Y')
            GROUP BY A.PJT_CD,
                     A.JANG_SN,
                     A.GWAN_SN,

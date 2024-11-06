@@ -186,7 +186,7 @@ var costCalc = {
                     }
                     aopAmt = allAsrAmt - (Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)) - Number(e.befExpProfitAmt || 0);
                 }else{
-                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowExpProfitAmt || 0);
+                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowBefExpProfitAmt || 0);
                 }
             }
         }
