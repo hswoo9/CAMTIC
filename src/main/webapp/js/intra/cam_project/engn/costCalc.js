@@ -79,10 +79,19 @@ var costCalc = {
         let amt = 0;
 
         /** 수주년도/차년도 구분 */
-        if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
+        if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
             /** 종료유무 */
             if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }else{
+                amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+            }
+        }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
+            /** 종료유무 */
+            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }else if(e.BEF_DEADLINE_YN == "N"){
+                amt = 0;
             }else{
                 amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
             }
@@ -128,9 +137,9 @@ var costCalc = {
                 }
             }else{
                 if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.befExpSaleAmt || 0);
+                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.nowBefExpSaleAmt || 0);
                 }else{
-                    asrAmt = e.exnpCompAmt;
+                    asrAmt = e.exnpCompAmtAll - Number(e.nowBefExpSaleAmt || 0);
                 }
             }
         }
@@ -149,7 +158,7 @@ var costCalc = {
          * 알앤디/비알앤디
          * 수주년도 : 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율)
          * 차년도 : 수익설정 지출완료금액 + (비용설정 지출완료금액 * 직접비 수익율) - 전년도 운영수익
-         * 사업종료 : 지출완료 합계 - 비용합계 - 전년도 운영수익
+         * 사업종료 : 지출완료 합계 - 전체년도비용합계 - 전년도 운영수익
          * 
          * 공통 : 매출수익설정의 달성운영수익 금액 추가
          * */
@@ -162,7 +171,26 @@ var costCalc = {
             }
         }else{
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    let allAsrAmt = 0;
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
+                    }else{
+                        allAsrAmt = e.exnpCompAmtAll;
+                    }
+                    aopAmt = allAsrAmt
+                        - (
+                            Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)
+                            + Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3)
+                        )
+                        - Number(e.nowBefExpProfitAmt || 0)
+                    ;
+                }else{
+                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowBefExpProfitAmt || 0);
+                }
+            }else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 마감유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                     let allAsrAmt = 0;
@@ -182,9 +210,15 @@ var costCalc = {
                     if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
                         allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
                     }else{
-                        allAsrAmt = e.exnpCompAmt;
+                        allAsrAmt = e.exnpCompAmtAll;
                     }
-                    aopAmt = allAsrAmt - (Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)) - Number(e.befExpProfitAmt || 0);
+                    aopAmt = allAsrAmt
+                        - (
+                            Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)
+                            + Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3)
+                        )
+                        - Number(e.nowBefExpProfitAmt || 0)
+                    ;
                 }else{
                     aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowBefExpProfitAmt || 0);
                 }
@@ -214,7 +248,14 @@ var costCalc = {
         let devAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    devAmt = 0;
+                }else{
+                    devAmt = Number(e.befExpSaleAmt || 0);
+                }
+            }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     devAmt = 0;
@@ -252,9 +293,9 @@ var costCalc = {
          * 사업 종료 후 차년도 : 0원
          *
          * 알앤디/비알앤디
-         * 마감전 수주년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 마감전 수주년도 : 당해년도사업비 - 투자내역 - 달성운영수익
          * 수주년도 : 0원
-         * 차년도 : 당해년도사업비 - 투자내역 - 달성운영수익 - 차년도운영수익
+         * 차년도 : 당해년도사업비 - 투자내역 - 달성운영수익
          * 사업 종료 후 차년도 : 0원
          *
          * 공통 : 매출수익설정의 예상 운영수익 금액 추가
@@ -263,7 +304,14 @@ var costCalc = {
         let eopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    eopAmt = 0;
+                }else{
+                    eopAmt = Number(e.befExpProfitAmt || 0);
+                }
+            }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
@@ -275,7 +323,7 @@ var costCalc = {
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                     eopAmt = 0;
                 }else{
-                    eopAmt = costCalc.allPjtAmt(e) - Number(e.nowExpProfitAmt || 0);
+                    eopAmt = costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                 }
             }
         }else{
@@ -288,7 +336,7 @@ var costCalc = {
                     let amt0 = costCalc.nowPjtAmt(e);
                     let amt1 = Number(e.DEV_INV_AMT || 0);
                     let amt2 = costCalc.resProfitAmt(e);
-                    eopAmt = amt0 - amt1 - amt2 - Number(e.nowExpProfitAmt || 0);
+                    eopAmt = amt0 - amt1 - amt2;
                 }
             }else{
                 /** 종료유무 */
@@ -296,9 +344,9 @@ var costCalc = {
                     eopAmt = 0;
                 }else{
                     let amt0 = costCalc.nowPjtAmt(e);
-                    let amt1 = Number(e.DEV_INV_AMT || 0);
+                    let amt1 = costCalc.nowInvAmt(e);
                     let amt2 = costCalc.resProfitAmt(e);
-                    eopAmt = amt0 - amt1 - amt2 + Number(e.befExpProfitAmt || 0);
+                    eopAmt = amt0 - amt1 - amt2;
                 }
             }
         }
@@ -320,7 +368,7 @@ var costCalc = {
         if(directAmt == 0){
             per = 100;
         }else{
-            per = (Number(expAmt / directAmt * 100).toFixed(1));
+            per = Math.floor((expAmt / directAmt * 100) * 100000) / 100000;
         }
         console.log("직접비 수익율 : ", per);
 
