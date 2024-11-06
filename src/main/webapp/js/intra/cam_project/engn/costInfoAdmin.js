@@ -523,15 +523,25 @@ var costInfoAdmin = {
         let nowProfitAmt = 0;
 
         const list = costInfoAdmin.global.allPjtList;
+        let flag = true;
+
         for(let i=0; i<list.length; i++){
             const iMap = list[i];
             if(iMap.YEAR == reqYear){
                 nextSaleAmt = costCalc.devSaleAmt(iMap);
                 nextProfitAmt = costCalc.devProfitAmt(iMap);
+
+                if(iMap.DEADLINE_YN = "Y"){
+                    flag = false;
+                }
             }else if(iMap.YEAR == reqYear + 1){
                 nowSaleAmt = costCalc.resSaleAmt(iMap);
                 nowProfitAmt = costCalc.resProfitAmt(iMap);
             }
+        }
+
+        if(!flag){
+            alert("이미 마감된 회계연도입니다."); return;
         }
 
         const data = {
