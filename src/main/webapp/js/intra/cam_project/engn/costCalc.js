@@ -163,7 +163,18 @@ var costCalc = {
         }else{
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100);
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    let allAsrAmt = 0;
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
+                    }else{
+                        allAsrAmt = e.exnpCompAmt;
+                    }
+                    aopAmt = costCalc.resSaleAmt(e) - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
+                }else{
+                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100);
+                }
             }else{
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
@@ -175,7 +186,7 @@ var costCalc = {
                     }
                     aopAmt = allAsrAmt - (Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)) - Number(e.befExpProfitAmt || 0);
                 }else{
-                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.befExpProfitAmt || 0);
+                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowExpProfitAmt || 0);
                 }
             }
         }

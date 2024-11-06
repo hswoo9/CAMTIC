@@ -250,8 +250,8 @@ public class AchieveController {
 
                 // 해당년도 당해년도 설정액
                 if(projectPaySetData2 != null){
-                    map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
-                    map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("nowExpSaleAmt", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
+                    map.put("nowExpProfitAmt", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
                 }
 
                 // 리스트용 전/차년도 설정액
@@ -301,8 +301,8 @@ public class AchieveController {
 
                 // 해당년도 당해년도 설정액
                 if(projectPaySetData2 != null){
-                    map.put("nowExpSaleAmt", projectPaySetData2.get("AFT_SALE_AMT"));
-                    map.put("nowExpProfitAmt", projectPaySetData2.get("AFT_PROFIT_AMT"));
+                    map.put("nowExpSaleAmt", projectPaySetData2.get("BEF_EXP_SALE_AMT"));
+                    map.put("nowExpProfitAmt", projectPaySetData2.get("BEF_EXP_PROFIT_AMT"));
                 }
 
                 // 리스트용 전/차년도 설정액
