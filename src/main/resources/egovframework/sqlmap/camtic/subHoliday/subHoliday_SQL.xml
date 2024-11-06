@@ -320,15 +320,18 @@
             <choose>
                 <when test='"W".equals(status)'>
                     AND (DI.APPROVE_STAT_CODE IS NULL OR DI.APPROVE_STAT_CODE IN (40,60))
+                    AND VUH.BF_YN = 'N'
                 </when>
                 <when test='"A".equals(status)'>
                     AND DI.APPROVE_STAT_CODE IN (10,20,50)
+                    AND VUH.BF_YN = 'N'
                 </when>
                 <when test='"R".equals(status)'>
                     AND DI.APPROVE_STAT_CODE IN (30)
+                    AND VUH.BF_YN = 'N'
                 </when>
                 <when test='"Y".equals(status)'>
-                    AND DI.APPROVE_STAT_CODE IN (100,101)
+                    AND (DI.APPROVE_STAT_CODE IN (100,101) OR VUH.BF_YN = 'Y')
                 </when>
             </choose>
         </if>
