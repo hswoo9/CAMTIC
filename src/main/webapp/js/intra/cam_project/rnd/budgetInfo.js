@@ -491,6 +491,10 @@ var rndBg = {
     },
 
     budgetMainGrid3Reload : function(){
+        if($("#budgetMainGrid3").data("kendoGrid") != null){
+            $("#budgetMainGrid3").data("kendoGrid").destroy();
+        }
+
         rndBg.global.searchAjaxData3 = {
             pjtCd : $("#budgetClass").data("kendoRadioGroup").value(),
             pageType : "USER",
@@ -528,6 +532,9 @@ var rndBg = {
                             '</button>';
                     }
                 }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.budgetMainGrid3Reload()">' +
@@ -535,12 +542,18 @@ var rndBg = {
                             '</button>';
                     }
                 }],
+            excel : {
+                fileName : "지급신청서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
                 }, {
+                    field: "PAY_APP_TYPE",
                     title: "문서유형",
                     width: 90,
                     template: function(e){
@@ -630,6 +643,7 @@ var rndBg = {
                         return "<div style='text-align: right'>합계</div>";
                     }
                 },{
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 110,
                     template: function(e){
@@ -645,6 +659,7 @@ var rndBg = {
                         return "<div style='text-align: right'>"+comma(paySum)+"</div>";
                     }
                 }, {
+                    field: "DOC_STATUS",
                     title: "상태",
                     width: 70,
                     template : function(e){
@@ -717,6 +732,10 @@ var rndBg = {
     },
 
     budgetMainGrid4Reload : function(){
+        if($("#budgetMainGrid4").data("kendoGrid") != null){
+            $("#budgetMainGrid4").data("kendoGrid").destroy();
+        }
+
         rndBg.global.searchAjaxData4 = {
             pjtCd : $("#budgetClass").data("kendoRadioGroup").value(),
             pageType : "USER",
@@ -747,6 +766,9 @@ var rndBg = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.budgetMainGrid4Reload()">' +
@@ -754,6 +776,11 @@ var rndBg = {
                             '</button>';
                     }
                 }],
+            excel : {
+                fileName : "지출결의서 목록.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
@@ -804,10 +831,14 @@ var rndBg = {
                     title: "작성자",
                     field: "REG_EMP_NAME",
                     width: 80,
+                    template: function(e){
+                        return e.REG_EMP_NAME;
+                    },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>합계</div>";
                     }
                 }, {
+                    field: "TOT_COST",
                     title: "지출금액",
                     width: 80,
                     template: function(e){
@@ -826,6 +857,7 @@ var rndBg = {
                     }
 
                 }, {
+                    field: "RE_STAT",
                     title: "상태",
                     width: 60,
                     template: function(e){

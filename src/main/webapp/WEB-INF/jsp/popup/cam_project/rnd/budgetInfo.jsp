@@ -31,6 +31,10 @@
     #budgetMainGrid2 TD{
         border-width: 0 0 1px 1px !important;
     }
+
+    .k-grid-excel {
+        border-radius: 0px;
+    }
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
