@@ -617,7 +617,13 @@
                 WHEN A.BUSN_CLASS IN ('S') AND UNRND.STATUS = '100' THEN DATE_FORMAT(A.STR_DT, '%Y-%m-%d')
                 WHEN A.BUSN_CLASS IN ('D', 'V') AND DE.STATUS = '100' THEN DATE_FORMAT(DE.DELV_EST_DE, '%Y-%m-%d')
                 ELSE ''
-            END AS LIST_STR_DE
+            END AS LIST_STR_DE,
+            CASE
+                WHEN A.BUSN_CLASS IN ('R') AND PR.STATUS = '100' THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('S') AND PR.STATUS = '100' THEN DATE_FORMAT(PR.RS_END_DT, '%Y-%m-%d')
+                WHEN A.BUSN_CLASS IN ('D', 'V') AND PR.STATUS = '100' THEN DATE_FORMAT(A.DELV_DE, '%Y-%m-%d')
+                ELSE ''
+            END AS LIST_END_DE
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         /*LEFT JOIN
@@ -652,6 +658,10 @@
             CAM_MNG.DJ_DEPO_SETTING DS
         ON
             A.PJT_SN = DS.FR_PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RESULT PR
+        ON
+            A.PJT_SN = PR.PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
         LIMIT 1

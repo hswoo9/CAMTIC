@@ -77,7 +77,7 @@ var costInfoAdmin = {
         $("#PJT_NM").text(pjtMap.PJT_NM);
         $("#PM").text(pjtMap.PM);
         $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
-        $("#PJT_END_DT").text(pjtMap.PJT_END_DT);
+        $("#PJT_END_DT").text(pjtMap.LIST_END_DE);
         $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
 
         let sbjText = "미사용";
@@ -531,7 +531,7 @@ var costInfoAdmin = {
                 nextSaleAmt = costCalc.devSaleAmt(iMap);
                 nextProfitAmt = costCalc.devProfitAmt(iMap);
 
-                if(iMap.DEADLINE_YN = "Y"){
+                if(iMap.DEADLINE_YN == "Y"){
                     flag = false;
                 }
             }else if(iMap.YEAR == reqYear + 1){
