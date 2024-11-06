@@ -95,4 +95,8 @@ public interface ProjectRndService {
     void carryoverApp(Map<String, Object> params);
 
     void insChangeInfo(Map<String, Object> params);
+
+    void updNowYear(Map<String, Object> params);
+
+    Map<String, Object> getNowYearChangeHist(Map<String, Object> params);
 }

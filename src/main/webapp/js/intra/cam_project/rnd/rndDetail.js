@@ -516,6 +516,29 @@ var rndDetail = {
         $('label[for="bsPlanFileList"]').attr('disabled', true);
         $('label[for="agreementFileList"]').attr('disabled', true);
         $('label[for="etcFileList"]').attr('disabled', true);
+
+        /** 당해년도 사업기간 관련 */
+        $("#chgDiv").css("display", "inline-block");
+        $("#chgDiv2").css("display", "block");
+        this.fn_changeNowYearSet();
+    },
+
+    fn_changeNowYearSet : function (){
+        $.ajax({
+            url: "/projectRnd/getNowYearChangeHist",
+            data : { pjtSn : $("#pjtSn").val() },
+            type : "POST",
+            dataType : "json",
+            success : function (result){
+                var rs = result.data;
+
+                if(rs != null) {
+                    $("#regTxtSpan").show();
+                    $("#nowYearRegEmp").text(rs.REG_EMP_NAME);
+                    $("#nowYearRegDt").text(rs.REG_DE);
+                }
+            }
+        })
     },
 
     customBudgetGrid : function(url, params){
@@ -1028,6 +1051,33 @@ var rndDetail = {
         }else{
             location.reload();
         }
+    },
+
+    fn_updNowYear : function(){
+        if(!confirm("당해년도 사업기간을 변경하시겠습니까?")) {
+            return;
+        }
+
+        let data = {
+            pjtSn: $("#pjtSn").val(),
+            busnClass : "R",
+            nowStrDe : $("#nowStrDe").val(),
+            nowEndDe : $("#nowEndDe").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+        
+        $.ajax({
+            url: "/projectRnd/updNowYear",
+            data: data,
+            type: "post",
+            datatype: "json",
+            success: function (rs) {
+                if(rs.code == "200"){
+                    alert("변경되었습니다.");
+                    location.reload();
+                }
+            }
+        })
     }
 }
 

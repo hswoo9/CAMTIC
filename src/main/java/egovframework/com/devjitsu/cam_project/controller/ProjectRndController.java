@@ -1054,6 +1054,25 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/updNowYear")
+    public String updNowYear(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            projectRndService.updNowYear(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/getNowYearChangeHist")
+    public String getNowYearChangeHist(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = projectRndService.getNowYearChangeHist(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

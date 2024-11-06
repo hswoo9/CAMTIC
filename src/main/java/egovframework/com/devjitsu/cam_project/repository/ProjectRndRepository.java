@@ -272,4 +272,16 @@ public class ProjectRndRepository extends AbstractDAO {
     public void carryoverApp(Map<String, Object> params) {
         update("projectRnd.carryoverApp", params);
     }
+
+    public void updRndNowYear(Map<String, Object> params) {
+        update("projectRnd.updRndNowYear", params);
+    }
+
+    public void insChangeNowYearHist(Map<String, Object> params) {
+        insert("projectRnd.insChangeNowYearHist", params);
+    }
+
+    public Map<String, Object> getNowYearChangeHist(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectRnd.getNowYearChangeHist", params);
+    }
 }

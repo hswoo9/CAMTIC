@@ -1128,4 +1128,49 @@
         AND CB_SN IN (${bgtList})
     </update>
 
+    <update id="updRndNowYear" parameterType="map">
+        /*updRndNowYear*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            NOW_STR_DE = #{nowStrDe},
+            NOW_END_DE = #{nowEndDe}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insChangeNowYearHist" parameterType="map">
+        /*insChangeNowYearHist*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CURRENT_YEAR_HIST
+            (
+                PJT_SN,
+                BUSN_CLASS,
+                NOW_STR_DE,
+                NOW_END_DE,
+                REG_EMP_SEQ,
+                REG_DT
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{busnClass},
+                #{nowStrDe},
+                #{nowEndDe},
+                #{regEmpSeq},
+                NOW()
+            )
+    </insert>
+
+    <select id="getNowYearChangeHist" parameterType="map" resultType="map">
+        /*getNowYearChangeHist*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.REG_EMP_SEQ = EMP_SEQ) AS REG_EMP_NAME,
+            DATE_FORMAT(A.REG_DT,'%Y-%m-%d') AS REG_DE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CURRENT_YEAR_HIST A
+        WHERE
+            A.PJT_SN = #{pjtSn}
+        ORDER BY A.HIST_SN DESC LIMIT 1
+    </select>
 </mapper>

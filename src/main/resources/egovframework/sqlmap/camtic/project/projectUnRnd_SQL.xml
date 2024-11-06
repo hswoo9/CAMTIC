@@ -1658,4 +1658,15 @@
           AND  CRM_SN = #{crmSn}
     </select>
 
+    <update id="updUnRndNowYear" parameterType="map">
+        /*updUnRndNowYear*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            NOW_STR_DE = #{nowStrDe},
+            NOW_END_DE = #{nowEndDe}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
 </mapper>

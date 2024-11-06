@@ -9,6 +9,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.campus.repository.CampusRepository;
@@ -26,10 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProjectRndServiceImpl implements ProjectRndService {
@@ -66,6 +64,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private EmployRepository employRepository;
+
+    @Autowired
+    private ProjectUnRndRepository projectUnRndRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -905,6 +906,22 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void insChangeInfo(Map<String, Object> params) {
         projectRndRepository.insChangeInfo(params);
+    }
+
+    @Override
+    public void updNowYear(Map<String, Object> params) {
+        if(params.get("busnClass").equals("R")) {
+            projectRndRepository.updRndNowYear(params);
+        } else {
+            projectUnRndRepository.updUnRndNowYear(params);
+        }
+
+        projectRndRepository.insChangeNowYearHist(params);
+    }
+
+    @Override
+    public Map<String, Object> getNowYearChangeHist(Map<String, Object> params) {
+        return projectRndRepository.getNowYearChangeHist(params);
     }
 }
 
