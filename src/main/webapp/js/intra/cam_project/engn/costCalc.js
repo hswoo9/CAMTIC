@@ -21,7 +21,11 @@ var costCalc = {
                     amt = Number(e.PJT_AMT);
                 }
             }else if(["C"].includes(e.TEXT)){
-                amt = Number(e.PJT_AMT);
+                if(e.YEAR_CLASS == "M"){
+                    amt = Number(e.ALL_PJT_AMT);
+                }else{
+                    amt = Number(e.PJT_AMT);
+                }
             }else{
                 amt = 0;
             }
@@ -40,7 +44,7 @@ var costCalc = {
          *
          * 알앤디/비알앤디
          * 수주년도 : 당해년도 사업비 - 차년도 매출액
-         * 차년도 : 수주금액 - 전년도에 설정한 차년도 매출액
+         * 차년도 : 수주금액 + 전년도에 설정한 차년도 매출액
          * */
         let amt = 0;
 
@@ -49,7 +53,7 @@ var costCalc = {
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                amt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
+                amt = Number(e.PJT_AMT) - Number(e.nowExpSaleAmt || 0);
             }else{
                 amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
             }
@@ -75,19 +79,19 @@ var costCalc = {
         let amt = 0;
 
         /** 수주년도/차년도 구분 */
-        if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-            /** 마감유무 */
-            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
-            }else{
-                amt = Number(e.DEV_INV_AMT || 0);
-            }
-        }else{
+        if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
             /** 종료유무 */
             if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
             }else{
                 amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+            }
+        }else{
+            /** 마감유무 */
+            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+            }else{
+                amt = Number(e.DEV_INV_AMT || 0);
             }
         }
 
@@ -171,7 +175,7 @@ var costCalc = {
                     }
                     aopAmt = allAsrAmt - (Number(e.allRealUseAmt) + Number(e.allRealUseAmt2) + Number(e.allRealUseAmt3)) - Number(e.befExpProfitAmt || 0);
                 }else{
-                    aopAmt = e.incpCompAmt1 + (Number(e.incpCompAmt2) * costCalc.directProfitRate(e)) - Number(e.befExpProfitAmt || 0);
+                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.befExpProfitAmt || 0);
                 }
             }
         }
