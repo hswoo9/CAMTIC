@@ -52,7 +52,7 @@ var budgetChoicePop = {
                 {
                     field : "ASSTN_EXPITM_TAXITM_CODE",
                     title : "보조비세목코드",
-                    width : 80
+                    width : 60
                 },
                 {
                     field : "ASSTN_EXPITM_NM",
@@ -72,10 +72,14 @@ var budgetChoicePop = {
                     }
                 },
                 {
-                    title : "설정",
-                    width : 80,
+                    title : "",
+                    width : 40,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="budgetChoicePop.fn_setEnaraBudgetCode('+e.CNTC_SN+','+e.ASSTN_EXPITM_TAXITM_CODE+', \''+e.ASSTN_EXPITM_NM+'\', \''+e.ASSTN_TAXITM_NM+'\')">설정</button>'
+                        if($("#type").val() == "rs"){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="budgetChoicePop.fn_setSubmitBudgetCode('+e.ASSTN_EXPITM_TAXITM_CODE+', \''+e.ASSTN_TAXITM_NM+'\')">선택</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="budgetChoicePop.fn_setEnaraBudgetCode('+e.CNTC_SN+','+e.ASSTN_EXPITM_TAXITM_CODE+', \''+e.ASSTN_EXPITM_NM+'\', \''+e.ASSTN_TAXITM_NM+'\')">설정</button>'
+                        }
                     }
                 }
                 ]
@@ -109,7 +113,13 @@ var budgetChoicePop = {
                 }
             }
         });
-    }
+    },
 
+    fn_setSubmitBudgetCode : function(cd, tax){
+        opener.parent.$("#ASSTN_TAXITM_CODE_NM").val(tax);
+        opener.parent.$("#ASSTN_TAXITM_CODE").val(cd);
+
+        window.close();
+    }
 
 }

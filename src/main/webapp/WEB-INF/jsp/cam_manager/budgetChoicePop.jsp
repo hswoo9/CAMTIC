@@ -16,6 +16,7 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="budgetSn" value="${params.budgetSn}"/>
+<input type="hidden" id="type" value="${params.type}"/>
 
 <div class="col-lg-12 pop_sign_wrap" style="width:1200px; padding:0;">
     <div class="card-header pop-header">

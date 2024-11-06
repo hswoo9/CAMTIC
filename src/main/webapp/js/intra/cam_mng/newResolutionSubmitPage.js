@@ -578,7 +578,13 @@ var newResolutionSubmitPage = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
 
+    fn_budgetChoice : function(){
+        var url = "/mng/budgetChoicePop.do?type=rs";
+        var name = "budgetChoicePop";
+        var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
 
 }

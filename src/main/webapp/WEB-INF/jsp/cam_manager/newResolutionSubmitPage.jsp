@@ -178,6 +178,8 @@
 						<input type="hidden" id="tempFileSeq1" name=""  value=""/>
 						<input type="hidden" id="tmpGisu" name=""  value=""/>
 						<input type="hidden" id="MD_DT" name="MD_DT" style="width: 150px" readonly value="${MD_DT }"  />
+
+						<input id="budgetBtn" type="button" class="k-button k-button-solid-base" onclick="newResolutionSubmitPage.fn_budgetChoice();" value="검색" />
 					</td>
 					<th>집행용도</th>
 					<td>
