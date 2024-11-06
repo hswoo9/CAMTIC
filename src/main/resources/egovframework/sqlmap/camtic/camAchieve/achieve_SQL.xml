@@ -747,31 +747,153 @@
 
     <select id="getExnpCompAmt" parameterType="map" resultType="map">
         /*getExnpCompAmt*/
-        SELECT
-            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
-        FROM
-            CAM_MNG.DJ_EXNP A
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-        WHERE
-            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
-        AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
-        AND YEAR(A.EXNP_DE) = #{reqYear}
-        AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND S.ACTIVE = 'Y')
+        SELECT IFNULL(SUM(R.TOT_COST), 0) AS TOT_COST FROM (
+            SELECT
+                SUM(A.RE_COMPLETE_AMT) + SUM(A.EXNP_COMPLETE_AMT) - SUM(A.CREDIT_AMT) AS TOT_COST
+            FROM (
+                SELECT A.PJT_CD,
+                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                    B.BUDGET_SN,
+                    CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') IN ('0', '1', '2', '3')
+                    THEN B.TOT_COST
+                    ELSE 0
+                    END AS RE_COMPLETE_AMT,
+                    CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') NOT IN ('0', '1', '2', '3')
+                    THEN B.TOT_COST
+                    ELSE 0
+                    END AS EXNP_COMPLETE_AMT,
+                    0 AS PAY_APP_APPROVAL_AMT,
+                    0 AS PAY_APP_TOTAL_AMT,
+                    0 AS CREDIT_AMT
+                FROM CAM_MNG.DJ_EXNP A
+                INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                WHERE A.DOC_STATUS IN ('100', '101')
+                AND A.PAY_APP_TYPE = '1'
+                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                AND YEAR(A.EXNP_DE) = #{reqYear}
+
+                UNION ALL
+
+                SELECT A.PJT_CD,
+                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                    B.BUDGET_SN,
+                    0 AS RE_COMPLETE_AMT,
+                    0 AS EXNP_COMPLETE_AMT,
+                    CASE WHEN A.DOC_STATUS IN ('100', '101')
+                    THEN B.TOT_COST
+                    ELSE 0
+                    END AS PAY_APP_APPROVAL_AMT,
+                    CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
+                    THEN B.TOT_COST
+                    ELSE 0
+                    END AS PAY_APP_TOTAL_AMT,
+                    0 AS CREDIT_AMT
+                FROM CAM_MNG.DJ_PAY_APP A
+                INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                WHERE A.PAY_APP_TYPE = '1'
+                AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
+                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                AND YEAR(A.APP_DE) = #{reqYear}
+
+                UNION ALL
+
+                SELECT A.PJT_CD,
+                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                    B.BUDGET_SN,
+                    0 AS RE_COMPLETE_AMT,
+                    0 AS EXNP_COMPLETE_AMT,
+                    0 AS PAY_APP_APPROVAL_AMT,
+                    0 AS PAY_APP_TOTAL_AMT,
+                    B.TOT_COST AS CREDIT_AMT
+                FROM CAM_MNG.DJ_EXNP A
+                LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                WHERE A.DOC_STATUS IN (100, 101)
+                AND A.PAY_APP_TYPE = '2'
+                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                AND YEAR(A.EXNP_DE) = #{reqYear}
+            ) A
+            GROUP BY A.PJT_CD,
+            A.JANG_SN,
+            A.GWAN_SN,
+            A.BUDGET_SN
+        ) R
     </select>
 
     <select id="getExnpCompAmtAll" parameterType="map" resultType="map">
         /*getExnpCompAmtAll*/
-        SELECT
-            IFNULL(SUM(IF(PAY_APP_TYPE = 2, (TOT_COST * -1), TOT_COST)), 0) AS TOT_COST
-        FROM
-            CAM_MNG.DJ_EXNP A
-                LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-        WHERE
-            LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
-          AND DOC_STATUS IN (100, 101) AND RE_STAT = 'Y'
-          AND B.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND S.ACTIVE = 'Y')
+        SELECT IFNULL(SUM(R.TOT_COST), 0) AS TOT_COST FROM (
+               SELECT
+                   SUM(A.RE_COMPLETE_AMT) + SUM(A.EXNP_COMPLETE_AMT) - SUM(A.CREDIT_AMT) AS TOT_COST
+               FROM (
+                        SELECT A.PJT_CD,
+                               SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                               SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                               B.BUDGET_SN,
+                               CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') IN ('0', '1', '2', '3')
+                                        THEN B.TOT_COST
+                                    ELSE 0
+                                   END AS RE_COMPLETE_AMT,
+                               CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') NOT IN ('0', '1', '2', '3')
+                                        THEN B.TOT_COST
+                                    ELSE 0
+                                   END AS EXNP_COMPLETE_AMT,
+                               0 AS PAY_APP_APPROVAL_AMT,
+                               0 AS PAY_APP_TOTAL_AMT,
+                               0 AS CREDIT_AMT
+                        FROM CAM_MNG.DJ_EXNP A
+                                 INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                        WHERE A.DOC_STATUS IN ('100', '101')
+                          AND A.PAY_APP_TYPE = '1'
+                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+
+                        UNION ALL
+
+                        SELECT A.PJT_CD,
+                            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                            B.BUDGET_SN,
+                            0 AS RE_COMPLETE_AMT,
+                            0 AS EXNP_COMPLETE_AMT,
+                            CASE WHEN A.DOC_STATUS IN ('100', '101')
+                            THEN B.TOT_COST
+                            ELSE 0
+                            END AS PAY_APP_APPROVAL_AMT,
+                            CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
+                            THEN B.TOT_COST
+                            ELSE 0
+                            END AS PAY_APP_TOTAL_AMT,
+                            0 AS CREDIT_AMT
+                        FROM CAM_MNG.DJ_PAY_APP A
+                            INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                        WHERE A.PAY_APP_TYPE = '1'
+                          AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
+                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+
+                        UNION ALL
+
+                        SELECT A.PJT_CD,
+                            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                            B.BUDGET_SN,
+                            0 AS RE_COMPLETE_AMT,
+                            0 AS EXNP_COMPLETE_AMT,
+                            0 AS PAY_APP_APPROVAL_AMT,
+                            0 AS PAY_APP_TOTAL_AMT,
+                            B.TOT_COST AS CREDIT_AMT
+                        FROM CAM_MNG.DJ_EXNP A
+                            LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                        WHERE A.DOC_STATUS IN (100, 101)
+                          AND A.PAY_APP_TYPE = '2'
+                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    ) A
+               GROUP BY A.PJT_CD,
+                        A.JANG_SN,
+                        A.GWAN_SN,
+                        A.BUDGET_SN
+           ) R
     </select>
 
     <select id="getIncpCompAmt" parameterType="map" resultType="map">
