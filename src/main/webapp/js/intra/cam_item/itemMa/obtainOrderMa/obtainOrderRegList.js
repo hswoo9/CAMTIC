@@ -939,7 +939,7 @@ var oorl = {
                     width: 80
                 },{
                     title: "국내/국외",
-                    field: "",
+                    field: "FORE_GB",
                     width: 80
                 },{
                     title: "품번(대분류)",
