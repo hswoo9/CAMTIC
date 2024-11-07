@@ -213,7 +213,7 @@
                         <span id="regTxtSpan" style="color: gray; display: none;"> 마지막 변경 : <span id="nowYearRegEmp"></span> (<span id="nowYearRegDt"></span>) </span>
                     </div>
                     <div id="chgDiv2" style="display: none; margin-top: 7px;">
-                        <span style="color: red;">* 결재중 또는 결재완료된 문서의 사업기간은 변경되지 않습니다.</span>
+                        <span style="color: red;">* 결재중 또는 결재완료된 전자결재 양식 내의 당해년도 사업기간은 변경되지않습니다.</span>
                     </div>
                 </td>
             </tr>
