@@ -458,6 +458,161 @@
         DESC
     </select>
 
+    <select id="getObtainOrderExcelList" parameterType="map" resultType="map">
+        /* getObtainOrderExcelList */
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY OO.REG_DT DESC) AS ROW_NUM,
+            CASE
+                WHEN OO.DEADLINE = 'Y' THEN '견적마감'
+                WHEN OO.DEADLINE = 'N' THEN '견적진행중'
+                ELSE ''
+            END AS DEADLINE,
+            (SELECT A.CATEGORY_CODE_NM FROM CAM_ITEM.DJ_ITEM_CATEGORY A WHERE A.ITEM_CATEGORY_SN = IM.CATEGORY_A_SN) AS CATEGORY_A_SN,
+            (SELECT A.CATEGORY_CODE_NM FROM CAM_ITEM.DJ_ITEM_CATEGORY A WHERE A.ITEM_CATEGORY_SN = IM.CATEGORY_B_SN) AS CATEGORY_B_SN,
+            (SELECT A.CATEGORY_CODE_NM FROM CAM_ITEM.DJ_ITEM_CATEGORY A WHERE A.ITEM_CATEGORY_SN = IM.CATEGORY_C_SN) AS CATEGORY_C_SN,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            FORMAT(OO.ORDER_VOLUME, '#,#') AS ORDER_VOLUME,
+            FORMAT(OO.UNIT_PRICE, '#,#') AS UNIT_PRICE,
+            FORMAT(OO.AMT, '#,#') AS AMT,
+            CI.CRM_SN,
+            CI.CRM_NM,
+            CI.CRM_LOC,
+            FORMAT((SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN), '#,#') AS OVERALL_INVEN,
+            CASE
+            WHEN OO.PAY_DEPO_SN IS NOT NULL AND PD.APPR_STAT = 'Y'  THEN '요청완료'
+            WHEN OO.PAY_DEPO_SN IS NOT NULL AND PD.APPR_STAT != 'Y'  THEN '작성'
+            ELSE '미작성'
+            END AS OVERALL_KR,
+            FORMAT(OO.DELIVERY_AMT, '#,#') AS DELIVERY_AMT,
+            FORMAT(OO.ORDER_REMAIN, '#,#') AS ORDER_REMAIN,
+            OO.DUE_DT,
+            IFNULL(PI.RE_TOT_COST, 0) AS COM_AMT,
+            IFNULL(PI.COM_NOT_AMT, 0) AS COM_NOT_AMT,
+            OO.PAY_DEPO_SN,
+            OO.RMK,
+            EI.EMP_NAME_KR,
+            CASE
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) = PI.TOT_COST THEN '입금완료'
+                WHEN PI.DOC_STATUS = '100' AND IFNULL(PI.RE_CNT, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != 0 AND IFNULL(PI.RE_TOT_COST, 0) != PI.TOT_COST THEN '부분입금'
+                ELSE '미입금'
+            END AS DOC_STATUS_TEXT
+        FROM
+            (SELECT @ROWNUM := 0) R, CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON OO.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON OO.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = OO.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD IUC
+        ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_DEPO PD
+        ON PD.PAY_DEPO_SN = OO.PAY_DEPO_SN
+            LEFT JOIN (
+                SELECT
+                    PI.PAY_INCP_SN,
+                    PI.DOC_STATUS,
+                    E.RE_CNT,
+                    E.RE_TOT_COST,
+                    C.TOT_COST,
+                    (IFNULL(C.TOT_COST,0) - IFNULL(E.RE_TOT_COST,0)) AS COM_NOT_AMT
+                FROM
+                    CAM_MNG.DJ_PAY_INCP PI
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS TOT_COST
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_DET
+                GROUP BY PAY_INCP_SN
+            )C
+            ON PI.PAY_INCP_SN = C.PAY_INCP_SN
+            LEFT JOIN (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS RE_TOT_COST,
+                    COUNT(PAY_INCP_RE_SN) AS RE_CNT
+                FROM
+                    CAM_MNG.DJ_PAY_INCP_RE
+                WHERE
+                    RE_STAT = 'Y'
+                GROUP BY PAY_INCP_SN
+            ) E
+            ON PI.PAY_INCP_SN = E.PAY_INCP_SN
+        )PI
+        ON PD.PAY_INCP_SN = PI.PAY_INCP_SN
+        WHERE 1=1
+        AND OO.OBTAIN_ORDER_TYPE = 'Y'
+        <if test='obtainOrderType != null and !"".equals(obtainOrderType)'>
+            AND OO.OBTAIN_ORDER_TYPE = #{obtainOrderType}
+        </if>
+
+        <if test='deadLine != null and !"".equals(deadLine)'>
+            AND OO.DEADLINE = #{deadLine}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(OO.ORDER_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(OO.ORDER_DT, '%Y%m%d')
+            ]]>
+        </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND OO.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+        <if test='ooArr != null and !"".equals(ooArr)'>
+            AND OO.OBTAIN_ORDER_SN IN(${ooArr})
+        </if>
+
+        <if test='deadLine != null and !"".equals(deadLine)'>
+            AND OO.DEADLINE = #{deadLine}
+        </if>
+
+        <if test='unpaidType != null and !"".equals(unpaidType)'>
+            AND OO.UNPAID_TYPE = #{unpaidType}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                    CI.CRM_NM LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND OO.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
+        <if test='category != null and !"".equals(category)'>
+            AND IM.ITEM_NO LIKE CONCAT(#{category}, '%')
+        </if>
+
+        ORDER BY OO.REG_DT DESC
+    </select>
+
     <select id="getObtainOrder" parameterType="map" resultType="map">
         /* getObtainOrder */
         SELECT

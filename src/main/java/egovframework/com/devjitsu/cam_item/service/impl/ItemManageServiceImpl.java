@@ -109,6 +109,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getObtainOrderExcelList(Map<String, Object> params) {
+        return itemManageRepository.getObtainOrderExcelList(params);
+    }
+
+    @Override
     public Map<String, Object> getObtainOrder(Map<String, Object> params) {
         return itemManageRepository.getObtainOrder(params);
     }

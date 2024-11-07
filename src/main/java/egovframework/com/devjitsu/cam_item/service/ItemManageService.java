@@ -16,6 +16,7 @@ public interface ItemManageService {
     void setSdUnitPriceDel(Map<String, Object> params);
     List<Map<String, Object>> getObtainOrderMaster(Map<String, Object> params);
     List<Map<String, Object>> getObtainOrderList(Map<String, Object> params);
+    List<Map<String, Object>> getObtainOrderExcelList(Map<String, Object> params);
     Map<String, Object> getObtainOrder(Map<String, Object> params);
     void setDeadlineUpd(Map<String, Object> params);
     void setPayDepoSnUpd(Map<String, Object> params);

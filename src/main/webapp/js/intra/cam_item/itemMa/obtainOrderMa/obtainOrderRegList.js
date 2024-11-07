@@ -212,8 +212,13 @@ var oorl = {
                             '</button>';
                     }
                 }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
                 }
             ],
             excel : {
@@ -859,5 +864,165 @@ var oorl = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    fn_excelDownload : function (){
+        oorl.hiddenGrid();
+
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "견적등록 목록.xlsx";
+        });
+        grid.saveAsExcel();
+    },
+
+    hiddenGrid: function(e){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getObtainOrderExcelList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    var categoryA = $("#categoryA").data("kendoDropDownList");
+                    var categoryB = $("#categoryB").data("kendoDropDownList");
+                    var categoryC = $("#categoryC").data("kendoDropDownList");
+
+                    data.crmSn = $("#crmSn").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.deadLine = $("#deadLine").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.category =  categoryA.dataSource.view()[categoryA.selectedIndex].CATEGORY_CODE +
+                        categoryB.dataSource.view()[categoryB.selectedIndex].CATEGORY_CODE +
+                        categoryC.dataSource.view()[categoryC.selectedIndex].CATEGORY_CODE;
+                    return data;
+                }
+
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSizes: "All",
+        });
+
+        $("#hiddenGrid").kendoGrid({
+            dataSource: dataSource,
+            height : 508,
+            sortable: true,
+            scrollable : true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes : [ 10, 20, 50, "ALL" ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "연번",
+                    field: "ROW_NUM",
+                    width: 50
+                },{
+                    title: "진행상태",
+                    field: "DEADLINE",
+                    width: 80
+                },{
+                    title: "국내/국외",
+                    field: "",
+                    width: 80
+                },{
+                    title: "품번(대분류)",
+                    field: "CATEGORY_A_SN",
+                    width: 100
+                }, {
+                    title: "품번(중분류)",
+                    field: "CATEGORY_B_SN",
+                    width: 120
+                },{
+                    title: "품번(소분류)",
+                    field: "CATEGORY_C_SN",
+                    width: 120
+                },{
+                    title: "품명",
+                    field: "ITEM_NAME",
+                    width: 120
+                },{
+                    title: "규격",
+                    field: "STANDARD",
+                    width: 80
+                },{
+                    title: "견적수량",
+                    field: "ORDER_VOLUME",
+                    width: 80
+                },{
+                    title: "단가",
+                    field: "UNIT_PRICE",
+                    width: 80
+                }, {
+                    title: "견적금액 (원)",
+                    field: "AMT",
+                    width: 100
+                },{
+                    title: "거래처명",
+                    field: "CRM_NM" ,
+                    width: 120
+                },{
+                    title: "거래처 소재지",
+                    field: "CRM_LOC",
+                    width: 120
+                },{
+                    title: "재고수량",
+                    field: "OVERALL_INVEN",
+                    width: 80
+                }, {
+                    title: "출하누계",
+                    field: "DELIVERY_AMT",
+                    width: 80
+                }, {
+                    title: "출하잔량",
+                    field: "ORDER_REMAIN",
+                    width: 80
+                }, {
+                    title: "납기예정일",
+                    field: "DUE_DT",
+                    width: 120
+                },{
+                    title: "입금완료액",
+                    field: "COM_AMT",
+                    width: 100
+                },{
+                    title: "입금예정액",
+                    field: "COM_NOT_AMT",
+                    width: 100
+                },{
+                    title: "입금상태",
+                    field: "DOC_STATUS_TEXT",
+                    width: 50
+                },{
+                    title: "입금처리요청서",
+                    field: "OVERALL_KR",
+                    width: 100
+                }, {
+                    title: "비고",
+                    field: "RMK",
+                    width: 160
+                },{
+                    title: "등록자",
+                    field: "EMP_NAME_KR",
+                    width: 80
+                }
+            ],
+        }).data("kendoGrid");
     },
 }

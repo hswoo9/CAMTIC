@@ -281,6 +281,11 @@ public class ItemManageController {
         model.addAttribute("list", itemManageService.getObtainOrderList(params));
         return "jsonView";
     }
+    @RequestMapping("/item/getObtainOrderExcelList.do")
+    public String getObtainOrderExcelList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getObtainOrderExcelList(params));
+        return "jsonView";
+    }
 
     /**
      * 수주수정 팝업
