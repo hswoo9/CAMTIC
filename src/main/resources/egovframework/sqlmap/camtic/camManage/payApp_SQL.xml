@@ -4324,19 +4324,18 @@
              , A.GWAN_SN
              , A.BUDGET_SN
              -- 입금완료(반제결의 승인 + 수입결의 승인)
-             , SUM(A.RE_COMPLETE_AMT) + SUM(A.INCP_COMPLETE_AMT)      AS COMPLETE_AMT
-             -- 반제결의 미승인 + (수입결의 승인금액 - 반제결의 승인 - 수입결의 승인 - 반제결의 미승인)
-             , SUM(A.RE_WAIT_AMT) +
-               (
-                   SUM(A.INCP_APPROVAL_AMT)
-                       - SUM(A.RE_COMPLETE_AMT)
-                       - SUM(A.INCP_COMPLETE_AMT)
-                       - SUM(A.RE_WAIT_AMT)
-                   )                                                   AS WAIT_AMT
+             , SUM(A.RE_COMPLETE_AMT) + SUM(A.INCP_COMPLETE_AMT)                                 AS COMPLETE_AMT
+             -- 수입결의 승인금액 - (반제결의 승인 - 수입결의 승인)
+             , SUM(A.INCP_APPROVAL_AMT) - (SUM(A.RE_COMPLETE_AMT) + SUM(A.INCP_COMPLETE_AMT))    AS WAIT_AMT
              -- 승인(수입결의 승인)
-             , SUM(A.INCP_APPROVAL_AMT)                              AS APPROVAL_AMT
+             , SUM(A.INCP_APPROVAL_AMT)                                                          AS APPROVAL_AMT
         FROM
             (
+                -- ******************************************************************************
+                -- 수입
+                -- ******************************************************************************
+                -- 수입결의서(반제)
+                -- 세금계산서(청구), 계산서(청구), 신용카드(과세), 신용카드(면세)
                 SELECT A.PJT_CD                                                                     -- 프로젝트코드
                      , SUBSTRING(A.BUDGET_SN, 1, 1)                          AS JANG_SN              -- 장(대분류)
                      , SUBSTRING(A.BUDGET_SN, 1, 3)                          AS GWAN_SN              -- 관(중분류)
@@ -4345,18 +4344,17 @@
                      , CASE WHEN B.RE_STAT = 'N' THEN B.TOT_COST ELSE 0 END  AS RE_WAIT_AMT          -- 반제결의 미승인(입금대기)
                      , 0                                                     AS INCP_COMPLETE_AMT    -- 수입결의 입금(입금완료)
                      , 0                                                     AS INCP_APPROVAL_AMT    -- 수입결의 승인금액(승인)
-                -- SELECT *
                 FROM CAM_MNG.DJ_PAY_INCP A
                          INNER JOIN CAM_MNG.DJ_PAY_INCP_RE  B ON A.PAY_INCP_SN = B.PAY_INCP_SN
                 WHERE A.DOC_STATUS IN ('100', '101')
-                  AND B.EVID_TYPE IN ('1', '3', '5' , '6')
+                  AND B.EVID_TYPE IN ('1', '3', '5', '6')
                   AND A.PJT_CD = #{pjtCd}
                   AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
-                -- (수입 수입대기)수입결의 증빙유형이 1, 3, 5, 6 인 것
-                -- (수입 수입완료)수입결의서 전체 금액
+                -- 수입결의서
+                -- 증빙유형 : 세금계산서(영수), 계산서(영수), 증빙없음
                 SELECT A.PJT_CD                     as PJT_CD               -- 프로젝트코드
                      , SUBSTRING(A.BUDGET_SN, 1, 1)  AS JANG_SN              -- 장(대분류)
                      , SUBSTRING(A.BUDGET_SN, 1, 3)  AS GWAN_SN              -- 관(중분류)
@@ -4370,13 +4368,13 @@
                      , B.TOT_COST                    AS INCP_APPROVAL_AMT    -- 수입결의 승인금액(승인)
                 FROM CAM_MNG.DJ_PAY_INCP A
                          INNER JOIN CAM_MNG.DJ_PAY_INCP_DET  B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-                WHERE A.DOC_STATUS in ('100', '101')
+                WHERE A.DOC_STATUS IN ('100', '101')
                   AND A.PJT_CD = #{pjtCd}
                   AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
                 UNION ALL
 
-                -- (지출)반납결의
+                -- 반납결의서
                 SELECT A.PJT_CD                                         -- 프로젝트코드
                      , SUBSTRING(B.BUDGET_SN, 1, 1)  AS JANG_SN          -- 장
                      , SUBSTRING(B.BUDGET_SN, 1, 3)  AS GWAN_SN          -- 관
@@ -4404,100 +4402,91 @@
     <select id="getExnpBudgetList" parameterType="map" resultType="map">
         /*getExnpBudgetList*/
         SELECT A.PJT_CD
-             , A.JANG_SN
-             , A.GWAN_SN
-             , A.BUDGET_SN
-             -- 지출완료: 반재승인(세금계산서, 계산서, 신용카드) + 지출결의서 승인(나머지 4개) - 여입결의서
-             , SUM(A.RE_COMPLETE_AMT) + SUM(A.EXNP_COMPLETE_AMT) - SUM(A.CREDIT_AMT)             AS COMPLETE_AMT
-             -- 지출대기: (지급신청 총액 - 지급신청 승인) + (지금신청 승인 - 반재승인(세금계산서, 계산서, 신용카드) + 지출결의서 승인(나머지 4개))
-             , SUM(A.PAY_APP_TOTAL_AMT) - SUM(A.PAY_APP_APPROVAL_AMT)
-                   +
-               SUM(A.PAY_APP_APPROVAL_AMT) - (SUM(A.RE_COMPLETE_AMT) + SUM(A.EXNP_COMPLETE_AMT)) AS WAIT_AMT
-             -- 승인 : 지급신청 상신 이승인(승인) - 여입결의서
-             , SUM(A.PAY_APP_TOTAL_AMT) - SUM(A.CREDIT_AMT)                                      AS APPROVAL_AMT
--- SELECT *
+        , A.JANG_SN
+        , A.GWAN_SN
+        , A.BUDGET_SN
+        -- 지출완료: 지출반제Y
+        , SUM(A.RE_COMPLETE_AMT)                                AS COMPLETE_AMT
+        -- 지출대기: 지급신청 상신 이승인 + 지출반제Y
+        , SUM(A.PAY_APP_TOTAL_AMT) - SUM(A.RE_COMPLETE_AMT)     AS WAIT_AMT
+        -- 승인 : 지급신청 상신 이승인(승인)
+        , SUM(A.PAY_APP_TOTAL_AMT)                              AS APPROVAL_AMT
         FROM
-            (
-                -- ******************************************************************************
-                -- (지출)지출결의서 완료
-                -- ******************************************************************************
-                -- (지출)반제결의
-                SELECT A.PJT_CD                                                                     -- 프로젝트코드
-                     , SUBSTRING(B.BUDGET_SN, 1, 1)                          AS JANG_SN              -- 장(대분류)
-                     , SUBSTRING(B.BUDGET_SN, 1, 3)                          AS GWAN_SN              -- 관(중분류)
-                     , B.BUDGET_SN                                           AS BUDGET_SN            -- 예산코드
-                     , CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') IN ('0', '1', '2', '3')
-                                THEN B.TOT_COST
-                            ELSE 0
-                    END                                                 AS RE_COMPLETE_AMT      -- 반제(지출완료)
-                     , CASE WHEN A.DOC_STATUS IN ('100', '101') AND IFNULL(B.EVID_TYPE, '0') NOT IN ('0', '1', '2', '3')
-                                THEN B.TOT_COST
-                            ELSE 0
-                    END                                                 AS EXNP_COMPLETE_AMT    -- 지출결의서 미승인금액
-                     , 0                                                     AS PAY_APP_APPROVAL_AMT -- 지금신청 승인금액
-                     , 0                                                     AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
-                     , 0                                                     AS CREDIT_AMT           -- 여신금액
-                -- SELECT *
-                FROM CAM_MNG.DJ_EXNP A
-                         INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-                WHERE A.DOC_STATUS IN ('100', '101')
-                  AND A.PAY_APP_TYPE = '1'
-                  AND A.PJT_CD = #{pjtCd}
-                  AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        (
+        -- ******************************************************************************
+        -- 지출
+        -- ******************************************************************************
+        -- (지출)지출결의서
+        SELECT A.PJT_CD                                                                     -- 프로젝트코드
+        , SUBSTRING(B.BUDGET_SN, 1, 1)                          AS JANG_SN              -- 장(대분류)
+        , SUBSTRING(B.BUDGET_SN, 1, 3)                          AS GWAN_SN              -- 관(중분류)
+        , B.BUDGET_SN                                           AS BUDGET_SN            -- 예산코드
+        , CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'Y' -- AND IFNULL(B.EVID_TYPE, '0') IN ('0', '1', '2', '3')
+        THEN B.TOT_COST
+        ELSE 0
+        END                                                 AS RE_COMPLETE_AMT      -- 지출반제Y(지출완료)
+        , CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'N' -- AND IFNULL(B.EVID_TYPE, '0') NOT IN ('0', '1', '2', '3')
+        THEN B.TOT_COST
+        ELSE 0
+        END                                                 AS RE_WAIT_AMT          -- 지출반제N(지출대기)
+        , 0                                                     AS PAY_APP_APPROVAL_AMT -- 지급신청서 승인금액(지출대기)
+        , 0                                                     AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
+        FROM CAM_MNG.DJ_EXNP A
+        INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+        WHERE A.DOC_STATUS IN ('100', '101')
+        AND A.PAY_APP_TYPE = '1'
+        AND A.PJT_CD = #{pjtCd}
+        AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
 
-                UNION ALL
+        UNION ALL
 
-                -- (지출)지금신청서
-                SELECT A.PJT_CD                                                                     -- 프로젝트코드
-                     , SUBSTRING(B.BUDGET_SN, 1, 1)                          AS JANG_SN              -- 장(대분류)
-                     , SUBSTRING(B.BUDGET_SN, 1, 3)                          AS GWAN_SN              -- 관(중분류)
-                     , B.BUDGET_SN                                           AS BUDGET_SN            -- 예산코드
-                     , 0                                                     AS RE_COMPLETE_AMT      -- 반제 완료(지출완료)
-                     , 0                                                     AS EXNP_COMPLETE_AMT    -- 지출결의서 완료(지출완료)
-                     , CASE WHEN A.DOC_STATUS IN ('100', '101')
-                                THEN B.TOT_COST
-                            ELSE 0
-                    END                                                 as PAY_APP_APPROVAL_AMT -- 지금신청 승인금액
-                     , CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
-                                THEN B.TOT_COST
-                            ELSE 0
-                    END                                            AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
-                    , 0                                                     AS CREDIT_AMT           -- 여신금액
-            -- SELECT *
-                FROM CAM_MNG.DJ_PAY_APP A
-                         INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-                WHERE A.PAY_APP_TYPE = '1'
-                  AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102') -- 반려, 회수, 상신취소, 삭제, 결재안함
-                  AND A.PJT_CD = #{pjtCd}
-                  AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
+        -- (지출)지금신청서
+        SELECT A.PJT_CD                                                                     -- 프로젝트코드
+        , SUBSTRING(B.BUDGET_SN, 1, 1)                          AS JANG_SN              -- 장(대분류)
+        , SUBSTRING(B.BUDGET_SN, 1, 3)                          AS GWAN_SN              -- 관(중분류)
+        , B.BUDGET_SN                                           AS BUDGET_SN            -- 예산코드
+        , 0                                                     AS RE_COMPLETE_AMT      -- 지출반제Y(지출완료)
+        , 0                                                     AS RE_WAIT_AMT          -- 지출반제N(지출대기)
+        , CASE WHEN A.DOC_STATUS IN ('100', '101')
+        THEN B.TOT_COST
+        ELSE 0
+        END                                                 AS PAY_APP_APPROVAL_AMT -- 지급신청서 승인금액(지출대기)
+        , CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
+        THEN B.TOT_COST
+        ELSE 0
+        END                                                 AS PAY_APP_TOTAL_AMT    -- 지급신청 상신이후 금액
+        FROM CAM_MNG.DJ_PAY_APP A
+        INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+        WHERE A.PAY_APP_TYPE = '1'
+        AND B.EXNP_STAT = 'Y'
+        AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102') -- 반려, 회수, 상신취소, 삭제, 결재안함
+        AND A.PJT_CD = #{pjtCd}
+        AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
-                UNION ALL
+        UNION ALL
 
-                -- (지출)여입 결의서
-                SELECT A.PJT_CD                                                 -- 프로젝트코드
-                     , SUBSTRING(B.BUDGET_SN, 1, 1)  AS JANG_SN                  -- 장
-                     , SUBSTRING(B.BUDGET_SN, 1, 3)  AS GWAN_SN                  -- 관
-                     , B.BUDGET_SN                                               -- 예산코드
-                     , 0                             AS RE_COMPLETE_AMT          -- 반납결의 입금(입금완료)
-                     , 0                             AS EXNP_COMPLETE_AMT
-                     , 0                             AS PAY_APP_APPROVAL_AMT     -- 수입결의 승인금액(승인)
-                     , 0                             AS PAY_APP_TOTAL_AMT
-                     , B.TOT_COST                    AS CREDIT_AMT               -- 여신금액
-                -- , A.RE_STAT
-                -- , B.EVID_TYPE
-                FROM CAM_MNG.DJ_EXNP A
-                         LEFT JOIN CAM_MNG.DJ_EXNP_DET B on A.EXNP_SN = B.EXNP_SN
-                WHERE A.DOC_STATUS IN (100, 101)
-                  AND A.PAY_APP_TYPE = '2' -- 여입신청서
-                  AND A.PJT_CD = #{pjtCd}
-                  AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+        -- (지출)여입결의서
+        SELECT A.PJT_CD                                                 -- 프로젝트코드
+        , SUBSTRING(B.BUDGET_SN, 1, 1)  AS JANG_SN                  -- 장
+        , SUBSTRING(B.BUDGET_SN, 1, 3)  AS GWAN_SN                  -- 관
+        , B.BUDGET_SN                                               -- 예산코드
+        , -B.TOT_COST                   AS RE_COMPLETE_AMT          -- 지출반제Y(지출완료)
+        , 0                             AS RE_WAIT_AMT              -- 지출반제N(지출대기)
+        , 0                             AS PAY_APP_APPROVAL_AMT     -- 지급신청서 승인금액(지출대기)
+        , -B.TOT_COST                   AS PAY_APP_TOTAL_AMT        -- 지급신청 상신이후 금액
+        FROM CAM_MNG.DJ_EXNP A
+        LEFT JOIN CAM_MNG.DJ_EXNP_DET B on A.EXNP_SN = B.EXNP_SN
+        WHERE A.DOC_STATUS IN (100, 101)
+        AND A.PAY_APP_TYPE = '2'
+        AND A.PJT_CD = #{pjtCd}
+        AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
 
-            ) A
+        ) A
         GROUP BY A.PJT_CD
-               , A.JANG_SN
-               , A.GWAN_SN
-               , A.BUDGET_SN
+        , A.JANG_SN
+        , A.GWAN_SN
+        , A.BUDGET_SN
         ORDER BY A.PJT_CD
-               , A.BUDGET_SN
+        , A.BUDGET_SN
     </select>
 </mapper>
