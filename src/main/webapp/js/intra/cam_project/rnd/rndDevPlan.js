@@ -375,6 +375,7 @@ var rndDP = {
             sum += Number(list[i].EST_TOT_AMT);
         }
         $("#totalAmt").text(comma(sum));
+        $("#invAmt002").text(comma(sum));
 
         $("#invTable > tr").each(function (e) {
             $("#invCnt" + e + ", #invUnitPrice" + e).on("keyup", function () {
