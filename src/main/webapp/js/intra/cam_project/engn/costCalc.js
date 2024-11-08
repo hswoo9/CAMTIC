@@ -14,19 +14,19 @@ var costCalc = {
         if((e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V") && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
             amt = Number(e.PJT_AMT);
         }else{
-            if(["A", "B"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
+            if(["A", "B", "C"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
                 if(e.YEAR_CLASS == "M"){
                     amt = Number(e.ALL_PJT_AMT);
                 }else{
                     amt = Number(e.PJT_AMT);
                 }
-            }else if(["C"].includes(e.TEXT)){
+            }/*else if(["C"].includes(e.TEXT)){
                 if(e.YEAR_CLASS == "M"){
                     amt = Number(e.ALL_PJT_AMT);
                 }else{
                     amt = Number(e.PJT_AMT);
                 }
-            }else{
+            }*/else{
                 amt = 0;
             }
         }
