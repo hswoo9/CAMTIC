@@ -29,9 +29,38 @@ var bomRegList = {
         bomRegList.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/item/getBomList.do",
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data){
+                    data.whCd = $("#whCd").val();
+                    data.itemType = $("#itemType").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             selectable: "row",
@@ -153,15 +182,8 @@ var bomRegList = {
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
-        
-        bomRegList.global.searchAjaxData = {
-            whCd : $("#whCd").val(),
-            itemType : $("#itemType").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-        }
 
-        bomRegList.mainGrid("/item/getBomList.do", bomRegList.global.searchAjaxData);
+        bomRegList.mainGrid();
     },
 
     fn_popBomReg : function (e){

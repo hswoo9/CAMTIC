@@ -29,9 +29,39 @@ var pos = {
         pos.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/item/getBomOutputHistory.do",
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data){
+                    data.whCd = $("#whCd").val();
+                    data.itemType = $("#itemType").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             selectable: "row",
@@ -125,15 +155,8 @@ var pos = {
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
-        
-        pos.global.searchAjaxData = {
-            whCd : $("#whCd").val(),
-            itemType : $("#itemType").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-        }
 
-        pos.mainGrid("/item/getBomOutputHistory.do", pos.global.searchAjaxData);
+        pos.mainGrid();
     },
 
     comma: function(str) {

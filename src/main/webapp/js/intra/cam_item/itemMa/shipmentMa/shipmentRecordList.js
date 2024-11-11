@@ -25,9 +25,40 @@ var srl = {
         srl.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getShipmentRecordMaster.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.deadline = "Y";
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             selectable: "row",
@@ -213,17 +244,8 @@ var srl = {
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
-        
-        srl.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            deadline : "Y",
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-        }
 
-        srl.mainGrid("/item/getShipmentRecordMaster.do", srl.global.searchAjaxData);
+        srl.mainGrid();
     },
 
     crmSnReset : function(){

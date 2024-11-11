@@ -27,7 +27,6 @@ var srrl = {
     mainGrid: function(url, params){
         const dataSource = new kendo.data.DataSource({
             serverPaging: false,
-            pageSize: 10,
             transport: {
                 read : {
                     url : "/item/getShipmentRecordMaster.do",
@@ -53,6 +52,8 @@ var srrl = {
                     return data.list.length;
                 },
             },
+            page: 1,
+            pageSizes: "ALL",
         });
 
         $("#mainGrid").kendoGrid({

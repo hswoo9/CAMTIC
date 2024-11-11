@@ -37,7 +37,7 @@ var popDepositStat = {
                 }
             ],
             excel : {
-                fileName : "수주등록 목록.xlsx",
+                fileName : "견적등록 목록.xlsx",
                 filterable : true
             },
             columns: [
