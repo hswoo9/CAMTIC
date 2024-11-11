@@ -179,7 +179,7 @@ public class AchieveController {
             // 수행계획 - 투자금액
             Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
             if(getPjtDevInfo != null) {
-                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_AMT"));
+                map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
@@ -288,7 +288,14 @@ public class AchieveController {
 
                 // 납품액
                 Map<String, Object> goodsMap = achieveService.getGoodsAmt(params);
-                map.put("goodsTotAmt", goodsMap.get("GOODS_TOT_SUM"));
+                if(goodsMap != null){
+                    Long goodsTotAmt = Long.parseLong(goodsMap.get("GOODS_TOT_SUM").toString());
+                    if(goodsMap.get("GOODS_VAT").equals("Y")) {
+                        map.put("goodsTotAmt", Math.floor(goodsTotAmt * 1.1));
+                    } else {
+                        map.put("goodsTotAmt", goodsTotAmt);
+                    }
+                }
 
                 // 전/차년도 설정
                 Map<String, Object> projectPaySetData1 = achieveService.getProjectPayBef(params);

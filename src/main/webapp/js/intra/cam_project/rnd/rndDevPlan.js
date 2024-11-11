@@ -107,7 +107,7 @@ var rndDP = {
                 dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
                 var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
 
-                var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
+                var invAmt = rs.list[i].INV_TOT_SUM == null ? 0 : rs.list[i].INV_TOT_SUM;
                 var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
 
 
@@ -375,7 +375,6 @@ var rndDP = {
             sum += Number(list[i].EST_TOT_AMT);
         }
         $("#totalAmt").text(comma(sum));
-        $("#invAmt002").text(comma(sum));
 
         $("#invTable > tr").each(function (e) {
             $("#invCnt" + e + ", #invUnitPrice" + e).on("keyup", function () {

@@ -63,7 +63,7 @@ var devInfo = {
                 pjtStepNm = "원가보고";
             }
 
-            var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
+            var invAmt = rs.list[i].INV_TOT_SUM == null ? 0 : rs.list[i].INV_TOT_SUM;
             var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
             if(rs.list[i].PJT_STEP == "E2"){
                 pjtStepNm = "";

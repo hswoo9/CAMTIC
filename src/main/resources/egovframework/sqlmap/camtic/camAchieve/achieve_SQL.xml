@@ -1531,7 +1531,13 @@
 
     <select id="getGoodsAmt" parameterType="map" resultType="map">
         /*getGoodsAmt*/
-        SELECT IFNULL(SUM(GOODS_TOT_AMT), 0) AS GOODS_TOT_SUM FROM CAM_PJT_MNG.DJ_PJT_GOODS WHERE PJT_SN = #{pjtSn}
+        SELECT
+            IFNULL(SUM(GOODS_TOT_AMT), 0) AS GOODS_TOT_SUM,
+            IFNULL((SELECT VAT FROM CAM_PJT_MNG.DJ_PJT_EST WHERE A.PJT_SN = PJT_SN ORDER BY EST_SN DESC LIMIT 1),'') AS GOODS_VAT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_GOODS A
+        WHERE
+            A.PJT_SN = #{pjtSn}
     </select>
 
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
@@ -1668,7 +1674,8 @@
     <select id="getPjtDevSn" parameterType="map" resultType="map">
         /*getPjtDevSn*/
         SELECT
-            PD.*
+            PD.*,
+            IFNULL((SELECT SUM(EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_INV WHERE PD.DEV_SN = DEV_SN), 0) AS INV_TOT_SUM
         FROM
             CAM_PJT_MNG.DJ_PJT_DEV PD
         LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON PD.PJT_SN = P.PJT_SN

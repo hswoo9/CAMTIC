@@ -44,6 +44,15 @@ var goodsInfo = {
         $("#estExpAmt").html(comma(goodsInfo.global.estExpAmt));
         $("#balGoodsAmt").html(comma(goodsInfo.global.estExpAmt));
 
+        var vatChk = rs.result.estList[rs.result.estList.length - 1].VAT;
+        if(vatChk == "Y") {
+            $("#vatTxt").html("포함");
+        } else if(vatChk == "N") {
+            $("#vatTxt").html("미포함");
+        } else if(vatChk == "C") {
+            $("#vatTxt").html("면세");
+        }
+
         const pjtInfo = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: $("#pjtSn").val()});
         const pjtMap = pjtInfo.map;
         if(pjtMap.DELV_DE != null && pjtMap.DELV_DE != "") {
