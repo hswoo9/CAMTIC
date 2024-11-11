@@ -180,14 +180,14 @@ var oorl = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="oorl.fn_popObtainOrderReg()">' +
-                            '	<span class="k-button-text">수주등록</span>' +
+                            '	<span class="k-button-text">견적등록</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="oorl.setObtainOrderCancel()">' +
-                            '	<span class="k-button-text">수주취소</span>' +
+                            '	<span class="k-button-text">견적취소</span>' +
                             '</button>';
                     }
                 }, {

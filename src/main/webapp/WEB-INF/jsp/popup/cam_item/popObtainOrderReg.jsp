@@ -33,7 +33,7 @@
 
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;" id="popTitle">수주등록</span>
+                <span style="position: relative; top: 3px;" id="popTitle">견적등록</span>
             </h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="oor.setReceivingReg()">저장</button>
