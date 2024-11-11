@@ -222,7 +222,7 @@ var oorl = {
                 }
             ],
             excel : {
-                fileName : "수주등록 목록.xlsx",
+                fileName : "견적등록 목록.xlsx",
                 filterable : true
             },
             columns: [
@@ -235,10 +235,21 @@ var oorl = {
                     field: "DEADLINE",
                     width: 80,
                     template : function (e){
-                        if(e.DEADLINE == "Y"){
+                        if(e.TOTAL_OBTAIN_ORDER_TYPE_Y == '0'){
+                            return "-";
+                        }else if(e.DEADLINE == "Y"){
                             return "견적마감";
                         }else {
                             return "견적진행중";
+                        }
+                    },
+                },{
+                    width: 80,
+                    template : function (e){
+                        if(e.TOTAL_OBTAIN_ORDER_TYPE_N > 0 && e.TOTAL_OBTAIN_ORDER_TYPE_Y > 0){
+                            return "부분취소";
+                        }else {
+                            return "";
                         }
                     },
                 },{
@@ -246,7 +257,7 @@ var oorl = {
                     field: "ORDER_DT",
                     width: 160,
                     template : function(e){
-                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                        if(e.TOTAL_OBTAIN_ORDER_TYPE_Y == '0'){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
                         }else {
                             return e.ORDER_DT
@@ -256,7 +267,7 @@ var oorl = {
                     title: "거래처명",
                     field: "CRM_NM",
                     template : function(e){
-                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                        if(e.TOTAL_OBTAIN_ORDER_TYPE_Y == '0'){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
                         }else {
                             return e.CRM_NM
@@ -271,10 +282,14 @@ var oorl = {
                     }
                 }, {
                     title: "납기예정일",
-                    field: "DUE_DT",
+                    field: "MAX_DUE_DT",
                     width: 120,
                     template : function(e){
-                        return  e.DUE_DT;
+                        if(e.TOTAL_OBTAIN_ORDER_TYPE_Y == '0'){
+                            return  e.DUE_DT;
+                        }else {
+                            return  e.MAX_DUE_DT;
+                        }
                     }
                 },
                 {

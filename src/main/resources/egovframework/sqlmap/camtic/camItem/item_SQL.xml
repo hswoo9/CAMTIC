@@ -191,7 +191,30 @@
                 FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
                 WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
             ), 0) AS TOT_AMT,
-            IFNULL(PI.RE_TOT_COST, 0) AS COM_AMT
+            IFNULL(PI.RE_TOT_COST, 0) AS COM_AMT,
+            IFNULL(
+                (SELECT
+                SUM(SS.ORDER_REMAIN)
+                FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ), 0) AS TOTAL_ODER_REMAIN,
+            IFNULL(
+            (SELECT
+                COUNT(SS.OBTAIN_ORDER_TYPE)
+                FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ), 0) AS TOTAL_OBTAIN_ORDER_TYPE_Y,
+            IFNULL(
+            (SELECT
+                COUNT(SS.OBTAIN_ORDER_TYPE)
+                FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                WHERE SS.OBTAIN_ORDER_TYPE = 'N' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ), 0) AS TOTAL_OBTAIN_ORDER_TYPE_N,
+            (SELECT
+                MAX(SS.DUE_DT)
+                FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+            ) AS MAX_DUE_DT
         FROM
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
         JOIN
@@ -278,6 +301,27 @@
 
         <if test='unpaidType != null and !"".equals(unpaidType)'>
             AND OO.UNPAID_TYPE = #{unpaidType}
+        </if>
+
+        <if test='comType != null and !"".equals(comType)'>
+            <choose>
+                <when test='"com".equals(comType)'>
+               AND IFNULL(
+                    (SELECT
+                        SUM(SS.ORDER_REMAIN)
+                        FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                        WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+                    ), 0) = '0'
+                </when>
+                <when test='"order".equals(comType)'>
+                AND IFNULL(
+                    (SELECT
+                    SUM(SS.ORDER_REMAIN)
+                    FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                    WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+                    ), 0) != '0'
+                </when>
+            </choose>
         </if>
 
         <choose>
@@ -461,12 +505,16 @@
     <select id="getObtainOrderExcelList" parameterType="map" resultType="map">
         /* getObtainOrderExcelList */
         SELECT
-            ROW_NUMBER() OVER (ORDER BY OO.REG_DT DESC) AS ROW_NUM,
+            ROW_NUMBER() OVER (ORDER BY DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i') DESC) AS ROW_NUM,
             CASE
                 WHEN OO.DEADLINE = 'Y' THEN '견적마감'
                 WHEN OO.DEADLINE = 'N' THEN '견적진행중'
                 ELSE ''
             END AS DEADLINE,
+            CASE
+                WHEN OO.ORDER_REMAIN = '0' THEN '납품완료'
+                ELSE '주문완료'
+            END AS ORDERAMT,
             CASE
                 WHEN OO.FORE_GB = 'D' THEN '국내'
                 WHEN OO.FORE_GB = 'F' THEN '국외'
@@ -493,8 +541,8 @@
             FORMAT(OO.DELIVERY_AMT, '#,#') AS DELIVERY_AMT,
             FORMAT(OO.ORDER_REMAIN, '#,#') AS ORDER_REMAIN,
             OO.DUE_DT,
-            IFNULL(PI.RE_TOT_COST, 0) AS COM_AMT,
-            IFNULL(PI.COM_NOT_AMT, 0) AS COM_NOT_AMT,
+            FORMAT(IFNULL(PI.RE_TOT_COST, 0), '#,#') AS COM_AMT,
+            FORMAT(IFNULL(PI.COM_NOT_AMT, 0), '#,#') AS COM_NOT_AMT,
             OO.PAY_DEPO_SN,
             OO.RMK,
             EI.EMP_NAME_KR,
@@ -555,10 +603,6 @@
         ON PD.PAY_INCP_SN = PI.PAY_INCP_SN
         WHERE 1=1
         AND OO.OBTAIN_ORDER_TYPE = 'Y'
-        <if test='obtainOrderType != null and !"".equals(obtainOrderType)'>
-            AND OO.OBTAIN_ORDER_TYPE = #{obtainOrderType}
-        </if>
-
         <if test='deadLine != null and !"".equals(deadLine)'>
             AND OO.DEADLINE = #{deadLine}
         </if>
@@ -592,6 +636,27 @@
             AND OO.UNPAID_TYPE = #{unpaidType}
         </if>
 
+        <if test='comType != null and !"".equals(comType)'>
+            <choose>
+                <when test='"com".equals(comType)'>
+                AND IFNULL(
+                    (SELECT
+                    SUM(SS.ORDER_REMAIN)
+                    FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                    WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+                ), 0) = '0'
+                </when>
+                <when test='"order".equals(comType)'>
+                AND IFNULL(
+                    (SELECT
+                    SUM(SS.ORDER_REMAIN)
+                    FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SS
+                    WHERE SS.OBTAIN_ORDER_TYPE = 'Y' AND (SS.REG_EMP_SEQ, DATE_FORMAT(SS.REG_DT, '%Y-%m-%d %p %h:%i')) IN (SELECT SOO.REG_EMP_SEQ, DATE_FORMAT(SOO.REG_DT, '%Y-%m-%d %p %h:%i') FROM CAM_ITEM.DJ_ITEM_OBTAIN_ORDER SOO WHERE SOO.OBTAIN_ORDER_SN = OO.OBTAIN_ORDER_SN)
+                ), 0) != '0'
+                </when>
+            </choose>
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
@@ -615,7 +680,7 @@
             AND IM.ITEM_NO LIKE CONCAT(#{category}, '%')
         </if>
 
-        ORDER BY OO.REG_DT DESC
+        ORDER BY DATE_FORMAT(OO.REG_DT, '%Y-%m-%d %p %h:%i') DESC
     </select>
 
     <select id="getObtainOrder" parameterType="map" resultType="map">

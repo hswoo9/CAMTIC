@@ -19,12 +19,13 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
-                        <col width="21%">
+                        <col width="25%">
                         <col width="5%">
                         <col width="17%">
-                        <col width="6%">
-                        <col width="8%">
                         <col width="5%">
+                        <col width="17%">
+                        <col width="5%">
+                        <col width="17%">
                         <col>
                     </colgroup>
                     <tr>
@@ -48,23 +49,28 @@
                         <td>
                             <input type="text" id="unpaidType"/>
                         </td>
-                        <th class="text-center th-color">검색어</th>
+                        <th class="text-center th-color">진행구분</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oosl.mainGrid()}"/>
+                            <input type="text" id="comType"/>
                         </td>
                     </tr>
                     <tr>
                         <th class="text-center th-color">품번</th>
-                        <td colspan="7">
+                        <td>
                             <input type="text" id="categoryA" name="categoryA" style="width: 120px">
                             <input type="text" id="categoryB" name="categoryB" style="width: 120px">
                             <input type="text" id="categoryC" name="categoryC" style="width: 120px">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td colspan="5">
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oosl.mainGrid()}"/>
                         </td>
                     </tr>
                 </table>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="hiddenGrid" style="margin:20px 0; display:none"></div>
             </div>
         </div>
     </div>
