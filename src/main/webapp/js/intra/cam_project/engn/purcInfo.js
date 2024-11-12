@@ -770,6 +770,7 @@ var purcInfo = {
                     title: "결제예정일",
                     width: 80
                 }, {
+                    field: "REQ_AMT",
                     title: "지출금액",
                     width: 80,
                     template: function(e){

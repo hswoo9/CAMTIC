@@ -34,7 +34,7 @@ var subHolidayAdmin = {
             dataValueField: "SUBHOLIDAY_CODE_ID",
         });
 
-        subHolidayAdmin.gridReload();
+        subHolidayAdmin.mainGrid();
     },
 
     dataSet : function() {
@@ -67,9 +67,43 @@ var subHolidayAdmin = {
         $("#searchVal").kendoTextBox();
     },
 
-    mainGrid : function(url, params){
+    mainGrid : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/subHoliday/getVacUseHistoryListAdmin',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.mcCode = subHolidayAdmin.global.mcCode;
+                    data.mdCode = subHolidayAdmin.global.mdCode;
+                    data.empSeq = subHolidayAdmin.global.empSeq;
+
+                    data.startDate = $("#startDate").val();
+                    data.endDate = $("#endDate").val();
+                    data.status = $("#status").val();
+                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchVal = $("#searchVal").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height: 538,
             sortable: true,
             scrollable: true,
@@ -253,20 +287,7 @@ var subHolidayAdmin = {
     },
 
     gridReload : function(){
-        var params = {
-            mcCode : subHolidayAdmin.global.mcCode,
-            mdCode : subHolidayAdmin.global.mdCode,
-            empSeq : subHolidayAdmin.global.empSeq
-        }
-
-        params.startDate = $("#startDate").val();
-        params.endDate = $("#endDate").val();
-        params.status = $("#status").val();
-        params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-        params.searchType = $("#searchType").val();
-        params.searchVal = $("#searchVal").val();
-
-        subHolidayAdmin.mainGrid("/subHoliday/getVacUseHistoryListAdmin", params);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_delYn : function (){

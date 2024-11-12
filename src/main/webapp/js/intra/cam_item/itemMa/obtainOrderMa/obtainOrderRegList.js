@@ -244,6 +244,7 @@ var oorl = {
                         }
                     },
                 },{
+                    title: "취소구분",
                     width: 80,
                     template : function (e){
                         if(e.TOTAL_OBTAIN_ORDER_TYPE_N > 0 && e.TOTAL_OBTAIN_ORDER_TYPE_Y > 0){
