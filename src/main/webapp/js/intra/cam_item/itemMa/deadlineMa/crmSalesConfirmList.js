@@ -21,9 +21,37 @@ var cscl = {
         cscl.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getCrmSalesConfirmList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    data.yearMonth = $("#yearMonth").val();
+                    data.confirmYn = $("#confirmYn").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height : 508,
             sortable: true,
             selectable: "row",
@@ -169,14 +197,8 @@ var cscl = {
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
-        
-        cscl.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            yearMonth : $("#yearMonth").val(),
-            confirmYn : $("#confirmYn").val(),
-        }
 
-        cscl.mainGrid("/item/getCrmSalesConfirmList.do", cscl.global.searchAjaxData);
+        cscl.mainGrid();
     },
 
     setCrmSalesConfirm: function(c){

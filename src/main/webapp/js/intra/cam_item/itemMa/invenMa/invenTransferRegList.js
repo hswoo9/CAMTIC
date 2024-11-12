@@ -35,9 +35,42 @@ var invenTrl = {
         invenTrl.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getInvenTransferHistoryList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.transferType = $("#transferType").val();
+                    data.forwardingWhCd = $("#forwardingWhCd").val();
+                    data.receivingWhCd = $("#receivingWhCd").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    // data.regEmpSeq = $("#regEmpSeq").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height: 508,
             sortable: true,
             selectable: "row",
@@ -146,18 +179,7 @@ var invenTrl = {
             $("#mainGrid").data("kendoGrid").destroy();
         }
 
-        invenTrl.global.searchAjaxData = {
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            transferType : $("#transferType").val(),
-            forwardingWhCd : $("#forwardingWhCd").val(),
-            receivingWhCd : $("#receivingWhCd").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            // regEmpSeq : $("#regEmpSeq").val()
-        }
-
-        invenTrl.mainGrid("/item/getInvenTransferHistoryList.do", invenTrl.global.searchAjaxData);
+        invenTrl.mainGrid();
     },
 
     fn_popInvenTransferReg : function (){
