@@ -321,6 +321,9 @@ public class KukgohServiceImpl implements KukgohService {
             fileMap.put("FILE_ID", params.get("FILE_ID"));
 
             String fileOrgName = fileMap.get("file_org_name").toString().replaceAll("'", "");
+            fileOrgName = fileOrgName.replaceAll("/", "%2F");
+            fileOrgName = fileOrgName.replaceAll("&", "%26");
+
             if(fileOrgName.length() > 50){
                 fileOrgName = fileOrgName.substring(0, 50);
             }
