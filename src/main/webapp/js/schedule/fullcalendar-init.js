@@ -11,12 +11,12 @@
     }, t.prototype.onEventClick = function(t, n, a) {
         if(t.foreignType == "schedule"){
             alert("상세 일정이 없습니다.");
-        }else if(t.hrBizReqId != null && t.hrBizReqId != ""){
+        }/*else if(t.hrBizReqId != null && t.hrBizReqId != ""){
             let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+t.hrBizReqId;
             let name = "bustripReqPop";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             window.open(url, name, option);
-        }else if(t.scheduleBoardId != null && t.scheduleBoardId != ""){
+        }*/else if(t.scheduleBoardId != null && t.scheduleBoardId != ""){
             esl.fn_detailSchedule(t.scheduleBoardId);
         }
         /*$("#event-modal").find("strong").text("일정수정");

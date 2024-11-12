@@ -226,7 +226,7 @@
                         '<td style="text-align: center;">' + item.dept_NAME.split(" ")[0] + '</td>' +
                         '<td style="text-align: center;">' + item.dept_NAME.split(" ")[1] + '</td>' +
                         '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>';
-                if(item.hr_BIZ_REQ_ID != null && item.hr_BIZ_REQ_ID != ""){
+                /*if(item.hr_BIZ_REQ_ID != null && item.hr_BIZ_REQ_ID != ""){
                     html += '' +
                         '<td style="text-align: center;">' +
                             '<a href="javascript:void(0)" onclick="bustripDetail(' + item.hr_BIZ_REQ_ID + ');">상세보기</a>'
@@ -234,7 +234,9 @@
                 }else{
                     html += '' +
                         '<td style="text-align: center;"></td>';
-                }
+                }*/
+                html += '' +
+                    '<td style="text-align: center;"></td>';
                 html += '' +
                     '</tr>'
             }else{
