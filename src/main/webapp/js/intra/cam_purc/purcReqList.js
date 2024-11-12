@@ -83,12 +83,14 @@ var prm = {
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            page: 1,
+            pageSizes: "ALL",
         });
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
+            height: 508,
             selectable: "row",
             pageable: {
                 refresh: true,

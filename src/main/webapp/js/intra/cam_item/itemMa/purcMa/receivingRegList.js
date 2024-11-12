@@ -31,9 +31,42 @@ var recL = {
         recL.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid: function(){
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/item/getItemWhInfoList.do',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    data.whType = $("#whType").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
+                    data.whCd = $("#whCd").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.regEmpSeq = $("#regEmpSeq").val();
+                    
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            page: 1,
+            pageSizes: "ALL",
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height: 508,
             sortable: true,
             selectable: "row",
@@ -268,19 +301,8 @@ var recL = {
         if($("#mainGrid").data("kendoGrid") != null){
             $("#mainGrid").data("kendoGrid").destroy();
         }
-        
-        recL.global.searchAjaxData = {
-            crmSn : $("#crmSn").val(),
-            whType : $("#whType").val(),
-            startDt : $("#startDt").val(),
-            endDt : $("#endDt").val(),
-            whCd : $("#whCd").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            regEmpSeq : $("#regEmpSeq").val()
-        }
 
-        recL.mainGrid("/item/getItemWhInfoList.do", recL.global.searchAjaxData);
+        recL.mainGrid();
     },
 
     fn_popCamCrmList : function (){
