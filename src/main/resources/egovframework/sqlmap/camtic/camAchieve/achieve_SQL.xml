@@ -1404,7 +1404,7 @@
     </select>
 
     <select id="getRealUseExnpAllAmt3" parameterType="map" resultType="map">
-        /*getPurcReqClaimList3*/
+        /*getRealUseExnpAllAmt3*/
         SELECT
             IFNULL(SUM(
                            CASE
@@ -1533,11 +1533,17 @@
         /*getGoodsAmt*/
         SELECT
             IFNULL(SUM(GOODS_TOT_AMT), 0) AS GOODS_TOT_SUM,
-            IFNULL((SELECT VAT FROM CAM_PJT_MNG.DJ_PJT_EST WHERE A.PJT_SN = PJT_SN ORDER BY EST_SN DESC LIMIT 1),'') AS GOODS_VAT
+            IFNULL((SELECT VAT FROM CAM_PJT_MNG.DJ_PJT_EST WHERE A.PJT_SN = PJT_SN ORDER BY EST_SN DESC LIMIT 1),'') AS GOODS_VAT,
+            IFNULL((SELECT EST_TOT_AMT FROM CAM_PJT_MNG.DJ_PJT_EST WHERE A.PJT_SN = PJT_SN ORDER BY EST_SN DESC LIMIT 1),0) AS EST_AMT_SUM
         FROM
             CAM_PJT_MNG.DJ_PJT_GOODS A
         WHERE
             A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getGoodsLastInfo" parameterType="map" resultType="map">
+        /*getGoodsLastInfo*/
+        SELECT * FROM CAM_PJT_MNG.DJ_PJT_GOODS WHERE PJT_SN = #{pjtSn} ORDER BY GOODS_SN DESC LIMIT 1
     </select>
 
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">

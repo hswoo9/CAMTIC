@@ -5,7 +5,8 @@ var costInfoAdmin = {
         searchAjaxData3 : "",
         searchAjaxData4 : "",
 
-        allPjtList : []
+        allPjtList : [],
+        goodsStat : ""
     },
 
     fn_defaultScript: function(){
@@ -46,6 +47,15 @@ var costInfoAdmin = {
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const pjtMap = result.map;
         console.log("프로젝트 데이터", pjtMap);
+
+        // 사업종료버튼 진행 여부
+        if(pjtMap.COST_CLOSE_CK == "Y"){
+            $("#costCloseBtn").removeClass("k-button-solid-info").addClass("k-button-solid-error");
+        }
+
+        // 납품잔액 확인
+        var gRs = customKendo.fn_customAjax("/cam_achieve/getGoodsLastInfo", {pjtSn: pjtSn});
+        costInfoAdmin.global.goodsStat = gRs.data.GOODS_STAT;
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
             const e = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn}).rs;
@@ -515,15 +525,15 @@ var costInfoAdmin = {
             const iMap = list[i];
             if($("#pjtSn").val() == iMap.PJT_SN) {
                 if(iMap.YEAR == reqYear){
-                    nextSaleAmt = costCalc.devSaleAmt(iMap);
-                    nextProfitAmt = costCalc.devProfitAmt(iMap);
+                    nextSaleAmt = costCalc.devSaleAmt(iMap);        // 예상 매출액
+                    nextProfitAmt = costCalc.devProfitAmt(iMap);    // 예상 운영수익
 
                     if(iMap.DEADLINE_YN == "Y"){
                         flag = false;
                     }
                 }else if(iMap.YEAR == reqYear + 1){
-                    nowSaleAmt = costCalc.resSaleAmt(iMap);
-                    nowProfitAmt = costCalc.resProfitAmt(iMap);
+                    nowSaleAmt = costCalc.resSaleAmt(iMap);         // 달성 매출액
+                    nowProfitAmt = costCalc.resProfitAmt(iMap);     // 달성 운영수익
                 }
             }
         }
@@ -558,6 +568,11 @@ var costInfoAdmin = {
     },
 
     fn_costInfoClose: function(){
+        if(($("#busnClass").val() == "D" || $("#busnClass").val() == "V") && costInfoAdmin.global.goodsStat == "N"){
+            alert("납품 확정 후 정산서 마감이 가능합니다.");
+            return;
+        }
+
         if(!confirm("정산서를 마감하시겠습니까?")) {
             return;
         }
@@ -565,9 +580,9 @@ var costInfoAdmin = {
         const data = {
             pjtSn : $("#pjtSn").val()
         }
-        if(commonProject.global.costCloseCk == "Y"){
+        // if(commonProject.global.costCloseCk == "Y"){
             data.costCloseCk = "Y"
-        }
+        // }
 
         $.ajax({
             url: "/project/setCostInfoClose",

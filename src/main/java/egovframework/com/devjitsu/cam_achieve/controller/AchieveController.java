@@ -291,7 +291,7 @@ public class AchieveController {
                 if(goodsMap != null){
                     Long goodsTotAmt = Long.parseLong(goodsMap.get("GOODS_TOT_SUM").toString());
                     if(goodsMap.get("GOODS_VAT").equals("Y")) {
-                        map.put("goodsTotAmt", Math.floor(goodsTotAmt * 1.1));
+                        map.put("goodsTotAmt", Math.floor(goodsTotAmt / 1.1));
                     } else {
                         map.put("goodsTotAmt", goodsTotAmt);
                     }
@@ -801,6 +801,26 @@ public class AchieveController {
     public String getPurcAchieveMngList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = achieveService.getPurcAchieveMngList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getGoodsLastInfo")
+    public String getGoodsLastInfo(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> goodsMap = achieveService.getGoodsAmt(params);
+        Map<String, Object> goodsTempMap = achieveService.getGoodsLastInfo(params);
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(goodsMap != null){
+            if(goodsMap.get("GOODS_TOT_SUM") == goodsMap.get("EST_AMT_SUM")) {
+                resultMap.put("GOODS_STAT", goodsTempMap.get("GOODS_STAT"));
+            } else {
+                resultMap.put("GOODS_STAT", "N");
+            }
+        }
+
+        model.addAttribute("data", resultMap);
+
         return "jsonView";
     }
 }

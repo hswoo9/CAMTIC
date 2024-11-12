@@ -46,11 +46,11 @@ var goodsInfo = {
 
         var vatChk = rs.result.estList[rs.result.estList.length - 1].VAT;
         if(vatChk == "Y") {
-            $("#vatTxt").html("포함");
+            $("#vatTxt").html("(부가세 포함)");
         } else if(vatChk == "N") {
-            $("#vatTxt").html("미포함");
+            $("#vatTxt").html("(부가세 미포함)");
         } else if(vatChk == "C") {
-            $("#vatTxt").html("면세");
+            $("#vatTxt").html("(부가세 면세)");
         }
 
         const pjtInfo = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: $("#pjtSn").val()});
@@ -181,10 +181,10 @@ var goodsInfo = {
             return;
         }
 
-        if(Number(goodsInfo.uncomma($("#goodsTotAmt").val())) == "0") {
+        /*if(Number(goodsInfo.uncomma($("#goodsTotAmt").val())) == "0") {
             alert("납품가가 입력되지 않았습니다.");
             return;
-        }
+        }*/
 
         if(!confirm("저장하시겠습니까?")) {
             return;

@@ -507,6 +507,11 @@ public class AchieveServiceImpl implements AchieveService {
     }
 
     @Override
+    public Map<String, Object> getGoodsLastInfo(Map<String, Object> params) {
+        return achieveRepository.getGoodsLastInfo(params);
+    }
+
+    @Override
     public Map<String, Object> getResultProject(Map<String, Object> params) {
         return achieveRepository.getResultProject(params);
     }

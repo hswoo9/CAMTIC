@@ -74,7 +74,7 @@
             </tbody>
         </table>
         <div style="text-align: right; font-weight: bold; font-size: 12px; margin-top: 3px;">
-            <span>견적가 : <span id="estExpAmt">0</span> 원 (부가세 <span id="vatTxt"></span>)&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            <span>견적가 : <span id="estExpAmt">0</span> 원 <span id="vatTxt"></span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             <span>총 납품 확정금액 : <span id="allGoodsAmt">0</span> 원&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             <span>납품잔액 : <span id="balGoodsAmt">0</span> 원</span>
         </div>

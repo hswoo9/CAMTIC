@@ -4075,10 +4075,8 @@
         /*setCostInfoClose*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            COST_CLOSE_CK = 'Y'
-        <if test='costCloseCk != null and !"".equals(costCloseCk)'>
-            , COST_CLOSE_DT = DATE_FORMAT(NOW(), '%Y-%m-%d')
-        </if>
+            COST_CLOSE_CK = 'Y',
+            COST_CLOSE_DT = DATE_FORMAT(NOW(), '%Y-%m-%d')
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -4246,8 +4244,6 @@
         /* setPaySetNowUpd */
         UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
         SET
-            AFT_SALE_AMT = #{nextSaleAmt},
-            AFT_PROFIT_AMT = #{nextProfitAmt},
             DEADLINE_YN = 'Y',
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -4285,8 +4281,6 @@
         /* setPaySetNextUpd */
         UPDATE CAM_PJT_MNG.DJ_PJT_PAY_SET
         SET
-            BEF_EXP_SALE_AMT = #{nowSaleAmt},
-            BEF_EXP_PROFIT_AMT = #{nowProfitAmt},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             PJT_SN = #{pjtSn}

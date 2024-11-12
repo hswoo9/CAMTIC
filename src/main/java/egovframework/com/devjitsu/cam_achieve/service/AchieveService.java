@@ -48,6 +48,7 @@ public interface AchieveService {
     Map<String, Object> getUseExnpAmt(Map<String, Object> params);
 
     Map<String, Object> getGoodsAmt(Map<String, Object> params);
+    Map<String, Object> getGoodsLastInfo(Map<String, Object> params);
 
     Map<String, Object> getResultProject(Map<String, Object> params);
 

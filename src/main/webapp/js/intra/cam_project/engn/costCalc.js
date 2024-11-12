@@ -47,7 +47,11 @@ var costCalc = {
     /** 당해년도 사업비 */
     nowPjtAmt: function(e){
         /**
-         * 엔지니어링 : 사용중지
+         * 엔지니어링
+         * 마감 전 : 수주금액 (협업: 배분금액)
+         * 마감 후 수주년도 : 수주금액 (협업: 배분금액) - 차년도 매출액
+         * 마감 후 차년도 : 당해년도 수주금액 (협업: 배분금액) + 전년도에 설정한 차년도 매출액
+         * 사업종료 후 차년도 : 당해년도 수주금액 (협업: 배분금액) + 전년도에 설정한 차년도 매출액
          *
          * 알앤디/비알앤디
          * 수주년도 : 당해년도 사업비 - 차년도 매출액
@@ -61,9 +65,21 @@ var costCalc = {
                 /** 종료유무 */
                 amt = Number(e.REAL_PJT_AMT);
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
-                amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
+                }else if(e.BEF_DEADLINE_YN == "Y"){
+                    amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
+                }else{
+                    amt = 0;
+                }
             }else{
-                amt = Number(e.REAL_PJT_AMT);
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    amt = amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                }else{
+                    amt = Number(e.REAL_PJT_AMT);
+                }
             }
 
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
@@ -87,7 +103,7 @@ var costCalc = {
     /** 수행계획 최신 Ver 투자금액 */
     nowInvAmt: function(e){
         /**
-         * 마감전 수주년도 : 투자금액
+         * 마감전 수주년도 : 투자금액 (수행계획금액)
          * 수주년도 : 당해년도 비용
          * 차년도 : 총 수행계획금액 - 전년도 비용
          * 사업 종료 후 차년도 : 당해년도 비용
@@ -249,9 +265,9 @@ var costCalc = {
     devSaleAmt: function(e){
         /**
          * 엔지니어링
-         * 마감전 수주년도 : 수주금액 - 차년도 매출액
-         * 수주년도 : 0원
-         * 차년도 : 전년도에 설정한 차년도 매출액
+         * 마감전 수주년도 : 수주금액(협업: 배분금액) - 차년도 매출액
+         * 마감 후 수주년도 : 0원
+         * 마감 후 차년도 : 전년도에 설정한 차년도 매출액
          * 사업 종료 후 차년도 : 0원
          *
          * 알앤디/비알앤디
@@ -348,12 +364,12 @@ var costCalc = {
                     eopAmt = 0;
                 }else{
                     if(e.TEAM_CK == "Y") {
-                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e);
+                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                     } else {
                         if(e.TEAM_STAT == "Y") {
-                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e);
+                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                         } else {
-                            eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e);
+                            eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                         }
                     }
                 }
