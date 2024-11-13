@@ -813,7 +813,11 @@ public class AchieveController {
 
         if(goodsMap != null){
             if(Integer.parseInt(String.valueOf(goodsMap.get("GOODS_TOT_SUM"))) == Integer.parseInt(String.valueOf(goodsMap.get("EST_AMT_SUM")))) {
-                resultMap.put("GOODS_STAT", goodsTempMap.get("GOODS_STAT"));
+                if(goodsTempMap != null) {
+                    resultMap.put("GOODS_STAT", goodsTempMap.get("GOODS_STAT"));
+                } else {
+                    resultMap.put("GOODS_STAT", "N");
+                }
             } else {
                 resultMap.put("GOODS_STAT", "N");
             }
