@@ -812,7 +812,7 @@ public class AchieveController {
         Map<String, Object> resultMap = new HashMap<>();
 
         if(goodsMap != null){
-            if(goodsMap.get("GOODS_TOT_SUM") == goodsMap.get("EST_AMT_SUM")) {
+            if(Integer.parseInt(String.valueOf(goodsMap.get("GOODS_TOT_SUM"))) == Integer.parseInt(String.valueOf(goodsMap.get("EST_AMT_SUM")))) {
                 resultMap.put("GOODS_STAT", goodsTempMap.get("GOODS_STAT"));
             } else {
                 resultMap.put("GOODS_STAT", "N");
