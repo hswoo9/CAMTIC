@@ -291,7 +291,7 @@ public class AchieveController {
                 if(goodsMap != null){
                     Long goodsTotAmt = Long.parseLong(goodsMap.get("GOODS_TOT_SUM").toString());
                     if(goodsMap.get("GOODS_VAT").equals("Y")) {
-                        map.put("goodsTotAmt", Math.floor(goodsTotAmt / 1.1));
+                        map.put("goodsTotAmt", Math.round(goodsTotAmt / 1.1));
                     } else {
                         map.put("goodsTotAmt", goodsTotAmt);
                     }
