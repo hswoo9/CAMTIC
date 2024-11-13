@@ -216,7 +216,7 @@ public class AchieveController {
                 Map<String, Object> incpMap = achieveService.getIncpCompAmt(params);
                 map.put("incpCompAmt1", incpMap.get("TOT_COST"));
 
-                // 지출설정 지출합계
+                // 비용설정 지출합계
                 Map<String, Object> incpMap2 = achieveService.getIncpCompAmt2(params);
                 map.put("incpCompAmt2", incpMap2.get("TOT_COST"));
 
@@ -224,7 +224,7 @@ public class AchieveController {
                 Map<String, Object> planMap = achieveService.getPlanExnpAmt(params);
                 map.put("planAmt", planMap.get("TOT_COST"));
 
-                // 직접비 예산
+                // 비용설정 예산
                 Map<String, Object> useMap = achieveService.getUseExnpAmt(params);
                 map.put("useAmt", useMap.get("TOT_COST"));
 

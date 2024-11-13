@@ -20,6 +20,10 @@ var costInfoPop = {
                 yearSetList.push(yearData);
             }
             $("#costTempBtn").show();
+
+            if(list[0].DEADLINE_YN == "Y"){
+                $("#costTempBtn").removeClass("k-button-solid-info").addClass("k-button-solid-error");
+            }
         }
 
         $("#yearEndDialog").kendoWindow({

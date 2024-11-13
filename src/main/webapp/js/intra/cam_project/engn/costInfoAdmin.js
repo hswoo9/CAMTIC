@@ -6,7 +6,9 @@ var costInfoAdmin = {
         searchAjaxData4 : "",
 
         allPjtList : [],
-        goodsStat : ""
+        goodsStat : "",
+
+        invSumCost : 0,
     },
 
     fn_defaultScript: function(){
@@ -373,8 +375,12 @@ var costInfoAdmin = {
             }
         }
 
+        costInfoAdmin.global.invSumCost = 0;
         for(let i=0; i<count; i++){
             const e = list[i];
+            e.CNT = i;
+            e.LEN = (count - 1);
+
             console.log("재무실적 상세 데이터 : ", e);
 
             /** 수주금액 */

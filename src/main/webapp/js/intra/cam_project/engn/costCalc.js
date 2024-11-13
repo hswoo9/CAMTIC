@@ -18,7 +18,11 @@ var costCalc = {
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 amt = 0;
             }else{
-                amt = Number(e.PJT_AMT);
+                if(e.CNT == 0){
+                    amt = Number(e.PJT_AMT);
+                } else {
+                    amt = 0;
+                }
             }
         }else{
             if(["A", "B", "C"].includes(e.TEXT) && e.LIST_STR_DE != null && e.LIST_STR_DE.substring(0, 4) == e.YEAR){
@@ -84,10 +88,21 @@ var costCalc = {
 
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
                 amt = Number(e.PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+            } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    amt = Number(e.PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                }else{
+                    amt = Number(e.PJT_AMT);
+                }
             }else{
-                amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
+                if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                    amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
+                } else {
+                    amt = 0;
+                }
             }
         }else{
             amt = 0;
@@ -122,18 +137,43 @@ var costCalc = {
             /** 종료유무 */
             if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
-            }else if(e.BEF_DEADLINE_YN == "Y"){
-                amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+            }else if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                amt = Number(e.DEV_INV_AMT || 0) - costInfoAdmin.global.invSumCost;
             }else{
                 amt = 0;
             }
         }else{
             /** 마감유무 */
-            if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
-            }else{
-                amt = Number(e.DEV_INV_AMT || 0);
+            }else {
+                if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                    if(e.CNT != 0){
+                        if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                            amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+                        } else {
+                            amt = Number(e.DEV_INV_AMT) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+                        }
+                    } else {
+                        amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+                    }
+                }else{
+                    if(e.CNT == 0){
+                        if(e.DEADLINE_YN != null){
+                            amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
+                        } else {
+                            amt = Number(e.DEV_INV_AMT);
+                        }
+                    } else {
+                        amt = 0;
+                        // amt = Number(e.DEV_INV_AMT)
+                    }
+                }
             }
+        }
+
+        if(e.CNT != e.LEN){
+            costInfoAdmin.global.invSumCost += amt;
         }
 
         return amt;
@@ -161,17 +201,41 @@ var costCalc = {
             }
         }else{
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.nowBefExpSaleAmt || 0);
+                    }else{
+                        asrAmt = e.exnpCompAmtAll - Number(e.nowBefExpSaleAmt || 0);
+                    }
                 }else{
                     asrAmt = e.exnpCompAmt;
                 }
-            }else{
-                if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.nowBefExpSaleAmt || 0);
+            } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        asrAmt = Number((e.exnpCompAmt * 10 / 11).toString().split(".")[0]);
+                    }else{
+                        asrAmt = e.exnpCompAmt;
+                    }
                 }else{
-                    asrAmt = e.exnpCompAmtAll - Number(e.nowBefExpSaleAmt || 0);
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
+                    }else{
+                        asrAmt = e.exnpCompAmtAll;
+                    }
+                }
+            }else{
+                if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                        asrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]) - Number(e.nowBefExpSaleAmt || 0);
+                    }else{
+                        asrAmt = e.exnpCompAmtAll - Number(e.nowBefExpSaleAmt || 0);
+                    }
+                } else {
+                    asrAmt = 0;
                 }
             }
         }
@@ -225,13 +289,15 @@ var costCalc = {
             }else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 마감유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    let allAsrAmt = 0;
-                    if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                        allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
-                    }else{
-                        allAsrAmt = e.exnpCompAmt;
-                    }
-                    aopAmt = costCalc.resSaleAmt(e) - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
+                    // let allAsrAmt = 0;
+                    // if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
+                    //     console.log("A5")
+                    //     allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
+                    // }else{
+                    //     console.log("A6")
+                    //     allAsrAmt = e.exnpCompAmt;
+                    // }
+                    aopAmt = e.incpCompAmt1 + costCalc.resSaleAmt(e) - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
                 }else{
                     aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100);
                 }
@@ -252,7 +318,11 @@ var costCalc = {
                         - Number(e.nowBefExpProfitAmt || 0)
                     ;
                 }else{
-                    aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowBefExpProfitAmt || 0);
+                    if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                        aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100) - Number(e.nowBefExpProfitAmt || 0);
+                    } else {
+                        aopAmt = 0;
+                    }
                 }
             }
         }
@@ -311,11 +381,32 @@ var costCalc = {
                 }
             }
         }else{
-            /** 종료유무 */
-            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
-                devAmt = 0;
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    devAmt = 0;
+                }else{
+                    devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+                }
+            } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+                }else{
+                    devAmt = costCalc.nowPjtAmt(e) - Number(e.nowExpSaleAmt || 0) - costCalc.resSaleAmt(e);
+                }
             }else{
-                devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    devAmt = 0;
+                }else{
+                    if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                        devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+                    } else {
+                        devAmt = 0;
+                    }
+                }
             }
         }
         amt = devAmt + Number(e.pjtAmtSetData.AMT2 || 0);
@@ -369,16 +460,20 @@ var costCalc = {
                         if(e.TEAM_STAT == "Y") {
                             eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                         } else {
-                            eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                            if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y") {
+                                eopAmt = 0;
+                            } else {
+                                eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                            }
                         }
                     }
                 }
             }
         }else{
             /** 수주년도/차년도 구분 */
-            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                /** 마감유무 */
-                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 종료유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
                 }else{
                     let amt0 = costCalc.nowPjtAmt(e);
@@ -386,15 +481,36 @@ var costCalc = {
                     let amt2 = costCalc.resProfitAmt(e);
                     eopAmt = amt0 - amt1 - amt2;
                 }
+
+            } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
+                /** 마감유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    eopAmt = 0;
+                }else{
+                    let amt0 = costCalc.nowPjtAmt(e);
+                    let amt1 = Number(e.DEV_INV_AMT || 0);
+                    let amt2 = costCalc.resProfitAmt(e);
+                    // 당해년도사업비 - 수행계획금액 - 달성운영수익 - 차년도 운영수익
+                    eopAmt = amt0 - amt1 - amt2 - Number(e.nowExpProfitAmt || 0);
+                }
             }else{
                 /** 종료유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
                 }else{
-                    let amt0 = costCalc.nowPjtAmt(e);
-                    let amt1 = costCalc.nowInvAmt(e);
-                    let amt2 = costCalc.resProfitAmt(e);
-                    eopAmt = amt0 - amt1 - amt2;
+                    /** 종료유무 */
+                    if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                        eopAmt = 0;
+                    }else{
+                        if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
+                            let amt0 = costCalc.nowPjtAmt(e);
+                            let amt1 = costCalc.nowInvAmt(e);
+                            let amt2 = costCalc.resProfitAmt(e);
+                            eopAmt = amt0 - amt1 - amt2;
+                        } else {
+                            eopAmt = 0;
+                        }
+                    }
                 }
             }
         }
