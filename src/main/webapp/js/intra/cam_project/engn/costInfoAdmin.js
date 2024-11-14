@@ -375,7 +375,7 @@ var costInfoAdmin = {
             }
         }
 
-        costInfoAdmin.global.invSumCost = 0;
+        costInfoAdmin.global.invSumCost = 0;    // 전년도 비용 합계
         for(let i=0; i<count; i++){
             const e = list[i];
             e.CNT = i;
@@ -387,9 +387,7 @@ var costInfoAdmin = {
             $("#PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
             /** 당해년도 사업비 */
-            // if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-                $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
-            // }
+            $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
             /** 수행계획 */
             $("#INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
@@ -415,9 +413,7 @@ var costInfoAdmin = {
             $("#TEAM_PJT_AMT2"+i).text(comma(costCalc.allPjtAmt(e)));
 
             /** 당해년도 사업비 */
-            // if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-                $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
-            // }
+            $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
             /** 수행계획 */
             $("#TEAM_INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
@@ -446,16 +442,14 @@ var costInfoAdmin = {
         $("#PJT_AMT2_SUM").text(comma(sumE));
 
         /** 당해년도 사업비 합계 */
-        // if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-            let sumF = 0;
-            $('td.pjtAmt3').each(function() {
-                const value = Number(uncommaN($(this).text()));
-                if (!isNaN(value)) {
-                    sumF += value;
-                }
-            });
-            $("#PJT_AMT3_SUM").text(comma(sumF));
-        // }
+        let sumF = 0;
+        $('td.pjtAmt3').each(function() {
+            const value = Number(uncommaN($(this).text()));
+            if (!isNaN(value)) {
+                sumF += value;
+            }
+        });
+        $("#PJT_AMT3_SUM").text(comma(sumF));
 
         /** 수행계획 합계 */
         let sumInvAmt = 0;
