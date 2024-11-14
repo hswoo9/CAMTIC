@@ -91,13 +91,13 @@ var costCalc = {
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
-                amt = Number(e.PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    amt = Number(e.PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                    amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
                 }else{
-                    amt = Number(e.PJT_AMT);
+                    amt = Number(e.REAL_PJT_AMT);
                 }
             }else{
                 /** 전년도 회계 마감 여부 */
