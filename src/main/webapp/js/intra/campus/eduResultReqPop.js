@@ -434,7 +434,7 @@ var eduResultReqPop = {
             STATUS: eduResultReqPop.global.eduResInfo.RES_STATUS,
             DOC_ID: eduResultReqPop.global.eduResInfo.RES_DOC_ID,
             APPRO_KEY: eduResultReqPop.global.eduResInfo.RES_APPRO_KEY,
-            MENU_DOC_ID: eduResultReqPop.global.eduResInfo.RES_MENU_DOC_ID,
+            DOC_MENU_CD: eduResultReqPop.global.eduResInfo.RES_DOC_MENU_CD,
         }
         let html = makeApprBtnHtml(resDocInfo, 'eduResultReqPop.campusResDrafting()');
         $("#campusBtnBox").html(html);
