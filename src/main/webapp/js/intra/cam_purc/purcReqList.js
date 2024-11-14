@@ -22,6 +22,8 @@ var prm = {
             { text: "구매요청자", value: "PURC_EMP_NAME" },
             { text: "구매청구자", value: "CLAIM_EMP_NAME" },
             { text: "프로젝트", value: "PJT_NM" },
+            { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "규격", value: "PURC_ITEM_STD" }
         ]
 
         customKendo.fn_dropDownList("searchKeyword", prm.global.dropDownDataSource, "text", "value");
