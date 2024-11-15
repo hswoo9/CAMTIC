@@ -3,6 +3,11 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<style>
+    .k-footer-template td:nth-child(1), .k-footer-template td:nth-child(2), .k-footer-template td:nth-child(8), .k-footer-template td:nth-child(12),.k-footer-template td:nth-child(13){
+        border-width: 0;
+    }
+</style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/depositInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>

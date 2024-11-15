@@ -18,6 +18,7 @@ var depoInfo = {
         }
 
         depoInfo.mainGrid("/project/getDepositList", depoInfo.global.searchAjaxData);
+        depoInfo.footerSum();
     },
 
     mainGrid: function(url, params){
@@ -77,6 +78,9 @@ var depoInfo = {
                             gubun = "영수";
                         }
                         return gubun;
+                    },
+                    footerTemplate : function () {
+                        return "<span>합계</span>";
                     }
                 }, {
                     field: "APP_DE",
@@ -87,26 +91,35 @@ var depoInfo = {
                     title: "공급가액",
                     template : function(e){
                         if(e.TAX_CH_GUBUN == "1"){
-                            return "<div style='text-align:right;'>" + comma(Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                            return "<div class='depoAmt1' style='text-align:right;'>" + comma(Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
                         } else {
-                            return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
+                            return "<div class='depoAmt1' style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
                         }
+                    },
+                    footerTemplate : function () {
+                        return "<span id='depoAmt1' style='float:right;'></span>";
                     }
                 }, {
                     field: "DEPO_AMT",
                     title: "세액",
                     template : function(e){
                         if(e.TAX_CH_GUBUN == "1"){
-                            return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT) - Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                            return "<div class='depoAmt2' style='text-align:right;'>" + comma(Number(e.DEPO_AMT) - Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
                         } else {
-                            return "<div style='text-align:right;'>" + comma(0) + "</div>";
+                            return "<div class='depoAmt2' style='text-align:right;'>" + comma(0) + "</div>";
                         }
+                    },
+                    footerTemplate : function () {
+                        return "<span id='depoAmt2' style='float:right;'></span>";
                     }
                 }, {
                     field: "DEPO_AMT",
                     title: "합계",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
+                        return "<div class='total' style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
+                    },
+                    footerTemplate : function () {
+                        return "<span id='total' style='float:right;'></span>";
                     }
                 }, {
                     field: "PAY_INCP_DE",
@@ -146,10 +159,13 @@ var depoInfo = {
                                 totAmt = e.TOT_DET_AMT;
                             }
 
-                            return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
+                            return "<div class='comAmt' style='text-align:right;'>" + comma(totAmt) + "</div>";
                         } else {
-                            return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
+                            return "<div class='comAmt' style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
                         }
+                    },
+                    footerTemplate : function () {
+                        return "<span id='comAmt' style='float:right;'></span>";
                     }
                 }, {
                     field: "RE_TOT_COST",
@@ -169,10 +185,13 @@ var depoInfo = {
                                 totAmt = e.TOT_DET_AMT;
                             }
 
-                            return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
+                            return "<div class='balAmt' style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
                         } else {
-                            return "<div style='text-align:right;'>" + comma(0) + "</div>";
+                            return "<div class='balAmt' style='text-align:right;'>" + comma(0) + "</div>";
                         }
+                    },
+                    footerTemplate : function () {
+                        return "<span id='balAmt' style='float:right;'></span>";
                     }
                 }, {
                     field: "DOC_STATUS",
@@ -236,6 +255,40 @@ var depoInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    footerSum : function (){
+        let depoAmt1 = 0;
+        let depoAmt2 = 0;
+        let total = 0;
+        let comAmt = 0;
+        let balAmt = 0;
+
+        $('.depoAmt1').each(function () {
+            depoAmt1 += Number($(this).text().replace(/,/g, ''));
+        });
+
+        $('.depoAmt2').each(function () {
+            depoAmt2 += Number($(this).text().replace(/,/g, ''));
+        });
+
+        $('.total').each(function () {
+            total += Number($(this).text().replace(/,/g, ''));
+        });
+
+        $('.comAmt').each(function () {
+            comAmt += Number($(this).text().replace(/,/g, ''));
+        });
+
+        $('.balAmt').each(function () {
+            balAmt += Number($(this).text().replace(/,/g, ''));
+        });
+
+        $('#depoAmt1').text(comma(depoAmt1));
+        $('#depoAmt2').text(comma(depoAmt2));
+        $('#total').text(comma(total));
+        $('#comAmt').text(comma(comAmt));
+        $('#balAmt').text(comma(balAmt));
     },
 
     onDataBound : function(){
