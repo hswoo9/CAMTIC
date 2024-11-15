@@ -94,16 +94,9 @@ var bdv = {
                     title: "신청자",
                     width: 70
                 }, {
-                    field: "REQ_DE",
-                    title: "지출요청일",
+                    field: "R_DT",
+                    title: "지출결의일",
                     width: 80,
-                    template : function(e){
-                        if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
-                            return '<a href="javascript:alert(\''+e.EXNP_ISS+'\')" style="font-weight: bold">'+e.REQ_DE+'</a>';
-                        } else {
-                            return (e.REQ_DE != null ? e.REQ_DE : '');
-                        }
-                    },
                     footerTemplate: "합계"
                 }, {
                     field: "TOT_COST",

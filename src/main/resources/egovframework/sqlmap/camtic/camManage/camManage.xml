@@ -980,99 +980,105 @@
 
     <select id="getBudgetDetailViewData" parameterType="map" resultType="map">
         /*getBudgetDetailViewData*/
-        SELECT
-            C.EXNP_SN,
-            B.BUDGET_SN,
-            B.BUDGET_NM,
-            A.PAY_APP_SN,
-            A.PAY_APP_TYPE,
-            C.EXNP_BRIEFS,
-            A.APP_TITLE,
-            C.REQ_DE,
-            A.PJT_CD,
-            A.PAY_APP_TYPE,
-            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-            CASE
-                WHEN A.PAY_APP_TYPE = 2 THEN -1 * SUM(B.TOT_COST)
-                ELSE SUM(B.TOT_COST)
-            END AS TOT_COST,
-            A.DOC_STATUS,
-            C.RE_STAT,
-            C.INFO_CODE,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-            IFNULL(DI.DOC_NO, '') AS DOC_NO
-        FROM
-            CAM_MNG.DJ_PAY_APP A
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', B.PAY_APP_DET_SN,'%')
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON C.DOC_ID = DI.DOC_ID
-        WHERE
-            A.PJT_CD = #{pjtCd}
-        AND B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-        AND (
-                A.DOC_STATUS IN (10, 50)
-            OR
-                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NULL)
-            OR
-                (A.DOC_STATUS = 100 AND C.EXNP_SN IS NOT NULL AND C.RE_STAT != 'Y')
-            )
-        AND
-            B.BUDGET_SN IS NOT NULL
-        <if test='stat2!= null and !"".equals(stat2)'>
-            AND C.EXNP_DE BETWEEN #{startDt} AND #{endDt}
-        </if>
-        GROUP BY
-            C.EXNP_SN, A.PAY_APP_SN
-
-        UNION ALL
-
-        SELECT
-            B.EXNP_SN,
-            B.BUDGET_SN,
-            B.BUDGET_NM,
-            A.PAY_APP_SN,
-            A.PAY_APP_TYPE,
-            A.EXNP_BRIEFS,
-            '' AS APP_TITLE,
-            A.REQ_DE,
-            A.PJT_CD,
-            A.PAY_APP_TYPE,
-            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-            CASE
-                WHEN A.PAY_APP_TYPE = 2 THEN (SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
-                ELSE (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
+        SELECT AA.* FROM (
+            SELECT
+                C.EXNP_SN,
+                B.BUDGET_SN,
+                B.BUDGET_NM,
+                A.PAY_APP_SN,
+                A.PAY_APP_TYPE,
+                C.EXNP_BRIEFS,
+                A.APP_TITLE,
+                C.REQ_DE,
+                C.DT3 AS R_DT,
+                A.PJT_CD,
+                SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                CASE
+                    WHEN A.PAY_APP_TYPE = 2 THEN -1 * SUM(B.TOT_COST)
+                    ELSE SUM(B.TOT_COST)
                 END AS TOT_COST,
-            A.DOC_STATUS,
-            A.RE_STAT,
-            A.INFO_CODE,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
-            IFNULL(DI.DOC_NO, '') AS DOC_NO
-        FROM
-            CAM_MNG.DJ_EXNP A
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+                A.DOC_STATUS,
+                C.RE_STAT,
+                C.INFO_CODE,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
+                IFNULL(DI.DOC_NO, '') AS DOC_NO
+            FROM
+                CAM_MNG.DJ_PAY_APP A
+            LEFT JOIN
+                CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+            LEFT JOIN
+                CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN AND C.PAY_APP_DET_SN LIKE CONCAT('%', B.PAY_APP_DET_SN,'%')
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI ON C.DOC_ID = DI.DOC_ID
+            WHERE
+                A.PJT_CD = #{pjtCd}
+            AND
+                B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+            AND (
+                    A.DOC_STATUS IN (10, 50)
+                OR
+                    (A.DOC_STATUS = 100 AND C.EXNP_SN IS NULL)
+                OR
+                    (A.DOC_STATUS = 100 AND C.EXNP_SN IS NOT NULL AND C.RE_STAT != 'Y')
+            )
+            AND
+                B.BUDGET_SN IS NOT NULL
+            <if test='stat2!= null and !"".equals(stat2)'>
+                AND C.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
+            GROUP BY
+                C.EXNP_SN, A.PAY_APP_SN
+
+            UNION ALL
+
+            SELECT
+                B.EXNP_SN,
+                B.BUDGET_SN,
+                B.BUDGET_NM,
+                A.PAY_APP_SN,
+                A.PAY_APP_TYPE,
+                A.EXNP_BRIEFS,
+                '' AS APP_TITLE,
+                A.REQ_DE,
+                A.DT3 AS R_DT,
+                A.PJT_CD,
+                SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                CASE
+                    WHEN A.PAY_APP_TYPE = 2 THEN (SELECT -1 * SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
+                    ELSE (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET S WHERE S.EXNP_SN = B.EXNP_SN)
+                END AS TOT_COST,
+                A.DOC_STATUS,
+                A.RE_STAT,
+                A.INFO_CODE,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
+                IFNULL(DI.DOC_NO, '') AS DOC_NO
+            FROM
+                CAM_MNG.DJ_EXNP A
+            LEFT JOIN
+                CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
+            WHERE
+                A.PJT_CD = #{pjtCd}
+            AND
+                B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+            AND
+                A.DOC_STATUS IN (100, 101)
+            AND
+                A.RE_STAT = 'Y'
+            AND
+                B.BUDGET_SN IS NOT NULL
+            <if test='stat2!= null and !"".equals(stat2)'>
+                AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
+            </if>
+            GROUP BY
+                B.EXNP_SN
+        ) AA
         WHERE
-            A.PJT_CD = #{pjtCd}
-        AND
-            B.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
-        AND
-            A.DOC_STATUS IN (100, 101)
-        AND
-            A.RE_STAT = 'Y'
-        AND
-            B.BUDGET_SN IS NOT NULL
-        <if test='stat2!= null and !"".equals(stat2)'>
-            AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}
-        </if>
-        GROUP BY
-            B.EXNP_SN
+            1=1
+        ORDER BY AA.R_DT DESC
     </select>
 
     <select id="getIncpBudgetDetailViewData" parameterType="map" resultType="map">
