@@ -1993,7 +1993,7 @@
             A.PAY_INCP_SN = E.PAY_INCP_SN
         WHERE
             <![CDATA[
-                A.APP_DE > #{startDt} AND A.APP_DE <= #{endDt}
+                A.APP_DE >= #{startDt} AND A.APP_DE <= #{endDt}
             ]]>
             <if test='searchDept == "1" or "1".equals(searchDept)'>
                 AND A.DOC_STATUS IN (0,30,40)
