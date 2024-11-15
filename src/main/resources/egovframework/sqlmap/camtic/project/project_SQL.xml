@@ -126,8 +126,11 @@
                 A.BUSN_CLASS = #{busnClass}
         </if>
         <if test='empName != null and empName != ""'>
-            AND
+            AND IF(
+                A.BUSN_CLASS IN ('R','S'),
+                A.EMP_NAME LIKE CONCAT('%', #{empName}, '%'),
                 A.PM LIKE CONCAT('%', #{empName}, '%')
+            )
         </if>
         <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass) and !"res".equals(busnSubClass)'>
             AND
