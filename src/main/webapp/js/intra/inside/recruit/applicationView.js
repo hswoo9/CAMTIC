@@ -31,22 +31,10 @@ var appView = {
                         html += '</tr><tr>';
                     }
 
-                    html += '<td style="height: 40px; width: 110px;">';
-
-                    if (applicationList[i].APPLICATION_STAT == "DF" || applicationList[i].APPLICATION_STAT == "IF" ||
-                        applicationList[i].IN_AVOID == "Y" || (applicationList[i].IN_SCREEN_AVERAGE != "" && applicationList[i].APPLICATION_STAT == "D")) {
-                        html +=
-                            '<a href="javascript:void(0);" class="k-button k-button-solid-base">' +
-                                '<span>' + (i + 1) + '. ' + applicationList[i].USER_NAME + '(' + applicationList[i].BYEAR + ')</span>' +
-                            '</a>';
-                    }else{
-                        html +=
-                            '<a href="javascript:void(0);" class="k-button k-button-solid-base" onclick="appView.getNewData(\'' + applicationList[i].APPLICATION_ID + '\')">' +
-                            '   <span>' + (i + 1) + '. ' + applicationList[i].USER_NAME + '(' + applicationList[i].BYEAR + ')</span>' +
-                            '</a>';
-                    }
-
-                    html +='</td>';
+                    html += '<td style="height: 40px; width: 110px;">' +
+                        '<a href="javascript:void(0);" class="k-button k-button-solid-base" onclick="appView.getNewData(\'' + applicationList[i].APPLICATION_ID + '\')">' +
+                        '<span>' + (i+1) + '. ' + applicationList[i].USER_NAME + '('+applicationList[i].BYEAR+')</span></a>' +
+                        '</td>';
                 }
 
                 html += '</tr></thead></table>';
