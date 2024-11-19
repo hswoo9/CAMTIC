@@ -2905,13 +2905,77 @@
                 AND
                     AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
             </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                    AA.CRM_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
             <otherwise>
                 AND
                     (
                         AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                            OR
+                        AA.CRM_NM LIKE CONCAT('%', #{searchValue},'%')
                     )
             </otherwise>
         </choose>
+
+        <if test='eviStatus != null and !"".equals(eviStatus)'>
+            <choose>
+                <when test='"1".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NOT NULL
+                    AND DOC_STATUS = '100'
+                    AND (EVID_TYPE = '1' OR EVID_TYPE = '3' OR EVID_TYPE = '5')
+                    AND RE_CNT = 0
+                </when>
+                <when test='"2".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NOT NULL
+                    AND DOC_STATUS = '100'
+                    AND (EVID_TYPE = '1' OR EVID_TYPE = '3' OR EVID_TYPE = '5')
+                    AND RE_CNT != 0
+                    AND RE_TOT_COST = 0
+                </when>
+                <when test='"3".equals(eviStatus)'>
+                    AND(
+                        (PAY_INCP_SN IS NOT NULL
+                        AND DOC_STATUS = '100'
+                        AND (EVID_TYPE = '1' OR EVID_TYPE = '3' OR EVID_TYPE = '5')
+                        AND RE_CNT != 0
+                        AND RE_TOT_COST != 0
+                        AND RE_TOT_COST = TOT_DET_AMT)
+                    OR
+                        (PAY_INCP_SN IS NOT NULL
+                        AND DOC_STATUS = '100'
+                        AND (EVID_TYPE != '1' AND EVID_TYPE != '3' AND EVID_TYPE != '5'))
+                    )
+                </when>
+                <when test='"4".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NOT NULL
+                    AND DOC_STATUS = '100'
+                    AND (EVID_TYPE = '1' OR EVID_TYPE = '3' OR EVID_TYPE = '5')
+                    AND RE_CNT != 0
+                    AND RE_TOT_COST != 0
+                    AND RE_TOT_COST != TOT_DET_AMT
+                </when>
+                <when test='"5".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NOT NULL
+                    AND ( DOC_STATUS NOT IN ('100', '0', '30', '40') OR DOC_STATUS IS NULL)
+                </when>
+                <when test='"6".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NOT NULL
+                    AND DOC_STATUS != '100'
+                    AND (DOC_STATUS = '0' OR DOC_STATUS = '30' OR DOC_STATUS = '40')
+                </when>
+                <when test='"7".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NULL
+                    AND APPR_STAT = 'Y'
+                </when>
+                <when test='"8".equals(eviStatus)'>
+                    AND PAY_INCP_SN IS NULL
+                    AND APPR_STAT != 'Y'
+                </when>
+            </choose>
+        </if>
+
         ORDER BY PAY_DEPO_SN DESC
     </select>
 

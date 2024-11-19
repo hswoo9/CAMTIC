@@ -26,8 +26,29 @@ var depositList = {
             }
         });
 
+        $("#eviStatus").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "수입결의완료", value: "1" },
+                { text: "미결", value: "2" },
+                { text: "입금완료", value: "3" },
+                { text: "부분입금", value: "4" },
+                { text: "수입결의결재중", value: "5" },
+                { text: "수입결의작성중", value: "6" },
+                { text: "요청완료", value: "7" },
+                { text: "작성중", value: "8" }
+            ],
+            index: 0,
+            change : function (){
+                depositList.gridReload();
+            }
+        });
+
         depositList.global.dropDownDataSource = [
             { text: "문서번호", value: "A" },
+            { text: "거래처명", value: "B" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", depositList.global.dropDownDataSource, "text", "value");
@@ -148,7 +169,7 @@ var depositList = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 120,
-                }, {
+                },/* {
                     field: "DEPO_STAT",
                     title: "입금여부",
                     width: 120,
@@ -172,7 +193,32 @@ var depositList = {
 
                         return '<div style="'+ styleTxt +'">'+ depoStat +'</div>';
                     }
+                }, */
+                {
+                    field: "ITEM_CNT",
+                    title: "입금여부",
+                    width: 120,
+                    template: function(e){
+                        var obtainOrderType = "";
+                        if(e.ITEM_CNT > 0){
+                            obtainOrderType = "캠아이템";
+                        }else {
+                            obtainOrderType = "캠프로젝트";
+                        }
+
+                        var styleTxt = "";
+
+                        if(e.OBTAIN_ORDER_TYPE == "N") {
+                            styleTxt += "text-decoration: line-through; text-decoration-color: red;";
+                        }
+
+                        return '<div style="'+ styleTxt +'">'+ obtainOrderType +'</div>';
+                    }
                 }, {
+                    field: "CRM_NM",
+                    title: "거래처명",
+                    width: 120,
+                },{
                     field: "DEPO_TITLE",
                     title: "신청건명",
                     width: 250,
@@ -339,6 +385,7 @@ var depositList = {
         depositList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             eviType : $("#eviType").val(),
+            eviStatus : $("#eviStatus").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }

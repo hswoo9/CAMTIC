@@ -54,6 +54,10 @@
                             <input type="text" id="searchKeyword" style="width: 35%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){depositList.gridReload()}"/>
                         </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="eviStatus" style="width: 150px;">
+                        </td>
                     </tr>
                 </table>
 
