@@ -604,7 +604,9 @@
         SELECT
             APPLICATION_ID,
             USER_NAME,
-            LEFT(BDAY, 4) AS BYEAR
+            LEFT(BDAY, 4) AS BYEAR,
+            APPLICATION_STAT,
+            IN_AVOID
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN A
         WHERE
