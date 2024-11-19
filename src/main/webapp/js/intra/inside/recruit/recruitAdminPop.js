@@ -71,11 +71,7 @@ var recruitAdminPop = {
                     title: "성명",
                     width : 80,
                     template : function(e){
-                        if(e.APPLICATION_STAT == "DF" || e.APPLICATION_STAT == "IF" || e.IN_AVOID == "Y" || (e.IN_SCREEN_AVERAGE != "" && e.APPLICATION_STAT == "D")){
-                            return '<a>' + e.USER_NAME + '</a>';
-                        }else{
-                            return '<a style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>';
-                        }
+                        return '<a style="cursor: pointer;" onclick="recruitAdminPop.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
                     }
                 }, {
                     field: "AGE",
