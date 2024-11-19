@@ -748,79 +748,115 @@
     <select id="getExnpCompAmt" parameterType="map" resultType="map">
         /*getExnpCompAmt*/
         SELECT IFNULL(SUM(R.TOT_COST), 0) AS TOT_COST FROM (
-            SELECT
-                A.PJT_CD,
-                A.JANG_SN,
-                A.GWAN_SN,
-                A.BUDGET_SN,
-                SUM(A.RE_COMPLETE_AMT) AS TOT_COST
-            FROM (
-                SELECT A.PJT_CD,
-                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-                    B.BUDGET_SN,
-                    CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'Y'
-                    THEN B.TOT_COST
-                    ELSE 0
-                    END AS RE_COMPLETE_AMT,
-                    CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'N'
-                    THEN B.TOT_COST
-                    ELSE 0
-                    END AS EXNP_COMPLETE_AMT,
-                    0 AS PAY_APP_APPROVAL_AMT,
-                    0 AS PAY_APP_TOTAL_AMT
-                FROM CAM_MNG.DJ_EXNP A
-                INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-                WHERE A.DOC_STATUS IN ('100', '101')
-                AND A.PAY_APP_TYPE = '1'
-                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
-                AND YEAR(A.EXNP_DE) = #{reqYear}
+               SELECT
+                    A.PJT_CD,
+                    A.JANG_SN,
+                    A.GWAN_SN,
+                    A.BUDGET_SN,
+                    SUM(A.RE_COMPLETE_AMT) AS TOT_COST
+               FROM (
+                    SELECT A.PJT_CD,
+                           SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                           SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                           B.BUDGET_SN,
+                           CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'Y'
+                                    THEN B.TOT_COST
+                                ELSE 0
+                          END AS RE_COMPLETE_AMT,
+                          CASE WHEN A.DOC_STATUS IN ('100', '101') AND A.RE_STAT = 'N'
+                                    THEN B.TOT_COST
+                               ELSE 0
+                          END AS EXNP_COMPLETE_AMT,
+                          0 AS PAY_APP_APPROVAL_AMT,
+                          0 AS PAY_APP_TOTAL_AMT
+                    FROM CAM_MNG.DJ_EXNP A
+                        INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                    WHERE A.DOC_STATUS IN ('100', '101')
+                        AND A.PAY_APP_TYPE = '1'
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
+                        AND YEAR(A.EXNP_DE) = #{reqYear}
 
-                UNION ALL
+                    UNION ALL
 
-                SELECT A.PJT_CD,
-                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-                    B.BUDGET_SN,
-                    0 AS RE_COMPLETE_AMT,
-                    0 AS EXNP_COMPLETE_AMT,
-                    CASE WHEN A.DOC_STATUS IN ('100', '101')
-                    THEN B.TOT_COST
-                    ELSE 0
-                    END AS PAY_APP_APPROVAL_AMT,
-                    CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
-                    THEN B.TOT_COST
-                    ELSE 0
-                    END AS PAY_APP_TOTAL_AMT
-                FROM CAM_MNG.DJ_PAY_APP A
-                INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-                WHERE A.PAY_APP_TYPE = '1'
-                  AND B.EXNP_STAT = 'Y'
-                AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
-                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
-                AND YEAR(A.APP_DE) = #{reqYear}
+                    SELECT A.PJT_CD,
+                           SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                           SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                           B.BUDGET_SN,
+                           0 AS RE_COMPLETE_AMT,
+                           0 AS EXNP_COMPLETE_AMT,
+                           CASE WHEN A.DOC_STATUS IN ('100', '101')
+                                    THEN B.TOT_COST
+                                ELSE 0
+                           END AS PAY_APP_APPROVAL_AMT,
+                           CASE WHEN A.DOC_STATUS <![CDATA[<>]]> '0'
+                                    THEN B.TOT_COST
+                                ELSE 0
+                           END AS PAY_APP_TOTAL_AMT
+                    FROM CAM_MNG.DJ_PAY_APP A
+                        INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
+                    WHERE A.PAY_APP_TYPE = '1'
+                        AND B.EXNP_STAT = 'Y'
+                        AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
+                        AND YEAR(A.APP_DE) = #{reqYear}
 
-                UNION ALL
+                    UNION ALL
 
-                SELECT A.PJT_CD,
-                    SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
-                    SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
-                    B.BUDGET_SN,
-                    -B.TOT_COST AS RE_COMPLETE_AMT,
-                    0 AS EXNP_COMPLETE_AMT,
-                    0 AS PAY_APP_APPROVAL_AMT,
-                    -B.TOT_COST AS PAY_APP_TOTAL_AMT
-                FROM CAM_MNG.DJ_EXNP A
-                LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
-                WHERE A.DOC_STATUS IN (100, 101)
-                AND A.PAY_APP_TYPE = '2'
-                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
-                AND YEAR(A.EXNP_DE) = #{reqYear}
-            ) A
-            GROUP BY A.PJT_CD,
-            A.JANG_SN,
-            A.GWAN_SN,
-            A.BUDGET_SN
+                    SELECT A.PJT_CD,
+                           SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+                           SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+                           B.BUDGET_SN,
+                           -B.TOT_COST AS RE_COMPLETE_AMT,
+                           0 AS EXNP_COMPLETE_AMT,
+                           0 AS PAY_APP_APPROVAL_AMT,
+                           -B.TOT_COST AS PAY_APP_TOTAL_AMT
+                    FROM CAM_MNG.DJ_EXNP A
+                        LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
+                    WHERE A.DOC_STATUS IN (100, 101)
+                        AND A.PAY_APP_TYPE = '2'
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
+                        AND YEAR(A.EXNP_DE) = #{reqYear}
+               ) A
+               GROUP BY A.PJT_CD,
+               A.JANG_SN,
+               A.GWAN_SN,
+               A.BUDGET_SN
         ) R
     </select>
 
@@ -852,7 +888,19 @@
                                  INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                         WHERE A.DOC_STATUS IN ('100', '101')
                           AND A.PAY_APP_TYPE = '1'
-                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        <choose>
+                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </when>
+                            <otherwise>
+                                <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                    AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                                </if>
+                                <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                    AND A.PJT_CD = #{pjtCd}
+                                </if>
+                            </otherwise>
+                        </choose>
 
                         UNION ALL
 
@@ -875,7 +923,19 @@
                         WHERE A.PAY_APP_TYPE = '1'
                           AND B.EXNP_STAT = 'Y'
                           AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
-                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        <choose>
+                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </when>
+                            <otherwise>
+                                <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                    AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                                </if>
+                                <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                    AND A.PJT_CD = #{pjtCd}
+                                </if>
+                            </otherwise>
+                        </choose>
 
                         UNION ALL
 
@@ -891,7 +951,19 @@
                             LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                         WHERE A.DOC_STATUS IN (100, 101)
                           AND A.PAY_APP_TYPE = '2'
-                          AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        <choose>
+                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </when>
+                            <otherwise>
+                                <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                    AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                                </if>
+                                <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                    AND A.PJT_CD = #{pjtCd}
+                                </if>
+                            </otherwise>
+                        </choose>
                     ) A
                GROUP BY A.PJT_CD,
                         A.JANG_SN,
@@ -928,7 +1000,19 @@
                              INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                     WHERE A.DOC_STATUS IN ('100', '101')
                       AND A.PAY_APP_TYPE = '1'
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
 
                     UNION ALL
 
@@ -951,7 +1035,19 @@
                     WHERE A.PAY_APP_TYPE = '1'
                       AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
 
                     UNION ALL
 
@@ -967,7 +1063,19 @@
                         LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                     WHERE A.DOC_STATUS IN (100, 101)
                       AND A.PAY_APP_TYPE = '2'
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
                 ) A
            WHERE A.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '1' AND S.ACTIVE = 'Y')
            GROUP BY A.PJT_CD,
@@ -1005,7 +1113,19 @@
                              INNER JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                     WHERE A.DOC_STATUS IN ('100', '101')
                       AND A.PAY_APP_TYPE = '1'
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
 
                     UNION ALL
 
@@ -1028,7 +1148,19 @@
                     WHERE A.PAY_APP_TYPE = '1'
                       AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
 
                     UNION ALL
 
@@ -1044,7 +1176,19 @@
                         LEFT JOIN CAM_MNG.DJ_EXNP_DET B ON A.EXNP_SN = B.EXNP_SN
                     WHERE A.DOC_STATUS IN (100, 101)
                       AND A.PAY_APP_TYPE = '2'
-                      AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    <choose>
+                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                            AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                        </when>
+                        <otherwise>
+                            <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                                AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                            </if>
+                            <if test='sbjSep != null and "N".equals(sbjSep)'>
+                                AND A.PJT_CD = #{pjtCd}
+                            </if>
+                        </otherwise>
+                    </choose>
                 ) A
            WHERE A.BUDGET_SN IN (SELECT S.BGT_CD FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(A.PJT_CD, 9) = LEFT(S.PJT_CD, 9) AND BGT_AT = '2' AND S.ACTIVE = 'Y')
            GROUP BY A.PJT_CD,
@@ -1063,7 +1207,19 @@
         WHERE
         (
             PA.PJT_SN = #{pjtSn}
-            OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+        <choose>
+            <when test='sbjSep == null and "".equals(sbjSep)'>
+                OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+            </when>
+            <otherwise>
+                <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                    OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                </if>
+                <if test='sbjSep != null and "N".equals(sbjSep)'>
+                    OR PA.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                </if>
+            </otherwise>
+        </choose>
         )
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
         AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
@@ -1075,7 +1231,7 @@
     </select>
 
     <select id="getRealUseExnpAmt2" parameterType="map" resultType="map">
-        /*getPurcReqClaimList2*/
+        /*getRealUseExnpAmt2*/
         SELECT
             IFNULL(SUM(
                 CASE
@@ -1181,7 +1337,7 @@
     </select>
 
     <select id="getRealUseExnpAmt3" parameterType="map" resultType="map">
-        /*getPurcReqClaimList3*/
+        /*getRealUseExnpAmt3*/
         SELECT
             IFNULL(SUM(
                 CASE
@@ -1529,12 +1685,50 @@
 
     <select id="getPlanExnpAmt" parameterType="map" resultType="map">
         /*getPlanExnpAmt*/
-        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '1' AND S.ACTIVE = 'Y'
+        SELECT
+            IFNULL(SUM(CALC_AM), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S
+        WHERE
+            1=1
+            <choose>
+                <when test='sbjSep == null and "".equals(sbjSep)'>
+                    AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                </when>
+                <otherwise>
+                    <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                        AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    </if>
+                    <if test='sbjSep != null and "N".equals(sbjSep)'>
+                        AND S.PJT_CD = #{pjtCd}
+                    </if>
+                </otherwise>
+            </choose>
+            AND S.BGT_AT = '1'
+            AND S.ACTIVE = 'Y'
     </select>
 
     <select id="getUseExnpAmt" parameterType="map" resultType="map">
         /*getUseExnpAmt*/
-        SELECT IFNULL(SUM(CALC_AM), 0) AS TOT_COST FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S WHERE LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9) AND S.BGT_AT = '2' AND S.ACTIVE = 'Y'
+        SELECT
+            IFNULL(SUM(CALC_AM), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_PROJECT_BUDGET_MNG S
+        WHERE
+            1=1
+            <choose>
+                <when test='sbjSep == null and "".equals(sbjSep)'>
+                    AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                </when>
+                <otherwise>
+                    <if test='sbjSep != null and "Y".equals(sbjSep)'>
+                        AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
+                    </if>
+                    <if test='sbjSep != null and "N".equals(sbjSep)'>
+                        AND S.PJT_CD = #{pjtCd}
+                    </if>
+                </otherwise>
+            </choose>
+            AND S.BGT_AT = '2'
+            AND S.ACTIVE = 'Y'
     </select>
 
     <select id="getGoodsAmt" parameterType="map" resultType="map">

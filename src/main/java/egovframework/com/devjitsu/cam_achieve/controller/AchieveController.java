@@ -175,6 +175,11 @@ public class AchieveController {
             params.put("reqYear", map.get("YEAR"));
             params.put("busnClass", map.get("BUSN_CLASS"));
 
+            // 사업비 분리사용 체크
+            if(map.get("SBJ_SEP") != null) {
+                params.put("sbjSep", map.get("SBJ_SEP"));
+            }
+
             /** 공통 */
             // 수행계획 - 투자금액
             Map<String, Object> getPjtDevInfo = achieveService.getPjtDevSn(params);
