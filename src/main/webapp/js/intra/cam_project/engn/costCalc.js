@@ -307,15 +307,7 @@ var costCalc = {
             }else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    // let allAsrAmt = 0;
-                    // if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
-                    //     console.log("A5")
-                    //     allAsrAmt = Number((e.exnpCompAmtAll * 10 / 11).toString().split(".")[0]);
-                    // }else{
-                    //     console.log("A6")
-                    //     allAsrAmt = e.exnpCompAmt;
-                    // }
-                    aopAmt = e.incpCompAmt1 + costCalc.resSaleAmt(e) - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
+                    aopAmt = costCalc.resSaleAmt(e) - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
                 }else{
                     aopAmt = e.incpCompAmt1 + Math.floor(Number(e.incpCompAmt2) * costCalc.directProfitRate(e) / 100);
                 }

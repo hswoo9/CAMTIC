@@ -87,7 +87,7 @@ var pjtAmtSet = {
                     field: "REQ_AMT",
                     title: "금액",
                     template: function(row){
-                        return "<div style='text-align: right'>"+commaN(row.REQ_AMT)+"</div>";
+                        return "<div style='text-align: right'>"+comma(row.REQ_AMT)+"</div>";
                     },
                 }, {
                     field: "",
