@@ -91,7 +91,11 @@ var costCalc = {
         }else if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
-                amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0);
+                } else {
+                    amt = Number(e.REAL_PJT_AMT);
+                }
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
@@ -406,7 +410,7 @@ var costCalc = {
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     devAmt = 0;
                 }else{
-                    devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e);
+                    devAmt = costCalc.nowPjtAmt(e) - costCalc.resSaleAmt(e) - Number(e.nowExpSaleAmt || 0);
                 }
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 회계 마감 유무 */
@@ -499,10 +503,10 @@ var costCalc = {
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
                 }else{
-                    let amt0 = costCalc.nowPjtAmt(e);
-                    let amt1 = Number(e.DEV_INV_AMT || 0);
-                    let amt2 = costCalc.resProfitAmt(e);
-                    eopAmt = amt0 - amt1 - amt2;
+                    let amt0 = costCalc.nowPjtAmt(e);               // 당해년도 사업비
+                    let amt1 = Number(e.DEV_INV_AMT || 0);          // 수행계획금액
+                    let amt2 = costCalc.resProfitAmt(e);            // 달성 운영수익
+                    eopAmt = amt0 - amt1 - amt2 - Number(e.nowExpProfitAmt || 0);
                 }
 
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
