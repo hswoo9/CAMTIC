@@ -25,11 +25,14 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="8%">
-                        <col width="15%">
+                        <col width="12%">
                         <col width="8%">
-                        <col width="15%">
+                        <col width="12%">
                         <col width="8%">
-                        <col width="15%">
+                        <col width="12%">
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
                         <col width="8%">
                         <col>
                     </colgroup>
@@ -50,6 +53,10 @@
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){itemM.gridReload()}"/>
+                        </td>
+                        <th class="text-center th-color">사용여부</th>
+                        <td>
+                            <input type="text" id="itemActive" style="width: 100px;">
                         </td>
                     </tr>
                 </table>
