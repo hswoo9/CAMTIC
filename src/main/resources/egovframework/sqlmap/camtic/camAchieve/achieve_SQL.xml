@@ -1222,7 +1222,14 @@
         </choose>
         )
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
-        AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
+        <choose>
+            <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
+                AND YEAR(PA.PAY_EXNP_DE) <![CDATA[<]]> #{reqYear}
+            </when>
+            <otherwise>
+                AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
+            </otherwise>
+        </choose>
         <if test='costCloseDt != null and !"".equals(costCloseDt)'>
         <![CDATA[
             AND PA.PAY_EXNP_DE <= #{costCloseDt}
@@ -1285,7 +1292,14 @@
             DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
-          AND YEAR(A.CLAIM_DE) = #{reqYear}
+        <choose>
+            <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
+                AND YEAR(A.CLAIM_DE) <![CDATA[<]]> #{reqYear}
+            </when>
+            <otherwise>
+                AND YEAR(A.CLAIM_DE) = #{reqYear}
+            </otherwise>
+        </choose>
         <if test='costCloseDt != null and !"".equals(costCloseDt)'>
         <![CDATA[
             AND A.CLAIM_DE <= #{costCloseDt}
@@ -1326,7 +1340,14 @@
         WHERE
             A.JState != 1
             AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
-          AND YEAR(A.JReqDate) = #{reqYear}
+        <choose>
+            <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
+                AND YEAR(A.JReqDate) <![CDATA[<]]> #{reqYear}
+            </when>
+            <otherwise>
+                AND YEAR(A.JReqDate) = #{reqYear}
+            </otherwise>
+        </choose>
         <if test='costCloseDt != null and !"".equals(costCloseDt)'>
         <![CDATA[
             AND A.JReqDate <= #{costCloseDt}
@@ -1406,7 +1427,14 @@
             ON
             A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE A.PJT_SN = #{pjtSn}
-          AND YEAR(IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO)) = #{reqYear}
+        <choose>
+            <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
+                AND YEAR(IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO)) <![CDATA[<]]> #{reqYear}
+            </when>
+            <otherwise>
+                AND YEAR(IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO)) = #{reqYear}
+            </otherwise>
+        </choose>
         UNION
         SELECT
             bb.SeqNo AS HR_BIZ_REQ_ID,
@@ -1450,7 +1478,14 @@
             DJ_CAMTIC.TripInfo bb ON aa.IntraCode = bb.ObjectCode
         WHERE bb.ObjectCode IS NOT NULL
           AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
-          AND YEAR(ifnull(bb.EDate, bb.ResultEDate)) = #{reqYear}
+        <choose>
+            <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
+                AND YEAR(ifnull(bb.EDate, bb.ResultEDate)) <![CDATA[<]]> #{reqYear}
+            </when>
+            <otherwise>
+                AND YEAR(ifnull(bb.EDate, bb.ResultEDate)) = #{reqYear}
+            </otherwise>
+        </choose>
         <if test='costCloseDt != null and !"".equals(costCloseDt)'>
         <![CDATA[
             AND ifnull(bb.EDate, bb.ResultEDate) <= #{costCloseDt}

@@ -195,6 +195,11 @@ public class AchieveController {
                     params.put("costCloseDt", map.get("LIST_END_DE"));
                 }
             }
+
+            if(params.containsKey("befYear")) {
+                params.remove("befYear");
+            }
+
             Map<String, Object> realUseMap2 = achieveService.getRealUseExnpAmt(params);
             Map<String, Object> realUseMap3 = achieveService.getRealUseExnpAmt2(params);
             Map<String, Object> realUseMap4 = achieveService.getRealUseExnpAmt3(params);
@@ -336,7 +341,8 @@ public class AchieveController {
                 try {
                     String yearStr = map.get("YEAR").toString();
                     int year = Integer.parseInt(yearStr);
-                    params.put("reqYear", year - 1);
+//                    params.put("reqYear", year - 1);
+                    params.put("befYear", "Y");
 
                     Map<String, Object> befRealUseMap2 = achieveService.getRealUseExnpAmt(params);
                     Map<String, Object> befRealUseMap3 = achieveService.getRealUseExnpAmt2(params);

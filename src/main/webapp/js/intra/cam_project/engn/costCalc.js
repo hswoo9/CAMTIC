@@ -150,13 +150,7 @@ var costCalc = {
             if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
             }else if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
-                /** costInfoAdmin.global.invSumCost => 전년도 비용 합계 */
-                amt = Number(e.DEV_INV_AMT || 0);
-
-                if(costCalc.global.viewPage == "costInfo") {
-                    amt = amt - costInfoAdmin.global.invSumCost
-                }
-
+                amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
             }else{
                 amt = 0;
             }
@@ -167,8 +161,8 @@ var costCalc = {
             }else {
                 /** 전년도 회계마감 여부 */
                 if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
-                    /** 프로젝트 시작년도 일치여부 확인 (CNT == 0; 시작년도) */
-                    if(e.CNT != 0){
+                    /** 프로젝트 시작년도 일치여부 확인 */
+                    if(e.LIST_NOW_STR_DE.substring(0, 4) != e.YEAR){
                         /** 회계 마감 여부 */
                         if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                             amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
@@ -179,10 +173,10 @@ var costCalc = {
                         amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
                     }
                 }else{
-                    /** 프로젝트 시작년도 일치여부 확인 (CNT == 0; 시작년도) */
-                    if(e.CNT == 0){
+                    /** 프로젝트 시작년도 일치여부 확인 */
+                    if(e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                         /** 회계 마감 여부 */
-                        if(e.DEADLINE_YN != null){
+                        if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                             amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
                         } else {
                             amt = Number(e.DEV_INV_AMT);
@@ -196,9 +190,9 @@ var costCalc = {
         }
 
         /** 전년도 비용 합계 (마지막년도 제외) */
-        if(e.CNT != e.LEN){
-            costInfoAdmin.global.invSumCost += amt;
-        }
+        // if(e.CNT != e.LEN){
+        //     costInfoAdmin.global.invSumCost += amt;
+        // }
 
         return amt;
     },
@@ -291,7 +285,7 @@ var costCalc = {
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             let asrAmt = costCalc.resSaleAmt(e);
             if(asrAmt > 0){
-                aopAmt = asrAmt - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3));
+                aopAmt = asrAmt - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3)) - (Number(e.befRealUseAmt) + Number(e.befRealUseAmt2) + Number(e.befRealUseAmt3));
             }
         }else{
             /** 수주년도/차년도 구분 */
