@@ -376,6 +376,7 @@ var costInfoAdmin = {
         }
 
         costInfoAdmin.global.invSumCost = 0;    // 전년도 비용 합계
+        costCalc.global.viewPage = "costInfo";
         for(let i=0; i<count; i++){
             const e = list[i];
             e.CNT = i;

@@ -1,4 +1,9 @@
 var costCalc = {
+
+    global : {
+        viewPage : "",
+    },
+
     /** 수주금액 */
     allPjtAmt: function(e){
         /** 
@@ -146,7 +151,12 @@ var costCalc = {
                 amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
             }else if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
                 /** costInfoAdmin.global.invSumCost => 전년도 비용 합계 */
-                amt = Number(e.DEV_INV_AMT || 0) - costInfoAdmin.global.invSumCost;
+                amt = Number(e.DEV_INV_AMT || 0);
+
+                if(costCalc.global.viewPage == "costInfo") {
+                    amt = amt - costInfoAdmin.global.invSumCost
+                }
+
             }else{
                 amt = 0;
             }
