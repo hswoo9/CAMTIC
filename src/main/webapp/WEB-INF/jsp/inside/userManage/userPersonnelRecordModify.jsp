@@ -719,7 +719,7 @@
                                         <td><input type="text" id="agency3" class ="textBox" style="width: 100%;"></td>
                                         <td>
                                             <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
-                                            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" >
                                             <span id="rewardAddFileName"></span>
                                         </td>
                                         <td>
@@ -740,14 +740,14 @@
                                                 <c:if test="${l.rewardAddFile == null}">
                                                     <td>
                                                         <label for="rewardAddFile${l.REWORD_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none">
                                                         <span id="rewardAddFileName${l.REWORD_ID}"></span>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${l.rewardAddFile ne null}">
                                                     <td>
                                                         <label for="rewardAddFile${l.REWORD_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none">
                                                         <span id="rewardAddFileName${l.REWORD_ID}" style="cursor: pointer" onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
                                                             ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
                                                          </span>

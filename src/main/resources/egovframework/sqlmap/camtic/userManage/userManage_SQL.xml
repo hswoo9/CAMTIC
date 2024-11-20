@@ -3066,7 +3066,7 @@
     <update id="setInRewardAddFileNoUpdAdmin" parameterType="map">
         /* setInRewardAddFileNoUpdAdmin */
         UPDATE
-            CAM_HR.DJ_EMP_REWORD_TMP
+            CAM_HR.DJ_EMP_REWORD
         SET
             REWARD_ADD_NO = #{rewardAddFileNo}
         WHERE
