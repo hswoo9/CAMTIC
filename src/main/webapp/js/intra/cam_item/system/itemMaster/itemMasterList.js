@@ -27,6 +27,13 @@ var itemM = {
         customKendo.fn_dropDownList("searchKeyword", itemM.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", itemM.gridReload);
 
+        itemM.global.dropDownDataSource = [
+            { text : "사용", value : "Y" },
+            { text : "미사용", value : "N" }
+        ]
+        customKendo.fn_dropDownList("itemActive", itemM.global.dropDownDataSource, "text", "value");
+        $("#itemActive").data("kendoDropDownList").bind("change", itemM.gridReload);
+
         customKendo.fn_textBox(["searchValue"]);
 
         itemM.gridReload();
@@ -147,6 +154,7 @@ var itemM = {
             itemUnitCd : $("#itemUnitCd").val(),
             searchItemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
+            active : $("#itemActive").val(),
             searchValue : $("#searchValue").val(),
         }
 
