@@ -774,7 +774,7 @@
                     WHERE A.DOC_STATUS IN ('100', '101')
                         AND A.PAY_APP_TYPE = '1'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -810,7 +810,7 @@
                         AND B.EXNP_STAT = 'Y'
                         AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -839,7 +839,7 @@
                     WHERE A.DOC_STATUS IN (100, 101)
                         AND A.PAY_APP_TYPE = '2'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -889,7 +889,7 @@
                         WHERE A.DOC_STATUS IN ('100', '101')
                           AND A.PAY_APP_TYPE = '1'
                         <choose>
-                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                            <when test='sbjSep == null or "".equals(sbjSep)'>
                                 AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                             </when>
                             <otherwise>
@@ -924,7 +924,7 @@
                           AND B.EXNP_STAT = 'Y'
                           AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                         <choose>
-                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                            <when test='sbjSep == null or "".equals(sbjSep)'>
                                 AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                             </when>
                             <otherwise>
@@ -952,7 +952,7 @@
                         WHERE A.DOC_STATUS IN (100, 101)
                           AND A.PAY_APP_TYPE = '2'
                         <choose>
-                            <when test='sbjSep == null and "".equals(sbjSep)'>
+                            <when test='sbjSep == null or "".equals(sbjSep)'>
                                 AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                             </when>
                             <otherwise>
@@ -1001,7 +1001,7 @@
                     WHERE A.DOC_STATUS IN ('100', '101')
                       AND A.PAY_APP_TYPE = '1'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1036,7 +1036,7 @@
                       AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1064,7 +1064,7 @@
                     WHERE A.DOC_STATUS IN (100, 101)
                       AND A.PAY_APP_TYPE = '2'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1114,7 +1114,7 @@
                     WHERE A.DOC_STATUS IN ('100', '101')
                       AND A.PAY_APP_TYPE = '1'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1149,7 +1149,7 @@
                       AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1177,7 +1177,7 @@
                     WHERE A.DOC_STATUS IN (100, 101)
                       AND A.PAY_APP_TYPE = '2'
                     <choose>
-                        <when test='sbjSep == null and "".equals(sbjSep)'>
+                        <when test='sbjSep == null or "".equals(sbjSep)'>
                             AND LEFT(A.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                         </when>
                         <otherwise>
@@ -1208,7 +1208,7 @@
         (
             PA.PJT_SN = #{pjtSn}
         <choose>
-            <when test='sbjSep == null and "".equals(sbjSep)'>
+            <when test='sbjSep == null or "".equals(sbjSep)'>
                 OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
             </when>
             <otherwise>
@@ -1691,7 +1691,7 @@
         WHERE
             1=1
             <choose>
-                <when test='sbjSep == null and "".equals(sbjSep)'>
+                <when test='sbjSep == null or "".equals(sbjSep)'>
                     AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                 </when>
                 <otherwise>
@@ -1715,7 +1715,7 @@
         WHERE
             1=1
             <choose>
-                <when test='sbjSep == null and "".equals(sbjSep)'>
+                <when test='sbjSep == null or "".equals(sbjSep)'>
                     AND LEFT(S.PJT_CD, 9) = LEFT(#{pjtCd}, 9)
                 </when>
                 <otherwise>
