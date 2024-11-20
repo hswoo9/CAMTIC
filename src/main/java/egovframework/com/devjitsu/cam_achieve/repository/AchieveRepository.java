@@ -434,4 +434,8 @@ public class AchieveRepository extends AbstractDAO {
     public List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params) {
         return selectList("achieve.getPurcAchieveMngList", params);
     }
+
+    public int getPjtTeamInvAmt(Map<String, Object> params) {
+        return (int) selectOne("achieve.getPjtTeamInvAmt", params);
+    }
 }

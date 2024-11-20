@@ -131,14 +131,14 @@ var costInfoAdmin = {
             '                <th style="text-align: center">부서</th>' +
             '                <th style="text-align: center">팀</th>' +
             '                <th style="text-align: center">수주금액</th>' +
-            '                <th style="text-align: center">수행계획</th>' +
+            '                <th style="text-align: center">수행계획/비용</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
             '                <th style="text-align: center">달성 운영수익</th>' +
             '                <th style="text-align: center">예상 매출액</th>' +
             '                <th style="text-align: center">예상 운영수익</th>' +
             '            </tr>';
 
-        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
+        /** 수행계획/비용, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn, typeCk: "group"});
         const list = result.list;
         costInfoAdmin.global.allPjtList = list;
@@ -181,7 +181,7 @@ var costInfoAdmin = {
 
         /** 수주금액 */
         let sumA = 0;
-        /** 수행계획 */
+        /** 수행계획/비용 */
         let sumB = 0;
 
         /** 달성매출액 */
@@ -199,7 +199,7 @@ var costInfoAdmin = {
             /** 수주금액 */
             sumA += costCalc.allPjtAmt(e);
 
-            /** 수행계획 */
+            /** 수행계획/비용 */
             sumB += costCalc.nowInvAmt(e);
 
             /** 달성 매출액 */
@@ -249,14 +249,14 @@ var costInfoAdmin = {
             '                <th style="text-align: center">기준년도</th>' +
             '                <th style="text-align: center">수주금액</th>' +
             '                <th style="text-align: center">당해년도 사업비</th>' +
-            '                <th style="text-align: center">수행계획</th>' +
+            '                <th style="text-align: center">수행계획/비용</th>' +
             '                <th style="text-align: center">달성 매출액</th>' +
             '                <th style="text-align: center">달성 운영수익</th>' +
             '                <th style="text-align: center">예상 매출액</th>' +
             '                <th style="text-align: center">예상 운영수익</th>' +
             '            </tr>';
 
-        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
+        /** 수행계획/비용, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
         const result = customKendo.fn_customAjax("/cam_achieve/getProjectList", {pjtSn: pjtSn});
         const list = result.list;
         let count = list.length;
@@ -390,7 +390,7 @@ var costInfoAdmin = {
             /** 당해년도 사업비 */
             $("#PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
-            /** 수행계획 */
+            /** 수행계획/비용 */
             $("#INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
 
             /** 달성 매출액 */
@@ -416,7 +416,7 @@ var costInfoAdmin = {
             /** 당해년도 사업비 */
             $("#TEAM_PJT_AMT3"+i).text(comma(costCalc.nowPjtAmt(e)));
 
-            /** 수행계획 */
+            /** 수행계획/비용 */
             $("#TEAM_INV_AMT"+i).text(comma(costCalc.nowInvAmt(e)));
 
             /** 달성 매출액 */
@@ -452,7 +452,7 @@ var costInfoAdmin = {
         });
         $("#PJT_AMT3_SUM").text(comma(sumF));
 
-        /** 수행계획 합계 */
+        /** 수행계획/비용 합계 */
         let sumInvAmt = 0;
         $('td.invAmt').each(function() {
             const value = Number(uncommaN($(this).text()));

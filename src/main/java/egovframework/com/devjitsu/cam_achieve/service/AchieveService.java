@@ -128,4 +128,6 @@ public interface AchieveService {
     List<Map<String, Object>> getPurcFund2AchieveData(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params);
+
+    int getPjtTeamInvAmt(Map<String, Object> params);
 }

@@ -796,4 +796,9 @@ public class AchieveServiceImpl implements AchieveService {
     public List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params) {
         return achieveRepository.getPurcAchieveMngList(params);
     }
+
+    @Override
+    public int getPjtTeamInvAmt(Map<String, Object> params) {
+        return achieveRepository.getPjtTeamInvAmt(params);
+    }
 }

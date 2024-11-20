@@ -807,7 +807,6 @@
                     FROM CAM_MNG.DJ_PAY_APP A
                         INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
                     WHERE A.PAY_APP_TYPE = '1'
-                        AND B.EXNP_STAT = 'Y'
                         AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
                         <when test='sbjSep == null or "".equals(sbjSep)'>
@@ -921,7 +920,6 @@
                         FROM CAM_MNG.DJ_PAY_APP A
                             INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
                         WHERE A.PAY_APP_TYPE = '1'
-                          AND B.EXNP_STAT = 'Y'
                           AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                         <choose>
                             <when test='sbjSep == null or "".equals(sbjSep)'>
@@ -1033,7 +1031,6 @@
                     FROM CAM_MNG.DJ_PAY_APP A
                         INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
                     WHERE A.PAY_APP_TYPE = '1'
-                      AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
                         <when test='sbjSep == null or "".equals(sbjSep)'>
@@ -1146,7 +1143,6 @@
                     FROM CAM_MNG.DJ_PAY_APP A
                         INNER JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
                     WHERE A.PAY_APP_TYPE = '1'
-                      AND B.EXNP_STAT = 'Y'
                       AND A.DOC_STATUS NOT IN ('30', '40', '60', '999', '102')
                     <choose>
                         <when test='sbjSep == null or "".equals(sbjSep)'>
@@ -3290,5 +3286,10 @@
         AND YEAR(A.EXP_DE) = #{year}
         GROUP BY CLAIM_SN
         ORDER BY CLAIM_SN DESC
+    </select>
+
+    <select id="getPjtTeamInvAmt" parameterType="map" resultType="int">
+        /*getPjtTeamInvAmt*/
+        SELECT TM_INV_AMT FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn}
     </select>
 </mapper>

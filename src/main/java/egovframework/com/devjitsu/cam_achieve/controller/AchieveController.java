@@ -187,6 +187,16 @@ public class AchieveController {
                 map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));
             }
 
+            if(map.containsKey("PNT_TM_SN")) {
+                params.put("tmSn", map.get("PNT_TM_SN"));
+                map.put("DEV_INV_AMT", achieveService.getPjtTeamInvAmt(params));
+            }
+
+            if(map.containsKey("TM_SN")) {
+                params.put("tmSn", map.get("TM_SN"));
+                map.put("DEV_INV_AMT", achieveService.getPjtTeamInvAmt(params));
+            }
+
             // 비용 (순서대로 지출, 구매, 출장)
             if("Y".equals(map.get("COST_CLOSE_CK"))){
                 if(map.get("COST_CLOSE_DT") != null){
