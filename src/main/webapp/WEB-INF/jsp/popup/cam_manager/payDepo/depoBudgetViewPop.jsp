@@ -48,12 +48,13 @@
 
 
 		<span>
-            <input type="radio" name="radio" value="A" id="radio1" onclick="depoBgtMng.changeGrid(1)" checked><label for="radio1" style="position: relative; top : 4px;">수입예산</label>
-            <input type="radio" name="radio" value="A" id="radio2" onclick="depoBgtMng.changeGrid(2)"><label for="radio2" style="position: relative; top : 4px;">지출예산</label>
+            <input type="radio" id="budgetA" name="budgetType" value="1" checked="checked" onclick="depoBgtMng.budgetMainGrid();">
+            <label for="budgetA">수입예산</label>
+            <input type="radio" id="budgetB" name="budgetType" value="2" style="margin-left:10px;" onclick="depoBgtMng.budgetMainGrid();">
+            <label for="budgetB">지출예산</label>
         </span>
 		<%--        <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="bgView.fn_popBudgetAdd()">등록</button>--%>
 		<div id="budgetMainGrid"></div>
-		<div id="budgetMainGrid2" style="display: none"></div>
 	</div>
 </div>
 

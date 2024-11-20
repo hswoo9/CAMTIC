@@ -17,17 +17,18 @@ var depoBgtMng = {
                 gisu : year,
                 fromDate : date.getFullYear().toString() + "0101",
                 toDate : date.getFullYear().toString() + "1231",
+                startDt : date.getFullYear().toString() + "-01-01",
+                endDt : date.getFullYear().toString() + "-12-31",
                 mgtSeq : $("#pjtCd").val(),
                 opt01 : '3',
                 opt02 : '1',
                 opt03 : '2',
-                baseDate : date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
+                baseDate : date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+                temp : $("input[name='budgetType']:checked").val()
             };
 
             depoBgtMng.budgetMainGrid(data);
         }
-
-        depoBgtMng.budgetMainGrid2();
     },
 
     gridReload : function (e){
@@ -50,14 +51,17 @@ var depoBgtMng = {
                     data.gisu = year;
                     data.fromDate = date.getFullYear().toString() + "0101";
                     data.toDate = date.getFullYear().toString() + "1231";
+                    data.startDt = date.getFullYear().toString() + "-01-01";
+                    data.endDt = date.getFullYear().toString() + "-12-31";
                     data.mgtSeq = $("#pjtCd").val();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
+                    data.temp = $("input[name='budgetType']:checked").val();
 
-                    data.temp = '1';
                     return data;
                 }
             },
@@ -126,10 +130,12 @@ var depoBgtMng = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
+                        var subAm = "";
                         if(e.DIV_FG_NM == "항"){
-                            subAmSum += Number(e.SUB_AM);
+                            subAmSum += Number(e.CALC_AM - e.APPROVAL_AMT);
+                            subAm = Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(subAm)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -140,128 +146,13 @@ var depoBgtMng = {
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
                         var idx = $("#idx").val();
+                        var subAm = 0;
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depoBgtMng.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\')">선택</button>';
-                    }
-                }
-            ],
-
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
-        }).data("kendoGrid");
-
-
-    },
-
-    budgetMainGrid2 : function (params) {
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/g20/getBudgetListDuplDel",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    var date = new Date();
-                    var year = date.getFullYear().toString().substring(2,4);
-
-                    data.gisu = year;
-                    data.fromDate = date.getFullYear().toString() + "0101";
-                    data.toDate = date.getFullYear().toString() + "1231";
-                    data.mgtSeq = $("#pjtCd").val();
-                    data.opt01 = '3';
-                    data.opt02 = '1';
-                    data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
-                    data.pjtSn = $("#pjtSn").val();
-
-                    data.temp = '2';
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 100
-        });
-
-        $("#budgetMainGrid2").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
-            scrollable: true,
-            selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes : [ 10, 20, 50, "ALL" ],
-                buttonCount: 5
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: depoBgtMng.onDataBound,
-            columns: [
-                {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 80
-                }, {
-                    title: "장",
-                    width: 150,
-                    field : "BGT1_NM"
-                }, {
-                    title: "관",
-                    width: 150,
-                    field : "BGT2_NM"
-                }, {
-                    title: "항",
-                    width: 150,
-                    template: function (e){
                         if(e.DIV_FG_NM == "항"){
-                            return e.BGT_NM;
-                        } else {
-                            return "";
+                            subAm = Number(e.CALC_AM - e.APPROVAL_AMT);
                         }
-                    },
-                    footerTemplate: "합계"
-                }, {
-                    title: "예산액",
-                    width: 150,
-                    template: function(e){
-                        if(e.DIV_FG_NM == "항"){
-                            calcAmSum  += Number(e.CALC_AM);
-                        }
-                        return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
-                    }
-                }, {
-                    title: "예산잔액",
-                    width: 150,
-                    template: function(e){
-                        if(e.DIV_FG_NM == "항"){
-                            subAmSum += Number(e.SUB_AM);
-                        }
-                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
-                    }
-                }, {
-                    title: "기타",
-                    width: 80,
-                    template: function(e){
-                        var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
-                        var idx = $("#idx").val();
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depoBgtMng.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\')">선택</button>';
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depoBgtMng.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + subAm + '\')">선택</button>';
                     }
                 }
             ],
