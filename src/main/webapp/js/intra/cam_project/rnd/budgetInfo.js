@@ -110,7 +110,7 @@ var rndBg = {
 
         var dds2 = [
             { text: "예산비목", value: "BUDGET_NM" },
-            { text: "거래처", value: "CRM_NM" },
+            { text: "지급처명", value: "CRM_NM" },
             { text: "제목", value: "EXNP_BRIEFS" },
         ]
         customKendo.fn_dropDownList("searchKeyword2", dds2, "text", "value");
@@ -630,7 +630,7 @@ var rndBg = {
                     }
                 }, {
                     title: "지출요청일",
-                    width: 80,
+                    width: 85,
                     field: "REQ_DE",
                     template : function(e){
                         if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
@@ -827,6 +827,17 @@ var rndBg = {
                     width: 70,
                     field: "R_DT",
                 }, {
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 210,
+                    template: function (e){
+                        return e.PJT_NM;
+                    }
+                }, {
+                    title: "예산비목",
+                    field: "BUDGET_NM_EX",
+                    width: 210
+                }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
                     width: 280,
@@ -835,16 +846,20 @@ var rndBg = {
                         return '<div style="cursor: pointer; font-weight: bold" onclick="rndBg.fn_reqRegExnpPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
-                    field: "PJT_NM",
-                    width: 210,
-                    template: function (e){
-                        return e.PJT_NM;
+                    title: "지급처명",
+                    field: "CRM_NM",
+                    width: 100,
+                    template: function(e){
+                        if(e.CRM_CNT > 1) {
+                            return e.CRM_NM + ' 외 ' + e.CRM_CNT;
+                        } else {
+                            return e.CRM_NM;
+                        }
                     }
                 }, {
-                    title: "세출과목",
-                    field: "BUDGET_NM_EX",
-                    width: 210
+                    title: "신청자",
+                    field: "PAY_APP_REG_EMP_NAME",
+                    width: 80
                 }, {
                     title: "작성자",
                     field: "REG_EMP_NAME",
