@@ -305,7 +305,7 @@ var weekMeet = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/cam_achieve/getEngnList",
+                    url: "/cam_achieve/getProjectList",
                     dataType: "json",
                     type: "post"
                 },
@@ -313,6 +313,7 @@ var weekMeet = {
                     data.year = $("#year").val();
                     data.deptSeq = deptSeq;
                     data.parentDeptSeq = deptSeq;
+                    data.pjtYear = $("#year").val().split("-")[0];
 
                     return data;
                 }
@@ -366,45 +367,38 @@ var weekMeet = {
                 {
                     title: "순번",
                     template: "#= --record #",
-                    width: 35
-                },{
-                    title: "수주/협업/이월",
-                    width: 80,
-                    field: "STAT_A"
+                    width: 40
                 }, {
-                    title: "시작일",
+                    field: "BUSN_NM",
+                    title: "사업구분",
+                    width: 80
+                }, {
+                    field: "PJT_CD",
+                    title: "프로젝트 코드",
+                    width: 100
+                }, {
+                    title: "프로젝트명",
+                    field: "PJT_NM",
+                    width: 350
+                }, {
+                    title: "주관기관<br>(업체명)",
+                    field: "CRM_NM",
+                    width: 120,
+                    footerTemplate: "합계",
+                }, {
+                    title: "수주일",
                     field: "LIST_STR_DE",
                     width: 80
                 }, {
                     title: "종료예정일",
-                    field: "LIST_END_EX_DE",
+                    field: "LIST_NOW_END_DE",
                     width: 80
                 }, {
                     title: "종료일",
                     field: "LIST_END_DE",
                     width: 80
                 }, {
-                    title: "프로젝트명",
-                    field: "PJT_NM",
-                    width: 200
-                }, {
-                    title: "업체명",
-                    field: "CRM_NM",
-                    width: 100,
-                    footerTemplate: "합계",
-                }, {
-                    title: "총 사업비",
-                    field: "PJT_AMT",
-                    width: 100,
-                    template: function(e){
-                        totAmt += e.PJT_AMT;
-                        return '<div style="text-align: right">'+comma(e.PJT_AMT)+'</div>'
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(totAmt)+"</div>";
-                    }
-                }, {
-                    title: "수주액",
+                    title: "수주금액",
                     field: "PJT_AMT",
                     width: 100,
                     template: function(e){
@@ -415,16 +409,33 @@ var weekMeet = {
                         return "<div style='text-align: right'>"+comma(delvTotAmt)+"</div>";
                     }
                 }, {
+                    title: "총 사업비",
+                    field: "ALL_BUSN_COST",
+                    width: 100,
+                    template: function(e){
+                        var allBusnCost = 0;
+                        if(e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S") {
+                            totAmt += e.ALL_BUSN_COST;
+                            allBusnCost = e.ALL_BUSN_COST;
+                        } else {
+                            totAmt += e.PJT_AMT;
+                            allBusnCost = e.PJT_AMT;
+                        }
+                        return '<div style="text-align: right">'+comma(allBusnCost)+'</div>'
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(totAmt)+"</div>";
+                    }
+                }, {
                     title: "매출액",
                     field: "PJT_AMT",
                     width: 100,
                     template: function(e){
-                        if(e.RESULT_STATUS != 100){
-                            return '<div style="text-align: right">0</div>'
-                        } else {
-                            saleTotAmt += e.PJT_AMT;
-                            return '<div style="text-align: right">'+comma(e.PJT_AMT)+'</div>'
-                        }
+                        let amt = 0;
+                        amt = costCalc.resSaleAmt(e);
+
+                        saleTotAmt += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(saleTotAmt)+"</div>";
@@ -433,16 +444,11 @@ var weekMeet = {
                     title: "운영수익",
                     width: 100,
                     template: function(e){
-                        var saleAmt = 0;
+                        let amt = 0;
+                        amt = costCalc.resProfitAmt(e);
 
-                        if(e.RESULT_STATUS == 100){
-                            saleAmt = e.PJT_AMT;
-                        }
-
-                        saleAmt = (saleAmt || 0) - (e.PURC_TOT_AMT || 0) - (e.RES_EXNP_SUM || 0);
-
-                        incpTotAmt += saleAmt;
-                        return '<div style="text-align: right">'+comma(saleAmt)+'</div>'
+                        incpTotAmt += amt;
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(incpTotAmt)+"</div>";
@@ -451,12 +457,11 @@ var weekMeet = {
                     title: "예상매출액",
                     width: 100,
                     template: function(e){
-                        if(e.RESULT_STATUS != 100){
-                            return '<div style="text-align: right">0</div>'
-                        } else {
-                            expSaleTotAmt += e.PJT_AMT;
-                            return '<div style="text-align: right">'+comma(e.PJT_AMT)+'</div>'
-                        }
+                        let amt = 0;
+                        amt = costCalc.devSaleAmt(e);
+
+                        expSaleTotAmt += amt;
+                        return '<div style="text-align: right">'+comma(amt)+'</div>'
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(expSaleTotAmt)+"</div>";
@@ -465,16 +470,11 @@ var weekMeet = {
                     title: "예상운영수익",
                     width: 100,
                     template: function(e){
-                        var saleAmt = 0;
+                        var amt = 0;
+                        amt = costCalc.devProfitAmt(e);
 
-                        if(e.RESULT_STATUS == 100){
-                            saleAmt = e.PJT_AMT;
-                        }
-
-                        saleAmt = (saleAmt || 0) - (e.PURC_TOT_AMT || 0) - (e.RES_EXNP_SUM || 0);
-
-                        expIncpTotAmt += saleAmt;
-                        return '<div style="text-align: right">'+comma(saleAmt)+'</div>'
+                        expIncpTotAmt += amt;
+                        return '<div style="text-align: right">'+comma(amt)+'</div>'
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(expIncpTotAmt)+"</div>";
@@ -483,35 +483,35 @@ var weekMeet = {
                     title: "전년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        return '<div style="text-align: center">-</div>'
+                        let amt = Number(e.listBefSale || 0);
+
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     }
                 }, {
-                    title: "전년도<br>수익액",
+                    title: "전년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        return '<div style="text-align: center">-</div>'
+                        let amt = Number(e.listBefProfit || 0);
 
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     }
                 }, {
                     title: "차년도<br>매출액",
                     width: 100,
                     template: function(e){
-                        return '<div style="text-align: center">-</div>'
+                        let amt = Number(e.listAftSale || 0);
 
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     }
                 }, {
-                    title: "차년도<br>수익액",
+                    title: "차년도<br>운영수익",
                     width: 100,
                     template: function(e){
-                        return '<div style="text-align: center">-</div>'
+                        let amt = Number(e.listAftProfit || 0);
+
+                        return '<div style="text-align: right;">'+comma(amt)+'</div>';
                     }
-                }, {
-                    title: "비고",
-                    width: 100,
-                    template: function(e){
-                        return '';
-                    }
-                }
+                },
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
