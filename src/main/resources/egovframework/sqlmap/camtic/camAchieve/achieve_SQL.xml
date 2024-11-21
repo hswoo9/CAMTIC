@@ -36,9 +36,9 @@
         SELECT
             A.BUSN_CLASS,
             A.PJT_AMT,
-            B.EXP_AMT,
-            C.STATUS AS DELV_STATUS,
-            D.STATUS AS RESULT_STATUS
+            IFNULL(B.EXP_AMT, 0) AS EXP_AMT,
+            IFNULL(C.STATUS, 0) AS DELV_STATUS,
+            IFNULL(D.STATUS, 0) AS RESULT_STATUS
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
