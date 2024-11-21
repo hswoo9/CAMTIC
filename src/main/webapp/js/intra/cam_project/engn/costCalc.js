@@ -23,7 +23,7 @@ var costCalc = {
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 amt = 0;
             }else{
-                if(e.CNT == 0){
+                if(e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                     amt = Number(e.PJT_AMT);
                 } else {
                     amt = 0;
