@@ -41,6 +41,8 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="myEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
+<input type="hidden" id="pjtNowStrDe" value="${detMap.NOW_STR_DE}" />
+<input type="hidden" id="pjtNowEndDe" value="${detMap.NOW_END_DE}" />
 <div style="padding: 10px">
     <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
         <span id="selectType"></span>
@@ -111,7 +113,7 @@
                     <col width="25%">
                 </colgroup>
                 <tr>
-                    <th class="text-center" style="vertical-align: middle;">신청일</th>
+                    <th class="text-center" style="vertical-align: middle;">조회기간</th>
                     <td>
                         <input type="text" id="payAppStrDe" style="width: 45%;"> ~ <input type="text" id="payAppEndDe" style="width: 45%;">
                     </td>

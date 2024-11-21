@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
@@ -32,6 +33,9 @@ public class ProjectRndController {
 
     @Autowired
     private ProjectRndService projectRndService;
+
+    @Autowired
+    private ProjectUnRndService projectUnRndService;
 
     @Autowired
     private UserService userService;
@@ -260,6 +264,21 @@ public class ProjectRndController {
         model.addAttribute("map", new Gson().toJson(map));
         model.addAttribute("data", map);
         model.addAttribute("params", params);
+
+        Map<String, Object> detMap = new HashMap<>();
+        if(map != null) {
+            if(map.get("YEAR_CLASS").equals("M")) {
+                if(map.get("BUSN_CLASS").equals("R")) {
+                    detMap = projectRndService.getRndDetail(params);
+                } else if(map.get("BUSN_CLASS").equals("S")) {
+                    detMap = projectUnRndService.getUnRndDetail(params);
+                }
+            } else {
+                detMap.put("NOW_STR_DE", map.get("PJT_STR_DT"));
+                detMap.put("NOW_END_DE", map.get("PJT_END_DT"));
+            }
+        }
+        model.addAttribute("detMap", detMap);
 
         return "popup/cam_project/rnd/budgetInfo";
     }

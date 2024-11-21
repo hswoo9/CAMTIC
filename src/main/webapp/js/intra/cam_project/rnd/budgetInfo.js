@@ -75,8 +75,8 @@ var rndBg = {
         })
 
         // 지급신청리스트
-        customKendo.fn_datePicker("payAppStrDe", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
-        customKendo.fn_datePicker("payAppEndDe", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("payAppStrDe", '', "yyyy-MM-dd", $("#pjtNowStrDe").val());
+        customKendo.fn_datePicker("payAppEndDe", '', "yyyy-MM-dd", $("#pjtNowEndDe").val());
 
         var dropDownDataSource = [
             { text: "작성중", value: "1" },
@@ -90,7 +90,7 @@ var rndBg = {
         var dropDownDataSource2 = [
             { text: "문서번호", value: "A" },
             { text: "신청건명", value: "B" },
-            { text: "거래처", value: "D" },
+            { text: "지급처명", value: "D" },
             { text: "신청자", value: "E" },
         ]
 
@@ -572,9 +572,17 @@ var rndBg = {
                     title: "문서번호",
                     width: 150,
                 }, {
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 240,
+                    template: function(e){
+                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
+                        return pjtNm;
+                    }
+                }, {
                     title: "신청건명",
                     field: "APP_TITLE",
-                    width: 280,
+                    width: 330,
                     template: function(e){
                         var status = "";
                         if(e.PAY_APP_TYPE == 1){
@@ -594,12 +602,19 @@ var rndBg = {
                         }
                     }
                 }, {
-                    title: "프로젝트 명",
-                    field: "PJT_NM",
-                    width: 240,
+                    title: "지급처명",
+                    width: 120,
+                    field: "CRM_NM",
                     template: function(e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm;
+                        let crmNmArr = e.CRM_NM.split(",");
+                        let crmNm = crmNmArr[0];
+                        let crmLen = crmNmArr.length;
+
+                        if(crmLen > 1){
+                            return crmNm + " 외 " + (crmLen - 1);
+                        } else {
+                            return crmNm;
+                        }
                     }
                 }, {
                     title: "신청자",
@@ -673,13 +688,16 @@ var rndBg = {
                         }
 
                         if(e.DOC_STATUS == "100"){
-                            stat = "결재완료"
-                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
-                                stat = "지출완료";
-                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
-                                stat = "부분지출";
-                            } else if (e.EXNP_STATUS != 0){
-                                stat = "지출대기";
+                            if(e.EXNP_STATUS == null){
+                                stat = "결재완료"
+                            } else {
+                                if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
+                                    stat = "지출완료";
+                                } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
+                                    stat = "부분지출";
+                                } else if (e.EXNP_STATUS != 0){
+                                    stat = "지출대기";
+                                }
                             }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
                             stat = "결재중"

@@ -227,13 +227,16 @@ var paymentList = {
                         }
 
                         if(e.DOC_STATUS == "100"){
-                            stat = "결재완료"
-                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y'){
-                                stat = "지출완료";
-                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
-                                stat = "부분지출";
-                            } else if (e.EXNP_STATUS != 0){
-                                stat = "지출대기";
+                            if(e.EXNP_STATUS == null){
+                                stat = "결재완료"
+                            } else {
+                                if (e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.RE_STAT == 'Y') {
+                                    stat = "지출완료";
+                                } else if (e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0) {
+                                    stat = "부분지출";
+                                } else if (e.EXNP_STATUS != 0) {
+                                    stat = "지출대기";
+                                }
                             }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
                             stat = "결재중"
