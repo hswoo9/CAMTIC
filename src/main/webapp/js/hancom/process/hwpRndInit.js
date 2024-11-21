@@ -547,11 +547,11 @@ var rndInit = {
                     if(map.busnClass == "D" || map.busnClass == "V"){
                         itemAmt = amt;
                     }else{
-                        if(e.InTax == "0"){     // 부가세 미포함
+                        if(map.TAX_GUBUN == "3"){           // 부가세 미포함 (비과세)
                             itemAmt = amt + amt2;
-                        }else if(e.InTax == "1"){  // 부가세 포함
+                        }else if(map.TAX_GUBUN == "1"){     // 부가세 포함 (과세)
                             itemAmt = amt;
-                        }else if(e.InTax == "2"){ // 면세
+                        }else if(map.TAX_GUBUN == "2"){     // 면세
                             itemAmt = amt;
                         }
                     }
