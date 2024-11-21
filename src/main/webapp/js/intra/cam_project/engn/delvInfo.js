@@ -125,6 +125,13 @@ var delvInfo = {
             }else{
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"delvInfo.fn_save()\">저장</button>";
             }
+
+            if(status == "10" || status == "20" || status =="50" || status == "100") {
+                $("#chgDiv").css("display", "inline-block");
+                $("#chgDiv2").css("display", "block");
+                this.fn_changeNowYearSet();
+            }
+
         }else{
             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.fn_save()\">저장</button>";
         }
@@ -362,5 +369,49 @@ var delvInfo = {
                 }).trigger("submit");
             }
         });
-    }
+    },
+
+    fn_updNowYear : function(){
+        if(!confirm("납기일을 변경하시겠습니까?")) {
+            return;
+        }
+
+        let data = {
+            pjtSn: $("#pjtSn").val(),
+            busnClass : $("#busnClass").val(),
+            nowEndDe : $("#delvDe").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        $.ajax({
+            url: "/projectRnd/updNowYear",
+            data: data,
+            type: "post",
+            datatype: "json",
+            success: function (rs) {
+                if(rs.code == "200"){
+                    alert("변경되었습니다.");
+                    location.reload();
+                }
+            }
+        })
+    },
+
+    fn_changeNowYearSet : function (){
+        $.ajax({
+            url: "/projectRnd/getNowYearChangeHist",
+            data : { pjtSn : $("#pjtSn").val() },
+            type : "POST",
+            dataType : "json",
+            success : function (result){
+                var rs = result.data;
+
+                if(rs != null) {
+                    $("#regTxtSpan").show();
+                    $("#nowYearRegEmp").text(rs.REG_EMP_NAME);
+                    $("#nowYearRegDt").text(rs.REG_DE);
+                }
+            }
+        })
+    },
 }

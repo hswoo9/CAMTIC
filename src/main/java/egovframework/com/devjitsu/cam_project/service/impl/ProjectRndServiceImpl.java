@@ -912,8 +912,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void updNowYear(Map<String, Object> params) {
         if(params.get("busnClass").equals("R")) {
             projectRndRepository.updRndNowYear(params);
-        } else {
+        } else if(params.get("busnClass").equals("S")) {
             projectUnRndRepository.updUnRndNowYear(params);
+        } else {
+            projectRepository.updDelvNowYear(params);
         }
 
         projectRndRepository.insChangeNowYearHist(params);

@@ -61,14 +61,21 @@
                     <span class="red-star"></span>의뢰일자
                 </th>
                 <td>
-                    <input type="text" id="delvEstDe" style="width: 90%;">
+                    <input type="text" id="delvEstDe" style="width: 50%;">
                     <input type="hidden" id="befEstDe" />
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납기일
                 </th>
                 <td>
-                    <input type="text" id="delvDe" style="width: 90%;">
+                    <input type="text" id="delvDe" style="width: 50%;">
+                    <div id="chgDiv" style="display: none;">
+                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="delvInfo.fn_updNowYear();">변경</button>
+                        <span id="regTxtSpan" style="color: gray; display: none;"> 마지막 변경 : <span id="nowYearRegEmp"></span> (<span id="nowYearRegDt"></span>) </span>
+                    </div>
+                    <div id="chgDiv2" style="display: none; margin-top: 7px;">
+                        <span style="color: red;">* 결재중 또는 결재완료된 전자결재 양식 내의 사업기간은 변경되지않습니다.</span>
+                    </div>
                 </td>
             </tr>
             <tr style="display:none">

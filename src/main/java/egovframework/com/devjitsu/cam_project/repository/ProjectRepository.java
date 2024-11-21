@@ -933,4 +933,9 @@ public class ProjectRepository extends AbstractDAO {
 
         update("project.setPaySetNextUpd", params);
     }
+
+    public void updDelvNowYear(Map<String, Object> params) {
+
+        update("project.updDelvNowYear", params);
+    }
 }
