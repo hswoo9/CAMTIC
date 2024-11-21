@@ -2061,15 +2061,16 @@
             IFNULL(D.EMP_NAME_KR, '') AS EMP_NAME,
             C.TOT_COST,
             CASE
-                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) = C.TOT_COST THEN '입금완료'
-                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != C.TOT_COST THEN '부분입금'
-                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) = 0 THEN '결재완료'
-                WHEN A.DOC_STATUS IN ('10', '50') AND IFNULL(E.RE_CNT, 0) = 0 THEN '결재완료'
+                WHEN A.DOC_STATUS = '100' THEN '결재완료'
+                WHEN A.DOC_STATUS IN ('10', '20', '50') AND IFNULL(E.RE_CNT, 0) = 0 THEN '결재중'
                 ELSE '작성중'
             END AS DOC_STATUS_TEXT,
             CASE
-                WHEN A.DOC_STATUS != '100' AND A.PAY_EXNP_DE IS NOT NULL THEN '입금예정'
-                WHEN A.DOC_STATUS = '100' THEN '입금완료'
+                WHEN A.DOC_STATUS != '100' THEN '입금대기'
+                WHEN A.DOC_STATUS = '100' AND C.EVID_TYPE_NUM IN ('1', '3', '5') AND IFNULL(E.RE_CNT, 0) = 0 THEN '입금대기'
+                WHEN A.DOC_STATUS = '100' AND C.EVID_TYPE_NUM NOT IN ('1', '3', '5') THEN '입금완료'
+                WHEN A.DOC_STATUS = '100' AND C.EVID_TYPE_NUM IN ('1', '3', '5') AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) = C.TOT_COST THEN '입금완료'
+                WHEN A.DOC_STATUS = '100' AND C.EVID_TYPE_NUM IN ('1', '3', '5') AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != C.TOT_COST THEN '부분입금'
                 ELSE '-'
             END AS INCP_STATUS_TEXT
         FROM
@@ -2080,7 +2081,8 @@
                 PAY_INCP_SN,
                 SUM(TOT_COST) AS TOT_COST,
                 GROUP_CONCAT(DISTINCT CRM_NM) AS CRM_NM,
-                REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(GROUP_CONCAT(DISTINCT IFNULL(EVID_TYPE, '-')), '1', '세금계산서(청구)'), '2', '세금계산서(영수)'), '3', '계산서(청구)'), '4', '계산서(영수)'), '5', '신용카드(과세)'), '6', '신용카드(면세)'), '7', '증빙없음') AS EVID_TYPE
+                REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(GROUP_CONCAT(DISTINCT IFNULL(EVID_TYPE, '-')), '1', '세금계산서(청구)'), '2', '세금계산서(영수)'), '3', '계산서(청구)'), '4', '계산서(영수)'), '5', '신용카드(과세)'), '6', '신용카드(면세)'), '7', '증빙없음') AS EVID_TYPE,
+                EVID_TYPE AS EVID_TYPE_NUM
             FROM CAM_MNG.DJ_PAY_INCP_DET
             GROUP BY PAY_INCP_SN
         ) C ON A.PAY_INCP_SN = C.PAY_INCP_SN
