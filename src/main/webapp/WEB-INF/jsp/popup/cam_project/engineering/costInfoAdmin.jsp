@@ -42,7 +42,7 @@
 <div style="padding: 10px">
 
     <div id="costCloseDiv" style="text-align: right; font-size: 12px;">
-        <button type="button" class="k-button k-button-solid-info" id="costTempBtn" style="display:none" onclick="costInfoPop.openModal();">회계연도 마감</button>
+        <button type="button" class="k-button k-button-solid-info" id="costTempBtn" style="display:none" onclick="costInfoPop.openModal();" disabled >회계연도 마감</button>
         <button type="button" class="k-button k-button-solid-info" id="costCloseBtn" onclick="costInfoAdmin.fn_costInfoClose();" disabled >사업 종료</button>
     </div>
 

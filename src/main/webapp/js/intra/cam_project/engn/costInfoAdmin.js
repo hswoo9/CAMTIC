@@ -42,18 +42,6 @@ var costInfoAdmin = {
             $(".team").show();
             costInfoTeamGrid.teamGrid(list[1].PJT_SN);
         }
-
-        /** 재무성과 관리자만 사업종료 버튼 활성화 */
-        const authUserList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "54"}).rs;
-        for(var i = 0 ; i < authUserList.length ; i++){
-            if(authUserList[i].EMP_SEQ == $("#loginEmpSeq").val()){
-                $("#costCloseBtn").attr("disabled", false);
-                break;
-            }
-        }
-        if($("#loginEmpSeq").val() == "1"){
-            $("#costCloseBtn").attr("disabled", false);
-        }
     },
 
     dataSet: function(){
@@ -62,12 +50,26 @@ var costInfoAdmin = {
         const pjtMap = result.map;
         console.log("프로젝트 데이터", pjtMap);
 
-        // 사업종료버튼 진행 여부
+        /** 사업종료버튼 진행 여부 */
         if(pjtMap.COST_CLOSE_CK == "Y"){
             $("#costCloseBtn").removeClass("k-button-solid-info").addClass("k-button-solid-error");
         }
 
-        // 납품잔액 확인
+        /** 재무성과 관리자만 회계연도마감 및 사업종료 버튼 활성화 */
+        const authUserList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "54"}).rs;
+        for(var i = 0 ; i < authUserList.length ; i++){
+            if(authUserList[i].EMP_SEQ == $("#loginEmpSeq").val()){
+                $("#costTempBtn").attr("disabled", false);
+                $("#costCloseBtn").attr("disabled", false);
+                break;
+            }
+        }
+        if($("#loginEmpSeq").val() == "1"){
+            $("#costTempBtn").attr("disabled", false);
+            $("#costCloseBtn").attr("disabled", false);
+        }
+
+        /** 납품잔액 확인 */
         var gRs = customKendo.fn_customAjax("/cam_achieve/getGoodsLastInfo", {pjtSn: pjtSn});
         costInfoAdmin.global.goodsStat = gRs.data.GOODS_STAT;
 
