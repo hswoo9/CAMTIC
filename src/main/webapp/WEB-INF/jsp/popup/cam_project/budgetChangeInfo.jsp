@@ -123,11 +123,11 @@
 
             for(let i=0; i<arr.length; i++){
                 if(i == 0){
-                    htmlStr += '<input type="radio" name="isType" value="'+firstValue+'" id="'+firstValue+'" checked="checked" onclick="accountChange();" />' +
-                               '<label style="margin-right: 10px;" for="'+firstValue+'">'+arr[i].label+'</label>';
+                    htmlStr += '<input style="cursor:pointer;" type="radio" name="isType" value="'+firstValue+'" id="'+firstValue+'" checked="checked" onclick="accountChange();" />' +
+                               '<label style="margin-right: 10px; cursor:pointer;" for="'+firstValue+'">'+arr[i].label+'</label>';
                 } else {
-                    htmlStr += '<input type="radio" name="isType" value="'+arr[i].value+'" id="'+arr[i].value+'" onclick="accountChange();"/>' +
-                               '<label style="margin-right: 10px;" for="'+arr[i].value+'">'+arr[i].label+'</label>';
+                    htmlStr += '<input style="cursor:pointer;" type="radio" name="isType" value="'+arr[i].value+'" id="'+arr[i].value+'" onclick="accountChange();"/>' +
+                               '<label style="margin-right: 10px; cursor:pointer;" for="'+arr[i].value+'">'+arr[i].label+'</label>';
                 }
             }
 
