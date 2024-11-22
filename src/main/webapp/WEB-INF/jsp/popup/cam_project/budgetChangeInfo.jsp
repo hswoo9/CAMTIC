@@ -7,6 +7,13 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<style>
+    #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+</style>
+
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
@@ -19,6 +26,7 @@
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
     <input type="hidden" id="pjtChSn" name="pjtChSn" value="" />
     <input type="hidden" id="menuCd" name="menuCd" value="pjtChange">
+    <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
     <input type="hidden" id="list" name="list" />
@@ -34,6 +42,16 @@
 </div>
 
 <div id="budgetChangeDialog">
+    <div id='my-spinner'>
+        <div>
+            <span>
+                <img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+            </span>
+        </div>
+    </div>
+
+    <span id="temp1" style="display: flex; justify-content: space-between;"></span>
+    <span id="temp2"></span>
 </div>
 
 <script>
@@ -59,79 +77,148 @@
             left : 400
         },
         open : function (){
-            const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#pjtSn").val()});
-            const map = pjtInfo.rs;
+            const accInfo = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {pjtSn: $("#pjtSn").val()});
+            const accList = accInfo.list;
 
-            const date = new Date();
-            const year = date.getFullYear().toString().substring(2,4);
-            let data = {
-                stat: "project",
-                gisu: "23",
-                fromDate: $("#sbjStrDe").val().replace(/-/g, ""),
-                toDate: $("#sbjEndDe").val().replace(/-/g, ""),
-                mgtSeq: map.PJT_CD,
-                opt01: "3",
-                opt02: "1",
-                opt03: "2",
-                temp: "2",
-                baseDate: $("#sbjStrDe").val().split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
-                pjtSn: $("#pjtSn").val(),
+            let arr = [];
+            let firstValue = "";
+            for(let i=0; i<accList.length; i++){
+                let label = "";
+                if(accList[i].IS_TYPE == "1"){
+                    label = "국비";
+                }else if(accList[i].IS_TYPE == "2"){
+                    label = "도비";
+                }else if(accList[i].IS_TYPE == "3"){
+                    label = "시비";
+                }else if(accList[i].IS_TYPE == "4"){
+                    label = "자부담";
+                }else if(accList[i].IS_TYPE == "5"){
+                    label = "업체부담";
+                }else if(accList[i].IS_TYPE == "9"){
+                    label = "기타";
+                }
+                let data = {
+                    label: label,
+                    value: $("#mgtCd").val().slice(0, -1) + accList[i].IS_TYPE
+                };
+                arr.push(data);
+                if(i == 0){
+                    firstValue = $("#mgtCd").val().slice(0, -1) + accList[i].IS_TYPE;
+                }
             }
-            const g20 = customKendo.fn_customAjax("/g20/getSubjectList", data);
 
-            if(g20.list.length == 0){
-                alert("생성된 예산이 없습니다."); return;
+            if(accList.length == 0){
+                arr = [
+                    {
+                        label: "사업비",
+                        value: $("#mgtCd").val()
+                    }
+                ];
+                firstValue = $("#mgtCd").val();
             }
 
-            var htmlStr =
-                '<div class="mb-10" style="text-align: right;">' +
+            let htmlStr = "";
+
+            htmlStr +='<div>';
+
+            for(let i=0; i<arr.length; i++){
+                if(i == 0){
+                    htmlStr += '<input type="radio" name="isType" value="'+firstValue+'" id="'+firstValue+'" checked="checked" onclick="accountChange();" />' +
+                               '<label style="margin-right: 10px;" for="'+firstValue+'">'+arr[i].label+'</label>';
+                } else {
+                    htmlStr += '<input type="radio" name="isType" value="'+arr[i].value+'" id="'+arr[i].value+'" onclick="accountChange();"/>' +
+                               '<label style="margin-right: 10px;" for="'+arr[i].value+'">'+arr[i].label+'</label>';
+                }
+            }
+
+            htmlStr +='</div><div>' +
                 '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">작성</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#budgetChangeDialog \').data(\'kendoWindow\').close()">닫기</button>' +
-                '</div>' +
-                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
-                '	<colgroup>' +
-                '		<col width="5%">' +
-                '		<col width="20%">' +
-                '		<col width="20%">' +
-                '		<col width="20%">' +
-                '		<col width="20%">' +
-                '	</colgroup>' +
-                '	<thead>';
+                '</div>';
 
-            let largeText = "";
-            let mediumText = "";
-            for(let i=0; i<g20.list.length; i++){
-                const g20Map = g20.list[i];
-                console.log(g20Map);
-                if(g20Map.DIV_FG_NM == "장"){
-                    largeText = g20Map.BGT_NM;
-                }
-                if(g20Map.DIV_FG_NM == "관"){
-                    mediumText = g20Map.BGT_NM;
-                }
-                if(g20Map.DIV_FG_NM == "항"){
-                    htmlStr +=
-                        '		<tr>' +
-                        '			<td>' +
-                        '               <input type="checkbox" class="bgtCd" name="bgtCd" value="'+g20Map.BGT_CD+'" />' +
-                        '			</td>' +
-                        '			<td>' +largeText+'			</td>' +
-                        '			<td>' +mediumText+'			</td>' +
-                        '			<td>' +g20Map.BGT_NM+'			</td>' +
-                        '			<td>' +fn_numberWithCommas(g20Map.CALC_AM)+'			</td>' +
-                        '		</tr>';
-                }
-            }
-            htmlStr +=
-                '	</thead>' +
-                '</table>';
+            $("#temp1").html(htmlStr);
 
-            $("#budgetChangeDialog").html(htmlStr);
+            accountChange();
         },
         close: function () {
-            $("#budgetChangeDialog").empty();
+            $("#temp2").empty();
         }
     });
+
+    function accountChange(){
+        const date = new Date();
+        let data = {
+            stat: "project",
+            gisu: "23",
+            fromDate: $("#sbjStrDe").val().replace(/-/g, ""),
+            toDate: $("#sbjEndDe").val().replace(/-/g, ""),
+            mgtSeq: $("input[name='isType']:checked").val(),
+            opt01: "3",
+            opt02: "1",
+            opt03: "2",
+            temp: "2",
+            baseDate: $("#sbjStrDe").val().split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+            pjtSn: $("#pjtSn").val(),
+        }
+
+        $.ajax({
+            url: "/g20/getSubjectList",
+            data: data,
+            type: "post",
+            dataType: "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success: function(rs) {
+                $("#my-spinner").hide();
+
+                if(rs.list.length == 0){
+                    alert("생성된 예산이 없습니다."); return;
+                }
+
+                var htmlStr2 =
+                    '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                    '	<colgroup>' +
+                    '		<col width="5%">' +
+                    '		<col width="20%">' +
+                    '		<col width="20%">' +
+                    '		<col width="20%">' +
+                    '		<col width="20%">' +
+                    '	</colgroup>' +
+                    '	<thead>';
+
+                let largeText = "";
+                let mediumText = "";
+                for(let i=0; i<rs.list.length; i++){
+                    const g20Map = rs.list[i];
+                    console.log(g20Map);
+                    if(g20Map.DIV_FG_NM == "장"){
+                        largeText = g20Map.BGT_NM;
+                    }
+                    if(g20Map.DIV_FG_NM == "관"){
+                        mediumText = g20Map.BGT_NM;
+                    }
+                    if(g20Map.DIV_FG_NM == "항"){
+                        htmlStr2 +=
+                            '		<tr>' +
+                            '			<td>' +
+                            '               <input type="checkbox" class="bgtCd" name="bgtCd" value="'+g20Map.BGT_CD+'" />' +
+                            '			</td>' +
+                            '			<td>' +largeText+'			</td>' +
+                            '			<td>' +mediumText+'			</td>' +
+                            '			<td>' +g20Map.BGT_NM+'			</td>' +
+                            '			<td>' +fn_numberWithCommas(g20Map.CALC_AM)+'			</td>' +
+                            '		</tr>';
+                    }
+                }
+                htmlStr2 +=
+                    '	</thead>' +
+                    '</table>';
+
+                $("#temp2").html(htmlStr2);
+            },
+        });
+    }
 </script>
 </body>
 </html>

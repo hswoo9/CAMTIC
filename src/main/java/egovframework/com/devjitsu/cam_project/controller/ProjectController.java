@@ -1681,6 +1681,9 @@ public class ProjectController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
+        Map<String, Object> map = projectService.getProjectStep(params);
+        model.addAttribute("data", map);
+
         return "popup/cam_project/budgetChangeInfo";
     }
 
