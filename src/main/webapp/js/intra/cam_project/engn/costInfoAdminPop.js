@@ -6,7 +6,7 @@ var costInfoPop = {
 
     yearEndPop: function(){
         const list = costInfoAdmin.global.allPjtList;
-        const filterList = list.filter(item => item.TEAM_STAT == "N");
+        const filterList = list.filter(item => (item.TEAM_STAT == "N" || item.TEAM_STAT == "Y"));
         const uniqueYear = [...new Set(filterList.map(item => item.YEAR))];
 
         let yearSetList = [];

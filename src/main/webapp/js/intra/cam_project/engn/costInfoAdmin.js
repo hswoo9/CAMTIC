@@ -85,11 +85,12 @@ var costInfoAdmin = {
         costInfoAdmin.step1(pjtMap);
 
         /** 전체년도 재무실적내역 */
+        costInfoAdmin.step2(pjtMap);
         if(commonProject.global.teamStat == "Y"){
             $(".notTeam").hide();
-        }else{
+        }/*else{
             costInfoAdmin.step2(pjtMap);
-        }
+        }*/
 
         /** 재무실적내역 */
         costInfoAdmin.step3(pjtMap);
