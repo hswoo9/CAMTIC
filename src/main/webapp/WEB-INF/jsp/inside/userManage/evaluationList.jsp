@@ -7,8 +7,8 @@
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationList.js?v=${today}"/></script>
 
 <style>
-    .pink{background-color: #eee0d9;font-weight: bold;text-align: center;}
-    .yellow{background-color: #ffffdd;font-weight: bold;text-align: center;}
+    .pink{background-color: #fce4d6;font-weight: bold;text-align: center;}
+    .yellow{background-color: #fff2cc;font-weight: bold;text-align: center;}
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>

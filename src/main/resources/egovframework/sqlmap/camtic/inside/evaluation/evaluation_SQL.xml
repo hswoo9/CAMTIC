@@ -1330,4 +1330,20 @@
             </if>
         ) SUB
     </select>
+
+    <select id="getEvalEmpList" parameterType="map" resultType="map">
+        /*getEvalEmpList*/
+        SELECT
+            EMP_NAME_KR,
+            EMP_SEQ
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            A.DEPT_SEQ = #{deptSeq}
+        AND
+            A.ACTIVE = 'Y'
+        AND
+            A.DUTY_CODE NOT IN ('5')
+    </select>
+
 </mapper>

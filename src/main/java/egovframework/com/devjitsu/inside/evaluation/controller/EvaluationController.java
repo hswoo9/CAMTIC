@@ -43,6 +43,49 @@ public class EvaluationController {
         return "inside/userManage/evaluationReq";
     }
 
+    //업적평가 등록
+    @RequestMapping("/Inside/evaluationPerReq.do")
+    public String evaluationPerReq(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
+        return "inside/userManage/evaluationPerReq";
+    }
+
+    //업적평가 개인 목표 설정
+    @RequestMapping("/Inside/pop/evalReqPop.do")
+    public String evalReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/evalReqPop";
+    }
+
+    //개인업적평가 점수 산출
+    @RequestMapping("/Inside/pop/evalScorePop.do")
+    public String evalScorePop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/evalScorePop";
+    }
+
+
+    @RequestMapping("/evaluation/getEvalEmpList")
+    public String getEvalEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("list", evaluationService.getEvalEmpList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/evaluation/getEvaluationOne")
     public String getEvaluationOne(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         model.addAttribute("data", evaluationService.getEvaluationOne(params));
