@@ -215,9 +215,58 @@ var costCalc = {
         let amt = 0;
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            /** 사업종료 유무 */
-            if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR && e.COST_CLOSE_CK == "Y"){
-                asrAmt = e.goodsTotAmt;
+            /** 수주년도/차년도 구분 */
+            if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
+                /** 사업종료 유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        asrAmt = costCalc.nowPjtAmt(e);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            asrAmt = costCalc.nowPjtAmt(e);
+                        } else {
+                            asrAmt = e.goodsTotAmt;
+                        }
+                    }
+                }else{
+                    asrAmt = 0;
+                }
+            }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
+                /** 사업종료 유무 */
+                if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        asrAmt = costCalc.nowPjtAmt(e);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            asrAmt = costCalc.nowPjtAmt(e);
+                        } else {
+                            asrAmt = e.goodsTotAmt;
+                        }
+                    }
+                }else{
+                    asrAmt = 0;
+                }
+            }else{
+                /** 회계 마감 유무 */
+                if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        asrAmt = costCalc.nowPjtAmt(e);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            asrAmt = costCalc.nowPjtAmt(e);
+                        } else {
+                            asrAmt = 0;
+                        }
+                    }
+                }else{
+                    asrAmt = 0;
+                }
             }
         }else{
             /** 수주년도/차년도 구분 */
@@ -388,13 +437,13 @@ var costCalc = {
                 }else{
                     /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
-                        devAmt = costCalc.nowPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
+                        devAmt = costCalc.nowPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
                     } else {
                         /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
-                            devAmt = costCalc.nowPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
+                            devAmt = costCalc.nowPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
                         } else {
-                            devAmt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
+                            devAmt = costCalc.allPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
                         }
                     }
                 }
@@ -476,17 +525,17 @@ var costCalc = {
                 }else{
                     /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
-                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
                     } else {
                         /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
-                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
                         } else {
                             /** 전년도 회계 마감 여부 */
                             if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y") {
                                 eopAmt = 0;
                             } else {
-                                eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                                eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
                             }
                         }
                     }
