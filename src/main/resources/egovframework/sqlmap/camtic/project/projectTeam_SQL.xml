@@ -54,19 +54,32 @@
                 FROM CAM_PJT_MNG.DJ_PJT_TEAM A
                     LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION B
                         ON A.PJT_SN = B.PJT_SN AND A.TEAM_VERSION_SN = B.TEAM_VERSION_SN
-                WHERE A.PJT_SN = #{pjtSn}
+                WHERE 1=1
                     AND A.ACTIVE = 'Y'
                     AND A.TM_TYPE = 1
-                    AND A.TEAM_VERSION_SN = #{teamVersionSn}
-                ) AS TM_AMT_SUM
+                    <if test='tmSn != null and !"".equals(tmSn)'>
+                        AND A.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn})
+                    </if>
+                    <if test='tmSn == null or "".equals(tmSn)'>
+                        AND A.PJT_SN = #{pjtSn}
+                        AND A.TEAM_VERSION_SN = #{teamVersionSn}
+                    </if>
+                ) AS TM_AMT_SUM -- 협업부서 배분금액 합계
             FROM CAM_PJT_MNG.DJ_PROJECT A
                 LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM B ON A.PJT_SN = B.PJT_SN
                 LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION C ON B.PJT_SN = C.PJT_SN AND B.TEAM_VERSION_SN = C.TEAM_VERSION_SN
-            WHERE A.PJT_SN = #{pjtSn}
+            WHERE 1=1
                 AND B.ACTIVE = 'Y'
-                AND B.TEAM_VERSION_SN = #{teamVersionSn}
+                <if test='tmSn != null and !"".equals(tmSn)'>
+                    AND B.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn})
+                </if>
+                <if test='tmSn == null or "".equals(tmSn)'>
+                    AND A.PJT_SN = #{pjtSn}
+                    AND B.TEAM_VERSION_SN = #{teamVersionSn}
+                </if>
             ) AA
         ) AAA
+        WHERE 1=1
     </select>
 
     <select id="getTeamDetailList" parameterType="map" resultType="map">
