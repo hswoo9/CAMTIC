@@ -17,6 +17,10 @@ public class ProjectTeamRepository extends AbstractDAO {
         return selectList("projectTeam.getTeamList", params);
     }
 
+    public List<Map<String, Object>> getTeamList2(Map<String, Object> params) {
+        return selectList("projectTeam.getTeamList2", params);
+    }
+
     public List<Map<String, Object>> getTeamMngList(Map<String, Object> params) {
         return selectList("projectTeam.getTeamMngList", params);
     }

@@ -31,6 +31,44 @@
         </if>
     </select>
 
+    <select id="getTeamList2" parameterType="map" resultType="map">
+        /*getTeamList2*/
+        SELECT
+            AAA.*,
+            AAA.TM_AMT2 - AAA.TM_INV_AMT AS TM_EXP_AMT,
+            DATE_FORMAT(AAA.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM (
+            SELECT
+                AA.*,
+                IF(AA.TM_TYPE = 0, AA.PJT_AMT - AA.TM_AMT_SUM, AA.TM_AMT) AS TM_AMT2
+            FROM (
+                SELECT A.PJT_STEP,
+                CASE
+                    WHEN A.PJT_STEP <![CDATA[<]]> 'E3' THEN ( SELECT DELV_AMT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = A.PJT_SN ORDER BY DELV_SN DESC LIMIT 1)
+                    WHEN A.PJT_STEP <![CDATA[>=]]> 'E3' THEN A.PJT_AMT
+                    ELSE A.PJT_EXP_AMT
+                END AS PJT_AMT,
+                B.*,
+                (SELECT
+                    IFNULL(SUM(TM_AMT),0)
+                FROM CAM_PJT_MNG.DJ_PJT_TEAM A
+                    LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION B
+                        ON A.PJT_SN = B.PJT_SN AND A.TEAM_VERSION_SN = B.TEAM_VERSION_SN
+                WHERE A.PJT_SN = #{pjtSn}
+                    AND A.ACTIVE = 'Y'
+                    AND A.TM_TYPE = 1
+                    AND A.TEAM_VERSION_SN = #{teamVersionSn}
+                ) AS TM_AMT_SUM
+            FROM CAM_PJT_MNG.DJ_PROJECT A
+                LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM B ON A.PJT_SN = B.PJT_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION C ON B.PJT_SN = C.PJT_SN AND B.TEAM_VERSION_SN = C.TEAM_VERSION_SN
+            WHERE A.PJT_SN = #{pjtSn}
+                AND B.ACTIVE = 'Y'
+                AND B.TEAM_VERSION_SN = #{teamVersionSn}
+            ) AA
+        ) AAA
+    </select>
+
     <select id="getTeamDetailList" parameterType="map" resultType="map">
         /* getTeamDetailList */
         SELECT

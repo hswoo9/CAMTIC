@@ -45,6 +45,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamList2(Map<String, Object> params) {
+        return projectTeamRepository.getTeamList2(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTeamMngList(Map<String, Object> params) {
         return projectTeamRepository.getTeamMngList(params);
     }

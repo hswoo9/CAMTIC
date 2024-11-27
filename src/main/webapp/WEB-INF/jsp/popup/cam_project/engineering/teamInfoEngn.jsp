@@ -42,9 +42,10 @@
                 <th>수행팀</th>
                 <th>등록일</th>
                 <th>협업예산</th>
-                <th>배분비율</th>
+                <th>매출배분율</th>
                 <th>예상비용</th>
                 <th>예상수익</th>
+                <th>수익배분율</th>
                 <th>협업보고서</th>
             </tr>
             </thead>
@@ -55,13 +56,14 @@
     <div class="table-responsive detail" style="display: none">
         <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
             <colgroup>
+                <col width="4%">
                 <col width="5%">
-                <col width="5%">
-                <col width="21%">
+                <col width="16%">
                 <col width="10%">
                 <col width="10%">
                 <col width="10%">
                 <col width="7%">
+                <col width="10%">
                 <col width="10%">
                 <col width="7%">
                 <col width="5%">
@@ -75,9 +77,10 @@
                 <th>담당자</th>
                 <th>총예산</th>
                 <th>배분금액(매출)</th>
-                <th>배분비율</th>
+                <th>매출배분율</th>
                 <th>예상비용</th>
                 <th>예상수익</th>
+                <th>수익배분율</th>
                 <th>PM</th>
                 <th>팀장</th>
             </tr>

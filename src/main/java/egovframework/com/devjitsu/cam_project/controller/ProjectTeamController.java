@@ -157,6 +157,21 @@ public class ProjectTeamController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/team/getTeamList2")
+    public String getTeamList2(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectTeamService.getTeamList2(params);
+        model.addAttribute("list", list);
+
+        long expAmtSum = 0;
+        for(Map<String, Object> map : list){
+            expAmtSum += Long.parseLong(map.get("TM_EXP_AMT").toString());
+        }
+
+        model.addAttribute("expAmtSum", expAmtSum);
+
+        return "jsonView";
+    }
+
     /** 프로젝트 협업 승인요청 리스트 */
     @RequestMapping("/project/team/getTeamMngList")
     public String getTeamMngList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

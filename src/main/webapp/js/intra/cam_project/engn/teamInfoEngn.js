@@ -45,6 +45,7 @@ var teamEngn = {
                 html += '    <td style="text-align: center">-</td>';
                 html += '    <td style="text-align: center">-</td>';
                 html += '    <td style="text-align: center">-</td>';
+                html += '    <td style="text-align: center">-</td>';
                 html += '</tr>';
             }else{
                 const teamVersionSn = verMap.TEAM_VERSION_SN;
@@ -53,8 +54,9 @@ var teamEngn = {
                     pjtSn: $("#pjtSn").val(),
                     teamVersionSn: teamVersionSn
                 }
-                const teamList = customKendo.fn_customAjax("/project/team/getTeamList", data).list;
-                const myMap = teamList[0];
+                const teamList = customKendo.fn_customAjax("/project/team/getTeamList2", data);
+                const myMap = teamList.list[0];
+                const expAmtSum = teamList.expAmtSum;
                 const leftResult = customKendo.fn_customAjax("/project/team/getVerLeftAmt", data);
                 const leftMap = leftResult.data;
 
@@ -63,44 +65,55 @@ var teamEngn = {
                 /** 협업 예산 */
                 const leftAmt = leftMap.TM_AMT_SUM;
                 /** 자가 배분금액 */
-                const myAmt = Number(delvAmt) - Number(leftAmt);
-                /** 자가 배분비율 */
-                const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
-                /** 자가 예상수익 */
-                const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(delvAmt) * 100)) + "%";
+                const myAmt = myMap.TM_AMT2;
+                /** 자가 매출배분율 */
+                const myPer = Math.round((Number(myAmt) / Number(delvAmt) * 100) * 10) / 10 + "%";
+
+                /** 자가 수익배분율 */
+                let myIncomePer;
+
+                if(myAmt == 0){
+                    myIncomePer = 0 + "%";
+                }else{
+                    myIncomePer = Math.round(Number(myMap.TM_EXP_AMT / uncomma(expAmtSum) * 100) * 10) / 10 + "%";
+                }
 
                 html += '<tr>';
-                html += '    <td rowspan="'+teamList.length+'" style="text-align: center"><span style="font-weight: bold; cursor: pointer" onclick="teamEngn.fn_versionSet('+verMap.TEAM_VERSION_SN+');">Ver.'+(i+1)+'</span></td>';
-                html += '    <td rowspan="'+teamList.length+'">'+pjtMap.PJT_NM+'</td>';
-                html += '    <td rowspan="'+teamList.length+'" id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
-                html += '    <td rowspan="'+teamList.length+'" style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
-                html += '    <td rowspan="'+teamList.length+'" style="text-align: center">'+verMap.REG_DATE+'</td>';
+                html += '    <td rowspan="'+teamList.list.length+'" style="text-align: center"><span style="font-weight: bold; cursor: pointer" onclick="teamEngn.fn_versionSet('+verMap.TEAM_VERSION_SN+');">Ver.'+(i+1)+'</span></td>';
+                html += '    <td rowspan="'+teamList.list.length+'">'+pjtMap.PJT_NM+'</td>';
+                html += '    <td rowspan="'+teamList.list.length+'" id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
+                html += '    <td rowspan="'+teamList.list.length+'" style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
+                html += '    <td rowspan="'+teamList.list.length+'" style="text-align: center">'+verMap.REG_DATE+'</td>';
                 /** 배분금액(매출) */
                 html += '    <td style="text-align: right"><span>'+comma(myAmt)+'</span></td>';
-                /** 배분비율 */
+                /** 매출배분율 */
                 html += '    <td style="text-align: right"><span>'+myPer+'</span></td>';
                 /** 예상비용 */
                 html += '    <td style="text-align: right">'+comma(myMap.TM_INV_AMT)+'</td>';
-                /** 예상수익 */
+                /** 예상수익 = 배분금액(매출) - 예상비용 */
+                html += '    <td style="text-align: right">'+comma(Number(myAmt) - Number(myMap.TM_INV_AMT))+'</td>';
+                /** 수익배분율 */
                 html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'">'+myIncomePer+'</span></td>';
                 html += '    <td style="text-align: center">-</td>';
                 html += '</tr>';
 
                 /** 협업 정보 */
-                for(let i=1; i<teamList.length; i++){
-                    const teamMap = teamList[i];
+                for(let i=1; i<teamList.list.length; i++){
+                    const teamMap = teamList.list[i];
                     html += '<tr>';
                     /** 배분금액(매출) */
                     html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(teamMap.TM_AMT)+'</span></td>';
-                    const teamAmt = teamMap.TM_AMT;
-                    const teamPer = (100 - Math.round(100 - Number(teamAmt) / Number(delvAmt) * 100)) + "%";
-                    /** 배분비율 */
+                    const teamAmt = teamMap.TM_AMT2;
+                    const teamPer = Math.round((Number(teamAmt) / Number(delvAmt) * 100) * 10) / 10 + "%";
+                    /** 매출배분율 */
                     html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+teamPer+'</span></td>';
                     /** 예상비용 */
                     html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(teamMap.TM_INV_AMT)+'</span></td>';
                     const teamInvAmt = teamMap.TM_INV_AMT;
-                    const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
-                    /** 예상수익 */
+                    const teamIncomePer = Math.round((Number(teamMap.TM_EXP_AMT) / Number(expAmtSum) * 100) * 10) / 10 + "%";
+                    /** 예상수익 = 배분금액(매출) - 예상비용 */
+                    html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT))+'</span></td>';
+                    /** 수익배분율 */
                     html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+teamIncomePer+'</span></td>';
                     html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="teamEngn.teamPrintPop('+verMap.TEAM_VERSION_SN+', '+teamMap.TM_SN+')">협업보고서</button></td>';
                     html += '</tr>';
@@ -130,9 +143,10 @@ var teamEngn = {
             "                <th>담당자</th>\n" +
             "                <th>총예산</th>\n" +
             "                <th>배분금액(매출)</th>\n" +
-            "                <th>배분비율</th>\n" +
+            "                <th>매출배분율</th>\n" +
             "                <th>예상비용</th>\n" +
             "                <th>예상수익</th>\n" +
+            "                <th>수익배분율</th>\n" +
             "                <th>PM</th>\n" +
             "                <th>팀장</th>\n" +
             "            </tr>");
@@ -157,8 +171,9 @@ var teamEngn = {
             pjtSn: $("#pjtSn").val(),
             teamVersionSn: teamVersionSn
         }
-        const teamList = customKendo.fn_customAjax("/project/team/getTeamList", data).list;
-        const myMap = teamList[0];
+        const teamList = customKendo.fn_customAjax("/project/team/getTeamList2", data);
+        const myMap = teamList.list[0];
+        const expAmtSum = teamList.expAmtSum;
         const leftResult = customKendo.fn_customAjax("/project/team/getVerLeftAmt", data);
         const leftMap = leftResult.data;
 
@@ -169,18 +184,18 @@ var teamEngn = {
         const leftAmt = leftMap.TM_AMT_SUM;
 
         /** 자가 배분금액 */
-        const myAmt = Number(delvAmt) - Number(leftAmt);
+        const myAmt = myMap.TM_AMT2;
 
-        /** 자가 배분비율 */
-        const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
+        /** 자가 매출배분율 */
+        const myPer = Math.round(((Number(myAmt) / Number(delvAmt)) * 100) * 10) / 10 + "%";
 
-        /** 자가 예상수익 */
+        /** 자가 수익배분율 */
         let myIncomePer;
 
         if(myAmt == 0){
             myIncomePer = 0 + "%";
         }else{
-            myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
+            myIncomePer = Math.round(Number(myMap.TM_EXP_AMT / uncomma(expAmtSum) * 100) * 10) / 10 + "%";
         }
 
         $("#myTmSn").val(myMap.TM_SN);
@@ -201,11 +216,13 @@ var teamEngn = {
         html += '    <td style="text-align: right"><span id="nowTotalAmt'+myMap.TM_SN+'" style="position: relative; top: 5px">'+comma(delvAmt)+'</td>';
         /** 배분금액(매출) */
         html += '    <td style="text-align: right"><span id="nowAmt'+myMap.TM_SN+'" style="position: relative; top: 5px">'+comma(myAmt)+'</span></td>';
-        /** 배분비율 */
+        /** 매출배분율 */
         html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+myPer+'</span></td>';
         /** 예상비용 */
         html += '    <td style="text-align: right"><input id="myInvAmt_'+myMap.TM_SN+'" class="myInvAmt" style="text-align: right; width: 150px" onkeyup="teamEngn.fn_calCost(this)" oninput="onlyNumber(this)" value="'+comma(myMap.TM_INV_AMT)+'"/></td>';
-        /** 예상수익 */
+        /** 예상수익 = 배분금액(매출) - 예상비용 */
+        html += '    <td style="text-align: right">'+comma(Number(myAmt) - Number(myMap.TM_INV_AMT))+'</td>';
+        /** 수익배분율 */
         html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'" style="position: relative; top: 5px">'+myIncomePer+'</span></td>';
         /** PM */
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">승인</span></td>';
@@ -217,8 +234,8 @@ var teamEngn = {
         customKendo.fn_textBox(["myInvAmt_"+myMap.TM_SN]);
 
         /** 협업 정보 */
-        for(let i=1; i<teamList.length; i++){
-            const teamMap = teamList[i];
+        for(let i=1; i<teamList.list.length; i++){
+            const teamMap = teamList.list[i];
             html = '';
             html += '<tr>';
 
@@ -239,15 +256,17 @@ var teamEngn = {
             /** 배분금액(매출) */
             html += '    <td style="text-align: right"><span>'+comma(teamMap.TM_AMT)+'</span></td>';
             const delvAmt = uncomma($("#totalAmt"+teamVersionSn).text());
-            const teamAmt = teamMap.TM_AMT;
-            const teamPer = (100 - Math.round(100 - Number(teamAmt) / Number(delvAmt) * 100)) + "%";
-            /** 배분비율 */
+            const teamAmt = teamMap.TM_AMT2;
+            const teamPer = Math.round((Number(teamAmt) / Number(delvAmt) * 100) * 10) / 10 + "%";
+            /** 매출배분율 */
             html += '    <td style="text-align: right"><span>'+teamPer+'</span></td>';
             /** 예상비용 */
             html += '    <td style="text-align: right"><span>'+comma(teamMap.TM_INV_AMT)+'</span></td>';
             const teamInvAmt = teamMap.TM_INV_AMT;
-            const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
-            /** 예상수익 */
+            const teamIncomePer = Math.round((Number(teamMap.TM_EXP_AMT) / Number(expAmtSum) * 100) * 10) / 10 + "%";
+            /** 예상수익 = 배분금액(매출) - 예상비용 */
+            html += '    <td style="text-align: right"><span>'+comma(Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT))+'</span></td>';
+            /** 수익배분율 */
             html += '    <td style="text-align: right"><span>'+teamIncomePer+'</span></td>';
             /** PM */
             html += '    <td style="text-align: center"><span>'+(teamMap.PM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
