@@ -78,7 +78,7 @@ var regRnd = {
 
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
-                {name: "정산서", url: tab13Url},
+                {name: "정산서", url: tab16Url},
                 {name: "장비", url: tab17Url}
             ]
         } else {
