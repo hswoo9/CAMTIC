@@ -3934,24 +3934,44 @@
 
 <!--    년도별 직급 현황-->
     <select id="getPositionNameByYear" parameterType="map" resultType="map">
+    <![CDATA[
         SELECT
-            COUNT(DISTINCT HEI.EMP_SEQ) AS emp_count,
-            SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1) AS position_name,
-            LEFT(HAI.HISTORY_DT, 4) AS join_year
+            COUNT(DISTINCT CASE
+            WHEN A.resign_year IS NULL OR A.resign_year >= B.join_year THEN A.EMP_SEQ
+            ELSE NULL
+            END) AS emp_count,
+            SUBSTRING_INDEX(A.AF_POSITION_NAME, ' /', 1) AS position_name,
+            B.join_year
         FROM
+            (
+            SELECT
+            HEI.EMP_SEQ,
+            HEI.EMP_NAME_KR,
+            HAI.AF_POSITION_NAME,
+            LEFT(HAI.HISTORY_DT, 4) AS join_year,
+            CASE
+            WHEN HEI.RESIGN_DAY IS NULL THEN NULL
+            WHEN LEFT(HEI.RESIGN_DAY, 4) >= LEFT(HAI.HISTORY_DT, 4) THEN LEFT(HEI.RESIGN_DAY, 4)
+            ELSE NULL
+            END AS resign_year
+            FROM
             CAM_HR.DJ_APNT_INFO HAI
-        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
-        WHERE
+            LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+            WHERE
             1=1
-        <if test='arr != null and !"".equals(arr)'>
-            AND
-            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
-                ${item}
-            </foreach>
-        </if>
-        AND HEI.TEMP_DIVISION != 'Y'
-        GROUP BY LEFT(HAI.HISTORY_DT, 4), SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1)
-        ORDER BY LEFT(HAI.HISTORY_DT, 4) DESC
+            AND HEI.TEMP_DIVISION != 'Y'
+            AND LEFT(HAI.HISTORY_DT, 4) > '2018'
+            )A
+        JOIN (
+            SELECT DISTINCT LEFT(HAI.HISTORY_DT, 4) AS join_year
+            FROM CAM_HR.DJ_APNT_INFO HAI
+            WHERE LEFT(HAI.HISTORY_DT, 4) > '2018'
+        ) B
+        WHERE A.join_year <= B.join_year
+        GROUP BY B.join_year, position_name
+        ORDER BY join_year DESC;
+    ]]>
     </select>
 
     <select id="getPositionListByYear" parameterType="map" resultType="map">
@@ -3973,7 +3993,10 @@
         LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-            LEFT(HAI.HISTORY_DT, 4) = #{year}
+        <![CDATA[
+            LEFT(HAI.HISTORY_DT, 4) <= #{year}
+        AND (LEFT(HEI.RESIGN_DAY, 4) >= #{year} OR HEI.RESIGN_DAY IS NULL OR HEI.RESIGN_DAY = '' )
+        ]]>
         AND HEI.TEMP_DIVISION != 'Y'
         AND SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1) = #{positionName}
         <if test='arr != null and !"".equals(arr)'>
