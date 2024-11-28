@@ -387,7 +387,7 @@ var engnInit = {
             for(let i=0; i<resPurcList.length; i++){
                 const resPurcMap = resPurcList[i];
                 if(resPurcMap.ORG_YN == "N"){
-                    if(map.busnClass == "D" || map.busnClass == "V"){
+                    if(map.BUSN_CLASS == "D" || map.BUSN_CLASS == "V"){
                         resInvSum += Number(resPurcMap.PURC_SUP_AMT);
                     }else{
                         resInvSum += Number(resPurcMap.PURC_SUP_AMT);
@@ -397,14 +397,14 @@ var engnInit = {
                     let amt2 = Math.round(amt/10);
                     let itemAmt = 0;
 
-                    if(map.busnClass == "D" || map.busnClass == "V"){
+                    if(map.BUSN_CLASS == "D" || map.BUSN_CLASS == "V"){
                         itemAmt = amt;
                     }else{
-                        if(map.TAX_GUBUN == "3"){           // 부가세 미포함 (비과세)
+                        if(resPurcMap.InTax == "0"){     // 부가세 미포함
                             itemAmt = amt + amt2;
-                        }else if(map.TAX_GUBUN == "1"){     // 부가세 포함 (과세)
+                        }else if(resPurcMap.InTax == "1"){  // 부가세 포함
                             itemAmt = amt;
-                        }else if(map.TAX_GUBUN == "2"){     // 면세
+                        }else if(resPurcMap.InTax == "2"){ // 면세
                             itemAmt = amt;
                         }
                     }

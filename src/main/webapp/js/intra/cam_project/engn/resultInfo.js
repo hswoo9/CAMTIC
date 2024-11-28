@@ -110,11 +110,11 @@ var resultInfo = {
                     if(commonProject.global.busnClass == "D" || commonProject.global.busnClass == "V"){
                         itemAmt = amt;
                     }else{
-                        if(map.TAX_GUBUN == "3"){           // 부가세 미포함 = 비과세
+                        if(resPurcMap.InTax == "0"){     // 부가세 미포함
                             itemAmt = amt + amt2;
-                        } else if(map.TAX_GUBUN == "1"){    // 부가세 포함 = 과세
+                        } else if(resPurcMap.InTax == "1"){  // 부가세 포함
                             itemAmt = amt;
-                        } else  if(map.TAX_GUBUN == "2"){   // 면세
+                        } else  if(resPurcMap.InTax == "2"){ // 면세
                             itemAmt = amt;
                         }
                     }
