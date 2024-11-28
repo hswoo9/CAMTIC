@@ -1220,15 +1220,15 @@
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
         <choose>
             <when test='befYear != null and !"".equals(befYear) and "Y".equals(befYear)'>
-                AND YEAR(PA.PAY_EXNP_DE) <![CDATA[<]]> #{reqYear}
+                AND YEAR(PA.REQ_DE) <![CDATA[<]]> #{reqYear}
             </when>
             <otherwise>
-                AND YEAR(PA.PAY_EXNP_DE) = #{reqYear}
+                AND YEAR(PA.REQ_DE) = #{reqYear}
             </otherwise>
         </choose>
         <if test='costCloseDt != null and !"".equals(costCloseDt)'>
         <![CDATA[
-            AND PA.PAY_EXNP_DE <= #{costCloseDt}
+            AND PA.REQ_DE <= #{costCloseDt}
         ]]>
         </if>
     </select>
@@ -1491,7 +1491,7 @@
     </select>
 
     <select id="getRealUseExnpAllAmt" parameterType="map" resultType="map">
-        /*getRealUseExnpAmt*/
+        /*getRealUseExnpAllAmt*/
         SELECT
             IFNULL(SUM((SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y')), 0) AS COST_SUM
         FROM

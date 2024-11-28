@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_achieve.controller;
 
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.cam_project.service.ProjectTeamService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.dept.service.DeptService;
@@ -32,6 +33,9 @@ public class AchieveController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private ProjectTeamService projectTeamService;
 
     @Autowired
     private G20Service g20Service;
@@ -190,11 +194,51 @@ public class AchieveController {
             if(map.containsKey("PNT_TM_SN")) {
                 params.put("tmSn", map.get("PNT_TM_SN"));
                 map.put("DEV_INV_AMT", achieveService.getPjtTeamInvAmt(params));
+
+                List<Map<String, Object>> pjtTeamList = projectTeamService.getTeamList2(params);
+
+                double teamAmt = 0;         // 배분금액
+                double pjtAmt = 0;          // 총사업비
+                double teamExpAmtSum = 0;   // 예상수익 총합
+                double teamExpAmt = 0;      // 예상수익
+                for(Map<String, Object> pjtTeamInfo : pjtTeamList) {
+                    teamExpAmtSum += Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+
+                    if(pjtTeamInfo.get("TM_SN").toString().equals(map.get("PNT_TM_SN").toString())) {
+                        teamAmt = Double.parseDouble(pjtTeamInfo.get("TM_AMT2").toString());
+                        pjtAmt = Double.parseDouble(pjtTeamInfo.get("PJT_AMT").toString());
+                        teamExpAmt = Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+                    }
+                }
+
+                map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
+                map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
+                map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
             }
 
             if(map.containsKey("TM_SN")) {
                 params.put("tmSn", map.get("TM_SN"));
                 map.put("DEV_INV_AMT", achieveService.getPjtTeamInvAmt(params));
+
+                List<Map<String, Object>> pjtTeamList = projectTeamService.getTeamList2(params);
+
+                double teamAmt = 0;         // 배분금액
+                double pjtAmt = 0;          // 총사업비
+                double teamExpAmtSum = 0;   // 예상수익 총합
+                double teamExpAmt = 0;      // 예상수익
+                for(Map<String, Object> pjtTeamInfo : pjtTeamList) {
+                    teamExpAmtSum += Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+
+                    if(pjtTeamInfo.get("TM_SN").toString().equals(map.get("TM_SN").toString())) {
+                        teamAmt = Double.parseDouble(pjtTeamInfo.get("TM_AMT2").toString());
+                        pjtAmt = Double.parseDouble(pjtTeamInfo.get("PJT_AMT").toString());
+                        teamExpAmt = Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+                    }
+                }
+
+                map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
+                map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
+                map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
@@ -351,7 +395,7 @@ public class AchieveController {
                 try {
                     String yearStr = map.get("YEAR").toString();
                     int year = Integer.parseInt(yearStr);
-//                    params.put("reqYear", year - 1);
+                    params.put("reqYear", year);
                     params.put("befYear", "Y");
 
                     Map<String, Object> befRealUseMap2 = achieveService.getRealUseExnpAmt(params);
