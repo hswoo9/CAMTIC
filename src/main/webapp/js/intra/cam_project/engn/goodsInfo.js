@@ -5,6 +5,8 @@ var goodsInfo = {
         estExpAmt : 0,
         goodsSn : "",
         goodsStat : "",
+
+        estSubList : [],
     },
 
     fn_defaultScript : function (){
@@ -66,6 +68,8 @@ var goodsInfo = {
 
 
         var estSubList = rs.result.estSubList;
+
+        goodsInfo.global.estSubList = estSubList;
 
         var data = {
             pjtSn : $("#pjtSn").val(),
@@ -446,6 +450,55 @@ var goodsInfo = {
         $(".goodsProdEtc").removeClass("k-disabled").val("");
 
         $(".goodsTr").remove();
+
+        // 견적관리 상세 데이터 기본 세팅
+        var estSubList = goodsInfo.global.estSubList;
+
+        if(estSubList.length > 0){
+            for(var idx = 0 ; idx < estSubList.length ; idx++){
+                var html = "";
+                var etc = ""
+                if(estSubList[idx].ETC != null && estSubList[idx].ETC != ""){
+                    etc = estSubList[idx].ETC;
+                }
+
+                html += '<tr id="tr'+(idx+1)+'" class="goodsTr">';
+                html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+(idx+1)+'</span></td>';
+                html += '   <td><input type="text" class="goodsProdNm" id="goodsProdNm'+(idx+1)+'" value="'+estSubList[idx].PROD_NM+'"/></td>';
+                html += '   <td><input type="text" class="goodsProdCnt" id="goodsProdCnt'+(idx+1)+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].PROD_CNT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+                html += '   <td><input type="text" class="goodsUnit" id="goodsUnit'+(idx+1)+'" value="'+estSubList[idx].UNIT+'"/></td>';
+                html += '   <td><input type="text" class="goodsUnitAmt" id="goodsUnitAmt'+(idx+1)+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].UNIT_AMT)+'" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+                html += '   <td><input type="text" class="goodsSupAmt" id="goodsSupAmt'+(idx+1)+'" style="text-align: right;" disabled onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].SUP_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+                html += '   <td><input type="text" class="goodsProdEtc" id="goodsProdEtc'+(idx+1)+'" value="'+etc+'" /></td>';
+                html += '   <td style="text-align: center">';
+                html += '       <button type="button" id="delBtn" onclick="goodsInfo.fn_delRow('+(idx+1)+')" class="k-button k-button-solid-error">삭제</button>';
+                html += '   </td>';
+                html += '</tr>';
+
+                $("#goodsProductTb").append(html);
+
+                $("#goodsProdNm" + (idx+1) + ", #goodsProdCnt" + (idx+1) + ", #goodsUnit" + (idx+1) + ", #goodsUnitAmt" + (idx+1) + ", #goodsSupAmt" + (idx+1) + ", #goodsProdEtc" + (idx+1) + "").kendoTextBox();
+            }
+        }
+
+        goodsInfo.global.totAmt = 0;
+        $("#goodsProductTb > tr").each(function (idx){
+            goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+            // 견적가 합계 구하기
+            $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
+
+            $("#goodsProdCnt" + idx + ", #goodsUnitAmt" + idx).on("keyup", function(){
+                $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncomma($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
+
+                goodsInfo.global.totAmt = 0;
+                $("#goodsProductTb > tr").each(function (idx){
+                    goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                    // 견적가 합계 구하기
+                    $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
+                });
+            });
+        });
+
     },
 
     fn_goodsList : function(list){
