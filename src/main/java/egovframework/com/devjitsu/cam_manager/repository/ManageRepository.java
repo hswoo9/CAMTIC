@@ -201,4 +201,9 @@ public class ManageRepository extends AbstractDAO {
 
         return selectList("manage.getProjectBudgetStatusList", params);
     }
+
+    public Map<String, Object> getIncpExnpAmtCondition(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("manage.getIncpExnpAmtCondition", params);
+    }
 }

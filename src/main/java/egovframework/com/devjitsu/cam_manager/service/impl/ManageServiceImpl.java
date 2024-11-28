@@ -227,7 +227,9 @@ public class ManageServiceImpl implements ManageService {
 
         Map<String, Object> result = new HashMap<>();
 
-        Map<String, Object> incpAData = manageRepository.getIncpACost(params);
+        result = manageRepository.getIncpExnpAmtCondition(params);
+
+        /*Map<String, Object> incpAData = manageRepository.getIncpACost(params);
         Map<String, Object> incpBData = manageRepository.getIncpBCost(params);
         Map<String, Object> incpCData = manageRepository.getIncpCCost(params);
 
@@ -241,7 +243,7 @@ public class ManageServiceImpl implements ManageService {
 
         result.put("exnpA", exnpAData.get("TOT_COST"));
         result.put("exnpB", exnpBData.get("TOT_COST"));
-        result.put("exnpC", exnpCData.get("TOT_COST"));
+        result.put("exnpC", exnpCData.get("TOT_COST"));*/
 
         return result;
     }

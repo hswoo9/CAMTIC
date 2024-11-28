@@ -490,30 +490,28 @@ var bcd = {
     fn_getIncpExnpAmt: function(){
         var data = {
             pjtCd : $("#pjtCd").val(),
-            baNb : $("#bankNB").val().replaceAll("-", "")
+            baNb : $("#bankNB").val().replaceAll("-", ""),
+            startDt : $("#strDe").val(),
+            endDt : $("#endDe").val(),
         }
 
         var rs = customKendo.fn_customAjax("/mng/getIncpExnpAmt", data);
 
         rs = rs.rs;
 
-        $("#incpA").text(comma(rs.incpA || 0));
-        $("#incpB").text(comma(rs.incpB || 0));
-        $("#incpC").text(comma(rs.incpC || 0));
+        $("#incpA").text(comma(rs.INCM_RFLT || 0));         // 수입 예산 반영
+        $("#incpB").text(comma(rs.INCM_NO_RFLT || 0));     // 수입 예산 미반영
+        $("#incpC").text(comma(rs.INCM_ATH_ACC || 0));     // 수입 타계좌
 
-        $("#exnpA").text(comma(rs.exnpA || 0));
-        $("#exnpB").text(comma(rs.exnpB || 0));
-        $("#exnpC").text(comma(rs.exnpC || 0));
+        $("#exnpA").text(comma(rs.EXPND_RFLT || 0));        // 지출 예산 반영
+        $("#exnpB").text(comma(rs.EXPND_NO_RFLT || 0));     // 지출 예산 미반영
+        $("#exnpC").text(comma(rs.EXPND_ATH_ACC || 0));     // 지출 타계좌
 
-        $("#sumA").text(comma(Number(rs.incpA) + Number(rs.exnpA) || 0));
-        $("#sumB").text(comma(Number(rs.incpB) + Number(rs.exnpB) || 0));
-        $("#sumC").text(comma(Number(rs.incpC) + Number(rs.exnpC) || 0));
+        $("#sumA").text(comma(Number(rs.INCM_RFLT) + Number(rs.EXPND_RFLT) || 0));
+        $("#sumB").text(comma(Number(rs.INCM_NO_RFLT) + Number(rs.EXPND_NO_RFLT) || 0));
+        $("#sumC").text(comma(Number(rs.INCM_ATH_ACC) + Number(rs.EXPND_ATH_ACC) || 0));
 
-
-        var overPay = Number(uncommaN($("#carryoverCash").val())) + Number(uncommaN($("#carryoverPoint").val()));
-
-        var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
-        $("#currentAmt").text(comma(totPay));
+        $("#currentAmt").text(comma(rs.SIJE));
     }
 }
 
