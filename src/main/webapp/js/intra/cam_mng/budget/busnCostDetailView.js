@@ -507,9 +507,9 @@ var bcd = {
         $("#exnpB").text(comma(rs.EXPND_NO_RFLT || 0));     // 지출 예산 미반영
         $("#exnpC").text(comma(rs.EXPND_ATH_ACC || 0));     // 지출 타계좌
 
-        $("#sumA").text(comma(Number(rs.INCM_RFLT) + Number(rs.EXPND_RFLT) || 0));
-        $("#sumB").text(comma(Number(rs.INCM_NO_RFLT) + Number(rs.EXPND_NO_RFLT) || 0));
-        $("#sumC").text(comma(Number(rs.INCM_ATH_ACC) + Number(rs.EXPND_ATH_ACC) || 0));
+        $("#sumA").text(comma(Number(rs.INCM_RFLT) - Number(rs.EXPND_RFLT) || 0));
+        $("#sumB").text(comma(Number(rs.INCM_NO_RFLT) - Number(rs.EXPND_NO_RFLT) || 0));
+        $("#sumC").text(comma(Number(rs.INCM_ATH_ACC) - Number(rs.EXPND_ATH_ACC) || 0));
 
         $("#currentAmt").text(comma(rs.SIJE));
     }
