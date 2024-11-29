@@ -2594,7 +2594,13 @@
                 DJ_CAMTIC.PROJECTACCEPTINFO B ON A.JCode = B.ProjectCode
             WHERE
                 A.JState != 1
-            AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            AND
+                B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn}
+            <if test='teamType != null and !"".equals(teamType)'>
+                AND
+                    A.TM_TYPE = #{teamType}
+            </if>
+            )
         ) RE
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>

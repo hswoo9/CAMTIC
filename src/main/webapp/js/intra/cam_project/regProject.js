@@ -99,7 +99,7 @@ var regPrj = {
 
                 {name: "출장", url: tab10Url},
                 {name: "구매", url: tab11Url},
-                {name: "정산서", url: tab13Url},
+                {name: "정산서", url: tab13Url + "&teamType=1"},
                 {name: "장비", url: tab14Url}
             ]
         } else {
@@ -117,7 +117,7 @@ var regPrj = {
                 {name: "출장", url: tab10Url},
                 {name: "구매", url: tab11Url},
                 {name: "입금관리", url: tab12Url},
-                {name: "정산서", url: tab13Url},
+                {name: "정산서", url: tab13Url + "&teamType=0"},
                 {name: "장비", url: tab14Url},
                 {name: "단위사업", url: tab15Url},
             ]

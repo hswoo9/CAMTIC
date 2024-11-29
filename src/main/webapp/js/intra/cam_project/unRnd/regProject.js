@@ -71,7 +71,7 @@ var regUnRnd = {
 
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
-                {name: "정산서", url: tab16Url},
+                {name: "정산서", url: tab16Url + "&teamType=1"},
                 {name: "장비", url: tab17Url}
             ]
         } else {
@@ -91,7 +91,7 @@ var regUnRnd = {
                 {name: "구매", url: tab11Url},
                 {name: "예산변경 및 반납", url: tab12Url},
                 {name: "입금관리", url: tab13Url},
-                {name: "정산서", url: tab16Url},
+                {name: "정산서", url: tab16Url + "&teamType=0"},
                 {name: "장비", url: tab17Url}
             ]
         }

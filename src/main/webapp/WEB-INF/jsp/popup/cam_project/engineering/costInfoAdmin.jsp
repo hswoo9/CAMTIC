@@ -38,6 +38,7 @@
 
 <input type="hidden" id="searchPjtSn" value="${params.pjtSn}"/>
 <input type="hidden" id="searchTeamPjtSn" value="${params.pjtSn}"/>
+<input type="hidden" id="teamType" value="${params.teamType}"/>
 
 <div style="padding: 10px">
 

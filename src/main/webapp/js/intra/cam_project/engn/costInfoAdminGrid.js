@@ -28,10 +28,12 @@ var costInfoGrid = {
             empSeq : $("#loginEmpSeq").val(),
             pjtSn : $("#searchPjtSn").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            teamType : $("#teamType").val(),
         });
         const bustResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {
-            pjtSn : $("#searchPjtSn").val()
+            pjtSn : $("#searchPjtSn").val(),
+            teamType : $("#teamType").val(),
         });
         const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {
             pjtSn : $("#searchPjtSn").val()
@@ -144,6 +146,7 @@ var costInfoGrid = {
                     data.pjtSn = $("#searchPjtSn").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
+                    data.teamType = $("#teamType").val();
                     return data;
                 }
             },
@@ -325,6 +328,7 @@ var costInfoGrid = {
                 },
                 parameterMap: function(data){
                     data.pjtSn = $("#searchPjtSn").val();
+                    data.teamType = $("#teamType").val();
                     return data;
                 }
             },
