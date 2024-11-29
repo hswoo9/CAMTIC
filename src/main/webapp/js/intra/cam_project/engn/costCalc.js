@@ -217,8 +217,8 @@ var costCalc = {
     },
 
     /** 달성 매출액 */
-    /*resSaleAmt: function(e){
-        /!**
+    resSaleAmt: function(e){
+        /**
          * 엔지니어링
          * 수주년도 : 0원
          * 차년도 : 정산서 마감이 되고 납품 저장 금액
@@ -230,19 +230,19 @@ var costCalc = {
          * 사업 종료 후 차년도 : 총 지출완료금액 - 전년도 달성 매출액
          *
          * 공통 : 매출수익설정의 달성매출액 금액 추가
-         * *!/
+         * */
         let amt = 0;
         let asrAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            /!** 수주년도/차년도 구분 *!/
+            /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
-                /!** 사업종료 유무 *!/
+                /** 사업종료 유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         asrAmt = costCalc.nowPjtAmt(e);
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             asrAmt = costCalc.nowPjtAmt(e);
                         } else {
@@ -253,13 +253,13 @@ var costCalc = {
                     asrAmt = 0;
                 }
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
-                /!** 사업종료 유무 *!/
+                /** 사업종료 유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         asrAmt = costCalc.nowPjtAmt(e);
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             asrAmt = costCalc.nowPjtAmt(e);
                         } else {
@@ -270,13 +270,13 @@ var costCalc = {
                     asrAmt = 0;
                 }
             }else{
-                /!** 회계 마감 유무 *!/
+                /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         asrAmt = costCalc.nowPjtAmt(e);
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             asrAmt = costCalc.nowPjtAmt(e);
                         } else {
@@ -288,11 +288,11 @@ var costCalc = {
                 }
             }
         }else{
-            /!** 수주년도/차년도 구분 *!/
+            /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
-                /!** 사업종료 유무 *!/
+                /** 사업종료 유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         // 총 지출완료 합계 * 매출배분율 / 100 - 전년도 달성매출
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -301,7 +301,7 @@ var costCalc = {
                             asrAmt = Math.floor((e.exnpCompAmtAll * e.TM_EXNP_PCT) / 100) - Number(e.nowBefExpSaleAmt || 0);
                         }
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                         // 총 지출완료 합계 * 매출배분율 / 100 - 전년도 달성매출
                             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -318,7 +318,7 @@ var costCalc = {
                         }
                     }
                 }else{
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         // 총 지출완료 합계 * 매출배분율 / 100
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -327,7 +327,7 @@ var costCalc = {
                             asrAmt = Math.floor((e.exnpCompAmt * e.TM_EXNP_PCT) / 100);
                         }
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             // 총 지출완료 합계 * 매출배분율 / 100
                             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -345,9 +345,9 @@ var costCalc = {
                     }
                 }
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
-                /!** 회계 마감 유무 *!/
+                /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         // 당해년도 지출완료 합계 * 매출배분율 / 100
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -356,7 +356,7 @@ var costCalc = {
                             asrAmt = Math.floor((e.exnpCompAmt * e.TM_EXNP_PCT) / 100) - Number(e.nowBefExpSaleAmt || 0);
                         }
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             // 당해년도 지출완료 합계 * 매출배분율 / 100
                             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -373,7 +373,7 @@ var costCalc = {
                         }
                     }
                 }else{
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         // 총 지출완료 합계 * 매출배분율 / 100
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -382,7 +382,7 @@ var costCalc = {
                             asrAmt = Math.floor((e.exnpCompAmtAll * e.TM_EXNP_PCT) / 100);
                         }
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             // 총 지출완료 합계 * 매출배분율 / 100
                             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -400,9 +400,9 @@ var costCalc = {
                     }
                 }
             }else{
-                /!** 전년도 회계 마감 유무 *!/
+                /** 전년도 회계 마감 유무 */
                 if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y"){
-                    /!** TEAM_CK == Y ; 수주부서 *!/
+                    /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
                         // (총 지출완료 합계 * 매출배분율 / 100) - 전년도 달성매출
                         if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -411,7 +411,7 @@ var costCalc = {
                             asrAmt = Math.floor((e.exnpCompAmtAll * e.TM_EXNP_PCT) / 100) - Number(e.nowBefExpSaleAmt || 0) - Number(e.nowBefExpSaleAmt || 0);;
                         }
                     } else {
-                        /!** TEAM_STAT == Y ; 협업 *!/
+                        /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
                             // (총 지출완료 합계 * 매출배분율 / 100) - 전년도 달성매출
                             if(e.TAX_GUBUN != null && e.TAX_GUBUN == "1"){
@@ -435,9 +435,9 @@ var costCalc = {
         amt = asrAmt + Number(e.pjtAmtSetData.AMT0 || 0);
 
         return amt;
-    },*/
+    },
 
-    resSaleAmt: function (e) {
+    /*resSaleAmt: function (e) {
         if (!e || typeof e !== 'object') {
             console.error('Invalid input: Project data is required');
             return 0;
@@ -528,7 +528,7 @@ var costCalc = {
         }
     
         return 0;
-    },
+    },*/
 
     /** 달성 운영수익 */
     resProfitAmt: function(e){
