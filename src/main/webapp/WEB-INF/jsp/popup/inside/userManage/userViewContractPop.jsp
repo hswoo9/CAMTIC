@@ -140,6 +140,17 @@
                 </tr>
 
                 <tr>
+                    <th>직급</th>
+                    <td>
+                        ${uprinfList.POSITION_NAME}
+                    </td>
+                    <th>등급</th>
+                    <td>
+                        ${uprinfList.GRADE_NAME}
+                    </td>
+                </tr>
+
+                <tr>
                     <th>[우편번호] 거주지</th>
                     <td colspan="3">
                         [${uprinfList.ZIP_CODE}] ${uprinfList.ADDR}

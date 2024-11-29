@@ -98,7 +98,7 @@
                         <input type="text" id="deptTeamName" style="width: 50%;">
                     </td>
                 </tr>
-                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
+                <tr class="defaultCase defaultCaseC defaultCaseD">
                     <th>직급/등급</th>
                     <td>
                         <input type="text" id="position" style="width: 50%;">
@@ -110,17 +110,6 @@
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
                             <input type="text" id="capsNum" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr class="caseB" style="display: none">
-                    <th>CAPS 번호</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="capsNumCaseB" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="capsNumCaseB" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
                         </c:if>
                     </td>
                 </tr>
