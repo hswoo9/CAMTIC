@@ -200,6 +200,10 @@ var busnCostPreCon = {
     },
 
     fn_asyncCall: function(){
+        if(!confirm("10분 이상 소요됩니다. 동기화하시겠습니까?")) {
+            return;
+        }
+
         var data= {
             searchDept: $("#searchDept").val(),
             pjtFromDate: $("#strDate").val(),
@@ -209,8 +213,8 @@ var busnCostPreCon = {
         }
 
         $.ajax({
-            // url: "/mng/insProjectBudgetStatus",      // 예산동기화할때(10분정도 소요)
-            url: "/mng/updProjectPayAsync",
+            url: "/mng/insProjectBudgetStatus",      // 예산동기화할때(10분정도 소요)
+            // url: "/mng/updProjectPayAsync",
             type: "POST",
             data: data,
             beforeSend : function(request){

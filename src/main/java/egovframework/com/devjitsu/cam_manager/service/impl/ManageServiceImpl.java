@@ -317,165 +317,68 @@ public class ManageServiceImpl implements ManageService {
             params.put("erpCompSeq", "1212");
 
             List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
-            List<Map<String, Object>> payWaitList = new ArrayList<>();      // 대기
-            List<Map<String, Object>> payCompleteList = new ArrayList<>();  // 완료
-            List<Map<String, Object>> payApproveList = new ArrayList<>();   // 승인
+
             params.put("gisu", listMap.get(0).get("gisu"));
             params.put("fromDate", map.get("pjtFromDate").toString().replaceAll("-", ""));
             params.put("toDate", map.get("pjtToDate").toString().replaceAll("-", ""));
+            params.put("startDt", map.get("pjtFromDate"));
+            params.put("endDt", map.get("pjtToDate"));
             params.put("baseDate", LocalDate.now().toString().replaceAll("-", ""));
             params.put("temp", "2");
 
             // 지출예산
             List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
             params.put("mgtSeq", map.get("pjtSeq"));
-            payWaitList = payAppRepository.getWaitPaymentList(params);        // 지출대기
-            payApproveList = payAppRepository.getApprovePaymentList(params);  // 승인
+
+            List<Map<String, Object>> exnpBudgetList = payAppRepository.getExnpBudgetList(params);
+
             long exnpAmt = 0;
-            long exnpPaySum = 0;
-            long approvePaySum = 0;
+            long exnpApprAmt = 0;
 
             for(Map<String, Object> budget : budgetList){
-                if(budget.get("DIV_FG").equals("1")){
-                    exnpAmt += Double.parseDouble(String.valueOf(budget.get("CALC_AM")));
-
-                    for (Map<String, Object> subMap : payWaitList){
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("BUDGET_SN").toString()) && "N".equals(subMap.get("REVERT_YN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            exnpPaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("JANG_SN").toString()) && "N".equals(subMap.get("REVERT_YN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            exnpPaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("GWAN_SN").toString()) && "N".equals(subMap.get("REVERT_YN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            exnpPaySum += payAmount;
-                        }
+                if(!"0".equals(budget.get("DIV_FG"))){
+                    if(budget.get("DIV_FG").equals("1")){
+                        exnpAmt += Double.parseDouble(String.valueOf(budget.get("CALC_AM")));
                     }
 
-                    for(Map<String, Object> subMap : payApproveList){
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("BUDGET_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            approvePaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("JANG_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            approvePaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("GWAN_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            // 여입결의서
-                            if("2".equals(subMap.get("PAY_APP_TYPE").toString())){
-                                payAmount = payAmount * -1;
-                            }
-
-                            approvePaySum += payAmount;
+                    for(Map<String, Object> tMap : exnpBudgetList){
+                        if(budget.get("BGT_CD").toString().equals(tMap.get("BUDGET_SN").toString())){
+                            exnpApprAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
                         }
                     }
                 }
             }
 
-            paramMap.put("exnpBudgetAmt", exnpAmt);                                     // 지출예산
-            paramMap.put("exnpBudgetSubAmt", exnpAmt - approvePaySum + exnpPaySum);     // 지출예산잔액
+            paramMap.put("exnpBudgetAmt", exnpAmt);                      // 지출예산
+            paramMap.put("exnpBudgetSubAmt", exnpAmt - exnpApprAmt);     // 지출예산잔액
 
             // 수입예산
             params.put("temp", "1");
             params.put("mgtSeq", map.get("pjtSeq") + "|");
             List<Map<String, Object>> incpList = g20Repository.getBudgetInfo(params);
             params.put("mgtSeq", map.get("pjtSeq"));
-            payWaitList = payAppRepository.getWaitPaymentIncpList(params);  // 입금대기
-            payCompleteList = payAppRepository.getCompleteIncpList(params); // 입금완료
+
+            List<Map<String, Object>> incpBudgetList = payAppRepository.getIncpBudgetList(params);
+
             long incpAmt = 0;
-            long incpPaySum = 0;
-            long compPaySum = 0;
+            long incpApprAmt = 0;
 
             for(Map<String, Object> budget : incpList){
-                if(budget.get("DIV_FG").equals("1")){
-                    incpAmt += Double.parseDouble(String.valueOf(budget.get("CALC_AM")));
-
-                    for (Map<String, Object> subMap : payWaitList){
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("BUDGET_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            incpPaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("JANG_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            incpPaySum += payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("GWAN_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            incpPaySum += payAmount;
-                        }
+                if(!"0".equals(budget.get("DIV_FG"))){
+                    if(budget.get("DIV_FG").equals("1")){
+                        incpAmt += Double.parseDouble(String.valueOf(budget.get("CALC_AM")));
                     }
 
-                    for(Map<String, Object> subMap : payCompleteList){
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("BUDGET_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            compPaySum += payAmount;
-                            incpPaySum -= payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("JANG_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            compPaySum += payAmount;
-                            incpPaySum -= payAmount;
-                        }
-
-                        if(budget.get("BGT_CD").toString().equals(subMap.get("GWAN_SN").toString())){
-                            int payAmount = Integer.parseInt(subMap.get("TOT_COST").toString());
-
-                            compPaySum += payAmount;
-                            incpPaySum -= payAmount;
+                    for(Map<String, Object> tMap : incpBudgetList){
+                        if(budget.get("BGT_CD").toString().equals(tMap.get("BUDGET_SN").toString())){
+                            incpApprAmt += Long.parseLong(tMap.get("APPROVAL_AMT").toString());
                         }
                     }
                 }
             }
 
             paramMap.put("incpBudgetAmt", incpAmt);                                 // 수입예산
-            paramMap.put("incpBudgetSubAmt", incpAmt - compPaySum + incpPaySum);    // 수입예산잔액
+            paramMap.put("incpBudgetSubAmt", incpAmt - incpApprAmt);    // 수입예산잔액
 
             // 이월금액
             Map<String, Object> corpPjtInfo = manageRepository.getExistProject(params);
@@ -494,10 +397,12 @@ public class ManageServiceImpl implements ManageService {
             paramMap.put("bankNB", map.get("bankNumber"));
 
             // 시재
-            Map<String, Object> incpExnpMap = manageService.getIncpExnpAmt(params);
-            long overPay = Long.parseLong(paramMap.get("carryoverCash").toString()) + Long.parseLong(paramMap.get("carryoverPoint").toString());
-            long pettyCash = overPay + Long.parseLong(incpExnpMap.get("incpA").toString()) - Long.parseLong(incpExnpMap.get("exnpA").toString()) + Long.parseLong(incpExnpMap.get("incpB").toString()) - Long.parseLong(incpExnpMap.get("exnpB").toString());
-            paramMap.put("pettyCash", pettyCash);
+            Map<String, Object> incpExnpMap = manageRepository.getIncpExnpAmtCondition(params);
+            if(incpExnpMap != null){
+                paramMap.put("pettyCash", incpExnpMap.get("SIJE") == null ? 0 : incpExnpMap.get("SIJE"));
+            } else {
+                paramMap.put("pettyCash", 0);
+            }
 
             // 금융CM연동시재
             Map<String, Object> ibranchMap = manageRepository.getCurrentAmountStatus(params);
