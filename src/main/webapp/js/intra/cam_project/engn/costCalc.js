@@ -177,7 +177,7 @@ var costCalc = {
                                 }
                             }
                         } else {
-                            amt = Number(e.DEV_INV_AMT) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
+                            amt = Number(e.DEV_INV_AMT || 0) - Number(e.befRealUseAmt + e.befRealUseAmt2 + e.befRealUseAmt3);
                         }
                     } else {
                         amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
@@ -189,17 +189,17 @@ var costCalc = {
                         if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
                             /** TEAM_CK == Y ; 수주부서 */
                             if(e.TEAM_CK == "Y") {
-                                amt = Number(e.DEV_INV_AMT);
+                                amt = Number(e.DEV_INV_AMT || 0);
                             } else {
                                 /** TEAM_STAT == Y ; 협업 */
                                 if(e.TEAM_STAT == "Y") {
-                                    amt = Number(e.DEV_INV_AMT);
+                                    amt = Number(e.DEV_INV_AMT || 0);
                                 } else {
                                     amt = Number(e.realUseAmt + e.realUseAmt2 + e.realUseAmt3);
                                 }
                             }
                         } else {
-                            amt = Number(e.DEV_INV_AMT);
+                            amt = Number(e.DEV_INV_AMT || 0);
                         }
                     } else {
                         amt = 0;
