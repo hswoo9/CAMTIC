@@ -16,6 +16,7 @@ var bcd = {
     },
 
     gridReload : function(){
+        bcd.fn_getIncpExnpAmt();
         $("#budgetMainGrid").data("kendoGrid").dataSource.read();
         $("#budgetMainGrid2").data("kendoGrid").dataSource.read();
     },
