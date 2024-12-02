@@ -112,4 +112,9 @@ public class ProjectTeamRepository extends AbstractDAO {
     public void delTeamBudget(Map<String, Object> params) {
         delete("projectTeam.delTeamBudget", params);
     }
+
+    public void delTeamVersion(Map<String, Object> params) {
+        update("projectTeam.delPjtTeam", params);
+        update("projectTeam.delPjtTeamVersion", params);
+    }
 }

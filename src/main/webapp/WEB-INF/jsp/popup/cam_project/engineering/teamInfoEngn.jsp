@@ -23,16 +23,18 @@
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0" style="margin-top: 0px">
             <colgroup>
-                <col width="%">
+                <col width="5%">
                 <col width="20%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
-                <col width="%">
+                <col width="7%">
+                <col width="10%">
+                <col width="5%">
+                <col width="7%">
+                <col width="5%">
+                <col width="7%">
+                <col width="7%">
+                <col width="5%">
+                <col width="5%">
+                <col width="3%">
             </colgroup>
             <thead id="verRow">
             <tr>
@@ -47,6 +49,7 @@
                 <th>예상수익</th>
                 <th>수익배분율</th>
                 <th>협업보고서</th>
+                <th></th>
             </tr>
             </thead>
         </table>

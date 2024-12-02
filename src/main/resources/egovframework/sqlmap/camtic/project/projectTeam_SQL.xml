@@ -12,6 +12,8 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
         WHERE PJT_SN = #{pjtSn}
+        AND
+            PTV.ACTIVE = 'Y'
     </select>
 
     <select id="getTeamList" parameterType="map" resultType="map">
@@ -57,6 +59,7 @@
                 WHERE 1=1
                     AND A.ACTIVE = 'Y'
                     AND A.TM_TYPE = 1
+                    AND B.ACTIVE = 'Y'
                     <if test='tmSn != null and !"".equals(tmSn)'>
                         AND A.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn})
                     </if>
@@ -70,6 +73,7 @@
                 LEFT JOIN CAM_PJT_MNG.DJ_PJT_TEAM_VERSION C ON B.PJT_SN = C.PJT_SN AND B.TEAM_VERSION_SN = C.TEAM_VERSION_SN
             WHERE 1=1
                 AND B.ACTIVE = 'Y'
+                AND C.ACTIVE = 'Y'
                 <if test='tmSn != null and !"".equals(tmSn)'>
                     AND B.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn})
                 </if>
@@ -127,6 +131,7 @@
                 PT.PJT_SN = #{pjtSn}
             AND PT.TEAM_VERSION_SN = #{teamVersionSn}
             AND PT.ACTIVE = 'Y'
+            AND PTV.ACTIVE = 'Y'
         ) RE
     </select>
 
@@ -148,6 +153,7 @@
             CAM_PJT_MNG.DJ_PJT_TEAM C ON B.TEAM_VERSION_SN = C.TEAM_VERSION_SN
         WHERE B.STATUS = '10'
           AND ((C.PM_EMP_SEQ = #{regEmpSeq} AND C.PM_CK = 'N') OR (C.TEAM_EMP_SEQ = #{regEmpSeq} AND C.TEAM_CK = 'N'))
+          AND B.ACTIVE = 'Y'
         GROUP BY B.TEAM_VERSION_SN
     </select>
 
@@ -162,7 +168,9 @@
             CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
         INNER JOIN CAM_PJT_MNG.DJ_PROJECT P ON PTV.PJT_SN = P.PJT_SN
         WHERE
-            PTV.TEAM_VERSION_SN IN ( SELECT MAX(SPTV.TEAM_VERSION_SN) FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION SPTV GROUP BY SPTV.PJT_SN )
+            PTV.TEAM_VERSION_SN IN ( SELECT MAX(SPTV.TEAM_VERSION_SN) FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION SPTV WHERE SPTV.ACTIVE = 'Y' GROUP BY SPTV.PJT_SN )
+        AND
+            PTV.ACTIVE = 'Y'
         ORDER BY PTV.TEAM_VERSION_SN DESC
     </select>
 
@@ -204,6 +212,8 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
         WHERE PTV.PJT_SN = #{pjtSn}
+        AND
+            PTV.ACTIVE = 'Y'
         ORDER BY TEAM_VERSION_SN LIMIT 1
     </select>
 
@@ -589,4 +599,22 @@
         /* delTeamBudget */
         DELETE FROM CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET WHERE TM_SN = #{tmSn}
     </delete>
+
+    <update id="delPjtTeam" parameterType="map">
+        /*delPjtTeam*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            ACTIVE = 'N'
+        WHERE
+            TEAM_VERSION_SN = #{teamVersionSn}
+    </update>
+
+    <update id="delPjtTeamVersion" parameterType="map">
+        /*delPjtTeamVersion*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
+        SET
+            ACTIVE = 'N'
+        WHERE
+            TEAM_VERSION_SN = #{teamVersionSn}
+    </update>
 </mapper>

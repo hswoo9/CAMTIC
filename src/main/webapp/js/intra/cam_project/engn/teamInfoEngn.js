@@ -46,6 +46,11 @@ var teamEngn = {
                 html += '    <td style="text-align: center">-</td>';
                 html += '    <td style="text-align: center">-</td>';
                 html += '    <td style="text-align: center">-</td>';
+                if(result.delvMap.PM_EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1"){
+                    html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-error" onclick="teamEngn.delTeam('+verMap.TEAM_VERSION_SN+')">삭제</button></td>';
+                } else {
+                    html += '    <td style="text-align: center">-</td>';
+                }
                 html += '</tr>';
             }else{
                 const teamVersionSn = verMap.TEAM_VERSION_SN;
@@ -343,5 +348,31 @@ var teamEngn = {
         const name = "teamPrintPop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);
+    },
+
+    delTeam: function(verstionSn){
+
+        if(!confirm("삭제하시겠습니까?")) {
+            return;
+        }
+
+        $.ajax({
+            url: "/project/team/delTeamVersion",
+            data: {
+                teamVersionSn : verstionSn
+            },
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(rs) {
+                if(rs.code == "200"){
+                    alert("삭제되었습니다.");
+                    window.location.reload();
+                }
+            },
+            error: function (e) {
+                console.log('error : ', e);
+            }
+        });
     }
 }

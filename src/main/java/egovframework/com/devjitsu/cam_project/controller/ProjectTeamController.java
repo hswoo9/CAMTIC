@@ -295,4 +295,16 @@ public class ProjectTeamController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/project/team/delTeamVersion")
+    public String delTeamVersion(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.delTeamVersion(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 500);
+        }
+        return "jsonView";
+    }
 }

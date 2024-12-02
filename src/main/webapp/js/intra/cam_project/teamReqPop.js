@@ -41,7 +41,7 @@ var teamReq = {
         $("#leftAmt").val(Number(amtText)-Number(leftAmt));
         $("#leftAmtTmp").val(comma(Number(amtText)-Number(leftAmt)));
 
-        if(commonProject.global.busnClass != "D"){
+        if(commonProject.global.busnClass != "D" && commonProject.global.busnClass != "V"){
             $(".rnd").show();
             teamReq.fn_g20TableSet();
 

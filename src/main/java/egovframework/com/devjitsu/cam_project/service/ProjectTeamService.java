@@ -24,4 +24,5 @@ public interface ProjectTeamService {
     void setTeam(Map<String, Object> params);
     void delTeam(Map<String, Object> params);
     void updTeamVersionAppStat(Map<String, Object> params);
+    void delTeamVersion(Map<String, Object> params);
 }

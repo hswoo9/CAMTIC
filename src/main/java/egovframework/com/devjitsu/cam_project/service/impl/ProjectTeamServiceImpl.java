@@ -222,6 +222,16 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         }
     }
 
+    @Override
+    public void delTeamVersion(Map<String, Object> params) {
+        projectTeamRepository.delTeamVersion(params);
+
+        /** 승인취소 */
+        params.put("type", "협업승인요청");
+        params.put("frKey", params.get("teamVersionSn"));
+        campusRepository.updPsCancel(params);
+    }
+
     private void setPsCheck(Map<String, Object> params) {
         /** 승인함 */
         params.put("sdEmpSeq", params.get("regEmpSeq"));           // 요청자 사번
