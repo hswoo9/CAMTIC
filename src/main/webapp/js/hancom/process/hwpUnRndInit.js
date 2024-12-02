@@ -540,7 +540,7 @@ var unRndInit = {
                     if(map.BUSN_CLASS == "D" || map.BUSN_CLASS == "V"){
                         resInvSum += Number(resPurcMap.PURC_SUP_AMT);
                     }else{
-                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
+                        resInvSum += Number(resPurcMap.PURC_ITEM_AMT_SUM);
                     }
                 }else{
                     let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);

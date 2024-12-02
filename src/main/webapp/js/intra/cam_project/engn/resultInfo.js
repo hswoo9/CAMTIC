@@ -169,8 +169,9 @@ var resultInfo = {
             const devMap = devInfo.rs;
 
             const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
+            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
             const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
+            const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn : map.PJT_SN});
 
             /** 초기계획 시작 */
             const purcList = purcResult.list;
@@ -198,12 +199,20 @@ var resultInfo = {
                 const resPurcMap = resPurcList[i];
                 if(resPurcMap.CLAIM_STATUS == "CAYSY"){
                     if(resPurcMap.ORG_YN == 'N'){
-                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
+                        resInvSum += Number(resPurcMap.PURC_ITEM_AMT_SUM);
                     } else {
                         let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);
                         let amt2 = Math.round(amt/10);
                         let itemAmt = 0;
-                        itemAmt = amt;
+
+                        if(resPurcMap.InTax == "0"){     // 부가세 미포함
+                            itemAmt = amt + amt2;
+                        } else if(resPurcMap.InTax == "1"){  // 부가세 포함
+                            itemAmt = amt;
+                        } else  if(resPurcMap.InTax == "2"){ // 면세
+                            itemAmt = amt;
+                        }
+
                         resInvSum += Number(itemAmt);
                     }
                 }
@@ -223,6 +232,16 @@ var resultInfo = {
                 }
             }
             console.log("출장결과 합계 값 : ", bustSum);
+
+            const payList = payResult.list;
+            let paySum = 0;
+            for(let i=0; i<payList.length; i++){
+                const payMap = payList[i];
+                resInvSum  += Number(payMap.COST_SUM);
+                paySum += Number(payMap.COST_SUM);
+            }
+            console.log("지출 합계 값 : ", paySum);
+
             let resInvPer = (resInvSum / map.PJT_AMT * 100);
 
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
@@ -246,7 +265,7 @@ var resultInfo = {
             const devMap = devInfo.rs;
 
             const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
+            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
             const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
 
             /** 초기계획 시작 */
@@ -275,12 +294,20 @@ var resultInfo = {
                 const resPurcMap = resPurcList[i];
                 if(resPurcMap.CLAIM_STATUS == "CAYSY"){
                     if(resPurcMap.ORG_YN == 'N'){
-                        resInvSum += Number(resPurcMap.PURC_SUP_AMT);
+                        resInvSum += Number(resPurcMap.PURC_ITEM_AMT_SUM);
                     } else {
                         let amt = Number(resPurcMap.PURC_ITEM_AMT_SUM);
                         let amt2 = Math.round(amt/10);
                         let itemAmt = 0;
-                        itemAmt = amt;
+
+                        if(resPurcMap.InTax == "0"){     // 부가세 미포함
+                            itemAmt = amt + amt2;
+                        } else if(resPurcMap.InTax == "1"){  // 부가세 포함
+                            itemAmt = amt;
+                        } else  if(resPurcMap.InTax == "2"){ // 면세
+                            itemAmt = amt;
+                        }
+
                         resInvSum += Number(itemAmt);
                     }
                 }
