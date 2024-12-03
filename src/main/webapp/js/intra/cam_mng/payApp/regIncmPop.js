@@ -654,7 +654,7 @@ var regIncm = {
 
     fn_calCost: function(obj){
 
-        var index = obj.id.substring(obj.id.length - 1);
+        var index = obj.id.replace(/[^0-9]/g, '');
         if(obj.id.match("totCost")){
 
             $("#vatCost" + index).val(regIncm.comma(Number(regIncm.uncomma($("#totCost" + index).val())) - Math.round(Number(regIncm.uncomma($("#totCost" + index).val())) * 100 / 110)));
