@@ -2220,6 +2220,9 @@
         <if test="JOB_DETAIL != null">
             JOB_DETAIL = #{JOB_DETAIL},
         </if>
+        <if test="RESIGN_DAY != null">
+            RESIGN_DAY = #{RESIGN_DAY},
+        </if>
         BEFOR_CAREER = #{BEFOR_CAREER},
         ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
         <if test="BANK_NAME != null">

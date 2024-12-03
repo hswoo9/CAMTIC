@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
-
+직원등록
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <%--<style>
     table { background-color: #00000008; }
