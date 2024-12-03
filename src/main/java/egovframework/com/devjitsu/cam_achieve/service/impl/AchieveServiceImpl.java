@@ -5,8 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_achieve.repository.AchieveRepository;
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
-import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectTeamRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.inside.employee.repository.EmployRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class AchieveServiceImpl implements AchieveService {
     private ManageRepository manageRepository;
     @Autowired
     private EmployRepository employRepository;
+    @Autowired
+    private ProjectTeamRepository projectTeamRepository;
 
     @Override
     public Map<String, Object> getAllPjtCalc(Map<String, Object> params) {
@@ -800,5 +802,782 @@ public class AchieveServiceImpl implements AchieveService {
     @Override
     public int getPjtTeamInvAmt(Map<String, Object> params) {
         return achieveRepository.getPjtTeamInvAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getAllPjtCalcTemp(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        // 엔지니어링, 기타/용역
+        params.put("busnClass", "D");
+        List<Map<String, Object>> engnPjtInfo = achieveRepository.getProjectListByAchieve(params);
+        params.put("busnClass", "V");
+        List<Map<String, Object>> otherPjtInfo = achieveRepository.getProjectListByAchieve(params);
+
+        // R&D, 비R&D
+        params.put("busnClass", "R");
+        List<Map<String, Object>> rndPjtInfo = achieveRepository.getProjectListByAchieve(params);
+        params.put("busnClass", "S");
+        List<Map<String, Object>> unRndPjtInfo = achieveRepository.getProjectListByAchieve(params);
+
+        long engnAmt = 0;       // 엔지니어링 수주금액
+        long otherAmt = 0;      // 용역/기타 수주금액
+        long rndAmt = 0;        // R&D 수주금액
+        long unRndAmt = 0;      // 비R&D 수주금액
+
+        long expEngnAmt = 0;    // 엔지니어링 예상수주금액
+        long expOtherAmt = 0;   // 용역/기타 예상수주금액
+        long expRndAmt = 0;     // R&D 예상수주금액
+        long expUnRndAmt = 0;   // 비R&D 예상수주금액
+
+        long saleRndAmt = 0;        // R&D 달성매출액
+        long saleUnRndAmt = 0;      // 비R&D 달성매출액
+        long saleEngnAmt = 0;       // 엔지니어링 달성매출액
+        long saleOtherAmt = 0;      // 용역/기타 달성매출액
+
+        long expSaleEngnAmt = 0;    // 엔지니어링 예상매출액
+        long expSaleOtherAmt = 0;   // 용역/기타 예상매출액
+
+        long incpRndAmt = 0;        // R&D 달성운영수익
+        long incpUnRndAmt = 0;      // 비R&D 달성운영수익
+        long incpEngnAmt = 0;       // 엔지니어링 달성운영수익
+        long incpOtherAmt = 0;      // 용역/기타 달성운영수익
+
+        long expIncpRndAmt = 0;     // R&D 예상운영수익
+        long expIncpUnRndAmt = 0;   // 비R&D 예상운영수익
+        long expIncpEngnAmt = 0;    // 엔지니어링 예상운영수익
+        long expIncpOtherAmt = 0;   // 용역/기타 예상운영수익
+
+
+        /** 엔지니어링 */
+        long engnCostSum = 0;   // 엔지니어링 지출비용
+        long engnPurcSum = 0;   // 엔지니어링 구매비용
+        long engnBustSum = 0;   // 엔지니어링 출장비용
+
+        for(Map<String, Object> map : engnPjtInfo) {
+            if(map.get("LIST_NOW_STR_DE") != null && map.get("LIST_NOW_END_DE") != null) {
+                int nowStrYear = Integer.parseInt(map.get("LIST_NOW_STR_DE").toString().split("-")[0]);     // 프로젝트 시작년도
+                int nowEndYear = Integer.parseInt(map.get("LIST_NOW_END_DE").toString().split("-")[0]);     // 프로젝트 종료년도
+
+                Map<String, Object> paramsTempMap = new HashMap<>();
+                paramsTempMap.put("pjtSn", map.get("PJT_SN"));
+
+                if(map.get("SBJ_SEP") != null) {
+                    paramsTempMap.put("sbjSep", map.get("SBJ_SEP"));
+                }
+
+                if(map.get("COST_CLOSE_CK") != null && map.get("COST_CLOSE_CK").toString().equals("Y")) {
+                    paramsTempMap.put("costCloseDt", map.get("COST_CLOSE_DT"));
+                }
+
+                paramsTempMap.put("reqYear", map.get("YEAR"));
+                paramsTempMap.put("busnClass", map.get("BUSN_CLASS"));
+
+                // 당해년도 종료 사업 여부
+                if(nowStrYear == nowEndYear) {
+
+                    if(map.get("COST_CLOSE_CK").equals("Y")) {      // 사업종료 여부
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+                            engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());                  // 수주금액
+                            saleEngnAmt += map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString());    // 달성매출
+                            engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                      // 지출비용
+                            engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                      // 구매비용
+                            engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                      // 출장비용
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+                                saleEngnAmt += map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString());    // 달성매출
+                                engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                      // 지출비용
+                                engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                      // 구매비용
+                                engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                      // 출장비용
+                            } else {
+                                engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());              // 수주금액
+                                saleEngnAmt += achieveRepository.getEngnGoodsAmt(paramsTempMap);                                        // 달성매출
+                                engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                  // 지출비용
+                                engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                  // 구매비용
+                                engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                  // 출장비용
+                            }
+                        }
+                    } else {
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+                            engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());                      // 수주금액
+                            expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));   // 예상달성매출
+
+                            if(map.containsKey("PNT_TM_SN")) {
+                                paramsTempMap.put("tmSn", map.get("PNT_TM_SN"));
+                                map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));      // 협업 예상비용
+                            }
+
+                            expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));       // 예상달성운영수익
+
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+                                expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));       // 예상달성매출
+
+                                if(map.containsKey("TM_SN")) {
+                                    paramsTempMap.put("tmSn", map.get("TM_SN"));
+                                    map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));  // 협업 예상비용
+                                }
+
+                                expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                            } else {
+                                engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());      // 수주금액
+
+                                Map<String, Object> getPjtDevInfo = achieveRepository.getPjtDevSn(paramsTempMap);
+                                if(getPjtDevInfo != null) {
+                                    map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));       // 수행계획금액
+                                }
+
+                                Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                                if(projectPaySetData1 != null) {
+                                    long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());           // 차년도 매출액
+                                    long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                    expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - befExpSaleAmt;   // 예상매출액
+                                    expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString())) - befExpProfitAmt;  // 예상달성운영수익
+                                } else {
+                                    expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));                   // 예상매출액
+                                    expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));                    // 예상달성운영수익
+                                }
+
+                            }
+                        }
+                    }
+                } else {
+                    // 프로젝트 종료년도 = 조회년도
+                    if(nowEndYear == Integer.parseInt(map.get("YEAR").toString())) {
+
+                        if(map.get("COST_CLOSE_CK").equals("Y")) {      // 사업종료 여부
+
+                            if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+
+                                Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBefMul(paramsTempMap);
+                                long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());
+                                saleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) + befExpSaleAmt;      // 달성매출
+
+                                paramsTempMap.put("befYear", "Y");
+                                engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+
+                            } else {
+
+                                if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                                    Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBefMul(paramsTempMap);
+                                    long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());
+                                    saleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) + befExpSaleAmt;
+
+                                    paramsTempMap.put("befYear", "Y");
+                                    engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                    engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                    engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+
+                                } else {
+                                    saleEngnAmt += achieveRepository.getEngnGoodsAmt(paramsTempMap);        // 달성매출액
+
+                                    paramsTempMap.put("befYear", "Y");
+                                    engnCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                    engnPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                    engnBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+                                }
+                            }
+                        } else {
+                            Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                            if(projectPaySetData1 != null) {
+                                long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());           // 차년도 매출액
+                                long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                expSaleEngnAmt += befExpSaleAmt;   // 예상매출액
+                                expIncpEngnAmt += befExpProfitAmt; // 예상운영수익
+                            }
+                        }
+
+                    } else if (nowStrYear == Integer.parseInt(map.get("YEAR").toString())) {        // 프로젝트 시작년도 = 조회년도
+
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+                                engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+
+                                Map<String, Object> projectPaySetData2 = achieveRepository.getProjectPayNow(paramsTempMap);
+                                long nowExpSaleAmt = Long.parseLong(projectPaySetData2.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData2.get("AFT_SALE_AMT").toString());
+                                saleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - nowExpSaleAmt;
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+
+                                    Map<String, Object> projectPaySetData2 = achieveRepository.getProjectPayNow(paramsTempMap);
+                                    long nowExpSaleAmt = Long.parseLong(projectPaySetData2.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData2.get("AFT_SALE_AMT").toString());
+                                    saleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - nowExpSaleAmt;
+
+                                } else {
+                                    engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                                }
+                            }
+
+                        } else {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+                                engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                                expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+
+                                if(map.containsKey("PNT_TM_SN")) {
+                                    paramsTempMap.put("tmSn", map.get("PNT_TM_SN"));
+                                    map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                                }
+
+                                expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+                                    expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+
+                                    if(map.containsKey("TM_SN")) {
+                                        paramsTempMap.put("tmSn", map.get("TM_SN"));
+                                        map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                                    }
+
+                                    expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                                } else {
+                                    engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+
+                                    Map<String, Object> getPjtDevInfo = achieveRepository.getPjtDevSn(paramsTempMap);
+                                    if(getPjtDevInfo != null) {
+                                        map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));
+                                    }
+
+                                    Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                                    if(projectPaySetData1 != null) {
+                                        long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());   // 차년도 매출액
+                                        long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                        expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - befExpSaleAmt;   // 예상매출액
+                                        expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString())) - befExpProfitAmt;   // 예상달성운영수익
+                                    } else {
+                                        expSaleEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+                                        expIncpEngnAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));
+                                    }
+                                }
+                            }
+
+                        }
+                    } else {        // 중간년도 = 조회년도
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        // 엔지니어링 달성운영수익 = 달성매출액 - 총 비용합계
+        incpEngnAmt = saleEngnAmt - (engnCostSum + engnPurcSum + engnBustSum);
+
+
+        /** 용역/기타 */
+        long otherCostSum = 0;   // 용역/기타 지출비용
+        long otherPurcSum = 0;   // 용역/기타 구매비용
+        long otherBustSum = 0;   // 용역/기타 출장비용
+
+        for(Map<String, Object> map : otherPjtInfo) {
+            if(map.get("LIST_NOW_STR_DE") != null && map.get("LIST_NOW_END_DE") != null) {
+                int nowStrYear = Integer.parseInt(map.get("LIST_NOW_STR_DE").toString().split("-")[0]);     // 프로젝트 시작년도
+                int nowEndYear = Integer.parseInt(map.get("LIST_NOW_END_DE").toString().split("-")[0]);     // 프로젝트 종료년도
+
+                Map<String, Object> paramsTempMap = new HashMap<>();
+                paramsTempMap.put("pjtSn", map.get("PJT_SN"));
+
+                if(map.get("SBJ_SEP") != null) {
+                    paramsTempMap.put("sbjSep", map.get("SBJ_SEP"));
+                }
+
+                if(map.get("COST_CLOSE_CK") != null && map.get("COST_CLOSE_CK").toString().equals("Y")) {
+                    paramsTempMap.put("costCloseDt", map.get("COST_CLOSE_DT"));
+                }
+
+                paramsTempMap.put("reqYear", map.get("YEAR"));
+                paramsTempMap.put("busnClass", map.get("BUSN_CLASS"));
+
+                // 당해년도 종료 사업 여부
+                if(nowStrYear == nowEndYear) {
+
+                    if(map.get("COST_CLOSE_CK").equals("Y")) {      // 사업종료 여부
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+                            otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());                  // 수주금액
+                            saleOtherAmt += map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString());    // 달성매출
+                            otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                      // 지출비용
+                            otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                      // 구매비용
+                            otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                      // 출장비용
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+                                saleOtherAmt += map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString());    // 달성매출
+                                otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                      // 지출비용
+                                otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                      // 구매비용
+                                otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                      // 출장비용
+                            } else {
+                                otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());              // 수주금액
+                                saleOtherAmt += achieveRepository.getEngnGoodsAmt(paramsTempMap);                                        // 달성매출
+                                otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);                                  // 지출비용
+                                otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);                                  // 구매비용
+                                otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);                                  // 출장비용
+                            }
+                        }
+                    } else {
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+                            otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());                      // 수주금액
+                            expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));   // 예상달성매출
+
+                            if(map.containsKey("PNT_TM_SN")) {
+                                paramsTempMap.put("tmSn", map.get("PNT_TM_SN"));
+                                map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));      // 협업 예상비용
+                            }
+
+                            expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));       // 예상달성운영수익
+
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+                                expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));       // 예상달성매출
+
+                                if(map.containsKey("TM_SN")) {
+                                    paramsTempMap.put("tmSn", map.get("TM_SN"));
+                                    map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));  // 협업 예상비용
+                                }
+
+                                expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                            } else {
+                                otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());      // 수주금액
+
+                                Map<String, Object> getPjtDevInfo = achieveRepository.getPjtDevSn(paramsTempMap);
+                                if(getPjtDevInfo != null) {
+                                    map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));       // 수행계획금액
+                                }
+
+                                Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                                if(projectPaySetData1 != null) {
+                                    long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());           // 차년도 매출액
+                                    long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                    expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - befExpSaleAmt;   // 예상매출액
+                                    expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString())) - befExpProfitAmt;  // 예상달성운영수익
+                                } else {
+                                    expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));                   // 예상매출액
+                                    expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));                    // 예상달성운영수익
+                                }
+
+                            }
+                        }
+                    }
+                } else {
+                    // 프로젝트 종료년도 = 조회년도
+                    if(nowEndYear == Integer.parseInt(map.get("YEAR").toString())) {
+
+                        if(map.get("COST_CLOSE_CK").equals("Y")) {      // 사업종료 여부
+
+                            if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+
+                                Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBefMul(paramsTempMap);
+                                long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());
+                                saleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) + befExpSaleAmt;      // 달성매출
+
+                                paramsTempMap.put("befYear", "Y");
+                                otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+
+                            } else {
+
+                                if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                                    Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBefMul(paramsTempMap);
+                                    long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());
+                                    saleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) + befExpSaleAmt;
+
+                                    paramsTempMap.put("befYear", "Y");
+                                    otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                    otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                    otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+
+                                } else {
+                                    saleOtherAmt += achieveRepository.getEngnGoodsAmt(paramsTempMap);        // 달성매출액
+
+                                    paramsTempMap.put("befYear", "Y");
+                                    otherCostSum += achieveRepository.getEngnUseExnpCostAmt(paramsTempMap);   // 지출비용
+                                    otherPurcSum += achieveRepository.getEngnUseExnpPurcAmt(paramsTempMap);   // 구매비용
+                                    otherBustSum += achieveRepository.getEngnUseExnpBustAmt(paramsTempMap);   // 출장비용
+                                }
+                            }
+                        } else {
+                            Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                            if(projectPaySetData1 != null) {
+                                long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());           // 차년도 매출액
+                                long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                expSaleOtherAmt += befExpSaleAmt;   // 예상매출액
+                                expIncpOtherAmt += befExpProfitAmt; // 예상운영수익
+                            }
+                        }
+
+                    } else if (nowStrYear == Integer.parseInt(map.get("YEAR").toString())) {        // 프로젝트 시작년도 = 조회년도
+
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+                                otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+
+                                Map<String, Object> projectPaySetData2 = achieveRepository.getProjectPayNow(paramsTempMap);
+                                long nowExpSaleAmt = Long.parseLong(projectPaySetData2.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData2.get("AFT_SALE_AMT").toString());
+                                saleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - nowExpSaleAmt;
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+
+                                    Map<String, Object> projectPaySetData2 = achieveRepository.getProjectPayNow(paramsTempMap);
+                                    long nowExpSaleAmt = Long.parseLong(projectPaySetData2.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData2.get("AFT_SALE_AMT").toString());
+                                    saleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - nowExpSaleAmt;
+
+                                } else {
+                                    otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                                }
+                            }
+
+                        } else {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+                                otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                                expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+
+                                if(map.containsKey("PNT_TM_SN")) {
+                                    paramsTempMap.put("tmSn", map.get("PNT_TM_SN"));
+                                    map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                                }
+
+                                expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+                                    expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+
+                                    if(map.containsKey("TM_SN")) {
+                                        paramsTempMap.put("tmSn", map.get("TM_SN"));
+                                        map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                                    }
+
+                                    expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));   // 예상달성운영수익
+
+                                } else {
+                                    otherAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+
+                                    Map<String, Object> getPjtDevInfo = achieveRepository.getPjtDevSn(paramsTempMap);
+                                    if(getPjtDevInfo != null) {
+                                        map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));
+                                    }
+
+                                    Map<String, Object> projectPaySetData1 = achieveRepository.getProjectPayBef(paramsTempMap);
+                                    if(projectPaySetData1 != null) {
+                                        long befExpSaleAmt = Long.parseLong(projectPaySetData1.get("AFT_SALE_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_SALE_AMT").toString());   // 차년도 매출액
+                                        long befExpProfitAmt = Long.parseLong(projectPaySetData1.get("AFT_PROFIT_AMT").toString() == null ? "0" : projectPaySetData1.get("AFT_PROFIT_AMT").toString());     // 차년도 운영수익
+                                        expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - befExpSaleAmt;   // 예상매출액
+                                        expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString())) - befExpProfitAmt;   // 예상달성운영수익
+                                    } else {
+                                        expSaleOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString()));
+                                        expIncpOtherAmt += (map.get("REAL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("REAL_PJT_AMT").toString())) - (map.get("DEV_INV_AMT") == null ? 0 : Long.parseLong(map.get("DEV_INV_AMT").toString()));
+                                    }
+                                }
+                            }
+
+                        }
+                    } else {        // 중간년도 = 조회년도
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        // 용역/기타 달성운영수익 = 달성매출액 - 총 비용합계
+        incpOtherAmt = saleOtherAmt - (otherCostSum + otherPurcSum + otherBustSum);
+
+
+        /** R&D */
+        long rndCostSum = 0;   // R&D 지출비용
+        long rndPurcSum = 0;   // R&D 구매비용
+        long rndBustSum = 0;   // R&D 출장비용
+
+        for(Map<String, Object> map : rndPjtInfo) {
+            if(map.get("LIST_NOW_STR_DE") != null && map.get("LIST_NOW_END_DE") != null) {
+                int nowStrYear = Integer.parseInt(map.get("LIST_NOW_STR_DE").toString().split("-")[0]);     // 프로젝트 시작년도
+                int nowEndYear = Integer.parseInt(map.get("LIST_NOW_END_DE").toString().split("-")[0]);     // 프로젝트 종료년도
+
+                Map<String, Object> paramsTempMap = new HashMap<>();
+                paramsTempMap.put("pjtSn", map.get("PJT_SN"));
+                paramsTempMap.put("pjtCd", map.get("PJT_CD"));
+
+                if(map.get("SBJ_SEP") != null) {
+                    paramsTempMap.put("sbjSep", map.get("SBJ_SEP"));
+                }
+
+                if(map.get("COST_CLOSE_CK") != null && map.get("COST_CLOSE_CK").toString().equals("Y")) {
+                    paramsTempMap.put("costCloseDt", map.get("COST_CLOSE_DT"));
+                }
+
+                paramsTempMap.put("reqYear", map.get("YEAR"));
+                paramsTempMap.put("busnClass", map.get("BUSN_CLASS"));
+
+                Map<String, Object> getPjtDevInfo = achieveRepository.getPjtDevSn(paramsTempMap);
+                if(getPjtDevInfo != null) {
+                    map.put("DEV_INV_AMT", getPjtDevInfo.get("INV_TOT_SUM"));
+                }
+
+                // 협업 체크
+                if(map.get("TEAM_CK").equals("Y")) {
+                    if(map.containsKey("PNT_TM_SN")) {
+                        paramsTempMap.put("tmSn", map.get("PNT_TM_SN"));
+                        map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                        List<Map<String, Object>> pjtTeamList = projectTeamRepository.getTeamList2(paramsTempMap);
+
+                        double teamAmt = 0;         // 배분금액
+                        double pjtAmt = 0;          // 총사업비
+                        double teamExpAmtSum = 0;   // 예상수익 총합
+                        double teamExpAmt = 0;      // 예상수익
+                        for(Map<String, Object> pjtTeamInfo : pjtTeamList) {
+                            teamExpAmtSum += Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+
+                            if(pjtTeamInfo.get("TM_SN").toString().equals(map.get("PNT_TM_SN").toString())) {
+                                teamAmt = Double.parseDouble(pjtTeamInfo.get("TM_AMT2").toString());
+                                pjtAmt = Double.parseDouble(pjtTeamInfo.get("PJT_AMT").toString());
+                                teamExpAmt = Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+                            }
+                        }
+
+                        map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
+                        map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
+                        map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+                    }
+                } else {
+                    if(map.get("TEAM_STAT").equals("Y")) {
+                        if(map.containsKey("TM_SN")) {
+                            paramsTempMap.put("tmSn", map.get("TM_SN"));
+                            map.put("DEV_INV_AMT", achieveRepository.getPjtTeamInvAmt(paramsTempMap));
+                            List<Map<String, Object>> pjtTeamList = projectTeamRepository.getTeamList2(paramsTempMap);
+
+                            double teamAmt = 0;         // 배분금액
+                            double pjtAmt = 0;          // 총사업비
+                            double teamExpAmtSum = 0;   // 예상수익 총합
+                            double teamExpAmt = 0;      // 예상수익
+                            for(Map<String, Object> pjtTeamInfo : pjtTeamList) {
+                                teamExpAmtSum += Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+
+                                if(pjtTeamInfo.get("TM_SN").toString().equals(map.get("TM_SN").toString())) {
+                                    teamAmt = Double.parseDouble(pjtTeamInfo.get("TM_AMT2").toString());
+                                    pjtAmt = Double.parseDouble(pjtTeamInfo.get("PJT_AMT").toString());
+                                    teamExpAmt = Double.parseDouble(pjtTeamInfo.get("TM_EXP_AMT").toString());
+                                }
+                            }
+
+                            map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
+                            map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
+                            map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+                        }
+                    }
+                }
+
+                // 수익설정 예산
+                Map<String, Object> planMap = achieveRepository.getPlanExnpAmt(paramsTempMap);
+                double planAmt = (planMap.get("TOT_COST") == null ? 0 : Double.parseDouble(planMap.get("TOT_COST").toString()));
+
+                // 비용설정 예산
+                Map<String, Object> useMap = achieveRepository.getUseExnpAmt(paramsTempMap);
+                double useAmt = (useMap.get("TOT_COST") == null ? 0 :  Double.parseDouble(useMap.get("TOT_COST").toString()));
+
+                // 수익설정 지출합계
+                Map<String, Object> incpMap = achieveRepository.getIncpCompAmt(paramsTempMap);
+                double incpCompAmt1 = (incpMap.get("TOT_COST") == null ? 0 :  Double.parseDouble(incpMap.get("TOT_COST").toString()));
+
+                // 비용설정 지출합계
+                Map<String, Object> incpMap2 = achieveRepository.getIncpCompAmt2(paramsTempMap);
+                double incpCompAmt2 = (incpMap2.get("TOT_COST") == null ? 0 :  Double.parseDouble(incpMap2.get("TOT_COST").toString()));
+
+                // 다년프로젝트 체크해서 쿼리 분기
+                Map<String, Object> projectPaySetData1 = new HashMap<>();
+                Map<String, Object> projectPaySetData2 = new HashMap<>();
+                if("C".equals(map.get("TEXT")) && "M".equals(map.get("YEAR_CLASS"))){
+                    projectPaySetData1 = achieveRepository.getProjectPayBefMul(params);
+                    projectPaySetData2 = achieveRepository.getProjectPayNowMul(params);
+                }else{
+                    projectPaySetData1 = achieveRepository.getProjectPayBef(params);
+                    projectPaySetData2 = achieveRepository.getProjectPayNow(params);
+                }
+
+
+
+                // 수주금액
+                if(map.get("LIST_STR_DE") != "") {
+                    if(map.get("LIST_STR_DE").toString().split("-")[0].equals(params.get("pjtYear").toString())) {
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+                            if(map.get("YEAR_CLASS").equals("M")) {
+                                rndAmt += (map.get("ALL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("ALL_PJT_AMT").toString()));
+                            } else {
+                                rndAmt += (map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString()));
+                            }
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                            } else {
+                                if(map.get("YEAR_CLASS").equals("M")) {
+                                    rndAmt += (map.get("ALL_PJT_AMT") == null ? 0 : Long.parseLong(map.get("ALL_PJT_AMT").toString()));
+                                } else {
+                                    rndAmt += (map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString()));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 당해년도 종료 사업 여부
+                if(nowStrYear == nowEndYear) {
+                    long allAsrAmt = 0;     // 총 지출완료 합계
+                    long asrAmt = 0;        // 총 지출완료 합계 * 매출배분율
+                    if(map.get("COST_CLOSE_CK").equals("Y")) {      // 사업종료 여부
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+
+                        } else {
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                            } else {
+
+                            }
+                        }
+
+                    } else {
+
+                        if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+
+                        } else {
+
+                            if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                            } else {
+
+                            }
+                        }
+                    }
+                } else {
+                    // 프로젝트 종료년도 = 조회년도
+                    if(nowEndYear == Integer.parseInt(map.get("YEAR").toString())) {
+                        long allAsrAmt = 0;
+                        long asrAmt = 0;
+                        if(map.get("COST_CLOSE_CK").equals("Y")) {
+
+                        } else {
+                            if(map.get("BEF_DEADLINE_YN").equals("Y")) {      // 전년도 회계 마감 여부
+
+                                if(map.get("TEAM_CK").equals("Y")) {        // 협업 - 수주부서
+
+                                } else {
+
+                                    if(map.get("TEAM_STAT").equals("Y")) {  // 협업 - 협업부서
+
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+
+                            }
+                        }
+                    } else if (nowStrYear == Integer.parseInt(map.get("YEAR").toString())) {        // 프로젝트 시작년도 = 조회년도
+                        long asrAmt = 0;    // 달성매출액
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+
+                                } else {
+
+                                }
+                            }
+
+                        } else {
+
+                            if(map.get("TEAM_CK").equals("Y")) {
+
+                            } else {
+                                if(map.get("TEAM_STAT").equals("Y")) {
+
+                                } else {
+
+                                }
+                            }
+
+                        }
+
+
+                    } else {        // 중간년도 = 조회년도
+                        // 회계년도 마감여부
+                        if(map.get("NOW_DEADLINE_YN") != null && map.get("NOW_DEADLINE_YN").toString().equals("Y")) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+//        result.put("expIncpRndAmt", expIncpRndAmt);         // R&D 예상수익
+//        result.put("expIncpUnRndAmt", expIncpUnRndAmt);     // 비R&D 예상수익
+        result.put("expIncpEngnAmt", expIncpEngnAmt);       // 엔지니어링 예상운영수익
+        result.put("expIncpOtherAmt", expIncpOtherAmt);     // 용역/기타 예상운영수익
+
+//        result.put("incpRndAmt", incpRndAmt);               // R&D 달성운영수익
+//        result.put("incpUnRndAmt", incpUnRndAmt);           // 비R&D 수익
+        result.put("incpEngnAmt", incpEngnAmt);               // 엔지니어링 달성운영수익
+        result.put("incpOtherAmt", incpOtherAmt);           // 용역/기타 달성운영수익
+
+//        result.put("expSaleRndAmt", expSaleRndAmt);         // R&D 예상매출액
+//        result.put("expSaleUnRndAmt", expSaleUnRndAmt);     // 비R&D 예상매출액
+        result.put("expSaleEngnAmt", expSaleEngnAmt);       // 엔지니어링 예상매출액
+        result.put("expSaleOtherAmt", expSaleOtherAmt);     // 용역/기타 예상매출액
+
+//        result.put("saleRndAmt", saleRndAmt);       // R&D 달성매출액
+//        result.put("saleUnRndAmt", saleUnRndAmt);   // 비R&D 매출액
+        result.put("saleEngnAmt", saleEngnAmt);     // 엔지니어링 달성매출액
+        result.put("saleOtherAmt", saleOtherAmt);   // 용역/기타 달성매출액
+
+//        result.put("expEngnAmt", expEngnAmt);       // 엔지니어링 예상수주금액
+//        result.put("expOtherAmt", expOtherAmt);     // 용역/기타 예상수주금액
+//        result.put("expRndAmt", expRndAmt);         // R&D 예상수주금액
+//        result.put("expUnRndAmt", expUnRndAmt);     // 비R&D 예상수주금액
+        result.put("engnAmt", engnAmt);             // 엔지니어링 수주금액
+        result.put("otherAmt", otherAmt);           // 용역/기타 수주금액
+        result.put("rndAmt", rndAmt);               // R&D 수주액
+//        result.put("unRndAmt", unRndAmt);           // 비R&D 수주액
+
+        // 팀 목표
+        params.put("deptLevel", "2");
+        params.put("objType", "team");
+        Map<String, Object> deptObj = achieveRepository.getDeptObjAmt(params);
+        result.put("objDelvAmt", deptObj.get("DELV_OBJ").toString());
+        result.put("objSaleAmt", deptObj.get("SALE_OBJ").toString());
+        result.put("objIncpAmt", deptObj.get("INCP_OBJ").toString());
+
+        // 운영비 목표
+        params.put("objType", "oper");
+        Map<String, Object> operObj = achieveRepository.getDeptObjAmt(params);
+        result.put("objPayrollAmt", operObj.get("PAYROLL_OBJ").toString());
+        result.put("objExnpAmt", operObj.get("EXNP_OBJ").toString());
+        result.put("objCommAmt", operObj.get("COMM_OBJ").toString());
+
+        return result;
     }
 }

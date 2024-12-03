@@ -438,4 +438,24 @@ public class AchieveRepository extends AbstractDAO {
     public int getPjtTeamInvAmt(Map<String, Object> params) {
         return (int) selectOne("achieve.getPjtTeamInvAmt", params);
     }
+
+    public long getEngnGoodsAmt(Map<String, Object> params) {
+
+        return (long) selectOne("achieve.getEngnGoodsAmt", params);
+    }
+
+    public long getEngnUseExnpCostAmt(Map<String, Object> params) {
+
+        return (long) selectOne("achieve.getEngnUseExnpCostAmt", params);
+    }
+
+    public long getEngnUseExnpPurcAmt(Map<String, Object> params) {
+
+        return (long) selectOne("achieve.getEngnUseExnpPurcAmt", params);
+    }
+
+    public long getEngnUseExnpBustAmt(Map<String, Object> params) {
+
+        return (long) selectOne("achieve.getEngnUseExnpBustAmt", params);
+    }
 }

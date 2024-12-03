@@ -13,9 +13,9 @@ var finPerm = {
 
         finPerm.fn_searchData();
 
-        $("#dept, #year").on("change", function(){
+        /*$("#dept, #year").on("change", function(){
             finPerm.fn_searchData();
-        });
+        });*/
     },
 
     fn_searchData : function(){
@@ -27,7 +27,9 @@ var finPerm = {
             baseYear : $("#year").val().split("-")[0],
             deptSeq : $("#dept").val(),
             startDt : $("#year").val().split("-")[0] + "-01-01",
-            endDt : $("#year").val() + "-" + date.getDate()
+            endDt : $("#year").val() + "-" + date.getDate(),
+
+            pjtYear : $("#year").val().split("-")[0]
         }
 
         var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc", parameters);
@@ -37,10 +39,10 @@ var finPerm = {
         var result2 = rs.payrollMap;
 
         /** 수주 */
-        $("#rndDelvAmt").text(comma(result.rndAmt));
-        $("#unRndDelvAmt").text(comma(result.unRndAmt));
-        $("#engnDelvAmt").text(comma(result.engnAmt));
-        $("#otherDelvAmt").text(comma(result.otherAmt));
+        $("#rndDelvAmt").text(comma(result.rndAmt || 0));
+        $("#unRndDelvAmt").text(comma(result.unRndAmt || 0));
+        $("#engnDelvAmt").text(comma(result.engnAmt || 0));
+        $("#otherDelvAmt").text(comma(result.otherAmt || 0));
 
         /** 매출 */
         $("#rndSaleAmt").text(comma(result.saleRndAmt || 0));
@@ -55,15 +57,15 @@ var finPerm = {
         $("#otherIncpAmt").text(comma(result.incpOtherAmt || 0));
 
         /** 달성소계 */
-        $("#delvTotAmt").text(comma(result.engnAmt + result.otherAmt + result.rndAmt + result.unRndAmt));
+        $("#delvTotAmt").text(comma((result.engnAmt || 0) + (result.otherAmt || 0) + (result.rndAmt || 0) + (result.unRndAmt || 0)));
         $("#saleTotAmt").text(comma((result.saleRndAmt || 0) + (result.saleUnRndAmt || 0) + (result.saleEngnAmt || 0) + (result.saleOtherAmt || 0)));
         $("#incpTotAmt").text(comma((result.incpRndAmt || 0) + (result.incpUnRndAmt || 0) + (result.incpEngnAmt || 0) + (result.incpOtherAmt || 0)));
 
         /** 예상수주 */
-        $("#expRndAmt").text(comma(result.expRndAmt));
-        $("#expUnRndAmt").text(comma(result.expUnRndAmt));
-        $("#expEngnAmt").text(comma(result.expEngnAmt));
-        $("#expOtherAmt").text(comma(result.expOtherAmt));
+        $("#expRndAmt").text(comma(result.expRndAmt || 0));
+        $("#expUnRndAmt").text(comma(result.expUnRndAmt || 0));
+        $("#expEngnAmt").text(comma(result.expEngnAmt || 0));
+        $("#expOtherAmt").text(comma(result.expOtherAmt || 0));
 
         /** 예상매출 */
         $("#expSaleRndAmt").text(comma(result.expSaleRndAmt || 0));
@@ -285,8 +287,11 @@ var finPerm = {
                     field: "PJT_AMT",
                     width: 100,
                     template: function(e){
-                        delvTotAmt += e.PJT_AMT;
-                        return '<div style="text-align: right">'+comma(e.PJT_AMT)+'</div>'
+                        let amt = 0;
+                        amt = costCalc.allPjtAmt(e);
+
+                        delvTotAmt += amt;
+                        return '<div style="text-align: right">'+comma(amt)+'</div>'
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(delvTotAmt)+"</div>";
