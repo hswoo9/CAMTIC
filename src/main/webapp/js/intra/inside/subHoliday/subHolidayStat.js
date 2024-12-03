@@ -322,6 +322,10 @@ var subHolidayStat = {
     },
 
     gridReload : function(){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+        
         subHolidayStat.global.searchAjaxData = {
             holidayYear : $('#holidayYear').val(),
             deptSeq : $("#sDeptSeq").val(),

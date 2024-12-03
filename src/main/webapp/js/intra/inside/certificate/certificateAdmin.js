@@ -287,6 +287,10 @@ var certificateAdmin = {
     },
 
     gridReload : function (){
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         var data = {
             manageCheck : "admin",
             docuYearDe : $("#docuYearDe").val(),
