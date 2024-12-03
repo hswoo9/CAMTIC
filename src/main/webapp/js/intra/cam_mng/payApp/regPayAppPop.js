@@ -828,7 +828,7 @@ var regPay = {
                 }
             }
 
-            if(exnpList.length > 0 && exnpList[0].PJT_SN != null){
+            if(exnpList.length > 0 && exnpList[0].PJT_SN != null && exnpList[0].BUSN_NAME.indexOf("법인운영") < 0){
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
                 if (pjtMap != null) {
                     var busnClass = pjtMap.BUSN_CLASS;
@@ -998,7 +998,7 @@ var regPay = {
                 count++;
             }
 
-            if (exnpList.length > 0 && exnpList[0].PJT_SN != null) {
+            if (exnpList.length > 0 && exnpList[0].PJT_SN != null && exnpList[0].BUSN_NAME.indexOf("법인운영") < 0) {
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
                 var busnClass = pjtMap.BUSN_CLASS; console.log("busnClass", busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
@@ -1279,7 +1279,7 @@ var regPay = {
             const result2 = customKendo.fn_customAjax("/bustrip/getBusinessCorpOverExnpData", data);
             const exnpList2 = result2.list;
 
-            if(exnpList.length > 0 && exnpList[0].PJT_SN != null){
+            if(exnpList.length > 0 && exnpList[0].PJT_SN != null && exnpList[0].BUSN_NAME.indexOf("법인운영") < 0){
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
                 if (pjtMap != null) {
                     var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);

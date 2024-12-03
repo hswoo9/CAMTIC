@@ -1219,7 +1219,11 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/addDevVersion")
-    public String addDevVersion(@RequestParam Map<String, Object> params, Model model){
+    public String addDevVersion(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
 
         try{
             projectService.addDevVersion(params);
