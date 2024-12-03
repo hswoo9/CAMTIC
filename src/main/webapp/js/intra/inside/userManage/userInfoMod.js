@@ -576,6 +576,10 @@ var userInfoMod = {
     },
 */
     gridReload : function() {
+		if($("#mainGrid").data("kendoGrid") != null){
+			$("#mainGrid").data("kendoGrid").destroy();
+		}
+
         userInfoMod.global.searchAjaxData = {
             startDate : $('#start_date').val(),
             endDate : $("#end_date").val(),

@@ -11,6 +11,10 @@ var employmentManage = {
     },
 
 	gridReload : function() {
+		if($("#mainGrid").data("kendoGrid") != null){
+			$("#mainGrid").data("kendoGrid").destroy();
+		}
+		
 		employmentManage.global.searchAjaxData = {
 			startDate : $('#startDate').val(),
 			endDate : $("#endDate").val(),

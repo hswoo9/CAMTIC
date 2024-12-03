@@ -511,6 +511,10 @@ var userPersonList2 = {
     },
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         userPersonList2.global.searchAjaxData = {
             userKind : $('#userKind').val(),
             empNameKr : $("#kindContent").val(),
