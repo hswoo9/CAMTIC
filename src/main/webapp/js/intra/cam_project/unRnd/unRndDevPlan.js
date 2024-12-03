@@ -123,11 +123,11 @@ var unRndDP = {
                 html += "   <td>"+ docNo +"</td>";
                 html += "   <td>"+ sdfDate +"</td>";
                 html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-                if(commonProject.global.teamStat != "Y"){
-                    html += "   <td>"+rs.list[i].REG_EMP_NAME+"</td>";
-                }else{
-                    html += "   <td>"+rs.list[i].PM+"</td>";
-                }
+                // if(commonProject.global.teamStat != "Y"){
+                    html += "   <td>"+rs.list[i].DEV_REG_EMP_NAME+"</td>";
+                // }else{
+                //     html += "   <td>"+rs.list[i].PM+"</td>";
+                // }
                 html += "   <td></td>";
                 html += "   <td>"+pjtStepNm+"</td>";
                 html += "</tr>";
