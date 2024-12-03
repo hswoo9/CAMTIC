@@ -335,7 +335,7 @@ var userReqPop = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date()
+            value : $("#resignDay").val() != null ? $("#resignDay").val() : new Date()
         });
 
         $("#drop11").kendoDropDownList({
@@ -955,8 +955,10 @@ var userReqPop = {
             data.JOB_DETAIL = $("#jobDetailCaseA").val(); //직무사항
             data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
         }
-        
 
+        if($("#resignDay").val()){
+            data.RESIGN_DAY = $("#resignDay").val();
+        }
 
         if($("#targetEmpSeq").val() != ""){
             //업데이트
