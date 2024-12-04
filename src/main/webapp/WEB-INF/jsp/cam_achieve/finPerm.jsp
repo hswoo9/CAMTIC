@@ -89,7 +89,31 @@
         white-space: nowrap;
         text-align: right;
     }
+
+    .k-grid-content {
+        min-height: 400px;
+        max-height: 400px;
+    }
+
+    .k-grid-norecords{
+        line-height: 400px;
+    }
+
+    #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+
 </style>
+
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
+</div>
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -142,7 +166,7 @@
                             <td colspan="5" style="text-align: center;"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R', 'dev');">R&D</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R');">R&D</b></td>
                             <td style="text-align: right;" id="rndDelvAmt">0</td>
                             <td style="text-align: right;" id="rndSaleAmt">0</td>
                             <td style="text-align: right;" id="rndIncpAmt">0</td>
@@ -150,19 +174,19 @@
                             <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="3"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S', 'dev');">비R&D</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S');">비R&D</b></td>
                             <td style="text-align: right;" id="unRndDelvAmt">0</td>
                             <td style="text-align: right;" id="unRndSaleAmt">0</td>
                             <td style="text-align: right;" id="unRndIncpAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D', 'dev');">엔지니어링</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D');">엔지니어링</b></td>
                             <td style="text-align: right;" id="engnDelvAmt">0</td>
                             <td style="text-align: right;" id="engnSaleAmt">0</td>
                             <td style="text-align: right;" id="engnIncpAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V', 'dev');">용역/기타</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V');">용역/기타</b></td>
                             <td style="text-align: right;" id="otherDelvAmt">0</td>
                             <td style="text-align: right;" id="otherSaleAmt">0</td>
                             <td style="text-align: right;" id="otherIncpAmt">0</td>
@@ -183,7 +207,7 @@
                             <td style="text-align: right;"><b id="commTotAmt">0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R', 'delv');">R&D예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('R');">R&D예상</b></td>
                             <td style="text-align: right;" id="expRndAmt">0</td>
                             <td style="text-align: right;" id="expSaleRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpRndAmt">0</td>
@@ -191,19 +215,19 @@
                             <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="3"><b>2024년 예상 운영비_물량취합기준</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S', 'delv');">비R&D예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S');">비R&D예상</b></td>
                             <td style="text-align: right;" id="expUnRndAmt">0</td>
                             <td style="text-align: right;" id="expSaleUnRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpUnRndAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D', 'delv');">엔지니어링예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('D');">엔지니어링예상</b></td>
                             <td style="text-align: right;" id="expEngnAmt">0</td>
                             <td style="text-align: right;" id="expSaleEngnAmt">0</td>
                             <td style="text-align: right;" id="expIncpEngnAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V', 'delv');">용역/기타예상</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('V');">용역/기타예상</b></td>
                             <td style="text-align: right;" id="expOtherAmt">0</td>
                             <td style="text-align: right;" id="expSaleOtherAmt">0</td>
                             <td style="text-align: right;" id="expIncpOtherAmt">0</td>
@@ -258,7 +282,10 @@
             </div>
         </div>
         <div class="panel-body">
+            <div id="rndGrid"></div>
+            <div id="unRndGrid"></div>
             <div id="engnGrid"></div>
+            <div id="otherGrid"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

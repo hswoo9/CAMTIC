@@ -1782,7 +1782,8 @@
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
         /*getProjectListByAchieve*/
         SELECT
-            *
+            ROW_NUMBER() OVER (PARTITION BY V.BUSN_CLASS ORDER BY V.PJT_SN DESC, V.YEAR DESC) AS ROW_NUM,
+            V.*
         FROM
             CAM_PJT_MNG.V_PJT_ACHIEVE V
         WHERE

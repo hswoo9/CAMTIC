@@ -136,7 +136,7 @@ public class AchieveController {
 //        map = achieveService.getAllPjtCalcTemp(params);
 
         model.addAttribute("map", map);
-        model.addAttribute("payrollMap", achieveService.getDeptPayrollData(params));
+//        model.addAttribute("payrollMap", achieveService.getDeptPayrollData(params));
         return "jsonView";
     }
 
@@ -891,6 +891,14 @@ public class AchieveController {
         }
 
         model.addAttribute("data", resultMap);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getProjectCostCalcList")
+    public String getProjectCostCalcList(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", achieveService.getProjectCostCalcList(params));
 
         return "jsonView";
     }
