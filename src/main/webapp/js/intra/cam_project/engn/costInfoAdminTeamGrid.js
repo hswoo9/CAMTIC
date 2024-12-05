@@ -36,7 +36,9 @@ var costInfoTeamGrid = {
             teamType : '1',
         });
         const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {
-            pjtSn : $("#searchTeamPjtSn").val()
+            pjtSn : $("#searchTeamPjtSn").val(),
+            teamType : '1',
+            busnClass : commonProject.global.busnClass,
         });
 
         const purcList = purcResult.list;
@@ -496,6 +498,8 @@ var costInfoTeamGrid = {
                 },
                 parameterMap: function(data){
                     data.pjtSn = $("#searchTeamPjtSn").val();
+                    data.busnClass = commonProject.global.busnClass;
+                    data.teamType = '1';
                     return data;
                 }
             },

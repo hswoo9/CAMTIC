@@ -3631,20 +3631,23 @@
         /*getPjtExnpList*/
         SELECT
             PA.*,
-            CONCAT('[구매] ', MDI.DOC_NO) AS PURC_DOC_NO,
             (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN) AS ITEM_SUM,
-            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y') AS COST_SUM
+            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y') AS COST_SUM,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = PA.REG_EMP_SEQ) AS EMP_NAME,
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = PA.DOC_ID) AS DOC_NO,
+            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN) AS TOT_COST
         FROM
             CAM_MNG.DJ_PAY_APP PA
-        LEFT JOIN
-            CAM_MNG.DJ_MNG_PURC MP ON PA.LINK_KEY = MP.PURC_SN AND LINK_KEY_TYPE = '구매'
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO MDI ON MP.DOC_ID = MDI.DOC_ID
         WHERE
             (
                 PA.PJT_SN = #{pjtSn}
                 OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
             )
+            <if test='busnClass != null and !"".equals(busnClass) and !"D".equals(busnClass) and !"V".equals(busnClass)'>
+                <if test='teamType != null and !"".equals(teamType)'>
+                    AND PA.TM_TYPE = #{teamType}
+                </if>
+            </if>
         AND PA.DOC_STATUS NOT IN (0, 30, 40)
     </select>
 

@@ -100,8 +100,13 @@ var costInfoPop = {
         window.open(url, name, option);
     },
 
-    payAppChoosePop: function(){
+    payAppChoosePop: function(type){
         let url = "/project/payAppChoosePop.do?pjtSn="+$("#pjtSn").val();
+
+        if(type != null) {
+            url += "&teamType=" + $("#teamType").val();
+        }
+
         const name = "payAppChoosePop";
         const option = "width = 1450, height = 650, top = 150, left = 400, location = no";
         window.open(url, name, option);

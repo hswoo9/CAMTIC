@@ -34,6 +34,10 @@ var payAppChoosePop = {
         ]
         customKendo.fn_dropDownList("searchKeyword", payAppChoosePop.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
+
+        if($("#teamType").val() != "") {
+            $(".searchTable").hide();
+        }
     },
 
     gridReload: function(){
@@ -42,7 +46,9 @@ var payAppChoosePop = {
             strDe: $("#payAppStrDe").val(),
             endDe: $("#payAppEndDe").val(),
             searchKeyword: $("#searchKeyword").val(),
-            searchValue: $("#searchValue").val()
+            searchValue: $("#searchValue").val(),
+            teamType : $("#teamType").val(),
+            pjtSn : $("#pjtSn").val()
         });
     },
 
@@ -189,7 +195,8 @@ var payAppChoosePop = {
         })
         let data = {
             payAppSnList: payAppSnArr.join(),
-            pjtSn: $("#pjtSn").val()
+            pjtSn: $("#pjtSn").val(),
+            teamType: $("#teamType").val()
         }
         if($("input[name=payAppSn]:checked").length == 0) {
             alert("지급신청서가 선택되지 않았습니다.");
@@ -203,6 +210,11 @@ var payAppChoosePop = {
         }else{
             alert("저장 되었습니다.");
             opener.costInfoGrid.gridReload();
+
+            if($("#teamType").val() == "0") {
+                opener.costInfoTeamGrid.gridReload();
+            }
+
             this.gridReload();
         }
     }
