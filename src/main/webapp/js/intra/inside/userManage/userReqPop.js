@@ -956,8 +956,14 @@ var userReqPop = {
             data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
         }
 
-        if($("#resignDay").val()){
+        if($("#resignDay").val() != ""){
             data.RESIGN_DAY = $("#resignDay").val();
+        }
+
+        if ($("#check4").is(":checked")) {
+            data.WORK_STATUS_CODE = "N";
+        } else {
+            data.WORK_STATUS_CODE = "Y";
         }
 
         if($("#targetEmpSeq").val() != ""){
