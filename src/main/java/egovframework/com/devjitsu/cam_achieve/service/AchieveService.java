@@ -7,6 +7,8 @@ public interface AchieveService {
 
     Map<String, Object> getAllPjtCalc(Map<String, Object> params);
 
+    Map<String, Object> getAllPjtCalcTemp(Map<String, Object> params);
+
     Map<String, Object> getDeptPayrollData(Map<String, Object> params);
 
     List<Map<String, Object>> getDeptPayrollList(Map<String, Object> params);
@@ -130,4 +132,6 @@ public interface AchieveService {
     List<Map<String, Object>> getPurcAchieveMngList(Map<String, Object> params);
 
     int getPjtTeamInvAmt(Map<String, Object> params);
+
+    Map<String, Object> getProjectCostCalcList(Map<String, Object> params);
 }

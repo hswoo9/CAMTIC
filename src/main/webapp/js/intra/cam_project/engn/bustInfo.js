@@ -154,7 +154,15 @@ var bustInfo = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
                     template: function(row){
                         if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
-                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
+
+                            if(row.USE_TRSPT == 10 && row.RES_EXNP_SUM == "0") {
+                                return ""
+                            } else if(row.USE_TRSPT != "10" && row.USE_TRSPT != "0" && row.USE_TRSPT != "11" && Number(row.RES_EXNP_SUM - row.RES_CORP_CAR_SUM) == 0 && row.BUSN_CLASS != "R" && row.BUSN_CLASS != "S"){
+                                return ""
+                            } else {
+                                return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
+                            }
+
                         }else{
                             return "";
                         }
@@ -375,7 +383,15 @@ var bustInfo = {
                             /** 국내출장 해외출장 분기 */
                             if(e.TRIP_CODE != "4"){
                                 if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+
+                                    if(e.USE_TRSPT == 10 && e.RES_EXNP_SUM == "0") {
+                                        return '<button type="button" class="k-button k-button-solid-base" disabled >지급신청</button>'
+                                    } else if(e.USE_TRSPT != "10" && e.USE_TRSPT != "0" && e.USE_TRSPT != "11" && Number(e.RES_EXNP_SUM - e.RES_CORP_CAR_SUM) == 0 && e.BUSN_CLASS != "R" && e.BUSN_CLASS != "S"){
+                                        return '<button type="button" class="k-button k-button-solid-base" disabled >지급신청</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+                                    }
+
                                 }else if (e.PAY_APP_SN != null){
                                     if(e.DOC_STATUS == 100){
                                         return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">결재완료</button>'

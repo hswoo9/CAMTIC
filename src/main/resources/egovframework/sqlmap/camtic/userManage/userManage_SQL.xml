@@ -2242,7 +2242,7 @@
         EMP_NAME_CN = #{EMP_NAME_CN},
         EMP_NAME_EN = #{EMP_NAME_EN},
         EMG_TEL_NUM = #{EMG_TEL_NUM},
-        LEGAL_DOMICILE = #{LEGAL_DOMICILE},
+        LEGAL_DOMICILE = scp.enc_b64('KEY1', #{LEGAL_DOMICILE}),
         HOBBY = #{HOBBY},
         RELIGION = #{RELIGION},
         SPECIALITY = #{SPECIALITY},
@@ -2279,6 +2279,10 @@
         SIGNIFICANT = #{SIGNIFICANT},
         BDAY = scp.enc_b64('KEY1', #{BDAY}),
         TEMP_DIVISION = #{TEMP_DIVISION},
+        <if test="RESIGN_DAY != null and RESIGN_DAY != ''">
+            RESIGN_DAY = #{RESIGN_DAY},
+        </if>
+        WORK_STATUS_CODE = #{WORK_STATUS_CODE},
         MY_COMENT = #{MY_COMENT},
         SCIENCE_NO = #{SCIENCE_NO}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}

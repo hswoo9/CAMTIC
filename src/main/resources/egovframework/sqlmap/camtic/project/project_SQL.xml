@@ -3780,7 +3780,7 @@
     <select id="getPsMemberList" parameterType="map" resultType="map">
         /*getPsMemberList*/
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_PS
-        WHERE PJT_SN = #{pjtSn}
+        WHERE PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </select>
 
     <select id="getAceMemberList" parameterType="map" resultType="map">
