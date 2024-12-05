@@ -20,6 +20,7 @@
             <h3 class="card-title title_NM">개인정보</h3>
             <div>
                 <input type="hidden" id="targetEmpSeq" value="${params.empSeq}" />
+                <input type="hidden" id="workStatusCode" value="${uprinfList.WORK_STATUS_CODE}" />
                 <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="personalInformation.userReqSave();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
