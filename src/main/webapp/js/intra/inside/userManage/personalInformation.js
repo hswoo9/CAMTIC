@@ -857,7 +857,7 @@ var personalInformation = {
             POSITION_CODE : $("#position").val(), // 직급 / 등급
             DUTY_CODE : $("#duty").val(), // 직책
             DUTY_NAME : $("#duty").val() == "" ? "" : $("#duty").data("kendoDropDownList").text(), // 직책
-
+            WORK_STATUS_CODE : $("#workStatusCode").val(),
             EMP_NAME_CN : $("#empNameCn").val(), //한자 이름
             EMP_NAME_EN : $("#empNameEn").val(), //영문 이름
 
