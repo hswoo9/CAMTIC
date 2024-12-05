@@ -684,7 +684,8 @@
                 ELSE 0
                 END)
                 +
-                (SELECT IFNULL(USE_DAY, 0) FROM CAM_INSIDE.DJ_HOLIDAY VC WHERE VC.EMP_SEQ = VUI.EMP_SEQ AND VC.APPLY_YEAR = (${holidayYear} -1))
+                IFNULL(
+                (SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE ACTIVE = 'Y' AND EMP_SEQ = VUI.EMP_SEQ AND APPLY_YEAR = (${holidayYear} -1)), 0)
                 +
                 (CASE
                    WHEN VC.GRANT_DAY = 0
