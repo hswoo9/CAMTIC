@@ -2515,9 +2515,14 @@
             WHERE
                 A.JState != 1
             AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            <if test='teamType != null and !"".equals(teamType)'>
+                AND
+                    A.TM_TYPE = #{teamType}
+            </if>
         ) RE
+        WHERE 1=1
         <if test='"achieve".equals(reqType)'>
-            WHERE YEAR(RE.PURC_REQ_DATE) = #{reqYear}
+            AND YEAR(RE.PURC_REQ_DATE) = #{reqYear}
         </if>
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>
@@ -2595,12 +2600,11 @@
             WHERE
                 A.JState != 1
             AND
-                B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn}
+                B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
             <if test='teamType != null and !"".equals(teamType)'>
                 AND
                     A.TM_TYPE = #{teamType}
             </if>
-            )
         ) RE
         ORDER BY RE.PURC_REQ_DATE DESC
     </select>

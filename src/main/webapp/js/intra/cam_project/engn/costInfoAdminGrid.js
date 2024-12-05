@@ -7,9 +7,14 @@ var costInfoGrid = {
 
         if(commonProject.global.busnClass == "D" || commonProject.global.busnClass == "V"){
             $("#engnSelBtn").show();
+            $("#rndSelBtn").hide();
         }else{
             $("#engnSelBtn").hide();
             $("#grid4").data("kendoGrid").hideColumn(8);
+
+            if(commonProject.global.teamCk == "Y" || commonProject.global.teamStat == "Y") {
+                $("#rndSelBtn").show();
+            }
         }
 
         /** 총 합계 */
@@ -36,7 +41,9 @@ var costInfoGrid = {
             teamType : $("#teamType").val(),
         });
         const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {
-            pjtSn : $("#searchPjtSn").val()
+            pjtSn : $("#searchPjtSn").val(),
+            teamType : $("#teamType").val(),
+            busnClass : commonProject.global.busnClass,
         });
 
         const purcList = purcResult.list;
@@ -496,6 +503,8 @@ var costInfoGrid = {
                 },
                 parameterMap: function(data){
                     data.pjtSn = $("#searchPjtSn").val();
+                    data.teamType = $("#teamType").val();
+                    data.busnClass = commonProject.global.busnClass;
                     return data;
                 }
             },
@@ -528,6 +537,13 @@ var costInfoGrid = {
                     template : function (e){
                         return '<button type="button" id="engnSelBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display:none" onclick="costInfoPop.payAppChoosePop()">' +
                             '	<span class="k-button-text">지급신청서 선택</span>' +
+                            '</button>';
+                    }
+                },{
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="rndSelBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display:none" onclick="costInfoPop.payAppChoosePop(\'R\')">' +
+                            '	<span class="k-button-text">수행부서 변경</span>' +
                             '</button>';
                     }
                 },{

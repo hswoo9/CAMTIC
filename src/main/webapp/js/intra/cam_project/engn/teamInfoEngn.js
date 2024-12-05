@@ -54,7 +54,7 @@ var teamEngn = {
                         html += '    <td style="text-align: center">-</td>';
                     }
                 } else {
-                    if(pjtMap.PM_EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1"){
+                    if(pjtMap.EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1"){
                         html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-error" onclick="teamEngn.delTeam('+verMap.TEAM_VERSION_SN+')">삭제</button></td>';
                     } else {
                         html += '    <td style="text-align: center">-</td>';
@@ -118,7 +118,7 @@ var teamEngn = {
                         html += '    <td style="text-align: center">-</td>';
                     }
                 } else {
-                    if(pjtMap.PM_EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1"){
+                    if(pjtMap.EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1"){
                         html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-error" onclick="teamEngn.delTeam('+verMap.TEAM_VERSION_SN+')">삭제</button></td>';
                     } else {
                         html += '    <td style="text-align: center">-</td>';

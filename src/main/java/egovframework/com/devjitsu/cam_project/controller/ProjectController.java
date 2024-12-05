@@ -1836,7 +1836,7 @@ public class ProjectController {
         return "jsonView";
     }
 
-    /** 단위사업(교육) 수강자 청강 처리 */
+    /** 민간사업에 지급신청서 연결 */
     @RequestMapping("/project/updPayAppChoose")
     public String updPayAppChoose(@RequestParam Map<String, Object> params, Model model){
         try{

@@ -105,7 +105,7 @@
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
-
+<input type="hidden" id="teamType" value="${params.teamType}"/>
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>

@@ -3974,6 +3974,14 @@
         WHERE PAY_APP_SN IN (${payAppSnList})
     </update>
 
+    <update id="updPayAppTeamType" parameterType="map">
+        /*updPayAppTeamType*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            TM_TYPE = #{teamType}
+        WHERE PAY_APP_SN IN (${payAppSnList})
+    </update>
+
     <update id="updPayAppPjtNull" parameterType="map">
         /*updPayAppPjtNull*/
         UPDATE CAM_MNG.DJ_PAY_APP

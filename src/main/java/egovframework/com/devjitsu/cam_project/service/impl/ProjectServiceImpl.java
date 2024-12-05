@@ -1852,12 +1852,32 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Map<String, Object>> payAppChooseList(Map<String, Object> params) {
-        return projectRepository.payAppChooseList(params);
+        List<Map<String, Object>> resultMap = new ArrayList<>();
+
+        if(!params.get("teamType").equals("")) {
+            params.put("busnClass", projectRepository.getProjectData(params).get("BUSN_CLASS"));
+            resultMap = payAppRepository.getPjtExnpList(params);
+        } else {
+            resultMap = projectRepository.payAppChooseList(params);
+        }
+
+        return resultMap;
     }
 
     @Override
     public void updPayAppChoose(Map<String, Object> params) {
-        projectRepository.updPayAppChoose(params);
+
+        if(!params.get("teamType").equals("")) {
+            if(params.get("teamType").equals("0")) {
+                params.put("teamType", "1");
+            } else {
+                params.put("teamType", "0");
+            }
+
+            projectRepository.updPayAppTeamType(params);
+        } else {
+            projectRepository.updPayAppChoose(params);
+        }
     }
 
     @Override
