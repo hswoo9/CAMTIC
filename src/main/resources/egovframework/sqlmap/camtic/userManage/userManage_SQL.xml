@@ -2242,7 +2242,7 @@
         EMP_NAME_CN = #{EMP_NAME_CN},
         EMP_NAME_EN = #{EMP_NAME_EN},
         EMG_TEL_NUM = #{EMG_TEL_NUM},
-        LEGAL_DOMICILE = #{LEGAL_DOMICILE},
+        LEGAL_DOMICILE = scp.enc_b64('KEY1', #{LEGAL_DOMICILE}),
         HOBBY = #{HOBBY},
         RELIGION = #{RELIGION},
         SPECIALITY = #{SPECIALITY},
