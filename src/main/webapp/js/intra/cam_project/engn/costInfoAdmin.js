@@ -254,6 +254,7 @@ var costInfoAdmin = {
             '                <col width="%">' +
             '                <col width="%">' +
             '                <col width="%">' +
+            '                <col width="%">' +
             '            </colgroup>' +
             '            <thead >' +
             '            <tr>' +
@@ -310,39 +311,46 @@ var costInfoAdmin = {
             list2 = list;
             let count = list.length;
             console.log("협업재무실적 list", list);
-            html +=
-                '            <tr>' +
-                '                <td rowspan="'+count+'" style="text-align: center">협업</td>' +
-                '                <td id="TEAM_PJT_CD2" rowspan="'+count+'" style="text-align: center"></td>' +
-                '                <td id="TEAM_PM_DEPT" rowspan="'+count+'" style="text-align: center"></td>' +
-                '                <td id="TEAM_PM_TEAM" rowspan="'+count+'" style="text-align: center"></td>';
 
-            for(let i=0; i<count; i++){
-                const e = list[i];
-
-                if(i != 0){
-                    html +=
-                        '            <tr>';
-                }else{
-                    teamEmpSeq = e.PM_EMP_SEQ;
-                }
+            if(count > 0) {
                 html +=
-                    '                <td id="TEAM_PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
-                    '                <td id="TEAM_PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_INV_AMT'+(i)+'" class="invAmt" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_RES_AMT'+(i)+'" class="resAmt" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_DEV_AMT'+(i)+'" class="devAmt" style="text-align: right">' +
-                    '                </td>' +
-                    '                <td id="TEAM_DEV_NOT_INV_AMT'+(i)+'" class="devNotInvAmt" style="text-align: right">' +
-                    '                </td>' +
-                    '            </tr>';
+                    '            <tr>' +
+                    '                <td rowspan="'+count+'" style="text-align: center">협업</td>' +
+                    '                <td id="TEAM_PJT_CD2" rowspan="'+count+'" style="text-align: center"></td>' +
+                    '                <td id="TEAM_PM_DEPT" rowspan="'+count+'" style="text-align: center"></td>' +
+                    '                <td id="TEAM_PM_TEAM" rowspan="'+count+'" style="text-align: center"></td>';
+
+                for(let i=0; i<count; i++){
+                    const e = list[i];
+
+                    if(i != 0){
+                        html +=
+                            '            <tr>';
+                    }else{
+                        teamEmpSeq = e.PM_EMP_SEQ;
+                    }
+                    html +=
+                        '                <td id="TEAM_PJT_YEAR'+(i)+'" style="text-align: center">'+e.YEAR+'년</td>' +
+                        '                <td id="TEAM_PJT_AMT2'+(i)+'" class="pjtAmt2" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_PJT_AMT3'+(i)+'" class="pjtAmt3" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_INV_AMT'+(i)+'" class="invAmt" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_RES_AMT'+(i)+'" class="resAmt" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_RES_NOT_INV_AMT'+(i)+'" class="resNotInvAmt" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_DEV_AMT'+(i)+'" class="devAmt" style="text-align: right">' +
+                        '                </td>' +
+                        '                <td id="TEAM_DEV_NOT_INV_AMT'+(i)+'" class="devNotInvAmt" style="text-align: right">' +
+                        '                </td>' +
+                        '            </tr>';
+                }
+            } else {
+                html += '<tr>';
+                html += '<td colspan="12"></td>';
+                html += '</tr>';
             }
         }
 
