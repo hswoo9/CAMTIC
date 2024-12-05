@@ -69,8 +69,8 @@ var regUnRnd = {
                 {name: "공정", url: tab18Url},
                 {name: "실적관리", url: tab15Url},
 
-                {name: "출장", url: tab9Url},
-                {name: "구매", url: tab11Url},
+                {name: "출장", url: tab9Url + "&teamType=1"},
+                {name: "구매", url: tab11Url + "&teamType=1"},
                 {name: "정산서", url: tab16Url + "&teamType=1"},
                 {name: "장비", url: tab17Url}
             ]
@@ -87,8 +87,8 @@ var regUnRnd = {
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "실적관리", url: tab15Url},
 
-                {name: "출장", url: tab9Url},
-                {name: "구매", url: tab11Url},
+                {name: "출장", url: tab9Url + "&teamType=0"},
+                {name: "구매", url: tab11Url + "&teamType=0"},
                 {name: "예산변경 및 반납", url: tab12Url},
                 {name: "입금관리", url: tab13Url},
                 {name: "정산서", url: tab16Url + "&teamType=0"},

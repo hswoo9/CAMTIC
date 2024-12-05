@@ -97,8 +97,8 @@ var regPrj = {
                 {name: "납품관리", url: tab6Url},
                 {name: "실적관리", url: tab8Url},
 
-                {name: "출장", url: tab10Url},
-                {name: "구매", url: tab11Url},
+                {name: "출장", url: tab10Url + "&teamType=1"},
+                {name: "구매", url: tab11Url + "&teamType=1"},
                 {name: "정산서", url: tab13Url + "&teamType=1"},
                 {name: "장비", url: tab14Url}
             ]
@@ -114,8 +114,8 @@ var regPrj = {
                 {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "실적관리", url: tab8Url},
 
-                {name: "출장", url: tab10Url},
-                {name: "구매", url: tab11Url},
+                {name: "출장", url: tab10Url + "&teamType=0"},
+                {name: "구매", url: tab11Url + "&teamType=0"},
                 {name: "입금관리", url: tab12Url},
                 {name: "정산서", url: tab13Url + "&teamType=0"},
                 {name: "장비", url: tab14Url},

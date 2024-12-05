@@ -101,7 +101,8 @@ var purcInfo = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             camProject: "Y",
-            busnClass: commonProject.global.busnClass
+            busnClass: commonProject.global.busnClass,
+            teamType : $("#teamType").val(),
         }
 
         purcInfo.mainGrid("/purc/getPurcReqClaimList.do", purcInfo.global.searchAjaxData);

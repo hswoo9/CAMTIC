@@ -57,6 +57,7 @@
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
+<input type="hidden" id="teamType" value="${params.teamType}"/>
 
 <div style="padding: 10px">
     <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
