@@ -213,6 +213,7 @@ public class AchieveController {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
@@ -240,6 +241,7 @@ public class AchieveController {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
@@ -903,6 +905,14 @@ public class AchieveController {
     public String getProjectCostCalcList(@RequestParam Map<String, Object> params, Model model) {
 
         model.addAttribute("data", achieveService.getProjectCostCalcList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getDeptProjectCostCalcList")
+    public String getDeptProjectCostCalcList(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", achieveService.getDeptProjectCostCalcList(params));
 
         return "jsonView";
     }

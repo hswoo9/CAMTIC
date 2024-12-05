@@ -97,16 +97,47 @@ var costCalc = {
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
-                    amt = Number(e.REAL_PJT_AMT) + Number(e.befExpSaleAmt || 0);
+                    amt = costCalc.allPjtAmt(e) + Number(e.befExpSaleAmt || 0);
                 } else {
-                    amt = Number(e.REAL_PJT_AMT);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        amt = Number(e.TM_AMT || 0)
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            console.log(":>")
+                            amt = Number(e.TM_AMT || 0);
+                        } else {
+                            amt = Number(e.REAL_PJT_AMT);
+                        }
+                    }
                 }
             } else if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.YEAR){
                 /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        amt = Number(e.TM_AMT || 0) - Number(e.nowExpSaleAmt || 0);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            amt = Number(e.TM_AMT || 0) - Number(e.nowExpSaleAmt || 0);
+                        } else {
+                            amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                        }
+                    }
                 }else{
-                    amt = Number(e.REAL_PJT_AMT);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        amt = Number(e.TM_AMT || 0)
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            amt = Number(e.TM_AMT || 0);
+                        } else {
+                            amt = Number(e.REAL_PJT_AMT);
+                        }
+                    }
                 }
             }else{
                 /** 전년도 회계 마감 여부 */
