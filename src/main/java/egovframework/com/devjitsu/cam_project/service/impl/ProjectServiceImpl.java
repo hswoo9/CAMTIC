@@ -1190,8 +1190,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         Map<String, Object> map =  projectRepository.getEstData(params);
         params.put("estSn", map.get("EST_SN"));
-        Map<String, Object> devMap = projectRepository.getDevData(params);
-        params.put("devSn", devMap.get("DEV_SN"));
+//        Map<String, Object> devMap = projectRepository.getDevData(params);
+//        params.put("devSn", devMap.get("DEV_SN"));
 
 //        projectRepository.updEstInfo(params);
 //        projectRepository.delEstSub(params);
