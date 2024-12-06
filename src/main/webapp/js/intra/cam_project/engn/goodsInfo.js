@@ -43,7 +43,7 @@ var goodsInfo = {
 
         goodsInfo.global.estExpAmt = rs.result.estList[rs.result.estList.length - 1].EST_TOT_AMT;
 
-        $("#estExpAmt").html(comma(goodsInfo.global.estExpAmt));
+        $("#estExpAmtTxt").html(comma(goodsInfo.global.estExpAmt));
         $("#balGoodsAmt").html(comma(goodsInfo.global.estExpAmt));
 
         var vatChk = rs.result.estList[rs.result.estList.length - 1].VAT;
@@ -138,7 +138,8 @@ var goodsInfo = {
             goodsInfo.global.goodsStat = goodsList[goodsList.length - 1].GOODS_STAT;
             goodsInfo.fn_goodsList(goodsList);
         }
-        $("#estExpAmt").html(comma(goodsInfo.global.estExpAmt));
+
+        $("#estExpAmtTxt").html(comma(goodsInfo.global.estExpAmt));
 
     },
 
