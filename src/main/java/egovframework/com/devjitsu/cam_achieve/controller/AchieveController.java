@@ -909,11 +909,11 @@ public class AchieveController {
         return "jsonView";
     }
 
-    @RequestMapping("/cam_achieve/getDeptProjectCostCalcList")
+    /*@RequestMapping("/cam_achieve/getDeptProjectCostCalcList")
     public String getDeptProjectCostCalcList(@RequestParam Map<String, Object> params, Model model) {
 
         model.addAttribute("data", achieveService.getDeptProjectCostCalcList(params));
 
         return "jsonView";
-    }
+    }*/
 }
