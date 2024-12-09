@@ -262,7 +262,7 @@ public class BustripServiceImpl implements BustripService {
         params.put("carReqSn", bustripMap.get("CAR_REQ_SN"));
         insideCodeRepository.setCarRequestDelete(params);
 
-        if(bustripMap.get("DOC_ID") != null){
+        if(bustripMap.get("DOC_ID") != null && !bustripMap.get("STATUS").equals("100")){
             params.put("docId", bustripMap.get("DOC_ID"));
             approvalUserRepository.setDocDel(params);
         }

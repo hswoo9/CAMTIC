@@ -399,7 +399,7 @@ var bustripMngList = {
                     title : "취소",
                     width: 70,
                     template : function (e){
-                        if(e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40){
+                        if(e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40 || (e.STATUS == 100 && e.HR_BIZ_REQ_RESULT_ID == null)){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustripMngList.fn_delBtn('+e.HR_BIZ_REQ_ID+')">' +
                                 '	<span class="k-button-text">신청취소</span>' +
                                 '</button>';
