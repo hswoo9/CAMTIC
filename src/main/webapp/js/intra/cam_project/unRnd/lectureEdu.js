@@ -81,6 +81,19 @@ var lectureEdu = {
                     title: "번호",
                     template: "#= --record #",
                     width: "30px"
+                },{
+                    field: "USER_TYPE",
+                    title: "구분",
+                    width: "30px",
+                    template: function(row){
+                        if(row.USER_TYPE == "S"){
+                            return "학생";
+                        }else if(row.USER_TYPE == "C"){
+                            return "재직자";
+                        } else {
+                            return "일반";
+                        }
+                    }
                 }, {
                     field: "NAME",
                     title: "이름",
