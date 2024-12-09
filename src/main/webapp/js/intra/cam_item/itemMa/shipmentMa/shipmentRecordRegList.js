@@ -111,6 +111,16 @@ var srrl = {
             },
             columns: [
                 {
+                    template : function(e){
+                        if(e.DEADLINE == "N"){
+                            return "<input type='checkbox' id='checkAll' class='mainObtainOrderSn obtainOrderSn_" + e.OBTAIN_ORDER_SN + "' value='" + e.OBTAIN_ORDER_SN + "' style=\"top: 3px; position: relative\" />"
+                        }else{
+                            return ""
+                        }
+                    },
+                    width: 30,
+                },
+                {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -132,10 +142,10 @@ var srrl = {
             }
         }).data("kendoGrid");
 
-        $("#checkAll").click(function(){
+        /*$("#checkAll").click(function(){
             if($(this).is(":checked")) $("input[name=rcSn]").prop("checked", true);
             else $("input[name=rcSn]").prop("checked", false);
-        });
+        });*/
 
         $(".numberInput").keyup(function(){
             if(Number(srrl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
@@ -143,9 +153,38 @@ var srrl = {
                 $(this).val(srrl.comma($(this).attr("maxOrderVolume")));
             }
         });
+
+        $("#checkAll").click(function(){
+           if($(this).is(":checked")){
+               $(".obtainOrderSn_" + $(this).val()).each(function () {
+                   $(this).prop("checked", true);
+               });
+           } else{
+               $(".obtainOrderSn_" + $(this).val()).each(function () {
+                   $(this).prop("checked", false);
+               });
+           }
+       });
+
+        $(".mainObtainOrderSn").click(function(){
+
+            if($(this).is(":checked")) {
+                if($("#" + $(this).val() + "_detailGrid").length == 0){
+                    var grid = $("#mainGrid").data("kendoGrid");
+                    grid.expandRow($(this).closest("tr"));
+                    grid.collapseRow($(this).closest("tr"));
+                }else{
+                    $("#" + $(this).val() + "_detailGrid input[type='checkbox']").prop("checked", true);
+                }
+            }else{
+                $("#" + $(this).val() + "_detailGrid input[type='checkbox']").prop("checked", false);
+            }
+
+        });
     },
 
     detailInit : function(e) {
+        console.log(e)
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -155,7 +194,11 @@ var srrl = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.obtainOrderSn = e.data.OBTAIN_ORDER_SN;
+                    if(e.data.OBTAIN_ORDER_SN != null){
+                        data.obtainOrderSn = e.data.OBTAIN_ORDER_SN;
+                    }else{
+                        data.obtainOrderSn = e.OBTAIN_ORDER_SN
+                    }
                     return data;
                 }
             },
@@ -170,14 +213,14 @@ var srrl = {
             pageSize: 10,
         });
 
-        $("<div/>").appendTo(e.detailCell).kendoGrid({
+        $("<div id='" + e.data.OBTAIN_ORDER_SN + "_detailGrid'/>").appendTo(e.detailCell).kendoGrid({
             dataSource: dataSource,
             scrollable: false,
             sortable: true,
             pageable: true,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
+                    headerTemplate: '<input type="checkbox" class="checkAll" value="' + e.data.OBTAIN_ORDER_SN + '" style="top: 3px; position: relative" />',
                     template : function(e){
                         if(e.DEADLINE == "N"){
                             return "<input type='checkbox' class='checkItem' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
@@ -344,6 +387,13 @@ var srrl = {
                 grid.tbody.on("change", ".checkItem", function() {
                     let allChecked = grid.tbody.find(".checkItem:not(:disabled)").length === grid.tbody.find(".checkItem:checked").length;
                     checkAll.prop("checked", allChecked);
+                });
+
+                $.each($(".mainObtainOrderSn"), function(i, v) {
+                    if($(this).prop("checked") == true && $(this).val() == $(checkAll).val()){
+                        checkAll.click();
+                        grid.tbody.find(".checkItem:not(:disabled)").prop("checked", true);
+                    }
                 });
             }
         });
