@@ -719,20 +719,7 @@
                 </otherwise>
             </choose>
         </if>
-        <choose>
-            <when test='approveType != null and "completion".equals(approveType)'>
-                ORDER BY (
-                CASE WHEN RRE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RRE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
-                ),  IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT) DESC
-            </when>
-            <when test='approveType != null and "wait".equals(approveType)'>
-                ORDER BY IFNULL(RRE.APPROVE_DT2, RRE.DRAFT_DT2) DESC
-            </when>
-            <otherwise>
-                ORDER BY IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT) DESC
-            </otherwise>
-        </choose>
-        /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
+        ORDER BY IFNULL(RRE.REPTIT_DRFT_DT, RRE.DRAFT_DT) ASC
     </select>
 
     <select id="getApproveDocBoxListMobile" parameterType="map" resultType="map">
