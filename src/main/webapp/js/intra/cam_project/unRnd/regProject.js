@@ -143,7 +143,7 @@ var regUnRnd = {
             if(resultMap != null){
                 console.log("resultMap")
                 console.log(resultMap)
-                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                if((setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1") && resultMap.STATUS == "100"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(2));
                 }
             }
@@ -182,7 +182,7 @@ var regUnRnd = {
                     if(resultMap != null){
                         console.log("resultMap")
                         console.log(resultMap)
-                        if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                        if((setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() || $("#regEmpSeq").val() == "1") && resultMap.STATUS == "100"){
                             tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                         }
                     }
