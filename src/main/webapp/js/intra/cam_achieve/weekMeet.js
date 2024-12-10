@@ -271,40 +271,40 @@ var weekMeet = {
             dataBound : function (){
 
                 /** 수주 목표 */
-                $("#delvObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].DELV_OBJ / 1000000 || 0)));
+                $("#delvObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].DELV_OBJ / 1000000) || 0));
 
                 /** 수주 달성 */
-                $("#delvAch_" + data.DEPT_SEQ).text(comma(Math.floor(delvTotAmt / 1000000 || 0)));
+                $("#delvAch_" + data.DEPT_SEQ).text(comma(Math.floor(delvTotAmt / 1000000) || 0));
 
                 /** 수주 예상 */
-                $("#delvExp_" + data.DEPT_SEQ).text(comma(Math.floor(expDelvTotAmt / 1000000 || 0)));
+                $("#delvExp_" + data.DEPT_SEQ).text(comma(Math.floor(expDelvTotAmt / 1000000) || 0));
 
                 /** 수주 합계 */
-                $("#delvSum_" + data.DEPT_SEQ).text(comma(Math.floor(delvTotAmt / 1000000 || 0) + Math.floor(expDelvTotAmt / 1000000 || 0)));
+                $("#delvSum_" + data.DEPT_SEQ).text(comma((Math.floor(delvTotAmt / 1000000) || 0) + (Math.floor(expDelvTotAmt / 1000000) || 0)));
 
                 /** 매출 목표 */
-                $("#saleObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].SALE_OBJ / 1000000 || 0)));
+                $("#saleObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].SALE_OBJ / 1000000) || 0));
 
                 /** 매출 달성 */
-                $("#saleAch_" + data.DEPT_SEQ).text(comma(Math.floor(saleTotAmt / 1000000 || 0)));
+                $("#saleAch_" + data.DEPT_SEQ).text(comma(Math.floor(saleTotAmt / 1000000) || 0));
 
                 /** 매출 예상 */
-                $("#saleExp_" + data.DEPT_SEQ).text(comma(Math.floor(expSaleTotAmt / 1000000 || 0)));
+                $("#saleExp_" + data.DEPT_SEQ).text(comma(Math.floor(expSaleTotAmt / 1000000) || 0));
 
                 /** 매출 합계 */
-                $("#saleSum_" + data.DEPT_SEQ).text(comma(Math.floor(saleTotAmt / 1000000 || 0) + Math.floor(expSaleTotAmt / 1000000 || 0)));
+                $("#saleSum_" + data.DEPT_SEQ).text(comma((Math.floor(saleTotAmt / 1000000) || 0) + (Math.floor(expSaleTotAmt / 1000000) || 0)));
 
                 /** 운영수익 목표 */
-                $("#incpObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].INCP_OBJ / 1000000 || 0)));
+                $("#incpObj_" + data.DEPT_SEQ).text(comma(Math.floor(data.deptObj[0].INCP_OBJ / 1000000) || 0));
 
                 /** 운영수익 달성 */
-                $("#incpAch_" + data.DEPT_SEQ).text(comma(Math.floor(incpTotAmt / 1000000 || 0)));
+                $("#incpAch_" + data.DEPT_SEQ).text(comma(Math.floor(incpTotAmt / 1000000) || 0));
 
                 /** 운영수익 예상 */
-                $("#incpExp_" + data.DEPT_SEQ).text(comma(Math.floor(expIncpTotAmt / 1000000 || 0)));
+                $("#incpExp_" + data.DEPT_SEQ).text(comma(Math.floor(expIncpTotAmt / 1000000) || 0));
 
                 /** 운영수익 합계 */
-                $("#incpSum_" + data.DEPT_SEQ).text(comma(Math.floor(incpTotAmt / 1000000 || 0) + Math.floor(expIncpTotAmt / 1000000 || 0)));
+                $("#incpSum_" + data.DEPT_SEQ).text(comma((Math.floor(incpTotAmt / 1000000) || 0) + (Math.floor(expIncpTotAmt / 1000000) || 0)));
             },
         }).data("kendoGrid");
     },

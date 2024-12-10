@@ -7,6 +7,7 @@
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/monMeet.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costCalc.js?v=${today}'/>"></script>
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -26,7 +27,22 @@
     .totalTable td {
         height: 38.14px;
     }
+
+    #my-spinner { width: 100%; height: 100vh; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+
 </style>
+
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
+</div>
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -76,34 +92,34 @@
                             <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
                             <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
                             <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
                             <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
                             <td style="text-align: center;background-color: #fffef2;"><b>목표</b></td>
                             <td style="text-align: center;background-color: #fff4f4;"><b>달성</b></td>
                             <td style="text-align: center;background-color: #f2ffff;"><b>예상</b></td>
-                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;background-color: #f0fff5;"><b>합계</b></td>
                             <td style="text-align: center;"><b>(%)</b></td>
                         </tr>
                         <tr style="background-color: white">
                             <td style="text-align: right;background-color: #fffef2;" id="delvObj" name="delvObj"></td>
                             <td style="text-align: right;background-color: #fff4f4;" id="delvAch" name="delvAch"></td>
                             <td style="text-align: right;background-color: #f2ffff;" id="delvExp" name="delvExp"></td>
-                            <td style="text-align: right;" id="delvSum" name="delvSum"></td>
+                            <td style="text-align: right;background-color: #f0fff5;" id="delvSum" name="delvSum"></td>
                             <td style="text-align: right;font-weight: bold;" id="delvPer" name="delvPer"></td>
                             <td style="text-align: right;background-color: #fffef2;" id="saleObj" name="saleObj"></td>
                             <td style="text-align: right;background-color: #fff4f4;" id="saleAch" name="saleAch"></td>
                             <td style="text-align: right;background-color: #f2ffff;" id="saleExp" name="saleExp"></td>
-                            <td style="text-align: right;" id="saleSum" name="saleSum"></td>
+                            <td style="text-align: right;background-color: #f0fff5;" id="saleSum" name="saleSum"></td>
                             <td style="text-align: right;font-weight: bold" id="salePer" name="salePer"></td>
                             <td style="text-align: right;background-color: #fffef2;" id="incpObj" name="incpObj"></td>
                             <td style="text-align: right;background-color: #fff4f4;" id="incpAch" name="incpAch"></td>
                             <td style="text-align: right;background-color: #f2ffff;" id="incpExp" name="incpExp"></td>
-                            <td style="text-align: right;" id="incpSum" name="incpSum"></td>
+                            <td style="text-align: right;background-color: #f0fff5;" id="incpSum" name="incpSum"></td>
                             <td style="text-align: right; font-weight: bold;" id="incpPer" name="incpPer"></td>
                         </tr>
                         </thead>

@@ -1,5 +1,10 @@
 var monMeet = {
 
+    global: {
+        rsList: [],
+        objLs: [],
+    },
+
 
     fn_DefaultScript : function(){
 
@@ -7,9 +12,9 @@ var monMeet = {
 
         monMeet.fn_dataReset();
 
-        $("#year").change(function (){
-            monMeet.fn_dataReset();
-        });
+        // $("#year").change(function (){
+        //     monMeet.fn_dataReset();
+        // });
     },
 
     fn_dataReset : function() {
@@ -35,99 +40,115 @@ var monMeet = {
         monMeet.fn_searchData();
     },
 
-    fn_searchData : function(){
+    fn_searchData(){
 
+        let date = new Date($("#year").val().split("-")[0], $("#year").val().split("-")[1], 0);
         var parameters = {
-            year : $("#year").val(),
+            year : $("#year").val().split("-")[0],
+            baseYear : $("#year").val().split("-")[0],
+            startDt : $("#year").val().split("-")[0] + "-01-01",
+            endDt : $("#year").val() + "-" + date.getDate(),
+            pjtYear : $("#year").val().split("-")[0]
         }
 
-        var rs = customKendo.fn_customAjax("/cam_achieve/getEngnDeptData", parameters);
+        $.ajax({
+            url : "/cam_achieve/getAllProjectCostCalcList",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            beforeSend : function(){
+                $("#my-spinner").show();
+            },
+            success : function(rs) {
+                console.log(rs.data);
 
-        console.log(rs);
-        var ls = rs.ls;
-        var engnSaleList = rs.saleLs.engnSaleList;          // 민간사업 매출
-        var rndSaleList = rs.saleLs.rndSaleList;            // 정부사업 매출
-        var objList = rs.objLs;                             // 목표
+                monMeet.global.rsList = rs.data;
+                monMeet.global.objLs = rs.objLs;
 
-        var engnEstList = rs.incpLs.engnEstList;            // 민간사업 투자금액
-        var engnPurcList = rs.incpLs.engnPurcList;          // 민간사업 구매
-        var engnBustripList = rs.incpLs.engnBustripList;    // 민간사업 출장
-        var rndIncpList = rs.incpLs.rndIncpList;            // 정부사업 수익
+                monMeet.fn_dataCalc();
+            }
+        })
+    },
+
+    fn_dataCalc : function(){
+
+        let delvObj = 0;        // 수주목표
+        let saleObj = 0;        // 달성목표
+        let incpObj = 0;        // 운영수익목표
+
+        let delvTotAmt = 0;      // 수주금액
+        let saleTotAmt = 0;      // 매출액
+        let incpTotAmt = 0;      // 운영수익
+
+        let expDelvTotAmt = 0;   // 예상수주금액
+        let expSaleTotAmt = 0;   // 예상매출액
+        let expIncpTotAmt = 0;   // 예상운영수익
 
 
-        /** 목표 */
-        var delvObj = 0;
-        var saleObj = 0;
-        var incpObj = 0;
+        for(let i=0; i<monMeet.global.rsList.length; i++){
 
-        for (var j = 0; j < objList.length; j++) {
-            delvObj += (objList[j].DELV_OBJ || 0);
-            saleObj += (objList[j].SALE_OBJ || 0);
-            incpObj += (objList[j].INCP_OBJ || 0);
+            const e = monMeet.global.rsList[i];
+
+            /** 수주 달성 */
+            delvTotAmt += costCalc.allPjtAmt(e);
+
+            /** 수주 예상 */
+            if(e.PJT_STEP == "R" && e.PJT_STOP == "N") {
+                expDelvTotAmt += Number(e.PJT_EXP_AMT || 0);
+            }
+
+            /** 매출 달성 */
+            saleTotAmt += costCalc.resSaleAmt(e);
+
+            /** 매출 예상 */
+            expSaleTotAmt += costCalc.devSaleAmt(e);
+
+            /** 운영수익 달성 */
+            incpTotAmt += costCalc.resProfitAmt(e);
+
+            /** 운영수익 예상 */
+            expIncpTotAmt += costCalc.devProfitAmt(e);
         }
 
-        $("#delvObj").text(comma(Math.floor(delvObj / 1000000) || 0));      // 수주목표
-        $("#saleObj").text(comma(Math.floor(saleObj / 1000000) || 0));      // 매출목표
-        $("#incpObj").text(comma(Math.floor(incpObj / 1000000) || 0));      // 운영수익목표
+        for(let i=0; i<monMeet.global.objLs.length; i++) {
 
+            const e = monMeet.global.objLs[i];
 
-        /** 달성, 예상, 합계 */
-        var pjtAmt = 0;
-        var expAmt = 0;
-        var expAmt2 = 0;
-        var engnPjtAmt = 0;
-        var rndPjtAmt = 0;
-        var purcEngnSum = 0;
-        var bustripEngnSum = 0;
-        var incpRndSum = 0;
-        var estEngnSum = 0;
-
-        for(var i = 0 ; i < ls.length ; i++){
-            pjtAmt += (ls[i].PJT_AMT || 0);
-            expAmt += (ls[i].EXP_AMT || 0);
-            expAmt2 += (ls[i].EXP_AMT2 || 0);
+            delvObj += (e.DELV_OBJ || 0);
+            saleObj += (e.SALE_OBJ || 0);
+            incpObj += (e.INCP_OBJ || 0);
         }
 
-        for(var j = 0 ; j < engnSaleList.length ; j++){
-            engnPjtAmt += (engnSaleList[j].PJT_AMT || 0);
-        }
+        /** 수주 목표 */
+        $("#delvObj").text(comma(Math.floor(delvObj / 1000000) || 0));
+        /** 수주 달성 */
+        $("#delvAch").text(comma((Math.floor(delvTotAmt / 1000000) || 0)));
+        /** 수주 예상 */
+        $("#delvExp").text(comma((Math.floor((expDelvTotAmt) / 1000000) || 0)));
+        /** 수주 합계 */
+        $("#delvSum").text(comma(Number(uncommaN($("#delvAch").text())) + Number(uncommaN($("#delvExp").text()))));
 
-        for(var j = 0 ; j < rndSaleList.length ; j++){
-            rndPjtAmt += (rndSaleList[j].PJT_AMT || 0);
-        }
+        /** 매출 목표 */
+        $("#saleObj").text(comma(Math.floor(saleObj / 1000000) || 0));
+        /** 매출 달성 */
+        $("#saleAch").text(comma(Math.floor(saleTotAmt / 1000000) || 0));
+        /** 매출 예상 */
+        $("#saleExp").text(comma(Math.floor(expSaleTotAmt / 1000000) || 0));
+        /** 매출 합계 */
+        $("#saleSum").text(comma(Number(uncommaN($("#saleAch").text())) + Number(uncommaN($("#saleExp").text()))));
 
-        for(var j = 0 ; j < engnPurcList.length ; j++){
-            purcEngnSum += (engnPurcList[j].PURC_EXNP_AMT || 0);
-        }
-
-        for(var j = 0 ; j < engnBustripList.length ; j++){
-            bustripEngnSum += (engnBustripList[j].BUSTRIP_EXNP_AMT || 0);
-        }
-
-        for(var j = 0 ; j < rndIncpList.length ; j++){
-            incpRndSum += (rndIncpList[j].TOT_COST || 0);
-        }
-
-        for(var j = 0 ; j < engnEstList.length ; j++){
-            estEngnSum += (engnEstList[j].EST_TOT_AMT || 0);
-        }
-
-        var engnSaleSum = pjtAmt + engnPjtAmt;
-        var engnIncpSum = purcEngnSum + bustripEngnSum;
-
-        $("#delvAch").text(comma((Math.floor(pjtAmt / 1000000) || 0)));                         // 수주 달성
-        $("#delvExp").text(comma((Math.floor((expAmt + expAmt2) / 1000000) || 0)));             // 수주 예상
-        $("#delvSum").text(comma((Math.floor((pjtAmt + (expAmt + expAmt2)) / 1000000) || 0)));  // 수주 합계
-
-        $("#saleAch").text(comma((Math.floor((pjtAmt + (engnPjtAmt || 0) + (rndPjtAmt || 0)) / 1000000)) || 0));                // 매출 달성
-        $("#saleExp").text(comma((Math.floor((pjtAmt + (engnPjtAmt || 0) + (pjtAmt - (rndPjtAmt || 0))) / 1000000)) || 0));     // 매출 예상
-        $("#saleSum").text(comma(Number(uncomma($("#saleAch").text())) + Number(uncomma($("#saleExp").text()))));                  // 매출 합계
-
-        $("#incpAch").text(comma((Math.floor((engnSaleSum - engnIncpSum + incpRndSum) / 1000000)) || 0));           // 운영수익 달성
-        $("#incpExp").text(comma((Math.floor((engnSaleSum - estEngnSum + incpRndSum) / 1000000)) || 0));            // 운영수익 예상
-        $("#incpSum").text(comma(Number(uncomma($("#incpAch").text())) + Number(uncomma($("#incpExp").text()))));      // 운영수익 합계
+        /** 운영수익 목표 */
+        $("#incpObj").text(comma(Math.floor(incpObj / 1000000) || 0));
+        /** 운영수익 달성 */
+        $("#incpAch").text(comma((Math.floor(incpTotAmt / 1000000)) || 0));
+        /** 운영수익 예상 */
+        $("#incpExp").text(comma((Math.floor(expIncpTotAmt / 1000000)) || 0));
+        /** 운영수익 합계 */
+        $("#incpSum").text(comma(Number(uncommaN($("#incpAch").text())) + Number(uncommaN($("#incpExp").text()))));
 
         monMeet.fn_calcPercent();
+
+        $("#my-spinner").hide();
     },
 
     fn_calcPercent : function(){
