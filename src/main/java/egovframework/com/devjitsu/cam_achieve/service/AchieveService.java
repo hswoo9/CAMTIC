@@ -134,4 +134,6 @@ public interface AchieveService {
     int getPjtTeamInvAmt(Map<String, Object> params);
 
     Map<String, Object> getProjectCostCalcList(Map<String, Object> params);
+
+    Map<String, Object> getDeptProjectCostCalcList(Map<String, Object> params);
 }

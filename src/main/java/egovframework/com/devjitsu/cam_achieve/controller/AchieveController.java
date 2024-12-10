@@ -909,11 +909,36 @@ public class AchieveController {
         return "jsonView";
     }
 
-    /*@RequestMapping("/cam_achieve/getDeptProjectCostCalcList")
+    @RequestMapping("/cam_achieve/getDeptProjectCostCalcList")
     public String getDeptProjectCostCalcList(@RequestParam Map<String, Object> params, Model model) {
 
-        model.addAttribute("data", achieveService.getDeptProjectCostCalcList(params));
+        List<Map<String, Object>> rsList = new ArrayList<>();
+        List<Map<String, Object>> deptList = deptService.getDeptAList(params);
+
+        for(Map<String, Object> map : deptList) {
+
+            Map<String, Object> resultMap = new HashMap<>();
+            Map<String, Object> tempParams = new HashMap<>();
+
+            tempParams.put("deptSeq", map.get("dept_seq"));
+            tempParams.put("year", params.get("year"));
+            tempParams.put("baseYear", params.get("baseYear"));
+            tempParams.put("startDt", params.get("startDt"));
+            tempParams.put("endDt", params.get("endDt"));
+            tempParams.put("pjtYear", params.get("pjtYear"));
+            tempParams.put("deptLevel", params.get("deptLevel"));
+
+            Map<String, Object> tempMap = achieveService.getDeptProjectCostCalcList(tempParams);
+
+            resultMap.put("DEPT_SEQ", map.get("dept_seq"));
+            resultMap.put("deptAch", tempMap.get("pjtDeptList"));
+            resultMap.put("deptObj", tempMap.get("deptObj"));
+
+            rsList.add(resultMap);
+        }
+
+        model.addAttribute("data", rsList);
 
         return "jsonView";
-    }*/
+    }
 }

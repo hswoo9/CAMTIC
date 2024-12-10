@@ -89,7 +89,22 @@
         white-space: nowrap;
         text-align: right;
     }
+
+    #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+
 </style>
+
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
+</div>
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -217,7 +232,7 @@
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleExpTotal" name="saleExpTotal"></td>
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleExpPerTotal" name="saleExpPerTotal"></td>
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleSumTotal" name="saleSumTotal"></td>
-                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold"; id="saleSumPerTotal" name="saleSumPerTotal"></td>
+                            <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="saleSumPerTotal" name="saleSumPerTotal"></td>
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpObjTotal" name="incpObjTotal"></td>
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpAchTotal" name="incpAchTotal"></td>
                             <td style="text-align: right;background-color: #f0f6ff;font-weight: bold;" id="incpAchPerTotal" name="incpAchPerTotal"></td>
@@ -235,7 +250,9 @@
             </div>
         </div>
         <div class="panel-body">
-            <div id="engnGrid"></div>
+            <c:forEach var="l" items="${list}" varStatus="status">
+                <div id="grid_${l.dept_seq}" name="deptGrid"></div>
+            </c:forEach>
         </div>
     </div>
 </div><!-- col-md-9 -->

@@ -742,6 +742,9 @@
           ON B.PARENT_DEPT_SEQ = C.DEPT_SEQ
         WHERE A.BASE_YEAR = #{year}
           AND A.DEPT_LEVEL = '2'
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND C.DEPT_SEQ = #{deptSeq}
+        </if>
         GROUP BY B.PARENT_DEPT_SEQ
     </select>
 
@@ -1790,7 +1793,14 @@
     <select id="getProjectListByAchieve" parameterType="map" resultType="map">
         /*getProjectListByAchieve*/
         SELECT
-            ROW_NUMBER() OVER (PARTITION BY V.BUSN_CLASS ORDER BY V.PJT_SN DESC, V.YEAR DESC) AS ROW_NUM,
+        <choose>
+            <when test='deptLevel != null and !"".equals(deptLevel)'>
+                ROW_NUMBER() OVER (ORDER BY V.PJT_SN DESC, V.YEAR DESC) AS ROW_NUM,
+            </when>
+            <otherwise>
+                ROW_NUMBER() OVER (PARTITION BY V.BUSN_CLASS ORDER BY V.PJT_SN DESC, V.YEAR DESC) AS ROW_NUM,
+            </otherwise>
+        </choose>
             V.*
         FROM
             CAM_PJT_MNG.V_PJT_ACHIEVE V
