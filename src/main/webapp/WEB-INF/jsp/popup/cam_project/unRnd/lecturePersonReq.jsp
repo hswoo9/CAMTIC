@@ -35,6 +35,8 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.templateExcelFormDown()">신규 수강자 엑셀 양식 다운로드</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="lecturePop.fn_lecturePersonExcelUploadPop()">신규 수강자 엑셀 업로드</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="lecturePop.lecturePersonMngPop()">신규 수강자 추가</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="lecturePersonReq.fn_saveBtn()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>

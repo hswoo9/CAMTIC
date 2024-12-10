@@ -14,17 +14,28 @@ import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.system.service.MenuManagementService;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProjectUnRndServiceImpl implements ProjectUnRndService {
@@ -1017,5 +1028,189 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public Map<String, Object> getPopCrmOne(Map<String, Object> params){
         return projectUnRndRepository.getPopCrmOne(params);
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
+    }
+
+    @Override
+    public void lecturePersonRegTemplateDown(HttpServletRequest request, HttpServletResponse response) {
+        String localPath = "/downloadFile/";
+        String fileName = "수강자 등록 양식.xlsx";
+        String viewFileNm = "수강자 등록 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath("/downloadFile/" + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setContentLength((int) reFile.length());
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                OutputStream out = response.getOutputStream();
+                FileInputStream fis = null;
+                fis = new FileInputStream(reFile);
+                FileCopyUtils.copy(fis, out);
+                if (fis != null)
+                    fis.close();
+                out.flush();
+                out.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String cellValueToString(XSSFCell cell){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
+                if( DateUtil.isCellDateFormatted(cell)) {
+                    Date date = cell.getDateCellValue();
+                    txt = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                }else{
+                    txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+                }
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                txt = cell.getCellFormula();
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
+    }
+
+    @Override
+    public Map<String,Object> lecturePersonExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("mfFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col1;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+        String baseDate = cellValueToString(sheet.getRow(0).getCell(2));
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        Map<String, Object> tumpMap = null;
+        Map<String, Object> result = new HashMap<>();
+
+        for(int i=4; i < rows; i++){
+            Map<String, Object> testList = new HashMap<>();
+            tumpMap = new HashMap<String, Object>();
+            row = sheet.getRow(i);
+            col1 = row.getCell(1);
+
+            tumpMap.put("name", cellValueToString(row.getCell(0)));
+            tumpMap.put("hpNum", cellValueToString(row.getCell(1)));
+
+            String name = (String) tumpMap.get("name");
+            String hpNum = (String) tumpMap.get("hpNum");
+            int userCount = 0;
+
+            Map<String,Object> userCheck = projectUnRndRepository.getMemberIdCheck(tumpMap);
+            if (userCheck != null) {
+                userCount = userCheck.size();
+            }
+
+            if(row != null){
+                if(userCount > 0){
+                    result.put("code", "500");
+                    result.put("message", "중복된 회원이 있습니다. ( 중복회원정보 : "+ name + " / " + hpNum +" )");
+                    return result;
+                }
+            }
+        }
+
+        for(int i=4; i < rows; i++){
+            Map<String, Object> testList = new HashMap<>();
+            tumpMap = new HashMap<String, Object>();
+            row = sheet.getRow(i);
+            col1 = row.getCell(1);
+
+            tumpMap.put("name", cellValueToString(row.getCell(0)));
+            tumpMap.put("hpNum", cellValueToString(row.getCell(1)));
+
+            int userCount = 0;
+
+            Map<String,Object> userCheck = projectUnRndRepository.getMemberIdCheck(tumpMap);
+            if (userCheck != null) {
+                userCount = userCheck.size();
+            }
+
+            if(row != null){
+                if(cellValueToString(col1).equals("")){
+                    result.put("code", "500");
+                    result.put("message", "다시 시도해주세요.");
+                    return result;
+                } else {
+                    int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    tumpMap.put("name", cellValueToString(row.getCell(0)));
+                    tumpMap.put("hpNum", cellValueToString(row.getCell(1)));
+                    tumpMap.put("password", cellValueToString(row.getCell(2)));
+                    tumpMap.put("birth", cellValueToString(row.getCell(3)));
+                    tumpMap.put("gender", cellValueToString(row.getCell(4)));
+                    tumpMap.put("zipCode", cellValueToString(row.getCell(5)));
+                    tumpMap.put("address", cellValueToString(row.getCell(6)));
+                    tumpMap.put("addressDetail", cellValueToString(row.getCell(7)));
+                    tumpMap.put("telNum", cellValueToString(row.getCell(8)));
+                    tumpMap.put("email", cellValueToString(row.getCell(9)));
+                    tumpMap.put("joinType", cellValueToString(row.getCell(10)));
+
+                    projectUnRndRepository.insPersonData(tumpMap);
+                    result.put("code", "200");
+                    result.put("message", "수강자 등록이 완료되었습니다.");
+                }
+            }
+        }
+        return result;
     }
 }

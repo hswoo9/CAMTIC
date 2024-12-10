@@ -27,6 +27,8 @@ var meu = {
 
         if($("#popType").val() == "mf"){
             url = "/crm/mfExcelUpload.do";
+        }else if($("#popType").val() == "projectUnRnd"){
+            url = "/projectUnRnd/lecturePersonExcelUpload.do";
         }else{
             url = "/crm/crmExcelUpload.do";
         }
@@ -38,9 +40,17 @@ var meu = {
         if(confirm("엑셀을 업로드 하시겠습니까?")){
             var result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){
-                alert("처리되었습니다.");
-                opener.parent.gridReload();
-                window.close();
+                if($("#popType").val() == "projectUnRnd"){
+                    alert(result.data.message);
+                    if(result.data.code == "200"){
+                        opener.parent.gridReload();
+                        window.close();
+                    }
+                }else{
+                    alert("처리되었습니다.");
+                    opener.parent.gridReload();
+                    window.close();
+                }
             }
         }
     }

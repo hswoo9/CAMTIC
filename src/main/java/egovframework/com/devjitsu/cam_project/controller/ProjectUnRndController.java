@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -1021,6 +1023,44 @@ public class ProjectUnRndController {
         } catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    /**
+     * 수강자등록 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectUnRnd/lecturePersonRegTemplateDown.do")
+    public void lecturePersonRegTemplateDown(HttpServletRequest request, HttpServletResponse response){
+        projectUnRndService.lecturePersonRegTemplateDown(request, response);
+    }
+
+    /**
+     * 수강자등록 엑셀 업로드 팝업
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectUnRnd/pop/excelUploadPop.do")
+    public String excelUploadPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/unRnd/excelUploadPop";
+    }
+
+    /**
+     * 수강자등록 엑셀 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectUnRnd/lecturePersonExcelUpload.do")
+    public String lecturePersonExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        model.addAttribute("data", projectUnRndService.lecturePersonExcelUpload(params, request));
         return "jsonView";
     }
 

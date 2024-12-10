@@ -159,5 +159,19 @@ var lecturePop = {
         const name = "lectureReqPop";
         const option = "width = 860, height = 500, top = 100, left = 300, location = no";
         window.open(url, name, option);
-    }
+    },
+
+    templateExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/projectUnRnd/lecturePersonRegTemplateDown.do"
+        });
+    },
+
+    fn_lecturePersonExcelUploadPop : function (){
+        var url = "/projectUnRnd/pop/excelUploadPop.do?popType=projectUnRnd";
+        var name = "_blank";
+        var option = "width = 500, height = 230, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
 }

@@ -2,6 +2,8 @@ package egovframework.com.devjitsu.cam_project.service;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -87,4 +89,6 @@ public interface ProjectUnRndService {
 
     List<Map<String, Object>> getPopCrmList(Map<String, Object> params);
     Map<String, Object> getPopCrmOne(Map<String, Object> params);
+    void lecturePersonRegTemplateDown(HttpServletRequest request, HttpServletResponse response);
+    Map<String,Object> lecturePersonExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
 }
