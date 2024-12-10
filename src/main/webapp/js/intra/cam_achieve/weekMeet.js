@@ -361,6 +361,10 @@ var weekMeet = {
             saleExpTotal += Number(uncommaN($(this).text()) || 0);
         });
 
+        /** 매출 합계 */
+        $("td[name='saleSum']").each(function(){
+            saleSumTotal += Number(uncommaN($(this).text()) || 0);
+        });
 
         /** 운영수익 목표 */
         $("td[name='incpObj']").each(function() {
@@ -377,6 +381,10 @@ var weekMeet = {
             incpExpTotal += Number(uncommaN($(this).text()) || 0);
         });
 
+        /** 운영수익 합계 */
+        $("td[name='incpSum']").each(function(){
+            incpSumTotal += Number(uncommaN($(this).text()) || 0);
+        });
 
         $("#delvObjTotal").text(comma(delvObjTotal));
         $("#delvAchTotal").text(comma(delvAchTotal));
