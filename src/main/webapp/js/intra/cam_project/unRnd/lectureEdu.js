@@ -84,7 +84,7 @@ var lectureEdu = {
                 },{
                     field: "USER_TYPE",
                     title: "구분",
-                    width: "30px",
+                    width: "40px",
                     template: function(row){
                         if(row.USER_TYPE == "S"){
                             return "학생";
