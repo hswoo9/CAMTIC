@@ -186,12 +186,16 @@ var snackList = {
                 {
                     title : "지급신청",
                     template : function(row){
-                        if(row.STATUS == "100" && row.PAY_APP_SN == null) {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="snackList.fn_reqRegPopup('+row.SNACK_INFO_SN+')">지급신청</button>'
-                        }else if (row.PAY_APP_SN != null){
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="snackList.fn_reqRegPopup('+row.PAY_APP_SN+', 2)">지급신청</button>'
-                        }else{
+                        if(row.AMOUNT_SN == 0) {
                             return '-';
+                        } else {
+                            if(row.STATUS == "100" && row.PAY_APP_SN == null) {
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="snackList.fn_reqRegPopup('+row.SNACK_INFO_SN+')">지급신청</button>'
+                            }else if (row.PAY_APP_SN != null){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="snackList.fn_reqRegPopup('+row.PAY_APP_SN+', 2)">지급신청</button>'
+                            }else{
+                                return '-';
+                            }
                         }
                     },
                     width: 70
@@ -343,10 +347,21 @@ var snackList = {
             return;
         }
 
+        var flag = false;
         var snackInfoSn = "";
         $('input[name="evalChk"]:checked').each(function(){
             snackInfoSn += $(this).val() + ",";
+
+            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            if(dataItem.AMOUNT_SN == 0) {
+                flag = true;
+            }
         });
+
+        if(flag){
+            alert("이용금액이 없는 식대대장은 지급신청이 불가합니다.");
+            return;
+        }
 
         snackInfoSn = snackInfoSn.substring(0, snackInfoSn.length - 1);
 

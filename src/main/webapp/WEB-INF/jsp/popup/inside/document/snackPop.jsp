@@ -223,7 +223,7 @@
                     <span class="red-star">*</span>이용 금액
                 </th>
                 <td>
-                    <input type="text" id="usAmount" style="width: 90%; text-align: right;" oninput="onlyNumber(this)"> 원
+                    <input type="text" id="usAmount" style="width: 90%; text-align: right;" oninput="onlyNumber(this)" value="0"> 원
                 </td>
             </tr>
             <tr style="display:none;" id="amtTr">

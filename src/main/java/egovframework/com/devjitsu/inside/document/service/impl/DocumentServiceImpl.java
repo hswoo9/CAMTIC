@@ -339,7 +339,7 @@ public class DocumentServiceImpl implements DocumentService {
             documentRepository.setSnackCompanionInsert(params);
         }
 
-        if(params.get("payType").equals("2")) {
+        if(params.get("payType").equals("2") && Integer.parseInt(params.get("usAmount").toString()) > 0) {
             List<Map<String, Object>> cardArr = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
             for(Map<String, Object> map : cardArr){

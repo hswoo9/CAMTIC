@@ -24,7 +24,8 @@ var snackReceipt = {
 
         var data = {
             snackInfoSn : $("#snackInfoSn").val(),
-            fileNo: result.substring(1)
+            fileNo: result.substring(1),
+            reqTypeZ : "snack",
         }
 
         var fileResult = customKendo.fn_customAjax("/snack/getFileList", data)

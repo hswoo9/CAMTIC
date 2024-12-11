@@ -86,10 +86,11 @@ var snackReq = {
             $("#areaName").val(data.AREA_NAME);
             $("#usAmount").val(data.AMOUNT_SN.toString().toMoney());
             $("#useReason").val(data.USE_REASON);
-            $("#corporCard").val(data.CARD_TEXT);
-            $("#cardBaNb").val(data.CARD_SN);
 
             snackReq.fn_changePayType(data.PAY_TYPE);
+
+            $("#corporCard").val(data.CARD_TEXT);
+            $("#cardBaNb").val(data.CARD_SN);
 
             let userSn = snackData.USER_SN;
             let userSnArr = userSn.split(',');
@@ -142,7 +143,8 @@ var snackReq = {
 
             var snackSubmitData = {
                 snackInfoSn: $("#snackInfoSn").val(),
-                fileNo: result.substring(1)
+                fileNo: result.substring(1),
+                reqTypeZ : "snack",
             };
 
             var returnData = customKendo.fn_customAjax("/snack/getFileList", snackSubmitData);
@@ -212,6 +214,13 @@ var snackReq = {
                 };
                 snackReq.global.fileNoArr.push(fileNo);
             }
+
+            if(data.PAY_TYPE == "2") {
+                $("#usAmount").prop("disabled", true);
+            }
+            $("#corporCard").prop("disabled", true);
+            $("#userText").prop("disabled", true);
+
         }else{
 
         }
@@ -319,7 +328,7 @@ var snackReq = {
         let chargeUserText = $("#chargeUser").data("kendoDropDownList").text();
         let areaSn = 1;
         let areaName = $("#areaName").val();
-        let usAmount = $("#usAmount").val().replace(/,/g, "").replace(/(^0+)/, "");
+        let usAmount =  uncomma($("#usAmount").val());
         let useReason = $("#useReason").val();
         let amtUserArr = new Array();
         let checkAmt = 0;
@@ -380,7 +389,7 @@ var snackReq = {
             return;
         }
 
-        if((snackReq.global.attFiles.length + snackReq.global.addAttFiles.length + fCommon.global.attFiles.length) < 1) {
+        if(usAmount != "0" && (snackReq.global.attFiles.length + snackReq.global.addAttFiles.length + fCommon.global.attFiles.length) < 1) {
             alert("영수증이 첨부되지 않았습니다.");
             return;
         }
