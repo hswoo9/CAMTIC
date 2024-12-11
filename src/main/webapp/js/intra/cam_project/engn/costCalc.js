@@ -732,13 +732,13 @@ var costCalc = {
                 }else{
                     /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
-                        devAmt = costCalc.nowPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
+                        devAmt = costCalc.nowPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
                     } else {
                         /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
-                            devAmt = costCalc.nowPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
+                            devAmt = costCalc.nowPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
                         } else {
-                            devAmt = costCalc.allPjtAmt(e)/* - Number(e.nowExpSaleAmt || 0)*/;
+                            devAmt = costCalc.allPjtAmt(e) - Number(e.nowExpSaleAmt || 0);
                         }
                     }
                 }
@@ -820,17 +820,17 @@ var costCalc = {
                 }else{
                     /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
-                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
+                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                     } else {
                         /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
-                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
+                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                         } else {
                             /** 전년도 회계 마감 여부 */
                             if(e.BEF_DEADLINE_YN != null && e.BEF_DEADLINE_YN == "Y") {
                                 eopAmt = 0;
                             } else {
-                                eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) /*- Number(e.nowExpProfitAmt || 0)*/;
+                                eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                             }
                         }
                     }
