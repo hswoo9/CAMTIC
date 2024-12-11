@@ -26,7 +26,7 @@ var goodsInfo = {
         $(".goodsProdNm, .goodsProdCnt, .goodsUnit, .goodsUnitAmt, .goodsSupAmt, .goodsProdEtc").kendoTextBox();
 
         $("#goodsProdCnt, #goodsUnitAmt").on("keyup", function(){
-            $("#goodsSupAmt").val(goodsInfo.comma(goodsInfo.uncomma($("#goodsUnitAmt").val()) * goodsInfo.uncomma($("#goodsProdCnt").val())))
+            $("#goodsSupAmt").val(goodsInfo.comma(goodsInfo.uncommaN($("#goodsUnitAmt").val()) * goodsInfo.uncomma($("#goodsProdCnt").val())))
         });
 
         var data ={
@@ -118,11 +118,11 @@ var goodsInfo = {
         $("#goodsProductTb > tr").each(function(e){
             $("#goodsProdCnt" + e + ", #goodsUnitAmt" + e).on("keyup", function(){
                 var goodsUnitAmt = $("#goodsUnitAmt" + e).val();
-                $("#goodsSupAmt" + e).val(goodsInfo.comma(goodsInfo.uncomma(goodsUnitAmt) * goodsInfo.uncomma($("#goodsProdCnt" + e).val())));
+                $("#goodsSupAmt" + e).val(goodsInfo.comma(goodsInfo.uncommaN(goodsUnitAmt) * goodsInfo.uncomma($("#goodsProdCnt" + e).val())));
 
                 goodsInfo.global.totAmt = 0;
                 $("#goodsProductTb > tr").each(function (idx) {
-                    goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                    goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                     // 견적가 합계 구하기
                     $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
                 });
@@ -161,7 +161,7 @@ var goodsInfo = {
     },
 
     inputNumberFormat : function (obj){
-        obj.value = goodsInfo.comma(goodsInfo.uncomma(obj.value));
+        obj.value = goodsInfo.comma(goodsInfo.uncommaN(obj.value));
     },
 
     comma: function(str) {
@@ -174,6 +174,11 @@ var goodsInfo = {
         return str.replace(/[^\d]+/g, '');
     },
 
+    uncommaN: function(str) {
+        str = String(str);
+        return str.replace(/[^\d-]|(?<=\d)-/g, '');
+    },
+
     fn_save : function (){
         // if(goodsInfo.uncomma($("#expAmt").val()) != goodsInfo.uncomma($("#goodsTotAmt").val())){
         //     if(!confirm("예상견적가와 견적가가 다릅니다. 저장하시겠습니까?")){
@@ -181,7 +186,7 @@ var goodsInfo = {
         //     }
         // }
 
-        if(Number(goodsInfo.uncomma($("#balGoodsAmt").text())) < Number(goodsInfo.uncomma($("#goodsTotAmt").val()))) {
+        if(Number(goodsInfo.uncommaN($("#balGoodsAmt").text())) < Number(goodsInfo.uncommaN($("#goodsTotAmt").val()))) {
             alert("납품잔액을 초과했습니다. 다시 확인해주세요.");
             return;
         }
@@ -199,7 +204,7 @@ var goodsInfo = {
             estSn : $("#estSn").val(),
             pjtSn : $("#pjtSn").val(),
             pjtCd : $("#goodsPjtSn").val(),
-            goodsTotAmt : goodsInfo.uncomma($("#goodsTotAmt").val()),
+            goodsTotAmt : goodsInfo.uncommaN($("#goodsTotAmt").val()),
             goodsIss : $("#goodsIss").val(),
             delvDe : $("#goodsDelvDe").val(),
             goodsNm : $("#goodsPjtNm").val(),
@@ -256,8 +261,8 @@ var goodsInfo = {
                                 prodNm: $("#goodsProdNm" + idx).val(),
                                 prodCnt: goodsInfo.uncomma($("#goodsProdCnt" + idx).val()),
                                 unit: $("#goodsUnit" + idx).val(),
-                                unitAmt: goodsInfo.uncomma($("#goodsUnitAmt" + idx).val()),
-                                supAmt: goodsInfo.uncomma($("#goodsSupAmt" + idx).val()),
+                                unitAmt: goodsInfo.uncommaN($("#goodsUnitAmt" + idx).val()),
+                                supAmt: goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()),
                                 etc: $("#goodsProdEtc" + idx).val()
                             }
 
@@ -298,8 +303,8 @@ var goodsInfo = {
             goodsProdNm : $("#goodsProdNm").val(),
             goodsProdCnt : goodsInfo.uncomma($("#goodsProdCnt").val()),
             goodsUnit : $("#goodsUnit").val(),
-            goodsUnitAmt :goodsInfo.uncomma($("#goodsUnitAmt").val()),
-            goodsSupAmt : goodsInfo.uncomma($("#goodsSupAmt").val()),
+            goodsUnitAmt :goodsInfo.uncommaN($("#goodsUnitAmt").val()),
+            goodsSupAmt : goodsInfo.uncommaN($("#goodsSupAmt").val()),
             goodsProdEtc : $("#goodsProdEtc").val(),
         }
 
@@ -310,7 +315,7 @@ var goodsInfo = {
         html += '   <td><input type="text" class="goodsProdNm" id="goodsProdNm'+idx+'" value="'+inputData.goodsProdNm+'"/></td>';
         html += '   <td><input type="text" class="goodsProdCnt" id="goodsProdCnt'+idx+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(inputData.goodsProdCnt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
         html += '   <td><input type="text" class="goodsUnit" id="goodsUnit'+idx+'" value="'+inputData.goodsUnit+'"/></td>';
-        html += '   <td><input type="text" class="goodsUnitAmt" id="goodsUnitAmt'+idx+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(inputData.goodsUnitAmt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+        html += '   <td><input type="text" class="goodsUnitAmt" id="goodsUnitAmt'+idx+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(inputData.goodsUnitAmt)+'" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
         html += '   <td><input type="text" class="goodsSupAmt" id="goodsSupAmt'+idx+'" disabled style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(inputData.goodsSupAmt)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
         html += '   <td><input type="text" class="goodsProdEtc" id="goodsProdEtc'+idx+'" value="'+inputData.goodsProdEtc+'" /></td>';
         html += '   <td style="text-align: center">';
@@ -319,18 +324,18 @@ var goodsInfo = {
         html += '</tr>';
         $("#goodsProductTb").append(html);
 
-        goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+        goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
         // 견적가 합계 구하기
         $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
 
         $("#goodsProdNm" + idx + ", #goodsProdCnt" + idx + ", #goodsUnit" + idx + ", #goodsUnitAmt" + idx + ", #goodsSupAmt" + idx + ", #goodsProdEtc" + idx + "").kendoTextBox();
 
         $("#goodsProdCnt" + idx + ", #goodsUnitAmt" + idx).on("keyup", function(){
-            $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncomma($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
+            $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncommaN($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
 
             goodsInfo.global.totAmt = 0;
             $("#goodsProductTb > tr").each(function (idx){
-                goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                 // 견적가 합계 구하기
                 $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
             });
@@ -368,15 +373,15 @@ var goodsInfo = {
                 });
 
                 $("#goodsProdCnt" + idx + ", #goodsUnitAmt" + idx).on("keyup", function(){
-                    goodsInfo.global.totAmt -= Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
-                    $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncomma($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
-                    goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                    goodsInfo.global.totAmt -= Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
+                    $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncommaN($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
+                    goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                     // 견적가 합계 구하기
                     $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
                 });
 
 
-                goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                 // 견적가 합계 구하기
                 $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
             }
@@ -484,16 +489,16 @@ var goodsInfo = {
 
         goodsInfo.global.totAmt = 0;
         $("#goodsProductTb > tr").each(function (idx){
-            goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+            goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
             // 견적가 합계 구하기
             $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
 
             $("#goodsProdCnt" + idx + ", #goodsUnitAmt" + idx).on("keyup", function(){
-                $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncomma($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
+                $("#goodsSupAmt" + idx).val(goodsInfo.comma(goodsInfo.uncommaN($("#goodsUnitAmt" + idx).val()) * goodsInfo.uncomma($("#goodsProdCnt" + idx).val())));
 
                 goodsInfo.global.totAmt = 0;
                 $("#goodsProductTb > tr").each(function (idx){
-                    goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                    goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                     // 견적가 합계 구하기
                     $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
                 });
@@ -616,11 +621,11 @@ var goodsInfo = {
             $("#goodsProductTb > tr").each(function(e){
                 $("#goodsProdCnt" + e + ", #goodsUnitAmt" + e).on("keyup", function(){
                     var goodsUnitAmt = $("#goodsUnitAmt" + e).val();
-                    $("#goodsSupAmt" + e).val(goodsInfo.comma(goodsInfo.uncomma(goodsUnitAmt) * goodsInfo.uncomma($("#goodsProdCnt" + e).val())));
+                    $("#goodsSupAmt" + e).val(goodsInfo.comma(goodsInfo.uncommaN(goodsUnitAmt) * goodsInfo.uncomma($("#goodsProdCnt" + e).val())));
 
                     goodsInfo.global.totAmt = 0;
                     $("#goodsProductTb > tr").each(function (idx) {
-                        goodsInfo.global.totAmt += Number(goodsInfo.uncomma($("#goodsSupAmt" + idx).val()));
+                        goodsInfo.global.totAmt += Number(goodsInfo.uncommaN($("#goodsSupAmt" + idx).val()));
                         // 견적가 합계 구하기
                         $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
                     });

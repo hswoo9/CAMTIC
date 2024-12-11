@@ -199,7 +199,7 @@
                 <td><input type="text" class="goodsProdNm" alias="goodsProdNm" id="goodsProdNm" /></td>
                 <td><input type="text" class="goodsProdCnt" alias="goodsProdCnt" id="goodsProdCnt" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" class="goodsUnit" alias="goodsUnit" id="goodsUnit" /></td>
-                <td><input type="text" class="goodsUnitAmt" alias="goodsUnitAmt" id="goodsUnitAmt" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td><input type="text" class="goodsUnitAmt" alias="goodsUnitAmt" id="goodsUnitAmt" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" class="goodsSupAmt" alias="goodsSupAmt" id="goodsSupAmt" disabled style="text-align: right;" /></td>
                 <td><input type="text" class="goodsProdEtc" alias="goodsProdEtc" id="goodsProdEtc" /></td>
                 <td style="text-align: center"><button type="button" id="addBtn" onclick="goodsInfo.fn_add()" class="k-button k-button-solid-base">추가</button> </td>
