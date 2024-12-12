@@ -158,6 +158,10 @@ const openStudyReq = {
 
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
+        let regDeptName = $("#regDeptName").val();
+        let regTeamSeq = $("#regTeamSeq").val();
+        let regPositionName = $("#regPositionName").val();
+        let regDutyName = $("#regDutyName").val();
 
         let mode = $("#mode").val();
 
@@ -196,7 +200,11 @@ const openStudyReq = {
             openStudyLocation: openStudyLocation,
             eduTime: eduTime,
             regEmpSeq: regEmpSeq,
-            regEmpName: regEmpName
+            regEmpName: regEmpName,
+            regDeptName: regDeptName,
+            regTeamSeq: regTeamSeq,
+            regPositionName: regPositionName,
+            regDutyName: regDutyName,
         }
 
         let url = "/campus/setOpenStudyInfoIns";
@@ -284,12 +292,12 @@ const openStudyReq = {
                     regDutyName: regDutyName,
                     pk: $("#pk").val()
                 }
-                if(openStudyReq.doubleChk()){
-                    alert("중복된 참여는 불가능합니다.")
-                    return;
-                }
-
-                const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
+                // if(openStudyReq.doubleChk()){
+                //     alert("중복된 참여는 불가능합니다.")
+                //     return;
+                // }
+                //
+                // const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
             }
             if(step == "C"){
                 alert("모임이 확정되었습니다.");

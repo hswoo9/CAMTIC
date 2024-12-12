@@ -1298,6 +1298,10 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setOpenStudyInfoIns(Map<String, Object> params) {
         campusRepository.setOpenStudyInfoIns(params);
+
+        /** 오픈스터디 개설자는 자동으로 해당 건 참여신청 */
+        params.put("pk", params.get("openStudyKey"));
+        campusRepository.setOpenStudyUser(params);
     }
 
     @Override
