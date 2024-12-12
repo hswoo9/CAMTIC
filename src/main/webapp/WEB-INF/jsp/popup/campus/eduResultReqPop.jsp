@@ -264,6 +264,12 @@
                   <textarea id="eduPoint" style="height: 100px"></textarea>
                 </td>
               </tr>
+              <tr>
+                <th><span class="red-star">*</span>보고일자</th>
+                <td colspan="3">
+                  <input type="text" id="resRegDt" style="width: 15%;">
+                </td>
+              </tr>
             </thead>
           </table>
 
