@@ -129,7 +129,7 @@ const studyJournal = {
         }
 
 
-        if(opener.parent.$("#addStatus").val() != 'N'){
+        if(info.CAPTAIN_APPOVAL_YN =='Y' || info.ASSISTANT_APPOVAL_YN =='Y'){
             $("#studyContent").data("kendoTextArea").enable(false);
             $("#studyLocation").data("kendoTextBox").enable(false);
             $("#studyUserName").data("kendoTextBox").enable(false);
