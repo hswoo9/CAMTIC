@@ -74,7 +74,18 @@ var costCalc = {
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
             /** 수주년도/차년도 구분 */
             if(e.LIST_NOW_STR_DE != null && e.LIST_NOW_END_DE != null && e.LIST_NOW_STR_DE.substring(0, 4) == e.LIST_NOW_END_DE.substring(0, 4)){
-                amt = Number(e.REAL_PJT_AMT);
+                /** TEAM_CK == Y ; 수주부서 */
+                if(e.TEAM_CK == "Y") {
+                    amt = Number(e.TM_AMT || 0)
+                } else {
+                    /** TEAM_STAT == Y ; 협업 */
+                    if(e.TEAM_STAT == "Y") {
+                        console.log(":>")
+                        amt = Number(e.TM_AMT || 0);
+                    } else {
+                        amt = Number(e.REAL_PJT_AMT);
+                    }
+                }
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 사업종료 유무 */
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
@@ -87,9 +98,29 @@ var costCalc = {
             }else{
                 /** 회계 마감 유무 */
                 if(e.DEADLINE_YN != null && e.DEADLINE_YN == "Y"){
-                    amt = amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        amt = Number(e.TM_AMT || 0) - Number(e.nowExpSaleAmt || 0);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            amt = Number(e.TM_AMT || 0) - Number(e.nowExpSaleAmt || 0);
+                        } else {
+                            amt = amt = Number(e.REAL_PJT_AMT) - Number(e.nowExpSaleAmt || 0);
+                        }
+                    }
                 }else{
-                    amt = Number(e.REAL_PJT_AMT);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        amt = Number(e.TM_AMT || 0);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            amt = Number(e.TM_AMT || 0);
+                        } else {
+                            amt = amt = Number(e.REAL_PJT_AMT);
+                        }
+                    }
                 }
             }
 
@@ -716,7 +747,17 @@ var costCalc = {
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     devAmt = 0;
                 }else{
-                    devAmt = Number(e.REAL_PJT_AMT) - Number(e.befExpSaleAmt || 0);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        devAmt = Number(e.TM_AMT || 0) - Number(e.befExpSaleAmt || 0);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            devAmt = Number(e.TM_AMT || 0) - Number(e.befExpSaleAmt || 0);
+                        } else {
+                            devAmt = Number(e.REAL_PJT_AMT) - Number(e.befExpSaleAmt || 0);
+                        }
+                    }
                 }
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 사업종료 유무 */
@@ -804,7 +845,17 @@ var costCalc = {
                 if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
                     eopAmt = 0;
                 }else{
-                    eopAmt = Number(e.REAL_PJT_AMT) - Number(e.DEV_INV_AMT || 0) -  Number(e.befExpProfitAmt || 0);
+                    /** TEAM_CK == Y ; 수주부서 */
+                    if(e.TEAM_CK == "Y") {
+                        eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                    } else {
+                        /** TEAM_STAT == Y ; 협업 */
+                        if(e.TEAM_STAT == "Y") {
+                            eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
+                        } else {
+                            Number(e.REAL_PJT_AMT) - Number(e.DEV_INV_AMT || 0) -  Number(e.nowExpProfitAmt || 0);
+                        }
+                    }
                 }
             }else if(e.LIST_NOW_END_DE != null && e.LIST_NOW_END_DE.substring(0, 4) == e.YEAR){
                 /** 사업종료 유무 */
