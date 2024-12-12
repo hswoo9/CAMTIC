@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="propag" style="float: left; display: none">
-                        &nbsp매회 학습시간 <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px"> (총 <input type="text" id="eduTerm" style="width: 50px" oninput="onlyNumber(this)">회 <input type="text" id="eduTime" style="width: 50px" oninput="onlyNumber()">시간)
+                        &nbsp매회 학습시간 <input type="text" id="startTime" style="width: 15%"> ~ <input type="text" id="endTime" style="width: 15%"> (총 <input type="text" id="eduTerm" style="width: 50px" oninput="onlyNumber(this)">회 <input type="text" id="eduTime" style="width: 50px" oninput="onlyNumber()">시간)
                     </div>
                 </td>
             </tr>
@@ -128,7 +128,7 @@
             <tr>
                 <th>신청날짜</th>
                 <td>
-                    <input type="text" id="regDate"style="width: 150px">
+                    <input type="text" id="regDate" style="width: 15%">
                 </td>
             </tr>
         </table>

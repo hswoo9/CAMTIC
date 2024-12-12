@@ -79,6 +79,12 @@
                     <input type="text" id="studyMoney" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 150px; text-align: right" value="0"> 원 <input type="text" id="journalAmtClass" style="width: 150px; display: none;">
                 </td>
             </tr>
+            <tr>
+                <th>보고일자</th>
+                <td>
+                    <input type="text" id="resRegDt" style="width: 25%;" />
+                </td>
+            </tr>
         </table>
     </form>
 </div>
@@ -185,6 +191,7 @@
                 $("#journalDt").val(rs.data.STUDY_RESULT_DT);
                 $("#journalStartTime").val(rs.data.STUDY_RESULT_START_TIME);
                 $("#journalEndTime").val(rs.data.STUDY_RESULT_END_TIME);
+                $("#resRegDt").val(rs.data.STUDY_RESULT_REG_DT);
                 $("#studyLocation").val(rs.data.STUDY_RESULT_LOCATE);
                 $("#studyUserName").val(rs.data.STUDY_EMP_NAME);
                 $("#studyUserSeq").val(rs.data.STUDY_EMP_SEQ);
@@ -305,6 +312,7 @@
         let journalDt = $("#journalDt").val();
         let journalStartTime = $("#journalStartTime").val();
         let journalEndTime = $("#journalEndTime").val();
+        let resRegDt = $("#resRegDt").val();
         let studyLocation = $("#studyLocation").val();
         let studyUserSeq = $("#studyUserSeq").val();
         let studyUserName = $("#studyUserName").val();
@@ -369,6 +377,7 @@
             studyResultDt: journalDt,
             studyResultStartTime: journalStartTime,
             studyResultEndTime: journalEndTime,
+            studyResultRegDt: resRegDt,
             studyResultLocate: studyLocation,
             studyResultContent: studyContent,
             studyResultAmt: studyMoney,
