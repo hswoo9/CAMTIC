@@ -551,7 +551,7 @@ var campusInit = {
         }
         html += '               <tr>';
         html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습기간</b></p></td>';
-        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_RESULT_DT+' '+studyInfo.STUDY_RESULT_START_TIME+' ~ '+studyInfo.STUDY_RESULT_END_TIME +'</p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_RESULT_STR_DT+' ~ '+studyInfo.STUDY_RESULT_END_DT+'</p></td>';
         html += '               </tr>';
         html += '               <tr>';
         html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습장소</b></p></td>';

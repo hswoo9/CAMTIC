@@ -59,7 +59,7 @@
         LEFT JOIN
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
-             CSU.STUDY_EMP_SEQ = #{empSeq} AND CSJ.STUDY_EMP_SEQ = #{empSeq}
+             CSU.STUDY_EMP_SEQ = #{empSeq}
           AND CSJ.ACTIVE = 'Y'
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
@@ -2173,12 +2173,12 @@
     </delete>
 
     <update id="setStudyResultModify" parameterType="map">
+        /*setStudyResultModify*/
         UPDATE
             CAMPUS.DJ_STUDY_RESULT
         SET
-            STUDY_RESULT_DT = #{studyResultDt},
-            STUDY_RESULT_START_TIME = #{studyResultStartTime},
-            STUDY_RESULT_END_TIME = #{studyResultEndTime},
+            STUDY_RESULT_STR_DT = #{studyResultStrDt},
+            STUDY_RESULT_END_DT = #{studyResultEndDt},
             STUDY_RESULT_REG_DT = #{studyResultRegDt},
             STUDY_RESULT_LOCATE = #{studyResultLocate},
             STUDY_RESULT_CONTENT = #{studyResultContent},
@@ -2199,9 +2199,8 @@
                 STUDY_NAME,
                 STUDY_EMP_SEQ,
                 STUDY_EMP_NAME,
-                STUDY_RESULT_DT,
-                STUDY_RESULT_START_TIME,
-                STUDY_RESULT_END_TIME,
+                STUDY_RESULT_STR_DT,
+                STUDY_RESULT_END_DT,
                 STUDY_RESULT_TIME,
                 STUDY_RESULT_REG_DT,
                 STUDY_RESULT_LOCATE,
@@ -2216,9 +2215,8 @@
                 #{studyName},
                 #{studyEmpSeq},
                 #{studyEmpName},
-                #{studyResultDt},
-                #{studyResultStartTime},
-                #{studyResultEndTime},
+                #{studyResultStrDt},
+                #{studyResultEndDt},
                 #{studyResultTime},
                 #{studyResultRegDt},
                 #{studyResultLocate},
