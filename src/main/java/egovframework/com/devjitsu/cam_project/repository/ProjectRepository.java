@@ -943,4 +943,15 @@ public class ProjectRepository extends AbstractDAO {
 
         update("project.updDelvNowYear", params);
     }
+
+    public List<Map<String, Object>> getPjtPerformanceList(Map<String, Object> params){
+        return selectList("project.getPjtPerformanceList", params);
+    }
+
+    public void setPjtPerformanceDel(Map<String, Object> params){
+        delete("project.setPjtPerformanceDel", params);
+    }
+    public void setPjtPerformance(Map<String, Object> params){
+        insert("project.setPjtPerformance", params);
+    }
 }

@@ -43,39 +43,15 @@ public class EvaluationController {
         return "inside/userManage/evaluationReq";
     }
 
-    //업적평가 등록
-    @RequestMapping("/Inside/evaluationPerReq.do")
-    public String evaluationPerReq(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-
-        if(login == null){
-            return "error/error";
-        }
-
-        return "inside/userManage/evaluationPerReq";
-    }
-
-    //업적평가 개인 목표 설정
-    @RequestMapping("/Inside/pop/evalReqPop.do")
-    public String evalReqPop(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        return "popup/inside/userManage/evalReqPop";
-    }
-
     //개인업적평가 점수 산출
     @RequestMapping("/Inside/pop/evalScorePop.do")
-    public String evalScorePop(HttpServletRequest request, Model model) {
+    public String evalScorePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
         return "popup/inside/userManage/evalScorePop";
     }
 
@@ -618,6 +594,98 @@ public class EvaluationController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+
+    //업적평가 등록
+    @RequestMapping("/Inside/evaluationPerReq.do")
+    public String evaluationPerReq(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        if(login == null){
+            return "error/error";
+        }
+
+        return "inside/userManage/evaluationPerReq";
+    }
+
+    //업적평가 개인 목표 설정
+    @RequestMapping("/Inside/pop/evalReqPop.do")
+    public String evalReqPop(HttpServletRequest request, Model model) {
+        Map<String, Object> params = new HashMap<>();
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", login.getUniqId());
+
+
+        model.addAttribute("evalGoal", evaluationService.getEvalGoal(params));
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        return "popup/inside/userManage/evalReqPop";
+    }
+
+    /**
+     * 업적평가 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalGoalList")
+    public String getEvalGoalList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute("LoginVO") == null){
+            return "error/error";
+        }
+
+        model.addAttribute("list", evaluationService.getEvalGoalList(params));
+
+        return "jsonView";
+    }
+
+    /**
+     * 업적평가 목표 등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalGoal")
+    public String setEvalGoal(@RequestParam Map<String, Object> params) {
+        evaluationService.setEvalGoal(params);
+        return "jsonView";
+    }
+
+    /**
+     * 업적평가 점수산출 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalAchieveScoreList")
+    public String getEvalAchieveScoreList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute("LoginVO") == null){
+            return "error/error";
+        }
+
+        model.addAttribute("rs", evaluationService.getEvalAchieveScoreList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 개인 업적평가 등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalAchieve")
+    public String setEvalAchieve(@RequestParam Map<String, Object> params) {
+        evaluationService.setEvalAchieve(params);
+        return "jsonView";
     }
 
 }

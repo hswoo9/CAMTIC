@@ -4327,4 +4327,61 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
+    <select id="getPjtPerformanceList" parameterType="map" resultType="map">
+        /* getPjtPerformanceList */
+        SELECT
+            A.PS_SN,
+            A.PS_EMP_SEQ,
+            EI.EMP_NAME_KR,
+            B.PJT_PER_SN,
+            B.EMP_SEQ,
+            IFNULL(B.ORDER_PERCENT, 0) AS ORDER_PERCENT,
+            IFNULL(B.SALES_PERCENT, 0) AS SALES_PERCENT,
+            IFNULL(B.REVENUE_PERCENT, 0) AS REVENUE_PERCENT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS A
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON A.PS_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PERFORMANCE B
+        ON A.PS_SN = B.PS_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+        AND
+            A.DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
+        AND
+            A.PS_PREP NOT IN (0)
+    </select>
+
+    <delete id="setPjtPerformanceDel" parameterType="map">
+        /* setPjtPerformanceDel */
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_PERFORMANCE WHERE PJT_SN = #{pjtSn}
+    </delete>
+    <insert id="setPjtPerformance" parameterType="map">
+        /* setPjtPerformance */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PERFORMANCE
+        (
+            PS_SN,
+            PJT_SN,
+            EMP_SEQ,
+            ORDER_PERCENT,
+            SALES_PERCENT,
+            REVENUE_PERCENT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{psSn},
+            #{pjtSn},
+            #{empSeq},
+            #{orderPercent},
+            #{salesPercent},
+            #{revenuePercent},
+            #{regEmpSeq}
+        )
+    </insert>
+
+
 </mapper>

@@ -1346,4 +1346,166 @@
             A.DUTY_CODE NOT IN ('5')
     </select>
 
+    <select id="getEvalGoalList" parameterType="map" resultType="map">
+        /* getEvalGoalList */
+        SELECT
+            *
+        FROM (
+            SELECT
+                HEI.EMP_SEQ,
+                (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
+                (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
+                HEI.EMP_NAME_KR AS EMP_NAME,
+                IFNULL(HEI.DUTY_CODE, '') AS DUTY_CODE,
+                HEI.DUTY_NAME,
+                HEI.POSITION_CODE,
+                HEI.POSITION_NAME,
+                B.EVAL_GOAL_SN,
+                IFNULL(B.BASE_YEAR, #{year}) AS BASE_YEAR,
+                IFNULL(B.ORDER_GOALS, 0) AS ORDER_GOALS,
+                IFNULL(B.SALES_GOALS, 0) AS SALES_GOALS,
+                IFNULL(B.REVENUE_GOALS, 0) AS REVENUE_GOALS,
+                IFNULL(B.COST_GOALS, 0) AS COST_GOALS,
+                IFNULL(B.COMMER_INDEX_GOALS, 0) AS COMMER_INDEX_GOALS
+            FROM
+                CAM_HR.DJ_EMP_INFO HEI
+            LEFT JOIN
+                CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            LEFT JOIN
+                CAM_INSIDE.DJ_EVALUATING_GOAL B
+            ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{year}
+            WHERE 1=1
+            <choose>
+                <when test='"".equals(dutyCode)'>
+                    AND HEI.EMP_SEQ = #{empSeq}
+                </when>
+                <when test='dutyCode != null and !"".equals(dutyCode) and !"1".equals(dutyCode)'>
+                    <choose>
+                        <when test='"5".equals(dutyCode)'>
+                            AND (HEI.DEPT_SEQ = #{deptSeq} OR HDI.PARENT_DEPT_SEQ = #{deptSeq}) AND HEI.DEPT_SEQ = #{teamSeq}
+                        </when>
+                        <otherwise>
+                            AND (HEI.DEPT_SEQ = #{deptSeq} OR HDI.PARENT_DEPT_SEQ = #{deptSeq})
+                        </otherwise>
+                    </choose>
+                </when>
+              </choose>
+        )A
+        ORDER BY (
+        CASE WHEN DEPT_NAME = '캠틱종합기술원' THEN 1 WHEN ASCII(SUBSTRING(DEPT_NAME,1)) <![CDATA[<]]> 123 THEN 3 ELSE 2 END
+        ), DEPT_NAME, TEAM_NAME, DUTY_NAME DESC, POSITION_CODE, EMP_NAME;
+    </select>
+
+    <select id="getEvalAchieveList" parameterType="map" resultType="map">
+        /* getEvalAchieveList */
+        SELECT
+            EA.PJT_SN,
+            EA.EMP_SEQ,
+            EA.ORDER_ACHIEVE,
+            EA.SALES_ACHIEVE,
+            EA.REVENUE_ACHIEVE
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE EA
+        WHERE
+            EA.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getEvalGoal" parameterType="map" resultType="map">
+        /* getEvalGoal */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_GOAL
+        WHERE
+            EMP_SEQ = #{empSeq}
+        AND
+            BASE_YEAR = DATE_FORMAT(NOW(), '%Y')
+    </select>
+
+    <insert id="setEvalGoal" parameterType="map">
+        /*  setEvalGoal */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_GOAL (
+            BASE_YEAR,
+            EMP_SEQ,
+            ORDER_GOALS,
+            SALES_GOALS,
+            REVENUE_GOALS,
+            COST_GOALS,
+            COMMER_INDEX_GOALS,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            DATE_FORMAT(NOW(), '%Y'),
+            #{empSeq},
+            #{orderGoals},
+            #{salesGoals},
+            #{revenueGoals},
+            #{costGoals},
+            #{commerIndexGoals},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setEvalGoalUpd" parameterType="map">
+        /* setEvalGoalUpd */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_GOAL
+        SET
+            ORDER_GOALS = #{orderGoals},
+            SALES_GOALS = #{salesGoals},
+            REVENUE_GOALS = #{revenueGoals},
+            COST_GOALS = #{costGoals},
+            COMMER_INDEX_GOALS = #{commerIndexGoals},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            EVAL_GOAL_SN = #{evalGoalSn}
+    </update>
+    
+    <select id="getEvalAchieveChk" parameterType="map" resultType="String">
+        /* getEvalAchieveChk */
+        SELECT
+            EVAL_ACHIEVE_SN
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            EMP_SEQ = #{empSeq}
+    </select>
+
+    <insert id="setEvalAchieve" parameterType="map">
+        /* setEvalAchieve */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_ACHIEVE
+        (
+            PJT_SN,
+            EMP_SEQ,
+            ORDER_ACHIEVE,
+            SALES_ACHIEVE,
+            REVENUE_ACHIEVE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{empSeq},
+            #{orderAchieve},
+            #{salesAchieve},
+            #{revenueAchieve},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setEvalAchieveUpd" parameterType="map">
+        /* setEvalAchieveUpd */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE
+        SET
+            ORDER_ACHIEVE = #{orderAchieve},
+            SALES_ACHIEVE = #{salesAchieve},
+            REVENUE_ACHIEVE = #{revenueAchieve},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EVAL_ACHIEVE_SN = #{evalAchieveSn}
+    </update>
 </mapper>
