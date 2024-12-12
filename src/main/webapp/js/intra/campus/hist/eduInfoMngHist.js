@@ -86,6 +86,20 @@ var histEduInfo = {
                     template: "#= --record #",
                     width: 50
                 }, {
+                    title: "부서",
+                    width: 180,
+                    template: function(e){
+                        if(e.UserTeam == null || e.UserTeam == ""){
+                            return e.UserComp;
+                        } else {
+                            return e.UserComp + "<br>" + e.UserTeam;
+                        }
+                    }
+                }, {
+                    field: "UserName",
+                    title: "성명",
+                    width: 80,
+                }, {
                     title: "학습명",
                     template: function(e){
                         let RequestType = "OffLine";
@@ -129,7 +143,7 @@ var histEduInfo = {
                 }, {
                     field: "CareLocation",
                     title: "교육장소",
-                    width: 360
+                    width: 300
                 }, {
                     title: "목표레벨",
                     width: 100,

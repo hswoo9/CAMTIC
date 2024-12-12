@@ -224,6 +224,10 @@
             , CareLocation
             , (SELECT Level FROM PRJDB.dbo.EduMenualField WHERE SeqNo = (SELECT MenuSeqNo FROM PRJDB.dbo.EduTarget Where SeqNo = A.SeqNo)) AS LEVEL
             , State
+            , UserComp
+            , UserTeam
+            , UserName
+            , UserDuty
         FROM
             PRJDB.dbo.EduInfo A
         WHERE

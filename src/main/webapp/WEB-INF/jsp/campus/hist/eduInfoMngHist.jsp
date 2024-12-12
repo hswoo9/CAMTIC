@@ -33,7 +33,7 @@
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
                         <td>
-                            <input type="text" id="eduYear" style="width: 110px;">
+                            <input type="text" id="eduYear" style="width: 20%;">
                         </td>
                     </tr>
                 </table>
