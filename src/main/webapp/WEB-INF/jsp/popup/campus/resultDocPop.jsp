@@ -50,7 +50,7 @@
             <tr>
                 <th>학습일시</th>
                 <td>
-                    <input type="text" id="journalDt" style="width: 20%"> <input type="text" id="journalStartTime" style="width: 15%"> ~ <input type="text" id="journalEndTime" style="width: 15%">
+                    <input type="text" id="journalStrDt" style="width: 20%"> ~ <input type="text" id="journalEndDt" style="width: 20%">
                 </td>
             </tr>
             <tr>
@@ -79,6 +79,12 @@
                     <input type="text" id="studyMoney" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 150px; text-align: right" value="0"> 원 <input type="text" id="journalAmtClass" style="width: 150px; display: none;">
                 </td>
             </tr>
+            <tr>
+                <th>보고일자</th>
+                <td>
+                    <input type="text" id="resRegDt" style="width: 25%;" />
+                </td>
+            </tr>
         </table>
     </form>
 </div>
@@ -104,9 +110,10 @@
 
     $(function (){
         if($("#resultMode").val() == "mng"){
-            $("#journalDt").prop("disabled", true);
-            $("#journalStartTime").prop("disabled", true);
-            $("#journalEndTime").prop("disabled", true);
+            $("#journalStrDt").prop("disabled", true);
+            $("#journalEndDt").prop("disabled", true);
+            // $("#journalStartTime").prop("disabled", true);
+            // $("#journalEndTime").prop("disabled", true);
             $("#studyLocation").prop("disabled", true);
             $("#studyUserName").prop("disabled", true);
             $("#selMemBtn").prop("disabled", true);
@@ -181,10 +188,11 @@
             type: "post",
             dataType : "json",
             success :function(rs){
-                $("#journalDt").val(rs.data.STUDY_RESULT_DT);
-                $("#journalDt").val(rs.data.STUDY_RESULT_DT);
+                $("#journalStrDt").val(rs.data.STUDY_RESULT_STR_DT);
+                $("#journalEndDt").val(rs.data.STUDY_RESULT_END_DT);
                 $("#journalStartTime").val(rs.data.STUDY_RESULT_START_TIME);
                 $("#journalEndTime").val(rs.data.STUDY_RESULT_END_TIME);
+                $("#resRegDt").val(rs.data.STUDY_RESULT_REG_DT);
                 $("#studyLocation").val(rs.data.STUDY_RESULT_LOCATE);
                 $("#studyUserName").val(rs.data.STUDY_EMP_NAME);
                 $("#studyUserSeq").val(rs.data.STUDY_EMP_SEQ);
@@ -302,9 +310,11 @@
         let studyResultSn = $("#studyResultSn").val();
         let studyInfoSn = $("#pk").val();
         let studyNameTd = $("#studyNameTd").text();
-        let journalDt = $("#journalDt").val();
-        let journalStartTime = $("#journalStartTime").val();
-        let journalEndTime = $("#journalEndTime").val();
+        let journalStrDt = $("#journalStrDt").val();
+        let journalEndDt = $("#journalEndDt").val();
+        // let journalStartTime = $("#journalStartTime").val();
+        // let journalEndTime = $("#journalEndTime").val();
+        let resRegDt = $("#resRegDt").val();
         let studyLocation = $("#studyLocation").val();
         let studyUserSeq = $("#studyUserSeq").val();
         let studyUserName = $("#studyUserName").val();
@@ -319,7 +329,7 @@
         let eduTime = 0;
 
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
-        if(journalDt == "" || journalStartTime == "" || journalEndTime == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
+        if(journalStrDt == "" || journalEndDt == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
         if(studyLocation == ""){ alert("학습장소가 작성되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
@@ -327,38 +337,38 @@
         if(journalAmtClass == ""){ alert("소요비용구분이 선택되지 않았습니다."); return; }
 
         /** 학습조 학습주 실제 인정시간 조회 */
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth()+1;
-        var day = now.getDate();
-        var hour1 = journalStartTime.split(":")[0];
-        var hour2 = journalEndTime.split(":")[0];
-        var min1 = journalStartTime.split(":")[1];
-        var min2 = journalEndTime.split(":")[1];
-        var bfDate = new Date(year, month, day, hour1, min1);
-        var afDate = new Date(year, month, day, hour2, min2);
-        var diffSec = afDate.getTime() - bfDate.getTime();
-        var diffMin = diffSec / 1000 / 60 / 60;
+        // var now = new Date();
+        // var year = now.getFullYear();
+        // var month = now.getMonth()+1;
+        // var day = now.getDate();
+        // var hour1 = journalStartTime.split(":")[0];
+        // var hour2 = journalEndTime.split(":")[0];
+        // var min1 = journalStartTime.split(":")[1];
+        // var min2 = journalEndTime.split(":")[1];
+        // var bfDate = new Date(year, month, day, hour1, min1);
+        // var afDate = new Date(year, month, day, hour2, min2);
+        // var diffSec = afDate.getTime() - bfDate.getTime();
+        // var diffMin = diffSec / 1000 / 60 / 60;
 
         /** 건당 최대 2시간 */
         // if(diffMin > 2){
         //     eduTime = 2
         // }else{
-        eduTime = diffMin;
+        // eduTime = diffMin;
         // }
 
         /** 주당 최대 2시간 체크 */
-        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
-            studyInfoSn: studyInfoSn,
-            empSeq: empSeq,
-            applyDt: journalDt,
-        }).data.REAL_EDU_TIME;
+        // let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
+        //     studyInfoSn: studyInfoSn,
+        //     empSeq: empSeq,
+        //     applyDt: journalDt,
+        // }).data.REAL_EDU_TIME;
 
 
-        let realEduTime = eduTime;
-        if(realEduTimeYear + realEduTime > 2){
-            realEduTime = 2 - realEduTimeYear;
-        }
+        // let realEduTime = eduTime;
+        // if(realEduTimeYear + realEduTime > 2){
+        //     realEduTime = 2 - realEduTimeYear;
+        // }
 
         let data = {
             studyResultSn: studyResultSn,
@@ -366,14 +376,16 @@
             studyName: studyNameTd,
             studyEmpSeq : studyUserSeq,
             studyEmpName : studyUserName,
-            studyResultDt: journalDt,
-            studyResultStartTime: journalStartTime,
-            studyResultEndTime: journalEndTime,
+            studyResultStrDt: journalStrDt,
+            studyResultEndDt: journalEndDt,
+            // studyResultStartTime: journalStartTime,
+            // studyResultEndTime: journalEndTime,
+            studyResultRegDt: resRegDt,
             studyResultLocate: studyLocation,
             studyResultContent: studyContent,
             studyResultAmt: studyMoney,
             regEmpName: regEmpName,
-            studyResultTime: realEduTime,
+            // studyResultTime: realEduTime,
             regEmpSeq : regEmpSeq
         }
 

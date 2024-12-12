@@ -83,6 +83,8 @@ var eduResultReqPop = {
             format : "yyyy-MM-dd",
         });
 
+        customKendo.fn_datePicker("resRegDt", "month", "yyyy-MM-dd", new Date());
+
 
         eduResultReqPop.dataSet();
         eduResultReqPop.fn_btnSet();
@@ -108,6 +110,11 @@ var eduResultReqPop = {
         $("#treaUnit").val(eduResInfo.TREA_UNIT);
         $("#startDt").val(eduResInfo.START_DT);
         $("#endDt").val(eduResInfo.END_DT);
+
+        if(eduResInfo.RES_REG_DT != null) {
+            $("#resRegDt").val(eduResInfo.RES_REG_DT);
+        }
+
         $("#termDay").val(eduResInfo.TERM_DAY);
         $("#termTime").val(eduResInfo.TERM_TIME);
         $("#compType").val(eduResInfo.COMP_TYPE);
@@ -185,6 +192,7 @@ var eduResultReqPop = {
         let careName = "";
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
+        let resRegDt = $("#resRegDt").val();
         let termDay = $("#termDay").val() == null ? 0 : $("#termDay").val();
         let termTime = $("#termTime").val() == null ? 0 : $("#termTime").val();
         let eduTeacherName = $("#eduTeacherName").val();
@@ -274,6 +282,7 @@ var eduResultReqPop = {
             careName : careName,
             startDt : startDt,
             endDt : endDt,
+            resRegDt : resRegDt,
             termDay : termDay,
             termTime : termTime,
             eduTeacherName : eduTeacherName,
