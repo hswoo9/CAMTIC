@@ -219,4 +219,35 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvalEmpList", params);
     }
 
+    public Map<String, Object> getEvalGoal(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvalGoal", params);
+    }
+
+    public List<Map<String, Object>> getEvalAchieveList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalAchieveList", params);
+    }
+
+    public List<Map<String, Object>> getEvalGoalList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalGoalList", params);
+    }
+
+    public void setEvalGoal(Map<String, Object> params) {
+        insert("evaluation.setEvalGoal", params);
+    }
+
+    public void setEvalGoalUpd(Map<String, Object> params) {
+        update("evaluation.setEvalGoalUpd", params);
+    }
+
+    public String getEvalAchieveChk(Map<String, Object> params){
+        return (String) selectOne("evaluation.getEvalAchieveChk", params);
+    }
+
+    public void setEvalAchieve(Map<String, Object> params){
+        insert("evaluation.setEvalAchieve", params);
+    }
+
+    public void setEvalAchieveUpd(Map<String, Object> params){
+        update("evaluation.setEvalAchieveUpd", params);
+    }
 }

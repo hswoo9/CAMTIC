@@ -812,9 +812,9 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/engn/setPerformanceInfo")
-    public String setPerformanceInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+    public String setPerformanceInfo(@RequestParam Map<String, Object> params, Model model){
         try{
-            projectService.setPerformanceInfo(params, request, SERVER_DIR, BASE_DIR);
+            projectService.setPerformanceInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
@@ -1292,14 +1294,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void setPerformanceInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
-        Map<String, Object> map = new HashMap<>();
-        map = projectRepository.getResultInfo(params);
-        if(map == null){
-            projectRepository.insPerformanceInfo(params);
-        } else {
-            params.put("rsSn", map.get("RS_SN"));
-            projectRepository.setPerformanceInfo(params);
+    public void setPerformanceInfo(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> performaneceArr = gson.fromJson((String) params.get("performaneceArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        projectRepository.setPjtPerformanceDel(params);
+        if(performaneceArr.size() > 0){
+            for (Map<String, Object> map : performaneceArr){
+                map.put("pjtSn", params.get("pjtSn"));
+                projectRepository.setPjtPerformance(map);
+            }
         }
     }
 
@@ -1309,6 +1313,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         Map<String, Object> map = projectRepository.getResultInfo(params);
         result.put("map", map);
+        result.put("performanceList", projectRepository.getPjtPerformanceList(params));
         result.put("devFileList", projectRepository.getGoodsFile(map));
         result.put("designFileList", projectRepository.getDesignFile(map));
         result.put("prodFileList", projectRepository.getProdFile(map));

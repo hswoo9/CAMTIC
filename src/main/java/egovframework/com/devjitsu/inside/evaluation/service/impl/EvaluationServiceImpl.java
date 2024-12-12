@@ -2,19 +2,27 @@ package egovframework.com.devjitsu.inside.evaluation.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.inside.evaluation.repository.EvaluationRepository;
 import egovframework.com.devjitsu.inside.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EvaluationServiceImpl implements EvaluationService {
 
     @Autowired
     private EvaluationRepository evaluationRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
     public List<Map<String, Object>> getRequestEvaluationMemberTot(Map<String, Object> params) {
@@ -373,5 +381,64 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public List<Map<String, Object>> getEvalEmpList(Map<String, Object> params) {
         return evaluationRepository.getEvalEmpList(params);
+    }
+
+    @Override
+    public Map<String, Object> getEvalGoal(Map<String, Object> params) {
+        return evaluationRepository.getEvalGoal(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvalGoalList(Map<String, Object> params) {
+        return evaluationRepository.getEvalGoalList(params);
+    }
+
+    @Override
+    public void setEvalGoal(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("evalGoalSn"))){
+            evaluationRepository.setEvalGoal(params);
+        }else{
+            evaluationRepository.setEvalGoalUpd(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getEvalAchieveScoreList(Map<String, Object> params) {
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("pjtYear", params.get("searchYear"));
+        searchMap.put("deptSeq", params.get("deptSeq"));
+        searchMap.put("busnSubClass", "res");
+
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> pjtList = projectRepository.getProjectList(searchMap);
+        if (pjtList.size() > 0) {
+            for(Map<String, Object> map : pjtList){
+                map.put("pjtSn", map.get("PJT_SN"));
+                map.put("pjtPerformanceList", projectRepository.getPjtPerformanceList(map));
+                map.put("evalAchieveList", evaluationRepository.getEvalAchieveList(map));
+            }
+            result.put("pjtList", pjtList);
+        }
+        result.put("evalAchieveList", evaluationRepository.getEvalGoalList(params));
+
+        return result;
+    }
+
+    @Override
+    public void setEvalAchieve(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> achieveArr = gson.fromJson((String) params.get("achieveArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if(achieveArr.size() > 0){
+            for (Map<String, Object> map : achieveArr){
+                String evalAchieveSn = evaluationRepository.getEvalAchieveChk(map);
+                if (StringUtils.isEmpty(evalAchieveSn)) {
+                    evaluationRepository.setEvalAchieve(map);
+                }else{
+                    map.put("evalAchieveSn", evalAchieveSn);
+                    evaluationRepository.setEvalAchieveUpd(map);
+                }
+            }
+        }
     }
 }

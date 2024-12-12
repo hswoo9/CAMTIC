@@ -45,4 +45,11 @@ public interface EvaluationService {
     List<Map<String, Object>> getExcelDownloadData(Map<String, Object> params);
 
     List<Map<String, Object>> getEvalEmpList(Map<String, Object> params);
+
+    Map<String, Object> getEvalGoal(Map<String, Object> map);
+    List<Map<String, Object>> getEvalGoalList(Map<String, Object> params);
+    void setEvalGoal(Map<String, Object> params);
+
+    Map<String, Object> getEvalAchieveScoreList(Map<String, Object> params);
+    void setEvalAchieve(Map<String, Object> params);
 }

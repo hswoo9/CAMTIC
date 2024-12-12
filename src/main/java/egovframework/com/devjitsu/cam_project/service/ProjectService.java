@@ -141,7 +141,7 @@ public interface ProjectService {
 
     void setResultInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
 
-    void setPerformanceInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void setPerformanceInfo(Map<String, Object> params);
 
     Map<String, Object> getResultInfo(Map<String, Object> params);
 

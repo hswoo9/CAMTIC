@@ -13,12 +13,15 @@
     .blue{background-color: #ddebf7;font-weight: bold;text-align: center;}
     .orange{background-color: #ffcc99;font-weight: bold;text-align: center;}
     #evalList input{width: 100%;}
+    #evalList td{text-align: center}
     #evalListDiv {width: 100%;overflow-x: auto;white-space: nowrap;}
+
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyCode" value="${loginVO.dutyCode}"/>
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -39,8 +42,8 @@
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
-                            <input type="text" id="searchDate" style="width:10%;">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">조회</button>
+                            <input type="text" id="searchYear" style="width:10%;">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="evaluationPerReq.getEvaluationList()">조회</button>
                         </td>
 
                     </tr>
