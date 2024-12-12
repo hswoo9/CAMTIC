@@ -71,7 +71,7 @@
                             </c:forEach>
                             <tr class="addData">
                                 <td style="text-align: center">추가</td>
-                                <td style="text-align: center"><input type="text" id="startDt" style="width: 120px;"> ~ <input type="text" id="endDt" style="width: 120px;"></td>
+                                <td style="text-align: center"><input type="text" id="startDt" style="width: 45%"> ~ <input type="text" id="endDt" style="width: 45%;"></td>
                                 <td style="text-align: center"><input type="text" id="title" style="width: 220px;"></td>
                                 <td style="text-align: center"><input type="text" id="etc" style="width: 200px;"></td>
                                 <td style="text-align: center"><button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="ojtPlan.saveBtn()">추가</button></td>
