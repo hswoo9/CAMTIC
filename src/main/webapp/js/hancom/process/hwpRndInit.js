@@ -2,12 +2,16 @@ var rndInit = {
 
     global: {
         pjtInfo: new Object(),
+        pjtInfo3: new Object(),
         rndInfo: new Object()
     },
 
     globalDataSet: function(pjtSn, menuCd){
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
         rndInit.global.pjtInfo = pjtInfo;
+
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : pjtSn});
+        engnInit.global.pjtInfo3 = pjtResult.map;
 
         const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
         rndInit.global.rndInfo = rndInfo;
@@ -408,6 +412,7 @@ var rndInit = {
         const pjtInfo = rndInit.global.pjtInfo;
         const rndInfo = rndInit.global.rndInfo;
         const devInfo = rndInit.global.devInfo;
+        const teamCk = engnInit.global.pjtInfo3.TEAM_CK;
 
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
@@ -419,11 +424,11 @@ var rndInit = {
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
 
         /** 구매/비용내역 */
-        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
+        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn, teamCk: teamCk});
         /** 출장/비용내역 */
-        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
+        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn, teamCk: teamCk});
         /** 지출/비용내역 */
-        const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn});
+        const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn, teamCk: teamCk});
 
         /** 사업예산 */
         const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
