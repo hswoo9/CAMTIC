@@ -395,7 +395,7 @@ var resultInfo = {
             for(var i = 0; i < result.devFileList.length; i++){
                 html += '<li>';
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+result.devFileList[i].file_path+result.devFileList[i].file_uuid+'\', \''+result.devFileList[i].file_org_name+'.'+result.devFileList[i].file_ext+'\')">'+result.devFileList[i].file_org_name+'.'+result.devFileList[i].file_ext+'</span>';
-                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="commonFileDel(' + result.devFileList[i].file_no + ', this)">';
+                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="resultInfo.commonFileDel(' + result.devFileList[i].file_no + ', this)">';
                 html += '</li>';
             }
             $("#ulSetFileName").append(html);
@@ -601,6 +601,26 @@ var resultInfo = {
         }
 
         resultInfo.global.attFiles = Array.from(resultInfo.global.attFiles);
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("li").remove();
+                    }
+                }
+            });
+        }
     },
 
     resDrafting: function(){
