@@ -250,4 +250,8 @@ public class EvaluationRepository extends AbstractDAO {
     public void setEvalAchieveUpd(Map<String, Object> params){
         update("evaluation.setEvalAchieveUpd", params);
     }
+    public List<Map<String, Object>> getEvalAchieveList2(Map<String, Object> params){
+        return selectList("evaluation.getEvalAchieveList2", params);
+    }
+
 }

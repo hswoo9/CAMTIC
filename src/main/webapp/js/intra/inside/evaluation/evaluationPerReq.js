@@ -31,7 +31,9 @@ var evaluationPerReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                evaluationPerReq.fn_addEvalList(result.list);
+                var goalList = result.rs.goalList;
+                var achieveList = result.rs.achieveList;
+                evaluationPerReq.fn_addEvalList(goalList, achieveList);
             },
             error : function(e) {
                 console.log(e);
@@ -39,64 +41,99 @@ var evaluationPerReq = {
         });
     },
 
-    fn_addEvalList: function(list){
+    fn_addEvalList: function(goalList, achieveList){
         $('#evalList').empty();
-
         var html = "";
 
-        if(list.length > 0){
-            for(var i = 0; i < list.length; i++){
-                    html += '' +
-                        '<tr>' +
-                            '<td>' + list[i].DEPT_NAME + '</td>' +
-                            '<td>' + list[i].TEAM_NAME + '</td>' +
-                            '<td>' + list[i].EMP_NAME + '</td>' +
-                            '<td>' +
-                                '<span id="orderGoals">' + comma(list[i].ORDER_GOALS) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="orderAchieve">' + comma(0) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="orderScore">0</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="salesGoals">' + comma(list[i].SALES_GOALS) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="salesAchieve">' + comma(0) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="salesScore">0</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="revenueGoals">' + comma(list[i].REVENUE_GOALS) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="revenueAchieve">' + comma(0) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="revenueScore">0</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="costGoals">' + comma(list[i].COST_GOALS) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="costAchieve">' + comma(0) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="costScore">0</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="commerIndexGoals">' + comma(list[i].COMMER_INDEX_GOALS) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="commerIndexAchieve">' + comma(0) + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span id="commerIndexScore">0</span>' +
-                            '</td>' +
-                        '</tr>';
+        if(goalList.length > 0){
+            for(var i = 0; i < goalList.length; i++){
+                var empEchieve = achieveList.find(e => e.EMP_SEQ == goalList[i].EMP_SEQ);
+                var orderAchieve = 0;
+                var salesAchieve = 0;
+                var revenueAchieve = 0;
+                if(empEchieve != null){
+                    var achieve = empEchieve.ACHIEVE.split('|');
+                    for(var j = 0; j < achieve.length; j++){
+                        /** 데이터 형태 = EMP_SEQ_PJT_AMT_REVENUE_SUM_ORDER_ACHIEVE_SALES_ACHIEVE_REVENUE_ACHIEVE */
+                        var achieveInfo = achieve[j].split("_");
+                        var pjtAmt = achieveInfo[1];
+                        var pjtRevenueSum = achieveInfo[2];
+                        var pjtOrderAchieve = achieveInfo[3];
+                        var pjtSalesAchieve = achieveInfo[4];
+                        var pjtRevenueAchieve = achieveInfo[5];
+
+                        orderAchieve += (pjtAmt * pjtOrderAchieve)/100 || 0;
+                        salesAchieve += (pjtAmt * pjtSalesAchieve)/100 || 0;
+                        revenueAchieve += ((pjtAmt - pjtRevenueSum) * pjtRevenueAchieve)/100 || 0;
+                    }
+                }
+
+                var orderScore = 0;
+                var salesScore = 0;
+                var revenueScore = 0;
+                if(goalList[i].ORDER_GOALS != 0 && orderAchieve != 0){
+                    orderScore = Math.round(orderAchieve/goalList[i].ORDER_GOALS * 100);
+                }
+
+                if(goalList[i].SALES_GOALS != 0 && salesAchieve != 0){
+                    salesScore = Math.round(salesAchieve/goalList[i].SALES_GOALS * 100);
+                }
+
+                if(goalList[i].REVENUE_GOALS != 0 && revenueAchieve != 0){
+                    revenueScore = Math.round(revenueAchieve/goalList[i].REVENUE_GOALS * 100);
+                }
+
+                html += '' +
+                    '<tr>' +
+                        '<td>' + goalList[i].DEPT_NAME + '</td>' +
+                        '<td>' + goalList[i].TEAM_NAME + '</td>' +
+                        '<td>' + goalList[i].EMP_NAME + '</td>' +
+                        '<td>' +
+                            '<span id="orderGoals">' + comma(goalList[i].ORDER_GOALS) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="orderAchieve">' + comma(orderAchieve) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="orderScore">' + comma(orderScore) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="salesGoals">' + comma(goalList[i].SALES_GOALS) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="salesAchieve">' + comma(salesAchieve) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="salesScore">' + comma(salesScore) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="revenueGoals">' + comma(goalList[i].REVENUE_GOALS) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="revenueAchieve">' + comma(revenueAchieve) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="revenueScore">' + comma(revenueScore) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="costGoals">' + comma(goalList[i].COST_GOALS) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="costAchieve">' + comma(0) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="costScore">0</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="commerIndexGoals">' + comma(goalList[i].COMMER_INDEX_GOALS) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="commerIndexAchieve">' + comma(0) + '</span>' +
+                        '</td>' +
+                        '<td>' +
+                            '<span id="commerIndexScore">0</span>' +
+                        '</td>' +
+                    '</tr>';
                 }
         }else{
             html += '' +

@@ -643,7 +643,7 @@ public class EvaluationController {
             return "error/error";
         }
 
-        model.addAttribute("list", evaluationService.getEvalGoalList(params));
+        model.addAttribute("rs", evaluationService.getEvalGoalList(params));
 
         return "jsonView";
     }

@@ -8,11 +8,9 @@ import egovframework.com.devjitsu.inside.evaluation.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import sun.security.krb5.internal.PAData;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -389,8 +387,15 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public List<Map<String, Object>> getEvalGoalList(Map<String, Object> params) {
-        return evaluationRepository.getEvalGoalList(params);
+    public Map<String, Object> getEvalGoalList(Map<String, Object> params) {
+        Map<String, Object> returnMap = new HashMap<>();
+        List<Map<String, Object>> goalList = evaluationRepository.getEvalGoalList(params);
+        params.put("empSeqArr", goalList.stream()
+                .map(map -> map.get("EMP_SEQ"))
+                .collect(Collectors.toList()));
+        returnMap.put("goalList", goalList);
+        returnMap.put("achieveList", evaluationRepository.getEvalAchieveList2(params));
+        return returnMap;
     }
 
     @Override

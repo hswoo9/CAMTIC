@@ -34,7 +34,6 @@ var evalScorePop = {
         var achieveArr = new Array();
         $.each($("#evalList tr"), function(i, v){
             $.each($("#evalListDiv td.targetEmp"), function(ii, vv){
-                console.log();
                 var data = {
                     pjtSn : $(v).attr("pjtSn"),
                     empSeq :  $(vv).attr("id"),
