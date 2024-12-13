@@ -3640,8 +3640,16 @@
             CAM_MNG.DJ_PAY_APP PA
         WHERE
             (
-                PA.PJT_SN = #{pjtSn}
-                OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                (
+                    PA.PJT_SN = #{pjtSn}
+                    OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                )
+            <if test='teamCk != null and !"".equals(teamCk) and "Y".equals(teamCk)'>
+                OR (
+                    PA.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+                    OR LEFT(PA.PJT_CD, 9) = (SELECT LEFT(PJT_CD, 9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+                )
+            </if>
             )
             <if test='busnClass != null and !"".equals(busnClass) and !"D".equals(busnClass) and !"V".equals(busnClass)'>
                 <if test='teamType != null and !"".equals(teamType)'>

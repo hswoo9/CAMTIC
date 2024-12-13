@@ -68,9 +68,9 @@ var resultInfo = {
             const devMap = devInfo.rs;
             const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
 
-            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
-            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
-            const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn});
+            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn, teamCk: commonProject.global.teamCk});
+            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn, teamCk: commonProject.global.teamCk});
+            const exnpResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: pjtSn, teamCk: commonProject.global.teamCk});
 
             /** 초기계획 시작 */
             const purcList = purcResult.list;
@@ -169,9 +169,9 @@ var resultInfo = {
             const devMap = devInfo.rs;
 
             const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
-            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
-            const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn : map.PJT_SN});
+            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn, teamCk: commonProject.global.teamCk});
+            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN, teamCk: commonProject.global.teamCk});
+            const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn : map.PJT_SN, teamCk: commonProject.global.teamCk});
 
             /** 초기계획 시작 */
             const purcList = purcResult.list;
@@ -265,8 +265,9 @@ var resultInfo = {
             const devMap = devInfo.rs;
 
             const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn});
-            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
+            const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList2.do", {pjtSn: pjtSn, teamCk: commonProject.global.teamCk});
+            const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN, teamCk: commonProject.global.teamCk});
+            const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn : map.PJT_SN, teamCk: commonProject.global.teamCk});
 
             /** 초기계획 시작 */
             const purcList = purcResult.list;
@@ -327,6 +328,16 @@ var resultInfo = {
                 }
             }
             console.log("출장결과 합계 값 : ", bustSum);
+
+            const payList = payResult.list;
+            let paySum = 0;
+            for(let i=0; i<payList.length; i++){
+                const payMap = payList[i];
+                resInvSum  += Number(payMap.COST_SUM);
+                paySum += Number(payMap.COST_SUM);
+            }
+            console.log("지출 합계 값 : ", paySum);
+
             let resInvPer = (resInvSum / map.PJT_AMT * 100);
 
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);

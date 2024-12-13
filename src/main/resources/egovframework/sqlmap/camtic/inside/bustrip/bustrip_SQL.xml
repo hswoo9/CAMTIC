@@ -1672,6 +1672,9 @@
         ON
             A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE A.PJT_SN = #{pjtSn}
+        <if test='teamCk != null and !"".equals(teamCk) and "Y".equals(teamCk)'>
+            OR A.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+        </if>
         <if test='!"T".equals(stat)'>
         UNION
         SELECT
@@ -1717,7 +1720,13 @@
         LEFT JOIN
             DJ_CAMTIC.TripInfo bb ON aa.IntraCode = bb.ObjectCode
         WHERE bb.ObjectCode IS NOT NULL
-        AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+        AND bb.State IN ('5','6')
+        AND (
+            aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            <if test='teamCk != null and !"".equals(teamCk) and "Y".equals(teamCk)'>
+                OR aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+            </if>
+            )
             <if test='teamType != null and !"".equals(teamType)'>
                 AND
                     bb.TM_TYPE = #{teamType}

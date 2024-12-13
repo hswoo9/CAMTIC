@@ -2565,6 +2565,9 @@
                 DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
             WHERE
                 A.PJT_SN = #{pjtSn}
+            <if test='teamCk != null and !"".equals(teamCk) and "Y".equals(teamCk)'>
+                OR A.PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+            </if>
 
             UNION ALL
 
@@ -2599,8 +2602,12 @@
                 DJ_CAMTIC.PROJECTACCEPTINFO B ON A.JCode = B.ProjectCode
             WHERE
                 A.JState != 1
-            AND
-                B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
+            AND (
+                B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+                <if test='teamCk != null and !"".equals(teamCk) and "Y".equals(teamCk)'>
+                    OR B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PNT_PJT_SN = #{pjtSn})
+                </if>
+            )
             <if test='teamType != null and !"".equals(teamType)'>
                 AND
                     A.TM_TYPE = #{teamType}
