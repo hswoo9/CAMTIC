@@ -80,7 +80,6 @@ var costCalc = {
                 } else {
                     /** TEAM_STAT == Y ; 협업 */
                     if(e.TEAM_STAT == "Y") {
-                        console.log(":>")
                         amt = Number(e.TM_AMT || 0);
                     } else {
                         amt = Number(e.REAL_PJT_AMT);
@@ -749,13 +748,13 @@ var costCalc = {
                 }else{
                     /** TEAM_CK == Y ; 수주부서 */
                     if(e.TEAM_CK == "Y") {
-                        devAmt = Number(e.TM_AMT || 0) - Number(e.befExpSaleAmt || 0);
+                        devAmt = costCalc.nowPjtAmt(e) - Number(e.befExpSaleAmt || 0);
                     } else {
                         /** TEAM_STAT == Y ; 협업 */
                         if(e.TEAM_STAT == "Y") {
-                            devAmt = Number(e.TM_AMT || 0) - Number(e.befExpSaleAmt || 0);
+                            devAmt = costCalc.nowPjtAmt(e) - Number(e.befExpSaleAmt || 0);
                         } else {
-                            devAmt = Number(e.REAL_PJT_AMT) - Number(e.befExpSaleAmt || 0);
+                            devAmt = costCalc.allPjtAmt(e) - Number(e.befExpSaleAmt || 0);
                         }
                     }
                 }
@@ -853,7 +852,7 @@ var costCalc = {
                         if(e.TEAM_STAT == "Y") {
                             eopAmt = costCalc.nowPjtAmt(e) - costCalc.nowInvAmt(e) - Number(e.nowExpProfitAmt || 0);
                         } else {
-                            Number(e.REAL_PJT_AMT) - Number(e.DEV_INV_AMT || 0) -  Number(e.nowExpProfitAmt || 0);
+                            eopAmt = costCalc.allPjtAmt(e) - costCalc.nowInvAmt(e) -  Number(e.nowExpProfitAmt || 0);
                         }
                     }
                 }
