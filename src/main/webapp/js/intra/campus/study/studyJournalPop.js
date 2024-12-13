@@ -16,27 +16,28 @@ const studyJournal = {
         }
         customKendo.fn_textBox(["studyLocation", "studyUserName", "studyMoney", "journalAmtEtc"]);
         customKendo.fn_textArea(["studyContent"]);
+        customKendo.fn_datePicker("journalDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("journalStrDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("journalEndDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("resRegDt", "month", "yyyy-MM-dd", new Date());
-        // customKendo.fn_timePicker("journalStartTime", '10', "HH:mm", "09:00");
-        // customKendo.fn_timePicker("journalEndTime", '10', "HH:mm", "18:00");
+        customKendo.fn_timePicker("journalStartTime", '10', "HH:mm", "09:00");
+        customKendo.fn_timePicker("journalEndTime", '10', "HH:mm", "18:00");
 
-        // $("#journalStartTime").focusout(function (){
-        //     var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
-        //
-        //     if(!this.value.includes(":")){
-        //         $("#journalStartTime").val(time)
-        //     }
-        // });
+        $("#journalStartTime").focusout(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
 
-        // $("#journalEndTime").change(function (){
-        //     var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
-        //
-        //     if(!this.value.includes(":")){
-        //         $("#journalEndTime").val(time)
-        //     }
-        // });
+            if(!this.value.includes(":")){
+                $("#journalStartTime").val(time)
+            }
+        });
+
+        $("#journalEndTime").change(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#journalEndTime").val(time)
+            }
+        });
 
         $("#journalStrDt").change(function (){
             if($("#journalStrDt").val() > $("#journalEndDt").val()){
