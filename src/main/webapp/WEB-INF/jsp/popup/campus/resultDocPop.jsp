@@ -198,6 +198,17 @@
                 $("#studyUserSeq").val(rs.data.STUDY_EMP_SEQ);
                 $("#studyContent").val(rs.data.STUDY_RESULT_CONTENT);
                 $("#studyMoney").val(comma(rs.data.STUDY_RESULT_AMT));
+
+                if(rs.data.STATUS == "100" || rs.data.STATUS == "101"){
+                    $("#journalStrDt").data("kendoDatePicker").enable(false);
+                    $("#journalEndDt").data("kendoDatePicker").enable(false);
+                    $("#studyLocation").data("kendoTextBox").enable(false);
+                    $("#studyUserName").data("kendoTextBox").enable(false);
+                    $("#selMemBtn").attr("disabled", true);
+                    $("#studyContent").data("kendoTextArea").enable(false);
+                    $("#studyMoney").data("kendoTextBox").enable(false);
+                    $("#resRegDt").data("kendoDatePicker").enable(false);
+                }
             }
         });
 
@@ -227,6 +238,8 @@
                 $("button").prop("disabled", true);
             }
         }
+
+
 
     } else {
         $.ajax({

@@ -467,6 +467,7 @@ var eduResultReqPop = {
         $(".delBtn").css("display", "none");
         $("#startDt").data("kendoDatePicker").enable(false);
         $("#endDt").data("kendoDatePicker").enable(false);
+        $("#resRegDt").data("kendoDatePicker").enable(false);
     },
 
     campusResDrafting: function() {
