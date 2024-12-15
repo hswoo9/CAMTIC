@@ -130,6 +130,7 @@
         let ojtInfo = customKendo.fn_customAjax("/campus/getStudyInfoOne", {
             pk: $("#pk").val()
         }).data;
+
         $("#ojtNameTd").text(ojtInfo.STUDY_NAME);
 
         let ojtResultInfo = customKendo.fn_customAjax("/campus/getOjtResultInfoOne", {
@@ -197,6 +198,16 @@
                 $("#saveBtn").css("display", "none");
                 $("#apprBtn").css("display", "none");
             }
+        }
+
+        if(ojtInfo.RES_STATUS == "100" || ojtInfo.RES_STATUS == "101"){
+            $("#START_DT").data("kendoDatePicker").enable(false);
+            $("#END_DT").data("kendoDatePicker").enable(false);
+            $("#ojtLocationTd").attr("disabled", true);
+            $("#ojtContentTd").attr("disabled", true);
+            $("#ojtAmtTd").attr("disabled", true);
+            $("#ojtAmtTextTd").attr("disabled", true);
+            $("#regDateTd").data("kendoDatePicker").enable(false);
         }
     });
 
