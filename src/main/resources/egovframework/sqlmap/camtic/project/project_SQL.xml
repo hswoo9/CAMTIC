@@ -414,11 +414,13 @@
             AND
             RE.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
-        AND IF(
+        <if test='pageType != null and !"".equals(pageType) and !"item".equals(pageType)'>
+            AND IF(
             RE.PNT_PJT_SN IS NULL,
             RE.RS_STATUS IS NULL,
             RE.COST_CLOSE_CK = 'N'
-        )
+            )
+        </if>
         ORDER BY RE.STR_DT DESC
     </select>
 

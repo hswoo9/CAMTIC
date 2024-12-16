@@ -277,6 +277,7 @@ var projectView = {
 
                     if($("#pageType").val() == "item"){
                         data.pjtNm = "법인";
+                        data.pageType = $("#pageType").val();
                     }
 
                     return data;
