@@ -1833,9 +1833,14 @@
         SELECT
             E.EXNP_SN,
             CASE
-                WHEN ED.EVID_TYPE IN (1,2,3)
-                THEN '반제(지출)'
-                ELSE '지출'
+                WHEN E.PAY_APP_TYPE = '2' THEN '여입'
+                WHEN E.PAY_APP_TYPE = '3' THEN '반납'
+                WHEN E.PAY_APP_TYPE = '4' THEN '대체'
+                ELSE
+                    CASE
+                        WHEN ED.EVID_TYPE IN (1,2,3) THEN '반제(지출)'
+                        ELSE '지출'
+                    END
             END AS TYPE,
             E.PJT_NM,
             E.PJT_CD,
