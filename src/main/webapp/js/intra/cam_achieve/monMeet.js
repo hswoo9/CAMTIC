@@ -48,7 +48,8 @@ var monMeet = {
             baseYear : $("#year").val().split("-")[0],
             startDt : $("#year").val().split("-")[0] + "-01-01",
             endDt : $("#year").val() + "-" + date.getDate(),
-            pjtYear : $("#year").val().split("-")[0]
+            pjtYear : $("#year").val().split("-")[0],
+            busnSubClass : "Y"
         }
 
         $.ajax({
