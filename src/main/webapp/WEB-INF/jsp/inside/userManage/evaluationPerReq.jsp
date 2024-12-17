@@ -54,7 +54,7 @@
                         <span class="k-button-text">업적평가 목표 설정</span>
                     </button>
                     </c:if>
-                    <c:if test="${loginVO.dutyCode eq '2' or loginVO.dutyCode eq '3' or loginVO.dutyCode eq '7'}">
+                    <c:if test="${loginVO.dutyCode eq '2' or loginVO.dutyCode eq '3' or loginVO.dutyCode eq '5' or loginVO.dutyCode eq '7'}">
                     <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalScorePop()">
                         <span class="k-button-text">개인 업적평가 점수산출</span>
                     </button>

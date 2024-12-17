@@ -10,6 +10,11 @@ var evalScorePop = {
         var percentType = ['order', 'sales', 'revenue'];
         var sum = 0;
 
+        if($("#evalList tr[pjtSn]").length == 0){
+            alert("저장할 프로젝트 데이터가 없습니다.");
+            return;
+        }
+
         $.each($("#evalList tr"), function(i, v){
             $.each(percentType, function(ii, vv){
                 var sum = 0;
@@ -47,20 +52,26 @@ var evalScorePop = {
             })
         })
 
+        if(confirm("저장하시겠습니까?")){
+            $.ajax({
+                url: "/evaluation/setEvalAchieve",
+                data: {
+                    achieveArr : JSON.stringify(achieveArr)
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs){
+                    alert("저장되었습니다.");
 
-        $.ajax({
-            url: "/evaluation/setEvalAchieve",
-            data: {
-                achieveArr : JSON.stringify(achieveArr)
-            },
-            type: "post",
-            dataType: "json",
-            async: false,
-            success: function(rs){
-                alert("저장되었습니다.");
-                location.reload()
-            }
-        });
+                    if(opener.parent.evaluationPerReq != null) {
+                        opener.parent.evaluationPerReq.getEvaluationList()
+                    }
+
+                    location.reload()
+                }
+            });
+        }
     },
 
     evalContent: function(){
@@ -92,7 +103,7 @@ var evalScorePop = {
         var col = evalAchieveList.length + 1;
 
         var html = "";
-        html += '<table class="searchTable table table-bordered mb-0">';
+        html += '<table class="searchTable table table-bordered mb-0" id="achieveTb">';
         html += '   <tr>';
         html += '       <th colSpan="3" class="text-center th-color">구분</th>';
         html += '       <th colSpan="3" class="text-center th-color">팀 실적 (단위 : 원)</th>';
@@ -141,89 +152,111 @@ var evalScorePop = {
     evalScoreTBodyMake :function (pjtList, evalAchieveList){
         var html = "";
 
-        for (var j = 0; j < pjtList.length; j++) {
-            var pjtPerformance = pjtList[j].pjtPerformanceList;
-            var evalAchieve = pjtList[j].evalAchieveList;
-            var orderSum = 0;
-            var salesSum = 0;
-            var revenueSum = 0;
-
-            html += '' +
-                '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
-                    '<td>' + pjtList[j].PJT_NM + '</td>' +
-                    '<td>' + pjtList[j].CRM_NM + '</td>' +
-                    '<td></td>' +
-                    '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
-                    '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
-                    '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>';
-            for (var k = 0; k < evalAchieveList.length; k++) {
-                var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-
-                var orderValue = (empEvalAchieve && Number(empEvalAchieve.ORDER_ACHIEVE)) || (empPerformance && Number(empPerformance.ORDER_PERCENT)) || 0;
-                orderSum += orderValue;
+        if(pjtList != null){
+            for (var j = 0; j < pjtList.length; j++) {
+                var pjtPerformance = pjtList[j].pjtPerformanceList;
+                var evalAchieve = pjtList[j].evalAchieveList;
+                var orderSum = 0;
+                var salesSum = 0;
+                var revenueSum = 0;
 
                 html += '' +
-                    '<td class="green">' +
-                        '<input type="text" class="orderPercent" percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
-                            'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + orderValue + '" style="width: 40px">' + ' %' +
-                    '</td>';
-            }
-            html += '<td class="green"><span id="orderSum_' + pjtList[j].PJT_SN + '">' + orderSum + '</span>%</td>';
+                    '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
+                        '<td>' + pjtList[j].PJT_NM + '</td>' +
+                        '<td>' + pjtList[j].CRM_NM + '</td>' +
+                        '<td></td>' +
+                        '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
+                        '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
+                        '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>';
 
-            for (var k = 0; k < evalAchieveList.length; k++) {
-                var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                /** 프로젝트 공정 포함 여부에 따라 수정 가능 여부  */
+                var participants = ""
 
-                var salesValue = (empEvalAchieve && Number(empEvalAchieve.SALES_ACHIEVE)) || (empPerformance && Number(empPerformance.SALES_PERCENT)) || 0;
+                for (var k = 0; k < evalAchieveList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var orderValue =
+                        empEvalAchieve && empEvalAchieve.ORDER_ACHIEVE != null ? Number(empEvalAchieve.ORDER_ACHIEVE) :
+                            empPerformance && empPerformance.ORDER_PERCENT != null ? Number(empPerformance.ORDER_PERCENT) : 0;
+                    orderSum += orderValue;
 
-                salesSum += salesValue;
+                    participants = empPerformance == null ? "disabled" : ""
 
-                html += '' +
-                    '<td class="yellow">' +
-                        '<input type="text" class="salesPercent" percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
-                            'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + salesValue + '" style="width: 40px">' + ' %' +
-                    '</td>';
-
-            }
-            html += '<td class="yellow"><span id="salesSum_' + pjtList[j].PJT_SN + '">' + salesSum + '</span>%</td>';
-
-            for (var k = 0; k < evalAchieveList.length; k++) {
-                var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var revenueValue = (empEvalAchieve && Number(empEvalAchieve.REVENUE_ACHIEVE)) || (empPerformance && Number(empPerformance.REVENUE_PERCENT)) || 0;
-
-                revenueSum += revenueValue;
-
-                html += '' +
-                    '<td class="blue">' +
-                        '<input type="text" class="revenuePercent" percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
-                            'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + revenueValue + '" style="width: 40px">' + ' %' +
-                    '</td>';
-            }
-            html += '<td class="blue"><span id="revenueSum_' + pjtList[j].PJT_SN + '">' + revenueSum + '</span>%</td>';
-
-            for (var k = 0; k < evalAchieveList.length; k++) {
-                var empSum = 0;
-                var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-
-                if (empEvalAchieve || empPerformance) {
-                    empSum =
-                        (Number(empEvalAchieve?.ORDER_ACHIEVE || empPerformance?.ORDER_PERCENT) || 0) +
-                        (Number(empEvalAchieve?.SALES_ACHIEVE || empPerformance?.SALES_PERCENT) || 0) +
-                        (Number(empEvalAchieve?.REVENUE_ACHIEVE || empPerformance?.REVENUE_PERCENT) || 0);
+                    html += '' +
+                        '<td class="green">' +
+                            '<input type="text" class="orderPercent" ' + participants + ' percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                                'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + orderValue + '" style="width: 40px">' + ' %' +
+                        '</td>';
                 }
+                html += '<td class="green"><span id="orderSum_' + pjtList[j].PJT_SN + '">' + orderSum + '</span>%</td>';
 
-                html += '' +
-                    '<td class="normal">' +
-                        '<span id="empSum_' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" class="empSum">' + empSum + '</span>' + '%' +
-                    '</td>';
+                for (var k = 0; k < evalAchieveList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+
+                    var salesValue =
+                        empEvalAchieve && empEvalAchieve.SALES_ACHIEVE != null ? Number(empEvalAchieve.SALES_ACHIEVE) :
+                            empPerformance && empPerformance.SALES_PERCENT != null ? Number(empPerformance.SALES_PERCENT) : 0;
+
+                    salesSum += salesValue;
+
+                    participants = empPerformance == null ? "disabled" : ""
+
+                    html += '' +
+                        '<td class="yellow">' +
+                            '<input type="text" class="salesPercent" ' + participants + ' percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                                'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + salesValue + '" style="width: 40px">' + ' %' +
+                        '</td>';
+
+                }
+                html += '<td class="yellow"><span id="salesSum_' + pjtList[j].PJT_SN + '">' + salesSum + '</span>%</td>';
+
+                for (var k = 0; k < evalAchieveList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var revenueValue =
+                        empEvalAchieve && empEvalAchieve.REVENUE_ACHIEVE != null ? Number(empEvalAchieve.REVENUE_ACHIEVE) :
+                            empPerformance && empPerformance.REVENUE_PERCENT != null ? Number(empPerformance.REVENUE_PERCENT) : 0;
+
+                    revenueSum += revenueValue;
+
+                    participants = empPerformance == null ? "disabled" : ""
+
+                    html += '' +
+                        '<td class="blue">' +
+                            '<input type="text" class="revenuePercent" ' + participants + ' percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                                'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + revenueValue + '" style="width: 40px">' + ' %' +
+                        '</td>';
+                }
+                html += '<td class="blue"><span id="revenueSum_' + pjtList[j].PJT_SN + '">' + revenueSum + '</span>%</td>';
+
+                for (var k = 0; k < evalAchieveList.length; k++) {
+                    var empSum = 0;
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+
+                    if (empEvalAchieve || empPerformance) {
+                        empSum =
+                            (Number(empEvalAchieve?.ORDER_ACHIEVE || empPerformance?.ORDER_PERCENT) || 0) +
+                            (Number(empEvalAchieve?.SALES_ACHIEVE || empPerformance?.SALES_PERCENT) || 0) +
+                            (Number(empEvalAchieve?.REVENUE_ACHIEVE || empPerformance?.REVENUE_PERCENT) || 0);
+                    }
+
+                    html += '' +
+                        '<td class="normal">' +
+                            '<span id="empSum_' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" class="empSum">' + empSum + '</span>' + '%' +
+                        '</td>';
+                }
+                html += '<td class="normal">' +
+                            '<span id="totalSum_' + pjtList[j].PJT_SN + '" >' + (orderSum + salesSum + revenueSum) + '</span>%' +
+                        '</td>' +
+                    '</tr>';
             }
-            html += '<td class="normal">' +
-                        '<span id="totalSum_' + pjtList[j].PJT_SN + '" >' + (orderSum + salesSum + revenueSum) + '</span>%' +
-                    '</td>' +
-                '</tr>';
+        }else{
+            html += '' +
+                '<tr>' +
+                    '<td style="text-align: center" colspan="' + $($("#achieveTb tr")[1]).find("td").length + '">데이터가 없습니다.</td>'
+                '</tr>'
         }
 
         $('#evalList').append(html);
