@@ -156,6 +156,10 @@ var evalScorePop = {
                     '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
                     '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
                     '<td style="text-align: right">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>';
+
+            /** 프로젝트 공정 포함 여부에 따라 수정 가능 여부  */
+            var participants = ""
+
             for (var k = 0; k < evalAchieveList.length; k++) {
                 var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                 var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
@@ -164,9 +168,11 @@ var evalScorePop = {
                         empPerformance && empPerformance.ORDER_PERCENT != null ? Number(empPerformance.ORDER_PERCENT) : 0;
                 orderSum += orderValue;
 
+                participants = empPerformance == null ? "disabled" : ""
+
                 html += '' +
                     '<td class="green">' +
-                        '<input type="text" class="orderPercent" percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                        '<input type="text" class="orderPercent" ' + participants + ' percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
                             'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + orderValue + '" style="width: 40px">' + ' %' +
                     '</td>';
             }
@@ -182,9 +188,11 @@ var evalScorePop = {
 
                 salesSum += salesValue;
 
+                participants = empPerformance == null ? "disabled" : ""
+
                 html += '' +
                     '<td class="yellow">' +
-                        '<input type="text" class="salesPercent" percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                        '<input type="text" class="salesPercent" ' + participants + ' percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
                             'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + salesValue + '" style="width: 40px">' + ' %' +
                     '</td>';
 
@@ -200,9 +208,11 @@ var evalScorePop = {
 
                 revenueSum += revenueValue;
 
+                participants = empPerformance == null ? "disabled" : ""
+
                 html += '' +
                     '<td class="blue">' +
-                        '<input type="text" class="revenuePercent" percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                        '<input type="text" class="revenuePercent" ' + participants + ' percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
                             'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + revenueValue + '" style="width: 40px">' + ' %' +
                     '</td>';
             }
