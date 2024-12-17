@@ -27,9 +27,12 @@
 <input type="hidden" id="nextStepValue" value="R" />
 
 <div style="padding: 10px">
-    <div id="resultBtnDiv">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="performanceInfo.fn_save()">저장</button>
+    <div id="resultBtnDiv" style="text-align: right">
+        <button type="button" id="saveBtn" style="margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="performanceInfo.fn_save('s')">저장</button>
+        <button type="button" id="closingBtn" style="margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="performanceInfo.fn_save('c')">마감</button>
+<%--        <button type="button" id="closingCancelBtn" style="margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="performanceInfo.setPerClosingCancel()">마감취소</button>--%>
     </div>
+
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
             <colgroup>

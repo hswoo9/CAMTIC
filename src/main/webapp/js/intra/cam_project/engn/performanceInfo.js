@@ -112,6 +112,18 @@ var performanceInfo = {
         $("#resultDelvTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT));
         $("#resultInvTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT));
         $("#resultTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT - revenueSum));
+
+        if(rs.result.map.PER_CLOSING == "Y"){
+            $("#resultBtnDiv #saveBtn").hide();
+            $("#resultBtnDiv #closingBtn").hide();
+            // $("#closingCancelBtn").show();
+
+            $.each($("input.percent"), function(i, v){
+                $(this).data("kendoTextBox").enable(false);
+            });
+        }/*else{
+            $("#closingCancelBtn").hide();
+        }*/
     },
 
     fn_orderPercent : function (obj, index){
@@ -162,7 +174,7 @@ var performanceInfo = {
         return performanceInfo.inputNumberFormat(obj);
     },
 
-    fn_save : function (){
+    fn_save : function (e){
         var orderPercentSum = 0;
         var salesPercentSum = 0;
         var revenuePercentSum = 0;
@@ -205,36 +217,72 @@ var performanceInfo = {
             return;
         }
 
-        var performaneceArr = new Array();
-        $.each($(".psSn"), function(i, v){
-            var data = {
-                psSn : $(this).val(),
-                empSeq : $("#psEmpSeq_" + $(this).val()).val(),
-                orderPercent : $("#orderPercent_" + $(this).val()).val(),
-                salesPercent : $("#salesPercent_" + $(this).val()).val(),
-                revenuePercent : $("#revenuePercent_" + $(this).val()).val(),
-                regEmpSeq : $("#regEmpSeq").val()
-            }
+        var confirmTxt = "";
+        if(e == "s"){
+            confirmTxt = "저장하시겠습니까?";
+        }else{
+            confirmTxt = "마감하시겠습니까?";
+        }
 
-            performaneceArr.push(data);
-        })
-
-        $.ajax({
-            url: "/project/engn/setPerformanceInfo",
-            data: {
-                pjtSn : $("#pjtSn").val(),
-                performaneceArr : JSON.stringify(performaneceArr)
-            },
-            type: "post",
-            dataType: "json",
-            async: false,
-            success: function(rs){
-                alert("저장되었습니다.");
-                if(rs.code == 200){
-                    commonProject.getReloadPage(8, 8, 8, 4, 2, 2);
+        if(confirm(confirmTxt)){
+            var performaneceArr = new Array();
+            $.each($(".psSn"), function(i, v){
+                var data = {
+                    psSn : $(this).val(),
+                    empSeq : $("#psEmpSeq_" + $(this).val()).val(),
+                    orderPercent : $("#orderPercent_" + $(this).val()).val(),
+                    salesPercent : $("#salesPercent_" + $(this).val()).val(),
+                    revenuePercent : $("#revenuePercent_" + $(this).val()).val(),
+                    regEmpSeq : $("#regEmpSeq").val()
                 }
-            }
-        });
+
+                performaneceArr.push(data);
+            })
+
+            $.ajax({
+                url: "/project/setPerformanceInfo",
+                data: {
+                    pjtSn : $("#pjtSn").val(),
+                    performaneceArr : JSON.stringify(performaneceArr),
+                    saveType : e,
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs){
+                    if(e == "s"){
+                        alert("저장되었습니다.");
+                    }else{
+                        alert("마감되었습니다.");
+                    }
+
+                    if(rs.code == 200){
+                        commonProject.getReloadPage(8, 8, 8, 4, 2, 2);
+                    }
+                }
+            });
+        }
+    },
+
+    setPerClosingCancel : function(){
+        if(confirm("마감취소하시겠습니까?")){
+            $.ajax({
+                url: "/project/setPerClosingUpd",
+                data: {
+                    pjtSn : $("#pjtSn").val(),
+                    saveType : "s"
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs){
+                    alert("마감 취소되었습니다.");
+                    if(rs.code == 200){
+                        commonProject.getReloadPage(8, 8, 8, 4, 2, 2);
+                    }
+                }
+            });
+        }
     },
 
     inputNumberFormat : function(obj){

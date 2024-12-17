@@ -177,7 +177,9 @@ var evalScorePop = {
                     var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                     var orderValue =
                         empEvalAchieve && empEvalAchieve.ORDER_ACHIEVE != null ? Number(empEvalAchieve.ORDER_ACHIEVE) :
-                            empPerformance && empPerformance.ORDER_PERCENT != null ? Number(empPerformance.ORDER_PERCENT) : 0;
+                            empPerformance && empPerformance.ORDER_PERCENT != null ?
+                                empPerformance.PER_CLOSING == "Y" ? Number(empPerformance.ORDER_PERCENT) : 0 : 0;
+
                     orderSum += orderValue;
 
                     participants = empPerformance == null ? "disabled" : ""
@@ -196,8 +198,8 @@ var evalScorePop = {
 
                     var salesValue =
                         empEvalAchieve && empEvalAchieve.SALES_ACHIEVE != null ? Number(empEvalAchieve.SALES_ACHIEVE) :
-                            empPerformance && empPerformance.SALES_PERCENT != null ? Number(empPerformance.SALES_PERCENT) : 0;
-
+                            empPerformance && empPerformance.SALES_PERCENT != null ?
+                                empPerformance.PER_CLOSING == "Y" ? Number(empPerformance.SALES_PERCENT) : 0 : 0;
                     salesSum += salesValue;
 
                     participants = empPerformance == null ? "disabled" : ""
@@ -216,7 +218,8 @@ var evalScorePop = {
                     var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                     var revenueValue =
                         empEvalAchieve && empEvalAchieve.REVENUE_ACHIEVE != null ? Number(empEvalAchieve.REVENUE_ACHIEVE) :
-                            empPerformance && empPerformance.REVENUE_PERCENT != null ? Number(empPerformance.REVENUE_PERCENT) : 0;
+                            empPerformance && empPerformance.REVENUE_PERCENT != null ?
+                                empPerformance.PER_CLOSING == "Y" ? Number(empPerformance.REVENUE_PERCENT) : 0 : 0;
 
                     revenueSum += revenueValue;
 
@@ -237,9 +240,12 @@ var evalScorePop = {
 
                     if (empEvalAchieve || empPerformance) {
                         empSum =
-                            (Number(empEvalAchieve?.ORDER_ACHIEVE || empPerformance?.ORDER_PERCENT) || 0) +
-                            (Number(empEvalAchieve?.SALES_ACHIEVE || empPerformance?.SALES_PERCENT) || 0) +
-                            (Number(empEvalAchieve?.REVENUE_ACHIEVE || empPerformance?.REVENUE_PERCENT) || 0);
+                            (Number(empEvalAchieve?.ORDER_ACHIEVE ||
+                                (empPerformance?.PER_CLOSING == "Y" ? empPerformance?.ORDER_PERCENT : 0)) || 0) +
+                            (Number(empEvalAchieve?.SALES_ACHIEVE ||
+                                (empPerformance?.PER_CLOSING == "Y" ? empPerformance?.SALES_PERCENT : 0)) || 0) +
+                            (Number(empEvalAchieve?.REVENUE_ACHIEVE ||
+                                (empPerformance?.PER_CLOSING == "Y" ? empPerformance?.REVENUE_PERCENT : 0)) || 0);
                     }
 
                     html += '' +

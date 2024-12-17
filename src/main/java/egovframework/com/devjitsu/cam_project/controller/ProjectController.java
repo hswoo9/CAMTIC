@@ -811,7 +811,8 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/engn/setPerformanceInfo")
+    /** 실적률 저장 마감 */
+    @RequestMapping("/project/setPerformanceInfo")
     public String setPerformanceInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectService.setPerformanceInfo(params);
@@ -823,6 +824,20 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    /** 실적률 마감취소 */
+    @RequestMapping("/project/setPerClosingUpd")
+    public String setPerClosingCancel(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setPerClosingUpd(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 
     /**
      * 프로젝트 > 엔지니어링 > 협업 등록/수정

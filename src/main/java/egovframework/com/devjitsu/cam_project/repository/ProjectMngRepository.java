@@ -87,5 +87,7 @@ public class ProjectMngRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("projectMng.getProductCodeOne", params);
     }
 
-
+    public void setPerClosingUpd(Map<String, Object> params) {
+        update("projectMng.setPerClosingUpd", params);
+    }
 }

@@ -304,4 +304,14 @@
         WHERE
             PRODUCT_CODE_ID = #{pk}
     </select>
+
+    <update id="setPerClosingUpd" parameterType="map">
+        /* setPerClosingUpd */
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            PER_CLOSING = CASE WHEN #{saveType} = 's' THEN 'N' ELSE 'Y' END
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectMngRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
@@ -69,6 +70,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ApprovalRepository approvalRepository;
+    @Autowired
+    private ProjectMngRepository projectMngRepository;
 
     @Override
     public Map<String, Object> getProjectInfo(Map<String, Object> params) {
@@ -1305,6 +1308,13 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.setPjtPerformance(map);
             }
         }
+
+        projectMngRepository.setPerClosingUpd(params);
+    }
+
+    @Override
+    public void setPerClosingUpd(Map<String, Object> params) {
+        projectMngRepository.setPerClosingUpd(params);
     }
 
     @Override
