@@ -434,14 +434,15 @@ public class UserController {
         return "jsonView";
     }
 
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 사용자 이미지 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/getUserImageList")
+    public String getUserImageInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", userManageService.getUserImageList(params));
+        return "jsonView";
+    }
 }

@@ -33,5 +33,31 @@ var meetingInit = {
 
         hwpDocCtrl.putFieldText("TO_DATE", fn_getNowDate(3));
         hwpDocCtrl.putFieldText("PM", "연구책임자 : "+pjtInfo.PM);
+
+        const pmImgInfo = customKendo.fn_customAjax("/user/getUserImageList", {empSeq : pjtInfo.PM_EMP_SEQ});
+        const pmSignImg = pmImgInfo.data.signImg;
+
+        let ip = "http://218.158.231.184";
+        if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+            ip = "http://218.158.231.184";
+        } else {
+            ip = "http://218.158.231.186";
+        }
+
+        if(pmSignImg != null) {
+            if (pmSignImg.file_ext == "JPG") {
+                hwpDocCtrl.global.HwpCtrl.MoveToField("PM_SIGN_IMG", true, true, false);
+                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                    ip + pmSignImg.file_path + pmSignImg.file_uuid,
+                    true, 3, false, false, 0, 0, function (ctrl) {
+                        if (ctrl) {
+                            console.log('성공');
+                        } else {
+                            console.log('실패');
+                        }
+                    }
+                );
+            }
+        }
     }
 }

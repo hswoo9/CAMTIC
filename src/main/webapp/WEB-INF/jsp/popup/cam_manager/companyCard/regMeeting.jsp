@@ -145,7 +145,7 @@
 
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>참석자(내부직원)
+                    <span class="red-star">*</span>참석자(내부직원)
                 </th>
                 <td colspan="3">
                     <input type="text" disabled id="empName" style="width: 85%;">
@@ -156,7 +156,7 @@
 
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>참석자(외부인원)
+                    <span class="red-star">*</span>참석자(외부인원)
                 </th>
                 <td colspan="3">
                     <input id="externalName" disabled name="bustripAdd" readonly style="width: 85%;">
@@ -401,6 +401,17 @@
             alert("회의내용을 입력해주세요.");
             return;
         }
+
+        if($("#empSeq").val() == ""){
+            alert("참석자(내부직원)을 입력해주세요.");
+            return;
+        }
+
+        if($("#externalName").val() == ""){
+            alert("참석자(외부인원)을 입력해주세요.");
+            return;
+        }
+
 
         /*if($("#regType").val() == "project" && $("#cardToSn").val() == ""){
             alert("반출요청서를 선택해주세요");
