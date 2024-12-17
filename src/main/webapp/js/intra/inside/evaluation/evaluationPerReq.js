@@ -83,57 +83,59 @@ var evaluationPerReq = {
                     revenueScore = Math.round(revenueAchieve/goalList[i].REVENUE_GOALS * 100);
                 }
 
-                html += '' +
-                    '<tr>' +
-                        '<td>' + goalList[i].DEPT_NAME + '</td>' +
-                        '<td>' + goalList[i].TEAM_NAME + '</td>' +
-                        '<td>' + goalList[i].EMP_NAME + '</td>' +
-                        '<td>' +
-                            '<span id="orderGoals">' + comma(goalList[i].ORDER_GOALS) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="orderAchieve">' + comma(orderAchieve) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="orderScore">' + comma(orderScore) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="salesGoals">' + comma(goalList[i].SALES_GOALS) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="salesAchieve">' + comma(salesAchieve) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="salesScore">' + comma(salesScore) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="revenueGoals">' + comma(goalList[i].REVENUE_GOALS) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="revenueAchieve">' + comma(revenueAchieve) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="revenueScore">' + comma(revenueScore) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="costGoals">' + comma(goalList[i].COST_GOALS) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="costAchieve">' + comma(0) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="costScore">0</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="commerIndexGoals">' + comma(goalList[i].COMMER_INDEX_GOALS) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="commerIndexAchieve">' + comma(0) + '</span>' +
-                        '</td>' +
-                        '<td>' +
-                            '<span id="commerIndexScore">0</span>' +
-                        '</td>' +
-                    '</tr>';
+                if(goalList[i].DUTY_CODE != '1'){
+                    html += '' +
+                        '<tr>' +
+                            '<td>' + (goalList[i].DEPT_NAME || '') + '</td>' +
+                            '<td>' + (goalList[i].TEAM_NAME || '') + '</td>' +
+                            '<td>' + (goalList[i].EMP_NAME || '') + '</td>' +
+                            '<td>' +
+                                '<span id="orderGoals">' + comma(goalList[i].ORDER_GOALS) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="orderAchieve">' + comma(orderAchieve) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="orderScore">' + comma(orderScore) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="salesGoals">' + comma(goalList[i].SALES_GOALS) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="salesAchieve">' + comma(salesAchieve) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="salesScore">' + comma(salesScore) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="revenueGoals">' + comma(goalList[i].REVENUE_GOALS) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="revenueAchieve">' + comma(revenueAchieve) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="revenueScore">' + comma(revenueScore) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="costGoals">' + comma(goalList[i].COST_GOALS) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="costAchieve">' + comma(0) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="costScore">0</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="commerIndexGoals">' + comma(goalList[i].COMMER_INDEX_GOALS) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="commerIndexAchieve">' + comma(0) + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span id="commerIndexScore">0</span>' +
+                            '</td>' +
+                        '</tr>';
+                    }
                 }
         }else{
             html += '' +

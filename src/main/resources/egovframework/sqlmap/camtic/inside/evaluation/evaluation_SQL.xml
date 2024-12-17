@@ -1375,6 +1375,15 @@
                 CAM_INSIDE.DJ_EVALUATING_GOAL B
             ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{year}
             WHERE 1=1
+            AND HEI.WORK_STATUS_CODE = 'Y'
+            AND
+                (
+                    (HEI.DIVISION IN(0))
+                OR
+                    (HEI.DIVISION IN(4) AND HEI.DIVISION_SUB IN(1,2))
+                )
+            AND
+                HEI.TEMP_DIVISION = 'N'
             <choose>
                 <when test='"".equals(dutyCode)'>
                     AND HEI.EMP_SEQ = #{empSeq}
