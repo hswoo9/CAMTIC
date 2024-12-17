@@ -159,8 +159,9 @@ var evalScorePop = {
             for (var k = 0; k < evalAchieveList.length; k++) {
                 var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                 var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-
-                var orderValue = (empEvalAchieve && Number(empEvalAchieve.ORDER_ACHIEVE)) || (empPerformance && Number(empPerformance.ORDER_PERCENT)) || 0;
+                var orderValue =
+                    empEvalAchieve && empEvalAchieve.ORDER_ACHIEVE != null ? Number(empEvalAchieve.ORDER_ACHIEVE) :
+                        empPerformance && empPerformance.ORDER_PERCENT != null ? Number(empPerformance.ORDER_PERCENT) : 0;
                 orderSum += orderValue;
 
                 html += '' +
@@ -175,7 +176,9 @@ var evalScorePop = {
                 var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                 var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
 
-                var salesValue = (empEvalAchieve && Number(empEvalAchieve.SALES_ACHIEVE)) || (empPerformance && Number(empPerformance.SALES_PERCENT)) || 0;
+                var salesValue =
+                    empEvalAchieve && empEvalAchieve.SALES_ACHIEVE != null ? Number(empEvalAchieve.SALES_ACHIEVE) :
+                        empPerformance && empPerformance.SALES_PERCENT != null ? Number(empPerformance.SALES_PERCENT) : 0;
 
                 salesSum += salesValue;
 
@@ -191,7 +194,9 @@ var evalScorePop = {
             for (var k = 0; k < evalAchieveList.length; k++) {
                 var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
                 var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                var revenueValue = (empEvalAchieve && Number(empEvalAchieve.REVENUE_ACHIEVE)) || (empPerformance && Number(empPerformance.REVENUE_PERCENT)) || 0;
+                var revenueValue =
+                    empEvalAchieve && empEvalAchieve.REVENUE_ACHIEVE != null ? Number(empEvalAchieve.REVENUE_ACHIEVE) :
+                        empPerformance && empPerformance.REVENUE_PERCENT != null ? Number(empPerformance.REVENUE_PERCENT) : 0;
 
                 revenueSum += revenueValue;
 
