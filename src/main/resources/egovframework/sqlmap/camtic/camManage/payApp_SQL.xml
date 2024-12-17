@@ -1833,9 +1833,14 @@
         SELECT
             E.EXNP_SN,
             CASE
-                WHEN ED.EVID_TYPE IN (1,2,3)
-                THEN '반제(지출)'
-                ELSE '지출'
+                WHEN E.PAY_APP_TYPE = '2' THEN '여입'
+                WHEN E.PAY_APP_TYPE = '3' THEN '반납'
+                WHEN E.PAY_APP_TYPE = '4' THEN '대체'
+                ELSE
+                    CASE
+                        WHEN ED.EVID_TYPE IN (1,2,3) THEN '반제(지출)'
+                        ELSE '지출'
+                    END
             END AS TYPE,
             E.PJT_NM,
             E.PJT_CD,
@@ -4424,7 +4429,7 @@
                      , 0                                                     AS INCP_APPROVAL_AMT    -- 수입결의 승인금액(승인)
                 FROM CAM_MNG.DJ_PAY_INCP A
                          INNER JOIN CAM_MNG.DJ_PAY_INCP_RE  B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-                WHERE A.DOC_STATUS IN ('100', '101')
+                WHERE A.DOC_STATUS <![CDATA[>=]]> '10'
                   AND B.EVID_TYPE IN ('1', '3', '5', '6')
                   AND A.PJT_CD = #{pjtCd}
                   AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
@@ -4446,7 +4451,7 @@
                      , B.TOT_COST                    AS INCP_APPROVAL_AMT    -- 수입결의 승인금액(승인)
                 FROM CAM_MNG.DJ_PAY_INCP A
                          INNER JOIN CAM_MNG.DJ_PAY_INCP_DET  B ON A.PAY_INCP_SN = B.PAY_INCP_SN
-                WHERE A.DOC_STATUS IN ('100', '101')
+                WHERE A.DOC_STATUS <![CDATA[>=]]> '10'
                   AND A.PJT_CD = #{pjtCd}
                   AND A.APP_DE BETWEEN #{startDt} AND #{endDt}
 
@@ -4463,7 +4468,7 @@
                      , -B.TOT_COST                   AS COMPLETE_AMT     -- 수입결의 승인금액(승인)
                 FROM CAM_MNG.DJ_EXNP A
                          LEFT JOIN CAM_MNG.DJ_EXNP_DET B on A.EXNP_SN = B.EXNP_SN
-                WHERE A.DOC_STATUS IN (100, 101)
+                WHERE A.DOC_STATUS <![CDATA[>=]]> '10'
                   AND A.PAY_APP_TYPE = '3'
                   AND A.PJT_CD = #{pjtCd}
                   AND A.EXNP_DE BETWEEN #{startDt} AND #{endDt}

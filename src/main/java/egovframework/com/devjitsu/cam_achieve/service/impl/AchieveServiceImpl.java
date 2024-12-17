@@ -857,9 +857,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "0");        // 수주부서
             }
 
             if(map.containsKey("TM_SN")) {
@@ -882,9 +885,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "1");        // 협업부서
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
@@ -1133,9 +1139,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "0");        // 수주부서
             }
 
             if(map.containsKey("TM_SN")) {
@@ -1158,9 +1167,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "1");        // 협업부서
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
@@ -1390,9 +1402,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "0");        // 수주부서
             }
 
             if(map.containsKey("TM_SN")) {
@@ -1415,9 +1430,12 @@ public class AchieveServiceImpl implements AchieveService {
                     }
                 }
 
+                map.put("TM_AMT", teamAmt);                    // 배분금액
                 map.put("TM_EXP_AMT", teamExpAmt);             // 예상수익
                 map.put("TM_EXNP_PCT", Math.round(((teamAmt / pjtAmt) * 100) * 10) / 10.0);             // 매출배분율
                 map.put("TM_INCP_PCT", Math.round(((teamExpAmt / teamExpAmtSum) * 100) * 10) / 10.0);   // 수익배분율
+
+                params.put("teamType", "1");        // 협업부서
             }
 
             // 비용 (순서대로 지출, 구매, 출장)
