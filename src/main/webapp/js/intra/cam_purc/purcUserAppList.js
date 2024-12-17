@@ -234,6 +234,10 @@ var purcUserAppList = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 100
+                } , {
+                    field: "EXP_DE",
+                    title: "구매지급예정일",
+                    width: 100,
                 }
                 // , {
                 //     field: "ORDER_DT",
