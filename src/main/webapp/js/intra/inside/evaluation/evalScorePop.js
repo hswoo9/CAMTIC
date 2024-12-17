@@ -10,6 +10,11 @@ var evalScorePop = {
         var percentType = ['order', 'sales', 'revenue'];
         var sum = 0;
 
+        if($("#evalList tr[pjtSn]").length == 0){
+            alert("저장할 프로젝트 데이터가 없습니다.");
+            return;
+        }
+
         $.each($("#evalList tr"), function(i, v){
             $.each(percentType, function(ii, vv){
                 var sum = 0;
@@ -47,20 +52,26 @@ var evalScorePop = {
             })
         })
 
+        if(confirm("저장하시겠습니까?")){
+            $.ajax({
+                url: "/evaluation/setEvalAchieve",
+                data: {
+                    achieveArr : JSON.stringify(achieveArr)
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs){
+                    alert("저장되었습니다.");
 
-        $.ajax({
-            url: "/evaluation/setEvalAchieve",
-            data: {
-                achieveArr : JSON.stringify(achieveArr)
-            },
-            type: "post",
-            dataType: "json",
-            async: false,
-            success: function(rs){
-                alert("저장되었습니다.");
-                location.reload()
-            }
-        });
+                    if(opener.parent.evaluationPerReq != null) {
+                        opener.parent.evaluationPerReq.getEvaluationList()
+                    }
+
+                    location.reload()
+                }
+            });
+        }
     },
 
     evalContent: function(){
@@ -244,7 +255,7 @@ var evalScorePop = {
         }else{
             html += '' +
                 '<tr>' +
-                    '<td colspan="' + $($("#achieveTb tr")[1]).find("td").length + '">데이터가 없습니다.</td>'
+                    '<td style="text-align: center" colspan="' + $($("#achieveTb tr")[1]).find("td").length + '">데이터가 없습니다.</td>'
                 '</tr>'
         }
 
