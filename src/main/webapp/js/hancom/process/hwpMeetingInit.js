@@ -45,7 +45,7 @@ var meetingInit = {
         }
 
         if(pmSignImg != null) {
-            if (pmSignImg.file_ext == "JPG") {
+            if (pmSignImg.file_ext == "JPG" || pmSignImg.file_ext == "jpg") {
                 hwpDocCtrl.global.HwpCtrl.MoveToField("PM_SIGN_IMG", true, true, false);
                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
                     ip + pmSignImg.file_path + pmSignImg.file_uuid,
