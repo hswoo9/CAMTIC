@@ -205,14 +205,14 @@ var purcUserAppList = {
                         }
                     }
                 }, {
-                    field: "PJT_NM",
+                    field: "SET_PJT_NM",
                     title: "프로젝트명",
                     width: 160,
                     template : function (e) {
-                        if(e.PJT_NM == "") {
+                        if(e.SET_PJT_NM == "") {
                             return "법인운영";
                         } else {
-                            return e.PJT_NM;
+                            return e.SET_PJT_NM;
                         }
                     }
                 }, {
