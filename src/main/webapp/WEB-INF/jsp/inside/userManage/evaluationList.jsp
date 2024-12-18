@@ -163,7 +163,7 @@
                     let bMemPer = detailData.TEAM_MEMBER_B;
 
                     if(map.EVAL_EVAL_F_SEQ == "undefined" || map.EVAL_EVAL_F_SEQ == ""){
-                        console.log(map.EMP_NAME_KR+"님은 1차평가자가 없습니다.");
+                        // console.log(map.EMP_NAME_KR+"님은 1차평가자가 없습니다.");
                         aDeptPer = 0;
                         bDeptPer = 100;
                         aTeamPer = 0;
@@ -171,7 +171,7 @@
                         aMemPer = 0;
                         bMemPer = 100;
                     }else if(map.EVAL_EVAL_S_SEQ == "undefined" || map.EVAL_EVAL_S_SEQ == ""){
-                        console.log(map.EMP_NAME_KR+"님은 2차평가자가 없습니다.");
+                        // console.log(map.EMP_NAME_KR+"님은 2차평가자가 없습니다.");
                         aDeptPer = 100;
                         bDeptPer = 0;
                         aTeamPer = 100;
@@ -179,7 +179,7 @@
                         aMemPer = 100;
                         bMemPer = 0;
                     }else if(map.EVAL_EVAL_F_SEQ == map.EVAL_EVAL_S_SEQ){
-                        console.log(map.EMP_NAME_KR+"님은 1차평가자와 2차평가자가 같습니다.");
+                        // console.log(map.EMP_NAME_KR+"님은 1차평가자와 2차평가자가 같습니다.");
                         aDeptPer = 0;
                         bDeptPer = 100;
                         aTeamPer = 0;
@@ -209,7 +209,7 @@
                     let resGrade = "-";
                     for (let k = 0; k < scoreList.length; k++) {
                         const scItem = scoreList[k];
-                        console.log("scItem", scItem);
+                        // console.log("scItem", scItem);
 
                         if(scItem.EVAL_SCORE_B >= (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) && (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) >= scItem.EVAL_SCORE_A){
                             resGrade = scItem.EVAL_GRADE;
