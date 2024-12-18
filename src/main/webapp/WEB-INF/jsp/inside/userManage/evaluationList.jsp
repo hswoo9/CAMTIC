@@ -150,8 +150,8 @@
                 let bCount = 0;
                 let cCount = 0;
 
-                for(var i = 0 ; i < detailList.length ; i++) {
-                    const map = detailList[i];
+                for(var j = 0 ; j < detailList.length ; j++) {
+                    const map = detailList[j];
                     var scoreF;
                     var scoreS;
 
@@ -207,8 +207,8 @@
                     var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(1);
 
                     let resGrade = "-";
-                    for (let i = 0; i < scoreList.length; i++) {
-                        const scItem = scoreList[i];
+                    for (let k = 0; k < scoreList.length; k++) {
+                        const scItem = scoreList[k];
                         console.log("scItem", scItem);
 
                         if(scItem.EVAL_SCORE_B >= (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) && (parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) >= scItem.EVAL_SCORE_A){
