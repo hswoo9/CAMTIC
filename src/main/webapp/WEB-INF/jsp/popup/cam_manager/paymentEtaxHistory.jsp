@@ -63,7 +63,7 @@
 
     <div class="" style="padding: 10px">
         <span style="margin-right: 10px">
-            <b style="font-size: 12px">조회일시</b>
+            <b style="font-size: 12px">발급일자</b>
             <input id="startDt" style="width: 10%"> ~ <input id="endDt" style="width: 10%">
         </span>
         <span>

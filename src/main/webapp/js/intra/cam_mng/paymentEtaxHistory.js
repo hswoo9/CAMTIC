@@ -50,7 +50,7 @@ var payEtaxHist = {
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
                     data.type = $("#type").val();
-                    data.dtGubun = 'a';
+                    data.dtGubun = 'b';
                     data.strDt = $("#startDt").val().toString().replace(/-/g, "");
                     data.endDt = $("#endDt").val().toString().replace(/-/g, "");
                     data.viewType = 'payment';
@@ -107,9 +107,16 @@ var payEtaxHist = {
                     }
                 }, {
                     title: "작성일자",
-                    width: 120,
+                    width: 80,
                     template: function (e){
                         return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
+                    }
+                }, {
+                    field: "ISU_DT",
+                    title: "발급일자",
+                    width: 80,
+                    template: function (e){
+                        return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
                     }
                 }, {
                     title: "거래처명",
