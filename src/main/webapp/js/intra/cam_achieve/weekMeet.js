@@ -55,7 +55,7 @@ var weekMeet = {
             endDt : $("#year").val() + "-" + date.getDate(),
             pjtYear : $("#year").val().split("-")[0],
             deptLevel: "1",
-            busnSubClass : "Y"
+            record : "Y"
         }
 
         $.ajax({

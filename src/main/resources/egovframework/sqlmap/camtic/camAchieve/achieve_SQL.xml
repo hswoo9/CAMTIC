@@ -1914,6 +1914,9 @@
         <if test='type != null and !"".equals(type)'>
             AND V.BUSN_CLASS IN ('R', 'S') AND V.PJT_CD IS NOT NULL
         </if>
+        <if test='record == "Y" or "Y".equals(record)'>
+            AND V.PJT_STOP = 'N'
+        </if>
         AND V.ACTIVE = 'Y'
         ORDER BY V.PJT_SN, V.YEAR
     </select>
