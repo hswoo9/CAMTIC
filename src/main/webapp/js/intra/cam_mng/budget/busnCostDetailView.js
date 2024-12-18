@@ -13,6 +13,14 @@ var bcd = {
         // bcd.getCurrentAmountStatus();
         bcd.budgetMainGrid();
         bcd.budgetMainGrid2();
+
+        let date = new Date();
+        let year = date.getFullYear().toString().substring(2,4);
+
+        $("#formStartDt").val($("#strDe").val());
+        $("#formEndDt").val($("#endDe").val());
+        $("#formBaseDate").val(date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'));
+        $("#formGisu").val(year);
     },
 
     gridReload : function(){

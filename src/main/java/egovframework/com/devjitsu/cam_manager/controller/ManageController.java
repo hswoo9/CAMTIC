@@ -10,6 +10,10 @@ import egovframework.com.devjitsu.common.utiles.EgovUserDetailsHelper;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -703,5 +707,429 @@ public class ManageController {
     public String getProjectBudgetStatus(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", manageService.getProjectBudgetStatusList(params));
         return "jsonView";
+    }
+
+    @RequestMapping("/mng/budgetExcelDownLoad")
+    public void budgetExcelDownLoad(@RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
+
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("test");
+        Row row = null;
+        Cell cell = null;
+        int rowNum = 0;
+
+        CellStyle cellHeaderStyle = wb.createCellStyle();
+        CellStyle cellTitleStyle = wb.createCellStyle();
+
+        CellStyle cellCostStyle = wb.createCellStyle();
+        CellStyle cellJangStrStyle = wb.createCellStyle();
+        CellStyle cellJangCostStyle = wb.createCellStyle();
+        CellStyle cellGwanStrStyle = wb.createCellStyle();
+        CellStyle cellGwanCostStyle = wb.createCellStyle();
+        CellStyle cellHangStrStyle = wb.createCellStyle();
+        CellStyle cellHangCostStyle = wb.createCellStyle();
+
+        /** 헤더 스타일 */
+        cellHeaderStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+        cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        /** 제목 스타일 */
+        cellTitleStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellTitleStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        cellTitleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellTitleStyle.setBorderBottom(BorderStyle.THIN);
+        cellTitleStyle.setBorderTop(BorderStyle.THIN);
+        cellTitleStyle.setBorderLeft(BorderStyle.THIN);
+        cellTitleStyle.setBorderRight(BorderStyle.THIN);
+
+        /** 장 텍스트 스타일 */
+        cellJangStrStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellJangStrStyle.setFillForegroundColor(IndexedColors.LEMON_CHIFFON.getIndex());
+        cellJangStrStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellJangStrStyle.setBorderBottom(BorderStyle.THIN);
+        cellJangStrStyle.setBorderTop(BorderStyle.THIN);
+        cellJangStrStyle.setBorderLeft(BorderStyle.THIN);
+        cellJangStrStyle.setBorderRight(BorderStyle.THIN);
+
+        /** 관 텍스트 스타일 */
+        cellGwanStrStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellGwanStrStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        cellGwanStrStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellGwanStrStyle.setBorderBottom(BorderStyle.THIN);
+        cellGwanStrStyle.setBorderTop(BorderStyle.THIN);
+        cellGwanStrStyle.setBorderLeft(BorderStyle.THIN);
+        cellGwanStrStyle.setBorderRight(BorderStyle.THIN);
+
+        /** 항 텍스트 스타일 */
+        cellHangStrStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellHangStrStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        cellHangStrStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellHangStrStyle.setBorderBottom(BorderStyle.THIN);
+        cellHangStrStyle.setBorderTop(BorderStyle.THIN);
+        cellHangStrStyle.setBorderLeft(BorderStyle.THIN);
+        cellHangStrStyle.setBorderRight(BorderStyle.THIN);
+
+        XSSFDataFormat format = (XSSFDataFormat) wb.createDataFormat();
+
+        cellCostStyle.setDataFormat(format.getFormat("#,##0"));
+
+        /** 장 예산 스타일 */
+        cellJangCostStyle.setDataFormat(format.getFormat("#,##0"));
+        cellJangCostStyle.setFillForegroundColor(IndexedColors.LEMON_CHIFFON.getIndex());
+        cellJangCostStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellJangCostStyle.setBorderBottom(BorderStyle.THIN);
+        cellJangCostStyle.setBorderTop(BorderStyle.THIN);
+        cellJangCostStyle.setBorderLeft(BorderStyle.THIN);
+        cellJangCostStyle.setBorderRight(BorderStyle.THIN);
+
+        /** 관 예산 스타일 */
+        cellGwanCostStyle.setDataFormat(format.getFormat("#,##0"));
+        cellGwanCostStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        cellGwanCostStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellGwanCostStyle.setBorderBottom(BorderStyle.THIN);
+        cellGwanCostStyle.setBorderTop(BorderStyle.THIN);
+        cellGwanCostStyle.setBorderLeft(BorderStyle.THIN);
+        cellGwanCostStyle.setBorderRight(BorderStyle.THIN);
+
+        /** 항 예산 스타일 */
+        cellHangCostStyle.setDataFormat(format.getFormat("#,##0"));
+        cellHangCostStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        cellHangCostStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        cellHangCostStyle.setBorderBottom(BorderStyle.THIN);
+        cellHangCostStyle.setBorderTop(BorderStyle.THIN);
+        cellHangCostStyle.setBorderLeft(BorderStyle.THIN);
+        cellHangCostStyle.setBorderRight(BorderStyle.THIN);
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue(params.get("formPjtCd").toString());
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
+        cell = row.createCell(2);
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2, 7));
+        cell.setCellValue(params.get("formPjtNm").toString());
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        sheet.addMergedRegion(new CellRangeAddress(rowNum-1, rowNum-1, 0, 7));
+        cell.setCellValue("수입예산");
+        cell.setCellStyle(cellHeaderStyle);
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue("장");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(1);
+        cell.setCellValue("관");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(2);
+        cell.setCellValue("항");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(3);
+        cell.setCellValue("예산액");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(4);
+        cell.setCellValue("입금완료");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(5);
+        cell.setCellValue("입금대기");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(6);
+        cell.setCellValue("승인");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(7);
+        cell.setCellValue("예산잔액");
+        cell.setCellStyle(cellTitleStyle);
+
+        /** 수입예산현황 */
+        Map<String, Object> tempParams = new HashMap<>();
+        tempParams.put("erpCompSeq", "1212");
+        tempParams.put("gisu", params.get("formGisu"));
+        tempParams.put("startDt", params.get("formStartDt"));
+        tempParams.put("endDt", params.get("formEndDt"));
+        tempParams.put("fromDate", params.get("formStartDt").toString().replaceAll("-", ""));
+        tempParams.put("toDate", params.get("formEndDt").toString().replaceAll("-", ""));
+        tempParams.put("mgtSeq", params.get("formPjtCd"));
+        tempParams.put("opt01", "3");
+        tempParams.put("opt02", "1");
+        tempParams.put("opt03", "2");
+        tempParams.put("stat", "project");
+        tempParams.put("baseDate", params.get("formBaseDate"));
+        tempParams.put("pjtSn", params.get("formPjtCd"));
+        tempParams.put("temp", "1");
+        List<Map<String, Object>> incpBudgetList = g20Service.getSubjectList2(tempParams);
+
+        double iCalcAmSum = 0;     // 예산액
+        double iAcctAm2Sum = 0;    // 입금완료
+        double iAcctAm1Sum = 0;    // 입금대기
+        double iSubAmSum = 0;      // 예산잔액
+
+        for (Map<String, Object> map : incpBudgetList) {
+
+            row = sheet.createRow(rowNum++);
+
+            if(map.get("DIV_FG_NM").equals("장")) {
+
+                cell = row.createCell(0);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(1);
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(2);
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+
+                iCalcAmSum += Math.floor(Double.parseDouble(map.get("CALC_AM").toString()));
+                iAcctAm2Sum += Double.parseDouble(map.get("COMPLETE_AMT").toString());
+                iAcctAm1Sum += Double.parseDouble(map.get("WAIT_AMT").toString());
+                iSubAmSum += (iCalcAmSum - iAcctAm2Sum);
+
+            } else if(map.get("DIV_FG_NM").equals("관")) {
+
+                cell = row.createCell(0);
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(1);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(2);
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+
+            } else if(map.get("DIV_FG_NM").equals("항")) {
+
+                cell = row.createCell(0);
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(1);
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(2);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+
+            }
+
+        }
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(2);
+        cell.setCellValue("합계");
+        cell = row.createCell(3);
+        cell.setCellValue(iCalcAmSum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(iAcctAm2Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(5);
+        cell.setCellValue(iAcctAm1Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(6);
+        cell.setCellValue(iAcctAm2Sum + iAcctAm1Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(7);
+        cell.setCellValue(iSubAmSum);
+        cell.setCellStyle(cellCostStyle);
+
+        rowNum++;
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        sheet.addMergedRegion(new CellRangeAddress(rowNum-1, rowNum-1, 0, 7));
+        cell.setCellValue("지출예산");
+        cell.setCellStyle(cellHeaderStyle);
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(0);
+        cell.setCellValue("장");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(1);
+        cell.setCellValue("관");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(2);
+        cell.setCellValue("항");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(3);
+        cell.setCellValue("예산액");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(4);
+        cell.setCellValue("지출완료");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(5);
+        cell.setCellValue("지출대기");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(6);
+        cell.setCellValue("승인");
+        cell.setCellStyle(cellTitleStyle);
+        cell = row.createCell(7);
+        cell.setCellValue("예산잔액");
+        cell.setCellStyle(cellTitleStyle);
+
+        /** 지출예산현황 */
+        tempParams.put("mgtSeq", params.get("formPjtCd"));
+        tempParams.put("temp", "2");
+        List<Map<String, Object>> exnpBudgetList = g20Service.getSubjectList2(tempParams);
+
+        double eCalcAmSum = 0;     // 예산액
+        double eAcctAm3Sum = 0;    // 지출완료
+        double eAcctAm1Sum = 0;    // 지출대기
+        double eAcctAm2Sum = 0;    // 승인
+        double eSubAmSum = 0;      // 예산잔액
+
+        for (Map<String, Object> map : exnpBudgetList) {
+
+            row = sheet.createRow(rowNum++);
+
+            if(map.get("DIV_FG_NM").equals("장")) {
+
+                cell = row.createCell(0);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(1);
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(2);
+                cell.setCellStyle(cellJangStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellJangCostStyle);
+
+                eSubAmSum += (Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+
+            } else if(map.get("DIV_FG_NM").equals("관")) {
+
+                cell = row.createCell(0);
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(1);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(2);
+                cell.setCellStyle(cellGwanStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellGwanCostStyle);
+
+            } else if(map.get("DIV_FG_NM").equals("항")) {
+
+                cell = row.createCell(0);
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(1);
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(2);
+                cell.setCellValue(map.get("BGT_NM").toString());
+                cell.setCellStyle(cellHangStrStyle);
+                cell = row.createCell(3);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(4);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(5);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(6);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+                cell = row.createCell(7);
+                cell.setCellValue(Math.floor(Double.parseDouble(map.get("CALC_AM").toString())) - Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString())));
+                cell.setCellStyle(cellHangCostStyle);
+
+                eCalcAmSum += Math.floor(Double.parseDouble(map.get("CALC_AM").toString()));
+                eAcctAm3Sum += Math.floor(Double.parseDouble(map.get("COMPLETE_AMT").toString()));
+                eAcctAm1Sum += Math.floor(Double.parseDouble(map.get("WAIT_AMT").toString()));
+                eAcctAm2Sum += Math.floor(Double.parseDouble(map.get("APPROVAL_AMT").toString()));
+
+            }
+
+        }
+
+        row = sheet.createRow(rowNum++);
+        cell = row.createCell(2);
+        cell.setCellValue("합계");
+        cell = row.createCell(3);
+        cell.setCellValue(eCalcAmSum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(4);
+        cell.setCellValue(eAcctAm3Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(5);
+        cell.setCellValue(eAcctAm1Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(6);
+        cell.setCellValue(eAcctAm2Sum);
+        cell.setCellStyle(cellCostStyle);
+        cell = row.createCell(7);
+        cell.setCellValue(eSubAmSum);
+        cell.setCellStyle(cellCostStyle);
+
+        response.setContentType("ms-vnd/excel");
+        String fileName = "예산현황 (" + params.get("formPjtNm").toString() +").xlsx";
+        String outputFileName = new String(fileName.getBytes("KSC5601"), "8859_1");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + outputFileName + "\"");
+
+        wb.write(response.getOutputStream());
+        wb.close();
     }
 }

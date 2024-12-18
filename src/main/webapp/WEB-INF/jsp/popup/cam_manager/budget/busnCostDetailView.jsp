@@ -229,6 +229,18 @@
             </table>
         </div>
 
+        <div style="margin-top: 10px; font-size: 12px; text-align: right;">
+            <form action="/mng/budgetExcelDownLoad" method="get">
+                <input type="hidden" id="formPjtCd" name="formPjtCd" value="${params.pjtCd}" />
+                <input type="hidden" id="formPjtNm" name="formPjtNm" value="${g20Info.PJT_NM}" />
+                <input type="hidden" id="formStartDt" name="formStartDt" />
+                <input type="hidden" id="formEndDt" name="formEndDt" />
+                <input type="hidden" id="formBaseDate" name="formBaseDate" />
+                <input type="hidden" id="formGisu" name="formGisu" />
+                <button id="excelDownBtn" class="k-button k-button-solid-base">엑셀 다운로드</button>
+            </form>
+        </div>
+
         <div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -245,11 +257,7 @@
                 <tr>
                     <th colspan="8" style="font-weight: bold">수입예산</th>
                 </tr>
-                <tr id="A">
-
-                </tr>
                 </thead>
-                </tbody>
             </table>
             <div id="budgetMainGrid"></div>
         </div>
