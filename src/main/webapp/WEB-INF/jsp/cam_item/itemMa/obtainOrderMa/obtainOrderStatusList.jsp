@@ -31,7 +31,7 @@
                     <tr>
                         <th class="text-center th-color">업체</th>
                         <td>
-                            <input type="hidden" id="crmSn" name="crmSn" onchange="oosl.mainGrid();">
+                            <input type="hidden" id="crmSn" name="crmSn" onchange="oosl.gridReload();">
                             <input type="text" id="crmNm" style="width: 190px;" readonly onclick="oosl.fn_popCamCrmList()">
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oosl.fn_popCamCrmList()">
                                 조회

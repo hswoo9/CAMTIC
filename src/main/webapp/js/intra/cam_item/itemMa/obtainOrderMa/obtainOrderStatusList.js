@@ -19,14 +19,14 @@ var oosl = {
             { text : "진행중", value : "Y" },
         ]
         customKendo.fn_dropDownList("unpaidType", oosl.global.dropDownDataSource, "text", "value");
-        $("#unpaidType").data("kendoDropDownList").bind("change", oosl.mainGrid);
+        $("#unpaidType").data("kendoDropDownList").bind("change", oosl.gridReload);
 
         oosl.global.dropDownDataSource = [
             { text : "주문완료", value : "order" },
             { text : "납품완료", value : "com" }
         ]
         customKendo.fn_dropDownList("comType", oosl.global.dropDownDataSource, "text", "value");
-        $("#comType").data("kendoDropDownList").bind("change", oosl.mainGrid);
+        $("#comType").data("kendoDropDownList").bind("change", oosl.gridReload);
 
         oosl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
@@ -34,7 +34,7 @@ var oosl = {
             { text : "업체명", value : "CRM_NM" }
         ]
         customKendo.fn_dropDownList("searchKeyword", oosl.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", oosl.mainGrid);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", oosl.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
@@ -76,12 +76,12 @@ var oosl = {
                                     dataValueField: "ITEM_CATEGORY_SN",
                                     CATEGORY_CODE : "CATEGORY_CODE",
                                     change : function(){
-                                        oosl.mainGrid();
+                                        oosl.gridReload();
                                     }
                                 });
                             }
 
-                            oosl.mainGrid();
+                            oosl.gridReload();
                         }
                     });
                 } else {
@@ -105,7 +105,7 @@ var oosl = {
                     });
                 }
 
-                oosl.mainGrid();
+                oosl.gridReload();
             }
         });
 
@@ -194,7 +194,7 @@ var oosl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oosl.mainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oosl.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -542,6 +542,10 @@ var oosl = {
         });
     },
 
+    gridReload: function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
     /*gridReload: function (){
         var categoryA = $("#categoryA").data("kendoDropDownList");
         var categoryB = $("#categoryB").data("kendoDropDownList");
@@ -574,7 +578,7 @@ var oosl = {
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
-        oosl.mainGrid();
+        oosl.gridReload();
     },
 
     fn_popObtainOrderReg : function (){
