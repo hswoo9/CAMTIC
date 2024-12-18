@@ -577,6 +577,7 @@ public class EvaluationController {
     public String getNowEvalCount(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = evaluationService.getNowEvalCount(params);
         model.addAttribute("list", list);
+        model.addAttribute("data", evaluationService.getEvaluation(params));
         return "jsonView";
     }
 

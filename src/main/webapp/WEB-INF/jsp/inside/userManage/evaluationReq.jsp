@@ -130,9 +130,15 @@
             regEmpSeq : $("#empSeq").val()
         });
         const nowEvalList = nowEvalInfo.list;
+        const evalData = nowEvalInfo.data;
+
+        let date = new Date();
+        let today = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        let condStrDt = evalData.COND_STR_DT;
+        let condEndDt = evalData.COND_END_DT;
 
         let ck = false;
-        if(nowEvalInfo != null && nowEvalList.length > 0){
+        if(nowEvalInfo != null && nowEvalList.length > 0 && condStrDt <= today && today <= condEndDt){
             ck = true;
         }
         if(ck){
