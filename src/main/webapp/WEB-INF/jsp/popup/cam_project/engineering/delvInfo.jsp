@@ -189,6 +189,8 @@
                 <td colspan="3">
                     <input type="text" id="pmName" style="width: 25%;" disabled />
                     <input type="hidden" id="pmSeq" style="width: 25%;" />
+                    <input type="hidden" id="pmDeptSeq" style="width: 25%;" />
+                    <input type="hidden" id="pmDeptName" style="width: 25%;" />
                     <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch()">
                         조회
                     </button>

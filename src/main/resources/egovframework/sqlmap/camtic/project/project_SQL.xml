@@ -1769,6 +1769,8 @@
                 DELV_DEPT,
                 PM_EMP_SEQ,
                 PM_EMP_NM,
+                PM_DEPT_SEQ,
+                PM_DEPT_NM,
                 PJT_STR_DT,
                 PJT_END_DT,
                 DELV_PAY,
@@ -1791,6 +1793,8 @@
                 #{delvDept},
                 #{pmEmpSeq},
                 #{pmEmpNm},
+                #{pmDeptSeq},
+                #{pmDeptNm},
                 #{pjtStrDt},
                 #{pjtEndDt},
                 #{delvPay},
@@ -1819,6 +1823,8 @@
             DELV_DEPT = #{delvDept},
             PM_EMP_SEQ = #{pmEmpSeq},
             PM_EMP_NM = #{pmEmpNm},
+            PM_DEPT_SEQ = #{pmDeptSeq},
+            PM_DEPT_NM = #{pmDeptNm},
             PJT_STR_DT = #{pjtStrDt},
             PJT_END_DT = #{pjtEndDt},
             DELV_PAY = #{delvPay},
@@ -3192,7 +3198,9 @@
             STR_DT = (SELECT PJT_STR_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
             END_DT = (SELECT PJT_END_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
             PM_EMP_SEQ = (SELECT PM_EMP_SEQ FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
-            PM = (SELECT PM_EMP_NM FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
+            PM = (SELECT PM_EMP_NM FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM_DEPT_SEQ = (SELECT PM_DEPT_SEQ FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM_DEPT_NAME = (SELECT PM_DEPT_NM FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
         WHERE
             PJT_SN = #{PJT_SN}
     </update>
@@ -3420,7 +3428,9 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PM = #{mngEmpName},
-            PM_EMP_SEQ = #{mngEmpSeq}
+            PM_EMP_SEQ = #{mngEmpSeq},
+            PM_DEPT_SEQ = #{mngDeptSeq},
+            PM_DEPT_NAME = #{mngDeptName}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
