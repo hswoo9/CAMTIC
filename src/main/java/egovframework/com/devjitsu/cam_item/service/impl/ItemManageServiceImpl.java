@@ -666,7 +666,12 @@ public class ItemManageServiceImpl implements ItemManageService {
     public Map<String, Object> getItemUnitPrice(Map<String, Object> params) {
         Map<String, Object> returnMap = itemManageRepository.getCrmItemUnitPrice(params);
         if(returnMap == null){
-            returnMap = itemManageRepository.getItemUnitPrice(params);
+            Map<String, Object> tempMap = itemManageRepository.getItemUnitPrice(params);
+            if(tempMap != null){
+                returnMap = tempMap;
+            } else {
+                returnMap = itemSystemRepository.getItemMaster(params);
+            }
         }
 
         return returnMap;

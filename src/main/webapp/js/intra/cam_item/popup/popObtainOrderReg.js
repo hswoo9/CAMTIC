@@ -348,7 +348,7 @@ var oor = {
         }
 
         oor.global.searchAjaxData = {
-            crmSn : $("#crmSn" + e).val(),
+            crmSn : $("#allModCrmSn").val(),
             crmSn2 : $("#allModCrmSn").val(),
             masterSn : $("#masterSn" + e).val(),
             busClass : "R"
