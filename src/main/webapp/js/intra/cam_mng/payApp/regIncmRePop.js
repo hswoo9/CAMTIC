@@ -191,7 +191,7 @@ var regIncmRe = {
         // $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT);
 
         $("#g20EmpCd").val(rs.G20_EMP_CD);
-        $("#g20DeptCd").val(rs.G20_DEPT_CD);
+        $("#g20DeptCd").data("kendoDropDownList").value(rs.G20_DEPT_CD);
         $("#exnpEmpNm").val(rs.REG_EMP_NAME);
         $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
         $("#exnpDeptNm").val(rs.REG_DEPT_NAME);

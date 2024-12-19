@@ -214,6 +214,10 @@ var regIncpRe = {
         var data = {
             itemArr : JSON.stringify(itemArr),
             regEmpSeq : $("#regEmpSeq").val(),
+            g20EmpCd : $("#g20EmpCd").val(),
+            g20DeptCd : $("#g20DeptCd").val(),
+            busnCd : $("#busnCd").val(),
+            busnExCd : $("#busnExCd").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
             accNm : $("#accNm").val(),
@@ -305,12 +309,12 @@ var regIncpRe = {
         $("#accNm").val(rs[0].ACC_NM ? rs[0].ACC_NM : tmpRs.ACC_NM);
         $("#accNo").val(rs[0].ACC_NO ? rs[0].ACC_NO : tmpRs.ACC_NO);
 
-        $("#g20EmpCd").val(tmpRs.G20_EMP_CD);
-        $("#g20DeptCd").val(tmpRs.G20_DEPT_CD);
-        $("#exnpEmpNm").val(tmpRs.REG_EMP_NAME);
-        $("#exnpEmpSeq").val(tmpRs.REG_EMP_SEQ);
-        $("#exnpDeptNm").val(tmpRs.REG_DEPT_NAME);
-        $("#exnpDeptSeq").val(tmpRs.REG_DEPT_SEQ);
+        $("#g20EmpCd").val(rs[0].G20_EMP_CD ? rs[0].G20_EMP_CD : tmpRs.G20_EMP_CD);
+        $("#g20DeptCd").data("kendoDropDownList").value(rs[0].G20_DEPT_CD ? rs[0].G20_DEPT_CD : tmpRs.G20_DEPT_CD);
+        $("#exnpEmpNm").val(rs[0].REG_EMP_NAME ? rs[0].REG_EMP_NAME : tmpRs.REG_EMP_NAME);
+        $("#exnpEmpSeq").val(rs[0].REG_EMP_SEQ ? rs[0].REG_EMP_SEQ : tmpRs.REG_EMP_SEQ);
+        $("#exnpDeptNm").val(rs[0].REG_DEPT_NAME ? rs[0].REG_DEPT_NAME : tmpRs.REG_DEPT_NAME);
+        $("#exnpDeptSeq").val(rs[0].REG_DEPT_SEQ ? rs[0].REG_DEPT_SEQ : tmpRs.REG_DEPT_SEQ);
 
         var html = "";
         console.log(rs.length);
@@ -366,12 +370,12 @@ var regIncpRe = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
-        $("#g20EmpCd").val(rs.G20_EMP_CD);
-        $("#g20DeptCd").val(rs.G20_DEPT_CD);
-        $("#exnpEmpNm").val(rs.REG_EMP_NAME);
-        $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
-        $("#exnpDeptNm").val(rs.REG_DEPT_NAME);
-        $("#exnpDeptSeq").val(rs.REG_DEPT_SEQ);
+        // $("#g20EmpCd").val(rs.G20_EMP_CD);
+        // $("#g20DeptCd").val(rs.G20_DEPT_CD);
+        // $("#exnpEmpNm").val(rs.REG_EMP_NAME);
+        // $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
+        // $("#exnpDeptNm").val(rs.REG_DEPT_NAME);
+        // $("#exnpDeptSeq").val(rs.REG_DEPT_SEQ);
 
         var html = "";
         var incpTotAmt = 0;

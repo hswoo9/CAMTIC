@@ -3924,7 +3924,11 @@
                 ETC,
                 ISS,
                 GROUP_KEY,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                G20_EMP_CD,
+                G20_DEPT_CD,
+                BUSN_CD,
+                BUSN_EX_CD
             )
         VALUES
             (
@@ -3953,7 +3957,11 @@
                 #{ETC},
                 #{ISS},
                 #{groupKey},
-                #{regEmpSeq}
+                #{regEmpSeq},
+                #{g20EmpCd},
+                #{g20DeptCd},
+                #{busnCd},
+                #{busnExCd}
             )
         <selectKey keyProperty="payIncpReSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_INCP_RE'
@@ -3979,11 +3987,15 @@
     <select id="getPayIncpReData" parameterType="map" resultType="map">
         /*getPayIncpReData*/
         SELECT
-            *
+            A.*,
+            B.EMP_NAME_KR AS REG_EMP_NAME,
+            B.DEPT_SEQ AS REG_DEPT_SEQ,
+            B.DEPT_NAME AS REG_DEPT_NAME
         FROM
-            CAM_MNG.DJ_PAY_INCP_RE
+            CAM_MNG.DJ_PAY_INCP_RE A
+        LEFT JOIN CAM_HR.DJ_EMP_INFO B ON A.REG_EMP_SEQ = B.EMP_SEQ
         WHERE
-            PAY_INCP_RE_SN = #{payIncpReSn} OR GROUP_KEY = #{payIncpReSn}
+            A.PAY_INCP_RE_SN = #{payIncpReSn} OR A.GROUP_KEY = #{payIncpReSn}
     </select>
 
     <update id="updIncpMasterStat" parameterType="map">
