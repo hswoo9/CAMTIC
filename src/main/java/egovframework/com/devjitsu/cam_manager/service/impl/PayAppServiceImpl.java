@@ -1853,6 +1853,9 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updClaimExnpByPayAppSnEqNull(params[i]);
             // 식대 지급신청건 삭제
             payAppRepository.updSnackByPayAppSnEqNull(params[i]);
+            // 참여율 지급신청 건 삭제
+            payAppRepository.delPayAppBsYm(paraMap);
+
 
             List<Map<String, Object>> useEtaxList = payAppRepository.getUseEtaxInfoList(paraMap);
             // dj_use_etax_info 테이블의 CE_GW_IDX값이 있으면 update, 없으면 delete
