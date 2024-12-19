@@ -378,13 +378,14 @@ var delvInfo = {
     },
 
     fn_updNowYear : function(){
-        if(!confirm("납기일을 변경하시겠습니까?")) {
+        if(!confirm("의뢰일자 및 납기일을 변경하시겠습니까?")) {
             return;
         }
 
         let data = {
             pjtSn: $("#pjtSn").val(),
             busnClass : $("#busnClass").val(),
+            nowStrDe : $("#delvEstDe").val(),
             nowEndDe : $("#delvDe").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }

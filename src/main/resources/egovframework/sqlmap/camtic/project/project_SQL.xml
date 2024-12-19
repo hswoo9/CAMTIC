@@ -4335,6 +4335,7 @@
         /*updDelvNowYear*/
         UPDATE CAM_PJT_MNG.DJ_PJT_DELV
         SET
+            DELV_EST_DE = #{nowStrDe},
             DELV_DE = #{nowEndDe}
         WHERE
             PJT_SN = #{pjtSn}
