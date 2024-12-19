@@ -67,6 +67,8 @@ var delvInfo = {
             });
             $("#pmName").val(delvMap.PM_EMP_NM);
             $("#pmSeq").val(delvMap.PM_EMP_SEQ);
+            $("#pmDeptName").val(delvMap.PM_DEPT_NM);
+            $("#pmDeptSeq").val(delvMap.PM_DEPT_SEQ);
             $("#delvEstDe").val(delvMap.DELV_EST_DE);
             $("#delvDe").val(delvMap.DELV_DE);
         } else {
@@ -203,6 +205,8 @@ var delvInfo = {
             delvDept : $("input[name='delvDept']:checked").val(),
             pmEmpNm : $("#pmName").val(),
             pmEmpSeq : $("#pmSeq").val(),
+            pmDeptSeq : $("#pmDeptSeq").val(),
+            pmDeptNm : $("#pmDeptName").val(),
             empSeq : $("#empSeq").val(),
 
             pjtStrDt : $("#pjtStrDt").val(),
@@ -234,6 +238,8 @@ var delvInfo = {
         fd.append("delvDept", parameters.delvDept);
         fd.append("pmEmpNm", parameters.pmEmpNm);
         fd.append("pmEmpSeq", parameters.pmEmpSeq);
+        fd.append("pmDeptSeq", parameters.pmDeptSeq);
+        fd.append("pmDeptNm", parameters.pmDeptNm);
         fd.append("empSeq", parameters.empSeq);
         fd.append("regEmpSeq", parameters.empSeq);
 
@@ -372,13 +378,14 @@ var delvInfo = {
     },
 
     fn_updNowYear : function(){
-        if(!confirm("납기일을 변경하시겠습니까?")) {
+        if(!confirm("의뢰일자 및 납기일을 변경하시겠습니까?")) {
             return;
         }
 
         let data = {
             pjtSn: $("#pjtSn").val(),
             busnClass : $("#busnClass").val(),
+            nowStrDe : $("#delvEstDe").val(),
             nowEndDe : $("#delvDe").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }

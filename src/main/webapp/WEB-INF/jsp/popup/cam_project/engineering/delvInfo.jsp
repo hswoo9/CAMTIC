@@ -70,10 +70,11 @@
                 <td>
                     <input type="text" id="delvDe" style="width: 50%;">
                     <div id="chgDiv" style="display: none;">
-                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="delvInfo.fn_updNowYear();">변경</button>
-                        <span id="regTxtSpan" style="color: gray; display: none;"> 마지막 변경 : <span id="nowYearRegEmp"></span> (<span id="nowYearRegDt"></span>) </span>
+                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="delvInfo.fn_updNowYear();">의뢰일자 및 납기일 변경</button>
                     </div>
                     <div id="chgDiv2" style="display: none; margin-top: 7px;">
+                        <span id="regTxtSpan" style="color: gray; display: none;"> 마지막 변경 : <span id="nowYearRegEmp"></span> (<span id="nowYearRegDt"></span>) </span>
+                        <br />
                         <span style="color: red;">* 결재중 또는 결재완료된 전자결재 양식 내의 사업기간은 변경되지않습니다.</span>
                     </div>
                 </td>
@@ -189,6 +190,8 @@
                 <td colspan="3">
                     <input type="text" id="pmName" style="width: 25%;" disabled />
                     <input type="hidden" id="pmSeq" style="width: 25%;" />
+                    <input type="hidden" id="pmDeptSeq" style="width: 25%;" />
+                    <input type="hidden" id="pmDeptName" style="width: 25%;" />
                     <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch()">
                         조회
                     </button>
