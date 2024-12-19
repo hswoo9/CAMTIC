@@ -167,6 +167,25 @@
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SD_UP_SN IN (${masterSdUpSn})
     </delete>
 
+    <select id="getSdUnitPriceCnt" parameterType="map" resultType="int">
+        /*getSdUnitPriceCnt*/
+        SELECT COUNT(*) FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SN = #{masterSn}
+    </select>
+
+    <update id="updSdUnitPriceEndDtInit" parameterType="map">
+        /*updSdUnitPriceEndDtInit*/
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        SET
+            END_DT = '9999-12-31',
+            ACTIVE = 'Y',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_NAME = #{empName},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn}
+    </update>
+
     <select id="getObtainOrderMaster" parameterType="map" resultType="map">
         /* getObtainOrderMaster */
         SELECT

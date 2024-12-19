@@ -97,6 +97,10 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setSdUnitPriceDel(Map<String, Object> params) {
         itemManageRepository.setSdUnitPriceDel(params);
+
+        if(itemManageRepository.getSdUnitPriceCnt(params) == 1) {
+            itemManageRepository.updSdUnitPriceEndDtInit(params);
+        }
     }
 
     @Override

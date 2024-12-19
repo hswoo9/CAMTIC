@@ -160,6 +160,9 @@ var sdupR = {
 
             sdupR.global.saveAjaxData = {
                 masterSdUpSn : masterSdUpSn.substring(1),
+                masterSn : $("#masterSn").val(),
+                empSeq : $("#empSeq").val(),
+                empName : $("#empName").val(),
             }
 
             var result = customKendo.fn_customAjax("/item/setSdUnitPriceDel.do", sdupR.global.saveAjaxData);
