@@ -113,7 +113,7 @@ var regisReq = {
         formData.append("remarkCn", remarkCn);
         formData.append("regEmpSeq", regEmpSeq);
         formData.append("regEmpName", regEmpName);
-        formData.append("empSeq", empSeq);
+        formData.append("empSeq", regEmpSeq);
 
         if (documentPartType == "") {
             alert("구분이 선택되지 않았습니다.");
