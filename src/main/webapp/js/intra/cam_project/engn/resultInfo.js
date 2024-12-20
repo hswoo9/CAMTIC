@@ -151,10 +151,10 @@ var resultInfo = {
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
             amt12 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
 
-            amt13 = resInvSum == 0 ? "0" : resInvSum;
+            amt13 = resInvSum == 0 ? "0" : Math.round(resInvSum);
             amt14 = pjtPer(resInvPer, 1);
 
-            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-resInvSum;
+            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-Math.round(resInvSum);
             amt16 = pjtPer(100-resInvPer, 1);
             /** 달성결과 끝 */
 
@@ -247,10 +247,10 @@ var resultInfo = {
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
             amt12 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
 
-            amt13 = resInvSum == 0 ? "0" : resInvSum;
+            amt13 = resInvSum == 0 ? "0" : Math.round(resInvSum);
             amt14 = pjtPer(resInvPer, 1);
 
-            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-resInvSum;
+            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-Math.round(resInvSum);
             amt16 = pjtPer(100-resInvPer, 1);
             /** 달성결과 끝 */
 
@@ -343,10 +343,10 @@ var resultInfo = {
             amt11 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
             amt12 = Number(map.PJT_AMT) == 0 ? "0" : Number(map.PJT_AMT);
 
-            amt13 = resInvSum == 0 ? "0" : resInvSum;
+            amt13 = resInvSum == 0 ? "0" : Math.round(resInvSum);
             amt14 = pjtPer(resInvPer, 1);
 
-            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-resInvSum;
+            amt15 = (Number(map.PJT_AMT)-resInvSum) == 0 ? "0" : Number(map.PJT_AMT)-Math.round(resInvSum);
             amt16 = pjtPer(100-resInvPer, 1);
             /** 달성결과 끝 */
         }
