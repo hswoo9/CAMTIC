@@ -1,8 +1,10 @@
 package egovframework.com.devjitsu.inside.evaluation.controller;
 
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.evaluation.service.EvaluationService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,12 @@ public class EvaluationController {
     @Autowired
     private EvaluationService evaluationService;
 
+    @Autowired
+    private CommonService commonService;
+
+    @Autowired
+    private UserManageService userManageService;
+
     //평가등록
     @RequestMapping("/Inside/evaluationReq.do")
     public String evaluationReq(HttpServletRequest request, Model model) {
@@ -42,19 +50,6 @@ public class EvaluationController {
 
         return "inside/userManage/evaluationReq";
     }
-
-    //개인업적평가 점수 산출
-    @RequestMapping("/Inside/pop/evalScorePop.do")
-    public String evalScorePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
-        model.addAttribute("params", params);
-
-        return "popup/inside/userManage/evalScorePop";
-    }
-
 
     @RequestMapping("/evaluation/getEvalEmpList")
     public String getEvalEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
@@ -598,7 +593,12 @@ public class EvaluationController {
     }
 
 
-    //업적평가 등록
+    /**
+     * 업적평가하기
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/evaluationPerReq.do")
     public String evaluationPerReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -614,21 +614,32 @@ public class EvaluationController {
         return "inside/userManage/evaluationPerReq";
     }
 
-    //업적평가 개인 목표 설정
+    /**
+     * 업적평가 개인 목표 설정 ( 미사용)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/Inside/pop/evalReqPop.do")
-    public String evalReqPop(HttpServletRequest request, Model model) {
-        Map<String, Object> params = new HashMap<>();
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        params.put("empSeq", login.getUniqId());
-
-
+    public String evalReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         model.addAttribute("evalGoal", evaluationService.getEvalGoal(params));
         model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", login);
 
         return "popup/inside/userManage/evalReqPop";
     }
+
+    /**
+     * 업적평가 목표 등록 ( 미사용)
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalGoal")
+    public String setEvalGoal(@RequestParam Map<String, Object> params) {
+//        evaluationService.setEvalGoal(params);
+        return "jsonView";
+    }
+
 
     /**
      * 업적평가 리스트
@@ -650,18 +661,25 @@ public class EvaluationController {
     }
 
     /**
-     * 업적평가 목표 등록
+     * 개인업적평가 점수 산출 (팝업)
      * @param params
+     * @param request
+     * @param model
      * @return
      */
-    @RequestMapping("/evaluation/setEvalGoal")
-    public String setEvalGoal(@RequestParam Map<String, Object> params) {
-        evaluationService.setEvalGoal(params);
-        return "jsonView";
+    @RequestMapping("/Inside/pop/evalScorePop.do")
+    public String evalScorePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/userManage/evalScorePop";
     }
 
     /**
-     * 업적평가 점수산출 리스트
+     * 개인업적평가 점수산출 리스트
      * @param params
      * @param request
      * @param model
@@ -679,7 +697,7 @@ public class EvaluationController {
     }
 
     /**
-     * 개인 업적평가 등록
+     * 개인업적평가 점수 산출 등록
      * @param params
      * @return
      */
@@ -689,4 +707,98 @@ public class EvaluationController {
         return "jsonView";
     }
 
+
+    /**
+     * 개인업적평가 목표 설정 결재 팝업
+     * @param request
+     * @param model
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/evalGoalSetPop.do")
+    public String popPoem(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        params.put("empSeq", loginVO.getUniqId());
+
+        return "popup/inside/evaluation/evalGoalSetPop";
+    }
+
+    /**
+     * 팀원 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/getUserList")
+    public String getUserList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", userManageService.getEmpInfoList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 개인업적평가 목표 설정 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalGoalTemp")
+    public String setEvalGoalTemp(@RequestParam Map<String, Object> params, Model model) {
+        evaluationService.setEvalGoalTemp(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /** 결재 양식 그리는 팝업*/
+    @RequestMapping("/popup/evaluation/approvalFormPopup/evalGoalApprovalPop.do")
+    public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/evaluation/approvalFormPopup/evalGoalApprovalPop";
+    }
+
+    /**
+     * 개인업적평가 목표 설정 저장데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalGoalTempList")
+    public String getEvalGoalTempList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.getEvalGoalTempList(params));
+        return "jsonView";
+    }
+
+    /** 개인목표설정 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/evaluation/evalGoalApp")
+    public String poemReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            evaluationService.updateEvalGoalState(bodyMap);
+//            docViewProcessService.updatePoemDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = session.getAttribute("LoginVO") == null ? null : (LoginVO) session.getAttribute("LoginVO");
+
+
+        if(session.getAttribute("LoginVO") == null){
+            return null;
+        }
+        return loginVO;
+    }
 }

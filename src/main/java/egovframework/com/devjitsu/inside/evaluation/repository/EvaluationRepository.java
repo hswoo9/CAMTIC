@@ -254,4 +254,19 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvalAchieveList2", params);
     }
 
+    public int getEvalGoalTempMaxGroup(Map<String, Object> params){
+        return (int)selectOne("evaluation.getEvalGoalTempMaxGroup", params);
+    }
+
+    public void setEvalGoalTemp(Map<String, Object> params) {
+        insert("evaluation.setEvalGoalTemp", params);
+    }
+
+    public List<Map<String, Object>> getEvalGoalTempList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalGoalTempList", params);
+    }
+
+    public void updateEvalGoalState(Map<String, Object> params) {
+        update("evaluation.updateEvalGoalState", params);
+    }
 }

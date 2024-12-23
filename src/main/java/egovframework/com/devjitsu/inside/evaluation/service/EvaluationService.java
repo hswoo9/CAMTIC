@@ -52,4 +52,12 @@ public interface EvaluationService {
 
     Map<String, Object> getEvalAchieveScoreList(Map<String, Object> params);
     void setEvalAchieve(Map<String, Object> params);
+
+    List<Map<String, Object>> getUserList(Map<String, Object> params);
+
+    void setEvalGoalTemp(Map<String, Object> params);
+
+    List<Map<String, Object>> getEvalGoalTempList(Map<String, Object> params);
+
+    void updateEvalGoalState(Map<String, Object> bodyMap);
 }

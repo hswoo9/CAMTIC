@@ -37,6 +37,14 @@
             </div>
         </div>
         <div style="padding: 20px 30px;">
+            <div style="display: flex;justify-content: flex-end;gap: 10px;">
+                <div style="display: flex;align-items: center;gap: 10px">
+                    프로젝트 미참여 : <div style="width: 15px;height: 15px;background-color: #ffbebe; display: block"></div>
+                </div>
+                <div style="display: flex;align-items: center;gap: 10px">
+                    수정여부 : <div style="width: 15px;height: 15px;background-color: rgb(198 159 239); display: block"></div>
+                </div>
+            </div>
             <div id="evalListDiv">
 
             </div>

@@ -26,8 +26,6 @@ var contentPop = {
             },
             success: function(response) {
                 alert("설정이 완료되었습니다.");
-                opener.parent
-
                 if(opener.parent.evaluationPerReq != null) {
                     opener.parent.evaluationPerReq.getEvaluationList()
                 }
