@@ -446,4 +446,74 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getUserList(Map<String, Object> params) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void setEvalGoalTemp(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> empEvalGoalTempArr = gson.fromJson((String) params.get("empEvalGoalTempArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if(empEvalGoalTempArr.size() > 0){
+            int evalGoalTempGroup = evaluationRepository.getEvalGoalTempMaxGroup(params);
+            params.put("evalGoalTempGroup", evalGoalTempGroup);
+
+            for (Map<String, Object> map : empEvalGoalTempArr){
+                map.put("evalGoalTempGroup", evalGoalTempGroup);
+                evaluationRepository.setEvalGoalTemp(map);
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvalGoalTempList(Map<String, Object> params) {
+        return evaluationRepository.getEvalGoalTempList(params);
+    }
+
+    @Override
+    public void updateEvalGoalState(Map<String, Object> bodyMap) {
+        String docSts = String.valueOf(bodyMap.get("approveStatCode"));
+        String evalGoalTempGroup = String.valueOf(bodyMap.get("approKey"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        evalGoalTempGroup = evalGoalTempGroup.split("_")[1];
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("evalGoalTempGroup", evalGoalTempGroup);
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+        evaluationRepository.updateEvalGoalState(params);
+
+        if("100".equals(docSts) || "101".equals(docSts)) {
+            List<Map<String, Object>> list = evaluationRepository.getEvalGoalTempList(params);
+            for (Map<String, Object> map : list){
+                map.put("empSeq", map.get("EMP_SEQ"));
+                map.put("baseYear", map.get("BASE_YEAR"));
+
+                Map<String, Object> goal = getEvalGoal(map);
+                if(goal != null){
+                    goal.put("evalGoalSn", goal.get("EVAL_GOAL_SN"));
+                    goal.put("orderGoals", map.get("ORDER_GOALS"));
+                    goal.put("salesGoals", map.get("SALES_GOALS"));
+                    goal.put("revenueGoals", map.get("REVENUE_GOALS"));
+                    goal.put("costGoals", map.get("COST_GOALS"));
+                    goal.put("commerIndexGoals", map.get("COMMER_INDEX_GOALS"));
+                    goal.put("regEmpSeq", empSeq);
+                    evaluationRepository.setEvalGoalUpd(goal);
+                }else{
+                    goal = new HashMap<>();
+                    goal.put("empSeq", map.get("EMP_SEQ"));
+                    goal.put("orderGoals", map.get("ORDER_GOALS"));
+                    goal.put("salesGoals", map.get("SALES_GOALS"));
+                    goal.put("revenueGoals", map.get("REVENUE_GOALS"));
+                    goal.put("costGoals", map.get("COST_GOALS"));
+                    goal.put("commerIndexGoals", map.get("COMMER_INDEX_GOALS"));
+                    goal.put("regEmpSeq", empSeq);
+                    evaluationRepository.setEvalGoal(goal);
+                }
+            }
+        }
+    }
 }

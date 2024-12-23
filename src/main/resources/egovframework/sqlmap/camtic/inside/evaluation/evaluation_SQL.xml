@@ -1410,8 +1410,11 @@
         SELECT
             EA.PJT_SN,
             EA.EMP_SEQ,
+            EA.FIRST_ORDER_ACHIEVE,
             EA.ORDER_ACHIEVE,
+            EA.FIRST_SALES_ACHIEVE,
             EA.SALES_ACHIEVE,
+            EA.FIRST_REVENUE_ACHIEVE,
             EA.REVENUE_ACHIEVE
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE EA
@@ -1428,7 +1431,7 @@
         WHERE
             EMP_SEQ = #{empSeq}
         AND
-            BASE_YEAR = DATE_FORMAT(NOW(), '%Y')
+            BASE_YEAR = #{baseYear}
     </select>
 
     <insert id="setEvalGoal" parameterType="map">
@@ -1452,7 +1455,7 @@
             #{revenueGoals},
             #{costGoals},
             #{commerIndexGoals},
-            #{empSeq}
+            #{regEmpSeq}
         )
     </insert>
 
@@ -1466,7 +1469,7 @@
             REVENUE_GOALS = #{revenueGoals},
             COST_GOALS = #{costGoals},
             COMMER_INDEX_GOALS = #{commerIndexGoals},
-            MOD_EMP_SEQ = #{empSeq}
+            MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             EVAL_GOAL_SN = #{evalGoalSn}
     </update>
@@ -1489,8 +1492,11 @@
         (
             PJT_SN,
             EMP_SEQ,
+            FIRST_ORDER_ACHIEVE,
             ORDER_ACHIEVE,
+            FIRST_SALES_ACHIEVE,
             SALES_ACHIEVE,
+            FIRST_REVENUE_ACHIEVE,
             REVENUE_ACHIEVE,
             REG_EMP_SEQ
         )
@@ -1499,7 +1505,10 @@
             #{pjtSn},
             #{empSeq},
             #{orderAchieve},
+            #{orderAchieve},
             #{salesAchieve},
+            #{salesAchieve},
+            #{revenueAchieve},
             #{revenueAchieve},
             #{regEmpSeq}
         )
@@ -1578,4 +1587,65 @@
 
         GROUP BY EA.EMP_SEQ
     </select>
+
+    <select id="getEvalGoalTempMaxGroup" parameterType="map" resultType="int">
+        /* getEvalGoalTempMaxGroup */
+        SELECT
+            IFNULL(MAX(EVAL_GOAL_TEMP_GROUP), 0) + 1
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_GOAL_TEMP
+    </select>
+
+    <insert id="setEvalGoalTemp" parameterType="map">
+        /* setEvalGoalTemp */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_GOAL_TEMP (
+            EVAL_GOAL_TEMP_GROUP,
+            BASE_YEAR,
+            EMP_SEQ,
+            ORDER_GOALS,
+            SALES_GOALS,
+            REVENUE_GOALS,
+            COST_GOALS,
+            COMMER_INDEX_GOALS,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{evalGoalTempGroup},
+            #{baseYear},
+            #{empSeq},
+            #{orderGoals},
+            #{salesGoals},
+            #{revenueGoals},
+            #{costGoals},
+            #{commerIndexGoals},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <select id="getEvalGoalTempList" parameterType="map" resultType="map">
+        /* getEvalGoalTempList */
+        SELECT
+            A.*,
+            B.EMP_NAME_KR
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_GOAL_TEMP A
+        JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON A.EMP_SEQ = B.EMP_SEQ
+        WHERE
+            EVAL_GOAL_TEMP_GROUP = #{evalGoalTempGroup}
+    </select>
+
+    <update id="updateEvalGoalState" parameterType="map">
+        /* updateEvalGoalState */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_GOAL_TEMP
+        SET
+            APPROVE_STAT_CODE = CASE WHEN #{approveStatCode} = '101' THEN '100' ELSE #{approveStatCode} END,
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EVAL_GOAL_TEMP_GROUP = #{evalGoalTempGroup}
+    </update>
 </mapper>

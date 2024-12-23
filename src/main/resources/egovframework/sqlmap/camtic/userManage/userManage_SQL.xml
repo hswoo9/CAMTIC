@@ -778,8 +778,12 @@
 	        DATE_FORMAT(#{startDate}, '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
 	    ]]>
         </if>
+
+        <if test='userKind != null and !"".equals(userKind)'>
         AND
             ${userKind} like concat('%', #{kindContent} ,'%')
+        </if>
+
         <if test='deptComp != null and !"".equals(deptComp)'>
             AND
             (HEI.DEPT_SEQ = #{deptComp}

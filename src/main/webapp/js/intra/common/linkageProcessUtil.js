@@ -163,6 +163,21 @@ function makeParams(params, form, url){
 		url += "&budgetList="+encodeURI(params.budgetList);
 	}
 
+	if(params.customField != null){
+		var result = customKendo.fn_customAjax("/approval/getDocFormReqOpt", {formId : params.formId});
+		var customField = "";
+		if(result.flag){
+			for(var i = 0; i < result.formCustomFieldList.length; i++){
+				customField = $('<input type="hidden" name="' + result.formCustomFieldList[i].FIELD_NAME + '"/>');
+				customField.val(params.customField[result.formCustomFieldList[i].FIELD_NAME]);
+				form.append(customField);
+				url += "&" + result.formCustomFieldList[i].FIELD_NAME + "=" +
+					params.customField[result.formCustomFieldList[i].FIELD_NAME];
+			}
+		}
+	}
+
+
 	return url;
 }
 

@@ -12,7 +12,6 @@
     .green{background-color: #e2efda;font-weight: bold;text-align: center;}
     .blue{background-color: #ddebf7;font-weight: bold;text-align: center;}
     .orange{background-color: #ffcc99;font-weight: bold;text-align: center;}
-    #evalList input{width: 100%;}
     #evalList td{text-align: center}
     #evalListDiv {width: 100%;overflow-x: auto;white-space: nowrap;}
 
@@ -49,12 +48,12 @@
                     </tr>
                 </table>
                 <div style="float: right; margin: 10px 5px;">
-                    <c:if test="${loginVO.dutyCode ne '1'}">
-                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalReqPop()">
-                        <span class="k-button-text">업적평가 목표 설정</span>
-                    </button>
-                    </c:if>
-                    <c:if test="${loginVO.dutyCode eq '2' or loginVO.dutyCode eq '3' or loginVO.dutyCode eq '5' or loginVO.dutyCode eq '7'}">
+<%--                    <c:if test="${loginVO.dutyCode ne '1'}">--%>
+<%--                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalReqPop()">--%>
+<%--                        <span class="k-button-text">개인별 수주/매출/수익 설정</span>--%>
+<%--                    </button>--%>
+<%--                    </c:if>--%>
+                    <c:if test="${loginVO.dutyCode eq '1' or loginVO.dutyCode eq '2' or loginVO.dutyCode eq '3' or loginVO.dutyCode eq '4' or loginVO.dutyCode eq '5' or loginVO.dutyCode eq '7'}">
                     <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalScorePop()">
                         <span class="k-button-text">개인 업적평가 점수산출</span>
                     </button>
@@ -64,6 +63,7 @@
                 <div id="evalListDiv">
                     <table class="searchTable table table-bordered mb-0">
                         <tr>
+<%--                            <th rowspan="2" class="text-center th-color chkTb" style="padding: 5px;">선택</th>--%>
                             <th rowspan="2" class="text-center th-color">부서</th>
                             <th rowspan="2" class="text-center th-color">팀명</th>
                             <th rowspan="2" class="text-center th-color">이름</th>
@@ -92,6 +92,7 @@
                         </tr>
                         <tbody id="evalList">
                         </tbody>
+                        
                     </table>
                 </div>
             </div>
