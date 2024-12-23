@@ -609,9 +609,12 @@ var costCalc = {
         let amt = 0;
         let aopAmt = 0;
         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
-            let asrAmt = costCalc.resSaleAmt(e);
-            if(asrAmt > 0){
-                aopAmt = asrAmt - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3)) - (Number(e.befRealUseAmt) + Number(e.befRealUseAmt2) + Number(e.befRealUseAmt3));
+            let asrAmt = 0;
+            if(e.COST_CLOSE_CK != null && e.COST_CLOSE_CK == "Y"){
+                asrAmt = costCalc.resSaleAmt(e);
+                if(asrAmt > 0){
+                    aopAmt = asrAmt - (Number(e.realUseAmt) + Number(e.realUseAmt2) + Number(e.realUseAmt3)) - (Number(e.befRealUseAmt) + Number(e.befRealUseAmt2) + Number(e.befRealUseAmt3));
+                }
             }
         }else{
             /** 수주년도/차년도 구분 */
