@@ -925,6 +925,7 @@ public class AchieveController {
             tempParams.put("endDt", params.get("endDt"));
             tempParams.put("pjtYear", params.get("pjtYear"));
             tempParams.put("deptLevel", params.get("deptLevel"));
+            tempParams.put("record", params.get("record"));
 
             Map<String, Object> tempMap = achieveService.getDeptProjectCostCalcList(tempParams);
 

@@ -49,11 +49,12 @@ var monMeet = {
             startDt : $("#year").val().split("-")[0] + "-01-01",
             endDt : $("#year").val() + "-" + date.getDate(),
             pjtYear : $("#year").val().split("-")[0],
+            deptLevel: "1",
             record : "Y"
         }
 
         $.ajax({
-            url : "/cam_achieve/getAllProjectCostCalcList",
+            url : "/cam_achieve/getDeptProjectCostCalcList",
             data : parameters,
             type : "post",
             dataType : "json",
@@ -88,62 +89,84 @@ var monMeet = {
 
         for(let i=0; i<monMeet.global.rsList.length; i++){
 
-            const e = monMeet.global.rsList[i];
+            let tempDelvTotAmt = 0;      // 수주금액
+            let tempSaleTotAmt = 0;      // 매출액
+            let tempIncpTotAmt = 0;      // 운영수익
 
-            /** 수주 달성 */
-            delvTotAmt += costCalc.allPjtAmt(e);
+            let tempExpDelvTotAmt = 0;   // 예상수주금액
+            let tempExpSaleTotAmt = 0;   // 예상매출액
+            let tempExpIncpTotAmt = 0;   // 예상운영수익
 
-            /** 수주 예상 */
-            if(e.PJT_STEP == "R" && e.PJT_STOP == "N") {
-                expDelvTotAmt += Number(e.PJT_EXP_AMT || 0);
+            for(let j=0; j<monMeet.global.rsList[i].deptAch.length; j++) {
+
+                const e = monMeet.global.rsList[i].deptAch[j];
+
+                /** 수주 달성 */
+                tempDelvTotAmt += costCalc.allPjtAmt(e);
+
+                /** 수주 예상 */
+                if(e.PJT_STEP == "R" && e.PJT_STOP == "N") {
+                    tempExpDelvTotAmt += Number(e.PJT_EXP_AMT || 0);
+                }
+
+                /** 매출 달성 */
+                tempSaleTotAmt += costCalc.resSaleAmt(e);
+
+                /** 매출 예상 */
+                tempExpSaleTotAmt += costCalc.devSaleAmt(e);
+
+                /** 운영수익 달성 */
+                tempIncpTotAmt += costCalc.resProfitAmt(e);
+
+                /** 운영수익 예상 */
+                tempExpIncpTotAmt += costCalc.devProfitAmt(e);
             }
 
+            /** 수주 달성 */
+            delvTotAmt += (Math.floor(tempDelvTotAmt / 1000000) || 0);
             /** 매출 달성 */
-            saleTotAmt += costCalc.resSaleAmt(e);
-
-            /** 매출 예상 */
-            expSaleTotAmt += costCalc.devSaleAmt(e);
-
+            saleTotAmt += (Math.floor(tempSaleTotAmt / 1000000) || 0);
             /** 운영수익 달성 */
-            incpTotAmt += costCalc.resProfitAmt(e);
+            incpTotAmt += (Math.floor(tempIncpTotAmt / 1000000) || 0);
 
+            /** 수주 예상 */
+            expDelvTotAmt += (Math.floor(tempExpDelvTotAmt / 1000000) || 0);
+            /** 매출 예상 */
+            expSaleTotAmt += (Math.floor(tempExpSaleTotAmt / 1000000) || 0);
             /** 운영수익 예상 */
-            expIncpTotAmt += costCalc.devProfitAmt(e);
-        }
+            expIncpTotAmt += (Math.floor(tempExpIncpTotAmt / 1000000) || 0);
 
-        for(let i=0; i<monMeet.global.objLs.length; i++) {
+            /** 목표 */
+            delvObj += (Math.floor( monMeet.global.rsList[i].deptObj[0].DELV_OBJ / 1000000) || 0);
+            saleObj += (Math.floor( monMeet.global.rsList[i].deptObj[0].SALE_OBJ / 1000000) || 0);
+            incpObj += (Math.floor( monMeet.global.rsList[i].deptObj[0].INCP_OBJ / 1000000) || 0);
 
-            const e = monMeet.global.objLs[i];
-
-            delvObj += (e.DELV_OBJ || 0);
-            saleObj += (e.SALE_OBJ || 0);
-            incpObj += (e.INCP_OBJ || 0);
         }
 
         /** 수주 목표 */
-        $("#delvObj").text(comma(Math.floor(delvObj / 1000000) || 0));
+        $("#delvObj").text(comma(delvObj));
         /** 수주 달성 */
-        $("#delvAch").text(comma((Math.floor(delvTotAmt / 1000000) || 0)));
+        $("#delvAch").text(comma(delvTotAmt));
         /** 수주 예상 */
-        $("#delvExp").text(comma((Math.floor((expDelvTotAmt) / 1000000) || 0)));
+        $("#delvExp").text(comma(expDelvTotAmt));
         /** 수주 합계 */
         $("#delvSum").text(comma(Number(uncommaN($("#delvAch").text())) + Number(uncommaN($("#delvExp").text()))));
 
         /** 매출 목표 */
-        $("#saleObj").text(comma(Math.floor(saleObj / 1000000) || 0));
+        $("#saleObj").text(comma(saleObj));
         /** 매출 달성 */
-        $("#saleAch").text(comma(Math.floor(saleTotAmt / 1000000) || 0));
+        $("#saleAch").text(comma(saleTotAmt));
         /** 매출 예상 */
-        $("#saleExp").text(comma(Math.floor(expSaleTotAmt / 1000000) || 0));
+        $("#saleExp").text(comma(expSaleTotAmt));
         /** 매출 합계 */
         $("#saleSum").text(comma(Number(uncommaN($("#saleAch").text())) + Number(uncommaN($("#saleExp").text()))));
 
         /** 운영수익 목표 */
-        $("#incpObj").text(comma(Math.floor(incpObj / 1000000) || 0));
+        $("#incpObj").text(comma(incpObj));
         /** 운영수익 달성 */
-        $("#incpAch").text(comma((Math.floor(incpTotAmt / 1000000)) || 0));
+        $("#incpAch").text(comma(incpTotAmt));
         /** 운영수익 예상 */
-        $("#incpExp").text(comma((Math.floor(expIncpTotAmt / 1000000)) || 0));
+        $("#incpExp").text(comma(expIncpTotAmt));
         /** 운영수익 합계 */
         $("#incpSum").text(comma(Number(uncommaN($("#incpAch").text())) + Number(uncommaN($("#incpExp").text()))));
 
