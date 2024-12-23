@@ -28,15 +28,19 @@ var evaluationPerReq = {
                 dutyCode : $("#regDutyCode").val(),
                 empSeq : $("#regEmpSeq").val()
             },
+            beforeSend : function(){
+                $("#my-spinner").show();
+            },
             dataType : "json",
-            async : false,
             success : function(result){
                 var goalList = result.rs.goalList;
                 var achieveList = result.rs.achieveList;
                 evaluationPerReq.fn_addEvalList(goalList, achieveList);
+                $("#my-spinner").hide();
             },
             error : function(e) {
                 console.log(e);
+                $("#my-spinner").hide();
             }
         });
     },
@@ -80,15 +84,22 @@ var evaluationPerReq = {
             var allDeptCommerIndexAchieveTotal = 0;
             var allDeptCommerIndexScoreTotal = 0;
 
+            var teamCnt = {};
+
             for(var i = 0; i < goalList.length; i++){
                 var currentTeamName = goalList[i].TEAM_NAME.trim();  // 현재 부서의 DEPT_SEQ
 
-                if(!['1', '2', '3', '4', '5', '7'].includes(goalList[i].DUTY_CODE)){
+                if(!['1', '2', '3', '4', '5', '7'].includes(goalList[i].DUTY_CODE) && goalList[i].DEPT_NAME != '' && goalList[i].TEAM_NAME != ''){
                     var empEchieve = achieveList.find(e => e.EMP_SEQ == goalList[i].EMP_SEQ);
                     var orderAchieve = 0;
                     var salesAchieve = 0;
                     var revenueAchieve = 0;
 
+                    if (teamCnt[currentTeamName]) {
+                        teamCnt[currentTeamName]++;
+                    } else {
+                        teamCnt[currentTeamName] = 1;
+                    }
 
                     if(empEchieve != null){
                         var achieve = empEchieve.ACHIEVE.split('|');
@@ -194,26 +205,25 @@ var evaluationPerReq = {
                     deptCommerIndexScoreTotal += 0;
                 }
 
-
-                if ((previousTeamName !== null && previousTeamName !== currentTeamName) || (i === goalList.length - 1)) {
+                if ((previousTeamName != ""  && currentTeamName != "" && previousTeamName != null && previousTeamName != currentTeamName) || (i === goalList.length - 1)) {
                     html += '' +
                         '<tr>' +
-                        '<th colspan="3">' + previousTeamName + ' 합계</th>' +
-                        '<th>' + comma(deptOrderGoalsTotal) + '</th>' +
-                        '<th>' + comma(deptOrderAchieveTotal) + '</th>' +
-                        '<th>' + comma(deptOrderScoreTotal) + '</th>' +
-                        '<th>' + comma(deptSalesGoalsTotal) + '</th>' +
-                        '<th>' + comma(deptSalesAchieveTotal) + '</th>' +
-                        '<th>' + comma(deptSalesScoreTotal) + '</th>' +
-                        '<th>' + comma(deptRevenueGoalsTotal) + '</th>' +
-                        '<th>' + comma(deptRevenueAchieveTotal) + '</th>' +
-                        '<th>' + comma(deptRevenueScoreTotal) + '</th>' +
-                        '<th>' + comma(deptCostGoalsTotal) + '</th>' +
-                        '<th>' + comma(deptCostAchieveTotal) + '</th>' +
-                        '<th>' + comma(deptCostScoreTotal) + '</th>' +
-                        '<th>' + comma(deptCommerIndexGoalsTotal) + '</th>' +
-                        '<th>' + comma(deptCommerIndexAchieveTotal) + '</th>' +
-                        '<th>' + comma(deptCommerIndexScoreTotal) + '</th>' +
+                            '<th colspan="3">' + previousTeamName + ' 합계</th>' +
+                            '<th>' + comma(deptOrderGoalsTotal) + '</th>' +
+                            '<th>' + comma(deptOrderAchieveTotal) + '</th>' +
+                            '<th>' + comma(deptOrderScoreTotal) + '</th>' +
+                            '<th>' + comma(deptSalesGoalsTotal) + '</th>' +
+                            '<th>' + comma(deptSalesAchieveTotal) + '</th>' +
+                            '<th>' + comma(deptSalesScoreTotal) + '</th>' +
+                            '<th>' + comma(deptRevenueGoalsTotal) + '</th>' +
+                            '<th>' + comma(deptRevenueAchieveTotal) + '</th>' +
+                            '<th>' + comma(deptRevenueScoreTotal) + '</th>' +
+                            '<th>' + comma(deptCostGoalsTotal) + '</th>' +
+                            '<th>' + comma(deptCostAchieveTotal) + '</th>' +
+                            '<th>' + comma(deptCostScoreTotal) + '</th>' +
+                            '<th>' + comma(deptCommerIndexGoalsTotal) + '</th>' +
+                            '<th>' + comma(deptCommerIndexAchieveTotal) + '</th>' +
+                            '<th>' + comma(deptCommerIndexScoreTotal) + '</th>' +
                         '</tr>';
 
                     allDeptOrderGoalsTotal += deptOrderGoalsTotal;
@@ -248,7 +258,8 @@ var evaluationPerReq = {
                     deptCommerIndexAchieveTotal = 0;
                     deptCommerIndexScoreTotal = 0;
 
-                    if(i === goalList.length - 1){
+
+                    if(i === goalList.length - 1 && Object.keys(teamCnt).length > 1){
                         html += '' +
                             '<tr>' +
                                 '<th colspan="3">합계</th>' +

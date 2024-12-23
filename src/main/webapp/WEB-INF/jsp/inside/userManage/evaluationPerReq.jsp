@@ -15,7 +15,19 @@
     #evalList td{text-align: center}
     #evalListDiv {width: 100%;overflow-x: auto;white-space: nowrap;}
 
+    #my-spinner { width: 100%; height: 100vh; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 </style>
+
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
+</div>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
