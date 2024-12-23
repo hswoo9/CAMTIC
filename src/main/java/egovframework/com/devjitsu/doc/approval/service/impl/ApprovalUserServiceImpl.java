@@ -45,15 +45,26 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         for (Map<String, Object> docFormFolder : getDocFormList) {
             //양식 목록
             for (Map<String, Object> docForm : getDocFormList) {
-                if(docFormFolder.get("FORM_FOLDER_ID").equals(docForm.get("UPPER_FOLDER_ID"))){
-                    List<Map<String, Object>> docFormList = new ArrayList<Map<String, Object>>();
-                    if(docFormFolder.containsKey("items")){
-                        docFormList = (List<Map<String, Object>>) docFormFolder.get("items");
-                        docFormList.add(docForm);
-                        docFormFolder.put("items", docFormList);
-                    }else{
-                        docFormList.add(docForm);
-                        docFormFolder.put("items", docFormList);
+                boolean flag = false;
+                if(docForm.get("FORM_ID").equals("199")){
+                    if(params.get("dutyCode").equals("5")){
+                        flag = true;
+                    }
+                }else{
+                    flag = true;
+                }
+
+                if(flag){
+                    if(docFormFolder.get("FORM_FOLDER_ID").equals(docForm.get("UPPER_FOLDER_ID"))){
+                        List<Map<String, Object>> docFormList = new ArrayList<Map<String, Object>>();
+                        if(docFormFolder.containsKey("items")){
+                            docFormList = (List<Map<String, Object>>) docFormFolder.get("items");
+                            docFormList.add(docForm);
+                            docFormFolder.put("items", docFormList);
+                        }else{
+                            docFormList.add(docForm);
+                            docFormFolder.put("items", docFormList);
+                        }
                     }
                 }
             }

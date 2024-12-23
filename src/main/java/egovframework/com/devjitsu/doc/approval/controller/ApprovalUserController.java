@@ -46,6 +46,7 @@ public class ApprovalUserController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        params.put("dutyCode", login.getDutyCode());
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("data", approvalUserService.getDraftFormList(params));
