@@ -376,10 +376,8 @@
                 ON DI.FORM_ID = FORM.FORM_ID
             WHERE
                 1=1
-            AND (
-                DI.APPROVE_STAT_CODE = 100 OR
-                DI.APPROVE_STAT_CODE = 101
-            )
+            AND
+                DI.APPROVE_STAT_CODE IN (100, 101)
             AND
                 DI.ACTIVE = 'Y'
             AND
@@ -421,13 +419,14 @@
             </choose>
 
             GROUP BY DI.DOC_ID
-            ORDER BY IFNULL(DI.LAST_APPROVE_DT, DI.DRAFT_DT) DESC
+
         ) AA
         WHERE 1=1
         <if test='readStatus != null and !"".equals(readStatus)'>
             AND AA.READER_YN = #{readStatus}
         </if>
 
+        ORDER BY IFNULL(AA.LAST_APPROVE_DT, AA.DRAFT_DT) DESC
     </select>
 
     <update id="setCheckedDocDel" parameterType="list">
