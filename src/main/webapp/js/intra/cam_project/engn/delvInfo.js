@@ -132,6 +132,20 @@ var delvInfo = {
                 $("#chgDiv").css("display", "inline-block");
                 $("#chgDiv2").css("display", "block");
                 this.fn_changeNowYearSet();
+
+                /** 메뉴권한 경영지원실 소속 인원만 PM변경 */
+                const authUserList = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId : "46"}).rs;
+                for(var i = 0 ; i < authUserList.length ; i++){
+                    if(authUserList[i].EMP_SEQ == $("#regEmpSeq").val()){
+                        $("#pmChgDiv").css("display", "inline-block");
+                        $("#pmChgDiv2").css("display", "block");
+                        break;
+                    }
+                }
+                if($("#regEmpSeq").val() == "1"){
+                    $("#pmChgDiv").css("display", "inline-block");
+                    $("#pmChgDiv2").css("display", "block");
+                }
             }
 
         }else{
@@ -417,6 +431,34 @@ var delvInfo = {
                     $("#regTxtSpan").show();
                     $("#nowYearRegEmp").text(rs.REG_EMP_NAME);
                     $("#nowYearRegDt").text(rs.REG_DE);
+                }
+            }
+        })
+    },
+
+    fn_updPjtPm : function(){
+        if(!confirm("해당 프로젝트의 PM을 변경하시겠습니까?")) {
+            return;
+        }
+
+        let data = {
+            pjtSn: $("#pjtSn").val(),
+            mngEmpName : $("#pmName").val(),
+            mngEmpSeq : $("#pmSeq").val(),
+            mngDeptSeq : $("#pmDeptSeq").val(),
+            mngDeptName : $("#pmDeptName").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        $.ajax({
+            url: "/projectRnd/updDelvPMInfo",
+            data: data,
+            type: "post",
+            datatype: "json",
+            success: function (rs) {
+                if(rs.code == "200"){
+                    alert("변경되었습니다.");
+                    location.reload();
                 }
             }
         })

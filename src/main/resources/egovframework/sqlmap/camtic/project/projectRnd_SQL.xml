@@ -1173,4 +1173,16 @@
             A.PJT_SN = #{pjtSn}
         ORDER BY A.HIST_SN DESC LIMIT 1
     </select>
+
+    <update id="updDelvPMInfo" parameterType="map">
+        /*updDelvPMInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DELV
+        SET
+            PM_EMP_SEQ = #{mngEmpSeq},
+            PM_EMP_NM = #{mngEmpName},
+            PM_DEPT_SEQ = #{mngDeptSeq},
+            PM_DEPT_NM = #{mngDeptName}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>

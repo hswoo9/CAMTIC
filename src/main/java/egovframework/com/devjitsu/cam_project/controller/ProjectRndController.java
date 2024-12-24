@@ -1092,6 +1092,18 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/updDelvPMInfo")
+    public String updDelvPMInfo(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            projectRndService.updDelvPMInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

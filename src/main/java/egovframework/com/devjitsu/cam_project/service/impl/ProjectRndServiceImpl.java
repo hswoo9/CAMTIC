@@ -925,5 +925,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public Map<String, Object> getNowYearChangeHist(Map<String, Object> params) {
         return projectRndRepository.getNowYearChangeHist(params);
     }
+
+    @Override
+    public void updDelvPMInfo(Map<String, Object> params) {
+        projectRndRepository.updDelvPMInfo(params);
+        projectRepository.updPMInfo(params);
+    }
 }
 

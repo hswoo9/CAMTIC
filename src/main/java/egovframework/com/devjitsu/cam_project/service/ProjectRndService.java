@@ -99,4 +99,6 @@ public interface ProjectRndService {
     void updNowYear(Map<String, Object> params);
 
     Map<String, Object> getNowYearChangeHist(Map<String, Object> params);
+
+    void updDelvPMInfo(Map<String, Object> params);
 }

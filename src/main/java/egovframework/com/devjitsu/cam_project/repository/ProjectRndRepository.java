@@ -284,4 +284,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public Map<String, Object> getNowYearChangeHist(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("projectRnd.getNowYearChangeHist", params);
     }
+
+    public void updDelvPMInfo(Map<String, Object> params) {
+        update("projectRnd.updDelvPMInfo", params);
+    }
 }
