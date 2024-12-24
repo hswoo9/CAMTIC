@@ -247,7 +247,7 @@ var employmentManage = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : new Date('2024-01-01')
+			value : new Date().getFullYear() + '-01-01'
 		});
 
 		$("#endDate").kendoDatePicker({
@@ -255,7 +255,7 @@ var employmentManage = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : new Date('2024-12-31')
+			value : new Date().getFullYear() + '-12-31'
 		});
 
 		$("#status").kendoDropDownList({
