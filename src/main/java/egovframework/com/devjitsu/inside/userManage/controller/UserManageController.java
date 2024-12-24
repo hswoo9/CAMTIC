@@ -2050,12 +2050,15 @@ public class UserManageController {
 
     @RequestMapping(value = "/Inside/getTotalEmpCount.do", method = RequestMethod.GET)
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
-        List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
-        System.out.println("params : "+ params);
 
         Set<Integer> existingYears = new HashSet<>();
         int currentYear = Year.now().getValue();
         System.out.println("currentYear : " + currentYear);
+
+        params.put("currentYear", currentYear);
+
+        List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
+        System.out.println("params : "+ params);
 
         for (Map<String, Object> emp : empTotalList) {
             if (emp.containsKey("join_year")) {
