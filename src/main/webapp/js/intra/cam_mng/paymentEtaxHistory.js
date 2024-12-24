@@ -6,11 +6,12 @@ var payEtaxHist = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date());
+        var date = new Date();
+        date.setMonth(date.getMonth() - 2);
+
+        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", date);
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
 
-        $("#startDt").val("2023-12-01");
-        $("#endDt").val("2024-12-31");
         $("#startDt, #endDt").attr("readonly", true);
         $("#startDt").on("change", function(){
             if($(this).val() > $("#endDt").val()){
