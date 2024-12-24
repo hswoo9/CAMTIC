@@ -212,7 +212,7 @@
                             <td style="text-align: right;" id="expSaleRndAmt">0</td>
                             <td style="text-align: right;" id="expIncpRndAmt">0</td>
                             <td style="text-align: center; background-color: #eaed77;" rowspan="4"><b>예상사업화지수</b></td>
-                            <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="3"><b>2024년 예상 운영비_물량취합기준</b></td>
+                            <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="3"><b><span id="searchYearTxt"></span>년 예상 운영비_물량취합기준</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_pjtSearch('S');">비R&D예상</b></td>

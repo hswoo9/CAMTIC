@@ -9,6 +9,12 @@ var finPerm = {
 
         customKendo.fn_datePicker("year", "year", "yyyy-MM", new Date());
 
+        $("#searchYearTxt").text($("#year").val().split("-")[0]);
+
+        $("#year").on("change", function(){
+            $("#searchYearTxt").text($("#year").val().split("-")[0]);
+        });
+
         let data = {}
         data.deptLevel = 2;
         const deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
