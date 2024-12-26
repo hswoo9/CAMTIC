@@ -16,6 +16,49 @@
     .table > tbody + tbody {border-top: 1px solid rgba(0,0,0,.08)}
     #evalList input{width: 100%;}
     #evalListDiv {width: 100%;overflow-x: auto;overflow-y:hidden;white-space: nowrap;}
+
+    /* 테이블 감싸는 div 스타일 */
+    #evalListDiv {
+        display: flex;
+        width: 100%;
+    }
+
+    /* 왼쪽 고정 부분 */
+    .fixed-table {
+        display: table;
+        width: auto;
+        border-collapse: collapse;
+    }
+
+    /* 오른쪽 스크롤 부분 */
+    .scrollable-table {
+        display: block;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px; /* 최소 너비 설정 */
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    /* 헤더 고정 스타일 */
+    th {
+        background-color: #f9f9f9;
+        top: 0;
+        z-index: 2;
+    }
+
+    #evalTheadList td{
+        padding: 10px 15px;
+    }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>

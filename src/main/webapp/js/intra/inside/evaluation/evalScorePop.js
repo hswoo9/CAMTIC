@@ -103,23 +103,45 @@ var evalScorePop = {
         var col = evalAchieveList.length + 1;
 
         var html = "";
+        html += '<div class=\"fixed-table\">';
         html += '<table class="searchTable table table-bordered mb-0" id="achieveTb">';
+        html += '   <tbody id="evalThead">';
         html += '   <tr>';
-        html += '       <th colSpan="3" class="text-center th-color">구분</th>';
-        html += '       <th colSpan="3" class="text-center th-color">팀 실적 (단위 : 원)</th>';
+        html += '       <th colSpan="4" class="text-center th-color sticky">구분</th>';
+        html += '       <th colSpan="3" class="text-center th-color sticky">팀 실적 (단위 : 원)</th>';
+        html += '   </tr>';
+        html += '   <tr>';
+        html += '       <td class="sticky">번호</td>';
+        html += '       <td class="sticky">프로젝트명</td>';
+        html += '       <td class="sticky">업체</td>';
+        html += '       <td class="sticky">구분</td>';
+        html += '       <td class="sticky">수추</td>';
+        html += '       <td class="sticky">매출</td>';
+        html += '       <td class="sticky">수익</td>';
+        html += '   </tr>';
+        html += '   <tr>';
+        html += '   <tr id="sumTr">';
+        html += '       <td colspan="4" class="sticky" id="pjtBusnClassStatus" style="font-weight: bold"></td>';
+        html += '       <td id="pjtOrderSum" style="font-weight: bold" class="sticky"></td>';
+        html += '       <td id="pjtSalesSum" style="font-weight: bold" class="sticky"></td>';
+        html += '       <td id="pjtRevenueSum" style="font-weight: bold" class="sticky"></td>';
+        html += '   </tr>';
+        html += '   </tbody>';
+        html += '   <tbody id="evalTheadList">';
+        html += '   </tbody>';
+        html += '</table>';
+        html += '</div>';
+
+        /** 사용자 */
+        html += '<div class="scrollable-table">';
+        html += '   <table class="searchTable table table-bordered mb-0" id="achieveTb2">';
+        html += '   <tr>';
         html += '       <th colSpan="'+col+'" class="text-center th-color green">수주(기준: 수주금액)</th>';
         html += '       <th colSpan="'+col+'" class="text-center th-color yellow">매출(기준: 매출금액)</th>';
         html += '       <th colSpan="'+col+'" class="text-center th-color blue">운영수익(기준: 수익금액)</th>';
         html += '       <th colSpan="'+col+'" class="text-center th-color">합계</th>';
         html += '   </tr>';
         html += '   <tr>';
-        html += '       <td>프로젝트명</td>';
-        html += '       <td>업체</td>';
-        html += '       <td>구분</td>';
-        html += '       <td>수추</td>';
-        html += '       <td>매출</td>';
-        html += '       <td>수익</td>';
-
         for (var i = 0; i < evalAchieveList.length; i++) {
         html += '       <td class="green targetEmp" id="' + evalAchieveList[i].EMP_SEQ + '">'+ evalAchieveList[i].EMP_NAME +'</td>';
         }
@@ -139,15 +161,7 @@ var evalScorePop = {
         html += '       <td>'+ evalAchieveList[i].EMP_NAME +'</td>';
         }
         html += '       <td>소계</td>';
-
         html += '   </tr>';
-        html += '   <tr id="sumTr">';
-        html += '       <td colspan="3" id="pjtBusnClassStatus" style="font-weight: bold">' +
-
-                        '</td>';
-        html += '       <td id="pjtOrderSum" style="font-weight: bold"></td>';
-        html += '       <td id="pjtSalesSum" style="font-weight: bold"></td>';
-        html += '       <td id="pjtRevenueSum" style="font-weight: bold"></td>';
 
         for (var i = 0; i < evalAchieveList.length; i++) {
             html += '       <td class="green empOrderSum" id="empOrderSum_' + evalAchieveList[i].EMP_SEQ + '">0</td>';
@@ -170,17 +184,18 @@ var evalScorePop = {
         html += '       <td style="font-weight: bold;text-align: center;" id="empAllTotal">0</td>';
 
         html += '   </tr>';
+        html += '   </tbody>';
         html += '   <tbody id="evalList">';
         html += '   </tbody>';
         html += '</table>';
-
         $('#evalListDiv').append(html);
+
         evalScorePop.evalScoreTBodyMake(pjtList, evalAchieveList);
     },
 
     evalScoreTBodyMake :function (pjtList, evalAchieveList){
         var html = "";
-
+        var evalTheadHtml = "";
         var pjtBusnClass = {
             rnd : 0,
             unRnd : 0,
@@ -218,19 +233,25 @@ var evalScorePop = {
                 pjtSalesSum += Number(evalScorePop.uncomma(pjtList[j].PJT_AMT));
                 pjtRevenueSum += Number(evalScorePop.uncomma(evalScorePop.uncomma(pjtList[j].PJT_AMT) - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)));
 
-                html += '' +
+                evalTheadHtml += '' +
                     '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
-                        '<td>' + pjtList[j].PJT_NM + '</td>' +
+                        '<td style="text-align: center">' + (j+1) + '</td>' +
+                        '<td>' +
+                            '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="evalScorePop.fn_projectPopView('+pjtList[j].PJT_SN+', \'' + pjtList[j].BUSN_CLASS + '\')">' + pjtList[j].PJT_NM + '</div>' +
+                        '</td>' +
                         '<td>' + pjtList[j].CRM_NM + '</td>' +
                         '<td>' + pjtList[j].BUSN_NM + '</td>' +
                         '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
                         '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
-                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>';
+                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>' +
+                    '</tr>';
 
                 /** 프로젝트 공정 포함 여부에 따라 배경색  */
                 var noParticipants = ""
                 /** 최초 실적률에서 수정된 인원  */
                 var modChk = ""
+
+                html += '<tr pjtSn="' + pjtList[j].PJT_SN + '">';
 
                 for (var k = 0; k < evalAchieveList.length; k++) {
                     var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
@@ -333,7 +354,7 @@ var evalScorePop = {
                 '</tr>'
         }
 
-
+        $('#evalTheadList').append(evalTheadHtml);
         $('#evalList').append(html);
         $(".orderPercent, .salesPercent, .revenuePercent").kendoTextBox();
         $('.noParticipants').closest("td").css('background-color', 'rgb(255 190 190)');
@@ -364,9 +385,21 @@ var evalScorePop = {
                     empRevenueSum = Number(evalScorePop.uncomma($("#empRevenueSum_" + $(vv).attr("id")).text()));
                 }
 
-                $("#empOrderSum_" + $(vv).attr("id")).text(comma(empOrderSum + Number(pjtOrder * ($(v).find("input[percentType='order'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100))))
-                $("#empSalesSum_" + $(vv).attr("id")).text(comma(empSalesSum + Number(pjtOrder * ($(v).find("input[percentType='sales'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100))))
-                $("#empRevenueSum_" + $(vv).attr("id")).text(comma(empRevenueSum + Number(pjtOrder * ($(v).find("input[percentType='revenue'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100))))
+                if(isNaN(empOrderSum)){
+                    empOrderSum = 0
+                }
+
+                if(isNaN(empSalesSum)){
+                    empSalesSum = 0
+                }
+
+                if(isNaN(empRevenueSum)){
+                    empRevenueSum = 0
+                }
+
+                $("#empOrderSum_" + $(vv).attr("id")).text(comma(empOrderSum + Number(pjtOrder * ($(v).find("input[percentType='order'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100) || 0)))
+                $("#empSalesSum_" + $(vv).attr("id")).text(comma(empSalesSum + Number(pjtOrder * ($(v).find("input[percentType='sales'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
+                $("#empRevenueSum_" + $(vv).attr("id")).text(comma(empRevenueSum + Number(pjtOrder * ($(v).find("input[percentType='revenue'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
             })
         })
 
@@ -476,4 +509,88 @@ var evalScorePop = {
         str = String(str);
         return Number(str.replace(/[^\d]+/g, ''));
     },
+
+    fn_projectPopView : function (key, cs, page){
+        var uid = $("#myEmpSeq").val()
+        var rs = customKendo.fn_customAjax("/project/getProjectData", { pjtSn: key });
+        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
+
+        var pral = mem.list.partRateAdminList;
+        var prml = mem.list.partRateMemberList;
+        var pml = mem.list.psMemberList;
+        var aml = mem.list.aceMemberList;
+        var trl = mem.list.teamReaderList;
+        var flag = false;
+
+        if(rs.data.PM_EMP_SEQ == uid || rs.data.REG_EMP_SEQ == uid || rs.data.EMP_SEQ == uid){
+            flag = true;
+        }
+
+        for(var i = 0; i < prml.length; i++){
+            if(prml[i].PART_EMP_SEQ == uid){
+                flag = true;
+            }
+        }
+
+        for(var i = 0; i < pral.length; i++){
+            if(pral[i].EMP_SEQ == uid){
+                flag = true;
+            }
+        }
+
+        for(var i = 0 ; i < pml.length ; i++){
+            if(pml[i].PS_EMP_SEQ == uid){
+                flag = true;
+            }
+        }
+
+        for(var i = 0 ; i < aml.length ; i++){
+            if(aml[i].EMP_SEQ == uid){
+                flag = true;
+            }
+        }
+
+        for(var i = 0 ; i < trl.length ; i++){
+            if(trl[i].EMP_SEQ == uid){
+                flag = true;
+            }
+        }
+
+        /** 마스터 체크 */
+        if($("#regEmpSeq").val() == "1"){
+            flag = true;
+        }
+
+        /** 팀장, 부서장 체크 */
+        if($("#regDutyCode").val() != ""){
+            flag = true;
+        }
+
+        if(flag){
+            var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+            if(page == "achieve"){
+                url += "&tab=12";
+            }
+
+            if(cs == "R"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+                if(page == "achieve"){
+                    url += "&tab=13";
+                }
+            } else if (cs == "S"){
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+                if(page == "achieve"){
+                    url += "&tab=13";
+                }
+            }
+            var name = "_blank";
+            var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
+
+            var popup = window.open(url, name, option);
+        } else {
+            alert("참여중인 프로젝트가 아닙니다.");
+            return;
+        }
+
+    }
 }

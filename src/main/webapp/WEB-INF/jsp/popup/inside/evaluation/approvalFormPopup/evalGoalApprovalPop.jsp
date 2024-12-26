@@ -53,13 +53,14 @@
             </td>
             <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamOrderGoals">0</p></td>
             <td style="height:30px; text-align:right;"></td>
-            <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamSalesGoals">0</p><td>
+            <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamSalesGoals">0</p></td>
             <td style="height:30px; text-align:right;"></td>
             <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamRevenueGoals">0</p></td>
             <td style="height:30px; text-align:right;"></td>
             <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamCostGoals">0</p></td>
             <td style="height:30px; text-align:right;"></td>
             <td style="height:30px; text-align:right;"><p style="font-size:12px;" id="teamCommerIndexGoals">0</p></td>
+            <td style="height:30px; text-align:right;"></td>
         </tr>
     </table>
     <br><br>
@@ -196,7 +197,7 @@
                 $("#teamSalesGoals").text(comma(teamSalesGoals));
                 $("#teamRevenueGoals").text(comma(teamRevenueGoals));
                 $("#teamCostGoals").text(comma(teamCostGoals));
-                $("#teamCommerIndexGoals").text(comma(teamCommerIndexGoals));
+                $("#teamCommerIndexGoals").text(teamCommerIndexGoals);
             }
         }
 

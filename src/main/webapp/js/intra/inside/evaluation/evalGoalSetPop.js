@@ -40,7 +40,7 @@ var evalGoalSetPop = {
                 salesGoals : String(evalGoalSetPop.uncomma($("#empSalesGoals_" + empSeq).val())),
                 revenueGoals : String(evalGoalSetPop.uncomma($("#empRevenueGoals_" + empSeq).val())),
                 costGoals : String(evalGoalSetPop.uncomma($("#empCostGoals_" + empSeq).val())),
-                commerIndexGoals : String(evalGoalSetPop.uncomma($("#empCommerIndexGoals_" + empSeq).val())),
+                commerIndexGoals : $("#empCommerIndexGoals_" + empSeq).val(),
                 regEmpSeq : $("#regEmpSeq").val(),
             }
 
@@ -116,15 +116,15 @@ var evalGoalSetPop = {
                             '</td>' +
                             '<td class="text-center"></td>' +
                             '<td class="text-center">' +
-                                '<input type="text" id="empRevenueGoals_' + rs[i].EMP_SEQ + '" class="empGoals empRevenueGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empRevenueGoals\', \'teamRevenueGoals\')">' +
+                                '<input type="text" id="empRevenueGoals_' + rs[i].EMP_SEQ + '" class="empGoals empRevenueGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empRevenueGoals\', \'teamRevenueGoals\', ' + rs[i].EMP_SEQ + ')">' +
                             '</td>' +
                             '<td class="text-center"></td>' +
                             '<td class="text-center">' +
-                                '<input type="text" id="empCostGoals_' + rs[i].EMP_SEQ + '" class="empGoals empCostGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empCostGoals\', \'teamCostGoals\')">' +
+                                '<input type="text" id="empCostGoals_' + rs[i].EMP_SEQ + '" class="empGoals empCostGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empCostGoals\', \'teamCostGoals\', ' + rs[i].EMP_SEQ + ')">' +
                             '</td>' +
                             '<td class="text-center"></td>' +
                             '<td class="text-center">' +
-                                '<input type="text" id="empCommerIndexGoals_' + rs[i].EMP_SEQ + '" class="empGoals empCommerIndexGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empCommerIndexGoals\', \'teamCommerIndexGoals\')">' +
+                                '<input type="text" id="empCommerIndexGoals_' + rs[i].EMP_SEQ + '" class="empGoals empCommerIndexGoals numberInput" value="0" disabled>' +
                             '</td>' +
                             '<td class="text-center"></td>' +
                         '</tr>';
@@ -152,12 +152,30 @@ var evalGoalSetPop = {
         });
     },
 
-    empGoalsChange : function(s, t){
+    empGoalsChange : function(s, t, empSeq){
         var sum = 0;
         $.each($("." + s), function(){
             sum += Number(uncomma($(this).val()))
         })
         $("#" + t).val(comma(sum));
+
+        if(s == "empRevenueGoals" || s == "empCostGoals"){
+            if($("#empRevenueGoals_" + empSeq).val() != "0" && $("#empCostGoals_" + empSeq).val() != "0"){
+                let revenueGoal = Number(evalGoalSetPop.uncomma($("#empRevenueGoals_" + empSeq).val()));
+                let costGoal = Number(evalGoalSetPop.uncomma($("#empCostGoals_" + empSeq).val()));
+                let result = (revenueGoal / costGoal) * 100;
+
+                $("#empCommerIndexGoals_" + empSeq).val(Math.round(result * 10) / 10)
+            }
+
+            if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){
+                let revenueGoal = Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()));
+                let costGoal = Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()));
+                let result = (revenueGoal / costGoal) * 100;
+
+                $("#teamCommerIndexGoals").val(Math.round(result * 10) / 10)
+            }
+        }
     },
 
     comma: function(str) {
