@@ -295,10 +295,10 @@ var oorl = {
                 },
                 {
                     title: "입금완료액",
-                    field: "COM_AMT",
+                    field: "COM_AMT2",
                     width: 120,
                     template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.COM_AMT) + '원</div>';
+                        return '<div style="text-align: right;">' + comma(e.COM_AMT2) + '원</div>';
                     }
                 },{
                     title: "입금예정액",
