@@ -29,23 +29,23 @@
         <thead>
         <tr>
             <th style="height:30px; background-color:#e2efda; text-align:center;width: 70px" rowspan="2">부서/팀명</th>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 130px" colspan="2">수주</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 130px" colspan="2">매출</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 130px" colspan="2">수익</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 130px" colspan="2">비용</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 130px" colspan="2">사업화지수</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 125px" colspan="2">수주</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 125px" colspan="2">매출</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 125px" colspan="2">수익</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 125px" colspan="2">비용</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 125px" colspan="2">사업화지수</th>
         </tr>
         <tr>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 65px">달성</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 60px">달성</th>
         </tr>
         <tr>
             <td style="height:30px; text-align:center;">
@@ -88,23 +88,23 @@
         <thead>
         <tr>
             <th style="height:30px; background-color:#e2efda; text-align:center;width: 70px" rowspan="2">부서/팀명</th>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 130px" colspan="2">수주</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 130px" colspan="2">매출</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 130px" colspan="2">수익</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 130px" colspan="2">비용</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 130px" colspan="2">사업화지수</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 125px" colspan="2">수주</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 125px" colspan="2">매출</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 125px" colspan="2">수익</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 125px" colspan="2">비용</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 125px" colspan="2">사업화지수</th>
         </tr>
         <tr>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 65px">달성</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 65px">목표</th>
-            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 65px">달성</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#fff2cc; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#ddebf7; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#fce4d6; text-align:center;width: 60px">달성</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 60px">목표</th>
+            <th style="height:30px; background-color:#ffcc99; text-align:center;width: 60px">달성</th>
         </tr>
         </thead>
         <tbody id="teamEmpListTb">
@@ -149,7 +149,6 @@
         var teamSalesGoals = 0;
         var teamRevenueGoals = 0;
         var teamCostGoals = 0;
-        var teamCommerIndexGoals = 0;
 
         if(result.rs != null){
             var rs = result.rs.filter(e => e.DUTY_CODE != "5");
@@ -159,7 +158,6 @@
                     teamSalesGoals += Number(rs[i].SALES_GOALS);
                     teamRevenueGoals += Number(rs[i].REVENUE_GOALS);
                     teamCostGoals += Number(rs[i].COST_GOALS);
-                    teamCommerIndexGoals += Number(rs[i].COMMER_INDEX_GOALS);
 
                     html += '' +
                         '<tr>' +
@@ -197,7 +195,7 @@
                 $("#teamSalesGoals").text(comma(teamSalesGoals));
                 $("#teamRevenueGoals").text(comma(teamRevenueGoals));
                 $("#teamCostGoals").text(comma(teamCostGoals));
-                $("#teamCommerIndexGoals").text(teamCommerIndexGoals);
+                $("#teamCommerIndexGoals").text(Math.round(((teamRevenueGoals/teamCostGoals) * 100) * 10) / 10);
             }
         }
 
