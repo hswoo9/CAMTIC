@@ -394,9 +394,9 @@ public class FormManagementServiceImpl implements FormManagementService {
         String path = "";
 
         if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("121.186.165.80")){
-            path = "http:\\\\218.158.231.184" + base_dir + "templateForm/" + params.get("formId") + "/";
-        }else{
             path = "http:\\\\218.158.231.186" + base_dir + "templateForm/" + params.get("formId") + "/";
+        }else{
+            path = "http:\\\\218.158.231.184" + base_dir + "templateForm/" + params.get("formId") + "/";
         }
 
         return path.replace("\\\\", "//");
