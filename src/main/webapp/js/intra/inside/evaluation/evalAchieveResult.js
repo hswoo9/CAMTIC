@@ -299,7 +299,7 @@ var evalAchieveResult = {
 
                     html += '' +
                         '<tr class="sumTr">' +
-                            '<th class="text-center th-color"  style="background-color: #8fa1c04a"colspan="3">' + currentTeamName + ' 합계</th>' +
+                            '<th class="text-center th-color"  style="background-color: #8fa1c04a" colspan="3">' + currentTeamName + ' 합계</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScoreCon + '</th>' +
                             // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamOrderScore, 'rating') + '</th>' +
