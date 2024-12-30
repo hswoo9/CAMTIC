@@ -8,7 +8,7 @@ public interface EvaluationService {
     List<Map<String, Object>> getRequestEvaluationUser(Map<String, Object> params);
     Map<String, Object> getEvaluationOneList(Map<String, Object> params);
     Map<String, Object> getEvaluationSelf(Map<String, Object> params);
-    List<Map<String, Object>> getEvaluationList(Map<String, Object> params);
+    Map<String, Object> getEvaluationList(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params);
     Map<String, Object> getEvaluationEmpCountFirst(Map<String, Object> params);
     Map<String, Object> getEvaluationEmpCount(Map<String, Object> params);
@@ -47,6 +47,7 @@ public interface EvaluationService {
     List<Map<String, Object>> getEvalEmpList(Map<String, Object> params);
 
     Map<String, Object> getEvalGoal(Map<String, Object> map);
+    Map<String, Object> getTeamAchieveApprove(Map<String, Object> params);
     Map<String, Object> getEvalGoalList(Map<String, Object> params);
     void setEvalGoal(Map<String, Object> params);
 
@@ -60,4 +61,20 @@ public interface EvaluationService {
     List<Map<String, Object>> getEvalGoalTempList(Map<String, Object> params);
 
     void updateEvalGoalState(Map<String, Object> bodyMap);
+
+    void setEvalAchieveApprove(Map<String, Object> params);
+
+    List<Map<String, Object>> getEvalAchieveApproveList(Map<String, Object> params);
+
+    void updateEvalAchieveState(Map<String, Object> bodyMap);
+
+    void setEvalAchieveSetting(Map<String, Object> params);
+
+    boolean setEvalAchieveSetChk(Map<String, Object> params);
+
+    Map<String, Object> getEvalAchieveSet(Map<String, Object> params);
+
+    void setEvalAchieveSetDel(Map<String, Object> params);
+
+    List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params);
 }

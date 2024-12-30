@@ -33,8 +33,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
-        return evaluationRepository.getEvaluationList(params);
+    public Map<String, Object> getEvaluationList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("evaluationList", evaluationRepository.getEvaluationList(params));
+        result.put("evalAchieveSetList", evaluationRepository.getEvalAchieveSetList(params));
+        return result;
     }
     @Override
     public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
@@ -387,6 +390,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public Map<String, Object> getTeamAchieveApprove(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("teamAchieveApprove", evaluationRepository.getTeamAchieveApprove(params));
+        result.put("teamGoalApprove",  evaluationRepository.getTeamGoalApprove(params));
+        return result;
+    }
+
+    @Override
     public Map<String, Object> getEvalGoalList(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         List<Map<String, Object>> goalList = evaluationRepository.getEvalGoalList(params);
@@ -424,7 +435,7 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
             result.put("pjtList", pjtList);
         }
-        result.put("evalAchieveList", evaluationRepository.getEvalGoalList(params));
+        result.put("evalGoalList", evaluationRepository.getEvalGoalList(params));
 
         return result;
     }
@@ -505,6 +516,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                 }else{
                     goal = new HashMap<>();
                     goal.put("empSeq", map.get("EMP_SEQ"));
+                    goal.put("teamSeq", map.get("TEAM_SEQ"));
                     goal.put("orderGoals", map.get("ORDER_GOALS"));
                     goal.put("salesGoals", map.get("SALES_GOALS"));
                     goal.put("revenueGoals", map.get("REVENUE_GOALS"));
@@ -515,5 +527,87 @@ public class EvaluationServiceImpl implements EvaluationService {
                 }
             }
         }
+    }
+
+    @Override
+    public void setEvalAchieveApprove(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> empEvalAchieveArr = gson.fromJson((String) params.get("empEvalAchieveArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if(empEvalAchieveArr.size() > 0){
+            int evalAchieveApproveGroup = evaluationRepository.getEvalAchieveApproveMaxGroup(params);
+            params.put("evalAchieveApproveGroup", evalAchieveApproveGroup);
+
+            for (Map<String, Object> map : empEvalAchieveArr){
+                map.put("evalAchieveApproveGroup", evalAchieveApproveGroup);
+                evaluationRepository.setEvalAchieveApprove(map);
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvalAchieveApproveList(Map<String, Object> params) {
+        return evaluationRepository.getEvalAchieveApproveList(params);
+    }
+
+    @Override
+    public void updateEvalAchieveState(Map<String, Object> bodyMap) {
+        String docSts = String.valueOf(bodyMap.get("approveStatCode"));
+        String evalAchieveApproveGroup = String.valueOf(bodyMap.get("approKey"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        evalAchieveApproveGroup = evalAchieveApproveGroup.split("_")[1];
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("evalAchieveApproveGroup", evalAchieveApproveGroup);
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+        params.put("docId", docId);
+        evaluationRepository.updateEvalAchieveState(params);
+    }
+
+    @Override
+    public void setEvalAchieveSetting(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("evalAchieveSetSn"))){
+            evaluationRepository.setEvalAchieveSet(params);
+        }else{
+            evaluationRepository.setEvalAchieveSetUpd(params);
+        }
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> ratingArr = gson.fromJson((String) params.get("ratingArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        evaluationRepository.setEvalAchieveRatingDel(params);
+        if(ratingArr.size() > 0){
+            for (Map<String, Object> map : ratingArr){
+                map.put("evalAchieveSetSn", params.get("evalAchieveSetSn"));
+                evaluationRepository.setEvalAchieveRating(map);
+            }
+        }
+    }
+
+    @Override
+    public boolean setEvalAchieveSetChk(Map<String, Object> params) {
+        return evaluationRepository.setEvalAchieveSetChk(params);
+    }
+
+    @Override
+    public Map<String, Object> getEvalAchieveSet(Map<String, Object> params) {
+        Map<String, Object> result = evaluationRepository.getEvalAchieveSet(params);
+        if(StringUtils.isEmpty(params.get("evalAchieveSetSn"))){
+            params.put("evalAchieveSetSn", result.get("EVAL_ACHIEVE_SET_SN"));
+        }
+        result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
+        return result;
+    }
+
+    @Override
+    public void setEvalAchieveSetDel(Map<String, Object> params) {
+        evaluationRepository.setEvalAchieveSetDel(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
+        return evaluationRepository.getEvalAchieveResultList(params);
     }
 }

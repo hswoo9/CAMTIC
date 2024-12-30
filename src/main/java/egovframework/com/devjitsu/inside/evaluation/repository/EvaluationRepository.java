@@ -21,6 +21,14 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvaluationList", params);
     }
 
+    public List<Map<String, Object>> getEvalAchieveSetList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalAchieveSetList", params);
+    }
+
+    public Map<String, Object> getEvalAchieveSet(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvalAchieveSet", params);
+    }
+
     public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
         return selectList("evaluation.getEvaluationEmpList", params);
     }
@@ -223,6 +231,14 @@ public class EvaluationRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("evaluation.getEvalGoal", params);
     }
 
+    public Map<String, Object> getTeamGoalApprove(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getTeamGoalApprove", params);
+    }
+
+    public Map<String, Object> getTeamAchieveApprove(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getTeamAchieveApprove", params);
+    }
+
     public List<Map<String, Object>> getEvalAchieveList(Map<String, Object> params) {
         return selectList("evaluation.getEvalAchieveList", params);
     }
@@ -268,5 +284,57 @@ public class EvaluationRepository extends AbstractDAO {
 
     public void updateEvalGoalState(Map<String, Object> params) {
         update("evaluation.updateEvalGoalState", params);
+    }
+
+    public int getEvalAchieveApproveMaxGroup(Map<String, Object> params){
+        return (int)selectOne("evaluation.getEvalAchieveApproveMaxGroup", params);
+    }
+
+    public void setEvalAchieveApprove(Map<String, Object> map) {
+        insert("evaluation.setEvalAchieveApprove", map);
+    }
+
+    public List<Map<String, Object>> getEvalAchieveApproveList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalAchieveApproveList", params);
+    }
+
+    public void updateEvalAchieveState(Map<String, Object> params) {
+        update("evaluation.updateEvalAchieveState", params);
+    }
+
+
+
+
+
+    public void setEvalAchieveSet(Map<String, Object> params) {
+        insert("evaluation.setEvalAchieveSet", params);
+    }
+
+    public void setEvalAchieveSetUpd(Map<String, Object> params) {
+        update("evaluation.setEvalAchieveSetUpd", params);
+    }
+
+    public void setEvalAchieveRatingDel(Map<String, Object> params) {
+        delete("evaluation.setEvalAchieveRatingDel", params);
+    }
+
+    public void setEvalAchieveRating(Map<String, Object> map) {
+        insert("evaluation.setEvalAchieveRating", map);
+    }
+
+    public boolean setEvalAchieveSetChk(Map<String, Object> params) {
+        return (Boolean) selectOne("evaluation.setEvalAchieveSetChk", params);
+    }
+
+    public List<Map<String, Object>> getEvalAchieveRatingList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalAchieveRatingList", params);
+    }
+
+    public void setEvalAchieveSetDel(Map<String, Object> params) {
+        delete("evaluation.setEvalAchieveSetDel", params);
+    }
+
+    public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalAchieveResultList", params);
     }
 }

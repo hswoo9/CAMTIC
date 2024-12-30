@@ -98,9 +98,9 @@ var evalScorePop = {
 
     evalScoreTableMake: function (rs) {
         var pjtList = rs.pjtList;
-        var evalAchieveList = rs.evalAchieveList;
+        var evalGoalList = rs.evalGoalList;
 
-        var col = evalAchieveList.length + 1;
+        var col = evalGoalList.length + 1;
 
         var html = "";
         html += '<div class=\"fixed-table\">';
@@ -142,44 +142,44 @@ var evalScorePop = {
         html += '       <th colSpan="'+col+'" class="text-center th-color">합계</th>';
         html += '   </tr>';
         html += '   <tr>';
-        for (var i = 0; i < evalAchieveList.length; i++) {
-        html += '       <td class="green targetEmp" id="' + evalAchieveList[i].EMP_SEQ + '">'+ evalAchieveList[i].EMP_NAME +'</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+        html += '       <td class="green targetEmp" id="' + evalGoalList[i].EMP_SEQ + '">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="green">소계</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-        html += '       <td class="yellow">'+ evalAchieveList[i].EMP_NAME +'</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+        html += '       <td class="yellow">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="yellow">소계</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-        html += '       <td class="blue">'+ evalAchieveList[i].EMP_NAME +'</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+        html += '       <td class="blue">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="blue">소계</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-        html += '       <td>'+ evalAchieveList[i].EMP_NAME +'</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+        html += '       <td>'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td>소계</td>';
         html += '   </tr>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-            html += '       <td class="green empOrderSum" id="empOrderSum_' + evalAchieveList[i].EMP_SEQ + '">0</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+            html += '       <td class="green empOrderSum" id="empOrderSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
         html += '       <td class="green" id="pjtEmpOrderSum">0</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-            html += '       <td class="yellow empSalesSum" id="empSalesSum_' + evalAchieveList[i].EMP_SEQ + '">0</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+            html += '       <td class="yellow empSalesSum" id="empSalesSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
         html += '       <td class="yellow" id="pjtEmpSalesSum">0</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-            html += '       <td class="blue empRevenueSum" id="empRevenueSum_' + evalAchieveList[i].EMP_SEQ + '">0</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+            html += '       <td class="blue empRevenueSum" id="empRevenueSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
         html += '       <td class="blue" id="pjtEmpRevenueSum">0</td>';
 
-        for (var i = 0; i < evalAchieveList.length; i++) {
-            html += '       <td style="font-weight: bold;text-align: center;" class="empTotalSum" empSeq="' + evalAchieveList[i].EMP_SEQ + '">0</td>';
+        for (var i = 0; i < evalGoalList.length; i++) {
+            html += '       <td style="font-weight: bold;text-align: center;" class="empTotalSum" empSeq="' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
         html += '       <td style="font-weight: bold;text-align: center;" id="empAllTotal">0</td>';
 
@@ -190,10 +190,10 @@ var evalScorePop = {
         html += '</table>';
         $('#evalListDiv').append(html);
 
-        evalScorePop.evalScoreTBodyMake(pjtList, evalAchieveList);
+        evalScorePop.evalScoreTBodyMake(pjtList, evalGoalList);
     },
 
-    evalScoreTBodyMake :function (pjtList, evalAchieveList){
+    evalScoreTBodyMake :function (pjtList, evalGoalList){
         var html = "";
         var evalTheadHtml = "";
         var pjtBusnClass = {
@@ -203,12 +203,11 @@ var evalScorePop = {
             other : 0,
         }
 
+        var pjtOrderSum = 0;
+        var pjtSalesSum = 0;
+        var pjtRevenueSum = 0;
+
         if(pjtList != null){
-
-            var pjtOrderSum = 0;
-            var pjtSalesSum = 0;
-            var pjtRevenueSum = 0;
-
             for (var j = 0; j < pjtList.length; j++) {
 
                 if(pjtList[j].BUSN_CLASS == "R"){
@@ -246,6 +245,9 @@ var evalScorePop = {
                         '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>' +
                     '</tr>';
 
+                /** 달성 결재 상신 여부에 따라 수정 가능여부  */
+                var approve = "";
+                var approveBackGround = "";
                 /** 프로젝트 공정 포함 여부에 따라 배경색  */
                 var noParticipants = ""
                 /** 최초 실적률에서 수정된 인원  */
@@ -253,9 +255,9 @@ var evalScorePop = {
 
                 html += '<tr pjtSn="' + pjtList[j].PJT_SN + '">';
 
-                for (var k = 0; k < evalAchieveList.length; k++) {
-                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                for (var k = 0; k < evalGoalList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
                     var orderValue =
                         empEvalAchieve && empEvalAchieve.ORDER_ACHIEVE != null ? Number(empEvalAchieve.ORDER_ACHIEVE) :
                             empPerformance && empPerformance.ORDER_PERCENT != null ?
@@ -263,21 +265,24 @@ var evalScorePop = {
 
                     orderPercentSum += orderValue;
 
+                    approve = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "disabled" : ""
+                    approveBackGround = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "approveY" : ""
+
                     noParticipants = empPerformance == null ? "noParticipants" : ""
                     modChk = empEvalAchieve != null && empEvalAchieve.FIRST_ORDER_ACHIEVE != orderValue ? "modChk" : "";
 
 
                     html += '' +
                         '<td class="green">' +
-                            '<input type="text" class="orderPercent ' + noParticipants + ' ' + modChk + '" percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                            '<input type="text" class="orderPercent ' + noParticipants + ' ' + modChk + ' ' + approveBackGround + '" ' + approve + ' percentType="order" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalGoalList[k].EMP_SEQ + '" ' +
                                 'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + orderValue + '" style="width: 40px">' + ' %' +
                         '</td>';
                 }
                 html += '<td class="green"><span id="orderPercentSum_' + pjtList[j].PJT_SN + '">' + orderPercentSum + '</span>%</td>';
 
-                for (var k = 0; k < evalAchieveList.length; k++) {
-                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                for (var k = 0; k < evalGoalList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
 
                     var salesValue =
                         empEvalAchieve && empEvalAchieve.SALES_ACHIEVE != null ? Number(empEvalAchieve.SALES_ACHIEVE) :
@@ -285,21 +290,24 @@ var evalScorePop = {
                                 empPerformance.PER_CLOSING == "Y" ? Number(empPerformance.SALES_PERCENT) : 0 : 0;
                     salesPercentSum += salesValue;
 
+                    approve = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "disabled" : ""
+                    approveBackGround = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "approveY" : ""
+
                     noParticipants = empPerformance == null ? "noParticipants" : ""
                     modChk = empEvalAchieve != null && empEvalAchieve.FIRST_SALES_ACHIEVE != salesValue ? "modChk" : "";
 
                     html += '' +
                         '<td class="yellow">' +
-                            '<input type="text" class="salesPercent ' + noParticipants + ' ' + modChk + '" percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                            '<input type="text" class="salesPercent ' + noParticipants + ' ' + modChk + ' ' + approveBackGround + '" ' + approve + ' percentType="sales" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalGoalList[k].EMP_SEQ + '" ' +
                                 'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + salesValue + '" style="width: 40px">' + ' %' +
                         '</td>';
 
                 }
                 html += '<td class="yellow"><span id="salesPercentSum_' + pjtList[j].PJT_SN + '">' + salesPercentSum + '</span>%</td>';
 
-                for (var k = 0; k < evalAchieveList.length; k++) {
-                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                for (var k = 0; k < evalGoalList.length; k++) {
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
                     var revenueValue =
                         empEvalAchieve && empEvalAchieve.REVENUE_ACHIEVE != null ? Number(empEvalAchieve.REVENUE_ACHIEVE) :
                             empPerformance && empPerformance.REVENUE_PERCENT != null ?
@@ -307,21 +315,24 @@ var evalScorePop = {
 
                     revenuePercentSum += revenueValue;
 
+                    approve = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "disabled" : ""
+                    approveBackGround = empEvalAchieve != null && empEvalAchieve.DOC_ID != null ? "approveY" : ""
+
                     noParticipants = empPerformance == null ? "noParticipants" : ""
                     modChk = empEvalAchieve != null && empEvalAchieve.FIRST_REVENUE_ACHIEVE != revenueValue ? "modChk" : "";
 
                     html += '' +
                         '<td class="blue">' +
-                            '<input type="text" class="revenuePercent ' + noParticipants + ' ' + modChk + '" percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" ' +
+                            '<input type="text" class="revenuePercent ' + noParticipants + ' ' + modChk + ' ' + approveBackGround + '" ' + approve + ' percentType="revenue" pjtSn="' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalGoalList[k].EMP_SEQ + '" ' +
                                 'oninput="evalScorePop.onlyNumber(this)" onkeyup="evalScorePop.sumPercent(this)" value="' + revenueValue + '" style="width: 40px">' + ' %' +
                         '</td>';
                 }
                 html += '<td class="blue"><span id="revenuePercentSum_' + pjtList[j].PJT_SN + '">' + revenuePercentSum + '</span>%</td>';
 
-                for (var k = 0; k < evalAchieveList.length; k++) {
+                for (var k = 0; k < evalGoalList.length; k++) {
                     var empSum = 0;
-                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
-                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalAchieveList[k].EMP_SEQ);
+                    var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
+                    var empPerformance = pjtPerformance.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
 
                     if (empEvalAchieve || empPerformance) {
                         empSum =
@@ -335,7 +346,7 @@ var evalScorePop = {
 
                     html += '' +
                         '<td class="normal">' +
-                            '<span id="empSum_' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalAchieveList[k].EMP_SEQ + '" class="empSum">' + empSum + '</span>' + '%' +
+                            '<span id="empSum_' + pjtList[j].PJT_SN + '" targetEmpSeq="' + evalGoalList[k].EMP_SEQ + '" class="empSum">' + empSum + '</span>' + '%' +
                         '</td>';
                 }
                 html += '<td class="normal">' +
@@ -343,22 +354,30 @@ var evalScorePop = {
                         '</td>' +
                     '</tr>';
             }
-
-            $("#pjtOrderSum").text(evalScorePop.comma(pjtOrderSum))
-            $("#pjtSalesSum").text(evalScorePop.comma(pjtSalesSum))
-            $("#pjtRevenueSum").text(evalScorePop.comma(pjtRevenueSum))
         }else{
+
+            evalTheadHtml += '' +
+                '<tr>' +
+                    '<td style="text-align: center;padding: 5px 15px;" colspan="7">데이터가 없습니다.</td>'
+                '</tr>';
+
             html += '' +
                 '<tr>' +
                     '<td style="text-align: center" colspan="' + $($("#achieveTb tr")[1]).find("td").length + '">데이터가 없습니다.</td>'
-                '</tr>'
+                '</tr>';
         }
+
+        $("#pjtOrderSum").text(evalScorePop.comma(pjtOrderSum))
+        $("#pjtSalesSum").text(evalScorePop.comma(pjtSalesSum))
+        $("#pjtRevenueSum").text(evalScorePop.comma(pjtRevenueSum))
+
 
         $('#evalTheadList').append(evalTheadHtml);
         $('#evalList').append(html);
         $(".orderPercent, .salesPercent, .revenuePercent").kendoTextBox();
         $('.noParticipants').closest("td").css('background-color', 'rgb(255 190 190)');
         $('.modChk').closest("td").css('background-color', 'rgb(198 159 239)');
+        $('.approveY').closest("td").css('background-color', '#00397f96');
         $("#pjtBusnClassStatus").text("R&D : " + pjtBusnClass.rnd + "건 | 비R&D : " + pjtBusnClass.unRnd + "건 | 엔지니어링 : " + pjtBusnClass.engn + "건 | 용역/기타 : " + pjtBusnClass.other + "건")
 
         evalScorePop.empTotalCal()
@@ -451,7 +470,7 @@ var evalScorePop = {
             return;
         }
 
-        $("#" + percentType + "Sum_" + pjtSn).text(sum);
+        $("#" + percentType + "PercentSum_" + pjtSn).text(sum);
         evalScorePop.empPercentSum(targetEmpSeq, pjtSn)
         evalScorePop.empTotalCal()
 

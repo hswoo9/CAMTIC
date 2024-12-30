@@ -40,6 +40,8 @@
         <input type="hidden" id="deptComp" name="deptComp" value="${loginVO.deptId}">
         <input type="hidden" id="deptTeam" name="deptTeam" value="${loginVO.teamId}">
         <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+        <input type="hidden" id="nowYear" value="${nowYear}"/>
+
 
         <input type="hidden" id="targetId" value="" />
         <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
@@ -107,9 +109,9 @@
             </tr>
             <tr>
                 <th>평가 가중치</th>
-                <td class="text-center">20%</td>
-                <td class="text-center">30%</td>
-                <td class="text-center">50%</td>
+                <td class="text-center" id="orderWeights">0%</td>
+                <td class="text-center" id="salesWeights">0%</td>
+                <td class="text-center" id="revenueWeights">0%</td>
             </tr>
             </thead>
         </table>

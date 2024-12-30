@@ -11,7 +11,7 @@
     .yellow{background-color: #fff2cc;font-weight: bold;text-align: center;}
     .green{background-color: #e2efda;font-weight: bold;text-align: center;}
     .blue{background-color: #ddebf7;font-weight: bold;text-align: center;}
-    .normal{font-weight: bold;text-align: center;}
+    .normal{font-weight: bold;text-align: center ;}
 
     .table > tbody + tbody {border-top: 1px solid rgba(0,0,0,.08)}
     #evalList input{width: 100%;}
@@ -86,6 +86,9 @@
                 </div>
                 <div style="display: flex;align-items: center;gap: 10px">
                     수정여부 : <div style="width: 15px;height: 15px;background-color: rgb(198 159 239); display: block"></div>
+                </div>
+                <div style="display: flex;align-items: center;gap: 10px">
+                    평가완료 : <div style="width: 15px;height: 15px;background-color: #00397f96; display: block"></div>
                 </div>
             </div>
             <div id="evalListDiv">

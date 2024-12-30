@@ -135,7 +135,7 @@ public class EvaluationController {
      */
     @RequestMapping("/evaluation/getEvaluationList")
     public String getEvaluationList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
-        model.addAttribute("list", evaluationService.getEvaluationList(params));
+        model.addAttribute("rs", evaluationService.getEvaluationList(params));
         return "jsonView";
     }
 
@@ -387,6 +387,49 @@ public class EvaluationController {
     }
 
 
+    /**
+     * 업적평가 설정 등록 체크
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalAchieveSetChk")
+    public String setEvalAchieveSetChk(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.setEvalAchieveSetChk(params));
+        return "jsonView";
+    }
+
+    /**
+     * 업적평가설정
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalAchieveSetting")
+    public String setEvalAchieveSetting(@RequestParam Map<String, Object> params) {
+        evaluationService.setEvalAchieveSetting(params);
+        return "jsonView";
+    }
+
+    /**
+     * 업적평가설정 조회
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalAchieveSet")
+    public String getEvalAchieveSet(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.getEvalAchieveSet(params));
+        return "jsonView";
+    }
+
+    /**
+     * 업적평가설정 삭제
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalAchieveSetDel")
+    public String setEvalAchieveSetDel(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        evaluationService.setEvalAchieveSetDel(params);
+        return "jsonView";
+    }
+
+
+
 
 
     @RequestMapping("/evaluation/setEvaluationMngList")
@@ -615,6 +658,18 @@ public class EvaluationController {
     }
 
     /**
+     * 업적평가 상신여부 체크
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getTeamAchieveApprove")
+    public String getTeamAchieveApprove(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.getTeamAchieveApprove(params));
+        return "jsonView";
+    }
+
+    /**
      * 업적평가 개인 목표 설정 ( 미사용)
      * @param params
      * @param request
@@ -751,9 +806,9 @@ public class EvaluationController {
         return "jsonView";
     }
 
-    /** 결재 양식 그리는 팝업*/
+    /** 업적평가 목표 결재 양식 그리는 팝업*/
     @RequestMapping("/popup/evaluation/approvalFormPopup/evalGoalApprovalPop.do")
-    public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    public String evalGoalApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         LoginVO login = getLoginVO(request);
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
@@ -788,6 +843,88 @@ public class EvaluationController {
         }
         model.addAttribute("resultCode", resultCode);
         model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 개인업적평가 달성점수 입력 후  설정 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvalAchieveApprove")
+    public String setEvalAchieveApprove(@RequestParam Map<String, Object> params, Model model) {
+        evaluationService.setEvalAchieveApprove(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /** 업적평가 달성 결재 양식 그리는 팝업*/
+    @RequestMapping("/popup/evaluation/approvalFormPopup/evalAchieveApprovalPop.do")
+    public String evalAchieveApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/evaluation/approvalFormPopup/evalAchieveApprovalPop";
+    }
+
+    /**
+     * 업적평가 달성 저장데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalAchieveApproveList")
+    public String getEvalAchieveApproveList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.getEvalAchieveApproveList(params));
+        return "jsonView";
+    }
+
+    /** 업적평가 달성 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/evaluation/evalAchieveApp")
+    public String evalAchieveApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            evaluationService.updateEvalAchieveState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 평가결과 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+
+    @RequestMapping("/evaluation/pop/evalAchieveResult.do")
+    public String evalAchieveResult(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalAchieveResult";
+    }
+
+    /**
+     * 평가결과 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvalAchieveResultList")
+    public String getEvalAchieveResultList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("rs", evaluationService.getEvalAchieveResultList(params));
         return "jsonView";
     }
 

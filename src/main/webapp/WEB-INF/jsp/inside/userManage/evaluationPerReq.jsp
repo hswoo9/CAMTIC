@@ -60,11 +60,12 @@
                     </tr>
                 </table>
                 <div style="float: right; margin: 10px 5px;">
-<%--                    <c:if test="${loginVO.dutyCode ne '1'}">--%>
-<%--                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalReqPop()">--%>
-<%--                        <span class="k-button-text">개인별 수주/매출/수익 설정</span>--%>
-<%--                    </button>--%>
-<%--                    </c:if>--%>
+                    <c:if test="${loginVO.dutyCode eq '5'}">
+                        <div id="approveDiv" style="display: unset;">
+
+                        </div>
+                    </c:if>
+
                     <c:if test="${loginVO.dutyCode eq '1' or loginVO.dutyCode eq '2' or loginVO.dutyCode eq '3' or loginVO.dutyCode eq '4' or loginVO.dutyCode eq '5' or loginVO.dutyCode eq '7'}">
                     <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationPerReq.evalScorePop()">
                         <span class="k-button-text">개인 업적평가 점수산출</span>
@@ -79,28 +80,38 @@
                             <th rowspan="2" class="text-center th-color">부서</th>
                             <th rowspan="2" class="text-center th-color">팀명</th>
                             <th rowspan="2" class="text-center th-color">이름</th>
-                            <th colspan="3" class="text-center th-color green">수주</th>
-                            <th colspan="3" class="text-center th-color yellow">매출</th>
-                            <th colspan="3" class="text-center th-color blue">수익</th>
-                            <th colspan="3" class="text-center th-color pink">비용</th>
-                            <th colspan="3" class="text-center th-color orange">사업화지수</th>
+                            <th colspan="5" class="text-center th-color green">수주</th>
+                            <th colspan="5" class="text-center th-color yellow">매출</th>
+                            <th colspan="5" class="text-center th-color blue">수익</th>
+                            <th colspan="5" class="text-center th-color pink">비용</th>
+                            <th colspan="5" class="text-center th-color orange">사업화지수</th>
                         </tr>
                         <tr>
                             <td class="green">목표</td>
                             <td class="green">달성</td>
-                            <td class="green">점수</td>
+                            <td class="green">반영점수</td>
+                            <td class="green">환산점수</td>
+                            <td class="green">등급</td>
                             <td class="yellow">목표</td>
                             <td class="yellow">달성</td>
-                            <td class="yellow">점수</td>
+                            <td class="yellow">반영점수</td>
+                            <td class="yellow">환산점수</td>
+                            <td class="yellow">등급</td>
                             <td class="blue">목표</td>
                             <td class="blue">달성</td>
-                            <td class="blue">점수</td>
+                            <td class="blue">반영점수</td>
+                            <td class="blue">환산점수</td>
+                            <td class="blue">등급</td>
                             <td class="pink">목표</td>
                             <td class="pink">달성</td>
-                            <td class="pink">점수</td>
+                            <td class="pink">반영점수</td>
+                            <td class="pink">환산점수</td>
+                            <td class="pink">등급</td>
                             <td class="orange">목표</td>
                             <td class="orange">달성</td>
-                            <td class="orange">점수</td>
+                            <td class="orange">반영점수</td>
+                            <td class="orange">환산점수</td>
+                            <td class="orange">등급</td>
                         </tr>
                         <tbody id="evalList">
                         </tbody>
@@ -111,6 +122,14 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
+
+<form id="evalAchieveDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="evalAchieve">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="approveTeamSeq" name="approveTeamSeq" />
+    <input type="hidden" id="evalAchieveApproveGroup" name="evalAchieveApproveGroup" />
+</form>
 
 <script type="text/javascript">
     evaluationPerReq.init();

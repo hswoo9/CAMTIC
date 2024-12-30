@@ -12,6 +12,7 @@ var evalGoalSetPop = {
     fn_defaultScript: function(){
         window.resizeTo(1600, 850);
 
+        evalGoalSetPop.getEvalAchieveSet();
         evalGoalSetPop.dataSet();
 
         $("#empName, #deptName, #dutyName, .teamGoals").kendoTextBox({
@@ -35,6 +36,7 @@ var evalGoalSetPop = {
             var empSeq = $(this).find("input[name='empSeq']").val();
             var data = {
                 baseYear : String(evalGoalSetPop.global.now.getFullYear()),
+                teamSeq : $("#deptTeam").val(),
                 empSeq : $(this).find("input[name='empSeq']").val(),
                 orderGoals : String(evalGoalSetPop.uncomma($("#empOrderGoals_" + empSeq).val())),
                 salesGoals : String(evalGoalSetPop.uncomma($("#empSalesGoals_" + empSeq).val())),
@@ -81,6 +83,26 @@ var evalGoalSetPop = {
     fn_topTableClose : function(){
         var topWindow = window.top;
         topWindow.close();
+    },
+
+    getEvalAchieveSet : function(){
+        $.ajax({
+            url : "/evaluation/getEvalAchieveSet",
+            type : "post",
+            data : {
+                baseYear : $("#nowYear").val(),
+            },
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
+                $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
+                $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
     },
 
     dataSet : function() {

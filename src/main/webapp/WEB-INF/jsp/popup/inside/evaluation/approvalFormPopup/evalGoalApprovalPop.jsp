@@ -87,7 +87,7 @@
         </colgroup>
         <thead>
         <tr>
-            <th style="height:30px; background-color:#e2efda; text-align:center;width: 70px" rowspan="2">부서/팀명</th>
+            <th style="height:30px; background-color:#e2efda; text-align:center;width: 70px" rowspan="2">구분</th>
             <th style="height:30px; background-color:#e2efda; text-align:center;width: 125px" colspan="2">수주</th>
             <th style="height:30px; background-color:#fff2cc; text-align:center;width: 125px" colspan="2">매출</th>
             <th style="height:30px; background-color:#ddebf7; text-align:center;width: 125px" colspan="2">수익</th>
@@ -195,7 +195,14 @@
                 $("#teamSalesGoals").text(comma(teamSalesGoals));
                 $("#teamRevenueGoals").text(comma(teamRevenueGoals));
                 $("#teamCostGoals").text(comma(teamCostGoals));
-                $("#teamCommerIndexGoals").text(Math.round(((teamRevenueGoals/teamCostGoals) * 100) * 10) / 10);
+
+                var teamCommerIndexGoals = 0;
+                if(teamRevenueGoals != 0 && teamCostGoals != 0){
+                    let result = (teamRevenueGoals / teamCostGoals) * 100 || 0;
+                    teamCommerIndexGoals = Math.round(result * 10) / 10;
+                }
+
+                $("#teamCommerIndexGoals").text(teamCommerIndexGoals);
             }
         }
 

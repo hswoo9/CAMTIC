@@ -63,11 +63,11 @@
                         <th rowspan="3" class="text-center th-color">년도</th>
                         <th rowspan="3" class="text-center th-color">차수</th>
                         <th rowspan="3" class="text-center th-color">평가 인원</th>
-                        <th colspan="12" class="text-center th-color">평가 결과</th>
+                        <th colspan="14" class="text-center th-color">평가 결과</th>
                     </tr>
                     <tr>
                         <td colspan="6" class="pink">역량 평가</td>
-                        <td colspan="6" class="yellow">업적 평가</td>
+                        <td colspan="8" class="yellow">업적 평가</td>
                     </tr>
                     <tr>
                         <td class="pink">평가 설정</td>
@@ -78,10 +78,12 @@
                         <td class="pink">C</td>
                         <td class="yellow">평가 설정</td>
                         <td class="yellow">업적 평가</td>
+                        <td class="yellow">SS</td>
                         <td class="yellow">S</td>
                         <td class="yellow">A</td>
                         <td class="yellow">B</td>
                         <td class="yellow">C</td>
+                        <td class="yellow">D</td>
                     </tr>
                     <tbody id="evalList">
                     </tbody>
@@ -111,8 +113,7 @@
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result.list)
-                fn_addEvalList(result.list);
+                fn_addEvalList(result.rs);
             },
             error : function(e) {
                 console.log(e);
@@ -120,12 +121,25 @@
         });
     }
 
-    function fn_addEvalList(list){
+    function fn_addEvalList(rs){
+        var list = rs.evaluationList;
+        var achieveList = rs.evalAchieveSetList;
         $('#evalList').empty();
         var html = "";
 
         if(list.length > 0){
+            const yearCount = {};
+            for (var i = 0; i < list.length; i++) {
+                if (yearCount[list[i].BS_YEAR]) {
+                    yearCount[list[i].BS_YEAR]++;
+                } else {
+                    yearCount[list[i].BS_YEAR] = 1;
+                }
+            }
+
+            let currentYear = null;
             for(var i = 0; i < list.length; i++){
+                const bsYear = list[i].BS_YEAR;
                 const evalSn = list[i].EVAL_SN;
                 const detailInfo = customKendo.fn_customAjax("/evaluation/getEvalResultEmpList", {evalSn: evalSn});
                 const detailList = detailInfo.list;
@@ -230,14 +244,37 @@
                 html += "     <td>"+aCount+"</td>";
                 html += "     <td>"+bCount+"</td>";
                 html += "     <td>"+cCount+"</td>";
-                html += "     <td style='padding: 0px;'>";
-                html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalModify("+ evalSn +")' style='font-size: 11px;'>업적평가설정</button>";
-                html += "     </td>";
-                html += "     <td>-</td>";
-                html += "     <td>-</td>";
-                html += "     <td>-</td>";
-                html += "     <td>-</td>";
-                html += "     <td>-</td>";
+
+
+
+                // 업적평가설정 버튼, rowspan 처리
+                if (currentYear !== bsYear) {
+                    let ssCnt = 0;
+                    let sCnt = 0;
+                    let aCnt = 0;
+                    let bCnt = 0;
+                    let cCnt = 0;
+                    let dCnt = 0;
+
+                    currentYear = bsYear;  // 새로운 년도로 변경
+
+                    var achieve = achieveList.find(l => l.BASE_YEAR == bsYear);
+                    html += "     <td style='padding: 0px;' rowspan='" + yearCount[bsYear] + "'>";
+                    html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalModify(" + (achieve != null ? achieve.EVAL_ACHIEVE_SET_SN : '') + ")' style='font-size: 11px;'>업적평가설정</button>";
+                    html += "     </td>";
+                    if(achieve != null){
+                        html += "     <td onclick='evalAchieveResult("+ bsYear +")' style='cursor: pointer; text-decoration: underline; font-weight: bold' rowspan='" + yearCount[bsYear] + "'>" + achieve.EVAL_STR_DT + " ~ " + achieve.EVAL_END_DT + "</td>";
+                    }else{
+                        html += "     <td rowspan='" + yearCount[bsYear] + "'>-</td>";
+                    }
+
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + ssCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + sCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + aCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + bCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + cCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + dCnt +"</td>";
+                }
                 html += '</tr>';
             }
         }else{
@@ -248,8 +285,11 @@
 
         $('#evalList').append(html);
     }
-    function evalModify(pk){
-        var url = "/evaluation/pop/evaluationSet.do?pk="+pk;
+    function evalModify(e){
+        var url = "/evaluation/pop/evaluationSet.do";
+        if(e){
+            url += "?pk=" + e
+        }
 
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
@@ -273,6 +313,13 @@
 
     function empList(pk) {
         var url = "/evaluation/pop/evalResultMng.do?pk="+pk;
+        var name = "_blank";
+        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
+
+    function evalAchieveResult(baseYear) {
+        var url = "/evaluation/pop/evalAchieveResult.do?baseYear="+baseYear;
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);

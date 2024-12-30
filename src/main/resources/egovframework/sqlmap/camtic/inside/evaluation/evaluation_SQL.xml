@@ -114,6 +114,31 @@
         </if>
     </select>
 
+    <select id="getEvalAchieveSetList" parameterType="map" resultType="map">
+        /* getEvalAchieveSetList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET A
+        WHERE 1=1
+    </select>
+
+    <select id="getEvalAchieveSet" parameterType="map" resultType="map">
+        /* getEvalAchieveSet */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET A
+        WHERE 1=1
+        <if test='year != null and !"".equals(year)'>
+        AND
+            A.BASE_YEAR = #{year}
+        </if>
+        <if test='evalAchieveSetSn != null and !"".equals(evalAchieveSetSn)'>
+        AND
+            A.EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
+        </if>
+    </select>
 
     <select id="getEvaluationOne" parameterType="map" resultType="map">
         SELECT
@@ -1415,7 +1440,8 @@
             EA.FIRST_SALES_ACHIEVE,
             EA.SALES_ACHIEVE,
             EA.FIRST_REVENUE_ACHIEVE,
-            EA.REVENUE_ACHIEVE
+            EA.REVENUE_ACHIEVE,
+            (SELECT DOC_ID FROM CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE WHERE EMP_SEQ = EA.EMP_SEQ AND DOC_ID IS NOT NULL) AS DOC_ID
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE EA
         WHERE
@@ -1434,10 +1460,39 @@
             BASE_YEAR = #{baseYear}
     </select>
 
+    <select id="getTeamGoalApprove" parameterType="map" resultType="map">
+        /* getTeamGoalApprove */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_GOAL
+        WHERE
+            TEAM_SEQ = #{teamSeq}
+        AND
+            BASE_YEAR = #{baseYear}
+        GROUP BY TEAM_SEQ
+    </select>
+
+    <select id="getTeamAchieveApprove" parameterType="map" resultType="map">
+        /* getTeamAchieveApprove */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE
+        WHERE
+            TEAM_SEQ = #{teamSeq}
+        AND
+            BASE_YEAR = #{baseYear}
+        AND
+            DOC_ID IS NOT NULL
+        GROUP BY TEAM_SEQ
+    </select>
+
     <insert id="setEvalGoal" parameterType="map">
         /*  setEvalGoal */
         INSERT INTO CAM_INSIDE.DJ_EVALUATING_GOAL (
             BASE_YEAR,
+            TEAM_SEQ,
             EMP_SEQ,
             ORDER_GOALS,
             SALES_GOALS,
@@ -1449,6 +1504,7 @@
         VALUES
         (
             DATE_FORMAT(NOW(), '%Y'),
+            #{teamSeq},
             #{empSeq},
             #{orderGoals},
             #{salesGoals},
@@ -1601,6 +1657,7 @@
         INSERT INTO CAM_INSIDE.DJ_EVALUATING_GOAL_TEMP (
             EVAL_GOAL_TEMP_GROUP,
             BASE_YEAR,
+            TEAM_SEQ,
             EMP_SEQ,
             ORDER_GOALS,
             SALES_GOALS,
@@ -1613,6 +1670,7 @@
         (
             #{evalGoalTempGroup},
             #{baseYear},
+            #{teamSeq},
             #{empSeq},
             #{orderGoals},
             #{salesGoals},
@@ -1648,4 +1706,245 @@
         WHERE
             EVAL_GOAL_TEMP_GROUP = #{evalGoalTempGroup}
     </update>
+
+    <select id="getEvalAchieveApproveMaxGroup" parameterType="map" resultType="int">
+        /* getEvalAchieveApproveMaxGroup */
+        SELECT
+            IFNULL(MAX(EVAL_ACHIEVE_APPROVE_GROUP), 0) + 1
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE
+    </select>
+
+
+    <insert id="setEvalAchieveApprove" parameterType="map">
+        /* setEvalAchieveApprove */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE (
+            EVAL_ACHIEVE_APPROVE_GROUP,
+            BASE_YEAR,
+            TEAM_SEQ,
+            EMP_SEQ,
+            ORDER_GOALS,
+            ORDER_ACHIEVE,
+            SALES_GOALS,
+            SALES_ACHIEVE,
+            REVENUE_GOALS,
+            REVENUE_ACHIEVE,
+            COST_GOALS,
+            COST_ACHIEVE,
+            COMMER_INDEX_GOALS,
+            COMMER_INDEX_ACHIEVE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{evalAchieveApproveGroup},
+            #{baseYear},
+            #{teamSeq},
+            #{empSeq},
+            #{orderGoals},
+            #{orderAchieve},
+            #{salesGoals},
+            #{salesAchieve},
+            #{revenueGoals},
+            #{revenueAchieve},
+            #{costGoals},
+            #{costAchieve},
+            #{commerIndexGoals},
+            #{commerIndexAchieve},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <select id="getEvalAchieveApproveList" parameterType="map" resultType="map">
+        /* getEvalAchieveApproveList */
+        SELECT
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE A.TEAM_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
+            HEI.EMP_NAME_KR,
+            A.*
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE A
+        JOIN
+            CAM_HR.DJ_EMP_INFO HEI
+        ON A.EMP_SEQ = HEI.EMP_SEQ
+        JOIN
+            CAM_HR.DJ_DEPT_INFO HDI
+        ON A.TEAM_SEQ = HDI.DEPT_SEQ
+        WHERE
+            A.TEAM_SEQ = #{teamSeq}
+        AND
+            A.EVAL_ACHIEVE_APPROVE_GROUP = #{evalAchieveApproveGroup}
+    </select>
+
+
+    <update id="updateEvalAchieveState" parameterType="map">
+        /* updateEvalAchieveState */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE
+        SET
+            DOC_ID = #{docId},
+            APPROVE_STAT_CODE = CASE WHEN #{approveStatCode} = '101' THEN '100' ELSE #{approveStatCode} END,
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EVAL_ACHIEVE_APPROVE_GROUP = #{evalAchieveApproveGroup}
+    </update>
+
+    <insert id="setEvalAchieveSet" parameterType="map">
+        /* setEvalAchieveSet */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET (
+            BASE_YEAR,
+            EVAL_STR_DT,
+            EVAL_END_DT,
+            ORDER_WEIGHTS,
+            SALES_WEIGHTS,
+            REVENUE_WEIGHTS,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{baseYear},
+            #{evalStrDt},
+            #{evalEndDt},
+            #{orderWeights},
+            #{salesWeights},
+            #{revenueWeights},
+            #{regEmpSeq}
+        )
+
+        <selectKey keyProperty="evalAchieveSetSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATING_ACHIEVE_SET'
+        </selectKey>
+    </insert>
+
+    <update id="setEvalAchieveSetUpd" parameterType="map">
+        /* setEvalAchieveSetUpd */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET
+        SET
+            BASE_YEAR = #{baseYear},
+            EVAL_STR_DT = #{evalStrDt},
+            EVAL_END_DT = #{evalEndDt},
+            ORDER_WEIGHTS = #{orderWeights},
+            SALES_WEIGHTS = #{salesWeights},
+            REVENUE_WEIGHTS = #{revenueWeights},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
+    </update>
+
+    <delete id="setEvalAchieveRatingDel" parameterType="map">
+        /* setEvalAchieveRatingDel */
+        DELETE FROM CAM_INSIDE.DJ_EVALUATING_ACHIEVE_RATING WHERE EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
+    </delete>
+
+    <insert id="setEvalAchieveRating" parameterType="map">
+        /* setEvalAchieveRating */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_ACHIEVE_RATING (
+            EVAL_ACHIEVE_SET_SN,
+            RATING,
+            BASE_SCORE,
+            CONVERSION_SCORE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{evalAchieveSetSn},
+            #{rating},
+            #{baseScore},
+            #{conversionScore},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <select id="setEvalAchieveSetChk" parameterType="map" resultType="boolean">
+        /* setEvalAchieveSetChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+            END
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET
+        WHERE
+            BASE_YEAR = #{baseYear}
+    </select>
+
+    <select id="getEvalAchieveRatingList" parameterType="map" resultType="map">
+        /* getEvalAchieveRatingList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_RATING
+        WHERE
+            EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
+    </select>
+
+    <delete id="setEvalAchieveSetDel" parameterType="map">
+        /* setEvalAchieveSetDel */
+        DELETE FROM CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET WHERE EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
+    </delete>
+
+    <select id="getEvalAchieveResultList" parameterType="map" resultType="map">
+        /* getEvalAchieveResultList */
+        SELECT
+            *
+        FROM (
+            SELECT
+                HEI.EMP_SEQ,
+                (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
+                (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
+                HEI.EMP_NAME_KR AS EMP_NAME,
+                IFNULL(HEI.DUTY_CODE, '') AS DUTY_CODE,
+                HEI.DUTY_NAME,
+                HEI.POSITION_CODE,
+                HEI.POSITION_NAME,
+                B.EVAL_ACHIEVE_APPROVE_SN,
+                IFNULL(B.BASE_YEAR, #{baseYear}) AS BASE_YEAR,
+                IFNULL(B.ORDER_GOALS, 0) AS ORDER_GOALS,
+                IFNULL(B.ORDER_ACHIEVE, 0) AS ORDER_ACHIEVE,
+                IFNULL(B.SALES_GOALS, 0) AS SALES_GOALS,
+                IFNULL(B.SALES_ACHIEVE, 0) AS SALES_ACHIEVE,
+                IFNULL(B.REVENUE_GOALS, 0) AS REVENUE_GOALS,
+                IFNULL(B.REVENUE_ACHIEVE, 0) AS REVENUE_ACHIEVE,
+                IFNULL(B.COST_GOALS, 0) AS COST_GOALS,
+                IFNULL(B.COST_ACHIEVE, 0) AS COST_ACHIEVE,
+                IFNULL(B.COMMER_INDEX_GOALS, 0) AS COMMER_INDEX_GOALS,
+                IFNULL(B.COMMER_INDEX_ACHIEVE, 0) AS COMMER_INDEX_ACHIEVE
+            FROM
+                CAM_HR.DJ_EMP_INFO HEI
+            LEFT JOIN
+                CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            LEFT JOIN
+                CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE B
+            ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{baseYear}
+            WHERE 1=1
+            AND 
+                HEI.WORK_STATUS_CODE = 'Y'
+            AND (
+                (HEI.DIVISION IN(0)) OR
+                (HEI.DIVISION IN(4) AND HEI.DIVISION_SUB IN(1,2))
+            )
+            AND
+                HEI.TEMP_DIVISION = 'N'
+            <choose>
+                <when test='dept != null and !"".equals(dept) and "".equals(team)'>
+                    AND (HDI.PARENT_DEPT_SEQ = #{dept} OR HDI.DEPT_SEQ = #{dept} )
+                </when>
+                <when test='dept != null and !"".equals(dept)'>
+                    AND HDI.PARENT_DEPT_SEQ = #{dept}
+                </when>
+            </choose>
+            <if test='team != null and team != ""'>
+                AND HEI.DEPT_SEQ = #{team}
+            </if>
+            <if test='position != null and position != ""'>
+                AND HEI.POSITION_CODE = #{position}
+            </if>
+            <if test='duty != null and duty != ""'>
+                AND HEI.DUTY_CODE = #{duty}
+            </if>
+        )A
+        ORDER BY (
+            CASE WHEN DEPT_NAME = '캠틱종합기술원' THEN 1 WHEN ASCII(SUBSTRING(DEPT_NAME,1)) <![CDATA[<]]> 123 THEN 3 ELSE 2 END
+        ), DEPT_NAME, TEAM_NAME, DUTY_NAME DESC, POSITION_CODE, EMP_NAME;
+    </select>
 </mapper>
