@@ -66,28 +66,31 @@
                     <th scope="row" class="text-center th-color" rowspan="2">부서명</th>
                     <th scope="row" class="text-center th-color" rowspan="2">팀명</th>
                     <th scope="row" class="text-center th-color" rowspan="2">성명</th>
-                    <th scope="row" class="text-center th-color" colspan="3">수주</th>
-                    <th scope="row" class="text-center th-color" colspan="3">매출</th>
-                    <th scope="row" class="text-center th-color" colspan="3">수익</th>
-                    <th scope="row" class="text-center th-color" colspan="3">비용</th>
-                    <th scope="row" class="text-center th-color" colspan="3">사업화지수</th>
+                    <th scope="row" class="text-center th-color" colspan="2">수주</th>
+                    <th scope="row" class="text-center th-color" colspan="2">매출</th>
+                    <th scope="row" class="text-center th-color" colspan="2">수익</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">합계</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">등급</th>
+                    <th scope="row" class="text-center th-color" colspan="2">비용</th>
+                    <th scope="row" class="text-center th-color" rowspan="2">손익</th>
+                    <th scope="row" class="text-center th-color" colspan="2">사업화지수</th>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">점수</th>
                     <th scope="row" class="text-center th-color">환산</th>
-                    <th scope="row" class="text-center th-color">등급</th>
+<%--                    <th scope="row" class="text-center th-color">등급</th>--%>
                     <th scope="row" class="text-center th-color">점수</th>
                     <th scope="row" class="text-center th-color">환산</th>
-                    <th scope="row" class="text-center th-color">등급</th>
+<%--                    <th scope="row" class="text-center th-color">등급</th>--%>
                     <th scope="row" class="text-center th-color">점수</th>
                     <th scope="row" class="text-center th-color">환산</th>
-                    <th scope="row" class="text-center th-color">등급</th>
+<%--                    <th scope="row" class="text-center th-color">등급</th>--%>
                     <th scope="row" class="text-center th-color">점수</th>
                     <th scope="row" class="text-center th-color">환산</th>
-                    <th scope="row" class="text-center th-color">등급</th>
+<%--                    <th scope="row" class="text-center th-color">등급</th>--%>
                     <th scope="row" class="text-center th-color">점수</th>
                     <th scope="row" class="text-center th-color">환산</th>
-                    <th scope="row" class="text-center th-color">등급</th>
+<%--                    <th scope="row" class="text-center th-color">등급</th>--%>
                 </tr>
                 </thead>
                 <tbody id="evalList">

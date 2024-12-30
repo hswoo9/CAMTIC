@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalScorePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_project/engn/costCalc.js?v=${today}"/></script>
+
 <style>
     .yellow{background-color: #fff2cc;font-weight: bold;text-align: center;}
     .green{background-color: #e2efda;font-weight: bold;text-align: center;}

@@ -75,11 +75,19 @@ var evalScorePop = {
     },
 
     evalContent: function(){
+        var date = new Date();
+
         $.ajax({
             url: "/evaluation/getEvalAchieveScoreList",
             type: "post",
             data: {
-                year : $("#searchYear").val(),
+                searchYear : $("#searchYear").val(),
+                baseYear : $("#searchYear").val(),
+                startDt : $("#searchYear").val().split("-")[0] + "-01-01",
+                endDt : $("#searchYear").val() + "-12-31",
+                pjtYear : $("#searchYear").val(),
+                record : "Y",
+
                 deptSeq : $("#regDeptSeq").val(),
                 teamSeq : $("#regTeamSeq").val(),
                 dutyCode : $("#regDutyCode").val(),
@@ -120,11 +128,11 @@ var evalScorePop = {
         html += '       <td class="sticky">수익</td>';
         html += '   </tr>';
         html += '   <tr>';
-        html += '   <tr id="sumTr">';
+        html += '   <tr>';
         html += '       <td colspan="4" class="sticky" id="pjtBusnClassStatus" style="font-weight: bold"></td>';
-        html += '       <td id="pjtOrderSum" style="font-weight: bold" class="sticky"></td>';
-        html += '       <td id="pjtSalesSum" style="font-weight: bold" class="sticky"></td>';
-        html += '       <td id="pjtRevenueSum" style="font-weight: bold" class="sticky"></td>';
+        html += '       <td id="pjtOrderSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
+        html += '       <td id="pjtSalesSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
+        html += '       <td id="pjtRevenueSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
         html += '   </tr>';
         html += '   </tbody>';
         html += '   <tbody id="evalTheadList">';
@@ -162,6 +170,7 @@ var evalScorePop = {
         }
         html += '       <td>소계</td>';
         html += '   </tr>';
+        html += '   <tr id="sumTr">';
 
         for (var i = 0; i < evalGoalList.length; i++) {
             html += '       <td class="green empOrderSum" id="empOrderSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
@@ -228,9 +237,9 @@ var evalScorePop = {
                 var salesPercentSum = 0;
                 var revenuePercentSum = 0;
 
-                pjtOrderSum += Number(evalScorePop.uncomma(pjtList[j].PJT_AMT));
-                pjtSalesSum += Number(evalScorePop.uncomma(pjtList[j].PJT_AMT));
-                pjtRevenueSum += Number(evalScorePop.uncomma(evalScorePop.uncomma(pjtList[j].PJT_AMT) - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)));
+                pjtOrderSum += Number(costCalc.allPjtAmt(pjtList[j]));
+                pjtSalesSum += Number(costCalc.resSaleAmt(pjtList[j]) || 0);
+                pjtRevenueSum += Number(costCalc.resProfitAmt(pjtList[j]) || 0);
 
                 evalTheadHtml += '' +
                     '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
@@ -240,9 +249,9 @@ var evalScorePop = {
                         '</td>' +
                         '<td>' + pjtList[j].CRM_NM + '</td>' +
                         '<td>' + pjtList[j].BUSN_NM + '</td>' +
-                        '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
-                        '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT) + '</td>' +
-                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(pjtList[j].PJT_AMT - evalScorePop.pjtPerformance(pjtList[j].PJT_SN)) + '</td>' +
+                        '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.allPjtAmt(pjtList[j]) || 0) + '</td>' +
+                        '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resSaleAmt(pjtList[j]) || 0) + '</td>' +
+                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resProfitAmt(pjtList[j]) || 0) + '</td>' +
                     '</tr>';
 
                 /** 달성 결재 상신 여부에 따라 수정 가능여부  */
@@ -396,7 +405,6 @@ var evalScorePop = {
             var empOrderSum = 0;
             var empSalesSum = 0;
             var empRevenueSum = 0;
-
             $.each($("#evalListDiv td.targetEmp"), function(ii, vv){
                 if(i != 0){
                     empOrderSum = Number(evalScorePop.uncomma($("#empOrderSum_" + $(vv).attr("id")).text()));
@@ -417,8 +425,8 @@ var evalScorePop = {
                 }
 
                 $("#empOrderSum_" + $(vv).attr("id")).text(comma(empOrderSum + Number(pjtOrder * ($(v).find("input[percentType='order'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100) || 0)))
-                $("#empSalesSum_" + $(vv).attr("id")).text(comma(empSalesSum + Number(pjtOrder * ($(v).find("input[percentType='sales'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
-                $("#empRevenueSum_" + $(vv).attr("id")).text(comma(empRevenueSum + Number(pjtOrder * ($(v).find("input[percentType='revenue'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
+                $("#empSalesSum_" + $(vv).attr("id")).text(comma(empSalesSum + Number(pjtSales * ($(v).find("input[percentType='sales'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
+                $("#empRevenueSum_" + $(vv).attr("id")).text(comma(empRevenueSum + Number(pjtRevenue * ($(v).find("input[percentType='revenue'][targetEmpSeq='" + $(vv).attr("id") + "']").val() / 100)) || 0))
             })
         })
 

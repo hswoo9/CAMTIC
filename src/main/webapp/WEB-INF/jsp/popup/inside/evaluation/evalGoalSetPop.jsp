@@ -191,10 +191,6 @@
             </tr>
             </tbody>
         </table>
-
-
-
-
         <div class="card-header" style="padding: 5px;">
             <h3 class="card-title">* ${nowYear}년도 ${loginVO.teamNm} 개인별 재무 성과</h3>
             <h5 style="margin-bottom: 0;margin-top: 20px;">(단위:원)</h5>

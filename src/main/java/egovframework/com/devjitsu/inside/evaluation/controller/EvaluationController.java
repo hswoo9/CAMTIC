@@ -409,7 +409,7 @@ public class EvaluationController {
     }
 
     /**
-     * 업적평가설정 조회
+     * 업적평가설정, 팀 목표 조회
      * @return
      */
     @RequestMapping("/evaluation/getEvalAchieveSet")

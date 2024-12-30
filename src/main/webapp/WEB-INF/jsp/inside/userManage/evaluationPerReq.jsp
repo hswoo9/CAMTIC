@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationPerReq.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_project/engn/costCalc.js?v=${today}"/></script>
 
 <style>
     .pink{background-color: #fce4d6;font-weight: bold;text-align: center;}
@@ -80,38 +81,38 @@
                             <th rowspan="2" class="text-center th-color">부서</th>
                             <th rowspan="2" class="text-center th-color">팀명</th>
                             <th rowspan="2" class="text-center th-color">이름</th>
-                            <th colspan="5" class="text-center th-color green">수주</th>
-                            <th colspan="5" class="text-center th-color yellow">매출</th>
-                            <th colspan="5" class="text-center th-color blue">수익</th>
-                            <th colspan="5" class="text-center th-color pink">비용</th>
-                            <th colspan="5" class="text-center th-color orange">사업화지수</th>
+                            <th colspan="4" class="text-center th-color green">수주</th>
+                            <th colspan="4" class="text-center th-color yellow">매출</th>
+                            <th colspan="4" class="text-center th-color blue">수익</th>
+                            <th colspan="2" class="text-center th-color pink">비용</th>
+                            <th colspan="2" class="text-center th-color orange">사업화지수</th>
                         </tr>
                         <tr>
                             <td class="green">목표</td>
                             <td class="green">달성</td>
                             <td class="green">반영점수</td>
                             <td class="green">환산점수</td>
-                            <td class="green">등급</td>
+<%--                            <td class="green">등급</td>--%>
                             <td class="yellow">목표</td>
                             <td class="yellow">달성</td>
                             <td class="yellow">반영점수</td>
                             <td class="yellow">환산점수</td>
-                            <td class="yellow">등급</td>
+<%--                            <td class="yellow">등급</td>--%>
                             <td class="blue">목표</td>
                             <td class="blue">달성</td>
                             <td class="blue">반영점수</td>
                             <td class="blue">환산점수</td>
-                            <td class="blue">등급</td>
+<%--                            <td class="blue">등급</td>--%>
                             <td class="pink">목표</td>
                             <td class="pink">달성</td>
-                            <td class="pink">반영점수</td>
-                            <td class="pink">환산점수</td>
-                            <td class="pink">등급</td>
+<%--                            <td class="pink">반영점수</td>--%>
+<%--                            <td class="pink">환산점수</td>--%>
+<%--                            <td class="pink">등급</td>--%>
                             <td class="orange">목표</td>
                             <td class="orange">달성</td>
-                            <td class="orange">반영점수</td>
-                            <td class="orange">환산점수</td>
-                            <td class="orange">등급</td>
+<%--                            <td class="orange">반영점수</td>--%>
+<%--                            <td class="orange">환산점수</td>--%>
+<%--                            <td class="orange">등급</td>--%>
                         </tr>
                         <tbody id="evalList">
                         </tbody>

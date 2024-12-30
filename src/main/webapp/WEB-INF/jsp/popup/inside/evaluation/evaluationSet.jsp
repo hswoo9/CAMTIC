@@ -59,7 +59,7 @@
             </div>
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
-                    <col style="width: 12%">
+                    <col style="width: 8%">
                     <col style="width: 26%">
                     <col style="width: 10%">
                     <col style="width: 62%">
@@ -109,7 +109,7 @@
 
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
-                    <col style="width: 12%">
+                    <col style="width: 8%">
                 </colgroup>
                 <tr>
                     <th>평가등급 설정</th>
@@ -192,6 +192,15 @@
                         </table>
                     </td>
                 </tr>
+                <tr>
+                    <th>제외대상</th>
+                    <td>
+                        <input type="text" disabled id="excludesName" style="width: 85%;">
+                        <input type="hidden" id="excludesSeq" style="width: 85%;">
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="$('#excludesName').val('');$('#excludesSeq').val('')">초기화</button>
+                        <button type="button" id="userSearchBtn" onclick="evaluationSet.userSearch()" class="k-button k-button-solid-base">검색</button>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
@@ -199,5 +208,10 @@
 
 <script>
     evaluationSet.fn_defaultScript();
+
+    function userDataSet(arr, empNameAr, empSeqAr){
+        $("#excludesName").val(empNameAr.substring(0, empNameAr.length-1).replaceAll(",", ", "));
+        $("#excludesSeq").val(empSeqAr.substring(0, empSeqAr.length-1));
+    }
 </script>
 </body>

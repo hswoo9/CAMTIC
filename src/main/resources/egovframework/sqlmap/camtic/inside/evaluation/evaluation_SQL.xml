@@ -120,7 +120,6 @@
             *
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET A
-        WHERE 1=1
     </select>
 
     <select id="getEvalAchieveSet" parameterType="map" resultType="map">
@@ -1400,7 +1399,16 @@
                 CAM_INSIDE.DJ_EVALUATING_GOAL B
             ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{year}
             WHERE 1=1
-            AND HEI.WORK_STATUS_CODE = 'Y'
+            AND HEI.EMP_SEQ NOT REGEXP (
+                SELECT
+                    REPLACE(EXCLUDES_SEQ, ',', '|')
+                FROM
+                    CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET
+                WHERE
+                    BASE_YEAR = DATE_FORMAT(NOW(), '%Y')
+            )
+            AND
+                HEI.WORK_STATUS_CODE = 'Y'
             AND
                 (
                     (HEI.DIVISION IN(0))
@@ -1423,7 +1431,7 @@
                         </otherwise>
                     </choose>
                 </when>
-              </choose>
+            </choose>
         )A
         ORDER BY (
         CASE WHEN DEPT_NAME = '캠틱종합기술원' THEN 1 WHEN ASCII(SUBSTRING(DEPT_NAME,1)) <![CDATA[<]]> 123 THEN 3 ELSE 2 END
@@ -1590,9 +1598,7 @@
             GROUP_CONCAT(
                 EA.EMP_SEQ,
                 '_',
-                P.PJT_AMT,
-                '_',
-                IFNULL(ITEM_AMT.ITEM_AMT, 0) + IFNULL(EXNP.BUSTRIP_EXNP_SUM, 0),
+                EA.PJT_SN,
                 '_',
                 EA.ORDER_ACHIEVE,
                 '_',
@@ -1603,38 +1609,6 @@
             ) AS ACHIEVE
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE EA
-        JOIN
-            CAM_PJT_MNG.DJ_PROJECT P
-        ON EA.PJT_SN = P.PJT_SN
-        LEFT JOIN (
-            SELECT
-                A.PJT_SN,
-                IFNULL(SUM(B.ITEM_AMT), 0) AS ITEM_AMT
-            FROM
-                CAM_MNG.DJ_PURC_CLAIM A
-            LEFT JOIN
-                CAM_MNG.DJ_PURC_CLAIM_ITEM B ON A.CLAIM_SN = B.CLAIM_SN
-            LEFT JOIN
-                CAM_CRM.DJ_CRM_INFO C ON A.CRM_SN = C.CRM_SN
-            WHERE
-                A.STATUS = '100'
-            GROUP BY A.PJT_SN
-        )ITEM_AMT
-        ON P.PJT_SN = ITEM_AMT.PJT_SN
-        LEFT JOIN (
-            SELECT
-                PJT_SN,
-                (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE PJT_SN = BRR.PJT_SN) AS CNT,
-                IFNULL(SUM(REPLACE(TOT_COST, ',', '')), 0) AS BUSTRIP_EXNP_SUM
-            FROM
-                CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR
-                LEFT JOIN
-                CAM_INSIDE.DJ_HR_BIZ_EXNP BE ON BRR.HR_BIZ_REQ_RESULT_ID = BE.HR_BIZ_REQ_RESULT_ID
-            WHERE
-                BRR.STATUS = '100'
-            GROUP BY PJT_SN
-        )EXNP
-        ON P.PJT_SN = EXNP.PJT_SN AND EXNP.CNT != 0
         WHERE
             EA.EMP_SEQ IN
         <foreach item="empSeq" collection="empSeqArr" open="(" separator="," close=")">
@@ -1798,6 +1772,8 @@
             ORDER_WEIGHTS,
             SALES_WEIGHTS,
             REVENUE_WEIGHTS,
+            EXCLUDES_SEQ,
+            EXCLUDES_NAME,
             REG_EMP_SEQ
         )
         VALUES
@@ -1808,6 +1784,8 @@
             #{orderWeights},
             #{salesWeights},
             #{revenueWeights},
+            #{excludesSeq},
+            #{excludesName},
             #{regEmpSeq}
         )
 
@@ -1827,6 +1805,8 @@
             ORDER_WEIGHTS = #{orderWeights},
             SALES_WEIGHTS = #{salesWeights},
             REVENUE_WEIGHTS = #{revenueWeights},
+            EXCLUDES_SEQ = #{excludesSeq},
+            EXCLUDES_NAME = #{excludesName},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}

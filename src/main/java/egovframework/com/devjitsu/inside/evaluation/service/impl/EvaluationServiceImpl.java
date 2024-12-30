@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.inside.evaluation.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import egovframework.com.devjitsu.cam_achieve.repository.AchieveRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.inside.evaluation.repository.EvaluationRepository;
 import egovframework.com.devjitsu.inside.evaluation.service.EvaluationService;
@@ -21,6 +22,8 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private AchieveRepository achieveRepository;
 
     @Override
     public List<Map<String, Object>> getRequestEvaluationMemberTot(Map<String, Object> params) {
@@ -394,6 +397,8 @@ public class EvaluationServiceImpl implements EvaluationService {
         Map<String, Object> result = new HashMap<>();
         result.put("teamAchieveApprove", evaluationRepository.getTeamAchieveApprove(params));
         result.put("teamGoalApprove",  evaluationRepository.getTeamGoalApprove(params));
+        result.put("evalAchieveSet",  evaluationRepository.getEvalAchieveSet(params));
+
         return result;
     }
 
@@ -406,6 +411,25 @@ public class EvaluationServiceImpl implements EvaluationService {
                 .collect(Collectors.toList()));
         returnMap.put("goalList", goalList);
         returnMap.put("achieveList", evaluationRepository.getEvalAchieveList2(params));
+
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("pjtYear", params.get("pjtYear"));
+        searchMap.put("deptSeq", params.get("teamSeq"));
+        searchMap.put("record", params.get("record"));
+        searchMap.put("reqYear", params.get("pjtYear"));
+
+        List<Map<String, Object>> pjtList = achieveRepository.getProjectListByAchieve(searchMap);
+        if (pjtList.size() > 0) {
+            for(Map<String, Object> map : pjtList){
+                searchMap.put("pjtSn", map.get("PJT_SN"));
+                Map<String, Object> getPjtAmtSetData = projectRepository.getPjtAmtSetData(searchMap);
+                map.put("pjtAmtSetData", getPjtAmtSetData);
+            }
+            returnMap.put("pjtList", pjtList);
+        }
+
+
         return returnMap;
     }
 
@@ -421,14 +445,20 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvalAchieveScoreList(Map<String, Object> params) {
         Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("year", params.get("searchYear"));
         searchMap.put("pjtYear", params.get("searchYear"));
-        searchMap.put("deptSeq", params.get("deptSeq"));
-        searchMap.put("busnSubClass", "res");
+        searchMap.put("deptSeq", params.get("teamSeq"));
+        searchMap.put("record", params.get("record"));
+        searchMap.put("reqYear", params.get("searchYear"));
 
         Map<String, Object> result = new HashMap<>();
-        List<Map<String, Object>> pjtList = projectRepository.getProjectList(searchMap);
+        List<Map<String, Object>> pjtList = achieveRepository.getProjectListByAchieve(searchMap);
         if (pjtList.size() > 0) {
             for(Map<String, Object> map : pjtList){
+                searchMap.put("pjtSn", map.get("PJT_SN"));
+                Map<String, Object> getPjtAmtSetData = projectRepository.getPjtAmtSetData(searchMap);
+                map.put("pjtAmtSetData", getPjtAmtSetData);
+
                 map.put("pjtSn", map.get("PJT_SN"));
                 map.put("pjtPerformanceList", projectRepository.getPjtPerformanceList(map));
                 map.put("evalAchieveList", evaluationRepository.getEvalAchieveList(map));
@@ -598,6 +628,12 @@ public class EvaluationServiceImpl implements EvaluationService {
             params.put("evalAchieveSetSn", result.get("EVAL_ACHIEVE_SET_SN"));
         }
         result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
+
+        params.put("objType", "team");
+        result.put("teamGoal", achieveRepository.getDeptObjList(params));
+        params.put("objType", "oper");
+        result.put("teamGoalOper", achieveRepository.getDeptObjList(params));
+
         return result;
     }
 

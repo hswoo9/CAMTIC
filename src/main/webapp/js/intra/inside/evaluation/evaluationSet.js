@@ -51,6 +51,9 @@ var evaluationSet = {
         formData.append("orderWeights" , $("#orderWeights").val());
         formData.append("salesWeights" , $("#salesWeights").val());
         formData.append("revenueWeights" , $("#revenueWeights").val());
+        formData.append("excludesSeq" , $("#excludesSeq").val());
+        formData.append("excludesName" , $("#excludesName").val());
+
         formData.append("regEmpSeq", $("#empSeq").val());
 
         var ratingArr = new Array()
@@ -129,6 +132,8 @@ var evaluationSet = {
                 $("#orderWeights").val(rs.rs.ORDER_WEIGHTS)
                 $("#salesWeights").val(rs.rs.SALES_WEIGHTS)
                 $("#revenueWeights").val(rs.rs.REVENUE_WEIGHTS)
+                $("#excludesSeq").val(rs.rs.EXCLUDES_SEQ)
+                $("#excludesName").val(rs.rs.EXCLUDES_NAME)
 
                 $.each(rs.rs.ratingList, function(i, v){
                     var ratingTh = $("#ratingTb .rating[rating='" + rs.rs.ratingList[i].RATING + "']")
@@ -140,5 +145,9 @@ var evaluationSet = {
                 console.log(e);
             }
         });
+    },
+
+    userSearch : function() {
+        window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 }

@@ -7,6 +7,7 @@ var evalGoalSetPop = {
         menuCd : $("#menuCd").val(),
         empSeq : $("#empSeq").val(),
         now : new Date(),
+        excludesSeq : ""
     },
 
     fn_defaultScript: function(){
@@ -30,6 +31,45 @@ var evalGoalSetPop = {
             return;
         }
 
+        var sum = 0;
+        $.each($("input.empOrderGoals"), function(){
+            sum += evalGoalSetPop.uncomma($(this).val())
+        })
+
+        if(sum != Number(evalGoalSetPop.uncomma($("#teamOrderGoals").val()))){
+            alert("팀의 수주 목표가 개인별 목표 총액의 합이 일치하지 않습니다.");
+            return;
+        }
+
+        sum = 0;
+        $.each($("input.empSalesGoals"), function(){
+            sum += evalGoalSetPop.uncomma($(this).val())
+        })
+
+        if(sum != Number(evalGoalSetPop.uncomma($("#teamSalesGoals").val()))){
+            alert("팀의 매출 목표가 개인별 목표 총액의 합이 일치하지 않습니다.");
+            return;
+        }
+
+        sum = 0;
+        $.each($("input.empRevenueGoals"), function(){
+            sum += evalGoalSetPop.uncomma($(this).val())
+        })
+
+        if(sum != Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()))){
+            alert("팀의 수익 목표가 개인별 목표 총액의 합이 일치하지 않습니다.");
+            return;
+        }
+
+        sum = 0;
+        $.each($("input.empCostGoals"), function(){
+            sum += evalGoalSetPop.uncomma($(this).val())
+        })
+
+        if(sum != Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()))){
+            alert("팀의 비용 목표가 개인별 목표 총액의 합이 일치하지 않습니다.");
+            return;
+        }
 
         var empEvalGoalTempArr = new Array();
         $("#teamEmpListTb tr").each(function(i, v){
@@ -91,6 +131,9 @@ var evalGoalSetPop = {
             type : "post",
             data : {
                 baseYear : $("#nowYear").val(),
+                year : $("#nowYear").val(),
+                deptLevel : '2',
+                deptSeq : $("#deptTeam").val()
             },
             dataType : "json",
             async : false,
@@ -98,6 +141,27 @@ var evalGoalSetPop = {
                 $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
                 $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
                 $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
+                evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
+
+                $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
+                $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
+                $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
+                
+                if(rs.rs.teamGoalOper.length > 0){
+                    $("#teamCostGoals").val(
+                        evalGoalSetPop.comma(Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].PAYROLL_OBJ)) +
+                        Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].EXNP_OBJ)) +
+                        Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].COMM_OBJ)))
+                    )
+                }
+
+                if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){
+                    let revenueGoal = Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()));
+                    let costGoal = Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()));
+                    let result = (revenueGoal / costGoal) * 100;
+
+                    $("#teamCommerIndexGoals").val(Math.round(result * 10) / 10)
+                }
             },
             error : function(e) {
                 console.log(e);
@@ -120,7 +184,7 @@ var evalGoalSetPop = {
         var result = customKendo.fn_customAjax("/evaluation/getUserList", data)
         var html = "";
         if(result.rs != null){
-            var rs = result.rs.filter(e => !['1', '2', '3', '4', '5', '7'].includes(e.DUTY_CODE));
+            var rs = result.rs.filter(e => !['1', '2', '3', '4', '5', '7'].includes(e.DUTY_CODE) && !evalGoalSetPop.global.excludesSeq.includes(String(e.EMP_SEQ)) );
             if(rs.length > 0){
                 for(var i = 0; i < rs.length; i++){
                     html += '' +
@@ -130,7 +194,7 @@ var evalGoalSetPop = {
                                 rs[i].EMP_NAME_KR +
                             '</td>' +
                             '<td class="text-center">' +
-                                '<input type="text" id="empOrderGoals_' + rs[i].EMP_SEQ + '" class="empGoals empOrderGoals numberInput" value="0" oninput="evalGoalSetPop.empGoalsChange(\'empOrderGoals\', \'teamOrderGoals\')">' +
+                                '<input type="text" id="empOrderGoals_' + rs[i].EMP_SEQ + '" class="empGoals empOrderGoals numberInput" value="0" oninput="">' +
                             '</td>' +
                             '<td class="text-center"></td>' +
                             '<td class="text-center">' +
@@ -175,12 +239,6 @@ var evalGoalSetPop = {
     },
 
     empGoalsChange : function(s, t, empSeq){
-        var sum = 0;
-        $.each($("." + s), function(){
-            sum += Number(uncomma($(this).val()))
-        })
-        $("#" + t).val(comma(sum));
-
         if(s == "empRevenueGoals" || s == "empCostGoals"){
             if($("#empRevenueGoals_" + empSeq).val() != "0" && $("#empCostGoals_" + empSeq).val() != "0"){
                 let revenueGoal = Number(evalGoalSetPop.uncomma($("#empRevenueGoals_" + empSeq).val()));
@@ -188,14 +246,6 @@ var evalGoalSetPop = {
                 let result = (revenueGoal / costGoal) * 100;
 
                 $("#empCommerIndexGoals_" + empSeq).val(Math.round(result * 10) / 10)
-            }
-
-            if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){
-                let revenueGoal = Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()));
-                let costGoal = Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()));
-                let result = (revenueGoal / costGoal) * 100;
-
-                $("#teamCommerIndexGoals").val(Math.round(result * 10) / 10)
             }
         }
     },

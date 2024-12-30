@@ -20,7 +20,7 @@ var evalAchieveResult = {
 
         $("#dept").data("kendoDropDownList").bind("change", evalAchieveResult.changeDeptComp)
         $("#dept").data("kendoDropDownList").select(0);
-        $("#dept").data("kendoDropDownList").trigger("change");
+        // $("#dept").data("kendoDropDownList").trigger("change");
 
         evalAchieveResult.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
         customKendo.fn_dropDownList("position", evalAchieveResult.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
@@ -51,6 +51,7 @@ var evalAchieveResult = {
             dataType : "json",
             async : false,
             success : function(rs){
+                evalAchieveResult.global.evalAchieveSet = rs.rs;
                 evalAchieveResult.global.gradingTable = rs.rs.ratingList;
             },
             error : function(e) {
@@ -142,11 +143,14 @@ var evalAchieveResult = {
             var deptCnt = {};
             var teamCnt = {};
 
-            rs = rs.filter(l => !['1', '2', '3', '4', '5', '7'].includes(l.DUTY_CODE) && l.DEPT_NAME != '' && l.TEAM_NAME != '')
+            var orderWeights = Number(evalAchieveResult.global.evalAchieveSet.ORDER_WEIGHTS)
+            var salesWeights = Number(evalAchieveResult.global.evalAchieveSet.SALES_WEIGHTS)
+            var revenueWeights = Number(evalAchieveResult.global.evalAchieveSet.REVENUE_WEIGHTS)
+
+            rs = rs.filter(l => !['1', '2', '3', '4', '5', '7'].includes(l.DUTY_CODE) && l.DEPT_NAME != '' && l.TEAM_NAME != '');
             for(var i = 0 ; i < rs.length ; i++) {
                 var currentTeamName = rs[i].TEAM_NAME.trim();  // 현재 팀의 DEPT_SEQ
                 var currentDeptName = rs[i].DEPT_NAME.trim();  // 현재 부서의 DEPT_SEQ
-
 
                 /** 사용자 */
                 var orderScore = 0;
@@ -187,26 +191,47 @@ var evalAchieveResult = {
                     commerIndexGoalsScore = Math.round(rs[i].COMMER_INDEX_ACHIEVE/rs[i].COMMER_INDEX_GOALS * 100);
                 }
 
+
+                var orderScoreCon = evalAchieveResult.getEvalRating(orderScore, 'con');
+                var salesScoreCon = evalAchieveResult.getEvalRating(salesScore, 'con');
+                var revenueScoreCon = evalAchieveResult.getEvalRating(revenueScore, 'con');
+
+                var scoreSum =
+                    (orderScoreCon * (orderWeights / 100)) +
+                    (salesScoreCon * (salesWeights / 100)) +
+                    (revenueScoreCon * (revenueWeights / 100));
+
+                var profitOrLoss = 0;
+
                 html += '' +
                     '<tr>' +
                         '<td>' + rs[i].DEPT_NAME + '</td>' +
                         '<td>' + rs[i].TEAM_NAME + '</td>' +
                         '<td>' + rs[i].EMP_NAME + '</td>' +
                         '<td style="text-align: center">' + orderScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(orderScore, 'con') + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(orderScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + orderScoreCon + '</td>' +
+                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(orderScore, 'rating')+ '</td>' +
+
                         '<td style="text-align: center">' + salesScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(salesScore, 'con')+ '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(salesScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + salesScoreCon + '</td>' +
+                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(salesScore, 'rating')+ '</td>' +
+
                         '<td style="text-align: center">' + revenueScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(revenueScore, 'con')+ '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(revenueScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + revenueScoreCon + '</td>' +
+                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(revenueScore, 'rating')+ '</td>' +
+
+                        '<td style="text-align: center">' + scoreSum + '</td>' +
+                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(scoreSum, 'rating') + '</td>' +
+
                         '<td style="text-align: center">' + costScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'con')+ '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'con') + '</td>' +
+                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'rating')+ '</td>' +
+
+                        '<td style="text-align: center">' + (Number(rs[i].REVENUE_ACHIEVE) - Number(rs[i].COST_ACHIEVE)) + '</td>' +
+
                         '<td style="text-align: center">' + commerIndexGoalsScore + '</td>' +
                         '<td style="text-align: center">' + evalAchieveResult.getEvalRating(commerIndexGoalsScore, 'con')+ '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(commerIndexGoalsScore, 'rating')+ '</td>' +
+                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(commerIndexGoalsScore, 'rating')+ '</td>' +
                     '</tr>';
 
                 if(i+1 < rs.length){
@@ -264,24 +289,41 @@ var evalAchieveResult = {
                         teamCommerIndexScore = Math.round(teamCommerIndexAchieve/teamCommerIndexGoals * 100);
                     }
 
+                    var teamOrderScoreCon = evalAchieveResult.getEvalRating(teamOrderScore, 'con');
+                    var teamSalesScoreCon = evalAchieveResult.getEvalRating(teamSalesScore, 'con');
+                    var teamRevenueScoreCon = evalAchieveResult.getEvalRating(teamRevenueScore, 'con');
+                    var teamScoreSum =
+                        (teamOrderScoreCon * (orderWeights / 100)) +
+                        (teamSalesScoreCon * (salesWeights / 100)) +
+                        (teamRevenueScoreCon * (revenueWeights / 100));
+
                     html += '' +
                         '<tr class="sumTr">' +
                             '<th class="text-center th-color"  style="background-color: #8fa1c04a"colspan="3">' + currentTeamName + ' 합계</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamOrderScore, 'con') + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamOrderScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamOrderScore, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamSalesScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamSalesScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamSalesScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamSalesScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamSalesScore, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamRevenueScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamRevenueScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamRevenueScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamRevenueScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamRevenueScore, 'rating') + '</th>' +
+
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamScoreSum + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamScoreSum, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamCostScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'rating') + '</th>' +
+
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (teamRevenueAchieve - teamCostAchieve) + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamCommerIndexScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'rating') + '</th>' +
                         '</tr>';
 
                     deptOrderGoals += teamOrderGoals;
@@ -339,35 +381,52 @@ var evalAchieveResult = {
                         deptCommerIndexGoals = Math.round(result * 10) / 10;
                     }
 
-                    /** 팀 사업화지수 달성 */
+                    /** 부서 사업화지수 달성 */
                     if(deptRevenueAchieve != 0 && deptCostAchieve != 0){
                         let result = (deptRevenueAchieve / deptCostAchieve) * 100 || 0;
                         deptCommerIndexAchieve = Math.round(result * 10) / 10;
                     }
 
-                    /** 팀 사업화지수 반영점수 */
+                    /** 부서 사업화지수 반영점수 */
                     if(deptCommerIndexGoals != 0 && deptCommerIndexAchieve != 0){
                         deptCommerIndexScore = Math.round(deptCommerIndexAchieve/deptCommerIndexGoals * 100);
                     }
+
+                    var deptOrderScoreCon = evalAchieveResult.getEvalRating(deptOrderScore, 'con');
+                    var deptSalesScoreCon = evalAchieveResult.getEvalRating(deptSalesScore, 'con');
+                    var deptRevenueScoreCon = evalAchieveResult.getEvalRating(deptRevenueScore, 'con');
+                    var deptScoreSum =
+                        (deptOrderScoreCon * (orderWeights / 100)) +
+                        (deptSalesScoreCon * (salesWeights / 100)) +
+                        (deptRevenueScoreCon * (revenueWeights / 100));
 
                     html += '' +
                         '<tr class="sumTr">' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a" colspan="3">' + currentDeptName + ' 합계</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptOrderScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptOrderScore, 'con') + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptOrderScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptOrderScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptOrderScore, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptSalesScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptSalesScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptSalesScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptSalesScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptSalesScore, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptRevenueScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptRevenueScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptRevenueScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptRevenueScoreCon + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptRevenueScore, 'rating') + '</th>' +
+
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptScoreSum + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'rating') + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptCostScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'rating') + '</th>' +
+
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (deptRevenueAchieve - deptCostAchieve) + '</th>' +
+
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptCommerIndexScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'con')+ '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'rating')+ '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'rating') + '</th>' +
                         '</tr>';
 
                     allDeptOrderGoals += deptOrderGoals;
@@ -432,24 +491,41 @@ var evalAchieveResult = {
                             allDeptCommerIndexScore = Math.round(allDeptCommerIndexAchieve/allDeptCommerIndexGoals * 100);
                         }
 
+                        var allDeptOrderScoreCon = evalAchieveResult.getEvalRating(allDeptOrderScore, 'con');
+                        var allDeptSalesScoreCon = evalAchieveResult.getEvalRating(allDeptSalesScore, 'con');
+                        var allDeptRevenueScoreCon = evalAchieveResult.getEvalRating(allDeptRevenueScore, 'con');
+                        var allDeptScoreSum =
+                            (allDeptOrderScoreCon * (orderWeights / 100)) +
+                            (allDeptSalesScoreCon * (salesWeights / 100)) +
+                            (allDeptRevenueScoreCon * (revenueWeights / 100));
+
                         html += '' +
                             '<tr class="sumTr">' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a" colspan="3">합계</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptOrderScore + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptOrderScore, 'con') + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptOrderScore, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptOrderScoreCon + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptOrderScore, 'rating') + '</th>' +
+
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptSalesScore + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptSalesScore, 'con') + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptSalesScore, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptSalesScoreCon + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptSalesScore, 'rating') + '</th>' +
+
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptRevenueScore + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptRevenueScore, 'con') + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptRevenueScore, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptRevenueScoreCon + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptRevenueScore, 'rating') + '</th>' +
+
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptScoreSum + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptScoreSum, 'rating') + '</th>' +
+
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptCostScore + '</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCostScore, 'con') + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCostScore, 'rating') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCostScore, 'rating') + '</th>' +
+
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (allDeptRevenueAchieve - allDeptCostAchieve) + '</th>' +
+
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptCommerIndexScore + '</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCommerIndexScore, 'con') + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCommerIndexScore, 'rating') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCommerIndexScore, 'rating') + '</th>' +
                             '</tr>';
                     }
                 }
@@ -510,19 +586,29 @@ var evalAchieveResult = {
 
                     ORDER_SCORE : $(th[1]).text(),
                     ORDER_CONVERSION : $(th[2]).text(),
-                    ORDER_RATING : $(th[3]).text(),
-                    SALES_SCORE : $(th[4]).text(),
-                    SALES_CONVERSION : $(th[5]).text(),
-                    SALES_RATING : $(th[6]).text(),
-                    REVENUE_SCORE : $(th[7]).text(),
-                    REVENUE_CONVERSION : $(th[8]).text(),
-                    REVENUE_RATING : $(th[9]).text(),
-                    COST_SCORE : $(th[10]).text(),
-                    COST_CONVERSION : $(th[11]).text(),
-                    COST_RATING : $(th[12]).text(),
-                    COMMER_INDEX_SCORE : $(th[13]).text(),
-                    COMMER_INDEX_CONVERSION : $(th[14]).text(),
-                    COMMER_INDEX_RATING : $(th[15]).text(),
+                    // ORDER_RATING : $(th[3]).text(),
+
+                    SALES_SCORE : $(th[3]).text(),
+                    SALES_CONVERSION : $(th[4]).text(),
+                    // SALES_RATING : $(th[6]).text(),
+
+                    REVENUE_SCORE : $(th[5]).text(),
+                    REVENUE_CONVERSION : $(th[6]).text(),
+                    // REVENUE_RATING : $(th[9]).text(),
+
+                    SCORE_SUM : $(th[7]).text(),
+                    SCORE_RATING : $(th[8]).text(),
+
+                    COST_SCORE : $(th[9]).text(),
+                    COST_CONVERSION : $(th[10]).text(),
+                    // COST_RATING : $(th[12]).text(),
+
+                    PROFITORLOSS : $(th[11]).text(),
+
+                    COMMER_INDEX_SCORE : $(th[12]).text(),
+                    COMMER_INDEX_CONVERSION : $(th[13]).text(),
+                    // COMMER_INDEX_RATING : $(th[15]).text(),
+
                 }
             }else{
                 var td = $(v).find("td");
@@ -530,24 +616,33 @@ var evalAchieveResult = {
                     DEPT_NAME : $(td[0]).text(),
                     TEAM_NAME : $(td[1]).text(),
                     EMP_NAME_KR : $(td[2]).text(),
+
                     ORDER_SCORE : $(td[3]).text(),
                     ORDER_CONVERSION : $(td[4]).text(),
-                    ORDER_RATING : $(td[5]).text(),
-                    SALES_SCORE : $(td[6]).text(),
-                    SALES_CONVERSION : $(td[7]).text(),
-                    SALES_RATING : $(td[8]).text(),
-                    REVENUE_SCORE : $(td[9]).text(),
-                    REVENUE_CONVERSION : $(td[10]).text(),
-                    REVENUE_RATING : $(td[11]).text(),
-                    COST_SCORE : $(td[12]).text(),
-                    COST_CONVERSION : $(td[13]).text(),
-                    COST_RATING : $(td[14]).text(),
-                    COMMER_INDEX_SCORE : $(td[15]).text(),
-                    COMMER_INDEX_CONVERSION : $(td[16]).text(),
-                    COMMER_INDEX_RATING : $(td[17]).text(),
+                    // ORDER_RATING : $(td[3]).text(),
+
+                    SALES_SCORE : $(td[5]).text(),
+                    SALES_CONVERSION : $(td[6]).text(),
+                    // SALES_RATING : $(td[6]).text(),
+
+                    REVENUE_SCORE : $(td[7]).text(),
+                    REVENUE_CONVERSION : $(td[8]).text(),
+                    // REVENUE_RATING : $(td[9]).text(),
+
+                    SCORE_SUM : $(td[9]).text(),
+                    SCORE_RATING : $(td[10]).text(),
+
+                    COST_SCORE : $(td[11]).text(),
+                    COST_CONVERSION : $(td[12]).text(),
+                    // COST_RATING : $(td[12]).text(),
+
+                    PROFITORLOSS : $(td[13]).text(),
+
+                    COMMER_INDEX_SCORE : $(td[14]).text(),
+                    COMMER_INDEX_CONVERSION : $(td[15]).text(),
+                    // COMMER_INDEX_RATING : $(td[15]).text(),
                 }
             }
-
 
             arr.push(data);
         })
@@ -585,11 +680,11 @@ var evalAchieveResult = {
                     title: "수주_환산",
                     width: 80,
                     field: "ORDER_CONVERSION"
-                }, {
+                }/*, {
                     title: "수주_등급",
                     width: 80,
                     field: "ORDER_RATING"
-                }, {
+                }*/, {
                     title: "매출_점수",
                     width: 80,
                     field: "SALES_SCORE"
@@ -597,11 +692,11 @@ var evalAchieveResult = {
                     title: "매출_환산",
                     width: 80,
                     field: "SALES_CONVERSION"
-                }, {
+                }/*, {
                     title: "매출_등급",
                     width: 80,
                     field: "SALES_RATING"
-                }, {
+                }*/, {
                     title: "수익_점수",
                     width: 80,
                     field: "REVENUE_SCORE"
@@ -609,10 +704,18 @@ var evalAchieveResult = {
                     title: "수익_환산",
                     width: 80,
                     field: "REVENUE_CONVERSION"
-                }, {
+                }/*, {
                     title: "수익_등급",
                     width: 80,
                     field: "REVENUE_RATING"
+                }*/, {
+                    title: "합계",
+                    width: 80,
+                    field: "SCORE_SUM"
+                }, {
+                    title: "등급",
+                    width: 80,
+                    field: "SCORE_RATING"
                 }, {
                     title: "비용_점수",
                     width: 80,
@@ -621,10 +724,14 @@ var evalAchieveResult = {
                     title: "비용_환산",
                     width: 80,
                     field: "COST_CONVERSION"
-                }, {
+                }/*, {
                     title: "비용_등급",
                     width: 80,
                     field: "COST_RATING"
+                }*/, {
+                    title: "손익",
+                    width: 80,
+                    field: "PROFITORLOSS"
                 }, {
                     title: "사업화지수_점수",
                     width: 80,
@@ -633,11 +740,11 @@ var evalAchieveResult = {
                     title: "사업화지수_환산",
                     width: 80,
                     field: "COMMER_INDEX_CONVERSION"
-                }, {
+                }/*, {
                     title: "사업화지수_등급",
                     width: 120,
                     field: "COMMER_INDEX_RATING"
-                },
+                },*/
             ],
         }).data("kendoGrid");
     },

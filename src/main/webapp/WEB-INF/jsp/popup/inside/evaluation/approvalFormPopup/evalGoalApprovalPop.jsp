@@ -185,7 +185,7 @@
                             '<td style="height:30px; text-align:right;"></td>' +
 
                             '<td style="height:30px; text-align:right;" class="empCommerIndexGoals">' +
-                                '<p style="font-size:12px;">' + comma(rs[i].COMMER_INDEX_GOALS) + '</p>' +
+                                '<p style="font-size:12px;">' + rs[i].COMMER_INDEX_GOALS + '</p>' +
                             '</td>' +
                             '<td style="height:30px; text-align:right;"></td>' +
                         '</tr>';
