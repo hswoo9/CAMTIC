@@ -946,6 +946,22 @@ public class EvaluationController {
         return "popup/inside/evaluation/allEvalApprovePop";
     }
 
+    /**
+     * 평가결과 역량 업적 합산 결재 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getAllEvalApproveList.do")
+    public String getAllEvalApproveList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("rs", evaluationService.getAllEvalApproveList(params));
+        return "jsonView";
+    }
+
+
+
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = session.getAttribute("LoginVO") == null ? null : (LoginVO) session.getAttribute("LoginVO");

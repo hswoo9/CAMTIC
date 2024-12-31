@@ -6,7 +6,8 @@ var evaluationPerReq = {
         dropDownDataSource : "",
         evalData : null,
         scoreList : new Array(),
-        gradingTable : new Array()
+        gradingTable : new Array(),
+        evalAchieveSet : ""
     },
 
     init: function(){
@@ -25,11 +26,13 @@ var evaluationPerReq = {
             url : "/evaluation/getEvalAchieveSet",
             type : "post",
             data : {
+                year : $("#searchYear").val(),
                 baseYear : $("#searchYear").val(),
             },
             dataType : "json",
             async : false,
             success : function(rs){
+                evaluationPerReq.global.evalAchieveSet = rs.rs;
                 evaluationPerReq.global.gradingTable = rs.rs.ratingList;
             },
             error : function(e) {
@@ -45,6 +48,7 @@ var evaluationPerReq = {
             type : "post",
             data : {
                 baseYear : $("#searchYear").val(),
+                year : $("#searchYear").val(),
                 teamSeq : $("#regTeamSeq").val(),
             },
             dataType : "json",
@@ -72,8 +76,9 @@ var evaluationPerReq = {
         }else{
             var evalAchieveSet = result.evalAchieveSet;
             var now = new Date();
-            var evalStrDt = new Date(evalAchieveSet.EVAL_STR_DT)
+            var evalStrDt = new Date(evalAchieveSet.EVAL_STR_DT + "T00:00:00")
             var evalEndDt = new Date(evalAchieveSet.EVAL_END_DT + "T23:59:59")
+            console.log(evalAchieveSet)
             if(result.teamGoalApprove != null && now >= evalStrDt && now <= evalEndDt){
                 html += '' +
                     '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationPerReq.setEvalAchieveApprove()">' +
@@ -567,9 +572,21 @@ var evaluationPerReq = {
             return;
         }
 
+        var orderWeights = Number(evaluationPerReq.global.evalAchieveSet.ORDER_WEIGHTS)
+        var salesWeights = Number(evaluationPerReq.global.evalAchieveSet.SALES_WEIGHTS)
+        var revenueWeights = Number(evaluationPerReq.global.evalAchieveSet.REVENUE_WEIGHTS)
 
         var empEvalAchieveArr = new Array();
         $("#evalList tr[name='achieveEmpSeq']").each(function(i, v){
+            var orderConScore = uncomma($(this).find("span#orderConScore").text())
+            var salesConScore = uncomma($(this).find("span#salesConScore").text())
+            var revenueConScore = uncomma($(this).find("span#revenueConScore").text())
+
+            var scoreSum =
+                (orderConScore * (orderWeights / 100)) +
+                (salesConScore * (salesWeights / 100)) +
+                (revenueConScore * (revenueWeights / 100));
+
             var data = {
                 baseYear : $("#searchYear").val(),
                 teamSeq : $("#regTeamSeq").val(),
@@ -584,6 +601,8 @@ var evaluationPerReq = {
                 costAchieve : uncomma($(this).find("span#costAchieve").text()),
                 commerIndexGoals : $(this).find("span#commerIndexGoals").text(),
                 commerIndexAchieve : $(this).find("span#commerIndexAchieve").text(),
+                scoreSum : scoreSum,
+                scoreRating : evaluationPerReq.getEvalRating(scoreSum, 'rating'),
                 regEmpSeq : $("#regEmpSeq").val(),
             }
 

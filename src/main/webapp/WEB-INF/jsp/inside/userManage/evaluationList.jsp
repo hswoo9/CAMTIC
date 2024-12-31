@@ -133,7 +133,6 @@
 
         $('#evalList').empty();
         var html = "";
-
         if(list.length > 0){
             const yearCount = {};
             for (var i = 0; i < list.length; i++) {
@@ -257,7 +256,6 @@
                 // 업적평가설정 버튼, rowspan 처리
                 if (currentYear !== bsYear) {
                     var achieve = achieveList.find(l => l.BASE_YEAR == bsYear);
-
                     let ssCnt = 0;
                     let sCnt = 0;
                     let aCnt = 0;
@@ -265,51 +263,53 @@
                     let cCnt = 0;
                     let dCnt = 0;
                     let fCnt = 0;
+                    if(achieve != null){
+                        const evalAchieveEmpList = customKendo.fn_customAjax("/evaluation/getEvalAchieveResultList", {baseYear : bsYear}).rs;
+                        for(var l = 0; l < evalAchieveEmpList.length; l++){
+                            var orderScore = 0;
+                            var salesScore = 0;
+                            var revenueScore = 0;
 
-                    const evalAchieveEmpList = customKendo.fn_customAjax("/evaluation/getEvalAchieveResultList", {baseYear : bsYear}).rs;
-                    for(var l = 0; l < evalAchieveEmpList.length; l++){
-                        var orderScore = 0;
-                        var salesScore = 0;
-                        var revenueScore = 0;
+                            if(evalAchieveEmpList[l].ORDER_GOALS != 0 && evalAchieveEmpList[l].ORDER_ACHIEVE != 0){
+                                orderScore = Math.round(evalAchieveEmpList[l].ORDER_ACHIEVE/evalAchieveEmpList[l].ORDER_GOALS * 100);
+                            }
 
-                        if(evalAchieveEmpList[l].ORDER_GOALS != 0 && evalAchieveEmpList[l].ORDER_ACHIEVE != 0){
-                            orderScore = Math.round(evalAchieveEmpList[l].ORDER_ACHIEVE/evalAchieveEmpList[l].ORDER_GOALS * 100);
-                        }
+                            if(evalAchieveEmpList[l].SALES_GOALS != 0 && evalAchieveEmpList[l].SALES_ACHIEVE != 0){
+                                salesScore = Math.round(evalAchieveEmpList[l].SALES_ACHIEVE/evalAchieveEmpList[l].SALES_GOALS * 100);
+                            }
 
-                        if(evalAchieveEmpList[l].SALES_GOALS != 0 && evalAchieveEmpList[l].SALES_ACHIEVE != 0){
-                            salesScore = Math.round(evalAchieveEmpList[l].SALES_ACHIEVE/evalAchieveEmpList[l].SALES_GOALS * 100);
-                        }
+                            if(evalAchieveEmpList[l].REVENUE_GOALS != 0 && evalAchieveEmpList[l].REVENUE_ACHIEVE != 0){
+                                revenueScore = Math.round(evalAchieveEmpList[l].REVENUE_ACHIEVE/evalAchieveEmpList[l].REVENUE_GOALS * 100);
+                            }
 
-                        if(evalAchieveEmpList[l].REVENUE_GOALS != 0 && evalAchieveEmpList[l].REVENUE_ACHIEVE != 0){
-                            revenueScore = Math.round(evalAchieveEmpList[l].REVENUE_ACHIEVE/evalAchieveEmpList[l].REVENUE_GOALS * 100);
-                        }
+                            var orderScoreCon = evaluationList.getEvalRating(orderScore, 'con');
+                            var salesScoreCon = evaluationList.getEvalRating(salesScore, 'con');
+                            var revenueScoreCon = evaluationList.getEvalRating(revenueScore, 'con');
+                            var scoreSum =
+                                (orderScoreCon * (Number(achieve.ORDER_WEIGHTS) / 100)) +
+                                (salesScoreCon * (Number(achieve.SALES_WEIGHTS) / 100)) +
+                                (revenueScoreCon * (Number(achieve.REVENUE_WEIGHTS) / 100));
 
-                        var orderScoreCon = evaluationList.getEvalRating(orderScore, 'con');
-                        var salesScoreCon = evaluationList.getEvalRating(salesScore, 'con');
-                        var revenueScoreCon = evaluationList.getEvalRating(revenueScore, 'con');
-                        var scoreSum =
-                            (orderScoreCon * (Number(achieve.ORDER_WEIGHTS) / 100)) +
-                            (salesScoreCon * (Number(achieve.SALES_WEIGHTS) / 100)) +
-                            (revenueScoreCon * (Number(achieve.REVENUE_WEIGHTS) / 100));
+                            var scoreRating = evaluationList.getEvalRating(scoreSum, 'rating')
 
-                        var scoreRating = evaluationList.getEvalRating(scoreSum, 'rating')
-
-                        if(scoreRating == "SS"){
-                            ssCnt++;
-                        }else if(scoreRating == "S"){
-                            sCnt++;
-                        }else if(scoreRating == "A"){
-                            aCnt++;
-                        }else if(scoreRating == "B"){
-                            bCnt++;
-                        }else if(scoreRating == "C"){
-                            cCnt++;
-                        }else if(scoreRating == "D"){
-                            dCnt++;
-                        }else{
-                            fCnt++;
+                            if(scoreRating == "SS"){
+                                ssCnt++;
+                            }else if(scoreRating == "S"){
+                                sCnt++;
+                            }else if(scoreRating == "A"){
+                                aCnt++;
+                            }else if(scoreRating == "B"){
+                                bCnt++;
+                            }else if(scoreRating == "C"){
+                                cCnt++;
+                            }else if(scoreRating == "D"){
+                                dCnt++;
+                            }else{
+                                fCnt++;
+                            }
                         }
                     }
+
 
                     currentYear = bsYear;  // 새로운 년도로 변경
 

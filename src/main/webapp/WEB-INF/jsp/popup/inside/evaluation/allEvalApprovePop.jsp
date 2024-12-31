@@ -17,6 +17,15 @@
     .finalEval {
         background-color: #c0e6f5 !important;
     }
+
+    .scoreInput {
+        text-align: right;
+    }
+
+    #my-spinner { width: 100%; height: 100vh; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 </style>
 
 <body class="font-opensans" style="background-color:#fff;">
@@ -36,6 +45,14 @@
 <input type="hidden" id="regJobDetailName" value="${loginVO.jobDetailNm}"/>
 <input type="hidden" id="baseYear" value="${params.baseYear}"/>
 
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
+</div>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -51,16 +68,16 @@
                 <tr>
                     <th class="text-center th-color">부서/팀</th>
                     <td>
-                        <input type="text" id="dept" style="width:160px;" onchange="allEvalApprovePop.getEvalAchieveResultList()">
-                        <input type="text" id="team" style="width:165px;" onchange="allEvalApprovePop.getEvalAchieveResultList()">
+                        <input type="text" id="dept" style="width:160px;" onchange="allEvalApprovePop.getAllEvalApproveList()">
+                        <input type="text" id="team" style="width:165px;" onchange="allEvalApprovePop.getAllEvalApproveList()">
                     </td>
                     <th class="text-center th-color">직책/직급</th>
                     <td >
-                        <input type="text" id="position" style="width: 160px;" onchange="allEvalApprovePop.getEvalAchieveResultList()">
-                        <input type="text" id="duty" style="width: 160px;" onchange="allEvalApprovePop.getEvalAchieveResultList()">
+                        <input type="text" id="position" style="width: 160px;" onchange="allEvalApprovePop.getAllEvalApproveList()">
+                        <input type="text" id="duty" style="width: 160px;" onchange="allEvalApprovePop.getAllEvalApproveList()">
                     </td>
                     <td >
-                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="allEvalApprovePop.getEvalAchieveResultList();">	<span class="k-button-text">조회</span></button>
+                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="allEvalApprovePop.getAllEvalApproveList();">	<span class="k-button-text">조회</span></button>
                     </td>
 
                 </tr>
@@ -68,8 +85,19 @@
 
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
+                    <col width="9%">
                     <col width="10%">
-                    <col width="12%">
+                    <col width="5%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
+                    <col width="6%">
                     <col width="6%">
                 </colgroup>
                 <thead>
@@ -79,26 +107,22 @@
                     <th scope="row" class="text-center th-color" rowspan="2">성명</th>
 
 
-                    <th scope="row" class="text-center" colspan="2">역량평가(상반기)</th>
-                    <th scope="row" class="text-center" colspan="2">역량평가(하반기)</th>
-                    <th scope="row" class="text-center eval" colspan="2">역량평가</th>
-                    <th scope="row" class="text-center eval">가중치</th>
-                    <th scope="row" class="text-center achieve" colspan="2">업적평가</th>
-                    <th scope="row" class="text-center achieve">가중치</th>
+                    <th scope="row" class="text-center eval" colspan="5">역량평가</th>
+                    <th scope="row" class="text-center achieve" colspan="3">업적평가</th>
+                    <th scope="row" class="text-center" rowspan="2">조정점수</th>
                     <th scope="row" class="text-center finalEval" rowspan="2">최종점수</th>
                     <th scope="row" class="text-center finalEval" rowspan="2">최종등급</th>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center">최종점수</th>
-                    <th scope="row" class="text-center">최종등급</th>
-                    <th scope="row" class="text-center">최종점수</th>
-                    <th scope="row" class="text-center">최종등급</th>
+                    <th scope="row" class="text-center eval">상반기</th>
+                    <th scope="row" class="text-center eval">하반기</th>
                     <th scope="row" class="text-center eval">최종점수</th>
                     <th scope="row" class="text-center eval">최종등급</th>
-                    <th scope="row" class="text-center eval">80%</th>
+                    <th scope="row" class="text-center eval">가중치</th>
+
                     <th scope="row" class="text-center achieve">최종점수</th>
                     <th scope="row" class="text-center achieve">최종등급</th>
-                    <th scope="row" class="text-center achieve">20%</th>
+                    <th scope="row" class="text-center achieve">가중치</th>
                 </tr>
                 </thead>
                 <tbody id="evalList">

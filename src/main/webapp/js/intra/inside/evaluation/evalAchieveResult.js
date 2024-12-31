@@ -46,6 +46,7 @@ var evalAchieveResult = {
             url : "/evaluation/getEvalAchieveSet",
             type : "post",
             data : {
+                year : $("#baseYear").val(),
                 baseYear : $("#baseYear").val(),
             },
             dataType : "json",

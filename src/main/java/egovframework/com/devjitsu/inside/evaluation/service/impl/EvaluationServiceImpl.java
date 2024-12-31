@@ -406,7 +406,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public Map<String, Object> getEvalGoalList(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(params);
-        params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        if(evalSetMap != null){
+            params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        }
 
         List<Map<String, Object>> goalList = evaluationRepository.getEvalGoalList(params);
         params.put("empSeqArr", goalList.stream()
@@ -469,7 +471,9 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(searchMap);
-        params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        if(evalSetMap != null){
+            params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        }
         result.put("evalGoalList", evaluationRepository.getEvalGoalList(params));
 
         return result;
@@ -629,10 +633,10 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvalAchieveSet(Map<String, Object> params) {
         Map<String, Object> result = evaluationRepository.getEvalAchieveSet(params);
-        if(StringUtils.isEmpty(params.get("evalAchieveSetSn"))){
+        if(StringUtils.isEmpty(params.get("evalAchieveSetSn")) && result != null){
             params.put("evalAchieveSetSn", result.get("EVAL_ACHIEVE_SET_SN"));
+            result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
         }
-        result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
 
         params.put("objType", "team");
         result.put("teamGoal", achieveRepository.getDeptObjList(params));
@@ -650,5 +654,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
         return evaluationRepository.getEvalAchieveResultList(params);
+    }
+
+    @Override
+    public Map<String, Object> getAllEvalApproveList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("evaluationYearMax", evaluationRepository.getEvaluationYearMax(params));
+        result.put("evalResultEmpList", evaluationRepository.getEvalResultEmpApproveList(params));
+        result.put("evalAchieveList", evaluationRepository.getEvalAchieveResultList(params));
+        return result;
     }
 }

@@ -337,4 +337,13 @@ public class EvaluationRepository extends AbstractDAO {
     public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
         return selectList("evaluation.getEvalAchieveResultList", params);
     }
+
+    public Object getEvalResultEmpApproveList(Map<String, Object> params) {
+        return selectList("evaluation.getEvalResultEmpApproveList", params);
+    }
+
+    public Map<String, Object> getEvaluationYearMax(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationYearMax", params);
+    }
+
 }

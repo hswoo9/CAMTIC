@@ -19,6 +19,7 @@ var evaluationList = {
             url : "/evaluation/getEvalAchieveSet",
             type : "post",
             data : {
+                year : $("#searchYear").val(),
                 baseYear : $("#searchYear").val(),
             },
             dataType : "json",

@@ -125,7 +125,13 @@
     <select id="getEvalAchieveSet" parameterType="map" resultType="map">
         /* getEvalAchieveSet */
         SELECT
-            *
+            EVAL_ACHIEVE_SET_SN,
+            BASE_YEAR,
+            EVAL_STR_DT,
+            EVAL_END_DT,
+            ORDER_WEIGHTS,
+            SALES_WEIGHTS,
+            REVENUE_WEIGHTS
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET A
         WHERE 1=1
@@ -1702,6 +1708,8 @@
             COST_ACHIEVE,
             COMMER_INDEX_GOALS,
             COMMER_INDEX_ACHIEVE,
+            SCORE_SUM,
+            SCORE_RATING,
             REG_EMP_SEQ
         )
         VALUES
@@ -1720,6 +1728,8 @@
             #{costAchieve},
             #{commerIndexGoals},
             #{commerIndexAchieve},
+            #{scoreSum},
+            #{scoreRating},
             #{regEmpSeq}
         )
     </insert>
@@ -1865,6 +1875,8 @@
         FROM (
             SELECT
                 HEI.EMP_SEQ,
+                HEI.DEPT_SEQ,
+                HDI.PARENT_DEPT_SEQ,
                 (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
                 (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
                 HEI.EMP_NAME_KR AS EMP_NAME,
@@ -1883,7 +1895,9 @@
                 IFNULL(B.COST_GOALS, 0) AS COST_GOALS,
                 IFNULL(B.COST_ACHIEVE, 0) AS COST_ACHIEVE,
                 IFNULL(B.COMMER_INDEX_GOALS, 0) AS COMMER_INDEX_GOALS,
-                IFNULL(B.COMMER_INDEX_ACHIEVE, 0) AS COMMER_INDEX_ACHIEVE
+                IFNULL(B.COMMER_INDEX_ACHIEVE, 0) AS COMMER_INDEX_ACHIEVE,
+                IFNULL(B.SCORE_SUM, 0) AS SCORE_SUM,
+                IFNULL(B.SCORE_RATING, '-') AS SCORE_RATING
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
             LEFT JOIN
@@ -1921,5 +1935,62 @@
         ORDER BY (
             CASE WHEN DEPT_NAME = '캠틱종합기술원' THEN 1 WHEN ASCII(SUBSTRING(DEPT_NAME,1)) <![CDATA[<]]> 123 THEN 3 ELSE 2 END
         ), DEPT_NAME, TEAM_NAME, DUTY_NAME DESC, POSITION_CODE, EMP_NAME;
+    </select>
+
+    <select id="getEvalResultEmpApproveList" parameterType="map" resultType="map">
+        /* getEvalResultEmpApproveList */
+        SELECT
+            DE.*,
+            A.*,
+            D.DEPT_MANAGER_A,
+            D.TEAM_MANAGER_A,
+            D.TEAM_MEMBER_A,
+            D.DEPT_MANAGER_B,
+            D.TEAM_MANAGER_B,
+            D.TEAM_MEMBER_B
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM A
+        JOIN
+            CAM_HR.DJ_EMP_INFO HEI
+        ON A.EVAL_EMP_SEQ = HEI.EMP_SEQ
+        JOIN
+            CAM_HR.DJ_DEPT_INFO HDI
+        ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        JOIN
+            CAM_INSIDE.DJ_EVALUATION DE
+        ON A.EVAL_SN = DE.EVAL_SN
+        LEFT JOIN
+            CAM_INSIDE.DJ_EVALUATION_CAP D ON A.EVAL_SN = D.EVAL_SN
+        WHERE
+            DE.BS_YEAR =  #{baseYear}
+        <choose>
+            <when test='dept != null and !"".equals(dept) and "".equals(team)'>
+                AND (HDI.PARENT_DEPT_SEQ = #{dept} OR HDI.DEPT_SEQ = #{dept} )
+            </when>
+            <when test='dept != null and !"".equals(dept)'>
+                AND HDI.PARENT_DEPT_SEQ = #{dept}
+            </when>
+        </choose>
+        <if test='team != null and team != ""'>
+            AND HEI.DEPT_SEQ = #{team}
+        </if>
+        <if test='position != null and position != ""'>
+            AND HEI.POSITION_CODE = #{position}
+        </if>
+        <if test='duty != null and duty != ""'>
+            AND HEI.DUTY_CODE = #{duty}
+        </if>
+    </select>
+
+    <select id="getEvaluationYearMax" parameterType="map" resultType="map">
+        /* getEvaluationYearMax */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION DE
+        WHERE
+            DE.BS_YEAR =  #{baseYear}
+        ORDER BY DE.EVAL_NUM DESC
+        LIMIT 1
     </select>
 </mapper>
