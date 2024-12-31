@@ -1399,14 +1399,9 @@
                 CAM_INSIDE.DJ_EVALUATING_GOAL B
             ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{year}
             WHERE 1=1
-            AND HEI.EMP_SEQ NOT REGEXP (
-                SELECT
-                    REPLACE(EXCLUDES_SEQ, ',', '|')
-                FROM
-                    CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET
-                WHERE
-                    BASE_YEAR = DATE_FORMAT(NOW(), '%Y')
-            )
+            <if test='excludesSeq != null and !"".equals(excludesSeq)'>
+            AND HEI.EMP_SEQ NOT REGEXP (REPLACE(#{excludesSeq}, ',', '|'))
+            </if>
             AND
                 HEI.WORK_STATUS_CODE = 'Y'
             AND

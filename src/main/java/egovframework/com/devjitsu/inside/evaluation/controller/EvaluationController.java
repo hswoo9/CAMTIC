@@ -928,6 +928,24 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    /**
+     * 평가결과 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+
+    @RequestMapping("/evaluation/pop/allEvalApprovePop.do")
+    public String allEvalApprovePop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/allEvalApprovePop";
+    }
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = session.getAttribute("LoginVO") == null ? null : (LoginVO) session.getAttribute("LoginVO");

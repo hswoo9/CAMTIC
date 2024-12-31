@@ -1,9 +1,36 @@
 var evaluationList = {
 
+    global : {
+        evalList : new Array(),
+        evalAchieveList : new Array(),
+        evalAchieveSet : "",
+        gradingTable : new Array()
+    },
 
     fn_defaultScript : function (){
+        customKendo.fn_datePicker("searchYear", 'decade', "yyyy", new Date());
 
-        evaluationList.mainGrid();
+        evaluationList.getEvalAchieveSet();
+        // evaluationList.mainGrid();
+    },
+
+    getEvalAchieveSet : function(){
+        $.ajax({
+            url : "/evaluation/getEvalAchieveSet",
+            type : "post",
+            data : {
+                baseYear : $("#searchYear").val(),
+            },
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                evaluationList.global.evalAchieveSet = rs.rs;
+                evaluationList.global.gradingTable = rs.rs.ratingList;
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
     },
 
     mainGrid: function(){
@@ -92,8 +119,61 @@ var evaluationList = {
         var name = "_blank";
         var option = "width = 1000, height = 800, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
 
+    fn_popAllEvalApprovePop : function(){
+        var evalList = evaluationList.global.evalList.filter(l => l.BS_YEAR == $("#searchYear").val() && ['1', '2'].includes(l.EVAL_NUM))
+        if(evalList.length < 2){
+           if(!evalList.some(l => l.EVAL_NUM === '1')){
+               alert("상반기 역량평가 데이터가 없습니다.");
+               return;
+           }else if(!evalList.some(l => l.EVAL_NUM === '2')){
+               alert("하반기 역량평가 데이터가 없습니다.");
+               return;
+           }
+        }
 
+        var evalAchieveList = evaluationList.global.evalAchieveList.filter(l => l.BASE_YEAR == $("#searchYear").val())
+        if(evalAchieveList.length == 0){
+            alert("업적평가 데이터가 없습니다.");
+            return;
+        }
 
+        var url = "/evaluation/pop/allEvalApprovePop.do?baseYear=" + $("#searchYear").val();
+        var name = "_blank";
+        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    getEvalRating : function(e, type){
+        if(type == "con"){
+            // 범위 밖 점수 처리: 점수가 150 이상이면 최대 환산점수 120 반환
+            if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
+                return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].CONVERSION_SCORE); // 범위 밖 점수일 경우 최대 환산점수
+            }
+
+            // 근사치 사용: 기준점수에 가장 가까운 환산점수를 찾아 반환
+            for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
+                    return Number(evaluationList.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
+                }
+            }
+
+            return null;
+        }else{
+            // 범위 밖 점수 처리: 점수가 150 이상이면 "SS" 등급 반환
+            if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
+                return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].RATING); // 범위 밖 점수일 경우 최대 등급
+            }
+
+            // 근사치 사용: 기준점수에 가장 가까운 평가 등급을 찾아 반환
+            for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
+                    return evaluationList.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
+                }
+            }
+
+            return null;
+        }
+    },
 }

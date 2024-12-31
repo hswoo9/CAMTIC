@@ -1,19 +1,20 @@
 var now = new Date();
 
-var evalAchieveResult = {
+var allEvalApprovePop = {
     global : {
         searchAjaxData : "",
         dropDownDataSource : "",
-        gradingTable : new Array()
+        gradingTable : new Array(),
+        evalAchieveSet : ""
     },
 
     init: function(){
-        evalAchieveResult.dataSet();
+        allEvalApprovePop.dataSet();
     },
 
     dataSet: function (){
-        evalAchieveResult.getEvalAchieveSet();
-        evalAchieveResult.getEvalAchieveResultList();
+        allEvalApprovePop.getEvalAchieveSet();
+        allEvalApprovePop.getEvalAchieveResultList();
 
         let data = {}
         data.deptLevel = 1;
@@ -21,14 +22,14 @@ var evalAchieveResult = {
 
         customKendo.fn_dropDownList("dept", deptDsA.rs, "dept_name", "dept_seq");
 
-        $("#dept").data("kendoDropDownList").bind("change", evalAchieveResult.changeDeptComp)
+        $("#dept").data("kendoDropDownList").bind("change", allEvalApprovePop.changeDeptComp)
         $("#dept").data("kendoDropDownList").select(0);
         $("#dept").data("kendoDropDownList").trigger("change");
 
-        evalAchieveResult.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
-        customKendo.fn_dropDownList("position", evalAchieveResult.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
-        evalAchieveResult.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
-        customKendo.fn_dropDownList("duty", evalAchieveResult.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
+        allEvalApprovePop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
+        customKendo.fn_dropDownList("position", allEvalApprovePop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
+        allEvalApprovePop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
+        customKendo.fn_dropDownList("duty", allEvalApprovePop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
     },
 
     changeDeptComp : function(){
@@ -38,7 +39,7 @@ var evalAchieveResult = {
 
         const ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
         customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
-        evalAchieveResult.getEvalAchieveResultList();
+        allEvalApprovePop.getEvalAchieveResultList();
     },
 
     getEvalAchieveSet : function(){
@@ -51,8 +52,8 @@ var evalAchieveResult = {
             dataType : "json",
             async : false,
             success : function(rs){
-                evalAchieveResult.global.evalAchieveSet = rs.rs;
-                evalAchieveResult.global.gradingTable = rs.rs.ratingList;
+                allEvalApprovePop.global.evalAchieveSet = rs.rs;
+                allEvalApprovePop.global.gradingTable = rs.rs.ratingList;
             },
             error : function(e) {
                 console.log(e);
@@ -74,8 +75,8 @@ var evalAchieveResult = {
             dataType : "json",
             async : false,
             success : function(result){
-                evalAchieveResult.fn_addTbody(result.rs);
-                evalAchieveResult.hiddenGrid();
+                // allEvalApprovePop.fn_addTbody(result.rs);
+                // allEvalApprovePop.hiddenGrid();
             },
             error : function(e) {
                 console.log(e);
@@ -143,9 +144,9 @@ var evalAchieveResult = {
             var deptCnt = {};
             var teamCnt = {};
 
-            var orderWeights = Number(evalAchieveResult.global.evalAchieveSet.ORDER_WEIGHTS)
-            var salesWeights = Number(evalAchieveResult.global.evalAchieveSet.SALES_WEIGHTS)
-            var revenueWeights = Number(evalAchieveResult.global.evalAchieveSet.REVENUE_WEIGHTS)
+            var orderWeights = Number(allEvalApprovePop.global.evalAchieveSet.ORDER_WEIGHTS)
+            var salesWeights = Number(allEvalApprovePop.global.evalAchieveSet.SALES_WEIGHTS)
+            var revenueWeights = Number(allEvalApprovePop.global.evalAchieveSet.REVENUE_WEIGHTS)
 
             rs = rs.filter(l => !['1', '2', '3', '4', '5', '7'].includes(l.DUTY_CODE) && l.DEPT_NAME != '' && l.TEAM_NAME != '');
             for(var i = 0 ; i < rs.length ; i++) {
@@ -192,9 +193,9 @@ var evalAchieveResult = {
                 }
 
 
-                var orderScoreCon = evalAchieveResult.getEvalRating(orderScore, 'con');
-                var salesScoreCon = evalAchieveResult.getEvalRating(salesScore, 'con');
-                var revenueScoreCon = evalAchieveResult.getEvalRating(revenueScore, 'con');
+                var orderScoreCon = allEvalApprovePop.getEvalRating(orderScore, 'con');
+                var salesScoreCon = allEvalApprovePop.getEvalRating(salesScore, 'con');
+                var revenueScoreCon = allEvalApprovePop.getEvalRating(revenueScore, 'con');
 
                 var scoreSum =
                     (orderScoreCon * (orderWeights / 100)) +
@@ -210,28 +211,28 @@ var evalAchieveResult = {
                         '<td>' + rs[i].EMP_NAME + '</td>' +
                         '<td style="text-align: center">' + orderScore + '</td>' +
                         '<td style="text-align: center">' + orderScoreCon + '</td>' +
-                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(orderScore, 'rating')+ '</td>' +
+                        // '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(orderScore, 'rating')+ '</td>' +
 
                         '<td style="text-align: center">' + salesScore + '</td>' +
                         '<td style="text-align: center">' + salesScoreCon + '</td>' +
-                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(salesScore, 'rating')+ '</td>' +
+                        // '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(salesScore, 'rating')+ '</td>' +
 
                         '<td style="text-align: center">' + revenueScore + '</td>' +
                         '<td style="text-align: center">' + revenueScoreCon + '</td>' +
-                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(revenueScore, 'rating')+ '</td>' +
+                        // '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(revenueScore, 'rating')+ '</td>' +
 
                         '<td style="text-align: center">' + scoreSum + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(scoreSum, 'rating') + '</td>' +
+                        '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(scoreSum, 'rating') + '</td>' +
 
                         '<td style="text-align: center">' + costScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'con') + '</td>' +
-                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(costScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(costScore, 'con') + '</td>' +
+                        // '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(costScore, 'rating')+ '</td>' +
 
                         '<td style="text-align: center">' + (Number(rs[i].REVENUE_ACHIEVE) - Number(rs[i].COST_ACHIEVE)) + '</td>' +
 
                         '<td style="text-align: center">' + commerIndexGoalsScore + '</td>' +
-                        '<td style="text-align: center">' + evalAchieveResult.getEvalRating(commerIndexGoalsScore, 'con')+ '</td>' +
-                        // '<td style="text-align: center">' + evalAchieveResult.getEvalRating(commerIndexGoalsScore, 'rating')+ '</td>' +
+                        '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(commerIndexGoalsScore, 'con')+ '</td>' +
+                        // '<td style="text-align: center">' + allEvalApprovePop.getEvalRating(commerIndexGoalsScore, 'rating')+ '</td>' +
                     '</tr>';
 
                 if(i+1 < rs.length){
@@ -289,9 +290,9 @@ var evalAchieveResult = {
                         teamCommerIndexScore = Math.round(teamCommerIndexAchieve/teamCommerIndexGoals * 100);
                     }
 
-                    var teamOrderScoreCon = evalAchieveResult.getEvalRating(teamOrderScore, 'con');
-                    var teamSalesScoreCon = evalAchieveResult.getEvalRating(teamSalesScore, 'con');
-                    var teamRevenueScoreCon = evalAchieveResult.getEvalRating(teamRevenueScore, 'con');
+                    var teamOrderScoreCon = allEvalApprovePop.getEvalRating(teamOrderScore, 'con');
+                    var teamSalesScoreCon = allEvalApprovePop.getEvalRating(teamSalesScore, 'con');
+                    var teamRevenueScoreCon = allEvalApprovePop.getEvalRating(teamRevenueScore, 'con');
                     var teamScoreSum =
                         (teamOrderScoreCon * (orderWeights / 100)) +
                         (teamSalesScoreCon * (salesWeights / 100)) +
@@ -302,28 +303,28 @@ var evalAchieveResult = {
                             '<th class="text-center th-color"  style="background-color: #8fa1c04a" colspan="3">' + currentTeamName + ' 합계</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamOrderScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamOrderScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamOrderScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamSalesScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamSalesScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamSalesScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamSalesScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamRevenueScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamRevenueScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamRevenueScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamRevenueScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamScoreSum + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamScoreSum, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamScoreSum, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamCostScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'con') + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCostScore, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamCostScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamCostScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (teamRevenueAchieve - teamCostAchieve) + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + teamCommerIndexScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'con') + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(teamCommerIndexScore, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamCommerIndexScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(teamCommerIndexScore, 'rating') + '</th>' +
                         '</tr>';
 
                     deptOrderGoals += teamOrderGoals;
@@ -392,9 +393,9 @@ var evalAchieveResult = {
                         deptCommerIndexScore = Math.round(deptCommerIndexAchieve/deptCommerIndexGoals * 100);
                     }
 
-                    var deptOrderScoreCon = evalAchieveResult.getEvalRating(deptOrderScore, 'con');
-                    var deptSalesScoreCon = evalAchieveResult.getEvalRating(deptSalesScore, 'con');
-                    var deptRevenueScoreCon = evalAchieveResult.getEvalRating(deptRevenueScore, 'con');
+                    var deptOrderScoreCon = allEvalApprovePop.getEvalRating(deptOrderScore, 'con');
+                    var deptSalesScoreCon = allEvalApprovePop.getEvalRating(deptSalesScore, 'con');
+                    var deptRevenueScoreCon = allEvalApprovePop.getEvalRating(deptRevenueScore, 'con');
                     var deptScoreSum =
                         (deptOrderScoreCon * (orderWeights / 100)) +
                         (deptSalesScoreCon * (salesWeights / 100)) +
@@ -405,28 +406,28 @@ var evalAchieveResult = {
                             '<th class="text-center th-color" style="background-color: #8fa1c04a" colspan="3">' + currentDeptName + ' 합계</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptOrderScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptOrderScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptOrderScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptOrderScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptSalesScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptSalesScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptSalesScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptSalesScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptRevenueScore + '</th>' +
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptRevenueScoreCon + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptRevenueScore, 'rating') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptRevenueScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptScoreSum + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptCostScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptCostScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'con') + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCostScore, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptCostScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptCostScore, 'rating') + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (deptRevenueAchieve - deptCostAchieve) + '</th>' +
 
                             '<th class="text-center th-color" style="background-color: #8fa1c04a">' + deptCommerIndexScore + '</th>' +
-                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'con') + '</th>' +
-                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(deptCommerIndexScore, 'rating') + '</th>' +
+                            '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptCommerIndexScore, 'con') + '</th>' +
+                            // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(deptCommerIndexScore, 'rating') + '</th>' +
                         '</tr>';
 
                     allDeptOrderGoals += deptOrderGoals;
@@ -491,9 +492,9 @@ var evalAchieveResult = {
                             allDeptCommerIndexScore = Math.round(allDeptCommerIndexAchieve/allDeptCommerIndexGoals * 100);
                         }
 
-                        var allDeptOrderScoreCon = evalAchieveResult.getEvalRating(allDeptOrderScore, 'con');
-                        var allDeptSalesScoreCon = evalAchieveResult.getEvalRating(allDeptSalesScore, 'con');
-                        var allDeptRevenueScoreCon = evalAchieveResult.getEvalRating(allDeptRevenueScore, 'con');
+                        var allDeptOrderScoreCon = allEvalApprovePop.getEvalRating(allDeptOrderScore, 'con');
+                        var allDeptSalesScoreCon = allEvalApprovePop.getEvalRating(allDeptSalesScore, 'con');
+                        var allDeptRevenueScoreCon = allEvalApprovePop.getEvalRating(allDeptRevenueScore, 'con');
                         var allDeptScoreSum =
                             (allDeptOrderScoreCon * (orderWeights / 100)) +
                             (allDeptSalesScoreCon * (salesWeights / 100)) +
@@ -504,28 +505,28 @@ var evalAchieveResult = {
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a" colspan="3">합계</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptOrderScore + '</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptOrderScoreCon + '</th>' +
-                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptOrderScore, 'rating') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptOrderScore, 'rating') + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptSalesScore + '</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptSalesScoreCon + '</th>' +
-                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptSalesScore, 'rating') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptSalesScore, 'rating') + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptRevenueScore + '</th>' +
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptRevenueScoreCon + '</th>' +
-                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptRevenueScore, 'rating') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptRevenueScore, 'rating') + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptScoreSum + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptScoreSum, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptScoreSum, 'rating') + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptCostScore + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCostScore, 'con') + '</th>' +
-                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCostScore, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptCostScore, 'con') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptCostScore, 'rating') + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + (allDeptRevenueAchieve - allDeptCostAchieve) + '</th>' +
 
                                 '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allDeptCommerIndexScore + '</th>' +
-                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCommerIndexScore, 'con') + '</th>' +
-                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + evalAchieveResult.getEvalRating(allDeptCommerIndexScore, 'rating') + '</th>' +
+                                '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptCommerIndexScore, 'con') + '</th>' +
+                                // '<th class="text-center th-color" style="background-color: #8fa1c04a">' + allEvalApprovePop.getEvalRating(allDeptCommerIndexScore, 'rating') + '</th>' +
                             '</tr>';
                     }
                 }
@@ -539,26 +540,26 @@ var evalAchieveResult = {
         var result = "";
         if(type == "con"){
             // 범위 밖 점수 처리: 점수가 150 이상이면 최대 환산점수 120 반환
-            if (e > Number(evalAchieveResult.global.gradingTable[evalAchieveResult.global.gradingTable.length - 1].BASE_SCORE)) {
-                return Number(evalAchieveResult.global.gradingTable[evalAchieveResult.global.gradingTable.length - 1].CONVERSION_SCORE); // 범위 밖 점수일 경우 최대 환산점수
+            if (e > 150) {
+                return 120; // 범위 밖 점수일 경우 최대 환산점수
             }
 
             // 근사치 사용: 기준점수에 가장 가까운 환산점수를 찾아 반환
-            for (let i = evalAchieveResult.global.gradingTable.length - 1; i >= 0; i--) {
-                if (e >= Number(evalAchieveResult.global.gradingTable[i].BASE_SCORE)) {
-                    return Number(evalAchieveResult.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
+            for (let i = allEvalApprovePop.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(allEvalApprovePop.global.gradingTable[i].BASE_SCORE)) {
+                    return Number(allEvalApprovePop.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
                 }
             }
         }else{
             // 범위 밖 점수 처리: 점수가 150 이상이면 "SS" 등급 반환
-            if (e > Number(evalAchieveResult.global.gradingTable[evalAchieveResult.global.gradingTable.length - 1].BASE_SCORE)) {
-                return Number(evalAchieveResult.global.gradingTable[evalAchieveResult.global.gradingTable.length - 1].RATING); // 범위 밖 점수일 경우 최대 등급
+            if (e > 150) {
+                return "SS"; // 범위 밖 점수일 경우 최대 등급
             }
 
             // 근사치 사용: 기준점수에 가장 가까운 평가 등급을 찾아 반환
-            for (let i = evalAchieveResult.global.gradingTable.length - 1; i >= 0; i--) {
-                if (e >= Number(evalAchieveResult.global.gradingTable[i].BASE_SCORE)) {
-                    return evalAchieveResult.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
+            for (let i = allEvalApprovePop.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(allEvalApprovePop.global.gradingTable[i].BASE_SCORE)) {
+                    return allEvalApprovePop.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
                 }
             }
         }

@@ -32,8 +32,13 @@
 
 
         <div class="panel-body">
-            <div style="float: right; margin: 10px 5px;">
-                <%--<input type="text" id="SearchYear" style="width: 110px;" onchange="getEvaluationList()">--%>
+            <div style="float: right; margin: 10px 5px;text-align: right;">
+                <input type="text" id="searchYear" style="width: 24%" onchange="getEvaluationList()">
+                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationList.fn_popAllEvalApprovePop()">
+                    <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
+                    <span class="k-button-text">상신</span>
+                </button>
+
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">
                     <span class="k-button-text">평가등록</span>
                 </button>
@@ -42,32 +47,35 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
-                        <col width="7%">
+                        <col width="4%">
                         <col width="5%">
                         <col width="7%">
                         <col width="7%">
                         <col width="15%">
-                        <col width="5%">
-                        <col width="5%">
-                        <col width="5%">
-                        <col width="5%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
                         <col width="7%">
                         <col width="15%">
-                        <col width="5%">
-                        <col width="5%">
-                        <col width="5%">
-                        <col width="5%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
+                        <col width="4%">
                     </colgroup>
                     <tr>
                         <th rowspan="3" class="text-center th-color">순번</th>
                         <th rowspan="3" class="text-center th-color">년도</th>
                         <th rowspan="3" class="text-center th-color">차수</th>
                         <th rowspan="3" class="text-center th-color">평가 인원</th>
-                        <th colspan="14" class="text-center th-color">평가 결과</th>
+                        <th colspan="15" class="text-center th-color">평가 결과</th>
                     </tr>
                     <tr>
                         <td colspan="6" class="pink">역량 평가</td>
-                        <td colspan="8" class="yellow">업적 평가</td>
+                        <td colspan="9" class="yellow">업적 평가</td>
                     </tr>
                     <tr>
                         <td class="pink">평가 설정</td>
@@ -84,6 +92,7 @@
                         <td class="yellow">B</td>
                         <td class="yellow">C</td>
                         <td class="yellow">D</td>
+                        <td class="yellow">-</td>
                     </tr>
                     <tbody id="evalList">
                     </tbody>
@@ -95,13 +104,7 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    $("#SearchYear").kendoDatePicker({
-        start: "decade",
-        depth: "decade",
-        culture : "ko-KR",
-        format : "yyyy",
-        value : new Date()
-    });
+    evaluationList.fn_defaultScript();
 
     getEvaluationList();
 
@@ -109,7 +112,7 @@
         $.ajax({
             url : "/evaluation/getEvaluationList",
             type : "post",
-            data : { year : $("#SearchYear").val()},
+            data : { year : $("#searchYear").val()},
             dataType : "json",
             async : false,
             success : function(result){
@@ -124,6 +127,10 @@
     function fn_addEvalList(rs){
         var list = rs.evaluationList;
         var achieveList = rs.evalAchieveSetList;
+
+        evaluationList.global.evalList = list
+        evaluationList.global.evalAchieveList = achieveList
+
         $('#evalList').empty();
         var html = "";
 
@@ -249,16 +256,63 @@
 
                 // 업적평가설정 버튼, rowspan 처리
                 if (currentYear !== bsYear) {
+                    var achieve = achieveList.find(l => l.BASE_YEAR == bsYear);
+
                     let ssCnt = 0;
                     let sCnt = 0;
                     let aCnt = 0;
                     let bCnt = 0;
                     let cCnt = 0;
                     let dCnt = 0;
+                    let fCnt = 0;
+
+                    const evalAchieveEmpList = customKendo.fn_customAjax("/evaluation/getEvalAchieveResultList", {baseYear : bsYear}).rs;
+                    for(var l = 0; l < evalAchieveEmpList.length; l++){
+                        var orderScore = 0;
+                        var salesScore = 0;
+                        var revenueScore = 0;
+
+                        if(evalAchieveEmpList[l].ORDER_GOALS != 0 && evalAchieveEmpList[l].ORDER_ACHIEVE != 0){
+                            orderScore = Math.round(evalAchieveEmpList[l].ORDER_ACHIEVE/evalAchieveEmpList[l].ORDER_GOALS * 100);
+                        }
+
+                        if(evalAchieveEmpList[l].SALES_GOALS != 0 && evalAchieveEmpList[l].SALES_ACHIEVE != 0){
+                            salesScore = Math.round(evalAchieveEmpList[l].SALES_ACHIEVE/evalAchieveEmpList[l].SALES_GOALS * 100);
+                        }
+
+                        if(evalAchieveEmpList[l].REVENUE_GOALS != 0 && evalAchieveEmpList[l].REVENUE_ACHIEVE != 0){
+                            revenueScore = Math.round(evalAchieveEmpList[l].REVENUE_ACHIEVE/evalAchieveEmpList[l].REVENUE_GOALS * 100);
+                        }
+
+                        var orderScoreCon = evaluationList.getEvalRating(orderScore, 'con');
+                        var salesScoreCon = evaluationList.getEvalRating(salesScore, 'con');
+                        var revenueScoreCon = evaluationList.getEvalRating(revenueScore, 'con');
+                        var scoreSum =
+                            (orderScoreCon * (Number(achieve.ORDER_WEIGHTS) / 100)) +
+                            (salesScoreCon * (Number(achieve.SALES_WEIGHTS) / 100)) +
+                            (revenueScoreCon * (Number(achieve.REVENUE_WEIGHTS) / 100));
+
+                        var scoreRating = evaluationList.getEvalRating(scoreSum, 'rating')
+
+                        if(scoreRating == "SS"){
+                            ssCnt++;
+                        }else if(scoreRating == "S"){
+                            sCnt++;
+                        }else if(scoreRating == "A"){
+                            aCnt++;
+                        }else if(scoreRating == "B"){
+                            bCnt++;
+                        }else if(scoreRating == "C"){
+                            cCnt++;
+                        }else if(scoreRating == "D"){
+                            dCnt++;
+                        }else{
+                            fCnt++;
+                        }
+                    }
 
                     currentYear = bsYear;  // 새로운 년도로 변경
 
-                    var achieve = achieveList.find(l => l.BASE_YEAR == bsYear);
                     html += "     <td style='padding: 0px;' rowspan='" + yearCount[bsYear] + "'>";
                     html += "         <button type='button' class='k-button k-button-solid-base' onclick='evalModify(" + (achieve != null ? achieve.EVAL_ACHIEVE_SET_SN : '') + ")' style='font-size: 11px;'>업적평가설정</button>";
                     html += "     </td>";
@@ -274,6 +328,7 @@
                     html += "     <td rowspan='" + yearCount[bsYear] + "'>" + bCnt +"</td>";
                     html += "     <td rowspan='" + yearCount[bsYear] + "'>" + cCnt +"</td>";
                     html += "     <td rowspan='" + yearCount[bsYear] + "'>" + dCnt +"</td>";
+                    html += "     <td rowspan='" + yearCount[bsYear] + "'>" + fCnt +"</td>";
                 }
                 html += '</tr>';
             }

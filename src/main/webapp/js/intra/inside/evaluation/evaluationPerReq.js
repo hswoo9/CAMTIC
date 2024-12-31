@@ -6,16 +6,36 @@ var evaluationPerReq = {
         dropDownDataSource : "",
         evalData : null,
         scoreList : new Array(),
+        gradingTable : new Array()
     },
 
     init: function(){
         evaluationPerReq.dataSet();
+        evaluationPerReq.getEvalAchieveSet();
         evaluationPerReq.setApproveBtn();
         evaluationPerReq.getEvaluationList();
     },
 
     dataSet: function (){
         customKendo.fn_datePicker("searchYear", 'decade', "yyyy", new Date());
+    },
+
+    getEvalAchieveSet : function(){
+        $.ajax({
+            url : "/evaluation/getEvalAchieveSet",
+            type : "post",
+            data : {
+                baseYear : $("#searchYear").val(),
+            },
+            dataType : "json",
+            async : false,
+            success : function(rs){
+                evaluationPerReq.global.gradingTable = rs.rs.ratingList;
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
     },
 
     getTeamAchieveApprove: function(){
@@ -173,7 +193,7 @@ var evaluationPerReq = {
                                 var pjtOrderAchieve = achieveInfo[2];
                                 var pjtSalesAchieve = achieveInfo[3];
                                 var pjtRevenueAchieve = achieveInfo[4];
-                                
+
                                 orderAchieve += (pjtOrder * pjtOrderAchieve)/100 || 0;
                                 salesAchieve += (pjtSales * pjtSalesAchieve)/100 || 0;
                                 revenueAchieve += (pjtRevenue * pjtRevenueAchieve)/100 || 0;
@@ -483,13 +503,13 @@ var evaluationPerReq = {
             }else{
                 html += '' +
                     '<tr style="text-align: center;">' +
-                    '<td colspan="12">데이터가 없습니다.</td>' +
+                    '<td colspan="19">데이터가 없습니다.</td>' +
                     '</tr>';
             }
         }else{
             html += '' +
                 '<tr style="text-align: center;">' +
-                    '<td colspan="12">데이터가 없습니다.</td>' +
+                    '<td colspan="19">데이터가 없습니다.</td>' +
                 '</tr>';
         }
 
@@ -504,40 +524,30 @@ var evaluationPerReq = {
     },
 
     getEvalRating : function(e, type){
-        const gradingTable = [
-            ["-", 0, 60],
-            ["D", 80, 60],
-            ["C", 90, 70],
-            ["B", 100, 80],
-            ["A", 110, 90],
-            ["S", 120, 100],
-            ["SS", 150, 120]
-        ];
-
         if(type == "con"){
             // 범위 밖 점수 처리: 점수가 150 이상이면 최대 환산점수 120 반환
-            if (e > 150) {
-                return 120; // 범위 밖 점수일 경우 최대 환산점수
+            if (e > Number(evaluationPerReq.global.gradingTable[evaluationPerReq.global.gradingTable.length - 1].BASE_SCORE)) {
+                return Number(evaluationPerReq.global.gradingTable[evaluationPerReq.global.gradingTable.length - 1].CONVERSION_SCORE); // 범위 밖 점수일 경우 최대 환산점수
             }
 
             // 근사치 사용: 기준점수에 가장 가까운 환산점수를 찾아 반환
-            for (let i = gradingTable.length - 1; i >= 0; i--) {
-                if (e >= gradingTable[i][1]) {
-                    return gradingTable[i][2]; // 해당하는 환산점수 반환
+            for (let i = evaluationPerReq.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(evaluationPerReq.global.gradingTable[i].BASE_SCORE)) {
+                    return Number(evaluationPerReq.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
                 }
             }
 
             return null;
         }else{
             // 범위 밖 점수 처리: 점수가 150 이상이면 "SS" 등급 반환
-            if (e > 150) {
-                return "SS"; // 범위 밖 점수일 경우 최대 등급
+            if (e > Number(evaluationPerReq.global.gradingTable[evaluationPerReq.global.gradingTable.length - 1].BASE_SCORE)) {
+                return Number(evaluationPerReq.global.gradingTable[evaluationPerReq.global.gradingTable.length - 1].RATING); // 범위 밖 점수일 경우 최대 등급
             }
 
             // 근사치 사용: 기준점수에 가장 가까운 평가 등급을 찾아 반환
-            for (let i = gradingTable.length - 1; i >= 0; i--) {
-                if (e >= gradingTable[i][1]) {
-                    return gradingTable[i][0]; // 해당하는 평가 등급 반환
+            for (let i = evaluationPerReq.global.gradingTable.length - 1; i >= 0; i--) {
+                if (e >= Number(evaluationPerReq.global.gradingTable[i].BASE_SCORE)) {
+                    return evaluationPerReq.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
                 }
             }
 

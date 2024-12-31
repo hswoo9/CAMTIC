@@ -405,6 +405,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvalGoalList(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(params);
+        params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+
         List<Map<String, Object>> goalList = evaluationRepository.getEvalGoalList(params);
         params.put("empSeqArr", goalList.stream()
                 .map(map -> map.get("EMP_SEQ"))
@@ -428,7 +431,6 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
             returnMap.put("pjtList", pjtList);
         }
-
 
         return returnMap;
     }
@@ -465,6 +467,9 @@ public class EvaluationServiceImpl implements EvaluationService {
             }
             result.put("pjtList", pjtList);
         }
+
+        Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(searchMap);
+        params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
         result.put("evalGoalList", evaluationRepository.getEvalGoalList(params));
 
         return result;
