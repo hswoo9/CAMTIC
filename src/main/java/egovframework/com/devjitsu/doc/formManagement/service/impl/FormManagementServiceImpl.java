@@ -393,7 +393,7 @@ public class FormManagementServiceImpl implements FormManagementService {
     private String dbFilePath(HttpServletRequest servletRequest, Map<String, Object> params, String base_dir){
         String path = "";
 
-        if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("121.186.165.80")){
+        if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("121.186.165.80") || servletRequest.getServerName().contains("218.158.231.186")){
             path = "http:\\\\218.158.231.186" + base_dir + "templateForm/" + params.get("formId") + "/";
         }else{
             path = "http:\\\\218.158.231.184" + base_dir + "templateForm/" + params.get("formId") + "/";
