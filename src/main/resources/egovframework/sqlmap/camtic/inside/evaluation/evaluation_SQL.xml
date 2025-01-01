@@ -1164,11 +1164,15 @@
             EVAL_TITLE,
             EVAL_VAL,
             EVAL_STR_S,
+            EVAL_END_S,
             EVAL_STR_A,
+            EVAL_END_A,
             EVAL_STR_B,
             EVAL_END_B,
             EVAL_STR_C,
+            EVAL_END_C,
             EVAL_STR_D,
+            EVAL_END_D,
             REG_EMP_SEQ
         )
         SELECT
@@ -1179,11 +1183,15 @@
             EVAL_TITLE,
             EVAL_VAL,
             EVAL_STR_S,
+            EVAL_END_S,
             EVAL_STR_A,
+            EVAL_END_A,
             EVAL_STR_B,
             EVAL_END_B,
             EVAL_STR_C,
+            EVAL_END_C,
             EVAL_STR_D,
+            EVAL_END_D,
             #{empSeq}
         FROM CAM_INSIDE.DJ_EVALUATION_ITEM
         WHERE EVAL_SN = #{copyEvalSn}

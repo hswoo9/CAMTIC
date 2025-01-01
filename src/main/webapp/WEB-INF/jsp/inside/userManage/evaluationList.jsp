@@ -175,12 +175,22 @@
                     var scoreF;
                     var scoreS;
 
-                    let aDeptPer = detailData.DEPT_MANAGER_A;
-                    let bDeptPer = detailData.DEPT_MANAGER_B;
-                    let aTeamPer = detailData.TEAM_MANAGER_A;
-                    let bTeamPer = detailData.TEAM_MANAGER_B;
-                    let aMemPer = detailData.TEAM_MEMBER_A;
-                    let bMemPer = detailData.TEAM_MEMBER_B;
+                    let aDeptPer = 0;
+                    let bDeptPer = 0;
+                    let aTeamPer = 0;
+                    let bTeamPer = 0;
+                    let aMemPer = 0;
+                    let bMemPer = 0;
+
+                    if(detailData != null){
+                        aDeptPer = detailData.DEPT_MANAGER_A;
+                        bDeptPer = detailData.DEPT_MANAGER_B;
+                        aTeamPer = detailData.TEAM_MANAGER_A;
+                        bTeamPer = detailData.TEAM_MANAGER_B;
+                        aMemPer = detailData.TEAM_MEMBER_A;
+                        bMemPer = detailData.TEAM_MEMBER_B;
+                    }
+
 
                     if(map.EVAL_EVAL_F_SEQ == "undefined" || map.EVAL_EVAL_F_SEQ == ""){
                         // console.log(map.EMP_NAME_KR+"님은 1차평가자가 없습니다.");

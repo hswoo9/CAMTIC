@@ -219,6 +219,13 @@
     }
 
     function fn_save(){
+        var scoreLen = $("#scoreList").find("tr").length;
+
+        if(scoreLen == 0){
+            alert("평가 등급별 수준 및 점수를 입력해주세요.");
+            return
+        }
+
         var formData = new FormData();
 
         formData.append("evalSn" , $("#evalSn").val());
@@ -231,7 +238,7 @@
         formData.append("regEmpSeq", $("#empSeq").val());
 
         var scoreBodyArr = [];
-        var scoreLen = $("#scoreList").find("tr").length;
+
 
         // 평가 등급별 수준 및 점수
         for(var i = 0 ; i < scoreLen ; i++){

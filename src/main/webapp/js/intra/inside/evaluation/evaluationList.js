@@ -25,8 +25,10 @@ var evaluationList = {
             dataType : "json",
             async : false,
             success : function(rs){
-                evaluationList.global.evalAchieveSet = rs.rs;
-                evaluationList.global.gradingTable = rs.rs.ratingList;
+                if(rs.rs != null){
+                    evaluationList.global.evalAchieveSet = rs.rs;
+                    evaluationList.global.gradingTable = rs.rs.ratingList;
+                }
             },
             error : function(e) {
                 console.log(e);
@@ -147,34 +149,39 @@ var evaluationList = {
     },
 
     getEvalRating : function(e, type){
-        if(type == "con"){
-            // 범위 밖 점수 처리: 점수가 150 이상이면 최대 환산점수 120 반환
-            if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
-                return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].CONVERSION_SCORE); // 범위 밖 점수일 경우 최대 환산점수
-            }
+        if(evaluationList.global.gradingTable.length > 0){
 
-            // 근사치 사용: 기준점수에 가장 가까운 환산점수를 찾아 반환
-            for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
-                if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
-                    return Number(evaluationList.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
+            if(type == "con"){
+                // 범위 밖 점수 처리: 점수가 150 이상이면 최대 환산점수 120 반환
+                if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
+                    return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].CONVERSION_SCORE); // 범위 밖 점수일 경우 최대 환산점수
                 }
-            }
 
-            return null;
+                // 근사치 사용: 기준점수에 가장 가까운 환산점수를 찾아 반환
+                for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
+                    if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
+                        return Number(evaluationList.global.gradingTable[i].CONVERSION_SCORE); // 해당하는 환산점수 반환
+                    }
+                }
+
+                return null;
+            }else{
+                // 범위 밖 점수 처리: 점수가 150 이상이면 "SS" 등급 반환
+                if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
+                    return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].RATING); // 범위 밖 점수일 경우 최대 등급
+                }
+
+                // 근사치 사용: 기준점수에 가장 가까운 평가 등급을 찾아 반환
+                for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
+                    if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
+                        return evaluationList.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
+                    }
+                }
+
+                return null;
+            }
         }else{
-            // 범위 밖 점수 처리: 점수가 150 이상이면 "SS" 등급 반환
-            if (e > Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].BASE_SCORE)) {
-                return Number(evaluationList.global.gradingTable[evaluationList.global.gradingTable.length - 1].RATING); // 범위 밖 점수일 경우 최대 등급
-            }
-
-            // 근사치 사용: 기준점수에 가장 가까운 평가 등급을 찾아 반환
-            for (let i = evaluationList.global.gradingTable.length - 1; i >= 0; i--) {
-                if (e >= Number(evaluationList.global.gradingTable[i].BASE_SCORE)) {
-                    return evaluationList.global.gradingTable[i].RATING; // 해당하는 평가 등급 반환
-                }
-            }
-
-            return null;
+            return '-'
         }
     },
 }

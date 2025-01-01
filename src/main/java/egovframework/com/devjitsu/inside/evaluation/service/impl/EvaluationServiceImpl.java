@@ -638,10 +638,20 @@ public class EvaluationServiceImpl implements EvaluationService {
             result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
         }
 
-        params.put("objType", "team");
-        result.put("teamGoal", achieveRepository.getDeptObjList(params));
-        params.put("objType", "oper");
-        result.put("teamGoalOper", achieveRepository.getDeptObjList(params));
+        if(!StringUtils.isEmpty(params.get("deptSeq"))){
+            params.put("deptLevel", "2");
+            params.put("objType", "team");
+            List<Map<String, Object>> teamGoalList = achieveRepository.getDeptObjList(params);
+            if(!teamGoalList.isEmpty()){
+                result.put("teamGoal", teamGoalList);
+            }
+
+            params.put("objType", "oper");
+            List<Map<String, Object>> teamGoalOper = achieveRepository.getDeptObjList(params);
+            if(!teamGoalOper.isEmpty()){
+                result.put("teamGoalOper", teamGoalOper);
+            }
+        }
 
         return result;
     }
