@@ -14,6 +14,46 @@ var evaluationList = {
         // evaluationList.mainGrid();
     },
 
+    getAllEvalApprove: function(){
+        var rs;
+        $.ajax({
+            url : "/evaluation/getAllEvalApprove",
+            type : "post",
+            data : {
+                baseYear : $("#searchYear").val(),
+            },
+            dataType : "json",
+            async : false,
+            success : function(result){
+                rs = result.rs;
+            },
+            error : function(e) {
+            }
+        });
+        return rs;
+    },
+
+    setApproveBtn : function (){
+        var result = evaluationList.getAllEvalApprove();
+        var html = ""
+        if(result != null){
+            html += '' +
+                '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="approveDocView(' + result.DOC_ID + ',\'camticAlleval_' + result.ALL_EVAL_APPROVE_GROUP + '\',\'allEval\')">' +
+                '<span class=\'k-icon k-i-track-changes-accept k-button-icon\'></span>' +
+                '<span class="k-button-text">' +
+                    (result.APPROVE_STAT_CODE == "100" ? '결재완료' : '결재중')  +
+                '</span>' +
+                '</button>'
+        }else{
+            html += '' +
+                '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationList.fn_popAllEvalApprovePop()">' +
+                    '<span class="k-icon k-i-track-changes-accept k-button-icon"></span>' +
+                    '<span class="k-button-text">상신</span>' +
+                '</button>'
+        }
+        $("#approveDiv").html(html)
+    },
+
     getEvalAchieveSet : function(){
         $.ajax({
             url : "/evaluation/getEvalAchieveSet",
@@ -139,6 +179,12 @@ var evaluationList = {
         var evalAchieveList = evaluationList.global.evalAchieveList.filter(l => l.BASE_YEAR == $("#searchYear").val())
         if(evalAchieveList.length == 0){
             alert("업적평가 데이터가 없습니다.");
+            return;
+        }
+
+        var result = evaluationList.getAllEvalApprove();
+        if(result != null){
+            alert("역량&업적 평가결과 결재진행중입니다.");
             return;
         }
 

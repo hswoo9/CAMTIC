@@ -34,10 +34,10 @@
         <div class="panel-body">
             <div style="float: right; margin: 10px 5px;text-align: right;">
                 <input type="text" id="searchYear" style="width: 24%" onchange="getEvaluationList()">
-                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationList.fn_popAllEvalApprovePop()">
-                    <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
-                    <span class="k-button-text">상신</span>
-                </button>
+                <div id="approveDiv" style="display: unset;">
+
+                </div>
+
 
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">
                     <span class="k-button-text">평가등록</span>
@@ -117,6 +117,7 @@
             async : false,
             success : function(result){
                 fn_addEvalList(result.rs);
+                evaluationList.setApproveBtn();
             },
             error : function(e) {
                 console.log(e);

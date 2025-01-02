@@ -953,13 +953,74 @@ public class EvaluationController {
      * @param model
      * @return
      */
-    @RequestMapping("/evaluation/getAllEvalApproveList.do")
-    public String getAllEvalApproveList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    @RequestMapping("/evaluation/getAllEvalList.do")
+    public String getAllEvalList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("rs", evaluationService.getAllEvalList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 역량&업적 평가결과 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/setAllEvalApprove")
+    public String setAllEvalApprove(@RequestParam Map<String, Object> params, Model model) {
+        evaluationService.setAllEvalApprove(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /** 역량&업적 평가결과 결재 양식 그리는 팝업*/
+    @RequestMapping("/popup/evaluation/approvalFormPopup/allEvalApprovalPop.do")
+    public String allEvalApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/inside/evaluation/approvalFormPopup/allEvalApprovalPop";
+    }
+
+    /**
+     * 역량&업적 평가결과 저장데이터 조회
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/getAllEvalApproveList")
+    public String getAllEvalApproveList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("rs", evaluationService.getAllEvalApproveList(params));
         return "jsonView";
     }
 
+    /** 역량&업적 평가결과 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/evaluation/allEvalAchieveApp")
+    public String allEvalAchieveApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            evaluationService.updateAllEvalState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
 
+    /**
+     * 역량&업적 평가결과 상신여부 체크
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getAllEvalApprove")
+    public String getAllEvalApprove(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", evaluationService.getAllEvalApprove(params));
+        return "jsonView";
+    }
 
 
     private static LoginVO getLoginVO(HttpServletRequest request) {

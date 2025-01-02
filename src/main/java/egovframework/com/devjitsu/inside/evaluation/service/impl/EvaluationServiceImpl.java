@@ -667,11 +667,54 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public Map<String, Object> getAllEvalApproveList(Map<String, Object> params) {
+    public Map<String, Object> getAllEvalList(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         result.put("evaluationYearMax", evaluationRepository.getEvaluationYearMax(params));
         result.put("evalResultEmpList", evaluationRepository.getEvalResultEmpApproveList(params));
         result.put("evalAchieveList", evaluationRepository.getEvalAchieveResultList(params));
         return result;
+    }
+
+    @Override
+    public void setAllEvalApprove(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> empAllEvalArr = gson.fromJson((String) params.get("empAllEvalArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if(empAllEvalArr.size() > 0){
+            int allEvalApproveGroup = evaluationRepository.getAllEvalApproveMaxGroup(params);
+            params.put("allEvalApproveGroup", allEvalApproveGroup);
+
+            for (Map<String, Object> map : empAllEvalArr){
+                map.put("allEvalApproveGroup", allEvalApproveGroup);
+                evaluationRepository.setAllEvalApprove(map);
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllEvalApproveList(Map<String, Object> params) {
+        return evaluationRepository.getAllEvalApproveList(params);
+    }
+
+    @Override
+    public void updateAllEvalState(Map<String, Object> bodyMap) {
+        String docSts = String.valueOf(bodyMap.get("approveStatCode"));
+        String allEvalApproveGroup = String.valueOf(bodyMap.get("approKey"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        allEvalApproveGroup = allEvalApproveGroup.split("_")[1];
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("allEvalApproveGroup", allEvalApproveGroup);
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+        params.put("docId", docId);
+        evaluationRepository.updateAllEvalApproveState(params);
+    }
+
+    @Override
+    public Map<String, Object> getAllEvalApprove(Map<String, Object> params) {
+        return evaluationRepository.getAllEvalApprove(params);
+
     }
 }

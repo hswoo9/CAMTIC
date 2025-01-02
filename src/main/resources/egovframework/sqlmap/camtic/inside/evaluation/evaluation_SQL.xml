@@ -2001,4 +2001,98 @@
         ORDER BY DE.EVAL_NUM DESC
         LIMIT 1
     </select>
+
+    <select id="getAllEvalApproveMaxGroup" parameterType="map" resultType="int">
+        /* getAllEvalApproveMaxGroup */
+        SELECT
+            IFNULL(MAX(ALL_EVAL_APPROVE_GROUP), 0) + 1
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE
+    </select>
+
+    <insert id="setAllEvalApprove" parameterType="map">
+        /* setAllEvalApprove */
+        INSERT INTO CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE (
+            ALL_EVAL_APPROVE_GROUP,
+            BASE_YEAR,
+            EMP_SEQ,
+            FIRST_HALF_SCORE,
+            SECOND_HALF_SCORE,
+            SCORE_AVERAGE,
+            RES_GRADE,
+            EVAL_WEIGHTS,
+            ACHIEVE_SCORE,
+            ACHIEVE_RATING,
+            EVAL_ACHIEVE_WEIGHTS,
+            ADJUSTED_SCORE,
+            BEFORE_SCORE,
+            FINAL_SCORE,
+            FINAL_RATING,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+           #{allEvalApproveGroup},
+           #{baseYear},
+           #{empSeq},
+           #{firstHalfScore},
+           #{secondHalfScore},
+           #{scoreAverage},
+           #{resGrade},
+           #{evalWeights},
+           #{achieveScore},
+           #{achieveRating},
+           #{evalAchieveWeights},
+           #{adjustedScore},
+           #{beforeScore},
+           #{finalScore},
+           #{finalRating},
+           #{regEmpSeq}
+        )
+    </insert>
+
+    <select id="getAllEvalApproveList" parameterType="map" resultType="map">
+        /* getAllEvalApproveList */
+        SELECT
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
+            HEI.EMP_NAME_KR,
+            A.*
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE A
+        JOIN
+            CAM_HR.DJ_EMP_INFO HEI
+        ON HEI.EMP_SEQ = A.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI
+        ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            A.ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
+    </select>
+
+    <update id="updateAllEvalApproveState" parameterType="map">
+        /* updateAllEvalApproveState */
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE
+        SET
+            DOC_ID = #{docId},
+            APPROVE_STAT_CODE = CASE WHEN #{approveStatCode} = '101' THEN '100' ELSE #{approveStatCode} END,
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
+    </update>
+
+    <select id="getAllEvalApprove" parameterType="map" resultType="map">
+        /* getAllEvalApprove */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE
+        WHERE
+            BASE_YEAR = #{baseYear}
+        AND
+            DOC_ID IS NOT NULL
+        GROUP BY ALL_EVAL_APPROVE_GROUP
+    </select>
 </mapper>

@@ -78,5 +78,13 @@ public interface EvaluationService {
 
     List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params);
 
-    Map<String, Object> getAllEvalApproveList(Map<String, Object> params);
+    Map<String, Object> getAllEvalList(Map<String, Object> params);
+
+    void setAllEvalApprove(Map<String, Object> params);
+
+    List<Map<String, Object>> getAllEvalApproveList(Map<String, Object> params);
+
+    void updateAllEvalState(Map<String, Object> bodyMap);
+
+    Map<String, Object> getAllEvalApprove(Map<String, Object> params);
 }
