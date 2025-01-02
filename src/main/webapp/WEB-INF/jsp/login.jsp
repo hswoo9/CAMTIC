@@ -36,9 +36,18 @@
 <div class="sign-overlay"></div>
 <div class="signpanel"></div>
 
-<div class="signin" style="position:absolute; top:50%; left:65%; width:490px; background-color:transparent; text-align:left;">
-    <div style="font-size:29px; color:dodgerblue;"><b>함께 성장하는 행복한 일터</b></div>
-    <div style="font-size:32px; color:#fff;"><i>젊은 캠틱, 역동적인 클러스터!</i></div>
+<div class="signin" style="position:absolute; top:37%; left:66.5%; width:490px; background-color:transparent; text-align:left;">
+    <div style="font-size:29px; color:dodgerblue;"><b><span style="text-emphasis-style: dot; ">&nbsp;함께</span> 성장하는 <span style="text-emphasis-style: dot; ">행복</span>한 일터</b></div>
+    <%--    <div style="font-size:32px; color:#fff;"><b>換환 骨골 奪탈 胎태</b></div>--%>
+    <p style="font-size:45px; color:#fff;">
+        換<sub style="font-size: small">환</sub>&nbsp;&nbsp;
+        骨<sub style="font-size: small">골</sub>&nbsp;&nbsp;
+        奪<sub style="font-size: small">탈</sub>&nbsp;&nbsp;
+        胎<sub style="font-size: small">태</sub>
+    </p>
+    <p style="font-size:12px; color:#fff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color: yellow;">나의 변화</span>] 내가 바뀌지 않으면 아무것도 바뀌지 않는다!</p>
+    <p style="font-size:12px; color:#fff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color: yellow;">기술 축적</span>] 지금 하지 않으면 우리는 없다!</p>
+    <p style="font-size:12px; color:#fff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span style="color: yellow;">고객 성공</span>] 고객의 성공이 CAMTIC의 성장이다!</p>
 </div><!-- panel -->
 <div class="signin" style="position:absolute; top:82%; left:5%; width:300px; background-color:transparent;">
     <div><img src="/images/logo_han.png" alt="" style="width:200px;"/></div>

@@ -2263,6 +2263,7 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public void regIncpCancel(Map<String, Object> params) {
 
+/*
         Map<String, Object> incpMap = payAppRepository.getIncpDetOne(params);
         // EXNP_DE > IN_DT
 
@@ -2277,6 +2278,20 @@ public class PayAppServiceImpl implements PayAppService {
 //        }
         payAppRepository.resolutionIncpReStatus(params);
 //        g20Repository.delExnpDocData(g20Map);
+*/
+
+        List<Map<String, Object>> incpMap = payAppRepository.getPayIncpReData(params);
+        // EXNP_DE > IN_DT
+
+        for(Map<String, Object> map : incpMap) {
+            Map<String, Object> g20Map = g20Repository.getIncpDocData(map);
+            g20Repository.execUspAncj080Delete00(g20Map);
+            g20Repository.delIncpReDocData(g20Map);
+
+            params.put("payIncpReSn", map.get("PAY_INCP_RE_SN"));
+            payAppRepository.resolutionIncpReStatus(params);
+        }
+
     }
 
 

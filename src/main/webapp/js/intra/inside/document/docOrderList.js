@@ -95,6 +95,11 @@ var docuOrderList = {
                     text: '엑셀다운로드'
                 }
             ],
+            excel : {
+                fileName : "개발사업수주대장.xlsx",
+                filterable : true
+            },
+            excelExport: exportGrid,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -102,35 +107,36 @@ var docuOrderList = {
                 {
                     field: "ROW_NUM",
                     title: "연번",
-                    width: "5%"
+                    width: 60
                 }, {
                     field: "CLASS_NAME",
                     title: "구분",
-                    width: "5%"
+                    width: 60
                 }, {
                     title: "계약 번호",
-                    width: "6%",
+                    width: 80,
                     template: function(row) {
                         return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
                     }
                 }, {
                     field: "COUNSEL_CODE",
                     title: "상품화 코드",
-                    width: "10%"
+                    width: 100
                 }, {
                     field: "DOCU_DE",
                     title: "계약 일시",
-                    width: "8%"
+                    width: 80
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약명",
-                    width: "23%",
+                    width: 220,
                     template : function(row) {
                         return titleCut(row.PROJECT_NAME, 28);
                     }
                 }, {
+                    field: "PROJECT_MONEY",
                     title: "계약 금액",
-                    width: "10%",
+                    width: 80,
                     template: function(row) {
                         if(row.PROJECT_MONEY != null){
                             var originalNumber = row.PROJECT_MONEY;
@@ -142,19 +148,20 @@ var docuOrderList = {
                     }
 
                 }, {
+                    field: "START_DE",
                     title: "계약 기간",
-                    width: "13%",
+                    width: 120,
                     template: function(row) {
                         return row.START_DE+" ~ "+row.END_DE;
                     }
                 }, {
                     field: "CO_NAME",
                     title: "계약 업체",
-                    width: "10%"
+                    width: 100
                 }, {
                     field: "DOCU_CHECK_NAME",
                     title: "계약서",
-                    width: "5%",
+                    width: 60,
                     template : function(row){
                         if(row.file_no != 0){
                             var fileName = row.file_org_name;
@@ -169,9 +176,9 @@ var docuOrderList = {
 
                     }
                 }, {
-                    field: "",
+                    field: "file_org_name2",
                     title: "납품서",
-                    width: "5%",
+                    width: 60,
                     template : function(row){
                         if(row.file_no2 != null && row.file_no2 != 0){
                             var fileName = row.file_org_name2;
