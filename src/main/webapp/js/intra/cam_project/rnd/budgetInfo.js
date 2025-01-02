@@ -789,6 +789,11 @@ var rndBg = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="rndBg.fn_multiDownload();" style="font-size: 13px;">다운로드</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.budgetMainGrid4Reload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -801,18 +806,10 @@ var rndBg = {
             excelExport: exportGrid,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    headerTemplate: '<input type="checkbox" id="budgetMainGridCheckAll" name="checkAll"/>',
                     width: 30,
-                    template : function(e){
-                        if(e.TYPE == "반제(지출)"){
-                            if(e.RE_STAT == "N"){
-                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
-                            } else {
-                                return '';
-                            }
-                        } else {
-                            return '';
-                        }
+                    template : function(){
+                        return '<input type="checkbox" name="budgetMainGridCheck"/>';
                     }
                 }, {
                     title: "번호",
@@ -922,6 +919,11 @@ var rndBg = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#budgetMainGridCheckAll").click(function(){
+            if($(this).is(":checked")) $("input[name='budgetMainGridCheck']").prop("checked", true);
+            else $("input[name='budgetMainGridCheck']").prop("checked", false);
+        });
     },
 
     fn_reqRegPopup : function(key, status, auth){
@@ -1032,5 +1034,55 @@ var rndBg = {
             }
         });
 
+    },
+
+    fn_multiDownload : function(){
+        if($("input[name='budgetMainGridCheck']:checked").length == 0){
+            alert("다운로드 할 항목을 선택해주세요.");
+            return;
+        }
+        $('#my-spinner').show();
+
+        setTimeout(function(){
+            var fileArray = [];
+            $.each($("input[name='budgetMainGridCheck']:checked"), function(){
+                var dataItem = $("#budgetMainGrid4").data('kendoGrid').dataItem($(this).closest("tr"));
+
+                var data = {
+                    payAppSn : dataItem.PAY_APP_SN,
+                    exnpSn : dataItem.EXNP_SN
+                }
+
+                var fileResult = customKendo.fn_customAjax("/pay/payExnpFileList", data);
+                fileArray.concat(fileResult.listMap);
+
+                // 지급/지출 양식 첨부 추가
+                var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", data);
+                var fileList2 = result2.fileList;
+                if(fileList2.length > 0 && fileList2 != null){
+                    for(let i=0; i<fileList2.length; i++){
+                        fileArray.push(fileList2[i]);
+                    }
+                }
+            })
+
+            let i = 0;
+            if(fileArray.length > 0){
+                function download() {
+                    if (i < fileArray.length) {
+                        fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+                        i++;
+                        setTimeout(download, 1000);
+                    }
+
+                    if(i == (fileArray.length - 1)){
+                        $("#my-spinner").hide();
+                    }
+                }
+                download();
+
+
+            }
+        }, 1000);
     }
 }
