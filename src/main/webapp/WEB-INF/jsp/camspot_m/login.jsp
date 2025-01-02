@@ -25,11 +25,17 @@
                 <font class="txt type32 fcol_sky together"><b>함</b><b>께</b> 성장하는 <b>행</b><b>복</b>한 일터</font>
                 
                 <h2 class="mt30 fP900">젊은 캠틱,<br>역동적인 클러스터!</h2>
-                
+                <p style="font-size:45px; color:#000000;">
+                    換<sub style="font-size: small">환</sub>&nbsp;
+                    骨<sub style="font-size: small">골</sub>&nbsp;
+                    奪<sub style="font-size: small">탈</sub>&nbsp;
+                    胎<sub style="font-size: small">태</sub>
+                </p>
+
                 <ul class="list type1 mt40">
-                    <li>제조창업 플랫폼 구축 고도화</li>
-                    <li>시장기반 신기술·신산업 축적 및 육성</li>
-                    <li>창의·도전·소통의 조직문화 활성화</li>
+                    <li>[나의 변화] 내가 바뀌지 않으면 아무것도 바뀌지 않는다!</li>
+                    <li>[기술 축적] 지금 하지 않으면 우리는 없다!</li>
+                    <li>[고객 성공] 고객의 성공이 CAMTIC의 성장이다!</li>
                 </ul>
             </div>
             
