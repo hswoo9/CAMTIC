@@ -1022,7 +1022,6 @@ public class EvaluationController {
         return "jsonView";
     }
 
-
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = session.getAttribute("LoginVO") == null ? null : (LoginVO) session.getAttribute("LoginVO");

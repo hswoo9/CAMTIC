@@ -51,6 +51,42 @@
                         </td>
                     </tr>
                 </table>
+
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="3%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center th-color" rowspan="2">NO</th>
+                            <th class="text-center th-color" rowspan="2">부서명</th>
+                            <th class="text-center th-color" rowspan="2">팀명</th>
+                            <th class="text-center th-color" rowspan="2">성명</th>
+                            <th class="text-center th-color" colspan="5">역량평가</th>
+                            <th class="text-center th-color" colspan="3">업적평가</th>
+                            <th class="text-center th-color" rowspan="2">최종점수</th>
+                            <th class="text-center th-color" rowspan="2">최종등급</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center th-color">상반기</th>
+                            <th class="text-center th-color">하반기</th>
+                            <th class="text-center th-color">최종점수</th>
+                            <th class="text-center th-color">최종등급</th>
+                            <th class="text-center th-color">가중치</th>
+
+                            <th class="text-center th-color">최종점수</th>
+                            <th class="text-center th-color">최종등급</th>
+                            <th class="text-center th-color">가중치</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allEvalResultTb">
+
+                    </tbody>
+                </table>
+
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>

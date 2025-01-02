@@ -10,6 +10,7 @@ var evaluationResultList = {
 
     init: function(){
         evaluationResultList.dataSet();
+        evaluationResultList.getAllEvalApproveList();
         evaluationResultList.mainGrid();
         evaluationResultList.gridReload();
     },
@@ -73,6 +74,57 @@ var evaluationResultList = {
         if($("#regDutyName") == ""){
             $("#adminInput").hide();
         }
+    },
+
+    getAllEvalApproveList : function(){
+        $.ajax({
+            url : "/evaluation/getAllEvalApproveList",
+            type : "post",
+            data : {
+                baseYear : $("#searchDate").val(),
+                dept : $("#dept").val(),
+                team : $("#team").val(),
+                position : $("#position").val(),
+                duty : $("#duty").val(),
+            },
+            dataType : "json",
+            async : false,
+            success : function(result){
+                $("#allEvalResultTb").empty();
+                var rs = result.rs;
+                var html = "";
+                if(rs.length > 0){
+                    for(var i = 0; i < rs.length; i++){
+                        html += '' +
+                            '<tr>' +
+                                '<td class="text-center">' + (i+1) + '</td>' +
+                                '<td class="text-center">' + rs[i].DEPT_NAME + '</td>' +
+                                '<td class="text-center">' + rs[i].TEAM_NAME + '</td>' +
+                                '<td class="text-center">' + rs[i].EMP_NAME_KR + '</td>' +
+                                '<td class="text-center">' + rs[i].FIRST_HALF_SCORE + '</td>' +
+                                '<td class="text-center">' + rs[i].SECOND_HALF_SCORE + '</td>' +
+                                '<td class="text-center">' + rs[i].SCORE_AVERAGE + '</td>' +
+                                '<td class="text-center">' + rs[i].RES_GRADE + '</td>' +
+                                '<td class="text-center">' + rs[i].EVAL_WEIGHTS + '%</td>' +
+                                '<td class="text-center">' + rs[i].ACHIEVE_SCORE + '</td>' +
+                                '<td class="text-center">' + rs[i].ACHIEVE_RATING + '</td>' +
+                                '<td class="text-center">' + rs[i].EVAL_ACHIEVE_WEIGHTS + '%</td>' +
+                                '<td class="text-center">' + rs[i].FINAL_SCORE + '</td>' +
+                                '<td class="text-center">' + rs[i].FINAL_RATING + '</td>' +
+                            '</tr>'
+                    }
+                }else{
+                    html += '' +
+                        '<tr>' +
+                            '<td colspan="14" class="text-center">데이터가 없습니다.</td>' +
+                        '</tr>'
+                }
+                $("#allEvalResultTb").html(html);
+
+            },
+            error : function(e) {
+            }
+        });
     },
 
     mainGrid: function() {
@@ -358,6 +410,7 @@ var evaluationResultList = {
 
         // 데이터가 잘 설정되었는지 확인하기 위해 mainGrid 함수 호출
         evaluationResultList.mainGrid('/Inside/getInterviewCardList', evaluationResultList.global.searchAjaxData);
+        evaluationResultList.getAllEvalApproveList();
     }
 
 

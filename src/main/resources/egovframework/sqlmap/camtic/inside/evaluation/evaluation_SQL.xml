@@ -2066,8 +2066,31 @@
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI
         ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        WHERE
-            A.ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
+        WHERE 1=1
+        <if test='allEvalApproveGroup != null and !"".equals(allEvalApproveGroup)'>
+            AND A.ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
+        </if>
+
+        <if test='baseYear != null and !"".equals(baseYear)'>
+            AND A.BASE_YEAR = #{baseYear}
+        </if>
+        <choose>
+            <when test='dept != null and !"".equals(dept) and "".equals(team)'>
+                AND (HDI.PARENT_DEPT_SEQ = #{dept} OR HDI.DEPT_SEQ = #{dept} )
+            </when>
+            <when test='dept != null and !"".equals(dept)'>
+                AND HDI.PARENT_DEPT_SEQ = #{dept}
+            </when>
+        </choose>
+        <if test='team != null and team != ""'>
+            AND HEI.DEPT_SEQ = #{team}
+        </if>
+        <if test='position != null and position != ""'>
+            AND HEI.POSITION_CODE = #{position}
+        </if>
+        <if test='duty != null and duty != ""'>
+            AND HEI.DUTY_CODE = #{duty}
+        </if>
     </select>
 
     <update id="updateAllEvalApproveState" parameterType="map">
