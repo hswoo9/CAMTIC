@@ -4242,7 +4242,8 @@
         /*resolutionIncpReStatus*/
         UPDATE CAM_MNG.DJ_PAY_INCP_RE
         SET
-            RE_STAT = 'N'
+            RE_STAT = 'N',
+            PMR_NO = null
         WHERE
             PAY_INCP_RE_SN = #{payIncpReSn}
     </update>
