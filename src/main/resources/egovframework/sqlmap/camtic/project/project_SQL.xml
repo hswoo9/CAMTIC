@@ -2021,10 +2021,8 @@
         /*updGoodInfo*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            <if test='delvDe != null and !"".equals(delvDe)'>
-                DELV_DE = #{delvDe},
-                GOODS_DT = #{delvDe},
-            </if>
+            DELV_DE = #{delvDe},
+            GOODS_DT = #{delvDe},
             GOODS_ISS = #{goodsIss}
         WHERE
             PJT_SN = #{pjtSn}
