@@ -69,7 +69,7 @@
     }
     #evalThead tr:nth-child(1) th:nth-child(2){
         position: sticky;
-        left: 706px;
+        left: 704px;
         z-index: 999;
     }
 
@@ -152,7 +152,7 @@
     }
     #evalThead tr:nth-child(3) th:nth-child(2){
         position: sticky;
-        left: 706px;
+        left: 704px;
         z-index: 999;
     }
     #evalThead tr:nth-child(3) th:nth-child(3){
