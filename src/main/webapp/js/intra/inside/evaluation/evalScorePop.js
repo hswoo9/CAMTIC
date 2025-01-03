@@ -117,6 +117,10 @@ var evalScorePop = {
         html += '   <tr>';
         html += '       <th colSpan="4" class="text-center th-color sticky">구분</th>';
         html += '       <th colSpan="3" class="text-center th-color sticky">팀 실적 (단위 : 원)</th>';
+        html += '       <th colSpan="'+col+'" class="text-center th-color green">수주(기준: 수주금액)</th>';
+        html += '       <th colSpan="'+col+'" class="text-center th-color yellow">매출(기준: 매출금액)</th>';
+        html += '       <th colSpan="'+col+'" class="text-center th-color blue">운영수익(기준: 수익금액)</th>';
+        html += '       <th colSpan="'+col+'" class="text-center th-color">합계</th>';
         html += '   </tr>';
         html += '   <tr>';
         html += '       <td class="sticky">번호</td>';
@@ -126,52 +130,31 @@ var evalScorePop = {
         html += '       <td class="sticky">수추</td>';
         html += '       <td class="sticky">매출</td>';
         html += '       <td class="sticky">수익</td>';
-        html += '   </tr>';
-        html += '   <tr>';
-        html += '   <tr>';
-        html += '       <td colspan="4" class="sticky" id="pjtBusnClassStatus" style="font-weight: bold"></td>';
-        html += '       <td id="pjtOrderSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
-        html += '       <td id="pjtSalesSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
-        html += '       <td id="pjtRevenueSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
-        html += '   </tr>';
-        html += '   </tbody>';
-        html += '   <tbody id="evalTheadList">';
-        html += '   </tbody>';
-        html += '</table>';
-        html += '</div>';
-
-        /** 사용자 */
-        html += '<div class="scrollable-table">';
-        html += '   <table class="searchTable table table-bordered mb-0" id="achieveTb2">';
-        html += '   <tr>';
-        html += '       <th colSpan="'+col+'" class="text-center th-color green">수주(기준: 수주금액)</th>';
-        html += '       <th colSpan="'+col+'" class="text-center th-color yellow">매출(기준: 매출금액)</th>';
-        html += '       <th colSpan="'+col+'" class="text-center th-color blue">운영수익(기준: 수익금액)</th>';
-        html += '       <th colSpan="'+col+'" class="text-center th-color">합계</th>';
-        html += '   </tr>';
-        html += '   <tr>';
         for (var i = 0; i < evalGoalList.length; i++) {
-        html += '       <td class="green targetEmp" id="' + evalGoalList[i].EMP_SEQ + '">'+ evalGoalList[i].EMP_NAME +'</td>';
+            html += '       <td class="green targetEmp" id="' + evalGoalList[i].EMP_SEQ + '">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="green">소계</td>';
 
         for (var i = 0; i < evalGoalList.length; i++) {
-        html += '       <td class="yellow">'+ evalGoalList[i].EMP_NAME +'</td>';
+            html += '       <td class="yellow">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="yellow">소계</td>';
 
         for (var i = 0; i < evalGoalList.length; i++) {
-        html += '       <td class="blue">'+ evalGoalList[i].EMP_NAME +'</td>';
+            html += '       <td class="blue">'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td class="blue">소계</td>';
 
         for (var i = 0; i < evalGoalList.length; i++) {
-        html += '       <td>'+ evalGoalList[i].EMP_NAME +'</td>';
+            html += '       <td>'+ evalGoalList[i].EMP_NAME +'</td>';
         }
         html += '       <td>소계</td>';
         html += '   </tr>';
         html += '   <tr id="sumTr">';
-
+        html += '       <td colspan="4" class="sticky" id="pjtBusnClassStatus" style="font-weight: bold"></td>';
+        html += '       <td id="pjtOrderSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
+        html += '       <td id="pjtSalesSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
+        html += '       <td id="pjtRevenueSum" style="font-weight: bold;text-align: right" class="sticky"></td>';
         for (var i = 0; i < evalGoalList.length; i++) {
             html += '       <td class="green empOrderSum" id="empOrderSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
@@ -191,8 +174,67 @@ var evalScorePop = {
             html += '       <td style="font-weight: bold;text-align: center;" class="empTotalSum" empSeq="' + evalGoalList[i].EMP_SEQ + '">0</td>';
         }
         html += '       <td style="font-weight: bold;text-align: center;" id="empAllTotal">0</td>';
-
         html += '   </tr>';
+        // html += '   </tbody>';
+
+        // html += '   <tbody id="evalTheadList">';
+        // html += '   </tbody>';
+        // html += '</table>';
+        // html += '</div>';
+
+        /** 사용자 */
+        // html += '<div class="scrollable-table">';
+        // html += '   <table class="searchTable table table-bordered mb-0" id="achieveTb2">';
+        // html += '   <tr>';
+        // html += '       <th colSpan="'+col+'" class="text-center th-color green">수주(기준: 수주금액)</th>';
+        // html += '       <th colSpan="'+col+'" class="text-center th-color yellow">매출(기준: 매출금액)</th>';
+        // html += '       <th colSpan="'+col+'" class="text-center th-color blue">운영수익(기준: 수익금액)</th>';
+        // html += '       <th colSpan="'+col+'" class="text-center th-color">합계</th>';
+        // html += '   </tr>';
+        // html += '   <tr>';
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        // html += '       <td class="green targetEmp" id="' + evalGoalList[i].EMP_SEQ + '">'+ evalGoalList[i].EMP_NAME +'</td>';
+        // }
+        // html += '       <td class="green">소계</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        // html += '       <td class="yellow">'+ evalGoalList[i].EMP_NAME +'</td>';
+        // }
+        // html += '       <td class="yellow">소계</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        // html += '       <td class="blue">'+ evalGoalList[i].EMP_NAME +'</td>';
+        // }
+        // html += '       <td class="blue">소계</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        // html += '       <td>'+ evalGoalList[i].EMP_NAME +'</td>';
+        // }
+        // html += '       <td>소계</td>';
+        // html += '   </tr>';
+        // html += '   <tr id="sumTr">';
+
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        //     html += '       <td class="green empOrderSum" id="empOrderSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
+        // }
+        // html += '       <td class="green" id="pjtEmpOrderSum">0</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        //     html += '       <td class="yellow empSalesSum" id="empSalesSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
+        // }
+        // html += '       <td class="yellow" id="pjtEmpSalesSum">0</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        //     html += '       <td class="blue empRevenueSum" id="empRevenueSum_' + evalGoalList[i].EMP_SEQ + '">0</td>';
+        // }
+        // html += '       <td class="blue" id="pjtEmpRevenueSum">0</td>';
+        //
+        // for (var i = 0; i < evalGoalList.length; i++) {
+        //     html += '       <td style="font-weight: bold;text-align: center;" class="empTotalSum" empSeq="' + evalGoalList[i].EMP_SEQ + '">0</td>';
+        // }
+        // html += '       <td style="font-weight: bold;text-align: center;" id="empAllTotal">0</td>';
+
+        // html += '   </tr>';
         html += '   </tbody>';
         html += '   <tbody id="evalList">';
         html += '   </tbody>';
@@ -241,18 +283,18 @@ var evalScorePop = {
                 pjtSalesSum += Number(costCalc.resSaleAmt(pjtList[j]) || 0);
                 pjtRevenueSum += Number(costCalc.resProfitAmt(pjtList[j]) || 0);
 
-                evalTheadHtml += '' +
-                    '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
-                        '<td style="text-align: center">' + (j+1) + '</td>' +
-                        '<td>' +
-                            '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="evalScorePop.fn_projectPopView('+pjtList[j].PJT_SN+', \'' + pjtList[j].BUSN_CLASS + '\')">' + pjtList[j].PJT_NM + '</div>' +
-                        '</td>' +
-                        '<td>' + pjtList[j].CRM_NM + '</td>' +
-                        '<td>' + pjtList[j].BUSN_NM + '</td>' +
-                        '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.allPjtAmt(pjtList[j]) || 0) + '</td>' +
-                        '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resSaleAmt(pjtList[j]) || 0) + '</td>' +
-                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resProfitAmt(pjtList[j]) || 0) + '</td>' +
-                    '</tr>';
+                // evalTheadHtml += '' +
+                //     '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
+                //         '<td style="text-align: center">' + (j+1) + '</td>' +
+                //         '<td>' +
+                //             '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="evalScorePop.fn_projectPopView('+pjtList[j].PJT_SN+', \'' + pjtList[j].BUSN_CLASS + '\')">' + pjtList[j].PJT_NM + '</div>' +
+                //         '</td>' +
+                //         '<td>' + pjtList[j].CRM_NM + '</td>' +
+                //         '<td>' + pjtList[j].BUSN_NM + '</td>' +
+                //         '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.allPjtAmt(pjtList[j]) || 0) + '</td>' +
+                //         '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resSaleAmt(pjtList[j]) || 0) + '</td>' +
+                //         '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resProfitAmt(pjtList[j]) || 0) + '</td>' +
+                //     '</tr>';
 
                 /** 달성 결재 상신 여부에 따라 수정 가능여부  */
                 var approve = "";
@@ -262,7 +304,17 @@ var evalScorePop = {
                 /** 최초 실적률에서 수정된 인원  */
                 var modChk = ""
 
-                html += '<tr pjtSn="' + pjtList[j].PJT_SN + '">';
+                html += '' +
+                    '<tr pjtSn="' + pjtList[j].PJT_SN + '">' +
+                        '<td style="text-align: center">' + (j+1) + '</td>' +
+                        '<td>' +
+                            '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="evalScorePop.fn_projectPopView('+pjtList[j].PJT_SN+', \'' + pjtList[j].BUSN_CLASS + '\')">' + pjtList[j].PJT_NM + '</div>' +
+                        '</td>' +
+                        '<td>' + pjtList[j].CRM_NM + '</td>' +
+                        '<td>' + pjtList[j].BUSN_NM + '</td>' +
+                        '<td style="text-align: right" id="pjtOrder_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.allPjtAmt(pjtList[j]) || 0) + '</td>' +
+                        '<td style="text-align: right" id="pjtSales_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resSaleAmt(pjtList[j]) || 0) + '</td>' +
+                        '<td style="text-align: right" id="pjtRevenue_' + pjtList[j].PJT_SN + '">' + evalScorePop.comma(costCalc.resProfitAmt(pjtList[j]) || 0) + '</td>'
 
                 for (var k = 0; k < evalGoalList.length; k++) {
                     var empEvalAchieve = evalAchieve.find(e => e.EMP_SEQ == evalGoalList[k].EMP_SEQ);
@@ -365,10 +417,10 @@ var evalScorePop = {
             }
         }else{
 
-            evalTheadHtml += '' +
-                '<tr>' +
-                    '<td style="text-align: center;padding: 5px 15px;" colspan="7">데이터가 없습니다.</td>'
-                '</tr>';
+            // evalTheadHtml += '' +
+            //     '<tr>' +
+            //         '<td style="text-align: center;padding: 5px 15px;" colspan="7">데이터가 없습니다.</td>'
+            //     '</tr>';
 
             html += '' +
                 '<tr>' +
@@ -496,7 +548,7 @@ var evalScorePop = {
         }
 
         var totalSum = 0;
-        $(".empSum").each(function(i, v){
+        $("tr[pjtsn='" + pjtSn + "'] .empSum").each(function(i, v){
             totalSum += Number($(this).text())
         })
         $("#totalSum_" + pjtSn).text(totalSum)
