@@ -10,33 +10,160 @@
 <script type="text/javascript" src="/js/intra/cam_project/engn/costCalc.js?v=${today}"/></script>
 
 <style>
+    .table-bordered {border-collapse: unset;}
+    .evalListTd{background-color: #fff;}
     .yellow{background-color: #fff2cc;font-weight: bold;text-align: center;}
     .green{background-color: #e2efda;font-weight: bold;text-align: center;}
     .blue{background-color: #ddebf7;font-weight: bold;text-align: center;}
     .normal{font-weight: bold;text-align: center ;}
+    .table > thead > tr > th{padding-top: 5px;padding-bottom: 5px;}
+    .searchTable > thead > tr > th {font-weight: bold;color: #696c74;}
 
     .table > tbody + tbody {border-top: 1px solid rgba(0,0,0,.08)}
     #evalList input{width: 100%;}
-    #evalListDiv {width: 100%;overflow-x: auto;overflow-y:hidden;white-space: nowrap;}
 
-    /* 테이블 감싸는 div 스타일 */
     #evalListDiv {
         display: flex;
         width: 100%;
+        height: 680px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        white-space: nowrap;
     }
 
-    /* 왼쪽 고정 부분 */
     .fixed-table {
-        display: table;
-        width: auto;
-        border-collapse: collapse;
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
     }
 
-    /* 오른쪽 스크롤 부분 */
-    .scrollable-table {
-        display: block;
-        overflow-x: auto;
-        max-width: 100%;
+    #evalListDiv .fixed-table {
+        overflow-y: auto;
+        height: 680px;
+    }
+
+    #evalThead tr:nth-child(1) th {
+        position: sticky;
+        top: 0;
+        z-index: 998;
+    }
+
+    #evalThead tr:nth-child(2) th {
+        position: sticky;
+        top: 27px;
+        z-index: 995;
+    }
+
+    #evalThead tr:nth-child(3) th {
+        position: sticky;
+        top: 54px;
+        z-index: 995;
+    }
+
+    #evalThead tr:nth-child(1) th:nth-child(1) {
+        position: sticky;
+        left: 0;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(1) th:nth-child(2){
+        position: sticky;
+        left: 706px;
+        z-index: 999;
+    }
+
+    #evalList td:nth-child(1){
+        position: sticky;
+        left: 0;
+        z-index: 996;
+    }
+    #evalList td:nth-child(2){
+        position: sticky;
+        left: 56px;
+        z-index: 996;
+    }
+    #evalList td:nth-child(3){
+        position: sticky;
+        left: 527px;
+        z-index: 996;
+    }
+    #evalList td:nth-child(4){
+        position: sticky;
+        left: 613px;
+        z-index: 996;
+    }
+    #evalList td:nth-child(5){
+        position: sticky;
+        left: 704px;
+        z-index: 996;
+    }
+    #evalList td:nth-child(6){
+        position: sticky;
+        left: 809px;
+        z-index: 996;
+    }
+    #evalList td:nth-child(7){
+        position: sticky;
+        left: 926px;
+        z-index: 996;
+    }
+
+    #evalThead tr:nth-child(2) th:nth-child(1){
+        position: sticky;
+        left: 0;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(2){
+        position: sticky;
+        left: 56px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(3){
+        position: sticky;
+        left: 527px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(4){
+        position: sticky;
+        left: 613px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(5){
+        position: sticky;
+        left: 704px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(6){
+        position: sticky;
+        left: 809px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(2) th:nth-child(7){
+        position: sticky;
+        left: 926px;
+        z-index: 999;
+    }
+
+    #evalThead tr:nth-child(3) th:nth-child(1){
+        position: sticky;
+        left: 0;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(3) th:nth-child(2){
+        position: sticky;
+        left: 706px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(3) th:nth-child(3){
+        position: sticky;
+        left: 809px;
+        z-index: 999;
+    }
+    #evalThead tr:nth-child(3) th:nth-child(4){
+        position: sticky;
+        left: 926px;
+        z-index: 999;
     }
 
     table {
@@ -61,6 +188,11 @@
     #evalTheadList td{
         padding: 10px 15px;
     }
+
+    #evalThead .yellow{background-color: #fff2cc!important;font-weight: bold!important;color: #696c74;}
+    #evalThead .green{background-color: #e2efda!important;font-weight: bold!important;color: #696c74;}
+    #evalThead .blue{background-color: #ddebf7!important;font-weight: bold!important;color: #696c74;}
+    #evalThead .normal{background-color: #fff!important;font-weight: bold!important;color: #696c74;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
