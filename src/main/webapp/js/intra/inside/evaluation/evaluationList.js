@@ -37,13 +37,21 @@ var evaluationList = {
         var result = evaluationList.getAllEvalApprove();
         var html = ""
         if(result != null){
-            html += '' +
-                '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="approveDocView(' + result.DOC_ID + ',\'camticAlleval_' + result.ALL_EVAL_APPROVE_GROUP + '\',\'allEval\')">' +
-                '<span class=\'k-icon k-i-track-changes-accept k-button-icon\'></span>' +
-                '<span class="k-button-text">' +
-                    (result.APPROVE_STAT_CODE == "100" ? '결재완료' : '결재중')  +
-                '</span>' +
-                '</button>'
+            if(result.APPROVE_STAT_CODE == "20" || result.APPROVE_STAT_CODE == "100"){
+                html += '' +
+                    '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="approveDocView(' + result.DOC_ID + ',\'camticAlleval_' + result.ALL_EVAL_APPROVE_GROUP + '\',\'allEval\')">' +
+                        '<span class=\'k-icon k-i-track-changes-accept k-button-icon\'></span>' +
+                        '<span class="k-button-text">' +
+                            (result.APPROVE_STAT_CODE == "100" ? '결재완료' : '결재중')  +
+                        '</span>' +
+                    '</button>'
+            }else{
+                html += '' +
+                    '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationList.fn_popAllEvalApprovePop()">' +
+                        '<span class="k-icon k-i-track-changes-accept k-button-icon"></span>' +
+                        '<span class="k-button-text">상신</span>' +
+                    '</button>'
+            }
         }else{
             html += '' +
                 '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="evaluationList.fn_popAllEvalApprovePop()">' +
@@ -184,8 +192,10 @@ var evaluationList = {
 
         var result = evaluationList.getAllEvalApprove();
         if(result != null){
-            alert("역량&업적 평가결과 결재진행중입니다.");
-            return;
+            if(result.APPROVE_STAT_CODE == "20"){
+                alert("역량&업적 평가결과 결재진행중입니다.");
+                return;
+            }
         }
 
         var url = "/evaluation/pop/allEvalApprovePop.do?baseYear=" + $("#searchYear").val();
