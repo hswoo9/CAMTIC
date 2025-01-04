@@ -50,7 +50,7 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-
+<div id="hiddenGrid" style="display: none;"></div>
 <script>
     invenStAdmin.fn_defaultScript();
 </script>

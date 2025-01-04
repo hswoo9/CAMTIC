@@ -64,7 +64,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td colspan="5">
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oosl.mainGrid()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){oosl.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

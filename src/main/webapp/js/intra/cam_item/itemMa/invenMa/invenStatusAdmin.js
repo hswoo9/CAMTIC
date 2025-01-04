@@ -7,20 +7,17 @@ var invenStAdmin = {
     },
 
     fn_defaultScript : function (){
-
         customKendo.fn_datePicker("searchDt", "year", "yyyy-MM", new Date());
-        $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.mainGrid);
-
         invenStAdmin.global.dropDownDataSource = [
             { text : "창고명", value : "WH_CD_NM" },
             { text : "품명", value : "ITEM_NAME" }
         ]
         customKendo.fn_dropDownList("searchKeyword", invenStAdmin.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", invenStAdmin.mainGrid);
-
         customKendo.fn_textBox(["searchValue"]);
 
-        invenStAdmin.mainGrid();
+        $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.gridReload);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", invenStAdmin.gridReload);
+        invenStAdmin.gridReload()
     },
 
     mainGrid: function(){
@@ -82,6 +79,12 @@ var invenStAdmin = {
             toolbar: [
                 {
                     name : 'button',
+                    template : function(e){
+                        return '<button type="button" class="k-button k-button-solid-info" onclick="invenStAdmin.fn_excelDownload()">엑셀 다운로드</button>'
+                    }
+                },
+                {
+                    name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="invenStAdmin.fn_setDeadLine()">' +
                             '	<span class="k-button-text">마감</span>' +
@@ -118,16 +121,12 @@ var invenStAdmin = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.mainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
-            excel : {
-                fileName : "재고현황.xlsx",
-                filterable : true
-            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox" onclick="fn_checkAll(\'checkAll\', \'agiPk\');"/>',
@@ -317,41 +316,7 @@ var invenStAdmin = {
                             }
                         }
                     ]
-                }, /*{
-                    title: "재고조정",
-                    width: 100,
-                    field: "INVEN_AJM",
-                    template : function (e){
-                        return invenStAdmin.comma(e.INVEN_AJM);
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "단가",
-                    width: 100,
-                    field: "UNIT_PRICE",
-                    template: function(e){
-                        return invenStAdmin.comma(e.UNIT_PRICE) + "원";
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "재고금액",
-                    width: 100,
-                    field: "INVEN_AMT",
-                    template: function(e){
-                        if(e.INVEN_AMT < 0){
-                            return "<span style='color: red'>" + invenStAdmin.comma(e.INVEN_AMT) + "원</span>";
-                        }else{
-                            return invenStAdmin.comma(e.INVEN_AMT) + "원";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                } */{
+                },{
                     title: "비고",
                     width: 100,
                     template: function(e){
@@ -386,6 +351,12 @@ var invenStAdmin = {
         var popup = window.open(url, name, option);
     },
 
+    gridReload: function (){
+        invenStAdmin.mainGrid();
+        setTimeout(function() {
+            invenStAdmin.hiddenGrid();
+        }, 1000);
+    },
     /*gridReload: function (){
 
         var date = new Date($("#searchDt").val());
@@ -467,5 +438,129 @@ var invenStAdmin = {
         var name = "itemAppPop";
         var option = "width = 540, height = 260, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    hiddenGrid : function() {
+        var grid = $("#mainGrid").data("kendoGrid"); // Kendo Grid 객체 가져오기
+        var data = grid.dataSource.view(); // 현재 표시된 데이터 가져오기
+
+        var dataArray = data.map(function(item) {
+            return item.toJSON(); // 각 데이터를 JSON 형식으로 변환하여 배열에 담기
+        });
+
+        $.each(dataArray, function(i, v){
+            v.TOT_CNT = invenStAdmin.comma(Number(v.BEF_TOT_CNT) + Number(v.TOT_CNT));
+            v.DIFF_INVEN = invenStAdmin.comma(v.REAL_CNT == 0 ? 0 : Number(v.TOT_CNT) - Number(v.REAL_CNT));
+            v.ITEM_CONF_CNT = invenStAdmin.comma(v.ITEM_CONF_CNT != null ? Number(v.ITEM_CONF_CNT) : 0);
+            v.RATE = invenStAdmin.comma(v.BEF_AMT > v.AMT ? v.BEF_AMT - v.AMT : v.BEF_AMT < v.AMT ? v.AMT - v.BEF_AMT : v.BEF_AMT - v.AMT);
+
+            v.COST_PRICE = invenStAdmin.comma(Number(v.COST_PRICE));
+            v.BEF_TOT_CNT = invenStAdmin.comma(Number(v.BEF_TOT_CNT));
+            v.IN_CNT = invenStAdmin.comma(Number(v.IN_CNT));
+            v.OUT_CNT = invenStAdmin.comma(Number(v.OUT_CNT));
+            v.SAFE_CNT = invenStAdmin.comma(Number(v.SAFE_CNT));
+            v.REAL_CNT_2 = invenStAdmin.comma(Number(v.REAL_CNT_2));
+            v.BEF_AMT = invenStAdmin.comma(Number(v.BEF_AMT));
+            v.AMT = invenStAdmin.comma(Number(v.AMT));
+        })
+
+        var dataSource= new kendo.data.DataSource({
+            data : dataArray
+        });
+
+        $("#hiddenGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "창고",
+                    field: "WH_CD_NM",
+                    width: 80
+                }, {
+                    title: "품명",
+                    field: "ITEM_NAME",
+                    width: 100
+                }, {
+                    title: "원가",
+                    field: "COST_PRICE",
+                    width: 80,
+                }, {
+                    title: "단위",
+                    field: "STANDARD",
+                    width: 50
+                }, {
+                    title: "수량기준",
+                    columns: [
+                        {
+                            title: "전월 재고수량",
+                            field : "BEF_TOT_CNT",
+                            width: 80,
+                        }, {
+                            title: "입고현황",
+                            field : "IN_CNT",
+                            width: 70,
+                        } ,{
+                            title: "출고현황",
+                            width: 70,
+                            field : "OUT_CNT",
+                        }, {
+                            title: "현재고",
+                            width: 70,
+                            field : "TOT_CNT",
+                        }, {
+                            title: "안전재고",
+                            width: 70,
+                            field : "SAFE_CNT"
+                        }, {
+                            title: "실사재고수량",
+                            width: 80,
+                            field : "REAL_CNT_2"
+                        }, {
+                            title: "차이",
+                            width: 70,
+                            field : "DIFF_INVEN"
+                        }, {
+                            title: "확정재고",
+                            width: 70,
+                            field: "ITEM_CONF_CNT",
+                        }
+                    ]
+                }, {
+                    title: "금액기준 (VAT 별도)",
+                    columns: [
+                        {
+                            title: "전월재고자산",
+                            field: "BEF_AMT",
+                            width: 80,
+                        }, {
+                            title: "당월재고자산",
+                            field: "AMT",
+                            width: 80,
+                        } ,{
+                            title: "재고자산 증감액",
+                            field: "RATE",
+                            width: 80,
+                        }
+                    ]
+                },{
+                    title: "비고",
+                    width: 100,
+                    field : "INVEN_AJM_NOTE"
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
+    fn_excelDownload : function (){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "제고현황.xlsx";
+        });
+        grid.saveAsExcel();
     }
 }

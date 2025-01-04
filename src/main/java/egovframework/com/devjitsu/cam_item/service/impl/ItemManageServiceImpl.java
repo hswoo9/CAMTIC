@@ -960,15 +960,15 @@ public class ItemManageServiceImpl implements ItemManageService {
     public void setCrmSalesConfirm(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> cscArr = gson.fromJson((String) params.get("cscArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        /*if(cscArr.size() > 0){
+        if(cscArr.size() > 0){
             for(Map<String, Object> map : cscArr){
                 if(StringUtils.isEmpty(map.get("crmSalesConfirmSn"))){
-                    *//*itemManageRepository.setCrmSalesConfirm(map);*//*
+                    itemManageRepository.setCrmSalesConfirm(map);
                 }else{
-                    *//*itemManageRepository.setCrmSalesConfirmUpd(map);*//*
+                    itemManageRepository.setCrmSalesConfirmUpd(map);
                 }
             }
-        }*/
+        }
 
         if(cscArr.size() > 0){
             for(Map<String, Object> map : cscArr){

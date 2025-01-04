@@ -370,14 +370,18 @@ var oorl = {
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            page: 1,
+            pageSizes: "ALL",
         });
 
-        $("<div id='subGrid"+e.data.OBTAIN_ORDER_SN+"'/>").appendTo(e.detailCell).kendoGrid({
+        $("<div id='subGrid"+e.data.OBTAIN_ORDER_SN+"' class='subGrid'/>").appendTo(e.detailCell).kendoGrid({
             dataSource: dataSource,
             scrollable: false,
             sortable: true,
-            pageable: true,
+            pageable: {
+                refresh: true,
+                pageSizes : ["ALL"],
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" class="checkAll" style="top: 3px; position: relative" />',
@@ -639,7 +643,7 @@ var oorl = {
         var deadLineChk = false;
 
         $.each($("input[name=ooSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            var dataItem = $(this).closest(".subGrid").data("kendoGrid").dataItem($(this).closest("tr"));
             if($(this).attr("deadline") == "Y"){
                 alert("이미 마감된 항목입니다.");
                 deadLineChk = true;
@@ -688,17 +692,17 @@ var oorl = {
         var regPopupChk = false;
 
         $.each($("input[name=ooSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
-            if($(this).attr("order") == "N"){
-                alert("수주취소된 항목이 포함되어 있습니다.");
-                regPopupChk = true;
-                return;
-            }
+            var dataItem = $(this).closest(".subGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            console.log($(this), dataItem)
+            // if($(this).attr("order") == "N"){
+            //     alert("수주취소된 항목이 포함되어 있습니다.");
+            //     regPopupChk = true;
+            //     return;
+            // }
         });
 
         $.each($("input[name=ooSn]:checked"), function(){
             const id = $(this).closest('div[id^="subGrid"]').attr("id");
-            console.log("id", id);
             var dataItem = $("#"+id).data("kendoGrid").dataItem($(this).closest("tr"));
             if(dataItem.PAY_DEPO_SN != null){
                 alert("이미 입금처리요청서가 작성된 항목이 포함되어 있습니다.");
@@ -711,7 +715,6 @@ var oorl = {
 
         $.each($("input[name=ooSn]:checked"), function(){
             const id = $(this).closest('div[id^="subGrid"]').attr("id");
-            console.log("id", id);
             var dataItem = $("#"+id).data("kendoGrid").dataItem($(this).closest("tr"));
             crmSn.push($(this).attr("crmSn"));
             obtainOrderSn += "," + $(this).val();
@@ -800,7 +803,7 @@ var oorl = {
         var incpChk = false;
 
         $.each($("input[name=ooSn]:checked"), function(){
-            var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+            var dataItem = $(this).closest(".subGrid").data("kendoGrid").dataItem($(this).closest("tr"));
             if($(this).attr("incp") == "Y"){
                 alert("수입결의서가 작성된 항목이 포함되어 있습니다.");
                 incpChk = true;

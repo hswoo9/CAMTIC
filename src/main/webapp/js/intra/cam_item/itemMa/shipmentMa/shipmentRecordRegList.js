@@ -111,9 +111,10 @@ var srrl = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class=""/>',
                     template : function(e){
                         if(e.DEADLINE == "N"){
-                            return "<input type='checkbox' id='checkAll' class='mainObtainOrderSn obtainOrderSn_" + e.OBTAIN_ORDER_SN + "' value='" + e.OBTAIN_ORDER_SN + "' style=\"top: 3px; position: relative\" />"
+                            return "<input type='checkbox' name='checkedAll' class='mainObtainOrderSn obtainOrderSn_" + e.OBTAIN_ORDER_SN + "' value='" + e.OBTAIN_ORDER_SN + "' style=\"top: 3px; position: relative\" />"
                         }else{
                             return ""
                         }
@@ -142,10 +143,17 @@ var srrl = {
             }
         }).data("kendoGrid");
 
-        /*$("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=rcSn]").prop("checked", true);
-            else $("input[name=rcSn]").prop("checked", false);
-        });*/
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")){
+                $("input[name='checkedAll']").prop("checked", true);
+                $(".checkAll").prop("checked", true);
+                $(".checkItem").prop("checked", true);
+            }else{
+                $("input[name='checkedAll']").prop("checked", false);
+                $(".checkAll").prop("checked", false);
+                $(".checkItem").prop("checked", false);
+            }
+        });
 
         $(".numberInput").keyup(function(){
             if(Number(srrl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
@@ -154,7 +162,7 @@ var srrl = {
             }
         });
 
-        $("#checkAll").click(function(){
+        $("input[name='checkedAll']").click(function(){
            if($(this).is(":checked")){
                $(".obtainOrderSn_" + $(this).val()).each(function () {
                    $(this).prop("checked", true);
@@ -184,7 +192,6 @@ var srrl = {
     },
 
     detailInit : function(e) {
-        console.log(e)
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -400,7 +407,11 @@ var srrl = {
     },
 
     gridReload: function (){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
+        srrl.mainGrid();
     },
 
     crmSnReset : function(){
