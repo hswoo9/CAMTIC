@@ -943,11 +943,16 @@ public class EvaluationController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+
+        Map<String, Object> map = evaluationService.getAllEvalApproveYearGroup(params);
+        if(map != null){
+            model.addAttribute("rs", map);
+        }
         return "popup/inside/evaluation/allEvalApprovePop";
     }
 
     /**
-     * 평가결과 역량 업적 합산 결재 리스트
+     * 평가결과 역량 업적 합산 결재 리스트 (미저장시)
      * @param params
      * @param request
      * @param model

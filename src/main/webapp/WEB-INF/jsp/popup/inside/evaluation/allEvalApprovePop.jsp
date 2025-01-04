@@ -17,6 +17,11 @@
     .finalEval {
         background-color: #c0e6f5 !important;
     }
+    .totalCnt {
+        background-color: #fbe2d5 !important;
+        border: 1px solid rgba(0, 0, 0, .08);
+    }
+
 
     .scoreInput {
         text-align: right;
@@ -43,7 +48,6 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="regJobDetailName" value="${loginVO.jobDetailNm}"/>
-<input type="hidden" id="baseYear" value="${params.baseYear}"/>
 
 <div id='my-spinner'>
     <div>
@@ -59,10 +63,18 @@
             <h3 class="card-title title_NM">역량&업적평가 결과</h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="allEvalApprovePop.fn_excelDownload()">엑셀 다운로드</button>
-                <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="allEvalApprovePop.setAllEvalApprove()">
-                    <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
-                    <span class="k-button-text">상신</span>
-                </button>
+                <c:choose>
+                    <c:when test="${rs eq null}">
+                        <button type="button" class="k-button k-button-solid-base" onclick="allEvalApprovePop.setAllEvalApproveDataSet('save')">저장</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="k-button k-button-solid-base" onclick="allEvalApprovePop.setAllEvalApproveDataSet('save')">저장</button>
+                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base approvalPopup" onclick="allEvalApprovePop.setAllEvalApproveDataSet('drafting')">
+                            <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
+                            <span class="k-button-text">상신</span>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -84,6 +96,63 @@
                     </td>
 
                 </tr>
+            </table>
+
+            <table class="searchTable table table-bordered mb-0" id="statusTb" style="margin-top: 10px">
+                <colgroup>
+                    <col width="10%">
+                    <col width="12%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                    <col width="6.1%">
+                </colgroup>
+                <tr>
+                    <th class="text-center th-color" rowspan="2">부서명</th>
+                    <th class="text-center th-color" rowspan="2">팀명</th>
+                    <th class="text-center th-color" rowspan="2">인원</th>
+                    <th class="text-center th-color" colspan="2">SS</th>
+                    <th class="text-center th-color" colspan="2">S</th>
+                    <th class="text-center th-color" colspan="2">A</th>
+                    <th class="text-center th-color" colspan="2">B</th>
+                    <th class="text-center th-color" colspan="2">C</th>
+                </tr>
+                <tr>
+                    <th class="text-center th-color">인원</th>
+                    <th class="text-center th-color">비율</th>
+                    <th class="text-center th-color">인원</th>
+                    <th class="text-center th-color">비율</th>
+                    <th class="text-center th-color">인원</th>
+                    <th class="text-center th-color">비율</th>
+                    <th class="text-center th-color">인원</th>
+                    <th class="text-center th-color">비율</th>
+                    <th class="text-center th-color">인원</th>
+                    <th class="text-center th-color">비율</th>
+                </tr>
+                <tr>
+                    <td class="text-center totalCnt" colspan="2">${params.baseYear}년 평가(역량&업적) 결과</td>
+                    <td class="text-center totalCnt" id="totalEmpCnt"></td>
+                    <td class="text-center totalCnt" id="totalSSCnt"></td>
+                    <td class="text-center totalCnt" id="totalSSAvg"></td>
+                    <td class="text-center totalCnt" id="totalSCnt"></td>
+                    <td class="text-center totalCnt" id="totalSAvg"></td>
+                    <td class="text-center totalCnt" id="totalACnt"></td>
+                    <td class="text-center totalCnt" id="totalAAvg"></td>
+                    <td class="text-center totalCnt" id="totalBCnt"></td>
+                    <td class="text-center totalCnt" id="totalBAvg"></td>
+                    <td class="text-center totalCnt" id="totalCCnt"></td>
+                    <td class="text-center totalCnt" id="totalCAvg"></td>
+                </tr>
+                <tbody id="statusTbody">
+
+                </tbody>
             </table>
 
             <table class="popTable table table-bordered mb-0">
@@ -142,8 +211,8 @@
     <input type="hidden" id="menuCd" name="menuCd" value="evalAchieve">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="baseYear" name="baseYear" />
-    <input type="hidden" id="allEvalApproveGroup" name="allEvalApproveGroup" />
+    <input type="hidden" id="baseYear" name="baseYear" value="${params.baseYear}"/>
+    <input type="hidden" id="allEvalApproveGroup" name="allEvalApproveGroup" value="${rs.ALL_EVAL_APPROVE_GROUP}" />
 </form>
 
 <script>

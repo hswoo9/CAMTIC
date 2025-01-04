@@ -1876,6 +1876,19 @@
         DELETE FROM CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET WHERE EVAL_ACHIEVE_SET_SN = #{evalAchieveSetSn}
     </delete>
 
+    <select id="getAllEvalApproveYearGroup" parameterType="map" resultType="map">
+        /* getAllEvalApproveYearGroup */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE
+        WHERE
+            BASE_YEAR = #{baseYear}
+        GROUP BY ALL_EVAL_APPROVE_GROUP
+        ORDER BY ALL_EVAL_APPROVE_GROUP DESC
+            LIMIT 1
+    </select>
+
     <select id="getEvalAchieveResultList" parameterType="map" resultType="map">
         /* getEvalAchieveResultList */
         SELECT
@@ -2010,6 +2023,10 @@
             CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE
     </select>
 
+    <delete id="setAllEvalApproveGroupDel" parameterType="map">
+        /* setAllEvalApproveGroupDel */
+        DELETE FROM CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE WHERE ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
+    </delete>
     <insert id="setAllEvalApprove" parameterType="map">
         /* setAllEvalApprove */
         INSERT INTO CAM_INSIDE.DJ_EVALUATING_ALL_APPROVE (
@@ -2056,6 +2073,8 @@
         SELECT
             (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
             (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_SEQ,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_SEQ,
             HEI.EMP_NAME_KR,
             A.*
         FROM

@@ -345,7 +345,7 @@
             }
         }else{
             html += '<tr style="text-align: center;">';
-            html += "     <td colspan='14'>데이터가 없습니다.</td>";
+            html += "     <td colspan='19'>데이터가 없습니다.</td>";
             html += '</tr>';
         }
 

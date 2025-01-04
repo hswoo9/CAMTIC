@@ -662,6 +662,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public Map<String, Object> getAllEvalApproveYearGroup(Map<String, Object> params) {
+        return evaluationRepository.getAllEvalApproveYearGroup(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
         return evaluationRepository.getEvalAchieveResultList(params);
     }
@@ -680,12 +685,16 @@ public class EvaluationServiceImpl implements EvaluationService {
         Gson gson = new Gson();
         List<Map<String, Object>> empAllEvalArr = gson.fromJson((String) params.get("empAllEvalArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
 
-        if(empAllEvalArr.size() > 0){
+        if(StringUtils.isEmpty(params.get("allEvalApproveGroup"))){
             int allEvalApproveGroup = evaluationRepository.getAllEvalApproveMaxGroup(params);
             params.put("allEvalApproveGroup", allEvalApproveGroup);
+        }else{
+            evaluationRepository.setAllEvalApproveGroupDel(params);
+        }
 
+        if(empAllEvalArr.size() > 0){
             for (Map<String, Object> map : empAllEvalArr){
-                map.put("allEvalApproveGroup", allEvalApproveGroup);
+                map.put("allEvalApproveGroup", params.get("allEvalApproveGroup"));
                 evaluationRepository.setAllEvalApprove(map);
             }
         }

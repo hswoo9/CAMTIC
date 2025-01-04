@@ -36,7 +36,11 @@ var allEvalApprovePop = {
 
     dataSet: function (){
         allEvalApprovePop.getEvalAchieveSet();
-        allEvalApprovePop.getAllEvalList();
+        if($("#allEvalApproveGroup").val()){
+            allEvalApprovePop.getAllEvalApproveList();
+        }else{
+            allEvalApprovePop.getAllEvalList();
+        }
 
         let data = {}
         data.deptLevel = 1;
@@ -61,7 +65,11 @@ var allEvalApprovePop = {
 
         const ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
         customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq")
-        allEvalApprovePop.getAllEvalList();
+        if($("#allEvalApproveGroup").val()){
+
+        }else{
+            allEvalApprovePop.getAllEvalList();
+        }
     },
 
     getEvalAchieveSet : function(){
@@ -86,11 +94,12 @@ var allEvalApprovePop = {
         });
     },
 
-    getAllEvalList : function(){
+    getAllEvalApproveList : function(){
         $.ajax({
-            url : "/evaluation/getAllEvalList.do",
+            url : "/evaluation/getAllEvalApproveList",
             type : "post",
             data : {
+                allEvalApproveGroup : $("#allEvalApproveGroup").val(),
                 baseYear : $("#baseYear").val(),
                 dept : $("#dept").val(),
                 team : $("#team").val(),
@@ -115,6 +124,276 @@ var allEvalApprovePop = {
     },
 
     addTbody : function(rs){
+        $("#evalList").empty();
+        var html = '';
+
+        var deptList = [];
+        if(rs.length > 0){
+            for(var i = 0; i < rs.length; i++){
+                if (deptList.find(l => l.deptSeq == rs[i].DEPT_SEQ) == null) {
+                    var data = {
+                        deptSeq : rs[i].DEPT_SEQ,
+                        deptName : rs[i].DEPT_NAME,
+                        teamList : [],
+                    }
+                    deptList.push(data);
+                }else{
+                    var teamList = deptList.find(l => l.deptSeq == rs[i].DEPT_SEQ).teamList;
+                    var team = teamList.find(l => l.teamSeq == rs[i].TEAM_SEQ);
+                    if (team == null) {
+                        var team = {
+                            teamSeq : rs[i].TEAM_SEQ,
+                            teamName : rs[i].TEAM_NAME,
+                            SS : 0,
+                            S : 0,
+                            A : 0,
+                            B : 0,
+                            C : 0
+                        }
+
+                        team[rs[i].FINAL_RATING]++
+
+                        teamList.push(team)
+                    }else{
+                        team[rs[i].FINAL_RATING]++
+                    }
+
+                }
+
+                html += '' +
+                    '<tr empSeq="' + rs[i].EMP_SEQ + '">' +
+                        '<td>' + rs[i].DEPT_NAME + '</td>' +
+                        '<td>' + rs[i].TEAM_NAME + '</td>' +
+                        '<td class="text-center">' + rs[i].EMP_NAME_KR + '</td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" id="firstHalfScore' + i + '" value="' + rs[i].FIRST_HALF_SCORE + '" name="firstHalfScore" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" id="secondHalfScore' + i + '" value="' + rs[i].SECOND_HALF_SCORE + '" name="secondHalfScore" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
+                        '</td>' +
+                        '<td class="text-center"><span name="scoreAverage">' + Number(rs[i].SCORE_AVERAGE) + '</span></td>' +
+                        '<td class="text-center"><span name="resGrade">' + allEvalApprovePop.getEvalGrade(Number(rs[i].SCORE_AVERAGE)) + '</span></td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" id="evalWeights' + i + '" value="' + rs[i].EVAL_WEIGHTS + '" name="evalWeights" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" name="achieveScore" id="scoreSum' + i + '" value="' + rs[i].ACHIEVE_SCORE + '" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
+                        '</td>' +
+                        '<td class="text-center"><span name="achieveRating">' + rs[i].ACHIEVE_RATING + '</span></td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" id="evalAchieveWeights' + i + '" name="evalAchieveWeights" value="' + rs[i].EVAL_ACHIEVE_WEIGHTS + '" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="scoreInput" id="adjustedScore' + i + '" value="' + rs[i].ADJUSTED_SCORE + '" name="adjustedScore" oninput="allEvalApprovePop.onlyNumber(this)"  onkeyup="allEvalApprovePop.calScore(this)">' +
+                        '</td>' +
+                        '<td class="text-center"><span name="beforeScore">' + rs[i].BEFORE_SCORE + '</span></td>' +
+                        '<td class="text-center"><span name="finalScore">' + rs[i].FINAL_SCORE + '</span></td>' +
+                        '<td class="text-center"><span name="finalRating">' + rs[i].FINAL_RATING + '</span></td>' +
+                    '</tr>'
+            }
+        }
+
+        $('#evalList').append(html);
+        $(".scoreInput").kendoTextBox()
+
+        $("#statusTbody").empty()
+        html = "";
+        if(deptList.length > 0){
+            var totalSSEmpCnt = 0;
+            var totalSEmpCnt = 0;
+            var totalAEmpCnt = 0;
+            var totalBEmpCnt = 0;
+            var totalCEmpCnt = 0;
+
+            var totalSSAvg = 0;
+            var totalSAvg = 0;
+            var totalAAvg = 0;
+            var totalBAvg = 0;
+            var totalCAvg = 0;
+
+            for(var i = 0; i < deptList.length; i++){
+
+                totalSSEmpCnt += deptList[i].teamList[0].SS;
+                totalSEmpCnt += deptList[i].teamList[0].S;
+                totalAEmpCnt += deptList[i].teamList[0].A;
+                totalBEmpCnt += deptList[i].teamList[0].B;
+                totalCEmpCnt += deptList[i].teamList[0].C;
+
+                var sum = deptList[i].teamList[0].SS + deptList[i].teamList[0].S +
+                    deptList[i].teamList[0].A + deptList[i].teamList[0].B +
+                    deptList[i].teamList[0].C
+
+                var SSAvg = 0
+                var SAvg = 0
+                var AAvg = 0
+                var BAvg = 0
+                var CAvg = 0
+
+                if(deptList[i].teamList[0].SS != 0){
+                    SSAvg = Math.round(deptList[i].teamList[0].SS/sum * 100);
+                }
+
+                if(deptList[i].teamList[0].S != 0){
+                    SAvg = Math.round(deptList[i].teamList[0].S/sum * 100);
+                }
+
+                if(deptList[i].teamList[0].A != 0){
+                    AAvg = Math.round(deptList[i].teamList[0].A/sum * 100);
+                }
+
+                if(deptList[i].teamList[0].B != 0){
+                    BAvg = Math.round(eptList[i].teamList[0].B/sum * 100);
+                }
+
+                if(deptList[i].teamList[0].C != 0){
+                    CAvg = Math.round(deptList[i].teamList[0].C/sum * 100);
+                }
+
+                html += '' +
+                    '<tr>' +
+                        '<td rowspan="' + deptList[i].teamList.length + '">' + deptList[i].deptName + '</td>' +
+                        '<td>' + deptList[i].teamList[0].teamName + '</td>' +
+                        '<td class="text-center">' + sum + '</td>' +
+                        '<td class="text-center">' + deptList[i].teamList[0].SS + '</td>' +
+                        '<td class="text-center">' + SSAvg + '%</td>' +
+                        '<td class="text-center">' + deptList[i].teamList[0].S + '</td>' +
+                        '<td class="text-center">' + SAvg + '%</td>' +
+                        '<td class="text-center">' + deptList[i].teamList[0].A + '</td>' +
+                        '<td class="text-center">' + AAvg + '%</td>' +
+                        '<td class="text-center">' + deptList[i].teamList[0].B + '</td>' +
+                        '<td class="text-center">' + BAvg + '%</td>' +
+                        '<td class="text-center">' + deptList[i].teamList[0].C + '</td>' +
+                        '<td class="text-center">' + CAvg + '%</td>' +
+                    '</tr>';
+
+                for(var j = 1; j < deptList[i].teamList.length; j++){
+                    console.log(deptList[i].teamList[j].SS)
+                    totalSSEmpCnt += deptList[i].teamList[j].SS;
+                    totalSEmpCnt += deptList[i].teamList[j].S;
+                    totalAEmpCnt += deptList[i].teamList[j].A;
+                    totalBEmpCnt += deptList[i].teamList[j].B;
+                    totalCEmpCnt += deptList[i].teamList[j].C;
+
+                    var sum = deptList[i].teamList[j].SS + deptList[i].teamList[j].S +
+                        deptList[i].teamList[j].A + deptList[i].teamList[j].B +
+                        deptList[i].teamList[j].C;
+
+                    var SSAvg = 0
+                    var SAvg = 0
+                    var AAvg = 0
+                    var BAvg = 0
+                    var CAvg = 0
+
+                    if(deptList[i].teamList[j].SS != 0){
+                        SSAvg = Math.round(deptList[i].teamList[j].SS/sum * 100);
+                    }
+
+                    if(deptList[i].teamList[j].S != 0){
+                        SAvg = Math.round(deptList[i].teamList[j].S/sum * 100);
+                    }
+
+                    if(deptList[i].teamList[j].A != 0){
+                        AAvg = Math.round(deptList[i].teamList[j].A/sum * 100);
+                    }
+
+                    if(deptList[i].teamList[j].B != 0){
+                        BAvg = Math.round(eptList[i].teamList[j].B/sum * 100);
+                    }
+
+                    if(deptList[i].teamList[j].C != 0){
+                        CAvg = Math.round(deptList[i].teamList[j].C/sum * 100);
+                    }
+
+                    html += '' +
+                        '<tr>' +
+                            '<td>' + deptList[i].teamList[j].teamName + '</td>' +
+                            '<td class="text-center">' + sum + '</td>' +
+                            '<td class="text-center">' + deptList[i].teamList[j].SS + '</td>' +
+                            '<td class="text-center">' + SSAvg + '%</td>' +
+                            '<td class="text-center">' + deptList[i].teamList[j].S + '</td>' +
+                            '<td class="text-center">' + SAvg + '%</td>' +
+                            '<td class="text-center">' + deptList[i].teamList[j].A + '</td>' +
+                            '<td class="text-center">' + AAvg + '%</td>' +
+                            '<td class="text-center">' + deptList[i].teamList[j].B + '</td>' +
+                            '<td class="text-center">' + BAvg + '%</td>' +
+                            '<td class="text-center">' + deptList[i].teamList[j].C + '</td>' +
+                            '<td class="text-center">' + CAvg + '%</td>' +
+                        '</tr>';
+                }
+            }
+
+            var totalSum = totalSSEmpCnt + totalSEmpCnt + totalAEmpCnt + totalBEmpCnt + totalCEmpCnt;
+            if(totalSSEmpCnt != 0){
+                totalSSAvg = Math.round(totalSSEmpCnt/totalSum * 100);
+            }
+
+            if(totalSEmpCnt != 0){
+                totalSAvg = Math.round(totalSEmpCnt/totalSum * 100);
+            }
+
+            if(totalAEmpCnt != 0){
+                totalAAvg = Math.round(totalAEmpCnt/totalSum * 100);
+            }
+
+            if(totalBEmpCnt != 0){
+                totalBAvg = Math.round(totalBEmpCnt/totalSum * 100);
+            }
+
+            if(totalCEmpCnt != 0){
+                totalCAvg = Math.round(totalCEmpCnt/totalSum * 100);
+            }
+
+            $("#totalEmpCnt").text(totalSum);
+            $("#totalSSCnt").text(totalSSEmpCnt)
+            $("#totalSSAvg").text(totalSSAvg + "%")
+            $("#totalSCnt").text(totalSEmpCnt)
+            $("#totalSAvg").text(totalSAvg + "%")
+            $("#totalACnt").text(totalAEmpCnt)
+            $("#totalAAvg").text(totalAAvg + "%")
+            $("#totalBCnt").text(totalBEmpCnt)
+            $("#totalBAvg").text(totalBAvg + "%")
+            $("#totalCCnt").text(totalCEmpCnt)
+            $("#totalCAvg").text(totalCAvg + "%")
+        }else{
+            html += '' +
+                '<tr>' +
+                    '<td colspan="14">저장된 데이터가 없습니다.</td>' +
+                '</tr>'
+        }
+
+        $("#statusTbody").html(html)
+        allEvalApprovePop.calScore();
+    },
+
+    getAllEvalList : function(){
+        $.ajax({
+            url : "/evaluation/getAllEvalList.do",
+            type : "post",
+            data : {
+                baseYear : $("#baseYear").val(),
+                dept : $("#dept").val(),
+                team : $("#team").val(),
+                position : $("#position").val(),
+                duty : $("#duty").val()
+            },
+            dataType : "json",
+            beforeSend : function(){
+                $("#my-spinner").show();
+            },
+            success : function(result){
+                allEvalApprovePop.addTbody2(result.rs);
+                allEvalApprovePop.hiddenGrid();
+
+                $("#my-spinner").hide();
+            },
+            error : function(e) {
+                console.log(e);
+                $("#my-spinner").hide();
+            }
+        });
+    },
+
+    addTbody2 : function(rs){
         var evaluationYearMax = rs.evaluationYearMax;
         var evalResultEmpList = rs.evalResultEmpList;
         var evalAchieveList = rs.evalAchieveList;
@@ -321,26 +600,15 @@ var allEvalApprovePop = {
     calScore : function(e){
         if(e != null){
             var tr = $(e).closest("tr");
-            allEvalApprovePop.calScoreInput(tr);
+            allEvalApprovePop.calScoreInput(tr, e);
         }else{
             $.each($("#evalList tr"), function(i, v){
                 allEvalApprovePop.calScoreInput(v);
             })
         }
-
-        // console.log("상반기 점수:", firstHalfScore);
-        // console.log("하반기 점수:", secondHalfScore);
-        // console.log("역량평가 가중치:", evalWeights);
-        // console.log("역량평가 최종 점수:", scoreAverage);
-        // console.log("역량평가 등급:", scoreRating);
-        // console.log("업적평가 점수:", achieveScore);
-        // console.log("업적평가 등급:", achieveRating);
-        // console.log("업적평가 가중치:", evalAchieveWeights);
-        // console.log("최종점수:", finalScore);
-        // console.log("최종등급:", finalRating);
     },
 
-    calScoreInput : function(tr){
+    calScoreInput : function(tr, e){
         /** 역량평가 점수 */
         /** 상반기 */
         var firstHalfScore = Number($(tr).find("input[name='firstHalfScore']").val())
@@ -352,7 +620,6 @@ var allEvalApprovePop = {
         var scoreAverage = (firstHalfScore + secondHalfScore) / 2
         /** 최종등급 */
         var scoreRating = allEvalApprovePop.getEvalGrade(scoreAverage)
-
 
         /** 업적평가 점수 */
         /** 최종점수 */
@@ -369,6 +636,18 @@ var allEvalApprovePop = {
         var finalScore = ((scoreAverage * (evalWeights / 100)) +  (achieveScore * (evalAchieveWeights / 100)));
         /** 최종등급 */
         var finalRating = allEvalApprovePop.getFinalRating(finalScore + adjustedScore);
+
+
+        if(evalAchieveWeights + evalWeights > 100){
+            alert("가중치의 합은 100%를 초과할 수 없습니다.")
+            if(e != null){
+                $(e).focus();
+            }else{
+                $(tr).find("input[name='evalWeights']").focus()
+            }
+            return;
+        }
+
 
         $(tr).find("span[name='scoreAverage']").text(scoreAverage);
         $(tr).find("span[name='resGrade']").text(scoreRating)
@@ -604,47 +883,77 @@ var allEvalApprovePop = {
         grid.saveAsExcel();
     },
 
-    setAllEvalApprove : function(){
-        var empAllEvalArr = new Array();
+    setAllEvalApproveDataSet : function(type){
+        var flag = true;
         $("#evalList tr").each(function(i, v){
-            var data = {
-                baseYear : $("#baseYear").val(),
-                empSeq : $(this).attr("empSeq"),
-                firstHalfScore : $(this).find("input[name='firstHalfScore']").val(),
-                secondHalfScore : $(this).find("input[name='secondHalfScore']").val(),
-                scoreAverage : $(this).find("span[name='scoreAverage']").text(),
-                resGrade : $(this).find("span[name='resGrade']").text(),
-                evalWeights : $(this).find("input[name='evalWeights']").val(),
-                achieveScore : $(this).find("input[name='achieveScore']").val(),
-                achieveRating :  $(this).find("span[name='achieveRating']").text(),
-                evalAchieveWeights : $(this).find("input[name='evalAchieveWeights']").val(),
-                adjustedScore : $(this).find("input[name='adjustedScore']").val(),
-                beforeScore : $(this).find("span[name='beforeScore']").text(),
-                finalScore : $(this).find("span[name='finalScore']").text(),
-                finalRating : $(this).find("span[name='finalRating']").text(),
-                regEmpSeq : $("#regEmpSeq").val(),
-            }
+            var evalWeights = Number($(v).find("input[name='evalWeights']").val())
+            var evalAchieveWeights = Number($(v).find("input[name='evalAchieveWeights']").val())
 
-            empAllEvalArr.push(data);
+            if(evalAchieveWeights + evalWeights > 100){
+                flag = false;
+                $(v).find("input[name='evalWeights']").focus();
+                return
+            }
         })
 
-        $.ajax({
-            url : "/evaluation/setAllEvalApprove",
-            data : {
-                empAllEvalArr : JSON.stringify(empAllEvalArr)
-            },
-            dataType : "json",
-            type : "post",
-            success: function (rs) {
-                $("#allEvalDraftFrm #baseYear").val($("#baseYear").val())
-                $("#allEvalApproveGroup").val(rs.params.allEvalApproveGroup)
-                allEvalApprovePop.allEvalDrafting()
-                window.close()
-            },
-            error: function () {
-                alert("신청 데이터 저장 중 에러가 발생했습니다.");
-            }
-        });
+        if(!flag){
+            alert("가중치의 합은 100%를 초과할 수 없습니다.")
+            return
+        }
+
+        var confirmTxt = ""
+        if(type == "drafting"){
+            confirmTxt = "상신하시겠습니까?";
+        }else{
+            confirmTxt = "저장하시겠습니까?";
+        }
+
+        if(confirm(confirmTxt)){
+            var empAllEvalArr = new Array();
+            $("#evalList tr").each(function(i, v){
+                var data = {
+                    allEvalApproveGroup : $("#allEvalApproveGroup").val(),
+                    baseYear : $("#baseYear").val(),
+                    empSeq : $(this).attr("empSeq"),
+                    firstHalfScore : $(this).find("input[name='firstHalfScore']").val(),
+                    secondHalfScore : $(this).find("input[name='secondHalfScore']").val(),
+                    scoreAverage : $(this).find("span[name='scoreAverage']").text(),
+                    resGrade : $(this).find("span[name='resGrade']").text(),
+                    evalWeights : $(this).find("input[name='evalWeights']").val(),
+                    achieveScore : $(this).find("input[name='achieveScore']").val(),
+                    achieveRating :  $(this).find("span[name='achieveRating']").text(),
+                    evalAchieveWeights : $(this).find("input[name='evalAchieveWeights']").val(),
+                    adjustedScore : $(this).find("input[name='adjustedScore']").val(),
+                    beforeScore : $(this).find("span[name='beforeScore']").text(),
+                    finalScore : $(this).find("span[name='finalScore']").text(),
+                    finalRating : $(this).find("span[name='finalRating']").text(),
+                    regEmpSeq : $("#regEmpSeq").val(),
+                }
+
+                empAllEvalArr.push(data);
+            })
+
+            $.ajax({
+                url : "/evaluation/setAllEvalApprove",
+                data : {
+                    empAllEvalArr : JSON.stringify(empAllEvalArr)
+                },
+                dataType : "json",
+                type : "post",
+                success: function (rs) {
+                    if(type == "drafting"){
+                        allEvalApprovePop.allEvalDrafting();
+                        window.close()
+                    }else{
+                        alert("저장되었습니다.");
+                        location.reload()
+                    }
+                },
+                error: function () {
+                    alert("신청 데이터 저장 중 에러가 발생했습니다.");
+                }
+            });
+        }
     },
 
     allEvalDrafting : function(){

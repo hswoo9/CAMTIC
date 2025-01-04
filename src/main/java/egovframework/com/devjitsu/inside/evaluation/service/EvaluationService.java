@@ -76,6 +76,8 @@ public interface EvaluationService {
 
     void setEvalAchieveSetDel(Map<String, Object> params);
 
+    Map<String, Object> getAllEvalApproveYearGroup(Map<String, Object> params);
+
     List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params);
 
     Map<String, Object> getAllEvalList(Map<String, Object> params);

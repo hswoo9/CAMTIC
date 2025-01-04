@@ -334,6 +334,10 @@ public class EvaluationRepository extends AbstractDAO {
         delete("evaluation.setEvalAchieveSetDel", params);
     }
 
+    public Map<String, Object> getAllEvalApproveYearGroup(Map<String, Object> params){
+        return (Map<String, Object>) selectOne("evaluation.getAllEvalApproveYearGroup", params);
+    }
+
     public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
         return selectList("evaluation.getEvalAchieveResultList", params);
     }
@@ -350,6 +354,9 @@ public class EvaluationRepository extends AbstractDAO {
         return (int)selectOne("evaluation.getAllEvalApproveMaxGroup", params);
     }
 
+    public void setAllEvalApproveGroupDel(Map<String, Object> params){
+        delete("evaluation.setAllEvalApproveGroupDel", params);
+    }
     public void setAllEvalApprove(Map<String, Object> map) {
         insert("evaluation.setAllEvalApprove", map);
     }
