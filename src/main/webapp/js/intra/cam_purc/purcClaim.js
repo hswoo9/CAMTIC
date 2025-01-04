@@ -83,7 +83,6 @@ var purcClaim = {
     mainGrid: function(url){
         const dataSource = new kendo.data.DataSource({
             serverPaging: false,
-            pageSize: 10,
             transport: {
                 read : {
                     url : url,
@@ -113,13 +112,16 @@ var purcClaim = {
                 total: function (data) {
                     return data.list.length;
                 }
-            }
+            },
+            page: 1,
+            pageSizes: "ALL"
         });
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             selectable: "row",
+            height: 508,
             pageable: {
                 refresh: true,
                 pageSizes : [ 10, 20, 50, "ALL" ],

@@ -302,14 +302,14 @@ var invenStAdmin = {
                             field: "STANDARD",
                             width: 80,
                             template : function (e){
-                                if(e.BEF_AMT > e.AMT){
-                                    return "<span style='color: red; font-weight : bold'>" + invenStAdmin.comma(Number(e.BEF_AMT - e.AMT)) + "</span>";
-                                } else if(e.BEF_AMT < e.AMT){
-                                    return "<span style='color: blue; font-weight : bold'>" + invenStAdmin.comma(Number(e.AMT - e.BEF_AMT)) + "</span>";
-                                } else {
-                                    return invenStAdmin.comma(Number(e.BEF_AMT - e.AMT));
+                                var rate = Number(e.AMT - e.BEF_AMT);
+                                var textColor = "";
+                                if(rate > 0){
+                                    textColor = "color: blue;"
+                                }else{
+                                    textColor = "color: red;"
                                 }
-
+                                return "<span style='" + textColor + "font-weight : bold'>" + invenStAdmin.comma(rate) + "</span>";
                             },
                             attributes : {
                                 style : "text-align : right;"
