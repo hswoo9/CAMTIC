@@ -111,7 +111,7 @@ var hwpApprovalLine = {
                 /** 3. 협조 결재선 세팅
                  * 24-09-30. 접수대장과 같이 협조를 직접 설정할 때의 분기 추가
                  * */
-                if(draft.global.params.formId != null && (draft.global.params.formId == "194" || draft.global.params.formId == "139" || draft.global.params.formId == "199" || draft.global.params.formId == "200")){
+                if(draft.global.params.formId != null && (draft.global.params.formId == "194" || draft.global.params.formId == "139" || draft.global.params.formId == "199" || draft.global.params.formId == "200" || draft.global.params.formId == "201")){
                     let copperCnt = 0;
                     for(let i=0; i<list.length; i++){
                         if(list[i].approveType == "1"){
