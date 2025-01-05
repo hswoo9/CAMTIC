@@ -2,6 +2,7 @@ var purcCrmManagement = {
     fn_defaultScript: function(){
         this.pageSet();
         this.dataSet();
+        purcCrmManagement.hiddenGridSet();
     },
 
     pageSet: function(){
@@ -260,5 +261,307 @@ var purcCrmManagement = {
             html += '</tr>';
         }
         return html;
-    }
+    },
+
+    hiddenGridSet : function(){
+        var arr = []
+        var columns = []
+        $("#tableA tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    TYPE : $(v).children().eq(0).text(),
+                    COLUMN1 : $(v).children().eq(1).text(),
+                    COLUMN2 : $(v).children().eq(2).text(),
+                    COLUMN3 : $(v).children().eq(3).text(),
+                    COLUMN4 : $(v).children().eq(4).text(),
+                    COLUMN5 : $(v).children().eq(5).text(),
+                    COLUMN6 : $(v).children().eq(6).text(),
+                    COLUMN7 : $(v).children().eq(7).text(),
+                    COLUMN8 : $(v).children().eq(8).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "구분",
+                width: 120,
+                field: "TYPE"
+            }, {
+                title: "1회",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "5회미만",
+                width: 80,
+                field: "COLUMN2"
+            }, {
+                title: "10회미만",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "20회미만",
+                width: 80,
+                field: "COLUMN4"
+            }, {
+                title: "50회미만",
+                width: 80,
+                field: "COLUMN5"
+            }, {
+                title: "100회미만",
+                width: 80,
+                field: "COLUMN6"
+            }, {
+                title: "100회이상",
+                width: 80,
+                field: "COLUMN7"
+            }, {
+                title: "합계",
+                width: 80,
+                field: "COLUMN8"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid1", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableB tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    TYPE : $(v).children().eq(0).text(),
+                    COLUMN1 : $(v).children().eq(1).text(),
+                    COLUMN2 : $(v).children().eq(2).text(),
+                    COLUMN3 : $(v).children().eq(3).text(),
+                    COLUMN4 : $(v).children().eq(4).text(),
+                    COLUMN5 : $(v).children().eq(5).text(),
+                    COLUMN6 : $(v).children().eq(6).text(),
+                    COLUMN7 : $(v).children().eq(7).text(),
+                    COLUMN8 : $(v).children().eq(8).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "거래횟수별",
+                width: 120,
+                field: "TYPE"
+            }, {
+                title: "도내",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "비율",
+                width: 80,
+                field: "COLUMN2"
+            }, {
+                title: "도외",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "비율",
+                width: 80,
+                field: "COLUMN4"
+            }, {
+                title: "해외",
+                width: 80,
+                field: "COLUMN5"
+            }, {
+                title: "비율",
+                width: 80,
+                field: "COLUMN6"
+            }, {
+                title: "합계",
+                width: 80,
+                field: "COLUMN7"
+            }, {
+                title: "비율",
+                width: 80,
+                field: "COLUMN8"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid2", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableC tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    COLUMN1 : $(v).children().eq(0).text(),
+                    COLUMN2 : $(v).children().eq(1).text(),
+                    COLUMN3 : $(v).children().eq(2).text(),
+                    COLUMN4 : $(v).children().eq(3).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "연번",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "협력사명",
+                width: 120,
+                field: "COLUMN2"
+            }, {
+                title: "거래횟수 50회이상",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "거래금액 1억원이상",
+                width: 80,
+                field: "COLUMN4"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid3", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableD tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    COLUMN1 : $(v).children().eq(0).text(),
+                    COLUMN2 : $(v).children().eq(1).text(),
+                    COLUMN3 : $(v).children().eq(2).text(),
+                    COLUMN4 : $(v).children().eq(3).text(),
+                    COLUMN5 : $(v).children().eq(4).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "연번",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "협력사명",
+                width: 120,
+                field: "COLUMN2"
+            }, {
+                title: "거래금액 (백만원)",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "업종세부",
+                width: 80,
+                field: "COLUMN4"
+            }, {
+                title: "소재지",
+                width: 80,
+                field: "COLUMN5"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid4", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableE tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    COLUMN1 : $(v).children().eq(0).text(),
+                    COLUMN2 : $(v).children().eq(1).text(),
+                    COLUMN3 : $(v).children().eq(2).text(),
+                    COLUMN4 : $(v).children().eq(3).text(),
+                    COLUMN5 : $(v).children().eq(4).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "연번",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "협력사명",
+                width: 120,
+                field: "COLUMN2"
+            }, {
+                title: "거래금액 (백만원)",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "업종세부",
+                width: 80,
+                field: "COLUMN4"
+            }, {
+                title: "소재지",
+                width: 80,
+                field: "COLUMN5"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid5", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableF tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    COLUMN1 : $(v).children().eq(0).text(),
+                    COLUMN2 : $(v).children().eq(1).text(),
+                    COLUMN3 : $(v).children().eq(2).text(),
+                    COLUMN4 : $(v).children().eq(3).text(),
+                    COLUMN5 : $(v).children().eq(4).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "연번",
+                width: 120,
+                field: "COLUMN1"
+            }, {
+                title: "협력사명",
+                width: 120,
+                field: "COLUMN2"
+            }, {
+                title: "거래금액 (백만원)",
+                width: 80,
+                field: "COLUMN3"
+            }, {
+                title: "업종세부",
+                width: 80,
+                field: "COLUMN4"
+            }, {
+                title: "소재지",
+                width: 80,
+                field: "COLUMN5"
+            }
+        ]
+        purcCrmManagement.hiddenGrid("hiddenGrid6", columns, arr)
+    },
+
+    hiddenGrid : function(id, columns, arr) {
+        var dataSource= new kendo.data.DataSource({
+            data : arr
+        });
+
+        $("#" + id).kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: columns,
+        }).data("kendoGrid");
+    },
+
+    fn_excelDownload : function(index, excelName){
+        var grid = $("#hiddenGrid" + index).data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = excelName + ".xlsx";
+        });
+        grid.saveAsExcel();
+    },
 }

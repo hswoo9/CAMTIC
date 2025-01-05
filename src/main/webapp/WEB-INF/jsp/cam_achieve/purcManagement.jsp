@@ -41,7 +41,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">1. 년도별 구매현황</span></div>
+            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">1. 년도별 구매현황</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcManagement.fn_excelDownload(1, '년도별 구매현황')">엑셀 다운로드</button>
+            </div>
             <div style="width: 100%; text-align: right"><span style="font-size: 10px;">(단: 건, 백만원, 부가세별도)</span></div>
 
             <table class="searchTable table table-bordered mb-0">
@@ -58,7 +61,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">2. 사업분야별 구매거래 현황</span></div>
+            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">2. 사업분야별 구매거래 현황</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcManagement.fn_excelDownload(2, '사업분야별 구매거래 현황')">엑셀 다운로드</button>
+            </div>
             <div style="width: 100%; text-align: right"><span style="font-size: 10px;">(단: 건, 백만원, 부가세별도)</span></div>
 
             <table class="searchTable table table-bordered mb-0">
@@ -74,7 +80,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">3. 구매품목 구분별 거래현황</span></div>
+            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">3. 구매품목 구분별 거래현황</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcManagement.fn_excelDownload(3, '구매품목 구분별 거래현황')">엑셀 다운로드</button>
+            </div>
             <div style="width: 100%; text-align: right"><span style="font-size: 10px;">(단: 건, %)</span></div>
 
             <table class="searchTable table table-bordered mb-0">
@@ -92,7 +101,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">4. 자산유무 구분</span></div>
+            <div style="width: 100%;;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">4. 자산유무 구분</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcManagement.fn_excelDownload(4, '자산유무 구분')">엑셀 다운로드</button>
+            </div>
 
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
@@ -109,6 +121,10 @@
         </div>
     </div>
 </div>
+<div id="hiddenGrid1" style="display: none;"></div>
+<div id="hiddenGrid2" style="display: none;"></div>
+<div id="hiddenGrid3" style="display: none;"></div>
+<div id="hiddenGrid4" style="display: none;"></div>
 
 <script>
     purcManagement.fn_defaultScript();

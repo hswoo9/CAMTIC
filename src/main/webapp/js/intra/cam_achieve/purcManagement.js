@@ -3,6 +3,7 @@ var purcManagement = {
     fn_defaultScript: function(){
         this.pageSet();
         this.dataSet();
+        purcManagement.hiddenGridSet();
     },
 
     pageSet: function(){
@@ -333,5 +334,197 @@ var purcManagement = {
         html += '   <th class="th-color" style="text-align:left">'+list.length+'건</th>';
         html += '</tr>';
         $("#tableD").html(html);
+    },
+
+    hiddenGridSet : function(){
+        var arr = []
+        var columns = []
+        $("#tableA tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    YEAR : $(v).children().eq(0).text(),
+                    PURC_CNT : $(v).children().eq(1).text(),
+                    PURC_AMT : $(v).children().eq(2).text(),
+                    MONTH_PURC_CNT : $(v).children().eq(3).text(),
+                    CONTRACT_CNT : $(v).children().eq(4).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "구분",
+                width: 120,
+                field: "YEAR"
+            }, {
+                title: "구매거래건수",
+                width: 120,
+                field: "PURC_CNT"
+            }, {
+                title: "구매거래금액",
+                width: 80,
+                field: "PURC_AMT"
+            }, {
+                title: "(월평균) 구매거래 건 수",
+                width: 80,
+                field: "MONTH_PURC_CNT"
+            }, {
+                title: "계약건수",
+                width: 80,
+                field: "CONTRACT_CNT"
+            }
+        ]
+        purcManagement.hiddenGrid("hiddenGrid1", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableB tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    BUS_CLASS : $(v).children().eq(0).text(),
+                    TRADE_AMT : $(v).children().eq(1).text(),
+                    TRADE_CNT : $(v).children().eq(2).text(),
+                    MONTH_TRADE_CNT : $(v).children().eq(3).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "사업구분",
+                width: 120,
+                field: "BUS_CLASS"
+            }, {
+                title: "거래금액",
+                width: 120,
+                field: "TRADE_AMT"
+            }, {
+                title: "거래 건 수",
+                width: 80,
+                field: "TRADE_CNT"
+            }, {
+                title: "(월평균) 거래 건 수",
+                width: 80,
+                field: "MONTH_TRADE_CNT"
+            }
+        ]
+        purcManagement.hiddenGrid("hiddenGrid2", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableC tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    TYPE : $(v).children().eq(0).text(),
+                    PURC : $(v).children().eq(1).text(),
+                    OUT : $(v).children().eq(2).text(),
+                    FAC : $(v).children().eq(3).text(),
+                    LEASE : $(v).children().eq(4).text(),
+                    SUM : $(v).children().eq(5).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "구분",
+                width: 120,
+                field: "TYPE"
+            }, {
+                title: "구매",
+                width: 120,
+                field: "PURC"
+            }, {
+                title: "외주",
+                width: 80,
+                field: "OUT"
+            }, {
+                title: "시설공사",
+                width: 80,
+                field: "FAC"
+            }, {
+                title: "리스",
+                width: 80,
+                field: "LEASE"
+            }, {
+                title: "합계",
+                width: 80,
+                field: "SUM"
+            }
+        ]
+        purcManagement.hiddenGrid("hiddenGrid3", columns, arr)
+
+        arr = [];
+        columns = [];
+        $("#tableD tr").each(function(i, v){
+            if(i != 0){
+                var data = {
+                    TYPE : $(v).children().eq(0).text(),
+                    PURC : $(v).children().eq(1).text(),
+                    OUT : $(v).children().eq(2).text(),
+                    FAC : $(v).children().eq(3).text(),
+                    LEASE : $(v).children().eq(4).text(),
+                    SUM : $(v).children().eq(5).text(),
+                }
+
+                arr.push(data);
+            }
+        })
+        columns = [
+            {
+                title: "구분",
+                width: 120,
+                field: "TYPE"
+            }, {
+                title: "구매",
+                width: 120,
+                field: "PURC"
+            }, {
+                title: "외주",
+                width: 80,
+                field: "OUT"
+            }, {
+                title: "시설공사",
+                width: 80,
+                field: "FAC"
+            }, {
+                title: "리스",
+                width: 80,
+                field: "LEASE"
+            }, {
+                title: "합계",
+                width: 80,
+                field: "SUM"
+            }
+        ]
+        purcManagement.hiddenGrid("hiddenGrid4", columns, arr)
+    },
+
+    hiddenGrid : function(id, columns, arr) {
+        var dataSource= new kendo.data.DataSource({
+            data : arr
+        });
+
+        $("#" + id).kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: columns,
+        }).data("kendoGrid");
+    },
+
+    fn_excelDownload : function(index, excelName){
+        var grid = $("#hiddenGrid" + index).data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = excelName + ".xlsx";
+        });
+        grid.saveAsExcel();
     },
 }

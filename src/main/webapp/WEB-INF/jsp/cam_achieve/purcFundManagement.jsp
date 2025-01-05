@@ -51,7 +51,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">1. 사업구분별 구매거래 건 수 및 금액</span></div>
+            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">1. 사업구분별 구매거래 건 수 및 금액</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcFundManagement.fn_excelDownload(1, '사업구분별 구매거래 건 수 및 금액')">엑셀 다운로드</button>
+            </div>
 
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
@@ -67,7 +70,10 @@
         </div>
 
         <div class="panel-body">
-            <div style="width: 100%"><span style="font-weight: bold; font-size: 13px;">2. 사업구분별 지급예정일</span></div>
+            <div style="width: 100%;display: flex;justify-content: space-between;align-items: center;">
+                <span style="font-weight: bold; font-size: 13px;">2. 사업구분별 지급예정일</span>
+                <button type="button" class="k-button k-button-solid-info" onclick="purcFundManagement.fn_excelDownload(2, '사업구분별 지급예정일')">엑셀 다운로드</button>
+            </div>
 
             <div style="overflow-x: auto; margin-bottom: 17px">
             <table id="tableB" class="searchTable table-bordered mb-0" style="magin-bottom: 0px !important">
@@ -76,11 +82,16 @@
         </div>
 
         <div class="panel-body">
+            <div style="width: 100%;display: flex;justify-content: flex-end;align-items: center;">
+                <button type="button" class="k-button k-button-solid-info" onclick="purcFundManagement.fn_excelDownload(3, '구매지급 리스트')">엑셀 다운로드</button>
+            </div>
             <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->
-
+<div id="hiddenGrid1" style="display: none;"></div>
+<div id="hiddenGrid2" style="display: none;"></div>
+<div id="hiddenGrid3" style="display: none;"></div>
 <script>
     purcFundManagement.fn_defaultScript();
 </script>
