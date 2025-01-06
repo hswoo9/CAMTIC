@@ -441,7 +441,7 @@ var evalScorePop = {
         $('.approveY').closest("td").css('background-color', '#00397f96');
         $("#pjtBusnClassStatus").text("R&D : " + pjtBusnClass.rnd + "건 | 비R&D : " + pjtBusnClass.unRnd + "건 | 엔지니어링 : " + pjtBusnClass.engn + "건 | 용역/기타 : " + pjtBusnClass.other + "건")
 
-        evalScorePop.empTotalCal()
+        evalScorePop.empTotalCal();
     },
 
     empTotalCal : function(){
@@ -671,5 +671,53 @@ var evalScorePop = {
             return;
         }
 
+    },
+
+    evalContentCss : function(){
+        let leftValues = [];
+        let totalLeft = 0;
+
+        $('#evalThead tr').each(function () {
+            $(this).find('th').each(function (index) {
+                if (index === 0) totalLeft = 0;
+                $(this).css('left', `${totalLeft}px`);
+                leftValues[index] = $(this).outerWidth(true);
+                totalLeft += leftValues[index];
+            });
+        });
+
+        $('#evalList tr').each(function () {
+            totalLeft = 0;
+            $(this).find('td').each(function (index) {
+                if (index === 0) totalLeft = 0;
+                $(this).css('left', `${totalLeft}px`);
+                totalLeft += leftValues[index] || 0;
+            });
+        });
+
+       /* #evalThead tr:nth-child(1) th:nth-child(1) {position: sticky;left: 0;z-index: 999;}
+        #evalThead tr:nth-child(1) th:nth-child(2){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
+
+        #evalThead tr:nth-child(2) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
+        #evalThead tr:nth-child(2) th:nth-child(2){position: sticky;left: 56px;z-index: 999;} // 번호
+        #evalThead tr:nth-child(2) th:nth-child(3){position: sticky;left: 527px;z-index: 999;} // 번호+프로젝트명
+        #evalThead tr:nth-child(2) th:nth-child(4){position: sticky;left: 613px;z-index: 999;} // 번호+프로젝트명+업체
+        #evalThead tr:nth-child(2) th:nth-child(5){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
+        #evalThead tr:nth-child(2) th:nth-child(6){position: sticky;left: 809px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주
+        #evalThead tr:nth-child(2) th:nth-child(7){position: sticky;left: 926px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주+매출
+
+        #evalThead tr:nth-child(3) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
+        #evalThead tr:nth-child(3) th:nth-child(2){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
+        #evalThead tr:nth-child(3) th:nth-child(3){position: sticky;left: 809px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주
+        #evalThead tr:nth-child(3) th:nth-child(4){position: sticky;left: 926px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주+매출
+
+        #evalList td:nth-child(1){position: sticky;left: 0;z-index: 996;}
+        #evalList td:nth-child(2){position: sticky;left: 56px;z-index: 996;} // 번호
+        #evalList td:nth-child(3){position: sticky;left: 527px;z-index: 996;} // 번호+프로젝트명
+        #evalList td:nth-child(4){position: sticky;left: 613px;z-index: 996;} // 번호+프로젝트명+업체
+        #evalList td:nth-child(5){position: sticky;left: 704px;z-index: 996;} // 번호+프로젝트명+업체+구분
+        #evalList td:nth-child(6){position: sticky;left: 809px;z-index: 996;} // 번호+프로젝트명+업체+구분+수주
+        #evalList td:nth-child(7){position: sticky;left: 926px;z-index: 996;} // 번호+프로젝트명+업체+구분+수주+매출*/
     }
+
 }

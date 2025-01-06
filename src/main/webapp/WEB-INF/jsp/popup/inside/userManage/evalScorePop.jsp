@@ -18,10 +18,8 @@
     .normal{font-weight: bold;text-align: center ;}
     .table > thead > tr > th{padding-top: 5px;padding-bottom: 5px;}
     .searchTable > thead > tr > th {font-weight: bold;color: #696c74;}
-
     .table > tbody + tbody {border-top: 1px solid rgba(0,0,0,.08)}
     #evalList input{width: 100%;}
-
     #evalListDiv {
         display: flex;
         width: 100%;
@@ -30,7 +28,6 @@
         overflow-y: hidden;
         white-space: nowrap;
     }
-
     .fixed-table {
         display: block;
         width: 100%;
@@ -38,161 +35,67 @@
         overflow-x: auto;
         overflow-y: auto;
     }
-
     #evalListDiv .fixed-table {
         overflow-y: auto;
         height: 680px;
     }
-
-    #evalThead tr:nth-child(1) th {
-        position: sticky;
-        top: 0;
-        z-index: 998;
-    }
-
-    #evalThead tr:nth-child(2) th {
-        position: sticky;
-        top: 27px;
-        z-index: 995;
-    }
-
-    #evalThead tr:nth-child(3) th {
-        position: sticky;
-        top: 54px;
-        z-index: 995;
-    }
-
-    #evalThead tr:nth-child(1) th:nth-child(1) {
-        position: sticky;
-        left: 0;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(1) th:nth-child(2){
-        position: sticky;
-        left: 704px;
-        z-index: 999;
-    }
-
-    #evalList td:nth-child(1){
-        position: sticky;
-        left: 0;
-        z-index: 996;
-    }
-    #evalList td:nth-child(2){
-        position: sticky;
-        left: 56px;
-        z-index: 996;
-    }
-    #evalList td:nth-child(3){
-        position: sticky;
-        left: 527px;
-        z-index: 996;
-    }
-    #evalList td:nth-child(4){
-        position: sticky;
-        left: 613px;
-        z-index: 996;
-    }
-    #evalList td:nth-child(5){
-        position: sticky;
-        left: 704px;
-        z-index: 996;
-    }
-    #evalList td:nth-child(6){
-        position: sticky;
-        left: 809px;
-        z-index: 996;
-    }
-    #evalList td:nth-child(7){
-        position: sticky;
-        left: 926px;
-        z-index: 996;
-    }
-
-    #evalThead tr:nth-child(2) th:nth-child(1){
-        position: sticky;
-        left: 0;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(2){
-        position: sticky;
-        left: 56px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(3){
-        position: sticky;
-        left: 527px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(4){
-        position: sticky;
-        left: 613px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(5){
-        position: sticky;
-        left: 704px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(6){
-        position: sticky;
-        left: 809px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(2) th:nth-child(7){
-        position: sticky;
-        left: 926px;
-        z-index: 999;
-    }
-
-    #evalThead tr:nth-child(3) th:nth-child(1){
-        position: sticky;
-        left: 0;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(3) th:nth-child(2){
-        position: sticky;
-        left: 704px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(3) th:nth-child(3){
-        position: sticky;
-        left: 809px;
-        z-index: 999;
-    }
-    #evalThead tr:nth-child(3) th:nth-child(4){
-        position: sticky;
-        left: 926px;
-        z-index: 999;
-    }
-
     table {
         width: 100%;
         border-collapse: collapse;
         min-width: 600px; /* 최소 너비 설정 */
     }
-
     th, td {
         padding: 8px;
         border: 1px solid #ddd;
         text-align: left;
     }
-
     /* 헤더 고정 스타일 */
     th {
         background-color: #f9f9f9;
         top: 0;
         z-index: 2;
     }
-
     #evalTheadList td{
         padding: 10px 15px;
     }
-
     #evalThead .yellow{background-color: #fff2cc!important;font-weight: bold!important;color: #696c74;}
     #evalThead .green{background-color: #e2efda!important;font-weight: bold!important;color: #696c74;}
     #evalThead .blue{background-color: #ddebf7!important;font-weight: bold!important;color: #696c74;}
     #evalThead .normal{background-color: #fff!important;font-weight: bold!important;color: #696c74;}
+
+    /*상단 3줄 고정*/
+    #evalThead tr:nth-child(1) th {position: sticky;top: 0;z-index: 998;}
+    #evalThead tr:nth-child(2) th {position: sticky;top: 27px;z-index: 995;}
+    #evalThead tr:nth-child(3) th {position: sticky;top: 54px;z-index: 995;}
+
+    /*tbody 영역*/
+    #evalThead tr {position: sticky;z-index: 999;}
+    #evalList td {position: sticky;z-index: 996;}
+
+    /*left 자동 조절 되어야함*/
+    /*#evalThead tr:nth-child(1) th:nth-child(1) {position: sticky;left: 0;z-index: 999;}
+    #evalThead tr:nth-child(1) th:nth-child(2){position: sticky;left: 704px;z-index: 999;}
+
+    #evalThead tr:nth-child(2) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(2){position: sticky;left: 56px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(3){position: sticky;left: 527px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(4){position: sticky;left: 613px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(5){position: sticky;left: 704px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(6){position: sticky;left: 809px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(7){position: sticky;left: 926px;z-index: 999;}
+
+    #evalThead tr:nth-child(3) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(2){position: sticky;left: 704px;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(3){position: sticky;left: 809px;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(4){position: sticky;left: 926px;z-index: 999;}
+
+    #evalList td:nth-child(1){position: sticky;left: 0;z-index: 996;}
+    #evalList td:nth-child(2){position: sticky;left: 56px;z-index: 996;}
+    #evalList td:nth-child(3){position: sticky;left: 527px;z-index: 996;}
+    #evalList td:nth-child(4){position: sticky;left: 613px;z-index: 996;}
+    #evalList td:nth-child(5){position: sticky;left: 704px;z-index: 996;}
+    #evalList td:nth-child(6){position: sticky;left: 809px;z-index: 996;}
+    #evalList td:nth-child(7){position: sticky;left: 926px;z-index: 996;}*/
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
