@@ -652,8 +652,8 @@ var allEvalApprovePop = {
         $(tr).find("span[name='scoreAverage']").text(scoreAverage);
         $(tr).find("span[name='resGrade']").text(scoreRating)
         $(tr).find("span[name='achieveRating']").text(achieveRating)
-        $(tr).find("span[name='beforeScore']").text(Math.round((finalScore) * 100) / 100)
-        $(tr).find("span[name='finalScore']").text(Math.round((finalScore + adjustedScore) * 100) / 100)
+        $(tr).find("span[name='beforeScore']").text(Math.round((finalScore) * 10) / 10)
+        $(tr).find("span[name='finalScore']").text(Math.round((finalScore + adjustedScore) * 10) / 10)
         $(tr).find("span[name='finalRating']").text(finalRating)
     },
 
@@ -936,6 +936,7 @@ var allEvalApprovePop = {
             $.ajax({
                 url : "/evaluation/setAllEvalApprove",
                 data : {
+                    allEvalApproveGroup : $("#allEvalApproveGroup").val(),
                     empAllEvalArr : JSON.stringify(empAllEvalArr)
                 },
                 dataType : "json",
