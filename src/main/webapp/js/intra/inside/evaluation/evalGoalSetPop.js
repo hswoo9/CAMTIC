@@ -138,29 +138,31 @@ var evalGoalSetPop = {
             dataType : "json",
             async : false,
             success : function(rs){
-                $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
-                $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
-                $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
-                evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
+                if(rs.rs != null){
+                    $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
+                    $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
+                    $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
+                    evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
 
-                $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
-                $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
-                $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
-                
-                if(rs.rs.teamGoalOper.length > 0){
-                    $("#teamCostGoals").val(
-                        evalGoalSetPop.comma(Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].PAYROLL_OBJ)) +
-                        Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].EXNP_OBJ)) +
-                        Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].COMM_OBJ)))
-                    )
-                }
+                    $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
+                    $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
+                    $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
 
-                if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){
-                    let revenueGoal = Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()));
-                    let costGoal = Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()));
-                    let result = (revenueGoal / costGoal) * 100;
+                    if(rs.rs.teamGoalOper.length > 0){
+                        $("#teamCostGoals").val(
+                            evalGoalSetPop.comma(Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].PAYROLL_OBJ)) +
+                            Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].EXNP_OBJ)) +
+                            Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].COMM_OBJ)))
+                        )
+                    }
 
-                    $("#teamCommerIndexGoals").val(Math.round(result * 10) / 10)
+                    if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){
+                        let revenueGoal = Number(evalGoalSetPop.uncomma($("#teamRevenueGoals").val()));
+                        let costGoal = Number(evalGoalSetPop.uncomma($("#teamCostGoals").val()));
+                        let result = (revenueGoal / costGoal) * 100;
+
+                        $("#teamCommerIndexGoals").val(Math.round(result * 10) / 10)
+                    }
                 }
             },
             error : function(e) {
