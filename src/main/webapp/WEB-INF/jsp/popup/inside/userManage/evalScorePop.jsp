@@ -69,33 +69,33 @@
     #evalThead tr:nth-child(3) th {position: sticky;top: 54px;z-index: 995;}
 
     /*tbody 영역*/
-    #evalThead tr {position: sticky;z-index: 999;}
-    #evalList td {position: sticky;z-index: 996;}
+    /*#evalThead tr {position: sticky;z-index: 999;}*/
+    /*#evalList td {position: sticky;z-index: 996;}*/
 
     /*left 자동 조절 되어야함*/
-    /*#evalThead tr:nth-child(1) th:nth-child(1) {position: sticky;left: 0;z-index: 999;}
-    #evalThead tr:nth-child(1) th:nth-child(2){position: sticky;left: 704px;z-index: 999;}
+    #evalThead tr:nth-child(1) th:nth-child(1) {position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(1) th:nth-child(2){position: sticky;z-index: 999;}
 
-    #evalThead tr:nth-child(2) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(2){position: sticky;left: 56px;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(3){position: sticky;left: 527px;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(4){position: sticky;left: 613px;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(5){position: sticky;left: 704px;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(6){position: sticky;left: 809px;z-index: 999;}
-    #evalThead tr:nth-child(2) th:nth-child(7){position: sticky;left: 926px;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(1){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(2){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(3){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(4){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(5){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(6){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(2) th:nth-child(7){position: sticky;z-index: 999;}
 
-    #evalThead tr:nth-child(3) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
-    #evalThead tr:nth-child(3) th:nth-child(2){position: sticky;left: 704px;z-index: 999;}
-    #evalThead tr:nth-child(3) th:nth-child(3){position: sticky;left: 809px;z-index: 999;}
-    #evalThead tr:nth-child(3) th:nth-child(4){position: sticky;left: 926px;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(1){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(2){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(3){position: sticky;z-index: 999;}
+    #evalThead tr:nth-child(3) th:nth-child(4){position: sticky;z-index: 999;}
 
-    #evalList td:nth-child(1){position: sticky;left: 0;z-index: 996;}
-    #evalList td:nth-child(2){position: sticky;left: 56px;z-index: 996;}
-    #evalList td:nth-child(3){position: sticky;left: 527px;z-index: 996;}
-    #evalList td:nth-child(4){position: sticky;left: 613px;z-index: 996;}
-    #evalList td:nth-child(5){position: sticky;left: 704px;z-index: 996;}
-    #evalList td:nth-child(6){position: sticky;left: 809px;z-index: 996;}
-    #evalList td:nth-child(7){position: sticky;left: 926px;z-index: 996;}*/
+    #evalList td:nth-child(1){position: sticky;z-index: 996;}
+    #evalList td:nth-child(2){position: sticky;z-index: 996;}
+    #evalList td:nth-child(3){position: sticky;z-index: 996;}
+    #evalList td:nth-child(4){position: sticky;z-index: 996;}
+    #evalList td:nth-child(5){position: sticky;z-index: 996;}
+    #evalList td:nth-child(6){position: sticky;z-index: 996;}
+    #evalList td:nth-child(7){position: sticky;z-index: 996;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>

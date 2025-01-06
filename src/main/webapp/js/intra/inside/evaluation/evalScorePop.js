@@ -97,6 +97,7 @@ var evalScorePop = {
             async: false,
             success: function (rs) {
                 evalScorePop.evalScoreTableMake(rs.rs);
+                evalScorePop.evalContentCss();
             },
             error: function (e) {
                 console.log(e);
@@ -127,7 +128,7 @@ var evalScorePop = {
         html += '       <th class="normal sticky" style="text-align: left;">프로젝트명</th>';
         html += '       <th class="normal sticky">업체</th>';
         html += '       <th class="normal sticky">구분</th>';
-        html += '       <th class="normal sticky">수추</th>';
+        html += '       <th class="normal sticky">수주</th>';
         html += '       <th class="normal sticky">매출</th>';
         html += '       <th class="normal sticky">수익</th>';
         for (var i = 0; i < evalGoalList.length; i++) {
@@ -676,48 +677,54 @@ var evalScorePop = {
     evalContentCss : function(){
         let leftValues = [];
         let totalLeft = 0;
+        let minLeft = 1;
 
-        $('#evalThead tr').each(function () {
-            $(this).find('th').each(function (index) {
-                if (index === 0) totalLeft = 0;
-                $(this).css('left', `${totalLeft}px`);
-                leftValues[index] = $(this).outerWidth(true);
-                totalLeft += leftValues[index];
-            });
+        $('#evalThead tr').each(function (i, v) {
+            var width0 = parseInt($(v).children().eq(0).css("width"));
+            var width1 = parseInt($(v).children().eq(1).css("width"));
+            var width2 = parseInt($(v).children().eq(2).css("width"));
+            var width3 = parseInt($(v).children().eq(3).css("width"));
+
+            if(i == 0){
+                $(v).children().eq(0).css("left", minLeft);
+                $(v).children().eq(1).css("left", width0 + 1);
+            }else if(i == 1){
+                var width4 = parseInt($(v).children().eq(4).css("width"));
+                var width5 = parseInt($(v).children().eq(5).css("width"));
+                var width6 = parseInt($(v).children().eq(6).css("width"));
+
+                $(v).children().eq(0).css("left", minLeft);
+                $(v).children().eq(1).css("left", width0 + minLeft);
+                $(v).children().eq(2).css("left", width0 + width1 + 1);
+                $(v).children().eq(3).css("left", width0 + width1 + width2);
+                $(v).children().eq(4).css("left", width0 + width1 + width2 + width3);
+                $(v).children().eq(5).css("left", width0 + width1 + width2 + width3 + width4 + 1);
+                $(v).children().eq(6).css("left", width0 + width1 + width2 + width3 + width4 + width5 + 1);
+            }else if(i == 2){
+                $(v).children().eq(0).css("left", minLeft);
+                $(v).children().eq(1).css("left", minLeft + width0);
+                $(v).children().eq(2).css("left", width0 + width1 + 2);
+                $(v).children().eq(3).css("left", width0 + width1 + width2 + 2);
+            }
         });
 
-        $('#evalList tr').each(function () {
-            totalLeft = 0;
-            $(this).find('td').each(function (index) {
-                if (index === 0) totalLeft = 0;
-                $(this).css('left', `${totalLeft}px`);
-                totalLeft += leftValues[index] || 0;
-            });
+        $('#evalList tr').each(function (i, v) {
+            var width0 = parseInt($(v).children().eq(0).css("width"));
+            var width1 = parseInt($(v).children().eq(1).css("width"));
+            var width2 = parseInt($(v).children().eq(2).css("width"));
+            var width3 = parseInt($(v).children().eq(3).css("width"));
+            var width4 = parseInt($(v).children().eq(4).css("width"));
+            var width5 = parseInt($(v).children().eq(5).css("width"));
+            var width6 = parseInt($(v).children().eq(6).css("width"));
+
+            $(v).children().eq(0).css("left", minLeft);
+            $(v).children().eq(1).css("left", width0 + minLeft);
+            $(v).children().eq(2).css("left", width0 + width1 + 1);
+            $(v).children().eq(3).css("left", width0 + width1 + width2);
+            $(v).children().eq(4).css("left", width0 + width1 + width2 + width3);
+            $(v).children().eq(5).css("left", width0 + width1 + width2 + width3 + width4 + 1);
+            $(v).children().eq(6).css("left", width0 + width1 + width2 + width3 + width4 + width5 + 1);
         });
-
-       /* #evalThead tr:nth-child(1) th:nth-child(1) {position: sticky;left: 0;z-index: 999;}
-        #evalThead tr:nth-child(1) th:nth-child(2){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
-
-        #evalThead tr:nth-child(2) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
-        #evalThead tr:nth-child(2) th:nth-child(2){position: sticky;left: 56px;z-index: 999;} // 번호
-        #evalThead tr:nth-child(2) th:nth-child(3){position: sticky;left: 527px;z-index: 999;} // 번호+프로젝트명
-        #evalThead tr:nth-child(2) th:nth-child(4){position: sticky;left: 613px;z-index: 999;} // 번호+프로젝트명+업체
-        #evalThead tr:nth-child(2) th:nth-child(5){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
-        #evalThead tr:nth-child(2) th:nth-child(6){position: sticky;left: 809px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주
-        #evalThead tr:nth-child(2) th:nth-child(7){position: sticky;left: 926px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주+매출
-
-        #evalThead tr:nth-child(3) th:nth-child(1){position: sticky;left: 0;z-index: 999;}
-        #evalThead tr:nth-child(3) th:nth-child(2){position: sticky;left: 704px;z-index: 999;} // 번호+프로젝트명+업체+구분
-        #evalThead tr:nth-child(3) th:nth-child(3){position: sticky;left: 809px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주
-        #evalThead tr:nth-child(3) th:nth-child(4){position: sticky;left: 926px;z-index: 999;} // 번호+프로젝트명+업체+구분+수주+매출
-
-        #evalList td:nth-child(1){position: sticky;left: 0;z-index: 996;}
-        #evalList td:nth-child(2){position: sticky;left: 56px;z-index: 996;} // 번호
-        #evalList td:nth-child(3){position: sticky;left: 527px;z-index: 996;} // 번호+프로젝트명
-        #evalList td:nth-child(4){position: sticky;left: 613px;z-index: 996;} // 번호+프로젝트명+업체
-        #evalList td:nth-child(5){position: sticky;left: 704px;z-index: 996;} // 번호+프로젝트명+업체+구분
-        #evalList td:nth-child(6){position: sticky;left: 809px;z-index: 996;} // 번호+프로젝트명+업체+구분+수주
-        #evalList td:nth-child(7){position: sticky;left: 926px;z-index: 996;} // 번호+프로젝트명+업체+구분+수주+매출*/
     }
 
 }
