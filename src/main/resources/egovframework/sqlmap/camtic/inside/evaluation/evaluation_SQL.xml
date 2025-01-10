@@ -131,7 +131,9 @@
             EVAL_END_DT,
             ORDER_WEIGHTS,
             SALES_WEIGHTS,
-            REVENUE_WEIGHTS
+            REVENUE_WEIGHTS,
+            EXCLUDES_SEQ,
+            EXCLUDES_NAME
         FROM
             CAM_INSIDE.DJ_EVALUATING_ACHIEVE_SET A
         WHERE 1=1
@@ -1943,6 +1945,9 @@
                     AND HDI.PARENT_DEPT_SEQ = #{dept}
                 </when>
             </choose>
+            <if test='excludesSeq != null and !"".equals(excludesSeq)'>
+                AND HEI.EMP_SEQ NOT REGEXP (REPLACE(#{excludesSeq}, ',', '|'))
+            </if>
             <if test='team != null and team != ""'>
                 AND HEI.DEPT_SEQ = #{team}
             </if>
@@ -2089,7 +2094,9 @@
         <if test='allEvalApproveGroup != null and !"".equals(allEvalApproveGroup)'>
             AND A.ALL_EVAL_APPROVE_GROUP = #{allEvalApproveGroup}
         </if>
-
+        <if test='excludesSeq != null and !"".equals(excludesSeq)'>
+            AND HEI.EMP_SEQ NOT REGEXP (REPLACE(#{excludesSeq}, ',', '|'))
+        </if>
         <if test='baseYear != null and !"".equals(baseYear)'>
             AND A.BASE_YEAR = #{baseYear}
         </if>

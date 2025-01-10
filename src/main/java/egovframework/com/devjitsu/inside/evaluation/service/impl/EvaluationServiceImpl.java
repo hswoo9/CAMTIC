@@ -668,6 +668,11 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public List<Map<String, Object>> getEvalAchieveResultList(Map<String, Object> params) {
+        Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(params);
+        if(evalSetMap != null){
+            params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        }
+
         return evaluationRepository.getEvalAchieveResultList(params);
     }
 
@@ -702,6 +707,11 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public List<Map<String, Object>> getAllEvalApproveList(Map<String, Object> params) {
+        Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(params);
+        if(evalSetMap != null){
+            params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        }
+
         return evaluationRepository.getAllEvalApproveList(params);
     }
 
