@@ -31,6 +31,19 @@
     #my-spinner div { width: 100%; height: 100%; display: table; }
     #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
     #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+
+
+    #evalListDiv {
+        margin-top: 10px;
+        display: flex;
+        width: 100%;
+        height: 800px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        white-space: nowrap;
+    }
+    #evalListDiv thead tr:nth-child(1) th {position: sticky;top: 0;z-index: 998;}
+    #evalListDiv thead tr:nth-child(2) th {position: sticky;top: 40px;z-index: 995;}
 </style>
 
 <body class="font-opensans" style="background-color:#fff;">
@@ -154,54 +167,55 @@
 
                 </tbody>
             </table>
+            <div id="evalListDiv">
+                <table class="popTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="9%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="7%">
+                        <col width="6%">
+                        <col width="6%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">부서명</th>
+                        <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">팀명</th>
+                        <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">성명</th>
 
-            <table class="popTable table table-bordered mb-0">
-                <colgroup>
-                    <col width="9%">
-                    <col width="10%">
-                    <col width="5%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="6%">
-                    <col width="7%">
-                    <col width="6%">
-                    <col width="6%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color" rowspan="2">부서명</th>
-                    <th scope="row" class="text-center th-color" rowspan="2">팀명</th>
-                    <th scope="row" class="text-center th-color" rowspan="2">성명</th>
 
+                        <th scope="row" class="text-center eval" colspan="5">역량평가</th>
+                        <th scope="row" class="text-center achieve" colspan="3">업적평가</th>
+                        <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">조정점수</th>
+                        <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">조정전점수</th>
+                        <th scope="row" class="text-center finalEval" rowspan="2">최종점수</th>
+                        <th scope="row" class="text-center finalEval" rowspan="2">최종등급</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center eval">상반기</th>
+                        <th scope="row" class="text-center eval">하반기</th>
+                        <th scope="row" class="text-center eval">최종점수</th>
+                        <th scope="row" class="text-center eval">최종등급</th>
+                        <th scope="row" class="text-center eval">가중치</th>
 
-                    <th scope="row" class="text-center eval" colspan="5">역량평가</th>
-                    <th scope="row" class="text-center achieve" colspan="3">업적평가</th>
-                    <th scope="row" class="text-center" rowspan="2">조정점수</th>
-                    <th scope="row" class="text-center" rowspan="2">조정전점수</th>
-                    <th scope="row" class="text-center finalEval" rowspan="2">최종점수</th>
-                    <th scope="row" class="text-center finalEval" rowspan="2">최종등급</th>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center eval">상반기</th>
-                    <th scope="row" class="text-center eval">하반기</th>
-                    <th scope="row" class="text-center eval">최종점수</th>
-                    <th scope="row" class="text-center eval">최종등급</th>
-                    <th scope="row" class="text-center eval">가중치</th>
-
-                    <th scope="row" class="text-center achieve">최종점수</th>
-                    <th scope="row" class="text-center achieve">최종등급</th>
-                    <th scope="row" class="text-center achieve">가중치</th>
-                </tr>
-                </thead>
-                <tbody id="evalList">
-                </tbody>
-            </table>
+                        <th scope="row" class="text-center achieve">최종점수</th>
+                        <th scope="row" class="text-center achieve">최종등급</th>
+                        <th scope="row" class="text-center achieve">가중치</th>
+                    </tr>
+                    </thead>
+                    <tbody id="evalList">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
