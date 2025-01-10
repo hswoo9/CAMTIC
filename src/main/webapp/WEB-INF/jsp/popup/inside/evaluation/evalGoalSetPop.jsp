@@ -71,13 +71,13 @@
             <tr>
                 <th>실적기준</th>
                 <td colspan="5">
-                    ${nowYear}년
+                    <input type="text" id="baseYear" style="width: 8%;"> 년
                 </td>
             </tr>
             <tr>
                 <th>작성방법</th>
                 <td colspan="5">
-                    ${nowYear}년 부서 수립 목표 내 개인별 목표 설정, 팀의 목표 총액과 개인별 목표 총액의 합이 일치해야 함.
+                    <span class="baseYear"></span>년 부서 수립 목표 내 개인별 목표 설정, 팀의 목표 총액과 개인별 목표 총액의 합이 일치해야 함.
                 </td>
             </tr>
             </thead>
@@ -117,7 +117,7 @@
         </table>
 
         <div class="card-header" style="padding: 5px;">
-            <h3 class="card-title">${nowYear}년도 ${loginVO.teamNm} 재무 성과</h3>
+            <h3 class="card-title"><span class="baseYear"></span>년도 ${loginVO.teamNm} 재무 성과</h3>
         </div>
         <table class="popTable table table-bordered mb-0" style="margin-top: 0px;">
             <colgroup>
@@ -192,7 +192,7 @@
             </tbody>
         </table>
         <div class="card-header" style="padding: 5px;">
-            <h3 class="card-title">* ${nowYear}년도 ${loginVO.teamNm} 개인별 재무 성과</h3>
+            <h3 class="card-title">* <span class="baseYear"></span>년도 ${loginVO.teamNm} 개인별 재무 성과</h3>
             <h5 style="margin-bottom: 0;margin-top: 20px;">(단위:원)</h5>
         </div>
         <table class="popTable table table-bordered mb-0" style="margin-top: 0px;">

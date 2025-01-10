@@ -16,6 +16,12 @@ var evalGoalSetPop = {
         evalGoalSetPop.getEvalAchieveSet();
         evalGoalSetPop.dataSet();
 
+        customKendo.fn_datePicker("baseYear", "decade", "yyyy", $("#nowYear").val());
+        $(".baseYear").text($("#baseYear").val());
+        $("#baseYear").bind("change", function(){
+            $(".baseYear").text($("#baseYear").val());
+        });
+
         $("#empName, #deptName, #dutyName, .teamGoals").kendoTextBox({
             enable: false
         });
@@ -75,7 +81,7 @@ var evalGoalSetPop = {
         $("#teamEmpListTb tr").each(function(i, v){
             var empSeq = $(this).find("input[name='empSeq']").val();
             var data = {
-                baseYear : String(evalGoalSetPop.global.now.getFullYear()),
+                baseYear : $("#baseYear").val(),
                 teamSeq : $("#deptTeam").val(),
                 empSeq : $(this).find("input[name='empSeq']").val(),
                 orderGoals : String(evalGoalSetPop.uncomma($("#empOrderGoals_" + empSeq).val())),
