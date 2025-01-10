@@ -297,7 +297,7 @@ var allEvalApprovePop = {
                     }
 
                     if(deptList[i].teamList[j].B != 0){
-                        BAvg = Math.round(eptList[i].teamList[j].B/sum * 100);
+                        BAvg = Math.round(deptList[i].teamList[j].B/sum * 100);
                     }
 
                     if(deptList[i].teamList[j].C != 0){
@@ -617,7 +617,7 @@ var allEvalApprovePop = {
         /** 가중치 */
         var evalWeights = Number($(tr).find("input[name='evalWeights']").val())
         /** 최종점수 */
-        var scoreAverage = (firstHalfScore + secondHalfScore) / 2
+        var scoreAverage = Math.round(((firstHalfScore + secondHalfScore) / 2) * 100) / 100
         /** 최종등급 */
         var scoreRating = allEvalApprovePop.getEvalGrade(scoreAverage)
 

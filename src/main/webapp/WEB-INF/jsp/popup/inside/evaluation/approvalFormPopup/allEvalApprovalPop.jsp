@@ -319,7 +319,7 @@
                             }
 
                             if (deptList[i].teamList[j].B != 0) {
-                                BAvg = Math.round(eptList[i].teamList[j].B / sum * 100);
+                                BAvg = Math.round(deptList[i].teamList[j].B / sum * 100);
                             }
 
                             if (deptList[i].teamList[j].C != 0) {
