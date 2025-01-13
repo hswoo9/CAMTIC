@@ -1973,7 +1973,8 @@
             D.TEAM_MEMBER_A,
             D.DEPT_MANAGER_B,
             D.TEAM_MANAGER_B,
-            D.TEAM_MEMBER_B
+            D.TEAM_MEMBER_B,
+            HEI.DUTY_CODE
         FROM
             CAM_INSIDE.DJ_EVALUATION_MEM A
         JOIN

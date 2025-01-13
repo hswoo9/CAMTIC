@@ -20,6 +20,7 @@ var evalGoalSetPop = {
         $(".baseYear").text($("#baseYear").val());
         $("#baseYear").bind("change", function(){
             $(".baseYear").text($("#baseYear").val());
+            evalGoalSetPop.getEvalAchieveSet();
         });
 
         $("#empName, #deptName, #dutyName, .teamGoals").kendoTextBox({
@@ -136,8 +137,8 @@ var evalGoalSetPop = {
             url : "/evaluation/getEvalAchieveSet",
             type : "post",
             data : {
-                baseYear : $("#nowYear").val(),
-                year : $("#nowYear").val(),
+                baseYear : $("#baseYear").val(),
+                year : $("#baseYear").val(),
                 deptLevel : '2',
                 deptSeq : $("#deptTeam").val()
             },
@@ -148,13 +149,18 @@ var evalGoalSetPop = {
                     $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
                     $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
                     $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
-                    evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
 
-                    $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
-                    $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
-                    $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
+                    if(rs.rs.EXCUDES_SEQ != null){
+                        evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
+                    }
 
-                    if(rs.rs.teamGoalOper.length > 0){
+                    if(rs.rs.teamGoal != null && rs.rs.teamGoal.length > 0){
+                        $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
+                        $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
+                        $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
+                    }
+
+                    if(rs.rs.teamGoalOper != null && rs.rs.teamGoalOper.length > 0){
                         $("#teamCostGoals").val(
                             evalGoalSetPop.comma(Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].PAYROLL_OBJ)) +
                             Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].EXNP_OBJ)) +
