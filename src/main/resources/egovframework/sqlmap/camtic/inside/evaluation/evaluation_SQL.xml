@@ -1434,7 +1434,7 @@
                 </when>
                 <when test='dutyCode != null and !"".equals(dutyCode) and !"1".equals(dutyCode)'>
                     <choose>
-                        <when test='"5".equals(dutyCode)'>
+                        <when test='"4".equals(dutyCode) or "5".equals(dutyCode)'>
                             AND (HEI.DEPT_SEQ = #{deptSeq} OR HDI.PARENT_DEPT_SEQ = #{deptSeq}) AND HEI.DEPT_SEQ = #{teamSeq}
                         </when>
                         <otherwise>
