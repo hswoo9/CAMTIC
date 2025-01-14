@@ -7,10 +7,10 @@ var allEvalApprovePop = {
         gradingTable : new Array(),
         evalAchieveSet : "",
         evalReting : {
-            S : { min: 90, max: Infinity },
-            A : { min: 80, max: 89 },
-            B : { min: 70, max: 79 },
-            C : { min: 60, max: 69 },
+            S : { min: 90.00, max: Infinity },
+            A : { min: 80.00, max: 89.99 },
+            B : { min: 70.00, max: 79.99 },
+            C : { min: 60.00, max: 69.99 },
         },
         evalAchieveRating : [
             { BASE_SCORE: "0", CONVERSION_SCORE: "60", RATING: "-" },
@@ -420,6 +420,11 @@ var allEvalApprovePop = {
                 }else{
                     secondHalfScore = allEvalApprovePop.getEvalScore(empEvalResult[j], 'finalScore');
                 }
+
+                // 하반기 입사자는 상반기, 하반기 점수 동일하게 적용
+                if(firstHalfScore == 0 && secondHalfScore != 0) {
+                    firstHalfScore = secondHalfScore;
+                }
             }
 
             scoreAverage = (firstHalfScore + secondHalfScore) / 2
@@ -713,7 +718,7 @@ var allEvalApprovePop = {
                 return grade;
             }
         }
-        return '-'; // 60 미만 점수 처리
+        return 'C'; // 60 미만 점수 처리
     },
 
     getEvalRating : function(e, type){
