@@ -1927,7 +1927,7 @@
                 CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
             LEFT JOIN
                 CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE B
-            ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{baseYear}
+            ON HEI.EMP_SEQ = B.EMP_SEQ AND B.BASE_YEAR = #{baseYear} AND B.ACTIVE = 'Y'
             WHERE 1=1
             AND 
                 HEI.WORK_STATUS_CODE = 'Y'
@@ -2145,4 +2145,16 @@
             DOC_ID IS NOT NULL
         GROUP BY ALL_EVAL_APPROVE_GROUP
     </select>
+
+    <update id="updEvalAchieveApproveActive" parameterType="map">
+        /*updEvalAchieveApproveActive*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATING_ACHIEVE_APPROVE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            BASE_YEAR = #{baseYear}
+        AND
+            TEAM_SEQ = #{teamSeq}
+    </update>
 </mapper>

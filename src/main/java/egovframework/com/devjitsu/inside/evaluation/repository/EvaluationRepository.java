@@ -372,4 +372,8 @@ public class EvaluationRepository extends AbstractDAO {
     public Map<String, Object> getAllEvalApprove(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getAllEvalApprove", params);
     }
+
+    public void updEvalAchieveApproveActive(Map<String, Object> params) {
+        update("evaluation.updEvalAchieveApproveActive", params);
+    }
 }

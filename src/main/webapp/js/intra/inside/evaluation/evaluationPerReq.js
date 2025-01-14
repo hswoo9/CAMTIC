@@ -19,6 +19,10 @@ var evaluationPerReq = {
 
     dataSet: function (){
         customKendo.fn_datePicker("searchYear", 'decade', "yyyy", new Date());
+        $("#evalBaseYear").val($("#searchYear").val());
+        $("#searchYear").bind("change", function(){
+            $("#evalBaseYear").val($("#searchYear").val());
+        });
     },
 
     getEvalAchieveSet : function(){
@@ -92,6 +96,7 @@ var evaluationPerReq = {
     },
 
     getEvaluationList: function(){
+        evaluationPerReq.getEvalAchieveSet();
         evaluationPerReq.setApproveBtn();
 
         $.ajax({
@@ -191,10 +196,19 @@ var evaluationPerReq = {
                                 /** 데이터 형태 = EMP_SEQ_PJT_SN_ORDER_ACHIEVE_SALES_ACHIEVE_REVENUE_ACHIEVE */
                                 var achieveInfo = achieve[j].split("_");
                                 var pjtSn = achieveInfo[1];
-                                var pjt = pjtList.find(o => o.PJT_SN == pjtSn);
-                                var pjtOrder = Number(costCalc.allPjtAmt(pjt) || 0);
-                                var pjtSales = Number(costCalc.resSaleAmt(pjt) || 0);
-                                var pjtRevenue = Number(costCalc.resProfitAmt(pjt) || 0);
+                                var pjt = null;
+                                if(pjtList != null) {
+                                    pjt = pjtList.find(o => o.PJT_SN == pjtSn);
+                                }
+                                var pjtOrder = 0;
+                                var pjtSales = 0;
+                                var pjtRevenue = 0;
+
+                                if(pjt != null) {
+                                    pjtOrder = Number(costCalc.allPjtAmt(pjt) || 0);
+                                    pjtSales = Number(costCalc.resSaleAmt(pjt) || 0);
+                                    pjtRevenue = Number(costCalc.resProfitAmt(pjt) || 0);
+                                }
 
                                 var pjtOrderAchieve = achieveInfo[2];
                                 var pjtSalesAchieve = achieveInfo[3];

@@ -130,6 +130,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
     <input type="hidden" id="approveTeamSeq" name="approveTeamSeq" />
     <input type="hidden" id="evalAchieveApproveGroup" name="evalAchieveApproveGroup" />
+    <input type="hidden" id="evalBaseYear" name="evalBaseYear" />
 </form>
 
 <script type="text/javascript">

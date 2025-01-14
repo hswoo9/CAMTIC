@@ -15,6 +15,7 @@ var evalGoalSetPop = {
 
         customKendo.fn_datePicker("baseYear", "decade", "yyyy", $("#nowYear").val());
         $(".baseYear").text($("#baseYear").val());
+        $("#evalBaseYear").val($("#baseYear").val());
         $("#baseYear").bind("change", function(){
             $(".baseYear").text($("#baseYear").val());
             $("#evalBaseYear").val($("#baseYear").val());

@@ -8,7 +8,7 @@
 <body>
 <div id="approveDataPop">
     <div class="card-header" style="padding: 5px;">
-        <h3 class="card-title">${nowYear}년도 ${loginVO.teamNm} 재무 성과</h3>
+        <h3 class="card-title">${data.evalBaseYear}년도 ${loginVO.teamNm} 재무 성과</h3>
         <span style="font-size: 10px;width: auto;text-align: right;">(단위:원)</span>
     </div>
 
@@ -66,7 +66,7 @@
     <br><br>
     <div class="card-header" style="padding: 5px;margin-top: 20px;">
         <h3 class="card-title" style="">
-            * ${nowYear}년도 ${loginVO.teamNm} 개인별 재무 성과
+            * ${data.evalBaseYear}년도 ${loginVO.teamNm} 개인별 재무 성과
         </h3>
         <span style="font-size: 10px;width: auto;text-align: right;">(단위:원)</span>
     </div>
@@ -125,14 +125,14 @@
         approvalParams.formId = formId;
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[개인별 업적평가]" + now.getFullYear() + "년 ${loginVO.orgnztNm} (개인평가)";
+        approvalParams.docTitle = "[개인별 업적평가]" + "${data.evalBaseYear}년 ${loginVO.orgnztNm} (개인평가)";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "evalAchieve";
         approvalParams.docType = "A";
         approvalParams.customField = {
-            documentTitle : now.getFullYear() + "년 ${loginVO.orgnztNm} (개인평가)",
-            criteria : '${nowYear}년'
+            documentTitle : "${data.evalBaseYear}년 ${loginVO.orgnztNm} (개인평가)",
+            criteria : '${data.evalBaseYear}년'
         }
         approvalParams.linkageProcessId = "63";
         approvalParams.linkageType = "2";

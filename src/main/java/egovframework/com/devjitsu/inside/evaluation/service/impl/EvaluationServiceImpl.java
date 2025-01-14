@@ -575,6 +575,11 @@ public class EvaluationServiceImpl implements EvaluationService {
         List<Map<String, Object>> empEvalAchieveArr = gson.fromJson((String) params.get("empEvalAchieveArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
 
         if(empEvalAchieveArr.size() > 0){
+
+            params.put("baseYear", empEvalAchieveArr.get(0).get("baseYear"));
+            params.put("teamSeq", empEvalAchieveArr.get(0).get("teamSeq"));
+            evaluationRepository.updEvalAchieveApproveActive(params);
+
             int evalAchieveApproveGroup = evaluationRepository.getEvalAchieveApproveMaxGroup(params);
             params.put("evalAchieveApproveGroup", evalAchieveApproveGroup);
 
@@ -638,8 +643,11 @@ public class EvaluationServiceImpl implements EvaluationService {
             result = new HashMap<>();
         }
 
-        if(StringUtils.isEmpty(params.get("evalAchieveSetSn")) && result != null){
+        if(StringUtils.isEmpty(params.get("evalAchieveSetSn"))){
             params.put("evalAchieveSetSn", result.get("EVAL_ACHIEVE_SET_SN"));
+        }
+
+        if(result != null) {
             result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));
         }
 
@@ -683,6 +691,11 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public Map<String, Object> getAllEvalList(Map<String, Object> params) {
+        Map<String, Object> evalSetMap = evaluationRepository.getEvalAchieveSet(params);
+        if(evalSetMap != null){
+            params.put("excludesSeq", evalSetMap.get("EXCLUDES_SEQ"));
+        }
+
         Map<String, Object> result = new HashMap<>();
         result.put("evaluationYearMax", evaluationRepository.getEvaluationYearMax(params));
         result.put("evalResultEmpList", evaluationRepository.getEvalResultEmpApproveList(params));
