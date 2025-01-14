@@ -633,6 +633,10 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvalAchieveSet(Map<String, Object> params) {
         Map<String, Object> result = evaluationRepository.getEvalAchieveSet(params);
+        if (result == null) {
+            result = new HashMap<>();
+        }
+
         if(StringUtils.isEmpty(params.get("evalAchieveSetSn")) && result != null){
             params.put("evalAchieveSetSn", result.get("EVAL_ACHIEVE_SET_SN"));
             result.put("ratingList", evaluationRepository.getEvalAchieveRatingList(params));

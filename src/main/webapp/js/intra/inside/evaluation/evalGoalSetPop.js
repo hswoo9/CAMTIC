@@ -13,13 +13,11 @@ var evalGoalSetPop = {
     fn_defaultScript: function(){
         window.resizeTo(1600, 850);
 
-        evalGoalSetPop.getEvalAchieveSet();
-        evalGoalSetPop.dataSet();
-
         customKendo.fn_datePicker("baseYear", "decade", "yyyy", $("#nowYear").val());
         $(".baseYear").text($("#baseYear").val());
         $("#baseYear").bind("change", function(){
             $(".baseYear").text($("#baseYear").val());
+            $("#evalBaseYear").val($("#baseYear").val());
             evalGoalSetPop.getEvalAchieveSet();
         });
 
@@ -30,6 +28,9 @@ var evalGoalSetPop = {
         $(".numberInput").keyup(function(){
             $(this).val(evalGoalSetPop.comma(evalGoalSetPop.uncomma($(this).val())));
         });
+
+        evalGoalSetPop.getEvalAchieveSet();
+        evalGoalSetPop.dataSet();
     },
 
     setEmpEvalGoalSet : function(){
@@ -146,9 +147,9 @@ var evalGoalSetPop = {
             async : false,
             success : function(rs){
                 if(rs.rs != null){
-                    $("#orderWeights").text(rs.rs.ORDER_WEIGHTS + "%")
-                    $("#salesWeights").text(rs.rs.SALES_WEIGHTS + "%")
-                    $("#revenueWeights").text(rs.rs.REVENUE_WEIGHTS + "%")
+                    $("#orderWeights").text((rs.rs.ORDER_WEIGHTS || 0) + "%")
+                    $("#salesWeights").text((rs.rs.SALES_WEIGHTS || 0) + "%")
+                    $("#revenueWeights").text((rs.rs.REVENUE_WEIGHTS || 0) + "%")
 
                     if(rs.rs.EXCUDES_SEQ != null){
                         evalGoalSetPop.global.excludesSeq = rs.rs.EXCLUDES_SEQ.split(",")
@@ -158,6 +159,10 @@ var evalGoalSetPop = {
                         $("#teamOrderGoals").val(rs.rs.teamGoal[0].DELV_OBJ)
                         $("#teamSalesGoals").val(rs.rs.teamGoal[0].SALE_OBJ)
                         $("#teamRevenueGoals").val(rs.rs.teamGoal[0].INCP_OBJ)
+                    } else {
+                        $("#teamOrderGoals").val(0)
+                        $("#teamSalesGoals").val(0)
+                        $("#teamRevenueGoals").val(0)
                     }
 
                     if(rs.rs.teamGoalOper != null && rs.rs.teamGoalOper.length > 0){
@@ -166,6 +171,8 @@ var evalGoalSetPop = {
                             Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].EXNP_OBJ)) +
                             Number(evalGoalSetPop.uncomma(rs.rs.teamGoalOper[0].COMM_OBJ)))
                         )
+                    } else {
+                        $("#teamCostGoals").val(0)
                     }
 
                     if($("#teamRevenueGoals").val() != "0" && $("#teamCostGoals").val() != "0"){

@@ -243,6 +243,7 @@
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
     <input type="hidden" id="evalGoalTempGroup" name="evalGoalTempGroup" />
+    <input type="hidden" id="evalBaseYear" name="evalBaseYear" />
 </form>
 
 <script>
