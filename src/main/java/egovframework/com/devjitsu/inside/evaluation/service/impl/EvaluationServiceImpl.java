@@ -554,6 +554,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                     evaluationRepository.setEvalGoalUpd(goal);
                 }else{
                     goal = new HashMap<>();
+                    goal.put("baseYear", map.get("baseYear"));
                     goal.put("empSeq", map.get("EMP_SEQ"));
                     goal.put("teamSeq", map.get("TEAM_SEQ"));
                     goal.put("orderGoals", map.get("ORDER_GOALS"));

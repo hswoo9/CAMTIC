@@ -1522,7 +1522,7 @@
         )
         VALUES
         (
-            DATE_FORMAT(NOW(), '%Y'),
+            #{baseYear},
             #{teamSeq},
             #{empSeq},
             #{orderGoals},
