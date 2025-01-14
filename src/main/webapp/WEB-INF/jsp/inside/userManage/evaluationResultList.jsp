@@ -13,8 +13,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">역량평가결과</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가 > 평가결과조회 > 역량평가결과</div>
+            <h4 class="panel-title">평가결과</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가 > 평가결과조회 > 평가결과</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -23,8 +23,8 @@
                     <colgroup>
                         <col width="8%">
                         <col width="10%">
-                        <col width="8%">
-                        <col width="10%">
+                        <%--<col width="8%">
+                        <col width="10%">--%>
                         <col width="8%">
                         <col width="20%">
                         <col width="8%">
@@ -35,10 +35,10 @@
                         <td>
                             <input type="text" id="searchDate" style="width:100%;">
                         </td>
-                        <th class="text-center th-color">차수</th>
+                        <%--<th class="text-center th-color">차수</th>
                         <td>
                             <input type="text" id="evalNum" style="width:110px;">
-                        </td>
+                        </td>--%>
                         <th class="text-center th-color adminInput">부서/팀</th>
                         <td>
                             <input type="text" id="dept" class="searchInput" style="width: 45%;">

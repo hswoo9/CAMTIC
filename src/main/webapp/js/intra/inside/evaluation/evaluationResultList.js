@@ -33,7 +33,7 @@ var evaluationResultList = {
         customKendo.fn_dropDownList("duty", evaluationResultList.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
 
-        $("#evalNum").kendoDropDownList({
+        /*$("#evalNum").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -44,7 +44,7 @@ var evaluationResultList = {
                 { text: "5차", value: "5" }
             ],
             index: 0
-        });
+        });*/
 
         $("#dept").data("kendoDropDownList").value($("#regDeptSeq").val())
         $("#dept").data("kendoDropDownList").trigger("change");
@@ -137,7 +137,7 @@ var evaluationResultList = {
                 },
                 parameterMap: function(data) {
                     data.searchDate = $("#searchDate").val();
-                    data.evalNum = $("#evalNum").val();
+                    // data.evalNum = $("#evalNum").val();
                     data.dept = $("#dept").val();
                     data.team = $("#team").val();
                     data.position = $("#position").val();
