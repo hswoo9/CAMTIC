@@ -2118,7 +2118,7 @@
         <if test='duty != null and duty != ""'>
             AND HEI.DUTY_CODE = #{duty}
         </if>
-        <if test='regDutyCode == null or regDutyCode == ""'>
+        <if test='regDutyCode != null and regDutyCode == ""'>
             AND HEI.EMP_SEQ = #{empSeq}
         </if>
     </select>

@@ -171,7 +171,9 @@ var allEvalApprovePop = {
                         '<td>' +
                             '<input type="text" class="scoreInput" id="secondHalfScore' + i + '" value="' + rs[i].SECOND_HALF_SCORE + '" name="secondHalfScore" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
                         '</td>' +
-                        '<td class="text-center"><span name="scoreAverage">' + Number(rs[i].SCORE_AVERAGE) + '</span></td>' +
+                        '<td class="text-center">' +
+                            '<input type="text" class="scoreInput" id="scoreAverage' + i  +'" value="'+ rs[i].SCORE_AVERAGE + '" name="scoreAverage" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
+                        '</td>' +
                         '<td class="text-center"><span name="resGrade">' + allEvalApprovePop.getEvalGrade(Number(rs[i].SCORE_AVERAGE)) + '</span></td>' +
                         '<td>' +
                             '<input type="text" class="scoreInput" id="evalWeights' + i + '" value="' + rs[i].EVAL_WEIGHTS + '" name="evalWeights" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
@@ -422,7 +424,16 @@ var allEvalApprovePop = {
                 }
             }
 
-            scoreAverage = (firstHalfScore + secondHalfScore) / 2
+            if(firstHalfScore == 0 && secondHalfScore != 0){
+                scoreAverage = secondHalfScore;
+            } else if (firstHalfScore != 0 && secondHalfScore == 0) {
+                scoreAverage = firstHalfScore;
+            } else if (firstHalfScore == 0 && secondHalfScore == 0) {
+                scoreAverage = 0;
+            } else {
+                scoreAverage = (Number(firstHalfScore) + Number(secondHalfScore)) / 2;
+            }
+            scoreAverage = (Math.round(Number(scoreAverage) * 10) / 10).toFixed(1);
 
             /** 역량평가 종료 */
 
@@ -478,7 +489,9 @@ var allEvalApprovePop = {
                     '<td>' +
                         '<input type="text" class="scoreInput" id="secondHalfScore' + i + '" value="' + secondHalfScore + '" name="secondHalfScore" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
                     '</td>' +
-                    '<td class="text-center"><span name="scoreAverage">' + scoreAverage + '</span></td>' +
+                    '<td class="text-center">' +
+                        '<input type="text" class="scoreInput" id="scoreAverage' + i  +'" value="'+ scoreAverage + '" name="scoreAverage" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
+                    '</td>' +
                     '<td class="text-center"><span name="resGrade">' + allEvalApprovePop.getEvalGrade(scoreAverage) + '</span></td>' +
                     '<td>' +
                         '<input type="text" class="scoreInput" id="evalWeights' + i + '" value="20" name="evalWeights" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
@@ -617,17 +630,7 @@ var allEvalApprovePop = {
         /** 가중치 */
         var evalWeights = Number($(tr).find("input[name='evalWeights']").val())
         /** 최종점수 */
-        var scoreAverage = 0;
-        if(firstHalfScore == 0 && secondHalfScore != 0){
-            scoreAverage = secondHalfScore;
-        } else if (firstHalfScore != 0 && secondHalfScore == 0) {
-            scoreAverage = firstHalfScore;
-        } else if (firstHalfScore == 0 && secondHalfScore == 0) {
-            scoreAverage = 0;
-        } else {
-            scoreAverage = (firstHalfScore + secondHalfScore) / 2;
-        }
-        scoreAverage = (Math.round(Number(scoreAverage) * 10) / 10).toFixed(1);
+        var scoreAverage = Number($(tr).find("input[name='scoreAverage']").val());
 
         /** 최종등급 */
         var scoreRating = allEvalApprovePop.getEvalGrade(scoreAverage)
@@ -660,7 +663,7 @@ var allEvalApprovePop = {
         }
 
 
-        $(tr).find("span[name='scoreAverage']").text(scoreAverage);
+        // $(tr).find("input[name='scoreAverage']").val(scoreAverage);
         $(tr).find("span[name='resGrade']").text(scoreRating)
         $(tr).find("span[name='achieveRating']").text(achieveRating)
         $(tr).find("span[name='beforeScore']").text(Math.round((finalScore) * 10) / 10)
@@ -928,7 +931,7 @@ var allEvalApprovePop = {
                     empSeq : $(this).attr("empSeq"),
                     firstHalfScore : $(this).find("input[name='firstHalfScore']").val(),
                     secondHalfScore : $(this).find("input[name='secondHalfScore']").val(),
-                    scoreAverage : $(this).find("span[name='scoreAverage']").text(),
+                    scoreAverage : $(this).find("input[name='scoreAverage']").val(),
                     resGrade : $(this).find("span[name='resGrade']").text(),
                     evalWeights : $(this).find("input[name='evalWeights']").val(),
                     achieveScore : $(this).find("input[name='achieveScore']").val(),
