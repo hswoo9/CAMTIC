@@ -416,14 +416,9 @@ var allEvalApprovePop = {
 
             for(var j = 0; j < empEvalResult.length; j++){
                 if(empEvalResult[j].EVAL_NUM == "1"){
-                    firstHalfScore = allEvalApprovePop.getEvalScore(empEvalResult[j], 'finalScore');
+                    firstHalfScore = allEvalApprovePop.getEvalScore(empEvalResult[j], 'finalScore').toFixed(2);
                 }else{
-                    secondHalfScore = allEvalApprovePop.getEvalScore(empEvalResult[j], 'finalScore');
-                }
-
-                // 하반기 입사자는 상반기, 하반기 점수 동일하게 적용
-                if(firstHalfScore == 0 && secondHalfScore != 0) {
-                    firstHalfScore = secondHalfScore;
+                    secondHalfScore = allEvalApprovePop.getEvalScore(empEvalResult[j], 'finalScore').toFixed(2);
                 }
             }
 
@@ -622,7 +617,18 @@ var allEvalApprovePop = {
         /** 가중치 */
         var evalWeights = Number($(tr).find("input[name='evalWeights']").val())
         /** 최종점수 */
-        var scoreAverage = Math.round(((firstHalfScore + secondHalfScore) / 2) * 100) / 100
+        var scoreAverage = 0;
+        if(firstHalfScore == 0 && secondHalfScore != 0){
+            scoreAverage = secondHalfScore;
+        } else if (firstHalfScore != 0 && secondHalfScore == 0) {
+            scoreAverage = firstHalfScore;
+        } else if (firstHalfScore == 0 && secondHalfScore == 0) {
+            scoreAverage = 0;
+        } else {
+            scoreAverage = (firstHalfScore + secondHalfScore) / 2;
+        }
+        scoreAverage = (Math.round(Number(scoreAverage) * 10) / 10).toFixed(1);
+
         /** 최종등급 */
         var scoreRating = allEvalApprovePop.getEvalGrade(scoreAverage)
 
