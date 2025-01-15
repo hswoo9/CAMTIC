@@ -86,6 +86,8 @@ var evaluationResultList = {
                 team : $("#team").val(),
                 position : $("#position").val(),
                 duty : $("#duty").val(),
+                regDutyCode : $("#regDutyCode").val(),
+                empSeq : $("#empSeq").val(),
             },
             dataType : "json",
             async : false,

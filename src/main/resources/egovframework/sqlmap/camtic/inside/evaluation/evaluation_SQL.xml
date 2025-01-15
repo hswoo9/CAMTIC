@@ -2118,6 +2118,9 @@
         <if test='duty != null and duty != ""'>
             AND HEI.DUTY_CODE = #{duty}
         </if>
+        <if test='regDutyCode == null or regDutyCode == ""'>
+            AND HEI.EMP_SEQ = #{empSeq}
+        </if>
     </select>
 
     <update id="updateAllEvalApproveState" parameterType="map">
