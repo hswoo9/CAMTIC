@@ -170,7 +170,7 @@
             html += '   <td>' + map.teamNm + '</td>';
             html += '   <td><div style="cursor: pointer" onclick="evalResUserPop('+ map.EVAL_MEM_SN+');">' + map.EMP_NAME_KR + '</div></td>';
             if(map.EVAL == "Y"){
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + map.EVAL_SCORE + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + Number(map.EVAL_SCORE).toFixed(1) + '</td>';
             }else{
                 html += '   <td style="text-align: center; background-color: #EFEFEF">-</td>';
             }
@@ -205,34 +205,34 @@
                 bMemPer = 100;
             }
 
-            html += '   <td style="text-align: center">' + map.EVAL_F_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + (map.EVAL_F_SCORE == 0 ? 0 : Number(map.EVAL_F_SCORE).toFixed(1)) + '</td>';
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
                 scoreF = calculateScore(aDeptPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aDeptPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + (scoreF == 0 ? 0 : Number(scoreF).toFixed(1)) + '</td>';
             }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
                 scoreF = calculateScore(aTeamPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aTeamPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' +  (scoreF == 0 ? 0 : Number(scoreF).toFixed(1)) + '</td>';
             }else{
                 scoreF = calculateScore(aMemPer, map.EVAL_F_SCORE);
                 html += '   <td style="text-align: center">'+ aMemPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreF + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' +  (scoreF == 0 ? 0 : Number(scoreF).toFixed(1)) + '</td>';
             }
 
-            html += '   <td style="text-align: center">' + map.EVAL_S_SCORE + '</td>';
+            html += '   <td style="text-align: center">' + (map.EVAL_S_SCORE == 0? 0 : Number(map.EVAL_S_SCORE).toFixed(1)) + '</td>';
             if(map.DUTY_CODE == "2" || map.DUTY_CODE == "3" || map.DUTY_CODE == "7"){
                 scoreS = calculateScore(bDeptPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bDeptPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + (scoreS == 0 ? 0 : Number(scoreS).toFixed(1)) + '</td>';
             }else if(map.DUTY_CODE == "4" || map.DUTY_CODE == "5"){
                 scoreS = calculateScore(bTeamPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bTeamPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + (scoreS == 0 ? 0 : Number(scoreS).toFixed(1)) + '</td>';
             }else{
                 scoreS = calculateScore(bMemPer, map.EVAL_S_SCORE);
                 html += '   <td style="text-align: center">'+ bMemPer +' %</td>';
-                html += '   <td style="text-align: center; background-color: #EFEFEF">' + scoreS + '</td>';
+                html += '   <td style="text-align: center; background-color: #EFEFEF">' + (scoreS == 0 ? 0 : Number(scoreS).toFixed(1)) + '</td>';
             }
 
             html += '   <td style="text-align: center">0</td>';
@@ -255,7 +255,7 @@
             }else{
                 totalScore = calculateFinalScore(aMemPer, map.EVAL_F_SCORE, bMemPer, map.EVAL_S_SCORE);
             }
-            html += '   <td style="text-align: center">'+ totalScore +'</td>';
+            html += '   <td style="text-align: center">'+ (Math.round(totalScore * 100) / 100).toFixed(2) +'</td>';
 
             let grade = "-";
             let resGrade = "-";
@@ -269,7 +269,7 @@
 
             html += '   <td style="text-align: center">'+grade+'</td>';   // 평가등급
             html += '   <td style="text-align: center; background-color: #EFEFEF; padding-left:5px; padding-right:5px"><input type="text" class="k-input" id="scoreMng'+i+'" value="'+ map.EVAL_SCORE_MNG +'" style="width: 95%;"></td>';
-            html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( parseFloat(totalScore) + parseFloat(map.EVAL_SCORE_MNG)) +'</td>';
+            html += '   <td style="text-align: center; background-color: #EFEFEF">'+ ( (Math.round(totalScore * 100) / 100) + (Math.round(map.EVAL_SCORE_MNG * 100) / 100) ).toFixed(2) +'</td>';
 
             for (let j = 0; j < scoreList.length; j++) {
                 const scItem = scoreList[j];
