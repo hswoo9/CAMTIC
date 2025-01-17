@@ -24,8 +24,8 @@
                     <colgroup>
                         <col width="8%">
                         <col width="10%">
-                        <%--<col width="8%">
-                        <col width="10%">--%>
+                        <col width="8%">
+                        <col width="10%">
                         <col width="8%">
                         <col width="20%">
                         <col width="8%">
@@ -36,10 +36,10 @@
                         <td>
                             <input type="text" id="searchDate" style="width:100%;">
                         </td>
-                        <%--<th class="text-center th-color">차수</th>
+                        <th class="text-center th-color">차수</th>
                         <td>
                             <input type="text" id="evalNum" style="width:110px;">
-                        </td>--%>
+                        </td>
                         <th class="text-center th-color adminInput">부서/팀</th>
                         <td>
                             <input type="text" id="dept" class="searchInput" style="width: 45%;">
