@@ -181,7 +181,7 @@ var allEvalApprovePop = {
                         '<td>' +
                             '<input type="text" class="scoreInput" name="achieveScore" id="scoreSum' + i + '" value="' + rs[i].ACHIEVE_SCORE + '" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
                         '</td>' +
-                        '<td class="text-center"><span name="achieveRating">' + rs[i].ACHIEVE_RATING + '</span></td>' +
+                        '<td class="text-center" style="display: none;"><span name="achieveRating">' + rs[i].ACHIEVE_RATING + '</span></td>' +
                         '<td>' +
                             '<input type="text" class="scoreInput" id="evalAchieveWeights' + i + '" name="evalAchieveWeights" value="' + rs[i].EVAL_ACHIEVE_WEIGHTS + '" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
                         '</td>' +
@@ -244,7 +244,7 @@ var allEvalApprovePop = {
                 }
 
                 if(deptList[i].teamList[0].B != 0){
-                    BAvg = Math.round(eptList[i].teamList[0].B/sum * 100);
+                    BAvg = Math.round(deptList[i].teamList[0].B/sum * 100);
                 }
 
                 if(deptList[i].teamList[0].C != 0){
@@ -499,7 +499,7 @@ var allEvalApprovePop = {
                     '<td>' +
                         '<input type="text" class="scoreInput" name="achieveScore" id="scoreSum' + i + '" value="' + evalAchieveList[i].SCORE_SUM + '" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)">' +
                     '</td>' +
-                    '<td class="text-center"><span name="achieveRating">' + evalAchieveList[i].SCORE_RATING + '</span></td>' +
+                    '<td class="text-center" style="display: none;"><span name="achieveRating">' + evalAchieveList[i].SCORE_RATING + '</span></td>' +
                     '<td>' +
                         '<input type="text" class="scoreInput" id="evalAchieveWeights' + i + '" name="evalAchieveWeights" value="80" style="width: 75%;" oninput="allEvalApprovePop.onlyNumber(this)" onkeyup="allEvalApprovePop.calScore(this)"> %' +
                     '</td>' +

@@ -106,7 +106,7 @@ var evaluationResultList = {
                                 '<td class="text-center">' + rs[i].RES_GRADE + '</td>' +
                                 '<td class="text-center">' + rs[i].EVAL_WEIGHTS + '%</td>' +
                                 '<td class="text-center">' + rs[i].ACHIEVE_SCORE + '</td>' +
-                                '<td class="text-center">' + rs[i].ACHIEVE_RATING + '</td>' +
+                                '<td class="text-center" style="display: none;">' + rs[i].ACHIEVE_RATING + '</td>' +
                                 '<td class="text-center">' + rs[i].EVAL_ACHIEVE_WEIGHTS + '%</td>' +
                                 '<td class="text-center">' + rs[i].FINAL_SCORE + '</td>' +
                                 '<td class="text-center">' + rs[i].FINAL_RATING + '</td>' +

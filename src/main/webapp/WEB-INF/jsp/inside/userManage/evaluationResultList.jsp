@@ -67,7 +67,7 @@
                             <th class="text-center th-color" rowspan="2">팀명</th>
                             <th class="text-center th-color" rowspan="2">성명</th>
                             <th class="text-center th-color" colspan="5">역량평가</th>
-                            <th class="text-center th-color" colspan="3">업적평가</th>
+                            <th class="text-center th-color" colspan="2">업적평가</th>
                             <th class="text-center th-color" rowspan="2">최종점수</th>
                             <th class="text-center th-color" rowspan="2">최종등급</th>
                         </tr>
@@ -79,7 +79,7 @@
                             <th class="text-center th-color">가중치</th>
 
                             <th class="text-center th-color">최종점수</th>
-                            <th class="text-center th-color">최종등급</th>
+                            <th class="text-center th-color" style="display: none;">최종등급</th>
                             <th class="text-center th-color">가중치</th>
                         </tr>
                     </thead>

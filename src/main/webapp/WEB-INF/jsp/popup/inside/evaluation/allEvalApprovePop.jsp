@@ -179,7 +179,7 @@
                         <col width="6%">
                         <col width="6%">
                         <col width="6%">
-                        <col width="6%">
+<%--                        <col width="6%">--%>
                         <col width="6%">
                         <col width="6%">
                         <col width="7%">
@@ -194,7 +194,7 @@
 
 
                         <th scope="row" class="text-center eval" colspan="5">역량평가</th>
-                        <th scope="row" class="text-center achieve" colspan="3">업적평가</th>
+                        <th scope="row" class="text-center achieve" colspan="2">업적평가</th>
                         <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">조정점수</th>
                         <th scope="row" class="text-center" rowspan="2" style="background-color: #8fa1c0">조정전점수</th>
                         <th scope="row" class="text-center finalEval" rowspan="2">최종점수</th>
@@ -208,7 +208,7 @@
                         <th scope="row" class="text-center eval">가중치</th>
 
                         <th scope="row" class="text-center achieve">최종점수</th>
-                        <th scope="row" class="text-center achieve">최종등급</th>
+                        <th scope="row" class="text-center achieve" style="display: none;">최종등급</th>
                         <th scope="row" class="text-center achieve">가중치</th>
                     </tr>
                     </thead>
