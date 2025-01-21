@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
 <div id="approveDataPop">
-    <div class="card-header" style="padding: 5px;">
+    <%--<div class="card-header" style="padding: 5px;">
         <h3 class="card-title">${data.baseYear}년도 부서별 역량/업적 평가결과</h3>
     </div>
 
@@ -54,13 +54,13 @@
 
         </tbody>
     </table>
-    <br><br>
+    <br><br>--%>
     <div class="card-header" style="padding: 5px;">
         <h3 class="card-title">${data.baseYear}년도 역량/업적 평가결과</h3>
     </div>
 
-    <table border="3" cellspacing="0" style="font-family:돋움체; table-layout: fixed;word-break: break-all; text-align: center;width:677px;font-size: 10pt;border-collapse:collapse;border:2px solid #000; margin-top:15px;">
-        <thead>
+    <table border="3" cellspacing="0" style="font-family:돋움체; table-layout: fixed;word-break: break-all; text-align: center;width:677px;font-size: 10pt;border-collapse:collapse;border:2px solid #000; margin-top:15px;" id="allEvalTb">
+        <%--<thead>
         <tr>
             <th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowspan="2">부서명</th>
             <th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowspan="2">팀명</th>
@@ -79,9 +79,9 @@
             <th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px">최종등급</th>
         </tr>
         </thead>
-        <tbody id="allEvalTb">
+        <tbody>
 
-        </tbody>
+        </tbody>--%>
     </table>
 </div>
 <script>
@@ -154,6 +154,57 @@
                         }
                     }
 
+                    if(i <= 20) {
+                        if(i % 20 == 0) {
+                            html += '' +
+                                '<thead>' +
+                                    '<tr>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowSpan="2">부서명</th>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowSpan="2">팀명</th>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 60px" rowSpan="2">성명</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px" colSpan="4">역량평가</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px" colSpan="2">업적평가</th>' +
+                                        '<th style="height:30px; background-color:#c0e6f5; text-align:center;width: 55px" rowSpan="2">인사평가점수</th>' +
+                                        '<th style="height:30px; background-color:#c0e6f5; text-align:center;width: 55px" rowSpan="2">등급</th>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">상반기</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">하반기</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">평균</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">가중치</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px">점수</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px">가중치</th>' +
+                                    '</tr>' +
+                                '</thead>' +
+                                '<tbody>';
+                        }
+                    } else {
+                        if((i - 20) % 31 == 0) {
+                            console.log(i, rs[i].EMP_NAME_KR)
+                            html += '' +
+                                '<thead>' +
+                                    '<tr>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowSpan="2">부서명</th>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 100px" rowSpan="2">팀명</th>' +
+                                        '<th style="height:30px; background-color:#dee4ed; text-align:center;width: 60px" rowSpan="2">성명</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px" colSpan="4">역량평가</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px" colSpan="2">업적평가</th>' +
+                                        '<th style="height:30px; background-color:#c0e6f5; text-align:center;width: 55px" rowSpan="2">인사평가점수</th>' +
+                                        '<th style="height:30px; background-color:#c0e6f5; text-align:center;width: 55px" rowSpan="2">등급</th>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">상반기</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">하반기</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">평균</th>' +
+                                        '<th style="height:30px; background-color:#e2efda; text-align:center;width: 55px">가중치</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px">점수</th>' +
+                                        '<th style="height:30px; background-color:#f2ceef; text-align:center;width: 55px">가중치</th>' +
+                                    '</tr>' +
+                                '</thead>' +
+                                '<tbody>';
+                        }
+                    }
+
                     html += '' +
                         '<tr>' +
                             '<td style="height:30px; text-align:center;">' +
@@ -176,13 +227,13 @@
                                 '<p style="font-size:10px;">' + rs[i].SCORE_AVERAGE + '</p>' +
                             '</td>' +
                             '<td style="height:30px; text-align:center;">' +
-                                '<p style="font-size:10px;">' + rs[i].RES_GRADE + '</p>' +
+                                '<p style="font-size:10px;">' + rs[i].EVAL_WEIGHTS + '%</p>' +
                             '</td>' +
                             '<td style="height:30px; text-align:center;">' +
                                 '<p style="font-size:10px;">' + rs[i].ACHIEVE_SCORE + '</p>' +
                             '</td>' +
                             '<td style="height:30px; text-align:center;">' +
-                                '<p style="font-size:10px;">' + rs[i].ACHIEVE_RATING + '</p>' +
+                                '<p style="font-size:10px;">' + rs[i].EVAL_ACHIEVE_WEIGHTS + '%</p>' +
                             '</td>' +
                             '<td style="height:30px; text-align:center;">' +
                                 '<p style="font-size:10px;">' + rs[i].FINAL_SCORE + '</p>' +
@@ -191,6 +242,16 @@
                                 '<p style="font-size:10px;">' + rs[i].FINAL_RATING + '</p>' +
                             '</td>' +
                         '</tr>';
+
+                    if(i<=20) {
+                        if(i % 20 == 19) {
+                            html += '</tbody>';
+                        }
+                    } else {
+                        if((i - 20) % 31 == 30) {
+                            html += '</tbody>';
+                        }
+                    }
                 }
 
                 $("#statusTbody").empty()

@@ -150,7 +150,10 @@
                     <th class="text-center th-color">비율</th>
                 </tr>
                 <tr>
-                    <td class="text-center totalCnt" colspan="2">${params.baseYear}년 평가(역량&업적) 결과</td>
+                    <td class="text-center totalCnt" colspan="2">
+                        ${params.baseYear}년 평가(역량&업적) 결과
+                        <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="fn_statTableShowHide();" style="margin-bottom: 5px; font-size: 8px;">▼</button>
+                    </td>
                     <td class="text-center totalCnt" id="totalEmpCnt"></td>
                     <td class="text-center totalCnt" id="totalSSCnt"></td>
                     <td class="text-center totalCnt" id="totalSSAvg"></td>
@@ -163,7 +166,7 @@
                     <td class="text-center totalCnt" id="totalCCnt"></td>
                     <td class="text-center totalCnt" id="totalCAvg"></td>
                 </tr>
-                <tbody id="statusTbody">
+                <tbody id="statusTbody" view="N" style="display: none;">
 
                 </tbody>
             </table>
@@ -231,6 +234,18 @@
 
 <script>
     allEvalApprovePop.init();
+
+    function fn_statTableShowHide(){
+        if($("#statusTbody").attr("view") == "Y"){
+            $("#statusTbody").attr("view", "N");
+            $("#statusTbody").hide();
+            $("#displayBtn").text("▼");
+        } else {
+            $("#statusTbody").attr("view", "Y");
+            $("#statusTbody").show();
+            $("#displayBtn").text("▲");
+        }
+    }
 </script>
 </body>
 </html>
