@@ -103,12 +103,12 @@ var evaluationResultList = {
                                 '<td class="text-center">' + rs[i].FIRST_HALF_SCORE + '</td>' +
                                 '<td class="text-center">' + rs[i].SECOND_HALF_SCORE + '</td>' +
                                 '<td class="text-center">' + rs[i].SCORE_AVERAGE + '</td>' +
-                                '<td class="text-center">' + rs[i].RES_GRADE + '</td>' +
+                                '<td class="text-center" style="display: none;">' + rs[i].RES_GRADE + '</td>' +
                                 '<td class="text-center">' + rs[i].EVAL_WEIGHTS + '%</td>' +
                                 '<td class="text-center">' + rs[i].ACHIEVE_SCORE + '</td>' +
                                 '<td class="text-center" style="display: none;">' + rs[i].ACHIEVE_RATING + '</td>' +
                                 '<td class="text-center">' + rs[i].EVAL_ACHIEVE_WEIGHTS + '%</td>' +
-                                '<td class="text-center">' + rs[i].FINAL_SCORE + '</td>' +
+                                '<td class="text-center" style="display: none;">' + rs[i].FINAL_SCORE + '</td>' +
                                 '<td class="text-center">' + rs[i].FINAL_RATING + '</td>' +
                             '</tr>'
                     }
@@ -215,7 +215,7 @@ var evaluationResultList = {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     width: 80
-                }, {
+                }, /*{
                     field: "EVAL_SCORE",
                     title: "본인점수",
                     width: 80,
@@ -272,11 +272,11 @@ var evaluationResultList = {
                         }
                         return scoreTot;
                     }
-                }, {
-                    field: "FINAL_GRADE",
+                },*/ {
+                    field: "FINAL_RATING",
                     title: "최종등급",
                     width: 80,
-                    template: function (e) {
+                    /*template: function (e) {
                         let aDeptPer = Number(e.DEPT_MANAGER_A);
                         let bDeptPer = Number(e.DEPT_MANAGER_B);
                         let aTeamPer = Number(e.TEAM_MANAGER_A);
@@ -325,7 +325,7 @@ var evaluationResultList = {
                             }
                         }
                         return resGrade;
-                    }
+                    }*/
                 }, {
                     field: "EVAL_F_VIEW",
                     title: "1차 평가의견",
